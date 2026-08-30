@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sreeraj_qr_reader/core/config/app_config.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
 import 'package:sreeraj_qr_reader/core/config/config_service.dart';
+import 'package:sreeraj_qr_reader/core/constants/build_date.g.dart';
+import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
 
 class AboutScreen extends StatefulWidget {
   final ConfigService? configService;
@@ -136,11 +137,20 @@ class _AboutScreenState extends State<AboutScreen> {
 
                   const SizedBox(height: 32),
 
-                  // Dynamic Info Cards from details map
+                  // Dynamic Info Cards from details map + Build Date
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
+                        if (kBuildDate.trim().isNotEmpty) ...[
+                          _buildInfoCard(
+                            context,
+                            icon: Icons.calendar_today,
+                            title: l10n.aboutBuildDate,
+                            content: kBuildDate,
+                          ),
+                          const SizedBox(height: 12),
+                        ],
                         for (final entry in _config.details.entries)
                           if (entry.key.trim().isNotEmpty &&
                               entry.value.trim().isNotEmpty) ...[

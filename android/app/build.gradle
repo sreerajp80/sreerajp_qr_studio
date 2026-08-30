@@ -35,9 +35,56 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def isWindowsHost = System.getProperty("os.name").toLowerCase().startsWith("windows")
+def dartExecutable = new File(
+    flutterRoot,
+    isWindowsHost ? "bin\\dart.bat" : "bin/dart"
+)
+def projectRootDir = rootProject.projectDir.parentFile
+
+def generateBuildMetadata = tasks.register("generateBuildMetadata") {
+    group = "build setup"
+    description = "Generates About-screen build metadata before Android builds."
+
+    inputs.file(new File(projectRootDir, "pubspec.yaml"))
+    inputs.file(new File(projectRootDir, "tool/generate_app_version.dart"))
+    inputs.file(new File(projectRootDir, "tool/generate_build_date.dart"))
+    inputs.property("metadataBuildDate", java.time.LocalDate.now().toString())
+    outputs.file(new File(projectRootDir, "lib/core/constants/app_version.g.dart"))
+    outputs.file(new File(projectRootDir, "lib/core/constants/build_date.g.dart"))
+
+    doLast {
+        if (!dartExecutable.exists()) {
+            throw new GradleException(
+                "Could not find Dart executable at ${dartExecutable.absolutePath}. " +
+                "Check android\\local.properties flutter.sdk or FLUTTER_ROOT."
+            )
+        }
+
+        project.exec {
+            workingDir = projectRootDir
+            commandLine dartExecutable.absolutePath, "run", "tool/generate_app_version.dart"
+        }
+        project.exec {
+            workingDir = projectRootDir
+            commandLine dartExecutable.absolutePath, "run", "tool/generate_build_date.dart"
+        }
+    }
+}
+
+tasks.named("preBuild") {
+    dependsOn(generateBuildMetadata)
+}
+
+tasks.matching { task ->
+    task.name.startsWith("compileFlutterBuild")
+}.configureEach {
+    dependsOn(generateBuildMetadata)
+}
+
 android {
     namespace = "in.sreeraj.qr_reader"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

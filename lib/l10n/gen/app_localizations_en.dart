@@ -537,6 +537,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get aboutBuildDate => 'Build Date';
+
+  @override
   String get aboutMadeWithLove => 'Made with ❤️ from India';
 
   @override

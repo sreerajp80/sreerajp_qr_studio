@@ -27,7 +27,7 @@ subprojects {
         if (project.hasProperty('android')) {
             project.android {
                 if (compileSdkVersion == null) {
-                    compileSdkVersion 36
+                    compileSdkVersion 37
                 }
             }
         }

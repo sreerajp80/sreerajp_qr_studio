@@ -775,6 +775,10 @@
       }
     }
   },
+  "aboutBuildDate": "Build Date",
+  "@aboutBuildDate": {
+    "description": "Label for the application build date on the About screen"
+  },
   "aboutMadeWithLove": "Made with ❤️ from India",
   "@aboutMadeWithLove": {
     "description": "Footer line on the About screen"
