@@ -47,6 +47,7 @@ class PdfScanResultsSheet extends StatelessWidget {
               ),
               IconButton(
                 icon: const Icon(Icons.close),
+                tooltip: l10n.closeButton,
                 onPressed: () => Navigator.pop(context),
               ),
             ],

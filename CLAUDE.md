@@ -3,42 +3,45 @@
 This file is read by Claude Code at the start of every session in this repository.
 Read it before making any change. See the docs table below for full detail.
 
+> `AGENTS.md` holds the same rules for other AI agents and LLMs. Keep the two files in step — if you change a rule, a command, or the identity table here, make the same change there.
+
 ---
 
 ## Project identity
 
-| Field | Value |
-|-------|-------|
-| App name | SreerajP QR Reader |
-| Type | Flutter Android application for scanning QR codes & barcodes with 6-layer URL safety analysis |
-| Platform(s) | Android only (minSdk 24, targetSdk 35) |
-| Package / org id | `in.sreeraj.qr_reader` |
-| Flutter SDK | `>=3.44.8` |
-| Dart SDK | `>=3.12.2 <4.0.0` |
-| State management | Provider (`ChangeNotifier`) |
-| Navigation | Named routes (`Navigator 1.0`) |
-| Database | None (`shared_preferences` for counters, `flutter_secure_storage` for API keys) |
-| Orientation | Portrait only |
-| Connectivity | Offline-first / online optional (URL safety checks work offline; Google Safe Browsing optional) |
+| Field            | Value                                                                                                                                                                 |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| App name         | SreerajP QR Reader                                                                                                                                                    |
+| Type             | Flutter Android application for scanning QR codes & barcodes with 6-layer URL safety, StegoQR encryption, AirQR optical transfer, AR CodeVision, and encrypted history |
+| Platform(s)      | Android only (minSdk 24, targetSdk 35)                                                                                                                                |
+| Package / org id | `in.sreeraj.qr_reader`                                                                                                                                                |
+| Flutter SDK      | `>=3.44.8`                                                                                                                                                            |
+| Dart SDK         | `>=3.12.2 <4.0.0`                                                                                                                                                     |
+| State management | Provider (`ChangeNotifier`)                                                                                                                                           |
+| Navigation       | Named routes (`Navigator 1.0`)                                                                                                                                        |
+| Database         | SQLite (`sqflite` for encrypted scan history), `shared_preferences` (settings/counters), `flutter_secure_storage` (API keys)                                          |
+| Orientation      | Portrait only                                                                                                                                                         |
+| Languages        | English (`en`), Malayalam (`ml`), Sanskrit (`sa`) — tri-lingual mandatory standard (`guideline.md` §3, engineering standard §8)                                       |
+| Connectivity     | Offline-first / online optional (URL safety checks work offline; Google Safe Browsing optional)                                                                       |
 
 ---
 
 ## Read these docs before working
 
-| Document | Read when |
-|----------|-----------|
-| [docs/architecture.md](docs/architecture.md) | Changing structure, screens, state, services, models |
-| [docs/security.md](docs/security.md) | Touching permissions, logging, storage, API keys, manifest |
-| [docs/release_process.md](docs/release_process.md) | Building a release, versioning, signing, release checklist |
-| [docs/workflow_rules.md](docs/workflow_rules.md) | Planning changes, approval gate, writing change logs |
-| [docs/dependencies.md](docs/dependencies.md) | Package constraints, adding dependencies |
-| [docs/project_structure.md](docs/project_structure.md) | Orienting on directory layout and file responsibilities |
-| [docs/guidelines/flutter_project_engineering_standard.md](docs/guidelines/flutter_project_engineering_standard.md) | Any code change — layers, naming, testing rules |
-| [docs/guidelines/flutter_build_flavors_guide.md](docs/guidelines/flutter_build_flavors_guide.md) | Build flavors, Gradle, signing configuration |
-| [docs/guidelines/CLAUDE_MD_GUIDELINE.md](docs/guidelines/CLAUDE_MD_GUIDELINE.md) | Editing this file |
-| [docs/guidelines/AGENTS_MD_GUIDELINE.md](docs/guidelines/AGENTS_MD_GUIDELINE.md) | Editing `AGENTS.md` |
-| [docs/guidelines/DOCS_FOLDER_GUIDELINE.md](docs/guidelines/DOCS_FOLDER_GUIDELINE.md) | Adding or renaming a file in `docs/` |
-| [docs/GUIDELINES_MANIFEST.md](docs/GUIDELINES_MANIFEST.md) | The shared Flutter guidelines index |
+| Document                                                                                                           | Read when                                                  |
+| ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| [docs/architecture.md](docs/architecture.md)                                                                       | Changing structure, screens, state, services, models       |
+| [docs/security.md](docs/security.md)                                                                               | Touching permissions, logging, storage, API keys, manifest |
+| [docs/release_process.md](docs/release_process.md)                                                                 | Building a release, versioning, signing, release checklist |
+| [docs/workflow_rules.md](docs/workflow_rules.md)                                                                   | Planning changes, approval gate, writing change logs       |
+| [docs/dependencies.md](docs/dependencies.md)                                                                       | Package constraints, adding dependencies                   |
+| [docs/project_structure.md](docs/project_structure.md)                                                             | Orienting on directory layout and file responsibilities    |
+| [docs/guidelines/flutter_project_engineering_standard.md](docs/guidelines/flutter_project_engineering_standard.md) | Any code change — layers, naming, testing rules            |
+| [docs/guidelines/flutter_build_flavors_guide.md](docs/guidelines/flutter_build_flavors_guide.md)                   | Build flavors, Gradle, signing configuration               |
+| [docs/guidelines/CLAUDE_MD_GUIDELINE.md](docs/guidelines/CLAUDE_MD_GUIDELINE.md)                                   | Editing this file                                          |
+| [docs/guidelines/AGENTS_MD_GUIDELINE.md](docs/guidelines/AGENTS_MD_GUIDELINE.md)                                   | Editing `AGENTS.md`                                        |
+| [docs/guidelines/DOCS_FOLDER_GUIDELINE.md](docs/guidelines/DOCS_FOLDER_GUIDELINE.md)                               | Adding or renaming a file in `docs/`                       |
+| [docs/GUIDELINES_MANIFEST.md](docs/GUIDELINES_MANIFEST.md)                                                         | The shared Flutter guidelines index                        |
 
 ---
 
@@ -54,7 +57,7 @@ Read it before making any change. See the docs table below for full detail.
 
 ## Architecture rules
 
-- Tier 1 layer-first structure under `lib/`: `core/config/` (`app_config.dart`, `config_service.dart`), `core/constants/` (`app_constants.dart`), `models/`, `providers/`, `screens/`, `services/`, `main.dart`. `assets/config/app_config.json` is the single source of truth for About metadata (`guideline.md` §1). Do not restructure without instruction.
+- Tier 1 layer-first structure under `lib/`: `core/config/` (`app_config.dart`, `config_service.dart`), `core/constants/` (`app_constants.dart`), `models/`, `providers/`, `screens/`, `services/`, `widgets/`, `main.dart`. `assets/config/app_config.json` is the single source of truth for About metadata (`guideline.md` §1), ending with the fixed "Made with ❤️ from India" badge (`guideline.md` §1.7). Do not restructure without instruction.
 - Layer boundaries: Widgets must not make HTTP calls, access secure storage, or perform URL analysis directly. Services must not depend on `BuildContext`, UI strings, or navigation routes.
 - Dependency direction: `screens → providers → services → models`.
 - Models are immutable (`const` constructors). Never mutate domain objects in place.
@@ -73,7 +76,7 @@ dart format .                          # format code before committing
 
 # Production release APK (split per ABI)
 flutter build apk --flavor prod --release \
-  --obfuscate --split-debug-info=build/symbols/android-prod-1.4.3+1/ --split-per-abi
+  --obfuscate --split-debug-info=build/symbols/android-prod/ --split-per-abi
 
 # Production Play Store bundle
 ./tool/build_release.sh appbundle      # or: flutter build appbundle --flavor prod --release
@@ -83,10 +86,10 @@ flutter build apk --flavor prod --release \
 
 ## Build flavors
 
-| Flavor | App ID | Display name | Signing |
-|--------|--------|--------------|---------|
-| `dev` | `in.sreeraj.qr_reader.dev` | QR Reader Dev | Debug keystore (automatic) |
-| `prod` | `in.sreeraj.qr_reader` | SreerajP QR Reader | Release keystore (`android/key.properties`) |
+| Flavor | App ID                     | Display name        | Signing                                     |
+| ------ | -------------------------- | ------------------- | ------------------------------------------- |
+| `dev`  | `in.sreeraj.qr_reader.dev` | QR Reader Dev       | Debug keystore (automatic)                  |
+| `prod` | `in.sreeraj.qr_reader`     | SreerajP QR Reader | Release keystore (`android/key.properties`) |
 
 > Flutter sets `FLUTTER_APP_FLAVOR` automatically. Read it with `String.fromEnvironment('FLUTTER_APP_FLAVOR')`.
 
@@ -110,9 +113,16 @@ flutter build apk --flavor prod --release \
 
 ## Localization rules
 
-- All user-visible text comes from `lib/l10n/*.arb` through `AppLocalizations` — never a raw string literal in a widget. This applies even though the app ships English only.
-- `l10n.yaml` (project root) and `lib/l10n/app_en.arb` must exist. Run `flutter gen-l10n` after editing any `.arb` file.
-- Every ARB key needs an `@key` description entry, so a future translator has context.
+- All user-visible text comes from `lib/l10n/*.arb` through `AppLocalizations` — never a raw string literal in a widget.
+- Every app ships three languages: English (`en`), Malayalam (`ml`), and Sanskrit (`sa`). There is no single-language app. All three ARB files (`app_en.arb`, `app_ml.arb`, `app_sa.arb`) MUST exist with full key parity (`guideline.md` §3, engineering standard §8).
+- `l10n.yaml` (project root) and all three ARB files must exist. Run `flutter gen-l10n` after editing any `.arb` file.
+- Every ARB key needs an `@key` description entry in `app_en.arb`, so a translator has context.
+- Sanskrit localizations fallback delegates (`SaMaterialLocalizationsDelegate`, `SaCupertinoLocalizationsDelegate`, `SaWidgetsLocalizationsDelegate`) must be registered for Material/Cupertino widgets under `sa` (engineering standard §8.3.1).
+- In-app language picker in Settings allows switching between System default, English, Malayalam, and Sanskrit, persisting to `SharedPreferences` (`app_language`) and applying immediately without restart (§8.4).
+- Sanskrit quality rules strictly forbid Hindi copulas, postpositions, and markers (`app_sa.arb` must pass the Hindi marker gate in §8.5).
+- Malayalam quality rules require natural vocabulary, proper verb forms, and accurate negation (§8.5.2).
+- UI chrome labels (menu, button, tab) must be short (≤ 22 characters) in all three languages (§8.6).
+- Every icon-only control must have a localized tooltip (§7.8).
 - Services must not hold user-visible text. They return an `AppMessage` (a key plus arguments); the screen turns it into text through `AppLocalizations`.
 - Literals are allowed only for logs, non-UI exception messages, asset paths, route names, map/JSON keys, barcode protocol tokens (`BEGIN:VCARD`, `WIFI:`), and the CSV/JSON export headers that the import path reads back.
 
@@ -131,6 +141,7 @@ flutter build apk --flavor prod --release \
 
 - Mirror `lib/` structure in `test/` (e.g. `test/providers/`, `test/services/`).
 - Critical coverage areas: URL pattern checks, homograph attack detection, rate limiting, and `ScanProvider` state transitions.
+- Key parity tests across ARB files and Sanskrit fallback delegate tests must pass.
 - Mock network calls with `MockClient` from `package:http/testing.dart`.
 
 ---
@@ -147,6 +158,7 @@ flutter build apk --flavor prod --release \
 
 ```
 CLAUDE.md            # project rules (this file)
+AGENTS.md            # project rules (for other LLMs/agents)
 docs/                # project documentation & guidelines submodule
 plans/               # change plans (plan-before-changing)
 change_log/          # change logs (log-after-changing)
@@ -184,7 +196,7 @@ Create `plans/` and `change_log/` if they do not exist.
 - Keep `main.dart` thin (initialization, Provider setup, routes only).
 
 **Never:**
-- Hard-code user-visible text in a widget — it belongs in `lib/l10n/app_en.arb`.
+- Hard-code user-visible text in a widget — it belongs in `lib/l10n/*.arb`.
 - Put business logic or HTTP calls in widgets.
 - Store sensitive keys in `SharedPreferences`.
 - Add blocked dependencies or alternative state management packages.

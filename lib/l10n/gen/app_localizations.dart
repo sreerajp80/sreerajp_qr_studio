@@ -6,6 +6,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_ml.dart';
+import 'app_localizations_sa.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +94,11 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('ml'),
+    Locale('sa'),
+  ];
 
   /// The application name, shown as the task title and in the About screen
   ///
@@ -141,6 +147,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password copied. Open Wi-Fi Settings on your device to connect.'**
   String get wifiOpenSettingsHint;
+
+  /// Message shown when a Wi-Fi direct connection prompt or request is initiated
+  ///
+  /// In en, this message translates to:
+  /// **'Connection requested for {ssid}'**
+  String wifiConnectSuccess(String ssid);
 
   /// Coordinates line on the location action card
   ///
@@ -1011,6 +1023,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Build Date'**
   String get aboutBuildDate;
+
+  /// Detail label for author in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get aboutDetailAuthor;
+
+  /// Detail label for email in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get aboutDetailEmail;
+
+  /// Detail label for license in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'License'**
+  String get aboutDetailLicense;
+
+  /// Detail label for AI tools used in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'AI Used'**
+  String get aboutDetailAiUsed;
+
+  /// Detail label for IDE used in About screen
+  ///
+  /// In en, this message translates to:
+  /// **'IDE Used'**
+  String get aboutDetailIdeUsed;
+
+  /// About-screen signature badge. {heart} is a red heart glyph.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with {heart} from India'**
+  String madeWithLove(String heart);
+
+  /// Screen-reader text for the About badge
+  ///
+  /// In en, this message translates to:
+  /// **'Made with love from India'**
+  String get madeWithLoveA11y;
 
   /// Footer line on the About screen
   ///
@@ -1905,6 +1959,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Play audio beep signal upon successful code recognition'**
   String get feedbackSoundSubtitle;
+
+  /// Setting that turns the visual scan confirmation animation on or off
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmation Animation'**
+  String get feedbackAnimationTitle;
+
+  /// Explanation of the visual animation setting
+  ///
+  /// In en, this message translates to:
+  /// **'Play reticle pulse and checkmark morph upon successful scan'**
+  String get feedbackAnimationSubtitle;
 
   /// Title of the privacy settings screen
   ///
@@ -3441,6 +3507,1248 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Decryption failed. Please verify the passphrase or cipher settings.'**
   String get manualDecryptionFailed;
+
+  /// Header label on the email action card
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get emailCardTitle;
+
+  /// Button that opens the default email app to compose a message
+  ///
+  /// In en, this message translates to:
+  /// **'Send Email'**
+  String get emailSendButton;
+
+  /// Button that copies the email address to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get emailCopyButton;
+
+  /// Error when the email app cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open email app. Copy the address and open your email app manually.'**
+  String get emailLaunchFailed;
+
+  /// Label for the email subject field on the action card
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get emailSubjectLabel;
+
+  /// Label for the email body preview on the action card
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get emailBodyLabel;
+
+  /// Header label on the phone action card
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneCardTitle;
+
+  /// Button that opens the phone dialer with the number
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get phoneCallButton;
+
+  /// Button that copies the phone number to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get phoneCopyButton;
+
+  /// Error when the phone dialer cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the phone dialer. Copy the number and dial manually.'**
+  String get phoneLaunchFailed;
+
+  /// Header label on the SMS action card
+  ///
+  /// In en, this message translates to:
+  /// **'Text Message'**
+  String get smsCardTitle;
+
+  /// Button that opens the messaging app with the number and body
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get smsSendButton;
+
+  /// Button that copies the SMS recipient number to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get smsCopyButton;
+
+  /// Error when the messaging app cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the messaging app. Copy the number and message manually.'**
+  String get smsLaunchFailed;
+
+  /// Label for the SMS body preview on the action card
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get smsBodyLabel;
+
+  /// Header label on the app deep link action card
+  ///
+  /// In en, this message translates to:
+  /// **'App Link'**
+  String get appLinkCardTitle;
+
+  /// Button that opens the deep link in its native app
+  ///
+  /// In en, this message translates to:
+  /// **'Open in App'**
+  String get appLinkOpenButton;
+
+  /// Error when the app deep link cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open this app link. The app may not be installed.'**
+  String get appLinkLaunchFailed;
+
+  /// Header label on the product barcode action card
+  ///
+  /// In en, this message translates to:
+  /// **'Product Barcode'**
+  String get productBarcodeCardTitle;
+
+  /// Button that searches the barcode on Open Food Facts
+  ///
+  /// In en, this message translates to:
+  /// **'Food Info'**
+  String get productSearchFoodButton;
+
+  /// Button that searches the barcode on Google
+  ///
+  /// In en, this message translates to:
+  /// **'Search Web'**
+  String get productSearchWebButton;
+
+  /// Button that copies the barcode number to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Barcode'**
+  String get productCopyButton;
+
+  /// Error when the product search URL cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open product search. Try copying the barcode and searching manually.'**
+  String get productLaunchFailed;
+
+  /// Header label on the ISBN book action card
+  ///
+  /// In en, this message translates to:
+  /// **'Book (ISBN)'**
+  String get isbnCardTitle;
+
+  /// Button that looks up the ISBN on Google Books
+  ///
+  /// In en, this message translates to:
+  /// **'Google Books'**
+  String get isbnGoogleBooksButton;
+
+  /// Button that looks up the ISBN on Open Library
+  ///
+  /// In en, this message translates to:
+  /// **'Open Library'**
+  String get isbnOpenLibraryButton;
+
+  /// Button that copies the ISBN to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ISBN'**
+  String get isbnCopyButton;
+
+  /// Error when the book lookup URL cannot be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open book lookup. Try copying the ISBN and searching manually.'**
+  String get isbnLaunchFailed;
+
+  /// History filter chip label for email scan records
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get historyFilterEmail;
+
+  /// History filter chip label for phone scan records
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get historyFilterPhone;
+
+  /// History filter chip label for SMS scan records
+  ///
+  /// In en, this message translates to:
+  /// **'SMS'**
+  String get historyFilterSms;
+
+  /// History filter chip label for app link scan records
+  ///
+  /// In en, this message translates to:
+  /// **'App Link'**
+  String get historyFilterAppLink;
+
+  /// History filter chip label for product barcode scan records
+  ///
+  /// In en, this message translates to:
+  /// **'Product'**
+  String get historyFilterProductBarcode;
+
+  /// History filter chip label for ISBN book scan records
+  ///
+  /// In en, this message translates to:
+  /// **'Book'**
+  String get historyFilterIsbn;
+
+  /// Tooltip and status label when the camera flash is off
+  ///
+  /// In en, this message translates to:
+  /// **'Flash: Off'**
+  String get scanFlashOff;
+
+  /// Tooltip and status label when the camera flash is on
+  ///
+  /// In en, this message translates to:
+  /// **'Flash: On'**
+  String get scanFlashOn;
+
+  /// Tooltip and status label when the camera flash is in automatic ambient mode
+  ///
+  /// In en, this message translates to:
+  /// **'Flash: Auto'**
+  String get scanFlashAuto;
+
+  /// Chip label showing auto flash is active with measured ambient lux
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Flash Active ({lux} lux)'**
+  String scanFlashAutoActive(String lux);
+
+  /// Warning when light sensor cannot be accessed for auto flash
+  ///
+  /// In en, this message translates to:
+  /// **'Light sensor unavailable on this device'**
+  String get scanFlashAutoSensorUnavailable;
+
+  /// Tooltip for camera tuning button in the scanner toolbar
+  ///
+  /// In en, this message translates to:
+  /// **'Camera adjustments'**
+  String get cameraTuneTooltip;
+
+  /// Header title of the camera adjustments panel
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Adjustments'**
+  String get cameraTuneTitle;
+
+  /// Label for camera brightness adjustment slider
+  ///
+  /// In en, this message translates to:
+  /// **'Brightness'**
+  String get cameraBrightnessLabel;
+
+  /// Label for camera contrast adjustment slider
+  ///
+  /// In en, this message translates to:
+  /// **'Contrast'**
+  String get cameraContrastLabel;
+
+  /// Switch label for inverted/white-on-black barcode scanning
+  ///
+  /// In en, this message translates to:
+  /// **'Invert Colors (Negative Scan)'**
+  String get cameraInvertLabel;
+
+  /// Explanation text below the invert colors toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Optimized for white QR codes on dark screens or metal'**
+  String get cameraInvertHint;
+
+  /// Label for camera capture resolution preset selector
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Resolution'**
+  String get cameraResolutionLabel;
+
+  /// Resolution preset option for 1080p
+  ///
+  /// In en, this message translates to:
+  /// **'Full HD (1080p - Recommended)'**
+  String get cameraResolutionFullHd;
+
+  /// Resolution preset option for maximum available resolution
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum (4K UHD)'**
+  String get cameraResolutionMax;
+
+  /// Resolution preset option for 720p
+  ///
+  /// In en, this message translates to:
+  /// **'HD (720p - Battery Saver)'**
+  String get cameraResolutionHd;
+
+  /// Button label to reset brightness and contrast to factory defaults
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Adjustments'**
+  String get cameraResetAdjustments;
+
+  /// Subtle hint for tap-to-focus and exposure metering
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to focus & meter light'**
+  String get cameraFocusTapHint;
+
+  /// Title for the Language settings card
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get settingsLanguageTitle;
+
+  /// Subtitle for the Language settings card
+  ///
+  /// In en, this message translates to:
+  /// **'Select application display language'**
+  String get settingsLanguageSubtitle;
+
+  /// Option to follow device system language
+  ///
+  /// In en, this message translates to:
+  /// **'System default'**
+  String get languageSystemDefault;
+
+  /// English language option
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageEnglish;
+
+  /// Malayalam language option endonym
+  ///
+  /// In en, this message translates to:
+  /// **'മലയാളം'**
+  String get languageMalayalam;
+
+  /// Sanskrit language option endonym
+  ///
+  /// In en, this message translates to:
+  /// **'संस्कृतम्'**
+  String get languageSanskrit;
+
+  /// Copyright notice on the About screen
+  ///
+  /// In en, this message translates to:
+  /// **'© {year} Sreeraj P. All rights reserved.'**
+  String aboutCopyright(String year);
+
+  /// Usage percentage on Safe Browsing screen
+  ///
+  /// In en, this message translates to:
+  /// **'{percentage}% used'**
+  String apiQuotaPercentageUsed(String percentage);
+
+  /// Tooltip for camera flash button
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle flash'**
+  String get tooltipToggleFlash;
+
+  /// Tooltip for camera adjustments button
+  ///
+  /// In en, this message translates to:
+  /// **'Camera adjustments'**
+  String get tooltipCameraAdjustments;
+
+  /// Tooltip for camera zoom button
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom controls'**
+  String get tooltipZoomControls;
+
+  /// Tooltip for camera flip button
+  ///
+  /// In en, this message translates to:
+  /// **'Switch camera'**
+  String get tooltipSwitchCamera;
+
+  /// Tooltip for back button
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get tooltipBack;
+
+  /// Tooltip for password or secret visibility toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle secret visibility'**
+  String get tooltipToggleSecretVisibility;
+
+  /// Tooltip for AirQR stream reset button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset stream'**
+  String get tooltipResetStream;
+
+  /// Tooltip for switching to AirQR transmitter
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to AirQR Transmitter'**
+  String get tooltipAirQrTransmitter;
+
+  /// Label for custom text mode tab in AirQR transmitter
+  ///
+  /// In en, this message translates to:
+  /// **'Custom Text'**
+  String get airQrModeText;
+
+  /// Label for device sync mode tab in AirQR transmitter
+  ///
+  /// In en, this message translates to:
+  /// **'Device Sync'**
+  String get airQrModeSync;
+
+  /// Checkbox label to include scan history in optical sync
+  ///
+  /// In en, this message translates to:
+  /// **'Include scan history ({count})'**
+  String airQrSyncIncludeHistory(int count);
+
+  /// Checkbox label to include app settings in optical sync
+  ///
+  /// In en, this message translates to:
+  /// **'Include app settings'**
+  String get airQrSyncIncludeSettings;
+
+  /// Label for sync passphrase input field
+  ///
+  /// In en, this message translates to:
+  /// **'Sync Passphrase / PIN'**
+  String get airQrSyncPassphraseLabel;
+
+  /// Hint for sync passphrase input field
+  ///
+  /// In en, this message translates to:
+  /// **'Enter PIN or passphrase to encrypt'**
+  String get airQrSyncPassphraseHint;
+
+  /// Button to generate a random 6-digit sync PIN
+  ///
+  /// In en, this message translates to:
+  /// **'Generate PIN'**
+  String get airQrSyncGeneratePin;
+
+  /// Button label to package and start optical beam in sync mode
+  ///
+  /// In en, this message translates to:
+  /// **'Beam History & Settings'**
+  String get airQrSyncBeamButton;
+
+  /// Warning shown when neither history nor settings are selected for sync
+  ///
+  /// In en, this message translates to:
+  /// **'Select at least history or settings to sync.'**
+  String get airQrSyncNoDataWarning;
+
+  /// Title when an AirQR optical sync package is received
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR Encrypted Sync Package'**
+  String get airQrSyncPackageDetected;
+
+  /// Summary of detected sync package contents
+  ///
+  /// In en, this message translates to:
+  /// **'Contains {records} scan records and app configuration'**
+  String airQrSyncPackageSummary(int records);
+
+  /// Prompt to enter decryption passphrase for sync package
+  ///
+  /// In en, this message translates to:
+  /// **'Enter Passphrase to Decrypt'**
+  String get airQrSyncEnterPassphrase;
+
+  /// Checkbox to restore scan history from sync package
+  ///
+  /// In en, this message translates to:
+  /// **'Restore scan history'**
+  String get airQrSyncRestoreHistory;
+
+  /// Checkbox to apply app settings from sync package
+  ///
+  /// In en, this message translates to:
+  /// **'Apply app settings'**
+  String get airQrSyncApplySettings;
+
+  /// Button to decrypt and apply received sync package
+  ///
+  /// In en, this message translates to:
+  /// **'Decrypt & Sync'**
+  String get airQrSyncDecryptButton;
+
+  /// Notification shown when device sync finishes successfully
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully synced {count} records and updated settings!'**
+  String airQrSyncSuccess(int count);
+
+  /// Action button in export dialog to beam history via AirQR
+  ///
+  /// In en, this message translates to:
+  /// **'Beam via AirQR'**
+  String get airQrSyncBeamAction;
+
+  /// Title of AirQR device sync item in settings
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR Optical Sync'**
+  String get airQrSyncSettingsTitle;
+
+  /// Subtitle explaining AirQR device sync item in settings
+  ///
+  /// In en, this message translates to:
+  /// **'Beam history & settings air-gapped to another phone'**
+  String get airQrSyncSettingsSubtitle;
+
+  /// Label for the live camera scan tab in main navigation
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get tabScan;
+
+  /// Label for the CodeForge generator tab in main navigation
+  ///
+  /// In en, this message translates to:
+  /// **'CodeForge'**
+  String get tabCodeForge;
+
+  /// Label for the scan history tab in main navigation
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get tabHistory;
+
+  /// Title of the CodeForge generator screen
+  ///
+  /// In en, this message translates to:
+  /// **'CodeForge'**
+  String get codeForgeTitle;
+
+  /// Subtitle describing the CodeForge studio
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode & QR Studio'**
+  String get codeForgeSubtitle;
+
+  /// Section header for selecting barcode format
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode Type'**
+  String get codeForgeBarcodeType;
+
+  /// Section header for selecting QR payload preset
+  ///
+  /// In en, this message translates to:
+  /// **'Content Type'**
+  String get codeForgePayloadType;
+
+  /// Preset chip for plain text payload
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get codeForgePresetText;
+
+  /// Preset chip for web link payload
+  ///
+  /// In en, this message translates to:
+  /// **'URL / Link'**
+  String get codeForgePresetUrl;
+
+  /// Preset chip for Wi-Fi network payload
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get codeForgePresetWifi;
+
+  /// Preset chip for contact card payload
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get codeForgePresetContact;
+
+  /// Preset chip for UPI payment payload
+  ///
+  /// In en, this message translates to:
+  /// **'UPI Pay'**
+  String get codeForgePresetUpi;
+
+  /// Preset chip for SMS text message payload
+  ///
+  /// In en, this message translates to:
+  /// **'SMS'**
+  String get codeForgePresetSms;
+
+  /// Preset chip for email message payload
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get codeForgePresetEmail;
+
+  /// Preset chip for geographic coordinates payload
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get codeForgePresetGeo;
+
+  /// Input field label for Wi-Fi network name
+  ///
+  /// In en, this message translates to:
+  /// **'Network Name (SSID)'**
+  String get codeForgeWifiSsid;
+
+  /// Input field label for Wi-Fi password
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get codeForgeWifiPassword;
+
+  /// Label for Wi-Fi security type selector
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get codeForgeWifiSecurity;
+
+  /// Checkbox label for hidden Wi-Fi network
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden Network'**
+  String get codeForgeWifiHidden;
+
+  /// Input field label for contact name
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name'**
+  String get codeForgeContactName;
+
+  /// Input field label for contact phone
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get codeForgeContactPhone;
+
+  /// Input field label for contact email
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get codeForgeContactEmail;
+
+  /// Input field label for contact organization
+  ///
+  /// In en, this message translates to:
+  /// **'Company / Org'**
+  String get codeForgeContactOrg;
+
+  /// Input field label for contact title
+  ///
+  /// In en, this message translates to:
+  /// **'Job Title'**
+  String get codeForgeContactTitle;
+
+  /// Input field label for contact website
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get codeForgeContactUrl;
+
+  /// Input field label for UPI virtual payment address
+  ///
+  /// In en, this message translates to:
+  /// **'UPI ID / VPA'**
+  String get codeForgeUpiVpa;
+
+  /// Input field label for UPI payee name
+  ///
+  /// In en, this message translates to:
+  /// **'Payee Name'**
+  String get codeForgeUpiName;
+
+  /// Input field label for UPI amount
+  ///
+  /// In en, this message translates to:
+  /// **'Amount (INR)'**
+  String get codeForgeUpiAmount;
+
+  /// Input field label for UPI transaction note
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Note'**
+  String get codeForgeUpiNote;
+
+  /// Input field label for SMS phone number
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient Phone'**
+  String get codeForgeSmsPhone;
+
+  /// Input field label for SMS message body
+  ///
+  /// In en, this message translates to:
+  /// **'Message Body'**
+  String get codeForgeSmsMessage;
+
+  /// Input field label for email recipient
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient Email'**
+  String get codeForgeEmailTo;
+
+  /// Input field label for email subject
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get codeForgeEmailSubject;
+
+  /// Input field label for email body
+  ///
+  /// In en, this message translates to:
+  /// **'Email Body'**
+  String get codeForgeEmailBody;
+
+  /// Input field label for geographic latitude
+  ///
+  /// In en, this message translates to:
+  /// **'Latitude'**
+  String get codeForgeGeoLat;
+
+  /// Input field label for geographic longitude
+  ///
+  /// In en, this message translates to:
+  /// **'Longitude'**
+  String get codeForgeGeoLng;
+
+  /// Header for QR code visual design customization studio
+  ///
+  /// In en, this message translates to:
+  /// **'Design & Structure'**
+  String get codeForgeDesignStudio;
+
+  /// Selector label for outer finder pattern corner shape
+  ///
+  /// In en, this message translates to:
+  /// **'Corner Eye Shape'**
+  String get codeForgeEyeShape;
+
+  /// Selector label for inner finder pattern pupil shape
+  ///
+  /// In en, this message translates to:
+  /// **'Inner Eye Pupil'**
+  String get codeForgeEyeBallShape;
+
+  /// Selector label for data module dot shape
+  ///
+  /// In en, this message translates to:
+  /// **'Data Module Pattern'**
+  String get codeForgePatternShape;
+
+  /// Shape option: standard square
+  ///
+  /// In en, this message translates to:
+  /// **'Square'**
+  String get codeForgeShapeSquare;
+
+  /// Shape option: circular dots
+  ///
+  /// In en, this message translates to:
+  /// **'Dots'**
+  String get codeForgeShapeDots;
+
+  /// Shape option: rounded rectangle
+  ///
+  /// In en, this message translates to:
+  /// **'Rounded'**
+  String get codeForgeShapeRounded;
+
+  /// Shape option: classy curved corners
+  ///
+  /// In en, this message translates to:
+  /// **'Classy'**
+  String get codeForgeShapeClassy;
+
+  /// Shape option: rotated diamond
+  ///
+  /// In en, this message translates to:
+  /// **'Diamond'**
+  String get codeForgeShapeDiamond;
+
+  /// Shape option: organic leaf corner
+  ///
+  /// In en, this message translates to:
+  /// **'Leaf'**
+  String get codeForgeShapeLeaf;
+
+  /// Shape option: circular ring
+  ///
+  /// In en, this message translates to:
+  /// **'Circle'**
+  String get codeForgeShapeCircle;
+
+  /// Section header for color palette and gradient studio
+  ///
+  /// In en, this message translates to:
+  /// **'Colors & Gradients'**
+  String get codeForgeColorStudio;
+
+  /// Label for barcode foreground color
+  ///
+  /// In en, this message translates to:
+  /// **'Foreground'**
+  String get codeForgeFgColor;
+
+  /// Label for barcode background color
+  ///
+  /// In en, this message translates to:
+  /// **'Background'**
+  String get codeForgeBgColor;
+
+  /// Label for finder pattern outer ring color
+  ///
+  /// In en, this message translates to:
+  /// **'Eye Outer Ring'**
+  String get codeForgeEyeOuterColor;
+
+  /// Label for finder pattern center pupil color
+  ///
+  /// In en, this message translates to:
+  /// **'Eye Center Ball'**
+  String get codeForgeEyeInnerColor;
+
+  /// Gradient option: solid color without gradient
+  ///
+  /// In en, this message translates to:
+  /// **'Solid Color'**
+  String get codeForgeGradientNone;
+
+  /// Gradient theme: warm sunset
+  ///
+  /// In en, this message translates to:
+  /// **'Sunset'**
+  String get codeForgeGradientSunset;
+
+  /// Gradient theme: cool ocean blue
+  ///
+  /// In en, this message translates to:
+  /// **'Ocean'**
+  String get codeForgeGradientOcean;
+
+  /// Gradient theme: vibrant cyan neon
+  ///
+  /// In en, this message translates to:
+  /// **'Neon'**
+  String get codeForgeGradientNeon;
+
+  /// Gradient theme: warm royal gold
+  ///
+  /// In en, this message translates to:
+  /// **'Royal Gold'**
+  String get codeForgeGradientGold;
+
+  /// Selector label for QR error correction level
+  ///
+  /// In en, this message translates to:
+  /// **'Error Correction'**
+  String get codeForgeErrorCorrection;
+
+  /// Selector label for center embedded logo/badge
+  ///
+  /// In en, this message translates to:
+  /// **'Center Badge'**
+  String get codeForgeCenterBadge;
+
+  /// Badge option: no center icon
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get codeForgeBadgeNone;
+
+  /// Badge option: icon matching the payload type
+  ///
+  /// In en, this message translates to:
+  /// **'Content Icon'**
+  String get codeForgeBadgeIcon;
+
+  /// Badge option: safety verified shield emblem
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Shield'**
+  String get codeForgeBadgeShield;
+
+  /// Button to export and share high-resolution PNG image
+  ///
+  /// In en, this message translates to:
+  /// **'Share PNG'**
+  String get codeForgeExportPng;
+
+  /// Button to export and share vector SVG file
+  ///
+  /// In en, this message translates to:
+  /// **'Share SVG'**
+  String get codeForgeExportSvg;
+
+  /// Button to copy raw barcode content to clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Content'**
+  String get codeForgeCopyPayload;
+
+  /// Toast message after copying barcode content
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode content copied to clipboard'**
+  String get codeForgeCopied;
+
+  /// Button to run URL safety check on generated link
+  ///
+  /// In en, this message translates to:
+  /// **'Link Safety Check'**
+  String get codeForgeVerifySafety;
+
+  /// Badge label shown when URL passes all safety checks
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Safe by 6-Layer Security Engine'**
+  String get codeForgeSafeVerified;
+
+  /// Action tooltip to reset visual styling to defaults
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Styling'**
+  String get codeForgeResetStyle;
+
+  /// Checkbox to show human-readable text under 1D barcodes
+  ///
+  /// In en, this message translates to:
+  /// **'Show Text Label'**
+  String get codeForgeIncludeText;
+
+  /// Header for live code preview card
+  ///
+  /// In en, this message translates to:
+  /// **'Live Preview'**
+  String get codeForgePreview;
+
+  /// Button to skip onboarding and proceed directly to scanner
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// Button to advance to next onboarding slide
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// Button on final onboarding slide to finish and enter scanner
+  ///
+  /// In en, this message translates to:
+  /// **'Start Scanning'**
+  String get onboardingGetStarted;
+
+  /// Badge tag for 6-layer URL safety engine slide
+  ///
+  /// In en, this message translates to:
+  /// **'6-Layer Security'**
+  String get onboardingSlide1Badge;
+
+  /// Title for first onboarding slide explaining URL safety
+  ///
+  /// In en, this message translates to:
+  /// **'6-Layer URL Safety Engine'**
+  String get onboardingSlide1Title;
+
+  /// Description for first onboarding slide explaining URL defense layers
+  ///
+  /// In en, this message translates to:
+  /// **'Every link is inspected across six offline and online defense layers before you open it, protecting you against phishing, malicious redirects, and homograph traps.'**
+  String get onboardingSlide1Description;
+
+  /// First highlight bullet for URL safety slide
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol & Homograph Shield'**
+  String get onboardingSlide1Bullet1;
+
+  /// Second highlight bullet for URL safety slide
+  ///
+  /// In en, this message translates to:
+  /// **'TLD Entropy & Port Trap Analysis'**
+  String get onboardingSlide1Bullet2;
+
+  /// Third highlight bullet for URL safety slide
+  ///
+  /// In en, this message translates to:
+  /// **'Private Probing & Safe Browsing'**
+  String get onboardingSlide1Bullet3;
+
+  /// Badge tag for QuishingGuard tamper detection slide
+  ///
+  /// In en, this message translates to:
+  /// **'Computer Vision'**
+  String get onboardingSlide2Badge;
+
+  /// Title for second onboarding slide explaining QuishingGuard
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard™ Tamper Detection'**
+  String get onboardingSlide2Title;
+
+  /// Description for second onboarding slide explaining sticker tampering
+  ///
+  /// In en, this message translates to:
+  /// **'Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.'**
+  String get onboardingSlide2Description;
+
+  /// First highlight bullet for QuishingGuard slide
+  ///
+  /// In en, this message translates to:
+  /// **'Physical sticker overlay detection'**
+  String get onboardingSlide2Bullet1;
+
+  /// Second highlight bullet for QuishingGuard slide
+  ///
+  /// In en, this message translates to:
+  /// **'Cut edge & shadow boundary analysis'**
+  String get onboardingSlide2Bullet2;
+
+  /// Third highlight bullet for QuishingGuard slide
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time camera frame inspection'**
+  String get onboardingSlide2Bullet3;
+
+  /// Badge tag for offline privacy model slide
+  ///
+  /// In en, this message translates to:
+  /// **'Zero Cloud • Zero Tracking'**
+  String get onboardingSlide3Badge;
+
+  /// Title for third onboarding slide explaining privacy
+  ///
+  /// In en, this message translates to:
+  /// **'100% Offline Privacy Model'**
+  String get onboardingSlide3Title;
+
+  /// Description for third onboarding slide explaining offline architecture
+  ///
+  /// In en, this message translates to:
+  /// **'Your scans and personal data never leave your phone. There are no analytics SDKs, no trackers, and no remote servers watching your habits.'**
+  String get onboardingSlide3Description;
+
+  /// First highlight bullet for offline privacy slide
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted on-device SQLite database'**
+  String get onboardingSlide3Bullet1;
+
+  /// Second highlight bullet for offline privacy slide
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR optical air-gap transfers'**
+  String get onboardingSlide3Bullet2;
+
+  /// Third highlight bullet for offline privacy slide
+  ///
+  /// In en, this message translates to:
+  /// **'Zero analytics or crash reporting SDKs'**
+  String get onboardingSlide3Bullet3;
+
+  /// Settings and Help option to replay the 3-slide onboarding tour
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Tour'**
+  String get settingsOnboardingTourTitle;
+
+  /// Subtitle describing the welcome tour replay action
+  ///
+  /// In en, this message translates to:
+  /// **'Revisit the 3-slide introduction to safety and privacy features'**
+  String get settingsOnboardingTourSubtitle;
+
+  /// Title for continuous batch scanning mode
+  ///
+  /// In en, this message translates to:
+  /// **'Batch Scan Mode'**
+  String get batchScanMode;
+
+  /// Tooltip for toggling continuous batch scan mode
+  ///
+  /// In en, this message translates to:
+  /// **'Toggle Continuous Batch Scan'**
+  String get batchModeTooltip;
+
+  /// Toast message displayed when batch scan mode is turned on
+  ///
+  /// In en, this message translates to:
+  /// **'Continuous Batch Scan enabled'**
+  String get batchModeEnabledToast;
+
+  /// Toast message displayed when batch scan mode is turned off
+  ///
+  /// In en, this message translates to:
+  /// **'Continuous Batch Scan disabled'**
+  String get batchModeDisabledToast;
+
+  /// Counter badge showing number of barcodes scanned in batch
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Scanned'**
+  String batchCounterBadge(int count);
+
+  /// Title of the batch review modal bottom sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Batch Scans'**
+  String get batchReviewTitle;
+
+  /// Subtitle of the batch review sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Continuous scanning queue'**
+  String get batchReviewSubtitle;
+
+  /// Title shown when batch queue is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No codes in batch'**
+  String get batchEmptyTitle;
+
+  /// Description shown when batch queue is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Point your camera at barcodes to scan them continuously without leaving the camera.'**
+  String get batchEmptySubtitle;
+
+  /// Button to export the batch scans
+  ///
+  /// In en, this message translates to:
+  /// **'Export Batch'**
+  String get batchExport;
+
+  /// Button to clear all scans from the active batch
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Batch'**
+  String get batchClear;
+
+  /// Confirmation title to clear the batch queue
+  ///
+  /// In en, this message translates to:
+  /// **'Clear Batch?'**
+  String get batchClearConfirmTitle;
+
+  /// Confirmation content to clear the batch queue
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to remove all scanned codes from this batch?'**
+  String get batchClearConfirmContent;
+
+  /// Label for duplicate prevention toggle in batch review sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Prevent Duplicates'**
+  String get batchPreventDuplicates;
+
+  /// Toast message displayed in camera viewport when a barcode is scanned in batch mode
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned #{count}: {content}'**
+  String batchScannedToast(int count, String content);
+
+  /// Label for verified safe link in batch list
+  ///
+  /// In en, this message translates to:
+  /// **'Safe Link'**
+  String get batchSafeUrl;
+
+  /// Label for suspicious link in batch list
+  ///
+  /// In en, this message translates to:
+  /// **'Suspicious Link'**
+  String get batchSuspiciousUrl;
+
+  /// Label when 6-layer URL safety check is running in background
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing link...'**
+  String get batchAnalyzingUrl;
+
+  /// Summary of 6-layer URL safety checks across URLs in batch
+  ///
+  /// In en, this message translates to:
+  /// **'{safeCount} safe, {warningCount} suspicious of {totalUrls} links'**
+  String batchUrlSafetySummary(int safeCount, int warningCount, int totalUrls);
+
+  /// Title of the bottom sheet displaying details of an individual batch scan item
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned Code Details'**
+  String get batchItemDetailsTitle;
+
+  /// Barcode format label in batch item details
+  ///
+  /// In en, this message translates to:
+  /// **'Format: {format}'**
+  String batchFormatLabel(String format);
+
+  /// Timestamp label in batch item details
+  ///
+  /// In en, this message translates to:
+  /// **'Scanned at {time}'**
+  String batchTimeLabel(String time);
+
+  /// Label for distance-enhanced scanning pipeline toggle in camera settings
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Scan Assist'**
+  String get cameraDistanceEnhanceLabel;
+
+  /// Subtitle describing distance-enhanced scanning pipeline
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom-crop & unsharp mask for distant posters & signs'**
+  String get cameraDistanceEnhanceHint;
+
+  /// Label for unsharp mask sharpness slider in camera settings
+  ///
+  /// In en, this message translates to:
+  /// **'Edge Sharpness'**
+  String get cameraUnsharpLabel;
+
+  /// Tooltip for distance scan assist toggle button in camera viewport
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Scan Assist'**
+  String get scanDistanceModeTooltip;
+
+  /// HUD badge text displayed when distance scan assist mode is active
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Mode Active'**
+  String get scanDistanceModeActive;
 }
 
 class _AppLocalizationsDelegate
@@ -3454,7 +4762,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'ml', 'sa'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3465,6 +4773,10 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'ml':
+      return AppLocalizationsMl();
+    case 'sa':
+      return AppLocalizationsSa();
   }
 
   throw FlutterError(

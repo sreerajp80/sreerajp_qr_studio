@@ -16,6 +16,12 @@ import 'package:sreeraj_qr_reader/screens/widgets/geo_action_card.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/calendar_action_card.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/payment_action_card.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/totp_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/email_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/phone_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/sms_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/app_link_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/product_barcode_action_card.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/isbn_action_card.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/quishing_risk_bar_widget.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/dom_sandbox_preview_card.dart';
 
@@ -47,6 +53,7 @@ class _ResultScreenState extends State<ResultScreen> {
         title: Text(l10n.resultScreenTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
+          tooltip: l10n.tooltipBack,
           onPressed: () {
             scanProvider.clearScan();
             Navigator.pop(context);
@@ -131,6 +138,18 @@ class _ResultScreenState extends State<ResultScreen> {
       return PaymentActionCard(payload: payload);
     } else if (payload is TotpPayload) {
       return TotpActionCard(payload: payload);
+    } else if (payload is EmailPayload) {
+      return EmailActionCard(payload: payload);
+    } else if (payload is PhonePayload) {
+      return PhoneActionCard(payload: payload);
+    } else if (payload is SmsPayload) {
+      return SmsActionCard(payload: payload);
+    } else if (payload is AppLinkPayload) {
+      return AppLinkActionCard(payload: payload);
+    } else if (payload is ProductBarcodePayload) {
+      return ProductBarcodeActionCard(payload: payload);
+    } else if (payload is IsbnPayload) {
+      return IsbnActionCard(payload: payload);
     }
     return const SizedBox();
   }
@@ -167,6 +186,18 @@ class _ResultScreenState extends State<ResultScreen> {
                   ? Icons.payment
                   : payload is TotpPayload
                   ? Icons.shield
+                  : payload is EmailPayload
+                  ? Icons.email
+                  : payload is PhonePayload
+                  ? Icons.phone
+                  : payload is SmsPayload
+                  ? Icons.sms
+                  : payload is AppLinkPayload
+                  ? Icons.launch
+                  : payload is ProductBarcodePayload
+                  ? Icons.qr_code_scanner
+                  : payload is IsbnPayload
+                  ? Icons.menu_book
                   : provider.scanType == BarcodeType.url
                   ? Icons.link
                   : Icons.qr_code,
@@ -542,6 +573,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     icon: Icon(
                       obscure ? Icons.visibility : Icons.visibility_off,
                     ),
+                    tooltip: obscure ? l10n.revealAction : l10n.hideAction,
                     onPressed: () {
                       setDialogState(() {
                         obscure = !obscure;

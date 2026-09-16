@@ -4,101 +4,124 @@ import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/scan_overlay_widget.dart';
 
 void main() {
-  group('ScanOverlayWidget Widget Tests', () {
-    testWidgets('Renders Laser Line overlay style cleanly', (tester) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: ScanOverlayWidget(style: ScanOverlayStyle.laserLine),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(ScanOverlayWidget), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('Renders Pulsing Corners overlay style cleanly', (
+  group('ScanOverlayWidget Micro-Interaction Tests', () {
+    testWidgets('renders normally across all scan overlay styles', (
       tester,
     ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: ScanOverlayWidget(style: ScanOverlayStyle.pulsingCorners),
+      for (final style in ScanOverlayStyle.values) {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(child: ScanOverlayWidget(style: style)),
             ),
           ),
-        ),
-      );
-
-      expect(find.byType(ScanOverlayWidget), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
+        );
+        expect(find.byType(ScanOverlayWidget), findsOneWidget);
+        expect(find.byType(CustomPaint), findsWidgets);
+      }
     });
 
-    testWidgets('Renders Cybernetic Grid overlay style cleanly', (
+    testWidgets('triggers success micro-animation and onAnimationComplete', (
       tester,
     ) async {
+      var completed = false;
+
       await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: ScanOverlayWidget(style: ScanOverlayStyle.cyberneticGrid),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(ScanOverlayWidget), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('Renders Subtle Dot Matrix overlay style cleanly', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
-          home: Scaffold(
-            body: Center(
-              child: ScanOverlayWidget(style: ScanOverlayStyle.subtleDotMatrix),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(ScanOverlayWidget), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
-    });
-
-    testWidgets('Renders overlay with detected corners bounding box cleanly', (
-      tester,
-    ) async {
-      await tester.pumpWidget(
-        const MaterialApp(
+        MaterialApp(
           home: Scaffold(
             body: Center(
               child: ScanOverlayWidget(
                 style: ScanOverlayStyle.laserLine,
-                detectedCorners: [
-                  Offset(20, 20),
-                  Offset(100, 20),
-                  Offset(100, 100),
-                  Offset(20, 100),
-                ],
+                isSuccess: true,
+                onAnimationComplete: () {
+                  completed = true;
+                },
               ),
             ),
           ),
         ),
       );
 
+      // Animation starts
+      expect(completed, isFalse);
+
+      // Advance through the 380ms animation duration
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(completed, isFalse);
+
+      await tester.pump(const Duration(milliseconds: 250));
+      expect(completed, isTrue);
+    });
+
+    testWidgets(
+      'transitions from idle to success upon widget property update',
+      (tester) async {
+        var completed = false;
+
+        await tester.pumpWidget(
+          const MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: ScanOverlayWidget(
+                  style: ScanOverlayStyle.pulsingCorners,
+                ),
+              ),
+            ),
+          ),
+        );
+
+        await tester.pump(const Duration(milliseconds: 50));
+        expect(completed, isFalse);
+
+        // Update widget with isSuccess: true
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: ScanOverlayWidget(
+                  style: ScanOverlayStyle.pulsingCorners,
+                  isSuccess: true,
+                  onAnimationComplete: () {
+                    completed = true;
+                  },
+                ),
+              ),
+            ),
+          ),
+        );
+
+        // Advance animation
+        await tester.pump(const Duration(milliseconds: 400));
+        expect(completed, isTrue);
+      },
+    );
+
+    testWidgets('renders with detectedCorners and detectedBoundingBox', (
+      tester,
+    ) async {
+      const corners = [
+        Offset(20, 20),
+        Offset(120, 20),
+        Offset(120, 120),
+        Offset(20, 120),
+      ];
+
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: Center(
+              child: ScanOverlayWidget(
+                style: ScanOverlayStyle.cyberneticGrid,
+                detectedCorners: corners,
+                isSuccess: true,
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.pump(const Duration(milliseconds: 100));
       expect(find.byType(ScanOverlayWidget), findsOneWidget);
-      await tester.pump(const Duration(milliseconds: 500));
-      expect(tester.takeException(), isNull);
     });
   });
 }

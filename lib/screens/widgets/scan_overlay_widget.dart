@@ -10,6 +10,8 @@ class ScanOverlayWidget extends StatefulWidget {
   final double scanAreaSize;
   final Rect? detectedBoundingBox;
   final List<Offset>? detectedCorners;
+  final bool isSuccess;
+  final VoidCallback? onAnimationComplete;
 
   const ScanOverlayWidget({
     super.key,
@@ -17,6 +19,8 @@ class ScanOverlayWidget extends StatefulWidget {
     this.scanAreaSize = 250.0,
     this.detectedBoundingBox,
     this.detectedCorners,
+    this.isSuccess = false,
+    this.onAnimationComplete,
   });
 
   @override
@@ -24,37 +28,67 @@ class ScanOverlayWidget extends StatefulWidget {
 }
 
 class _ScanOverlayWidgetState extends State<ScanOverlayWidget>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
+    with TickerProviderStateMixin {
+  late AnimationController _idleController;
+  late AnimationController _successController;
 
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(
+    _idleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     )..repeat(reverse: true);
+
+    _successController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 380),
+    );
+
+    if (widget.isSuccess) {
+      _idleController.stop();
+      _successController.forward(from: 0.0).then((_) {
+        if (mounted) widget.onAnimationComplete?.call();
+      });
+    }
+  }
+
+  @override
+  void didUpdateWidget(ScanOverlayWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!oldWidget.isSuccess && widget.isSuccess) {
+      _idleController.stop();
+      _successController.forward(from: 0.0).then((_) {
+        if (mounted) widget.onAnimationComplete?.call();
+      });
+    } else if (oldWidget.isSuccess && !widget.isSuccess) {
+      _successController.reset();
+      _idleController.repeat(reverse: true);
+    }
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _idleController.dispose();
+    _successController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: _animationController,
+      animation: Listenable.merge([_idleController, _successController]),
       builder: (context, child) {
         return CustomPaint(
           size: Size(widget.scanAreaSize, widget.scanAreaSize),
           painter: _ScanOverlayPainter(
             style: widget.style,
-            progress: _animationController.value,
+            progress: _idleController.value,
             colorScheme: Theme.of(context).colorScheme,
             detectedBoundingBox: widget.detectedBoundingBox,
             detectedCorners: widget.detectedCorners,
+            isSuccess: widget.isSuccess,
+            successProgress: _successController.value,
           ),
         );
       },
@@ -68,6 +102,8 @@ class _ScanOverlayPainter extends CustomPainter {
   final ColorScheme colorScheme;
   final Rect? detectedBoundingBox;
   final List<Offset>? detectedCorners;
+  final bool isSuccess;
+  final double successProgress;
 
   _ScanOverlayPainter({
     required this.style,
@@ -75,11 +111,35 @@ class _ScanOverlayPainter extends CustomPainter {
     required this.colorScheme,
     this.detectedBoundingBox,
     this.detectedCorners,
+    this.isSuccess = false,
+    this.successProgress = 0.0,
   });
 
   @override
   void paint(Canvas canvas, Size size) {
     final rect = Rect.fromLTWH(0, 0, size.width, size.height);
+
+    double scale = 1.0;
+    if (isSuccess && successProgress > 0.0) {
+      if (successProgress < 0.25) {
+        scale = 1.0 - (0.05 * (successProgress / 0.25));
+      } else if (successProgress < 0.65) {
+        final t = (successProgress - 0.25) / 0.40;
+        scale = 0.95 + (0.11 * Curves.easeOutBack.transform(t));
+      } else {
+        final t = (successProgress - 0.65) / 0.35;
+        scale = 1.06 - (0.06 * Curves.easeInOut.transform(t));
+      }
+    }
+
+    final center = rect.center;
+    final didScale = scale != 1.0;
+    if (didScale) {
+      canvas.save();
+      canvas.translate(center.dx, center.dy);
+      canvas.scale(scale);
+      canvas.translate(-center.dx, -center.dy);
+    }
 
     switch (style) {
       case ScanOverlayStyle.laserLine:
@@ -96,9 +156,21 @@ class _ScanOverlayPainter extends CustomPainter {
         break;
     }
 
+    if (isSuccess) {
+      _drawSuccessReticlePulse(canvas, rect);
+    }
+
     if (detectedBoundingBox != null ||
         (detectedCorners != null && detectedCorners!.isNotEmpty)) {
       _drawDetectedFocusBox(canvas, rect);
+    }
+
+    if (didScale) {
+      canvas.restore();
+    }
+
+    if (isSuccess) {
+      _drawCheckmarkMorph(canvas, center, successProgress);
     }
   }
 
@@ -410,12 +482,137 @@ class _ScanOverlayPainter extends CustomPainter {
     return Rect.fromLTRB(minX, minY, maxX, maxY);
   }
 
+  /// Reticle bloom & glowing corner brackets during scan confirmation.
+  void _drawSuccessReticlePulse(Canvas canvas, Rect rect) {
+    final glowAlpha = (0.5 * (1.0 - (successProgress - 0.5).abs() * 0.8)).clamp(
+      0.15,
+      0.65,
+    );
+    final glowPaint = Paint()
+      ..color = const Color(0xFF00E676).withValues(alpha: glowAlpha)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 5.0
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8.0);
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(rect, const Radius.circular(12)),
+      glowPaint,
+    );
+
+    _drawCornerBrackets(
+      canvas,
+      rect,
+      const Color(0xFF00E676),
+      cornerLength: 28.0,
+      strokeWidth: 4.0,
+    );
+  }
+
+  /// Center badge with animated checkmark path morph and shockwave ripple.
+  void _drawCheckmarkMorph(Canvas canvas, Offset center, double progress) {
+    if (progress <= 0.0) return;
+
+    // 1. Expanding shockwave ripple
+    if (progress > 0.05 && progress < 0.95) {
+      final rippleProgress = Curves.easeOut.transform(
+        ((progress - 0.05) / 0.90).clamp(0.0, 1.0),
+      );
+      final rippleRadius = 24.0 + (rippleProgress * 55.0);
+      final rippleAlpha = ((1.0 - rippleProgress) * 0.75).clamp(0.0, 1.0);
+      final ripplePaint = Paint()
+        ..color = const Color(0xFF00E676).withValues(alpha: rippleAlpha)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5;
+      canvas.drawCircle(center, rippleRadius, ripplePaint);
+    }
+
+    // 2. Center Success Disc Badge
+    final badgeProgress = (progress / 0.5).clamp(0.0, 1.0);
+    final badgeScale = Curves.easeOutBack.transform(badgeProgress);
+    if (badgeScale <= 0.01) return;
+
+    const discRadius = 32.0;
+
+    // Outer glow for the badge
+    final badgeGlowPaint = Paint()
+      ..color = const Color(0xFF00E676).withValues(alpha: 0.45 * badgeScale)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10.0);
+    canvas.drawCircle(center, discRadius * badgeScale, badgeGlowPaint);
+
+    // Gradient filled badge circle
+    final badgePaint = Paint()
+      ..shader =
+          const RadialGradient(
+            colors: [Color(0xFF00E676), Color(0xFF00B0FF)],
+          ).createShader(
+            Rect.fromCircle(center: center, radius: discRadius * badgeScale),
+          )
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(center, discRadius * badgeScale, badgePaint);
+
+    // Subtle white border on the badge
+    final badgeBorderPaint = Paint()
+      ..color = Colors.white.withValues(alpha: 0.85)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.8;
+    canvas.drawCircle(center, discRadius * badgeScale, badgeBorderPaint);
+
+    // 3. Checkmark Stroke Morph (Draw along path from progress 0.20 to 0.85)
+    if (progress > 0.20) {
+      final checkProgress = Curves.easeOutCubic.transform(
+        ((progress - 0.20) / 0.65).clamp(0.0, 1.0),
+      );
+
+      final p1 = center + const Offset(-11, 1);
+      final p2 = center + const Offset(-3, 9);
+      final p3 = center + const Offset(12, -7);
+
+      final d1 = (p2 - p1).distance;
+      final d2 = (p3 - p2).distance;
+      final totalDist = d1 + d2;
+      final currentDist = totalDist * checkProgress;
+
+      final checkPath = Path();
+      checkPath.moveTo(p1.dx, p1.dy);
+
+      if (currentDist <= d1) {
+        final t = currentDist / d1;
+        final currentPoint = Offset.lerp(p1, p2, t)!;
+        checkPath.lineTo(currentPoint.dx, currentPoint.dy);
+      } else {
+        checkPath.lineTo(p2.dx, p2.dy);
+        final t = (currentDist - d1) / d2;
+        final currentPoint = Offset.lerp(p2, p3, t)!;
+        checkPath.lineTo(currentPoint.dx, currentPoint.dy);
+      }
+
+      // Checkmark subtle shadow for high contrast
+      final checkShadowPaint = Paint()
+        ..color = Colors.black26
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.2
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round;
+      canvas.drawPath(checkPath.shift(const Offset(0, 1.5)), checkShadowPaint);
+
+      final checkPaint = Paint()
+        ..color = Colors.white
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 4.2
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round;
+      canvas.drawPath(checkPath, checkPaint);
+    }
+  }
+
   @override
   bool shouldRepaint(covariant _ScanOverlayPainter oldDelegate) {
     return oldDelegate.progress != progress ||
         oldDelegate.style != style ||
         oldDelegate.colorScheme != colorScheme ||
         oldDelegate.detectedBoundingBox != detectedBoundingBox ||
-        oldDelegate.detectedCorners != detectedCorners;
+        oldDelegate.detectedCorners != detectedCorners ||
+        oldDelegate.isSuccess != isSuccess ||
+        oldDelegate.successProgress != successProgress;
   }
 }

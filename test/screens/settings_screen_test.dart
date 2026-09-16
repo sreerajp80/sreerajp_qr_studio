@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
 import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
 import 'package:sreeraj_qr_reader/screens/about_screen.dart';
@@ -25,6 +26,7 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: const MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -41,6 +43,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
 
       expect(find.text('Appearance'), findsOneWidget);
+      expect(find.text('Language'), findsOneWidget);
       expect(find.text('Features'), findsOneWidget);
       expect(find.text('Scan Feedback & Alerts'), findsOneWidget);
       expect(find.text('Privacy & Online Probing'), findsOneWidget);
@@ -48,6 +51,21 @@ void main() {
       expect(find.text('Permissions'), findsOneWidget);
       expect(find.text('Help & Feature Guides'), findsOneWidget);
       expect(find.text('About'), findsOneWidget);
+    });
+
+    testWidgets('Opens Language dialog on card tap', (tester) async {
+      await tester.pumpWidget(buildTestableWidget());
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 100));
+
+      await tester.tap(find.text('Language'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+
+      expect(find.text('System default'), findsNWidgets(2));
+      expect(find.text('English'), findsOneWidget);
+      expect(find.text('മലയാളം'), findsOneWidget);
+      expect(find.text('संस्कृतम्'), findsOneWidget);
     });
 
     testWidgets('Navigates to Appearance page on card tap', (tester) async {
@@ -92,6 +110,7 @@ void main() {
       expect(find.byType(ScanFeedbackSettingsScreen), findsOneWidget);
       expect(find.text('Vibration Feedback'), findsOneWidget);
       expect(find.text('Audible Beep Sound'), findsOneWidget);
+      expect(find.text('Confirmation Animation'), findsOneWidget);
     });
 
     testWidgets('Navigates to Permissions page on card tap', (tester) async {

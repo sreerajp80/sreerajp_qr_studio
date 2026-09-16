@@ -38,6 +38,18 @@ class HistoryCard extends StatelessWidget {
         return Icons.payment;
       case 'totp':
         return Icons.vpn_key;
+      case 'email':
+        return Icons.email;
+      case 'phone':
+        return Icons.phone;
+      case 'sms':
+        return Icons.sms;
+      case 'applink':
+        return Icons.launch;
+      case 'productbarcode':
+        return Icons.qr_code_scanner;
+      case 'isbn':
+        return Icons.menu_book;
       case 'barcode':
         return Icons.qr_code_2;
       default:
@@ -62,6 +74,18 @@ class HistoryCard extends StatelessWidget {
         return Colors.deepPurple;
       case 'totp':
         return Colors.amber.shade800;
+      case 'email':
+        return Colors.orange.shade700;
+      case 'phone':
+        return Colors.teal.shade700;
+      case 'sms':
+        return Colors.indigo.shade700;
+      case 'applink':
+        return Colors.green.shade700;
+      case 'productbarcode':
+        return Colors.amber.shade800;
+      case 'isbn':
+        return Colors.brown.shade700;
       case 'barcode':
         return Colors.indigo;
       default:

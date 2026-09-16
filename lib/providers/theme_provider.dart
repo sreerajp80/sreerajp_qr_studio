@@ -100,6 +100,12 @@ class ThemeProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
+  static const List<String> fontFallback = [
+    'Noto Sans Malayalam',
+    'Noto Sans Devanagari',
+    'sans-serif',
+  ];
+
   /// Builds Light Theme Data.
   ThemeData buildLightTheme({ColorScheme? dynamicColorScheme}) {
     final colorScheme = (_useDynamicColor && dynamicColorScheme != null)
@@ -110,6 +116,7 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.light,
       colorScheme: colorScheme,
+      fontFamilyFallback: fontFallback,
       primaryColor: colorScheme.primary,
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
@@ -134,6 +141,7 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: colorScheme,
+      fontFamilyFallback: fontFallback,
       primaryColor: colorScheme.primary,
       scaffoldBackgroundColor: colorScheme.surface,
       appBarTheme: AppBarTheme(
@@ -168,6 +176,7 @@ class ThemeProvider extends ChangeNotifier {
       useMaterial3: true,
       brightness: Brightness.dark,
       colorScheme: oledColorScheme,
+      fontFamilyFallback: fontFallback,
       primaryColor: oledColorScheme.primary,
       scaffoldBackgroundColor: Colors.black,
       canvasColor: Colors.black,

@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
 
@@ -5,18 +6,25 @@ import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
 class PayloadActionService {
   /// Opens system Wi-Fi settings or Wi-Fi configuration screen.
   static Future<bool> openWifiSettings() async {
-    final intentUri = Uri.parse(
-      'intent:#Intent;action=android.settings.WIFI_SETTINGS;end',
-    );
-    if (await canLaunchUrl(intentUri)) {
-      return await launchUrl(intentUri, mode: LaunchMode.externalApplication);
+    try {
+      final intentUri = Uri.parse(
+        'intent:#Intent;action=android.settings.WIFI_SETTINGS;end',
+      );
+      if (await canLaunchUrl(intentUri)) {
+        return await launchUrl(intentUri, mode: LaunchMode.externalApplication);
+      }
+      // Fallback to settings URI
+      final settingsUri = Uri.parse('android.settings.WIFI_SETTINGS');
+      if (await canLaunchUrl(settingsUri)) {
+        return await launchUrl(
+          settingsUri,
+          mode: LaunchMode.externalApplication,
+        );
+      }
+      return false;
+    } catch (_) {
+      return false;
     }
-    // Fallback to settings URI
-    final settingsUri = Uri.parse('android.settings.WIFI_SETTINGS');
-    if (await canLaunchUrl(settingsUri)) {
-      return await launchUrl(settingsUri, mode: LaunchMode.externalApplication);
-    }
-    return false;
   }
 
   /// Opens Google Maps with coordinates.
@@ -117,5 +125,142 @@ class PayloadActionService {
     } catch (_) {
       return false;
     }
+  }
+
+  /// Opens the default email app to compose an email.
+  static Future<bool> sendEmail(EmailPayload email) async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: email.toAddress,
+      queryParameters: <String, String>{
+        if (email.subject.isNotEmpty) 'subject': email.subject,
+        if (email.body.isNotEmpty) 'body': email.body,
+        if (email.cc.isNotEmpty) 'cc': email.cc,
+        if (email.bcc.isNotEmpty) 'bcc': email.bcc,
+      },
+    );
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Opens the phone dialer with the given number.
+  static Future<bool> dialPhone(PhonePayload phone) async {
+    final uri = Uri.parse('tel:${phone.number}');
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Opens the messaging app with the given number and optional body.
+  static Future<bool> sendSms(SmsPayload sms) async {
+    final uri = Uri(
+      scheme: 'sms',
+      path: sms.number,
+      queryParameters: <String, String>{
+        if (sms.body.isNotEmpty) 'body': sms.body,
+      },
+    );
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Opens an app deep link in its native app.
+  static Future<bool> openAppLink(AppLinkPayload appLink) async {
+    final uri = Uri.tryParse(appLink.deepLinkUri);
+    if (uri == null) return false;
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Opens a product search for the given barcode on Open Food Facts and Google.
+  static Future<bool> searchProduct(
+    ProductBarcodePayload product, {
+    bool useOpenFoodFacts = true,
+  }) async {
+    final String searchUrl;
+    if (useOpenFoodFacts) {
+      searchUrl = 'https://world.openfoodfacts.org/product/${product.code}';
+    } else {
+      searchUrl =
+          'https://www.google.com/search?q=${Uri.encodeComponent(product.code)}+barcode';
+    }
+    final uri = Uri.parse(searchUrl);
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Opens a book lookup for the given ISBN on Google Books or Open Library.
+  static Future<bool> lookupBook(
+    IsbnPayload isbn, {
+    bool useGoogleBooks = true,
+  }) async {
+    final String lookupUrl;
+    if (useGoogleBooks) {
+      lookupUrl = 'https://books.google.com/books?vid=ISBN${isbn.isbn}';
+    } else {
+      lookupUrl = 'https://openlibrary.org/isbn/${isbn.isbn}';
+    }
+    final uri = Uri.parse(lookupUrl);
+    try {
+      if (await canLaunchUrl(uri)) {
+        return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static const MethodChannel _wifiChannel = MethodChannel(
+    'in.sreeraj.qr_reader/wifi',
+  );
+
+  /// Connects to a Wi-Fi network using Android's native Wi-Fi suggestion or configuration API.
+  /// Falls back to openWifiSettings() only if native connection fails or is unavailable.
+  static Future<bool> connectToWifi(WifiPayload wifi) async {
+    try {
+      final bool? success = await _wifiChannel
+          .invokeMethod<bool>('connectWifi', {
+            'ssid': wifi.ssid,
+            'password': wifi.password,
+            'securityType': wifi.securityType,
+            'isHidden': wifi.isHidden,
+          });
+      if (success == true) {
+        return true;
+      }
+    } catch (_) {
+      // MethodChannel not available or failed on platform
+    }
+    return openWifiSettings();
   }
 }

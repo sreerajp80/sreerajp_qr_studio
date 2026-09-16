@@ -4,12 +4,14 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
 import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
 import 'package:sreeraj_qr_reader/screens/about_screen.dart';
 import 'package:sreeraj_qr_reader/screens/appearance_screen.dart';
 import 'package:sreeraj_qr_reader/screens/features_screen.dart';
 import 'package:sreeraj_qr_reader/screens/help/help_home_screen.dart';
+import 'package:sreeraj_qr_reader/screens/onboarding_screen.dart';
 import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -57,12 +59,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final l10n = AppLocalizations.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     final scanProvider = Provider.of<ScanProvider>(context);
+    final localeProvider = Provider.of<LocaleProvider>(context);
 
     final themeModeName = switch (themeProvider.themeMode) {
       AppThemeMode.system => l10n.themeSystemDefault,
       AppThemeMode.light => l10n.themeLight,
       AppThemeMode.dark => l10n.themeDark,
       AppThemeMode.oled => l10n.themeOled,
+    };
+
+    final currentLanguageName = switch (localeProvider.languageCode) {
+      'en' => l10n.languageEnglish,
+      'ml' => l10n.languageMalayalam,
+      'sa' => l10n.languageSanskrit,
+      _ => l10n.languageSystemDefault,
     };
 
     final feedbackStatus = l10n.feedbackSummary(
@@ -100,6 +110,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       );
                       _loadSummary();
                     },
+                  ),
+                  _buildSettingsCard(
+                    context: context,
+                    icon: Icons.language,
+                    title: l10n.settingsLanguageTitle,
+                    subtitle: currentLanguageName,
+                    onTap: () => _showLanguageDialog(context, localeProvider),
                   ),
                   _buildSettingsCard(
                     context: context,
@@ -164,6 +181,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   _buildSettingsCard(
                     context: context,
+                    icon: Icons.sync_lock,
+                    title: l10n.airQrSyncSettingsTitle,
+                    subtitle: l10n.airQrSyncSettingsSubtitle,
+                    onTap: () async {
+                      await Navigator.pushNamed(
+                        context,
+                        '/air_qr_transmitter',
+                        arguments: {'syncMode': true},
+                      );
+                      _loadSummary();
+                    },
+                  ),
+                  _buildSettingsCard(
+                    context: context,
                     icon: Icons.admin_panel_settings_outlined,
                     title: l10n.settingsPermissionsTitle,
                     subtitle: l10n.settingsPermissionsSubtitle,
@@ -187,6 +218,21 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const HelpHomeScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  _buildSettingsCard(
+                    context: context,
+                    icon: Icons.auto_stories_outlined,
+                    title: l10n.settingsOnboardingTourTitle,
+                    subtitle: l10n.settingsOnboardingTourSubtitle,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const OnboardingScreen(isReplay: true),
                         ),
                       );
                     },
@@ -271,6 +317,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLanguageDialog(
+    BuildContext context,
+    LocaleProvider localeProvider,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) {
+        return AlertDialog(
+          title: Text(l10n.settingsLanguageTitle),
+          content: RadioGroup<String?>(
+            groupValue: localeProvider.languageCode,
+            onChanged: (val) {
+              localeProvider.setLanguage(val ?? 'system');
+              Navigator.pop(dialogContext);
+            },
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                RadioListTile<String?>(
+                  title: Text(l10n.languageSystemDefault),
+                  value: null,
+                ),
+                RadioListTile<String?>(
+                  title: Text(l10n.languageEnglish),
+                  value: 'en',
+                ),
+                RadioListTile<String?>(
+                  title: Text(l10n.languageMalayalam),
+                  value: 'ml',
+                ),
+                RadioListTile<String?>(
+                  title: Text(l10n.languageSanskrit),
+                  value: 'sa',
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text(l10n.cancelButton),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -489,6 +584,14 @@ class ScanFeedbackSettingsScreen extends StatelessWidget {
                 subtitle: Text(l10n.feedbackSoundSubtitle),
                 value: scanProvider.isSoundEnabled,
                 onChanged: (val) => scanProvider.setSoundEnabled(val),
+              ),
+              const Divider(height: 1, indent: 16, endIndent: 16),
+              SwitchListTile(
+                secondary: const Icon(Icons.check_circle_outline_rounded),
+                title: Text(l10n.feedbackAnimationTitle),
+                subtitle: Text(l10n.feedbackAnimationSubtitle),
+                value: scanProvider.isAnimationEnabled,
+                onChanged: (val) => scanProvider.setAnimationEnabled(val),
               ),
             ],
           ),
@@ -967,7 +1070,7 @@ class _SafeBrowsingSettingsScreenState
             ),
             const SizedBox(height: 8),
             Text(
-              '${percentage.toStringAsFixed(1)}% used',
+              l10n.apiQuotaPercentageUsed(percentage.toStringAsFixed(1)),
               style: TextStyle(fontSize: 12, color: Colors.grey[600]),
             ),
             if (isAtLimit) ...[
@@ -1056,6 +1159,7 @@ class _SafeBrowsingSettingsScreenState
                 icon: Icon(
                   _isObscured ? Icons.visibility : Icons.visibility_off,
                 ),
+                tooltip: _isObscured ? l10n.revealAction : l10n.hideAction,
                 onPressed: () {
                   setState(() => _isObscured = !_isObscured);
                 },

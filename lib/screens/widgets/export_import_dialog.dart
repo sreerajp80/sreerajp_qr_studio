@@ -273,6 +273,22 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
                   onPressed: () => _handleEncryptedBackup(context),
                 ),
               ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.stream),
+                  label: Text(l10n.airQrSyncBeamAction),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(
+                      context,
+                      '/air_qr_transmitter',
+                      arguments: {'syncMode': true},
+                    );
+                  },
+                ),
+              ),
             ] else ...[
               Text(
                 l10n.restoreHeading,
@@ -301,6 +317,7 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
                   border: const OutlineInputBorder(),
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.content_paste),
+                    tooltip: l10n.restorePayloadHint,
                     onPressed: () async {
                       final data = await Clipboard.getData(
                         Clipboard.kTextPlain,
@@ -323,6 +340,18 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
                     foregroundColor: theme.colorScheme.onPrimary,
                   ),
                   onPressed: () => _handleRestore(context),
+                ),
+              ),
+              const SizedBox(height: 8),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.qr_code_scanner),
+                  label: Text(l10n.airQrReceiverTitle),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pushNamed(context, '/air_qr');
+                  },
                 ),
               ),
             ],

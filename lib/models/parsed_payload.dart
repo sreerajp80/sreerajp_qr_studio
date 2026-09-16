@@ -1,7 +1,21 @@
 import 'package:flutter/foundation.dart';
 
 /// Enum representing the recognized smart payload types.
-enum PayloadType { wifi, contact, geo, calendar, payment, totp, generic }
+enum PayloadType {
+  wifi,
+  contact,
+  geo,
+  calendar,
+  payment,
+  totp,
+  email,
+  phone,
+  sms,
+  appLink,
+  productBarcode,
+  isbn,
+  generic,
+}
 
 /// Sealed / abstract base class representing a parsed QR code payload.
 @immutable
@@ -144,4 +158,89 @@ class TotpPayload extends ParsedPayload {
     this.digits = 6,
     this.period = 30,
   }) : super(type: PayloadType.totp);
+}
+
+/// Email Payload (mailto:, MATMSG:, or raw email address)
+class EmailPayload extends ParsedPayload {
+  final String toAddress;
+  final String subject;
+  final String body;
+  final String cc;
+  final String bcc;
+
+  const EmailPayload({
+    required super.rawContent,
+    required this.toAddress,
+    this.subject = '',
+    this.body = '',
+    this.cc = '',
+    this.bcc = '',
+  }) : super(type: PayloadType.email);
+}
+
+/// Phone Number Payload (tel: or raw phone number)
+class PhonePayload extends ParsedPayload {
+  final String number;
+  final String label;
+
+  const PhonePayload({
+    required super.rawContent,
+    required this.number,
+    this.label = '',
+  }) : super(type: PayloadType.phone);
+}
+
+/// SMS / Text Message Payload (sms:, smsto:, mms:)
+class SmsPayload extends ParsedPayload {
+  final String number;
+  final String body;
+
+  const SmsPayload({
+    required super.rawContent,
+    required this.number,
+    this.body = '',
+  }) : super(type: PayloadType.sms);
+}
+
+/// Known app store names for deep link detection
+enum AppStoreName { playStore, whatsApp, telegram, youTube, generic }
+
+/// App / Deep Link Payload (market://, Play Store URLs, messaging app URIs)
+class AppLinkPayload extends ParsedPayload {
+  final String appName;
+  final String packageId;
+  final AppStoreName storeName;
+  final String deepLinkUri;
+
+  const AppLinkPayload({
+    required super.rawContent,
+    required this.appName,
+    this.packageId = '',
+    this.storeName = AppStoreName.generic,
+    required this.deepLinkUri,
+  }) : super(type: PayloadType.appLink);
+}
+
+/// Product Barcode Payload (EAN-13, UPC-A retail barcodes)
+class ProductBarcodePayload extends ParsedPayload {
+  final String code;
+  final String format;
+
+  const ProductBarcodePayload({
+    required super.rawContent,
+    required this.code,
+    required this.format,
+  }) : super(type: PayloadType.productBarcode);
+}
+
+/// ISBN Book Payload (ISBN-10 or ISBN-13)
+class IsbnPayload extends ParsedPayload {
+  final String isbn;
+  final bool isIsbn13;
+
+  const IsbnPayload({
+    required super.rawContent,
+    required this.isbn,
+    required this.isIsbn13,
+  }) : super(type: PayloadType.isbn);
 }

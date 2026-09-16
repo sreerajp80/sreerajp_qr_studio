@@ -55,7 +55,7 @@ def generateBuildMetadata = tasks.register("generateBuildMetadata") {
 
     doLast {
         if (!dartExecutable.exists()) {
-            throw new GradleException(
+            throw new RuntimeException(
                 "Could not find Dart executable at ${dartExecutable.absolutePath}. " +
                 "Check android\\local.properties flutter.sdk or FLUTTER_ROOT."
             )
@@ -135,6 +135,12 @@ android {
             signingConfig = keyPropertiesFile.exists()
                 ? signingConfigs.release
                 : signingConfigs.debug
+        }
+    }
+
+    bundle {
+        language {
+            enableSplit = false
         }
     }
 

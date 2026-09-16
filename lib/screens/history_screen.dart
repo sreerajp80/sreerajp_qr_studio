@@ -9,7 +9,8 @@ import 'package:sreeraj_qr_reader/screens/widgets/history_detail_sheet.dart';
 
 /// Screen displaying persistent scan history, search bar, category filters, and export/import actions.
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({super.key});
+  final bool isEmbeddedTab;
+  const HistoryScreen({super.key, this.isEmbeddedTab = false});
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -100,6 +101,20 @@ class _HistoryScreenState extends State<HistoryScreen> {
         'label': l10n.historyFilterContacts,
         'icon': Icons.person,
       },
+      {'key': 'email', 'label': l10n.historyFilterEmail, 'icon': Icons.email},
+      {'key': 'phone', 'label': l10n.historyFilterPhone, 'icon': Icons.phone},
+      {'key': 'sms', 'label': l10n.historyFilterSms, 'icon': Icons.sms},
+      {
+        'key': 'applink',
+        'label': l10n.historyFilterAppLink,
+        'icon': Icons.launch,
+      },
+      {
+        'key': 'productbarcode',
+        'label': l10n.historyFilterProductBarcode,
+        'icon': Icons.qr_code_scanner,
+      },
+      {'key': 'isbn', 'label': l10n.historyFilterIsbn, 'icon': Icons.menu_book},
       {
         'key': 'text',
         'label': l10n.historyFilterText,
@@ -114,6 +129,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: !widget.isEmbeddedTab,
         title: Text(l10n.historyScreenTitle),
         actions: [
           IconButton(
@@ -143,6 +159,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 suffixIcon: _searchController.text.isNotEmpty
                     ? IconButton(
                         icon: const Icon(Icons.clear),
+                        tooltip: l10n.cancelButton,
                         onPressed: () {
                           _searchController.clear();
                           historyProvider.setSearchQuery('');

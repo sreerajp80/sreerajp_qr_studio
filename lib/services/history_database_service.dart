@@ -204,7 +204,7 @@ class HistoryDatabaseService {
     if (category != null &&
         category.toLowerCase() != 'all' &&
         category.toLowerCase() != 'favorites') {
-      whereClause = 'category = ?';
+      whereClause = 'LOWER(category) = ?';
       whereArgs.add(category.toLowerCase());
     }
 

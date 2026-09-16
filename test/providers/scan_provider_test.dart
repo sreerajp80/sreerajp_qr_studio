@@ -1,12 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+
   group('ScanProvider', () {
     late ScanProvider provider;
 
     setUp(() {
+      SharedPreferences.setMockInitialValues({});
       provider = ScanProvider();
     });
 
@@ -151,6 +155,50 @@ void main() {
         var notified = false;
         provider.addListener(() => notified = true);
         provider.clearScan();
+        expect(notified, true);
+      });
+    });
+
+    group('feedback settings', () {
+      test('defaults to enabled for vibration, sound, and animation', () {
+        expect(provider.isVibrationEnabled, true);
+        expect(provider.isSoundEnabled, true);
+        expect(provider.isAnimationEnabled, true);
+      });
+
+      test(
+        'setAnimationEnabled updates value and notifies listeners',
+        () async {
+          var notified = false;
+          provider.addListener(() => notified = true);
+
+          await provider.setAnimationEnabled(false);
+          expect(provider.isAnimationEnabled, false);
+          expect(notified, true);
+
+          await provider.setAnimationEnabled(true);
+          expect(provider.isAnimationEnabled, true);
+        },
+      );
+
+      test(
+        'setVibrationEnabled updates value and notifies listeners',
+        () async {
+          var notified = false;
+          provider.addListener(() => notified = true);
+
+          await provider.setVibrationEnabled(false);
+          expect(provider.isVibrationEnabled, false);
+          expect(notified, true);
+        },
+      );
+
+      test('setSoundEnabled updates value and notifies listeners', () async {
+        var notified = false;
+        provider.addListener(() => notified = true);
+
+        await provider.setSoundEnabled(false);
+        expect(provider.isSoundEnabled, false);
         expect(notified, true);
       });
     });

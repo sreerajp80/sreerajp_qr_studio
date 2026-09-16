@@ -58,6 +58,8 @@ the user turns them on.
   "Save All to History" option.
 - Appears as a target in the Android Share Sheet, so images or PDFs shared
   from other apps can be scanned directly.
+- Continuous Batch Scan Mode: toggleable mode that queues multiple codes rapidly without leaving the camera viewport, showing a floating counter badge, batch list review, duplicate prevention, background 6-layer URL safety verification, and multi-format batch export (CSV, JSON, TXT, PDF).
+- Distance-Enhanced Scanning Pipeline: digital zoom-crop-enhance pipeline for physically distant codes (posters, overhead signs, billboards). Extracts candidate regions of interest (ROI), applies pure-Dart bilinear upscaling, contrast boost, and high-pass unsharp masking before passing to the barcode engine. Includes MLKit auto-zoom integration, Viewport Distance Assist toggle, HUD reticle badge, and automated multi-scale fallback scanning for photo files.
 - Camera is robust to app lifecycle changes: it recovers from being paused,
   coming back from another screen, or camera errors, without freezing or
   showing a wrong "permission denied" message.

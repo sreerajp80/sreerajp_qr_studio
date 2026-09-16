@@ -34,6 +34,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Password copied. Open Wi-Fi Settings on your device to connect.';
 
   @override
+  String wifiConnectSuccess(String ssid) {
+    return 'Connection requested for $ssid';
+  }
+
+  @override
   String geoLatLng(String latitude, String longitude) {
     return 'Lat: $latitude, Lng: $longitude';
   }
@@ -540,6 +545,29 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutBuildDate => 'Build Date';
 
   @override
+  String get aboutDetailAuthor => 'Author';
+
+  @override
+  String get aboutDetailEmail => 'Email';
+
+  @override
+  String get aboutDetailLicense => 'License';
+
+  @override
+  String get aboutDetailAiUsed => 'AI Used';
+
+  @override
+  String get aboutDetailIdeUsed => 'IDE Used';
+
+  @override
+  String madeWithLove(String heart) {
+    return 'Made with $heart from India';
+  }
+
+  @override
+  String get madeWithLoveA11y => 'Made with love from India';
+
+  @override
   String get aboutMadeWithLove => 'Made with ❤️ from India';
 
   @override
@@ -1037,6 +1065,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get feedbackSoundSubtitle =>
       'Play audio beep signal upon successful code recognition';
+
+  @override
+  String get feedbackAnimationTitle => 'Confirmation Animation';
+
+  @override
+  String get feedbackAnimationSubtitle =>
+      'Play reticle pulse and checkmark morph upon successful scan';
 
   @override
   String get privacyScreenTitle => 'Privacy & Network Probing';
@@ -1936,4 +1971,666 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get manualDecryptionFailed =>
       'Decryption failed. Please verify the passphrase or cipher settings.';
+
+  @override
+  String get emailCardTitle => 'Email Address';
+
+  @override
+  String get emailSendButton => 'Send Email';
+
+  @override
+  String get emailCopyButton => 'Copy';
+
+  @override
+  String get emailLaunchFailed =>
+      'Could not open email app. Copy the address and open your email app manually.';
+
+  @override
+  String get emailSubjectLabel => 'Subject';
+
+  @override
+  String get emailBodyLabel => 'Message';
+
+  @override
+  String get phoneCardTitle => 'Phone Number';
+
+  @override
+  String get phoneCallButton => 'Call';
+
+  @override
+  String get phoneCopyButton => 'Copy';
+
+  @override
+  String get phoneLaunchFailed =>
+      'Could not open the phone dialer. Copy the number and dial manually.';
+
+  @override
+  String get smsCardTitle => 'Text Message';
+
+  @override
+  String get smsSendButton => 'Send Message';
+
+  @override
+  String get smsCopyButton => 'Copy';
+
+  @override
+  String get smsLaunchFailed =>
+      'Could not open the messaging app. Copy the number and message manually.';
+
+  @override
+  String get smsBodyLabel => 'Message';
+
+  @override
+  String get appLinkCardTitle => 'App Link';
+
+  @override
+  String get appLinkOpenButton => 'Open in App';
+
+  @override
+  String get appLinkLaunchFailed =>
+      'Could not open this app link. The app may not be installed.';
+
+  @override
+  String get productBarcodeCardTitle => 'Product Barcode';
+
+  @override
+  String get productSearchFoodButton => 'Food Info';
+
+  @override
+  String get productSearchWebButton => 'Search Web';
+
+  @override
+  String get productCopyButton => 'Copy Barcode';
+
+  @override
+  String get productLaunchFailed =>
+      'Could not open product search. Try copying the barcode and searching manually.';
+
+  @override
+  String get isbnCardTitle => 'Book (ISBN)';
+
+  @override
+  String get isbnGoogleBooksButton => 'Google Books';
+
+  @override
+  String get isbnOpenLibraryButton => 'Open Library';
+
+  @override
+  String get isbnCopyButton => 'Copy ISBN';
+
+  @override
+  String get isbnLaunchFailed =>
+      'Could not open book lookup. Try copying the ISBN and searching manually.';
+
+  @override
+  String get historyFilterEmail => 'Email';
+
+  @override
+  String get historyFilterPhone => 'Phone';
+
+  @override
+  String get historyFilterSms => 'SMS';
+
+  @override
+  String get historyFilterAppLink => 'App Link';
+
+  @override
+  String get historyFilterProductBarcode => 'Product';
+
+  @override
+  String get historyFilterIsbn => 'Book';
+
+  @override
+  String get scanFlashOff => 'Flash: Off';
+
+  @override
+  String get scanFlashOn => 'Flash: On';
+
+  @override
+  String get scanFlashAuto => 'Flash: Auto';
+
+  @override
+  String scanFlashAutoActive(String lux) {
+    return 'Auto Flash Active ($lux lux)';
+  }
+
+  @override
+  String get scanFlashAutoSensorUnavailable =>
+      'Light sensor unavailable on this device';
+
+  @override
+  String get cameraTuneTooltip => 'Camera adjustments';
+
+  @override
+  String get cameraTuneTitle => 'Camera Adjustments';
+
+  @override
+  String get cameraBrightnessLabel => 'Brightness';
+
+  @override
+  String get cameraContrastLabel => 'Contrast';
+
+  @override
+  String get cameraInvertLabel => 'Invert Colors (Negative Scan)';
+
+  @override
+  String get cameraInvertHint =>
+      'Optimized for white QR codes on dark screens or metal';
+
+  @override
+  String get cameraResolutionLabel => 'Camera Resolution';
+
+  @override
+  String get cameraResolutionFullHd => 'Full HD (1080p - Recommended)';
+
+  @override
+  String get cameraResolutionMax => 'Maximum (4K UHD)';
+
+  @override
+  String get cameraResolutionHd => 'HD (720p - Battery Saver)';
+
+  @override
+  String get cameraResetAdjustments => 'Reset Adjustments';
+
+  @override
+  String get cameraFocusTapHint => 'Tap to focus & meter light';
+
+  @override
+  String get settingsLanguageTitle => 'Language';
+
+  @override
+  String get settingsLanguageSubtitle => 'Select application display language';
+
+  @override
+  String get languageSystemDefault => 'System default';
+
+  @override
+  String get languageEnglish => 'English';
+
+  @override
+  String get languageMalayalam => 'മലയാളം';
+
+  @override
+  String get languageSanskrit => 'संस्कृतम्';
+
+  @override
+  String aboutCopyright(String year) {
+    return '© $year Sreeraj P. All rights reserved.';
+  }
+
+  @override
+  String apiQuotaPercentageUsed(String percentage) {
+    return '$percentage% used';
+  }
+
+  @override
+  String get tooltipToggleFlash => 'Toggle flash';
+
+  @override
+  String get tooltipCameraAdjustments => 'Camera adjustments';
+
+  @override
+  String get tooltipZoomControls => 'Zoom controls';
+
+  @override
+  String get tooltipSwitchCamera => 'Switch camera';
+
+  @override
+  String get tooltipBack => 'Back';
+
+  @override
+  String get tooltipToggleSecretVisibility => 'Toggle secret visibility';
+
+  @override
+  String get tooltipResetStream => 'Reset stream';
+
+  @override
+  String get tooltipAirQrTransmitter => 'Switch to AirQR Transmitter';
+
+  @override
+  String get airQrModeText => 'Custom Text';
+
+  @override
+  String get airQrModeSync => 'Device Sync';
+
+  @override
+  String airQrSyncIncludeHistory(int count) {
+    return 'Include scan history ($count)';
+  }
+
+  @override
+  String get airQrSyncIncludeSettings => 'Include app settings';
+
+  @override
+  String get airQrSyncPassphraseLabel => 'Sync Passphrase / PIN';
+
+  @override
+  String get airQrSyncPassphraseHint => 'Enter PIN or passphrase to encrypt';
+
+  @override
+  String get airQrSyncGeneratePin => 'Generate PIN';
+
+  @override
+  String get airQrSyncBeamButton => 'Beam History & Settings';
+
+  @override
+  String get airQrSyncNoDataWarning =>
+      'Select at least history or settings to sync.';
+
+  @override
+  String get airQrSyncPackageDetected => 'AirQR Encrypted Sync Package';
+
+  @override
+  String airQrSyncPackageSummary(int records) {
+    return 'Contains $records scan records and app configuration';
+  }
+
+  @override
+  String get airQrSyncEnterPassphrase => 'Enter Passphrase to Decrypt';
+
+  @override
+  String get airQrSyncRestoreHistory => 'Restore scan history';
+
+  @override
+  String get airQrSyncApplySettings => 'Apply app settings';
+
+  @override
+  String get airQrSyncDecryptButton => 'Decrypt & Sync';
+
+  @override
+  String airQrSyncSuccess(int count) {
+    return 'Successfully synced $count records and updated settings!';
+  }
+
+  @override
+  String get airQrSyncBeamAction => 'Beam via AirQR';
+
+  @override
+  String get airQrSyncSettingsTitle => 'AirQR Optical Sync';
+
+  @override
+  String get airQrSyncSettingsSubtitle =>
+      'Beam history & settings air-gapped to another phone';
+
+  @override
+  String get tabScan => 'Scan';
+
+  @override
+  String get tabCodeForge => 'CodeForge';
+
+  @override
+  String get tabHistory => 'History';
+
+  @override
+  String get codeForgeTitle => 'CodeForge';
+
+  @override
+  String get codeForgeSubtitle => 'Barcode & QR Studio';
+
+  @override
+  String get codeForgeBarcodeType => 'Barcode Type';
+
+  @override
+  String get codeForgePayloadType => 'Content Type';
+
+  @override
+  String get codeForgePresetText => 'Text';
+
+  @override
+  String get codeForgePresetUrl => 'URL / Link';
+
+  @override
+  String get codeForgePresetWifi => 'Wi-Fi';
+
+  @override
+  String get codeForgePresetContact => 'Contact';
+
+  @override
+  String get codeForgePresetUpi => 'UPI Pay';
+
+  @override
+  String get codeForgePresetSms => 'SMS';
+
+  @override
+  String get codeForgePresetEmail => 'Email';
+
+  @override
+  String get codeForgePresetGeo => 'Location';
+
+  @override
+  String get codeForgeWifiSsid => 'Network Name (SSID)';
+
+  @override
+  String get codeForgeWifiPassword => 'Password';
+
+  @override
+  String get codeForgeWifiSecurity => 'Security';
+
+  @override
+  String get codeForgeWifiHidden => 'Hidden Network';
+
+  @override
+  String get codeForgeContactName => 'Full Name';
+
+  @override
+  String get codeForgeContactPhone => 'Phone Number';
+
+  @override
+  String get codeForgeContactEmail => 'Email Address';
+
+  @override
+  String get codeForgeContactOrg => 'Company / Org';
+
+  @override
+  String get codeForgeContactTitle => 'Job Title';
+
+  @override
+  String get codeForgeContactUrl => 'Website';
+
+  @override
+  String get codeForgeUpiVpa => 'UPI ID / VPA';
+
+  @override
+  String get codeForgeUpiName => 'Payee Name';
+
+  @override
+  String get codeForgeUpiAmount => 'Amount (INR)';
+
+  @override
+  String get codeForgeUpiNote => 'Transaction Note';
+
+  @override
+  String get codeForgeSmsPhone => 'Recipient Phone';
+
+  @override
+  String get codeForgeSmsMessage => 'Message Body';
+
+  @override
+  String get codeForgeEmailTo => 'Recipient Email';
+
+  @override
+  String get codeForgeEmailSubject => 'Subject';
+
+  @override
+  String get codeForgeEmailBody => 'Email Body';
+
+  @override
+  String get codeForgeGeoLat => 'Latitude';
+
+  @override
+  String get codeForgeGeoLng => 'Longitude';
+
+  @override
+  String get codeForgeDesignStudio => 'Design & Structure';
+
+  @override
+  String get codeForgeEyeShape => 'Corner Eye Shape';
+
+  @override
+  String get codeForgeEyeBallShape => 'Inner Eye Pupil';
+
+  @override
+  String get codeForgePatternShape => 'Data Module Pattern';
+
+  @override
+  String get codeForgeShapeSquare => 'Square';
+
+  @override
+  String get codeForgeShapeDots => 'Dots';
+
+  @override
+  String get codeForgeShapeRounded => 'Rounded';
+
+  @override
+  String get codeForgeShapeClassy => 'Classy';
+
+  @override
+  String get codeForgeShapeDiamond => 'Diamond';
+
+  @override
+  String get codeForgeShapeLeaf => 'Leaf';
+
+  @override
+  String get codeForgeShapeCircle => 'Circle';
+
+  @override
+  String get codeForgeColorStudio => 'Colors & Gradients';
+
+  @override
+  String get codeForgeFgColor => 'Foreground';
+
+  @override
+  String get codeForgeBgColor => 'Background';
+
+  @override
+  String get codeForgeEyeOuterColor => 'Eye Outer Ring';
+
+  @override
+  String get codeForgeEyeInnerColor => 'Eye Center Ball';
+
+  @override
+  String get codeForgeGradientNone => 'Solid Color';
+
+  @override
+  String get codeForgeGradientSunset => 'Sunset';
+
+  @override
+  String get codeForgeGradientOcean => 'Ocean';
+
+  @override
+  String get codeForgeGradientNeon => 'Neon';
+
+  @override
+  String get codeForgeGradientGold => 'Royal Gold';
+
+  @override
+  String get codeForgeErrorCorrection => 'Error Correction';
+
+  @override
+  String get codeForgeCenterBadge => 'Center Badge';
+
+  @override
+  String get codeForgeBadgeNone => 'None';
+
+  @override
+  String get codeForgeBadgeIcon => 'Content Icon';
+
+  @override
+  String get codeForgeBadgeShield => 'Verified Shield';
+
+  @override
+  String get codeForgeExportPng => 'Share PNG';
+
+  @override
+  String get codeForgeExportSvg => 'Share SVG';
+
+  @override
+  String get codeForgeCopyPayload => 'Copy Content';
+
+  @override
+  String get codeForgeCopied => 'Barcode content copied to clipboard';
+
+  @override
+  String get codeForgeVerifySafety => 'Link Safety Check';
+
+  @override
+  String get codeForgeSafeVerified =>
+      'Verified Safe by 6-Layer Security Engine';
+
+  @override
+  String get codeForgeResetStyle => 'Reset Styling';
+
+  @override
+  String get codeForgeIncludeText => 'Show Text Label';
+
+  @override
+  String get codeForgePreview => 'Live Preview';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingGetStarted => 'Start Scanning';
+
+  @override
+  String get onboardingSlide1Badge => '6-Layer Security';
+
+  @override
+  String get onboardingSlide1Title => '6-Layer URL Safety Engine';
+
+  @override
+  String get onboardingSlide1Description =>
+      'Every link is inspected across six offline and online defense layers before you open it, protecting you against phishing, malicious redirects, and homograph traps.';
+
+  @override
+  String get onboardingSlide1Bullet1 => 'Protocol & Homograph Shield';
+
+  @override
+  String get onboardingSlide1Bullet2 => 'TLD Entropy & Port Trap Analysis';
+
+  @override
+  String get onboardingSlide1Bullet3 => 'Private Probing & Safe Browsing';
+
+  @override
+  String get onboardingSlide2Badge => 'Computer Vision';
+
+  @override
+  String get onboardingSlide2Title => 'QuishingGuard™ Tamper Detection';
+
+  @override
+  String get onboardingSlide2Description =>
+      'Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.';
+
+  @override
+  String get onboardingSlide2Bullet1 => 'Physical sticker overlay detection';
+
+  @override
+  String get onboardingSlide2Bullet2 => 'Cut edge & shadow boundary analysis';
+
+  @override
+  String get onboardingSlide2Bullet3 => 'Real-time camera frame inspection';
+
+  @override
+  String get onboardingSlide3Badge => 'Zero Cloud • Zero Tracking';
+
+  @override
+  String get onboardingSlide3Title => '100% Offline Privacy Model';
+
+  @override
+  String get onboardingSlide3Description =>
+      'Your scans and personal data never leave your phone. There are no analytics SDKs, no trackers, and no remote servers watching your habits.';
+
+  @override
+  String get onboardingSlide3Bullet1 => 'Encrypted on-device SQLite database';
+
+  @override
+  String get onboardingSlide3Bullet2 => 'AirQR optical air-gap transfers';
+
+  @override
+  String get onboardingSlide3Bullet3 =>
+      'Zero analytics or crash reporting SDKs';
+
+  @override
+  String get settingsOnboardingTourTitle => 'Welcome Tour';
+
+  @override
+  String get settingsOnboardingTourSubtitle =>
+      'Revisit the 3-slide introduction to safety and privacy features';
+
+  @override
+  String get batchScanMode => 'Batch Scan Mode';
+
+  @override
+  String get batchModeTooltip => 'Toggle Continuous Batch Scan';
+
+  @override
+  String get batchModeEnabledToast => 'Continuous Batch Scan enabled';
+
+  @override
+  String get batchModeDisabledToast => 'Continuous Batch Scan disabled';
+
+  @override
+  String batchCounterBadge(int count) {
+    return '$count Scanned';
+  }
+
+  @override
+  String get batchReviewTitle => 'Batch Scans';
+
+  @override
+  String get batchReviewSubtitle => 'Continuous scanning queue';
+
+  @override
+  String get batchEmptyTitle => 'No codes in batch';
+
+  @override
+  String get batchEmptySubtitle =>
+      'Point your camera at barcodes to scan them continuously without leaving the camera.';
+
+  @override
+  String get batchExport => 'Export Batch';
+
+  @override
+  String get batchClear => 'Clear Batch';
+
+  @override
+  String get batchClearConfirmTitle => 'Clear Batch?';
+
+  @override
+  String get batchClearConfirmContent =>
+      'Are you sure you want to remove all scanned codes from this batch?';
+
+  @override
+  String get batchPreventDuplicates => 'Prevent Duplicates';
+
+  @override
+  String batchScannedToast(int count, String content) {
+    return 'Scanned #$count: $content';
+  }
+
+  @override
+  String get batchSafeUrl => 'Safe Link';
+
+  @override
+  String get batchSuspiciousUrl => 'Suspicious Link';
+
+  @override
+  String get batchAnalyzingUrl => 'Analyzing link...';
+
+  @override
+  String batchUrlSafetySummary(int safeCount, int warningCount, int totalUrls) {
+    return '$safeCount safe, $warningCount suspicious of $totalUrls links';
+  }
+
+  @override
+  String get batchItemDetailsTitle => 'Scanned Code Details';
+
+  @override
+  String batchFormatLabel(String format) {
+    return 'Format: $format';
+  }
+
+  @override
+  String batchTimeLabel(String time) {
+    return 'Scanned at $time';
+  }
+
+  @override
+  String get cameraDistanceEnhanceLabel => 'Distance Scan Assist';
+
+  @override
+  String get cameraDistanceEnhanceHint =>
+      'Zoom-crop & unsharp mask for distant posters & signs';
+
+  @override
+  String get cameraUnsharpLabel => 'Edge Sharpness';
+
+  @override
+  String get scanDistanceModeTooltip => 'Distance Scan Assist';
+
+  @override
+  String get scanDistanceModeActive => 'Distance Mode Active';
 }

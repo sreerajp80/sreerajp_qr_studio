@@ -4,35 +4,78 @@ import 'package:sreeraj_qr_reader/core/config/app_config.dart';
 import 'package:sreeraj_qr_reader/core/config/config_service.dart';
 
 void main() {
+  group('LocalizedText', () {
+    test('plain text resolves identically for all locales', () {
+      const text = LocalizedText.plain('Hello');
+      expect(text.isEmpty, isFalse);
+      expect(text.resolve('en'), 'Hello');
+      expect(text.resolve('ml'), 'Hello');
+      expect(text.resolve('sa'), 'Hello');
+    });
+
+    test('byLocale resolves matching locale or falls back to en', () {
+      const text = LocalizedText.byLocale({
+        'en': 'English Text',
+        'ml': 'Malayalam Text',
+      });
+      expect(text.isEmpty, isFalse);
+      expect(text.resolve('en'), 'English Text');
+      expect(text.resolve('ml'), 'Malayalam Text');
+      expect(text.resolve('sa'), 'English Text');
+      expect(text.resolve('fr'), 'English Text');
+    });
+
+    test('fromJson handles string, locale map, and invalid types', () {
+      final fromStr = LocalizedText.fromJson('Simple');
+      expect(fromStr.resolve('en'), 'Simple');
+
+      final fromMap = LocalizedText.fromJson({
+        'en': 'Eng',
+        'ml': 'Mal',
+        'sa': 'San',
+      });
+      expect(fromMap.resolve('en'), 'Eng');
+      expect(fromMap.resolve('ml'), 'Mal');
+      expect(fromMap.resolve('sa'), 'San');
+
+      final fromInvalid = LocalizedText.fromJson(12345, fallback: 'Default');
+      expect(fromInvalid.resolve('en'), 'Default');
+    });
+  });
+
   group('AppConfig', () {
     test('fallback returns non-empty defaults', () {
       expect(AppConfig.fallback.appName, isNotEmpty);
+      expect(AppConfig.fallback.description.resolve('en'), isNotEmpty);
       expect(AppConfig.fallback.version, isNotEmpty);
       expect(AppConfig.fallback.build, isNotEmpty);
       expect(AppConfig.fallback.details, isNotEmpty);
     });
 
-    test('fromJson parses valid JSON map correctly', () {
+    test('fromJson parses valid JSON map correctly with localized text', () {
       final json = {
         'appName': 'Test App',
-        'description': 'Test Description',
+        'description': {
+          'en': 'Test Description EN',
+          'ml': 'Test Description ML',
+        },
         'version': '2.0.0',
         'build': '10',
         'details': {
-          'Author': 'Test Author',
-          'License': 'MIT',
-          'Last build': '2026-07-31',
+          'author': 'Test Author',
+          'license': {'en': 'Open Source', 'ml': 'ഓപ്പൺ സോഴ്സ്'},
         },
       };
 
       final config = AppConfig.fromJson(json);
       expect(config.appName, 'Test App');
-      expect(config.description, 'Test Description');
+      expect(config.description.resolve('en'), 'Test Description EN');
+      expect(config.description.resolve('ml'), 'Test Description ML');
       expect(config.version, '2.0.0');
       expect(config.build, '10');
-      expect(config.details['Author'], 'Test Author');
-      expect(config.details['License'], 'MIT');
-      expect(config.details['Last build'], '2026-07-31');
+      expect(config.details['author']?.resolve('en'), 'Test Author');
+      expect(config.details['license']?.resolve('en'), 'Open Source');
+      expect(config.details['license']?.resolve('ml'), 'ഓപ്പൺ സോഴ്സ്');
     });
 
     test('fromJson falls back gracefully on missing or malformed fields', () {
@@ -43,7 +86,10 @@ void main() {
 
       final config = AppConfig.fromJson(json);
       expect(config.appName, AppConfig.fallback.appName);
-      expect(config.description, AppConfig.fallback.description);
+      expect(
+        config.description.resolve('en'),
+        AppConfig.fallback.description.resolve('en'),
+      );
       expect(config.version, AppConfig.fallback.version);
       expect(config.build, AppConfig.fallback.build);
       expect(config.details, isEmpty);
@@ -60,7 +106,7 @@ void main() {
           "version": "1.4.3",
           "build": "1",
           "details": {
-            "Author": "Mock Author"
+            "author": "Mock Author"
           }
         }
         ''';
@@ -71,7 +117,7 @@ void main() {
 
       expect(config.appName, 'Mock App');
       expect(config.version, '1.4.3');
-      expect(config.details['Author'], 'Mock Author');
+      expect(config.details['author']?.resolve('en'), 'Mock Author');
     });
 
     test('load returns AppConfig.fallback on asset loading error', () async {
@@ -104,7 +150,7 @@ void main() {
         final service = ConfigService(loadAsset: mockLoader);
         final mockInfo = PackageInfo(
           appName: 'Mock App',
-          packageName: 'in.sreerajp.qr_reader',
+          packageName: 'in.sreeraj.qr_reader',
           version: '1.4.3',
           buildNumber: '2',
         );

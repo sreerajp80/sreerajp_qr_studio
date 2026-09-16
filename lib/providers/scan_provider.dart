@@ -21,6 +21,7 @@ import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
 class ScanProvider extends ChangeNotifier {
   static const String vibrationPrefKey = 'scan_feedback_vibration';
   static const String soundPrefKey = 'scan_feedback_sound';
+  static const String animationPrefKey = 'scan_feedback_animation';
 
   String? _scanResult;
   BarcodeType? _scanType;
@@ -30,6 +31,7 @@ class ScanProvider extends ChangeNotifier {
   bool _activeProbingEnabled = false;
   bool _isVibrationEnabled = true;
   bool _isSoundEnabled = true;
+  bool _isAnimationEnabled = true;
   List<SafetyCheckResult> _safetyChecks = [];
   StegoQrData? _stegoQrData;
   EncryptedPayloadData? _encryptedPayloadData;
@@ -75,6 +77,7 @@ class ScanProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isVibrationEnabled => _isVibrationEnabled;
   bool get isSoundEnabled => _isSoundEnabled;
+  bool get isAnimationEnabled => _isAnimationEnabled;
   ParsedPayload? get parsedPayload => _parsedPayload;
   QuishingAnalysisResult? get quishingResult => _quishingResult;
   DomSandboxResult? get domSandboxResult => _domSandboxResult;
@@ -84,6 +87,7 @@ class ScanProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       _isVibrationEnabled = prefs.getBool(vibrationPrefKey) ?? true;
       _isSoundEnabled = prefs.getBool(soundPrefKey) ?? true;
+      _isAnimationEnabled = prefs.getBool(animationPrefKey) ?? true;
       notifyListeners();
     } catch (e) {
       if (kDebugMode) debugPrint('Error loading scan feedback settings: $e');
@@ -109,6 +113,17 @@ class ScanProvider extends ChangeNotifier {
       await prefs.setBool(soundPrefKey, enabled);
     } catch (e) {
       if (kDebugMode) debugPrint('Error persisting sound setting: $e');
+    }
+  }
+
+  Future<void> setAnimationEnabled(bool enabled) async {
+    _isAnimationEnabled = enabled;
+    notifyListeners();
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(animationPrefKey, enabled);
+    } catch (e) {
+      if (kDebugMode) debugPrint('Error persisting animation setting: $e');
     }
   }
 

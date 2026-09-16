@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
 import 'package:sreeraj_qr_reader/models/air_qr_progress.dart';
+import 'package:sreeraj_qr_reader/models/backup_exception.dart';
 import 'package:sreeraj_qr_reader/providers/air_qr_provider.dart';
 import 'package:sreeraj_qr_reader/providers/history_provider.dart';
+import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
+import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
+import 'package:sreeraj_qr_reader/services/device_sync_service.dart';
 
 class AirQrScreen extends StatefulWidget {
   const AirQrScreen({super.key});
@@ -16,16 +22,24 @@ class AirQrScreen extends StatefulWidget {
 }
 
 class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
+  final DeviceSyncService _deviceSyncService = DeviceSyncService();
+  final TextEditingController _syncPassphraseController =
+      TextEditingController();
   MobileScannerController? controller;
   bool _isTorchOn = false;
   bool _isFrontCamera = false;
   bool _hasSavedRecord = false;
+  bool _syncRestoreHistory = true;
+  bool _syncApplySettings = true;
+  bool _isSyncing = false;
+  String? _syncError;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     controller = MobileScannerController(
+      cameraResolution: const Size(1920, 1080),
       formats: const [BarcodeFormat.qrCode],
       detectionSpeed: DetectionSpeed.unrestricted,
     );
@@ -40,6 +54,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     controller?.dispose();
+    _syncPassphraseController.dispose();
     super.dispose();
   }
 
@@ -89,12 +104,17 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
         SystemSound.play(SystemSoundType.click);
       }
 
-      final record = airQrProvider.createScanRecord();
-      if (record != null) {
-        Provider.of<HistoryProvider>(
-          context,
-          listen: false,
-        ).addScanRecord(record);
+      final content = airQrProvider.progress.reassembledContent ?? '';
+      final isSync = _deviceSyncService.isSyncPackage(content);
+
+      if (!isSync) {
+        final record = airQrProvider.createScanRecord();
+        if (record != null) {
+          Provider.of<HistoryProvider>(
+            context,
+            listen: false,
+          ).addScanRecord(record);
+        }
       }
     }
   }
@@ -133,6 +153,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
+            tooltip: l10n.tooltipBack,
             onPressed: _handleBack,
           ),
           title: Text(l10n.airQrReceiverTitle),
@@ -247,6 +268,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                             _isTorchOn ? Icons.flash_on : Icons.flash_off,
                             color: _isTorchOn ? Colors.amber : Colors.white,
                           ),
+                          tooltip: l10n.tooltipToggleFlash,
                           onPressed: () async {
                             await controller?.toggleTorch();
                             setState(() => _isTorchOn = !_isTorchOn);
@@ -259,6 +281,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                                 ? Colors.cyanAccent
                                 : Colors.white,
                           ),
+                          tooltip: l10n.tooltipSwitchCamera,
                           onPressed: () async {
                             await controller?.switchCamera();
                             setState(() => _isFrontCamera = !_isFrontCamera);
@@ -389,6 +412,261 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   }
 
   Widget _buildCompletedOverlay(
+    BuildContext context,
+    AppLocalizations l10n,
+    String content,
+  ) {
+    if (_deviceSyncService.isSyncPackage(content)) {
+      return _buildSyncRestoreOverlay(context, l10n, content);
+    }
+    return _buildStandardCompletedOverlay(context, l10n, content);
+  }
+
+  Widget _buildSyncRestoreOverlay(
+    BuildContext context,
+    AppLocalizations l10n,
+    String content,
+  ) {
+    final header = _deviceSyncService.inspectPackageHeader(content);
+    final recordsCount = header?['recordsCount'] as int? ?? 0;
+
+    return Container(
+      color: Colors.black.withValues(alpha: 0.85),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(color: Colors.cyanAccent, width: 2),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Center(
+                  child: Icon(
+                    Icons.sync_lock,
+                    color: Colors.cyanAccent,
+                    size: 56,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  l10n.airQrSyncPackageDetected,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.airQrSyncPackageSummary(recordsCount),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                ),
+                const SizedBox(height: 16),
+                CheckboxListTile(
+                  value: _syncRestoreHistory,
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.airQrSyncRestoreHistory),
+                  onChanged: (val) {
+                    setState(() => _syncRestoreHistory = val ?? true);
+                  },
+                ),
+                CheckboxListTile(
+                  value: _syncApplySettings,
+                  contentPadding: EdgeInsets.zero,
+                  title: Text(l10n.airQrSyncApplySettings),
+                  onChanged: (val) {
+                    setState(() => _syncApplySettings = val ?? true);
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _syncPassphraseController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: l10n.airQrSyncEnterPassphrase,
+                    hintText: l10n.airQrSyncPassphraseHint,
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                if (_syncError != null) ...[
+                  const SizedBox(height: 8),
+                  Text(
+                    _syncError!,
+                    style: const TextStyle(
+                      color: Colors.redAccent,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () {
+                        setState(() {
+                          _hasSavedRecord = false;
+                        });
+                        Provider.of<AirQrProvider>(
+                          context,
+                          listen: false,
+                        ).resetStream();
+                      },
+                      child: Text(l10n.cancelButton),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: _isSyncing
+                          ? null
+                          : () => _handleSyncRestore(context, l10n, content),
+                      icon: _isSyncing
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.check),
+                      label: Text(l10n.airQrSyncDecryptButton),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleSyncRestore(
+    BuildContext context,
+    AppLocalizations l10n,
+    String content,
+  ) async {
+    final passphrase = _syncPassphraseController.text.trim();
+    if (passphrase.isEmpty) {
+      setState(() => _syncError = l10n.exportPassphraseRequired);
+      return;
+    }
+
+    setState(() {
+      _isSyncing = true;
+      _syncError = null;
+    });
+
+    try {
+      final syncData = _deviceSyncService.decryptSyncPackage(
+        content,
+        passphrase,
+      );
+      final historyProvider = Provider.of<HistoryProvider>(
+        context,
+        listen: false,
+      );
+      int restoredCount = 0;
+
+      if (_syncRestoreHistory && syncData.records.isNotEmpty) {
+        for (final record in syncData.records) {
+          await historyProvider.addScanRecord(record);
+        }
+        await historyProvider.loadRecords();
+        restoredCount = syncData.records.length;
+      }
+
+      if (_syncApplySettings && syncData.settings.isNotEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        await _deviceSyncService.applySettings(syncData.settings, prefs);
+
+        if (context.mounted) {
+          final themeProvider = Provider.of<ThemeProvider>(
+            context,
+            listen: false,
+          );
+          final localeProvider = Provider.of<LocaleProvider>(
+            context,
+            listen: false,
+          );
+          final scanProvider = Provider.of<ScanProvider>(
+            context,
+            listen: false,
+          );
+
+          final themeModeStr =
+              syncData.settings[DeviceSyncService.prefThemeModeKey] as String?;
+          if (themeModeStr != null) {
+            final mode = AppThemeMode.values.firstWhere(
+              (e) => e.name == themeModeStr,
+              orElse: () => AppThemeMode.system,
+            );
+            await themeProvider.setThemeMode(mode);
+          }
+
+          final dynamicColor =
+              syncData.settings[DeviceSyncService.prefUseDynamicColorKey]
+                  as bool?;
+          if (dynamicColor != null) {
+            await themeProvider.setUseDynamicColor(dynamicColor);
+          }
+
+          final overlayStr =
+              syncData.settings[DeviceSyncService.prefScanOverlayStyleKey]
+                  as String?;
+          if (overlayStr != null) {
+            final style = ScanOverlayStyle.values.firstWhere(
+              (e) => e.name == overlayStr,
+              orElse: () => ScanOverlayStyle.laserLine,
+            );
+            await themeProvider.setScanOverlayStyle(style);
+          }
+
+          final lang =
+              syncData.settings[DeviceSyncService.prefLanguageKey] as String?;
+          if (lang != null) {
+            await localeProvider.setLanguage(lang);
+          }
+
+          final vib =
+              syncData.settings[DeviceSyncService.prefVibrationKey] as bool?;
+          if (vib != null) scanProvider.setVibrationEnabled(vib);
+          final sound =
+              syncData.settings[DeviceSyncService.prefSoundKey] as bool?;
+          if (sound != null) scanProvider.setSoundEnabled(sound);
+        }
+      }
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.airQrSyncSuccess(restoredCount)),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pop(context);
+      }
+    } on BackupException catch (e) {
+      if (mounted) {
+        setState(() {
+          _isSyncing = false;
+          _syncError = appMessageText(l10n, e.message);
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isSyncing = false;
+          _syncError = e.toString();
+        });
+      }
+    }
+  }
+
+  Widget _buildStandardCompletedOverlay(
     BuildContext context,
     AppLocalizations l10n,
     String content,

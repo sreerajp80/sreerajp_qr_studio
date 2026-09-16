@@ -183,15 +183,28 @@ class _WifiActionCardState extends State<WifiActionCard> {
                   ),
                 ),
                 onPressed: () async {
-                  if (wifi.password.isNotEmpty && !_isCopied) {
-                    await _copyPassword(wifi.password);
-                  }
-                  final launched =
-                      await PayloadActionService.openWifiSettings();
-                  if (!launched && context.mounted) {
+                  final launched = await PayloadActionService.connectToWifi(
+                    wifi,
+                  );
+                  if (!context.mounted) return;
+                  if (launched) {
+                    final networkName = wifi.ssid.isEmpty
+                        ? l10n.wifiHiddenNetwork
+                        : wifi.ssid;
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.wifiOpenSettingsHint)),
+                      SnackBar(
+                        content: Text(l10n.wifiConnectSuccess(networkName)),
+                      ),
                     );
+                  } else {
+                    if (wifi.password.isNotEmpty && !_isCopied) {
+                      await _copyPassword(wifi.password);
+                    }
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.wifiOpenSettingsHint)),
+                      );
+                    }
                   }
                 },
               ),

@@ -39,6 +39,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
       setState(() {
         _hasPermission = true;
         _controller = MobileScannerController(
+          cameraResolution: const Size(1920, 1080),
           formats: const [
             BarcodeFormat.qrCode,
             BarcodeFormat.code128,
@@ -135,6 +136,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
         appBar: AppBar(
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
+            tooltip: l10n.tooltipBack,
             onPressed: _handleBack,
           ),
           title: Row(

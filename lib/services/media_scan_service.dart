@@ -7,6 +7,8 @@ import 'package:sreeraj_qr_reader/models/app_message.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 
+import 'package:sreeraj_qr_reader/services/distance_enhancement_service.dart';
+
 /// Represents a barcode found on a specific page of a PDF document.
 class PdfPageBarcode {
   final int pageNumber;
@@ -40,14 +42,20 @@ class MediaScanResult {
 /// Service handling image gallery selection, multi-page PDF rendering, and barcode extraction.
 class MediaScanService {
   final ImagePicker _imagePicker;
+  final DistanceEnhancementService _distanceEnhancementService;
 
-  MediaScanService({ImagePicker? imagePicker})
-    : _imagePicker = imagePicker ?? ImagePicker();
+  MediaScanService({
+    ImagePicker? imagePicker,
+    DistanceEnhancementService? distanceEnhancementService,
+  }) : _imagePicker = imagePicker ?? ImagePicker(),
+       _distanceEnhancementService =
+           distanceEnhancementService ?? const DistanceEnhancementService();
 
   /// Pick an image from gallery and analyze it for barcodes using [controller].
   Future<MediaScanResult> pickAndScanImage(
-    MobileScannerController controller,
-  ) async {
+    MobileScannerController controller, {
+    bool enableDistanceEnhancement = true,
+  }) async {
     try {
       final XFile? image = await _imagePicker.pickImage(
         source: ImageSource.gallery,
@@ -55,7 +63,11 @@ class MediaScanService {
       if (image == null) {
         return const MediaScanResult();
       }
-      return await scanImageFile(controller, image.path);
+      return await scanImageFile(
+        controller,
+        image.path,
+        enableDistanceEnhancement: enableDistanceEnhancement,
+      );
     } catch (e) {
       if (kDebugMode) debugPrint('Error picking image: $e');
       return MediaScanResult(
@@ -67,19 +79,43 @@ class MediaScanService {
     }
   }
 
-  /// Scan a specific image file by path.
+  /// Scan a specific image file by path with automated distance enhancement fallback.
   Future<MediaScanResult> scanImageFile(
     MobileScannerController controller,
-    String filePath,
-  ) async {
+    String filePath, {
+    bool enableDistanceEnhancement = true,
+  }) async {
     try {
       final capture = await controller.analyzeImage(filePath);
-      if (capture == null || capture.barcodes.isEmpty) {
-        return const MediaScanResult(
-          errorMessage: AppMessage(AppMessageKey.mediaNoCodeInImage),
-        );
+      if (capture != null && capture.barcodes.isNotEmpty) {
+        return MediaScanResult(barcodes: capture.barcodes);
       }
-      return MediaScanResult(barcodes: capture.barcodes);
+
+      // If initial scan finds no barcode and distance enhancement is enabled,
+      // run the multi-scale distance enhancement pipeline (ROI crop, digital zoom, unsharp mask).
+      if (enableDistanceEnhancement) {
+        final distanceResult = await _distanceEnhancementService
+            .runMultiScaleDistanceScan(
+              imagePath: filePath,
+              controller: controller,
+            );
+        if (distanceResult.success && distanceResult.rawValue != null) {
+          final syntheticBarcode = Barcode(
+            rawValue: distanceResult.rawValue,
+            format: BarcodeFormat.values.firstWhere(
+              (f) =>
+                  f.name.toLowerCase() ==
+                  (distanceResult.format ?? '').toLowerCase(),
+              orElse: () => BarcodeFormat.qrCode,
+            ),
+          );
+          return MediaScanResult(barcodes: [syntheticBarcode]);
+        }
+      }
+
+      return const MediaScanResult(
+        errorMessage: AppMessage(AppMessageKey.mediaNoCodeInImage),
+      );
     } catch (e) {
       if (kDebugMode) debugPrint('Error scanning image file: $e');
       return MediaScanResult(

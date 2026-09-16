@@ -9,6 +9,7 @@ import 'package:sreeraj_qr_reader/screens/help/quishing_guard_help_screen.dart';
 import 'package:sreeraj_qr_reader/screens/help/safe_browsing_help_screen.dart';
 import 'package:sreeraj_qr_reader/screens/help/smart_payloads_help_screen.dart';
 import 'package:sreeraj_qr_reader/screens/help/url_safety_help_screen.dart';
+import 'package:sreeraj_qr_reader/screens/onboarding_screen.dart';
 
 /// Help Center hub reached from Settings -> Help.
 class HelpHomeScreen extends StatelessWidget {
@@ -24,6 +25,13 @@ class HelpHomeScreen extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
           _buildHeaderCard(context, l10n),
+          const SizedBox(height: 16),
+          _HelpTopicCard(
+            icon: Icons.auto_stories_outlined,
+            title: l10n.settingsOnboardingTourTitle,
+            subtitle: l10n.settingsOnboardingTourSubtitle,
+            onTap: () => _push(context, const OnboardingScreen(isReplay: true)),
+          ),
           const SizedBox(height: 20),
 
           _buildSectionHeader(

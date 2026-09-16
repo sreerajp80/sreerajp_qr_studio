@@ -32,6 +32,15 @@
   "@wifiOpenSettingsHint": {
     "description": "Message shown when the app cannot open Wi-Fi settings directly"
   },
+  "wifiConnectSuccess": "Connection requested for {ssid}",
+  "@wifiConnectSuccess": {
+    "description": "Message shown when a Wi-Fi direct connection prompt or request is initiated",
+    "placeholders": {
+      "ssid": {
+        "type": "String"
+      }
+    }
+  },
   "geoLatLng": "Lat: {latitude}, Lng: {longitude}",
   "@geoLatLng": {
     "description": "Coordinates line on the location action card",
@@ -779,6 +788,39 @@
   "@aboutBuildDate": {
     "description": "Label for the application build date on the About screen"
   },
+  "aboutDetailAuthor": "Author",
+  "@aboutDetailAuthor": {
+    "description": "Detail label for author in About screen"
+  },
+  "aboutDetailEmail": "Email",
+  "@aboutDetailEmail": {
+    "description": "Detail label for email in About screen"
+  },
+  "aboutDetailLicense": "License",
+  "@aboutDetailLicense": {
+    "description": "Detail label for license in About screen"
+  },
+  "aboutDetailAiUsed": "AI Used",
+  "@aboutDetailAiUsed": {
+    "description": "Detail label for AI tools used in About screen"
+  },
+  "aboutDetailIdeUsed": "IDE Used",
+  "@aboutDetailIdeUsed": {
+    "description": "Detail label for IDE used in About screen"
+  },
+  "madeWithLove": "Made with {heart} from India",
+  "@madeWithLove": {
+    "description": "About-screen signature badge. {heart} is a red heart glyph.",
+    "placeholders": {
+      "heart": {
+        "type": "String"
+      }
+    }
+  },
+  "madeWithLoveA11y": "Made with love from India",
+  "@madeWithLoveA11y": {
+    "description": "Screen-reader text for the About badge"
+  },
   "aboutMadeWithLove": "Made with ❤️ from India",
   "@aboutMadeWithLove": {
     "description": "Footer line on the About screen"
@@ -1442,6 +1484,14 @@
   "feedbackSoundSubtitle": "Play audio beep signal upon successful code recognition",
   "@feedbackSoundSubtitle": {
     "description": "Explanation of the beep setting"
+  },
+  "feedbackAnimationTitle": "Confirmation Animation",
+  "@feedbackAnimationTitle": {
+    "description": "Setting that turns the visual scan confirmation animation on or off"
+  },
+  "feedbackAnimationSubtitle": "Play reticle pulse and checkmark morph upon successful scan",
+  "@feedbackAnimationSubtitle": {
+    "description": "Explanation of the visual animation setting"
   },
   "privacyScreenTitle": "Privacy & Network Probing",
   "@privacyScreenTitle": {
@@ -2584,6 +2634,906 @@
   "manualDecryptionFailed": "Decryption failed. Please verify the passphrase or cipher settings.",
   "@manualDecryptionFailed": {
     "description": "Error message when manual decryption fails"
+  },
+
+  "emailCardTitle": "Email Address",
+  "@emailCardTitle": {
+    "description": "Header label on the email action card"
+  },
+  "emailSendButton": "Send Email",
+  "@emailSendButton": {
+    "description": "Button that opens the default email app to compose a message"
+  },
+  "emailCopyButton": "Copy",
+  "@emailCopyButton": {
+    "description": "Button that copies the email address to clipboard"
+  },
+  "emailLaunchFailed": "Could not open email app. Copy the address and open your email app manually.",
+  "@emailLaunchFailed": {
+    "description": "Error when the email app cannot be launched"
+  },
+  "emailSubjectLabel": "Subject",
+  "@emailSubjectLabel": {
+    "description": "Label for the email subject field on the action card"
+  },
+  "emailBodyLabel": "Message",
+  "@emailBodyLabel": {
+    "description": "Label for the email body preview on the action card"
+  },
+
+  "phoneCardTitle": "Phone Number",
+  "@phoneCardTitle": {
+    "description": "Header label on the phone action card"
+  },
+  "phoneCallButton": "Call",
+  "@phoneCallButton": {
+    "description": "Button that opens the phone dialer with the number"
+  },
+  "phoneCopyButton": "Copy",
+  "@phoneCopyButton": {
+    "description": "Button that copies the phone number to clipboard"
+  },
+  "phoneLaunchFailed": "Could not open the phone dialer. Copy the number and dial manually.",
+  "@phoneLaunchFailed": {
+    "description": "Error when the phone dialer cannot be launched"
+  },
+
+  "smsCardTitle": "Text Message",
+  "@smsCardTitle": {
+    "description": "Header label on the SMS action card"
+  },
+  "smsSendButton": "Send Message",
+  "@smsSendButton": {
+    "description": "Button that opens the messaging app with the number and body"
+  },
+  "smsCopyButton": "Copy",
+  "@smsCopyButton": {
+    "description": "Button that copies the SMS recipient number to clipboard"
+  },
+  "smsLaunchFailed": "Could not open the messaging app. Copy the number and message manually.",
+  "@smsLaunchFailed": {
+    "description": "Error when the messaging app cannot be launched"
+  },
+  "smsBodyLabel": "Message",
+  "@smsBodyLabel": {
+    "description": "Label for the SMS body preview on the action card"
+  },
+
+  "appLinkCardTitle": "App Link",
+  "@appLinkCardTitle": {
+    "description": "Header label on the app deep link action card"
+  },
+  "appLinkOpenButton": "Open in App",
+  "@appLinkOpenButton": {
+    "description": "Button that opens the deep link in its native app"
+  },
+  "appLinkLaunchFailed": "Could not open this app link. The app may not be installed.",
+  "@appLinkLaunchFailed": {
+    "description": "Error when the app deep link cannot be launched"
+  },
+
+  "productBarcodeCardTitle": "Product Barcode",
+  "@productBarcodeCardTitle": {
+    "description": "Header label on the product barcode action card"
+  },
+  "productSearchFoodButton": "Food Info",
+  "@productSearchFoodButton": {
+    "description": "Button that searches the barcode on Open Food Facts"
+  },
+  "productSearchWebButton": "Search Web",
+  "@productSearchWebButton": {
+    "description": "Button that searches the barcode on Google"
+  },
+  "productCopyButton": "Copy Barcode",
+  "@productCopyButton": {
+    "description": "Button that copies the barcode number to clipboard"
+  },
+  "productLaunchFailed": "Could not open product search. Try copying the barcode and searching manually.",
+  "@productLaunchFailed": {
+    "description": "Error when the product search URL cannot be launched"
+  },
+
+  "isbnCardTitle": "Book (ISBN)",
+  "@isbnCardTitle": {
+    "description": "Header label on the ISBN book action card"
+  },
+  "isbnGoogleBooksButton": "Google Books",
+  "@isbnGoogleBooksButton": {
+    "description": "Button that looks up the ISBN on Google Books"
+  },
+  "isbnOpenLibraryButton": "Open Library",
+  "@isbnOpenLibraryButton": {
+    "description": "Button that looks up the ISBN on Open Library"
+  },
+  "isbnCopyButton": "Copy ISBN",
+  "@isbnCopyButton": {
+    "description": "Button that copies the ISBN to clipboard"
+  },
+  "isbnLaunchFailed": "Could not open book lookup. Try copying the ISBN and searching manually.",
+  "@isbnLaunchFailed": {
+    "description": "Error when the book lookup URL cannot be launched"
+  },
+
+  "historyFilterEmail": "Email",
+  "@historyFilterEmail": {
+    "description": "History filter chip label for email scan records"
+  },
+  "historyFilterPhone": "Phone",
+  "@historyFilterPhone": {
+    "description": "History filter chip label for phone scan records"
+  },
+  "historyFilterSms": "SMS",
+  "@historyFilterSms": {
+    "description": "History filter chip label for SMS scan records"
+  },
+  "historyFilterAppLink": "App Link",
+  "@historyFilterAppLink": {
+    "description": "History filter chip label for app link scan records"
+  },
+  "historyFilterProductBarcode": "Product",
+  "@historyFilterProductBarcode": {
+    "description": "History filter chip label for product barcode scan records"
+  },
+  "historyFilterIsbn": "Book",
+  "@historyFilterIsbn": {
+    "description": "History filter chip label for ISBN book scan records"
+  },
+  "scanFlashOff": "Flash: Off",
+  "@scanFlashOff": {
+    "description": "Tooltip and status label when the camera flash is off"
+  },
+  "scanFlashOn": "Flash: On",
+  "@scanFlashOn": {
+    "description": "Tooltip and status label when the camera flash is on"
+  },
+  "scanFlashAuto": "Flash: Auto",
+  "@scanFlashAuto": {
+    "description": "Tooltip and status label when the camera flash is in automatic ambient mode"
+  },
+  "scanFlashAutoActive": "Auto Flash Active ({lux} lux)",
+  "@scanFlashAutoActive": {
+    "description": "Chip label showing auto flash is active with measured ambient lux",
+    "placeholders": {
+      "lux": {
+        "type": "String"
+      }
+    }
+  },
+  "scanFlashAutoSensorUnavailable": "Light sensor unavailable on this device",
+  "@scanFlashAutoSensorUnavailable": {
+    "description": "Warning when light sensor cannot be accessed for auto flash"
+  },
+  "cameraTuneTooltip": "Camera adjustments",
+  "@cameraTuneTooltip": {
+    "description": "Tooltip for camera tuning button in the scanner toolbar"
+  },
+  "cameraTuneTitle": "Camera Adjustments",
+  "@cameraTuneTitle": {
+    "description": "Header title of the camera adjustments panel"
+  },
+  "cameraBrightnessLabel": "Brightness",
+  "@cameraBrightnessLabel": {
+    "description": "Label for camera brightness adjustment slider"
+  },
+  "cameraContrastLabel": "Contrast",
+  "@cameraContrastLabel": {
+    "description": "Label for camera contrast adjustment slider"
+  },
+  "cameraInvertLabel": "Invert Colors (Negative Scan)",
+  "@cameraInvertLabel": {
+    "description": "Switch label for inverted/white-on-black barcode scanning"
+  },
+  "cameraInvertHint": "Optimized for white QR codes on dark screens or metal",
+  "@cameraInvertHint": {
+    "description": "Explanation text below the invert colors toggle"
+  },
+  "cameraResolutionLabel": "Camera Resolution",
+  "@cameraResolutionLabel": {
+    "description": "Label for camera capture resolution preset selector"
+  },
+  "cameraResolutionFullHd": "Full HD (1080p - Recommended)",
+  "@cameraResolutionFullHd": {
+    "description": "Resolution preset option for 1080p"
+  },
+  "cameraResolutionMax": "Maximum (4K UHD)",
+  "@cameraResolutionMax": {
+    "description": "Resolution preset option for maximum available resolution"
+  },
+  "cameraResolutionHd": "HD (720p - Battery Saver)",
+  "@cameraResolutionHd": {
+    "description": "Resolution preset option for 720p"
+  },
+  "cameraResetAdjustments": "Reset Adjustments",
+  "@cameraResetAdjustments": {
+    "description": "Button label to reset brightness and contrast to factory defaults"
+  },
+  "cameraFocusTapHint": "Tap to focus & meter light",
+  "@cameraFocusTapHint": {
+    "description": "Subtle hint for tap-to-focus and exposure metering"
+  },
+  "settingsLanguageTitle": "Language",
+  "@settingsLanguageTitle": {
+    "description": "Title for the Language settings card"
+  },
+  "settingsLanguageSubtitle": "Select application display language",
+  "@settingsLanguageSubtitle": {
+    "description": "Subtitle for the Language settings card"
+  },
+  "languageSystemDefault": "System default",
+  "@languageSystemDefault": {
+    "description": "Option to follow device system language"
+  },
+  "languageEnglish": "English",
+  "@languageEnglish": {
+    "description": "English language option"
+  },
+  "languageMalayalam": "മലയാളം",
+  "@languageMalayalam": {
+    "description": "Malayalam language option endonym"
+  },
+  "languageSanskrit": "संस्कृतम्",
+  "@languageSanskrit": {
+    "description": "Sanskrit language option endonym"
+  },
+  "aboutCopyright": "© {year} Sreeraj P. All rights reserved.",
+  "@aboutCopyright": {
+    "description": "Copyright notice on the About screen",
+    "placeholders": {
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "apiQuotaPercentageUsed": "{percentage}% used",
+  "@apiQuotaPercentageUsed": {
+    "description": "Usage percentage on Safe Browsing screen",
+    "placeholders": {
+      "percentage": {
+        "type": "String"
+      }
+    }
+  },
+  "tooltipToggleFlash": "Toggle flash",
+  "@tooltipToggleFlash": {
+    "description": "Tooltip for camera flash button"
+  },
+  "tooltipCameraAdjustments": "Camera adjustments",
+  "@tooltipCameraAdjustments": {
+    "description": "Tooltip for camera adjustments button"
+  },
+  "tooltipZoomControls": "Zoom controls",
+  "@tooltipZoomControls": {
+    "description": "Tooltip for camera zoom button"
+  },
+  "tooltipSwitchCamera": "Switch camera",
+  "@tooltipSwitchCamera": {
+    "description": "Tooltip for camera flip button"
+  },
+  "tooltipBack": "Back",
+  "@tooltipBack": {
+    "description": "Tooltip for back button"
+  },
+  "tooltipToggleSecretVisibility": "Toggle secret visibility",
+  "@tooltipToggleSecretVisibility": {
+    "description": "Tooltip for password or secret visibility toggle"
+  },
+  "tooltipResetStream": "Reset stream",
+  "@tooltipResetStream": {
+    "description": "Tooltip for AirQR stream reset button"
+  },
+  "tooltipAirQrTransmitter": "Switch to AirQR Transmitter",
+  "@tooltipAirQrTransmitter": {
+    "description": "Tooltip for switching to AirQR transmitter"
+  },
+  "airQrModeText": "Custom Text",
+  "@airQrModeText": {
+    "description": "Label for custom text mode tab in AirQR transmitter"
+  },
+  "airQrModeSync": "Device Sync",
+  "@airQrModeSync": {
+    "description": "Label for device sync mode tab in AirQR transmitter"
+  },
+  "airQrSyncIncludeHistory": "Include scan history ({count})",
+  "@airQrSyncIncludeHistory": {
+    "description": "Checkbox label to include scan history in optical sync",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "airQrSyncIncludeSettings": "Include app settings",
+  "@airQrSyncIncludeSettings": {
+    "description": "Checkbox label to include app settings in optical sync"
+  },
+  "airQrSyncPassphraseLabel": "Sync Passphrase / PIN",
+  "@airQrSyncPassphraseLabel": {
+    "description": "Label for sync passphrase input field"
+  },
+  "airQrSyncPassphraseHint": "Enter PIN or passphrase to encrypt",
+  "@airQrSyncPassphraseHint": {
+    "description": "Hint for sync passphrase input field"
+  },
+  "airQrSyncGeneratePin": "Generate PIN",
+  "@airQrSyncGeneratePin": {
+    "description": "Button to generate a random 6-digit sync PIN"
+  },
+  "airQrSyncBeamButton": "Beam History & Settings",
+  "@airQrSyncBeamButton": {
+    "description": "Button label to package and start optical beam in sync mode"
+  },
+  "airQrSyncNoDataWarning": "Select at least history or settings to sync.",
+  "@airQrSyncNoDataWarning": {
+    "description": "Warning shown when neither history nor settings are selected for sync"
+  },
+  "airQrSyncPackageDetected": "AirQR Encrypted Sync Package",
+  "@airQrSyncPackageDetected": {
+    "description": "Title when an AirQR optical sync package is received"
+  },
+  "airQrSyncPackageSummary": "Contains {records} scan records and app configuration",
+  "@airQrSyncPackageSummary": {
+    "description": "Summary of detected sync package contents",
+    "placeholders": {
+      "records": {
+        "type": "int"
+      }
+    }
+  },
+  "airQrSyncEnterPassphrase": "Enter Passphrase to Decrypt",
+  "@airQrSyncEnterPassphrase": {
+    "description": "Prompt to enter decryption passphrase for sync package"
+  },
+  "airQrSyncRestoreHistory": "Restore scan history",
+  "@airQrSyncRestoreHistory": {
+    "description": "Checkbox to restore scan history from sync package"
+  },
+  "airQrSyncApplySettings": "Apply app settings",
+  "@airQrSyncApplySettings": {
+    "description": "Checkbox to apply app settings from sync package"
+  },
+  "airQrSyncDecryptButton": "Decrypt & Sync",
+  "@airQrSyncDecryptButton": {
+    "description": "Button to decrypt and apply received sync package"
+  },
+  "airQrSyncSuccess": "Successfully synced {count} records and updated settings!",
+  "@airQrSyncSuccess": {
+    "description": "Notification shown when device sync finishes successfully",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "airQrSyncBeamAction": "Beam via AirQR",
+  "@airQrSyncBeamAction": {
+    "description": "Action button in export dialog to beam history via AirQR"
+  },
+  "airQrSyncSettingsTitle": "AirQR Optical Sync",
+  "@airQrSyncSettingsTitle": {
+    "description": "Title of AirQR device sync item in settings"
+  },
+  "airQrSyncSettingsSubtitle": "Beam history & settings air-gapped to another phone",
+  "@airQrSyncSettingsSubtitle": {
+    "description": "Subtitle explaining AirQR device sync item in settings"
+  },
+  "tabScan": "Scan",
+  "@tabScan": {
+    "description": "Label for the live camera scan tab in main navigation"
+  },
+  "tabCodeForge": "CodeForge",
+  "@tabCodeForge": {
+    "description": "Label for the CodeForge generator tab in main navigation"
+  },
+  "tabHistory": "History",
+  "@tabHistory": {
+    "description": "Label for the scan history tab in main navigation"
+  },
+  "codeForgeTitle": "CodeForge",
+  "@codeForgeTitle": {
+    "description": "Title of the CodeForge generator screen"
+  },
+  "codeForgeSubtitle": "Barcode & QR Studio",
+  "@codeForgeSubtitle": {
+    "description": "Subtitle describing the CodeForge studio"
+  },
+  "codeForgeBarcodeType": "Barcode Type",
+  "@codeForgeBarcodeType": {
+    "description": "Section header for selecting barcode format"
+  },
+  "codeForgePayloadType": "Content Type",
+  "@codeForgePayloadType": {
+    "description": "Section header for selecting QR payload preset"
+  },
+  "codeForgePresetText": "Text",
+  "@codeForgePresetText": {
+    "description": "Preset chip for plain text payload"
+  },
+  "codeForgePresetUrl": "URL / Link",
+  "@codeForgePresetUrl": {
+    "description": "Preset chip for web link payload"
+  },
+  "codeForgePresetWifi": "Wi-Fi",
+  "@codeForgePresetWifi": {
+    "description": "Preset chip for Wi-Fi network payload"
+  },
+  "codeForgePresetContact": "Contact",
+  "@codeForgePresetContact": {
+    "description": "Preset chip for contact card payload"
+  },
+  "codeForgePresetUpi": "UPI Pay",
+  "@codeForgePresetUpi": {
+    "description": "Preset chip for UPI payment payload"
+  },
+  "codeForgePresetSms": "SMS",
+  "@codeForgePresetSms": {
+    "description": "Preset chip for SMS text message payload"
+  },
+  "codeForgePresetEmail": "Email",
+  "@codeForgePresetEmail": {
+    "description": "Preset chip for email message payload"
+  },
+  "codeForgePresetGeo": "Location",
+  "@codeForgePresetGeo": {
+    "description": "Preset chip for geographic coordinates payload"
+  },
+  "codeForgeWifiSsid": "Network Name (SSID)",
+  "@codeForgeWifiSsid": {
+    "description": "Input field label for Wi-Fi network name"
+  },
+  "codeForgeWifiPassword": "Password",
+  "@codeForgeWifiPassword": {
+    "description": "Input field label for Wi-Fi password"
+  },
+  "codeForgeWifiSecurity": "Security",
+  "@codeForgeWifiSecurity": {
+    "description": "Label for Wi-Fi security type selector"
+  },
+  "codeForgeWifiHidden": "Hidden Network",
+  "@codeForgeWifiHidden": {
+    "description": "Checkbox label for hidden Wi-Fi network"
+  },
+  "codeForgeContactName": "Full Name",
+  "@codeForgeContactName": {
+    "description": "Input field label for contact name"
+  },
+  "codeForgeContactPhone": "Phone Number",
+  "@codeForgeContactPhone": {
+    "description": "Input field label for contact phone"
+  },
+  "codeForgeContactEmail": "Email Address",
+  "@codeForgeContactEmail": {
+    "description": "Input field label for contact email"
+  },
+  "codeForgeContactOrg": "Company / Org",
+  "@codeForgeContactOrg": {
+    "description": "Input field label for contact organization"
+  },
+  "codeForgeContactTitle": "Job Title",
+  "@codeForgeContactTitle": {
+    "description": "Input field label for contact title"
+  },
+  "codeForgeContactUrl": "Website",
+  "@codeForgeContactUrl": {
+    "description": "Input field label for contact website"
+  },
+  "codeForgeUpiVpa": "UPI ID / VPA",
+  "@codeForgeUpiVpa": {
+    "description": "Input field label for UPI virtual payment address"
+  },
+  "codeForgeUpiName": "Payee Name",
+  "@codeForgeUpiName": {
+    "description": "Input field label for UPI payee name"
+  },
+  "codeForgeUpiAmount": "Amount (INR)",
+  "@codeForgeUpiAmount": {
+    "description": "Input field label for UPI amount"
+  },
+  "codeForgeUpiNote": "Transaction Note",
+  "@codeForgeUpiNote": {
+    "description": "Input field label for UPI transaction note"
+  },
+  "codeForgeSmsPhone": "Recipient Phone",
+  "@codeForgeSmsPhone": {
+    "description": "Input field label for SMS phone number"
+  },
+  "codeForgeSmsMessage": "Message Body",
+  "@codeForgeSmsMessage": {
+    "description": "Input field label for SMS message body"
+  },
+  "codeForgeEmailTo": "Recipient Email",
+  "@codeForgeEmailTo": {
+    "description": "Input field label for email recipient"
+  },
+  "codeForgeEmailSubject": "Subject",
+  "@codeForgeEmailSubject": {
+    "description": "Input field label for email subject"
+  },
+  "codeForgeEmailBody": "Email Body",
+  "@codeForgeEmailBody": {
+    "description": "Input field label for email body"
+  },
+  "codeForgeGeoLat": "Latitude",
+  "@codeForgeGeoLat": {
+    "description": "Input field label for geographic latitude"
+  },
+  "codeForgeGeoLng": "Longitude",
+  "@codeForgeGeoLng": {
+    "description": "Input field label for geographic longitude"
+  },
+  "codeForgeDesignStudio": "Design & Structure",
+  "@codeForgeDesignStudio": {
+    "description": "Header for QR code visual design customization studio"
+  },
+  "codeForgeEyeShape": "Corner Eye Shape",
+  "@codeForgeEyeShape": {
+    "description": "Selector label for outer finder pattern corner shape"
+  },
+  "codeForgeEyeBallShape": "Inner Eye Pupil",
+  "@codeForgeEyeBallShape": {
+    "description": "Selector label for inner finder pattern pupil shape"
+  },
+  "codeForgePatternShape": "Data Module Pattern",
+  "@codeForgePatternShape": {
+    "description": "Selector label for data module dot shape"
+  },
+  "codeForgeShapeSquare": "Square",
+  "@codeForgeShapeSquare": {
+    "description": "Shape option: standard square"
+  },
+  "codeForgeShapeDots": "Dots",
+  "@codeForgeShapeDots": {
+    "description": "Shape option: circular dots"
+  },
+  "codeForgeShapeRounded": "Rounded",
+  "@codeForgeShapeRounded": {
+    "description": "Shape option: rounded rectangle"
+  },
+  "codeForgeShapeClassy": "Classy",
+  "@codeForgeShapeClassy": {
+    "description": "Shape option: classy curved corners"
+  },
+  "codeForgeShapeDiamond": "Diamond",
+  "@codeForgeShapeDiamond": {
+    "description": "Shape option: rotated diamond"
+  },
+  "codeForgeShapeLeaf": "Leaf",
+  "@codeForgeShapeLeaf": {
+    "description": "Shape option: organic leaf corner"
+  },
+  "codeForgeShapeCircle": "Circle",
+  "@codeForgeShapeCircle": {
+    "description": "Shape option: circular ring"
+  },
+  "codeForgeColorStudio": "Colors & Gradients",
+  "@codeForgeColorStudio": {
+    "description": "Section header for color palette and gradient studio"
+  },
+  "codeForgeFgColor": "Foreground",
+  "@codeForgeFgColor": {
+    "description": "Label for barcode foreground color"
+  },
+  "codeForgeBgColor": "Background",
+  "@codeForgeBgColor": {
+    "description": "Label for barcode background color"
+  },
+  "codeForgeEyeOuterColor": "Eye Outer Ring",
+  "@codeForgeEyeOuterColor": {
+    "description": "Label for finder pattern outer ring color"
+  },
+  "codeForgeEyeInnerColor": "Eye Center Ball",
+  "@codeForgeEyeInnerColor": {
+    "description": "Label for finder pattern center pupil color"
+  },
+  "codeForgeGradientNone": "Solid Color",
+  "@codeForgeGradientNone": {
+    "description": "Gradient option: solid color without gradient"
+  },
+  "codeForgeGradientSunset": "Sunset",
+  "@codeForgeGradientSunset": {
+    "description": "Gradient theme: warm sunset"
+  },
+  "codeForgeGradientOcean": "Ocean",
+  "@codeForgeGradientOcean": {
+    "description": "Gradient theme: cool ocean blue"
+  },
+  "codeForgeGradientNeon": "Neon",
+  "@codeForgeGradientNeon": {
+    "description": "Gradient theme: vibrant cyan neon"
+  },
+  "codeForgeGradientGold": "Royal Gold",
+  "@codeForgeGradientGold": {
+    "description": "Gradient theme: warm royal gold"
+  },
+  "codeForgeErrorCorrection": "Error Correction",
+  "@codeForgeErrorCorrection": {
+    "description": "Selector label for QR error correction level"
+  },
+  "codeForgeCenterBadge": "Center Badge",
+  "@codeForgeCenterBadge": {
+    "description": "Selector label for center embedded logo/badge"
+  },
+  "codeForgeBadgeNone": "None",
+  "@codeForgeBadgeNone": {
+    "description": "Badge option: no center icon"
+  },
+  "codeForgeBadgeIcon": "Content Icon",
+  "@codeForgeBadgeIcon": {
+    "description": "Badge option: icon matching the payload type"
+  },
+  "codeForgeBadgeShield": "Verified Shield",
+  "@codeForgeBadgeShield": {
+    "description": "Badge option: safety verified shield emblem"
+  },
+  "codeForgeExportPng": "Share PNG",
+  "@codeForgeExportPng": {
+    "description": "Button to export and share high-resolution PNG image"
+  },
+  "codeForgeExportSvg": "Share SVG",
+  "@codeForgeExportSvg": {
+    "description": "Button to export and share vector SVG file"
+  },
+  "codeForgeCopyPayload": "Copy Content",
+  "@codeForgeCopyPayload": {
+    "description": "Button to copy raw barcode content to clipboard"
+  },
+  "codeForgeCopied": "Barcode content copied to clipboard",
+  "@codeForgeCopied": {
+    "description": "Toast message after copying barcode content"
+  },
+  "codeForgeVerifySafety": "Link Safety Check",
+  "@codeForgeVerifySafety": {
+    "description": "Button to run URL safety check on generated link"
+  },
+  "codeForgeSafeVerified": "Verified Safe by 6-Layer Security Engine",
+  "@codeForgeSafeVerified": {
+    "description": "Badge label shown when URL passes all safety checks"
+  },
+  "codeForgeResetStyle": "Reset Styling",
+  "@codeForgeResetStyle": {
+    "description": "Action tooltip to reset visual styling to defaults"
+  },
+  "codeForgeIncludeText": "Show Text Label",
+  "@codeForgeIncludeText": {
+    "description": "Checkbox to show human-readable text under 1D barcodes"
+  },
+  "codeForgePreview": "Live Preview",
+  "@codeForgePreview": {
+    "description": "Header for live code preview card"
+  },
+  "onboardingSkip": "Skip",
+  "@onboardingSkip": {
+    "description": "Button to skip onboarding and proceed directly to scanner"
+  },
+  "onboardingNext": "Next",
+  "@onboardingNext": {
+    "description": "Button to advance to next onboarding slide"
+  },
+  "onboardingGetStarted": "Start Scanning",
+  "@onboardingGetStarted": {
+    "description": "Button on final onboarding slide to finish and enter scanner"
+  },
+  "onboardingSlide1Badge": "6-Layer Security",
+  "@onboardingSlide1Badge": {
+    "description": "Badge tag for 6-layer URL safety engine slide"
+  },
+  "onboardingSlide1Title": "6-Layer URL Safety Engine",
+  "@onboardingSlide1Title": {
+    "description": "Title for first onboarding slide explaining URL safety"
+  },
+  "onboardingSlide1Description": "Every link is inspected across six offline and online defense layers before you open it, protecting you against phishing, malicious redirects, and homograph traps.",
+  "@onboardingSlide1Description": {
+    "description": "Description for first onboarding slide explaining URL defense layers"
+  },
+  "onboardingSlide1Bullet1": "Protocol & Homograph Shield",
+  "@onboardingSlide1Bullet1": {
+    "description": "First highlight bullet for URL safety slide"
+  },
+  "onboardingSlide1Bullet2": "TLD Entropy & Port Trap Analysis",
+  "@onboardingSlide1Bullet2": {
+    "description": "Second highlight bullet for URL safety slide"
+  },
+  "onboardingSlide1Bullet3": "Private Probing & Safe Browsing",
+  "@onboardingSlide1Bullet3": {
+    "description": "Third highlight bullet for URL safety slide"
+  },
+  "onboardingSlide2Badge": "Computer Vision",
+  "@onboardingSlide2Badge": {
+    "description": "Badge tag for QuishingGuard tamper detection slide"
+  },
+  "onboardingSlide2Title": "QuishingGuard™ Tamper Detection",
+  "@onboardingSlide2Title": {
+    "description": "Title for second onboarding slide explaining QuishingGuard"
+  },
+  "onboardingSlide2Description": "Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.",
+  "@onboardingSlide2Description": {
+    "description": "Description for second onboarding slide explaining sticker tampering"
+  },
+  "onboardingSlide2Bullet1": "Physical sticker overlay detection",
+  "@onboardingSlide2Bullet1": {
+    "description": "First highlight bullet for QuishingGuard slide"
+  },
+  "onboardingSlide2Bullet2": "Cut edge & shadow boundary analysis",
+  "@onboardingSlide2Bullet2": {
+    "description": "Second highlight bullet for QuishingGuard slide"
+  },
+  "onboardingSlide2Bullet3": "Real-time camera frame inspection",
+  "@onboardingSlide2Bullet3": {
+    "description": "Third highlight bullet for QuishingGuard slide"
+  },
+  "onboardingSlide3Badge": "Zero Cloud • Zero Tracking",
+  "@onboardingSlide3Badge": {
+    "description": "Badge tag for offline privacy model slide"
+  },
+  "onboardingSlide3Title": "100% Offline Privacy Model",
+  "@onboardingSlide3Title": {
+    "description": "Title for third onboarding slide explaining privacy"
+  },
+  "onboardingSlide3Description": "Your scans and personal data never leave your phone. There are no analytics SDKs, no trackers, and no remote servers watching your habits.",
+  "@onboardingSlide3Description": {
+    "description": "Description for third onboarding slide explaining offline architecture"
+  },
+  "onboardingSlide3Bullet1": "Encrypted on-device SQLite database",
+  "@onboardingSlide3Bullet1": {
+    "description": "First highlight bullet for offline privacy slide"
+  },
+  "onboardingSlide3Bullet2": "AirQR optical air-gap transfers",
+  "@onboardingSlide3Bullet2": {
+    "description": "Second highlight bullet for offline privacy slide"
+  },
+  "onboardingSlide3Bullet3": "Zero analytics or crash reporting SDKs",
+  "@onboardingSlide3Bullet3": {
+    "description": "Third highlight bullet for offline privacy slide"
+  },
+  "settingsOnboardingTourTitle": "Welcome Tour",
+  "@settingsOnboardingTourTitle": {
+    "description": "Settings and Help option to replay the 3-slide onboarding tour"
+  },
+  "settingsOnboardingTourSubtitle": "Revisit the 3-slide introduction to safety and privacy features",
+  "@settingsOnboardingTourSubtitle": {
+    "description": "Subtitle describing the welcome tour replay action"
+  },
+  "batchScanMode": "Batch Scan Mode",
+  "@batchScanMode": {
+    "description": "Title for continuous batch scanning mode"
+  },
+  "batchModeTooltip": "Toggle Continuous Batch Scan",
+  "@batchModeTooltip": {
+    "description": "Tooltip for toggling continuous batch scan mode"
+  },
+  "batchModeEnabledToast": "Continuous Batch Scan enabled",
+  "@batchModeEnabledToast": {
+    "description": "Toast message displayed when batch scan mode is turned on"
+  },
+  "batchModeDisabledToast": "Continuous Batch Scan disabled",
+  "@batchModeDisabledToast": {
+    "description": "Toast message displayed when batch scan mode is turned off"
+  },
+  "batchCounterBadge": "{count} Scanned",
+  "@batchCounterBadge": {
+    "description": "Counter badge showing number of barcodes scanned in batch",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "batchReviewTitle": "Batch Scans",
+  "@batchReviewTitle": {
+    "description": "Title of the batch review modal bottom sheet"
+  },
+  "batchReviewSubtitle": "Continuous scanning queue",
+  "@batchReviewSubtitle": {
+    "description": "Subtitle of the batch review sheet"
+  },
+  "batchEmptyTitle": "No codes in batch",
+  "@batchEmptyTitle": {
+    "description": "Title shown when batch queue is empty"
+  },
+  "batchEmptySubtitle": "Point your camera at barcodes to scan them continuously without leaving the camera.",
+  "@batchEmptySubtitle": {
+    "description": "Description shown when batch queue is empty"
+  },
+  "batchExport": "Export Batch",
+  "@batchExport": {
+    "description": "Button to export the batch scans"
+  },
+  "batchClear": "Clear Batch",
+  "@batchClear": {
+    "description": "Button to clear all scans from the active batch"
+  },
+  "batchClearConfirmTitle": "Clear Batch?",
+  "@batchClearConfirmTitle": {
+    "description": "Confirmation title to clear the batch queue"
+  },
+  "batchClearConfirmContent": "Are you sure you want to remove all scanned codes from this batch?",
+  "@batchClearConfirmContent": {
+    "description": "Confirmation content to clear the batch queue"
+  },
+  "batchPreventDuplicates": "Prevent Duplicates",
+  "@batchPreventDuplicates": {
+    "description": "Label for duplicate prevention toggle in batch review sheet"
+  },
+  "batchScannedToast": "Scanned #{count}: {content}",
+  "@batchScannedToast": {
+    "description": "Toast message displayed in camera viewport when a barcode is scanned in batch mode",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "content": {
+        "type": "String"
+      }
+    }
+  },
+  "batchSafeUrl": "Safe Link",
+  "@batchSafeUrl": {
+    "description": "Label for verified safe link in batch list"
+  },
+  "batchSuspiciousUrl": "Suspicious Link",
+  "@batchSuspiciousUrl": {
+    "description": "Label for suspicious link in batch list"
+  },
+  "batchAnalyzingUrl": "Analyzing link...",
+  "@batchAnalyzingUrl": {
+    "description": "Label when 6-layer URL safety check is running in background"
+  },
+  "batchUrlSafetySummary": "{safeCount} safe, {warningCount} suspicious of {totalUrls} links",
+  "@batchUrlSafetySummary": {
+    "description": "Summary of 6-layer URL safety checks across URLs in batch",
+    "placeholders": {
+      "safeCount": {
+        "type": "int"
+      },
+      "warningCount": {
+        "type": "int"
+      },
+      "totalUrls": {
+        "type": "int"
+      }
+    }
+  },
+  "batchItemDetailsTitle": "Scanned Code Details",
+  "@batchItemDetailsTitle": {
+    "description": "Title of the bottom sheet displaying details of an individual batch scan item"
+  },
+  "batchFormatLabel": "Format: {format}",
+  "@batchFormatLabel": {
+    "description": "Barcode format label in batch item details",
+    "placeholders": {
+      "format": {
+        "type": "String"
+      }
+    }
+  },
+  "batchTimeLabel": "Scanned at {time}",
+  "@batchTimeLabel": {
+    "description": "Timestamp label in batch item details",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "cameraDistanceEnhanceLabel": "Distance Scan Assist",
+  "@cameraDistanceEnhanceLabel": {
+    "description": "Label for distance-enhanced scanning pipeline toggle in camera settings"
+  },
+  "cameraDistanceEnhanceHint": "Zoom-crop & unsharp mask for distant posters & signs",
+  "@cameraDistanceEnhanceHint": {
+    "description": "Subtitle describing distance-enhanced scanning pipeline"
+  },
+  "cameraUnsharpLabel": "Edge Sharpness",
+  "@cameraUnsharpLabel": {
+    "description": "Label for unsharp mask sharpness slider in camera settings"
+  },
+  "scanDistanceModeTooltip": "Distance Scan Assist",
+  "@scanDistanceModeTooltip": {
+    "description": "Tooltip for distance scan assist toggle button in camera viewport"
+  },
+  "scanDistanceModeActive": "Distance Mode Active",
+  "@scanDistanceModeActive": {
+    "description": "HUD badge text displayed when distance scan assist mode is active"
   }
 }
+
 

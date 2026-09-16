@@ -52,6 +52,55 @@ class PayloadParserService {
         final contact = _parseContact(trimmed);
         if (contact != null) return contact;
       }
+
+      // 7. Email (mailto:, MATMSG:, or raw email address)
+      if (trimmed.toLowerCase().startsWith('mailto:') ||
+          trimmed.toUpperCase().startsWith('MATMSG:')) {
+        final email = _parseEmail(trimmed);
+        if (email != null) return email;
+      }
+
+      // 8. SMS (sms:, smsto:, mms:)
+      if (trimmed.toLowerCase().startsWith('sms:') ||
+          trimmed.toLowerCase().startsWith('smsto:') ||
+          trimmed.toLowerCase().startsWith('mms:')) {
+        final sms = _parseSms(trimmed);
+        if (sms != null) return sms;
+      }
+
+      // 9. Phone (tel:, TEL:)
+      if (trimmed.toLowerCase().startsWith('tel:')) {
+        final phone = _parsePhone(trimmed);
+        if (phone != null) return phone;
+      }
+
+      // 10. App / Deep Link (Play Store, WhatsApp, Telegram, YouTube, custom schemes)
+      {
+        final appLink = _parseAppLink(trimmed);
+        if (appLink != null) return appLink;
+      }
+
+      // 11. ISBN (10 or 13 digit book codes)
+      {
+        final isbn = _parseIsbn(trimmed);
+        if (isbn != null) return isbn;
+      }
+
+      // 12. Product Barcode (EAN-13, UPC-A retail barcodes)
+      {
+        final product = _parseProductBarcode(trimmed);
+        if (product != null) return product;
+      }
+
+      // 13. Raw email address (fallback: user@domain.com without mailto:)
+      if (_emailRegex.hasMatch(trimmed)) {
+        return EmailPayload(rawContent: content, toAddress: trimmed);
+      }
+
+      // 14. Raw phone number (fallback: +1234567890 or similar)
+      if (_phoneRegex.hasMatch(trimmed)) {
+        return PhonePayload(rawContent: content, number: trimmed);
+      }
     } catch (_) {
       // Safe fallback on any unexpected format
     }
@@ -439,5 +488,262 @@ class PayloadParserService {
         .replaceAll(r'\:', ':')
         .replaceAll(r'\,', ',')
         .replaceAll(r'\\', '\\');
+  }
+
+  // --- Regex Constants ---
+  static final _emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$',
+  );
+
+  static final _phoneRegex = RegExp(r'^\+?[0-9\s\-\(\)]{7,20}$');
+
+  // --- Email Parser ---
+  EmailPayload? _parseEmail(String raw) {
+    if (raw.toLowerCase().startsWith('mailto:')) {
+      final uri = Uri.tryParse(raw);
+      if (uri == null) return null;
+      final to = uri.path.isNotEmpty ? uri.path : '';
+      if (to.isEmpty) return null;
+      return EmailPayload(
+        rawContent: raw,
+        toAddress: to,
+        subject: uri.queryParameters['subject'] ?? '',
+        body: uri.queryParameters['body'] ?? '',
+        cc: uri.queryParameters['cc'] ?? '',
+        bcc: uri.queryParameters['bcc'] ?? '',
+      );
+    }
+
+    // MATMSG:TO:user@example.com;SUB:Hello;BODY:World;;
+    if (raw.toUpperCase().startsWith('MATMSG:')) {
+      final body = raw.substring(7);
+      String to = '';
+      String subject = '';
+      String messageBody = '';
+      final tokens = _splitEscaped(body, ';');
+      for (final token in tokens) {
+        if (token.toUpperCase().startsWith('TO:')) {
+          to = token.substring(3).trim();
+        } else if (token.toUpperCase().startsWith('SUB:')) {
+          subject = token.substring(4).trim();
+        } else if (token.toUpperCase().startsWith('BODY:')) {
+          messageBody = token.substring(5).trim();
+        }
+      }
+      if (to.isEmpty) return null;
+      return EmailPayload(
+        rawContent: raw,
+        toAddress: to,
+        subject: subject,
+        body: messageBody,
+      );
+    }
+    return null;
+  }
+
+  // --- Phone Parser ---
+  PhonePayload? _parsePhone(String raw) {
+    // tel:+1234567890 or tel:1234567890
+    String number = raw;
+    if (raw.toLowerCase().startsWith('tel:')) {
+      number = raw.substring(4).trim();
+    }
+    if (number.isEmpty) return null;
+    return PhonePayload(rawContent: raw, number: number);
+  }
+
+  // --- SMS Parser ---
+  SmsPayload? _parseSms(String raw) {
+    final lower = raw.toLowerCase();
+    String numberPart = '';
+    String body = '';
+
+    if (lower.startsWith('sms:') || lower.startsWith('mms:')) {
+      final uri = Uri.tryParse(raw);
+      if (uri != null) {
+        numberPart = uri.path;
+        body = uri.queryParameters['body'] ?? '';
+      } else {
+        // Fallback manual parse: sms:+123?body=hello
+        final afterScheme = raw.substring(raw.indexOf(':') + 1);
+        final qIdx = afterScheme.indexOf('?');
+        if (qIdx != -1) {
+          numberPart = afterScheme.substring(0, qIdx);
+          final queryStr = afterScheme.substring(qIdx + 1);
+          final params = Uri.splitQueryString(queryStr);
+          body = params['body'] ?? '';
+        } else {
+          numberPart = afterScheme;
+        }
+      }
+    } else if (lower.startsWith('smsto:')) {
+      // SMSTO:+1234567890:Hello World
+      final afterScheme = raw.substring(6);
+      final colonIdx = afterScheme.indexOf(':');
+      if (colonIdx != -1) {
+        numberPart = afterScheme.substring(0, colonIdx).trim();
+        body = afterScheme.substring(colonIdx + 1).trim();
+      } else {
+        numberPart = afterScheme.trim();
+      }
+    }
+
+    if (numberPart.isEmpty) return null;
+    return SmsPayload(rawContent: raw, number: numberPart, body: body);
+  }
+
+  // --- App Link Parser ---
+  static final _playStorePatterns = [
+    RegExp(r'^market://details\?id=(.+)$', caseSensitive: false),
+    RegExp(
+      r'^https?://play\.google\.com/store/apps/details\?id=([^&]+)',
+      caseSensitive: false,
+    ),
+  ];
+  static final _whatsAppPatterns = [
+    RegExp(r'^https?://wa\.me/', caseSensitive: false),
+    RegExp(r'^whatsapp://', caseSensitive: false),
+  ];
+  static final _telegramPatterns = [
+    RegExp(r'^tg://', caseSensitive: false),
+    RegExp(r'^https?://t\.me/', caseSensitive: false),
+  ];
+  static final _youTubePatterns = [
+    RegExp(
+      r'^https?://(www\.)?(youtube\.com|youtu\.be)/',
+      caseSensitive: false,
+    ),
+    RegExp(r'^youtube://', caseSensitive: false),
+    RegExp(r'^vnd\.youtube:', caseSensitive: false),
+  ];
+
+  AppLinkPayload? _parseAppLink(String raw) {
+    // Play Store
+    for (final pattern in _playStorePatterns) {
+      final match = pattern.firstMatch(raw);
+      if (match != null) {
+        final packageId = match.group(1) ?? '';
+        return AppLinkPayload(
+          rawContent: raw,
+          appName: packageId.split('.').last,
+          packageId: packageId,
+          storeName: AppStoreName.playStore,
+          deepLinkUri: raw,
+        );
+      }
+    }
+
+    // WhatsApp
+    for (final pattern in _whatsAppPatterns) {
+      if (pattern.hasMatch(raw)) {
+        return AppLinkPayload(
+          rawContent: raw,
+          appName: 'WhatsApp',
+          storeName: AppStoreName.whatsApp,
+          deepLinkUri: raw,
+        );
+      }
+    }
+
+    // Telegram
+    for (final pattern in _telegramPatterns) {
+      if (pattern.hasMatch(raw)) {
+        return AppLinkPayload(
+          rawContent: raw,
+          appName: 'Telegram',
+          storeName: AppStoreName.telegram,
+          deepLinkUri: raw,
+        );
+      }
+    }
+
+    // YouTube
+    for (final pattern in _youTubePatterns) {
+      if (pattern.hasMatch(raw)) {
+        return AppLinkPayload(
+          rawContent: raw,
+          appName: 'YouTube',
+          storeName: AppStoreName.youTube,
+          deepLinkUri: raw,
+        );
+      }
+    }
+
+    return null;
+  }
+
+  // --- ISBN Parser ---
+  static final _isbn13Regex = RegExp(r'^97[89]\d{10}$');
+  static final _isbn10Regex = RegExp(r'^\d{9}[\dXx]$');
+
+  IsbnPayload? _parseIsbn(String raw) {
+    final cleaned = raw.replaceAll(RegExp(r'[\s\-]'), '');
+
+    if (_isbn13Regex.hasMatch(cleaned)) {
+      if (_validateIsbn13(cleaned)) {
+        return IsbnPayload(rawContent: raw, isbn: cleaned, isIsbn13: true);
+      }
+    }
+
+    if (_isbn10Regex.hasMatch(cleaned)) {
+      if (_validateIsbn10(cleaned)) {
+        return IsbnPayload(rawContent: raw, isbn: cleaned, isIsbn13: false);
+      }
+    }
+
+    return null;
+  }
+
+  bool _validateIsbn13(String isbn) {
+    int sum = 0;
+    for (int i = 0; i < 13; i++) {
+      final digit = int.parse(isbn[i]);
+      sum += (i.isEven) ? digit : digit * 3;
+    }
+    return sum % 10 == 0;
+  }
+
+  bool _validateIsbn10(String isbn) {
+    int sum = 0;
+    for (int i = 0; i < 9; i++) {
+      sum += int.parse(isbn[i]) * (10 - i);
+    }
+    final lastChar = isbn[9].toUpperCase();
+    sum += lastChar == 'X' ? 10 : int.parse(lastChar);
+    return sum % 11 == 0;
+  }
+
+  // --- Product Barcode Parser ---
+  static final _ean13Regex = RegExp(r'^\d{13}$');
+  static final _upcARegex = RegExp(r'^\d{12}$');
+  static final _ean8Regex = RegExp(r'^\d{8}$');
+
+  ProductBarcodePayload? _parseProductBarcode(String raw) {
+    final cleaned = raw.trim();
+    if (_ean13Regex.hasMatch(cleaned)) {
+      // Exclude ISBN-13 (already handled above)
+      if (!cleaned.startsWith('978') && !cleaned.startsWith('979')) {
+        return ProductBarcodePayload(
+          rawContent: raw,
+          code: cleaned,
+          format: 'EAN-13',
+        );
+      }
+    }
+    if (_upcARegex.hasMatch(cleaned)) {
+      return ProductBarcodePayload(
+        rawContent: raw,
+        code: cleaned,
+        format: 'UPC-A',
+      );
+    }
+    if (_ean8Regex.hasMatch(cleaned)) {
+      return ProductBarcodePayload(
+        rawContent: raw,
+        code: cleaned,
+        format: 'EAN-8',
+      );
+    }
+    return null;
   }
 }

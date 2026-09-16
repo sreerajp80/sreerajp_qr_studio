@@ -82,6 +82,7 @@ class _HistoryDetailSheetState extends State<HistoryDetailSheet> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.close),
+                  tooltip: l10n.closeButton,
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ],

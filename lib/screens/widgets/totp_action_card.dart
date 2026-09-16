@@ -244,6 +244,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       _showSecret ? Icons.visibility_off : Icons.visibility,
                       size: 18,
                     ),
+                    tooltip: _showSecret ? l10n.hideAction : l10n.revealAction,
                     onPressed: () {
                       setState(() {
                         _showSecret = !_showSecret;
@@ -255,6 +256,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       _isCopiedSecret ? Icons.check : Icons.copy,
                       size: 18,
                     ),
+                    tooltip: l10n.stegoCopySecret,
                     onPressed: () => _copySecret(totp.secret),
                   ),
                 ],

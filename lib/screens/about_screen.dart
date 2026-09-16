@@ -4,6 +4,25 @@ import 'package:sreeraj_qr_reader/core/config/app_config.dart';
 import 'package:sreeraj_qr_reader/core/config/config_service.dart';
 import 'package:sreeraj_qr_reader/core/constants/build_date.g.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreeraj_qr_reader/widgets/made_with_love.dart';
+
+/// Maps a config detail key to its translated label, falling back to the raw key.
+String aboutDetailLabel(AppLocalizations l10n, String key) {
+  switch (key) {
+    case 'author':
+      return l10n.aboutDetailAuthor;
+    case 'email':
+      return l10n.aboutDetailEmail;
+    case 'license':
+      return l10n.aboutDetailLicense;
+    case 'aiUsed':
+      return l10n.aboutDetailAiUsed;
+    case 'ideUsed':
+      return l10n.aboutDetailIdeUsed;
+    default:
+      return key;
+  }
+}
 
 class AboutScreen extends StatefulWidget {
   final ConfigService? configService;
@@ -69,6 +88,7 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.aboutTitle)),
       body: _isLoading
@@ -117,7 +137,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
-                      _config.description,
+                      _config.description.resolve(lang),
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: Colors.grey[700]),
@@ -153,14 +173,14 @@ class _AboutScreenState extends State<AboutScreen> {
                         ],
                         for (final entry in _config.details.entries)
                           if (entry.key.trim().isNotEmpty &&
-                              entry.value.trim().isNotEmpty) ...[
+                              entry.value.resolve(lang).trim().isNotEmpty) ...[
                             _buildInfoCard(
                               context,
                               icon: _getIconForKey(entry.key),
-                              title: entry.key,
-                              content: entry.value,
+                              title: aboutDetailLabel(l10n, entry.key),
+                              content: entry.value.resolve(lang),
                               onTap: entry.key.trim().toLowerCase() == 'email'
-                                  ? () => _openMail(entry.value)
+                                  ? () => _openMail(entry.value.resolve(lang))
                                   : null,
                             ),
                             const SizedBox(height: 12),
@@ -171,11 +191,11 @@ class _AboutScreenState extends State<AboutScreen> {
 
                   const SizedBox(height: 20),
 
-                  // Copyright & Made with love
+                  // Copyright
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      '© ${DateTime.now().year} Sreeraj P. All rights reserved.',
+                      l10n.aboutCopyright(DateTime.now().year.toString()),
                       style: Theme.of(
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
@@ -183,20 +203,10 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  // Made with ❤️ from India badge
+                  const MadeWithLove(),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      l10n.aboutMadeWithLove,
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
