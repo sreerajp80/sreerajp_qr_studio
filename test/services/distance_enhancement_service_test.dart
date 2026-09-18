@@ -49,10 +49,7 @@ void main() {
       ];
 
       // Bounding box is 100x100. With default 0.25 padding: 25px added to each side.
-      final roi = service.calculateCandidateRoi(
-        size,
-        corners: corners,
-      );
+      final roi = service.calculateCandidateRoi(size, corners: corners);
 
       expect(roi.left, 75);
       expect(roi.top, 75);
@@ -77,10 +74,7 @@ void main() {
           rgbaBytes: raw,
         );
         const roi = Rect.fromLTWH(20, 20, 40, 40);
-        const config = DistanceScanConfig(
-          zoomFactor: 2.0,
-          cropPadding: 0.0,
-        );
+        const config = DistanceScanConfig(zoomFactor: 2.0, cropPadding: 0.0);
 
         final enhanced = service.enhancePixelBuffer(source, roi, config);
 
