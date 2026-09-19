@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:sreeraj_qr_reader/models/app_message.dart';
 import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
 import 'package:sreeraj_qr_reader/services/code_forge_service.dart';
 
@@ -111,6 +113,14 @@ void main() {
       const validQr = CodeForgeConfig(rawContent: 'Valid text');
       expect(service.validateContent(validQr), isNull);
 
+      // Text QR code within 500 characters passes
+      final normalTextQr = CodeForgeConfig(rawContent: 'A' * 500);
+      expect(service.validateContent(normalTextQr), isNull);
+
+      // Text QR code exceeding 500 characters fails
+      final tooLongTextQr = CodeForgeConfig(rawContent: 'A' * 501);
+      expect(service.validateContent(tooLongTextQr), isNotNull);
+
       // Wi-Fi requires SSID
       const invalidWifi = CodeForgeConfig(
         payloadType: CodeForgePayloadType.wifi,
@@ -173,5 +183,65 @@ void main() {
         expect(bytes[3], 0x47); // G
       },
     );
+
+    group('readTextFromFile tests', () {
+      late Directory tempDir;
+
+      setUp(() {
+        tempDir = Directory.systemTemp.createTempSync('cf_test_');
+      });
+
+      tearDown(() {
+        if (tempDir.existsSync()) {
+          tempDir.deleteSync(recursive: true);
+        }
+      });
+
+      test('successfully reads file within 500 characters', () async {
+        final file = File('${tempDir.path}/short.txt');
+        file.writeAsStringSync('Hello, world! This is a test file.');
+
+        final result = await service.readTextFromFile(file.path);
+        expect(result.isSuccess, isTrue);
+        expect(result.wasTruncated, isFalse);
+        expect(result.content, 'Hello, world! This is a test file.');
+        expect(result.message?.key, AppMessageKey.codeForgeFileLoaded);
+      });
+
+      test(
+        'truncates file exceeding 500 characters and sets wasTruncated',
+        () async {
+          final file = File('${tempDir.path}/long.txt');
+          final longContent = 'A' * 600;
+          file.writeAsStringSync(longContent);
+
+          final result = await service.readTextFromFile(file.path);
+          expect(result.isSuccess, isTrue);
+          expect(result.wasTruncated, isTrue);
+          expect(result.content?.length, 500);
+          expect(result.content, 'A' * 500);
+          expect(result.message?.key, AppMessageKey.codeForgeFileTruncated);
+        },
+      );
+
+      test('returns error for empty file', () async {
+        final file = File('${tempDir.path}/empty.txt');
+        file.writeAsStringSync('   \n  ');
+
+        final result = await service.readTextFromFile(file.path);
+        expect(result.isSuccess, isFalse);
+        expect(result.content, isNull);
+        expect(result.message?.key, AppMessageKey.codeForgeFileEmpty);
+      });
+
+      test('returns error for non-existent file', () async {
+        final result = await service.readTextFromFile(
+          '${tempDir.path}/does_not_exist.txt',
+        );
+        expect(result.isSuccess, isFalse);
+        expect(result.content, isNull);
+        expect(result.message?.key, AppMessageKey.codeForgeFileReadError);
+      });
+    });
   });
 }

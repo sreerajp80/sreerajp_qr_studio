@@ -51,8 +51,8 @@ Before listing improvements, here is what the app already includes:
 | ----- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------- |
 | 2.1.1 | **Continuous Batch Scan Mode**                    | Implemented (`BatchScanProvider` + floating counter badge + `BatchReviewSheet` with 6-layer URL safety & batch export) | Toggle for continuous scanning queues multiple codes into a list without leaving the camera viewport, shows floating counter badge, batch list review, and CSV/JSON/TXT/PDF export with 6-layer URL safety. | High — warehouse workers and professionals scanning inventory need this.                   | ✅  Implemented |
 | 2.1.2 | **Distance-Enhanced Scanning Pipeline**           | Implemented (`DistanceEnhancementService` + ROI cropping, bilinear digital zoom, contrast boost, unsharp masking, camera autoZoom & Viewport controls) | Pure-Dart digital zoom-crop-enhance pipeline that extracts candidate regions of interest, applies bilinear upscaling and high-pass unsharp masking, leverages MLKit autoZoom, and provides a multi-scale fallback for distant photos. | Medium — accessibility improvement for physically distant codes (posters, overhead signs). | ✅  Implemented |
-| 2.1.3 | **Scan From Clipboard**                           | Gallery photo and PDF ingestion only                                                                                   | Detect if system clipboard contains an image, URL, or raw barcode payload and offer a quick "Scan from Clipboard" button on the scanner screen.                                                             | Medium — fast workflow for links or images copied in messaging apps.                       | 🟡 Medium       |
-| 2.1.4 | **Multi-Code Tappable Selection on Main Scanner** | AR CodeVision handles multi-code separately                                                                            | Outline all visible barcodes in the main camera view with subtle bounding boxes and let the user tap which specific code to inspect.                                                                        | Medium — eliminates scan errors when multiple QR codes are printed close together.         | 🟡 Medium       |
+| 2.1.3 | **Scan From Clipboard**                           | Implemented (`ClipboardScanService` + native Android clipboard bridge + quick-action detection pill & AppBar button)   | Detect if system clipboard contains an image, URL, or raw barcode payload and offer a quick "Scan from Clipboard" button on the scanner screen.                                                             | Medium — fast workflow for links or images copied in messaging apps.                       | ✅  Implemented |
+| 2.1.4 | **Multi-Code Tappable Selection on Main Scanner** | Implemented (`MultiCodeSelectionProvider` + `MultiCodeService` + bounding box overlay & hint banner + CameraAdjustments toggle) | Outline all visible barcodes in the main camera view with subtle bounding boxes and let the user tap which specific code to inspect. | Medium — eliminates scan errors when multiple QR codes are printed close together. | ✅  Implemented |
 
 ### 2.2 URL Safety Engine
 
@@ -172,6 +172,8 @@ These features do not exist in the current app and represent greenfield capabili
 - *Recommended compliant approach:* Integrate an Android Quick Settings tile / Quick Screenshot action that captures the current display on demand and feeds it into the existing `image_picker` / `MobileScannerController.analyzeImage()` pipeline.
 
 **Priority:** 🟡 Medium — high utility, but implementation must strictly follow Google Play policy guidelines.
+
+**Current State:** ✅ Implemented. Native Android `GhostScanTileService` (`TileService`) for Quick Settings, short-lived single-frame `GhostScanCaptureService` (`FOREGROUND_SERVICE_MEDIA_PROJECTION`), transparent `GhostScanActivity`, Dart `GhostScanService` platform channel, `GhostScanSheet` modal bottom sheet, and seamless `MobileScannerController.analyzeImage()` integration with 100% tri-lingual localization.
 
 ---
 
@@ -308,7 +310,7 @@ These features do not exist in the current app and represent greenfield capabili
 | #     | Feature                                 | Category    | Rationale                                                               |
 | ----- | --------------------------------------- | ----------- | ----------------------------------------------------------------------- |
 | 2.1.2 | Distance-Enhanced Scanning Pipeline     | Improvement | ✅ Implemented. Pure-Dart zoom-crop-enhance pipeline with unsharp masking. |
-| 2.1.3 | Scan From Clipboard                     | Improvement | Rapid workflow for links/images in chat apps.                           |
+| 2.1.3 | Scan From Clipboard                     | Improvement | ✅ Implemented. Rapid workflow for links/images in chat apps.                           |
 | 2.1.4 | Multi-Code Tappable Selection           | Improvement | Simplifies scanning in multi-barcode environments.                      |
 | 2.2.2 | Redirect Chain Flowchart                | Improvement | Educational visualization of redirect-based phishing.                   |
 | 2.3.2 | Forensic Evidence Capture               | Improvement | Allows saving tamper evidence for reporting scam stickers.              |
@@ -319,7 +321,7 @@ These features do not exist in the current app and represent greenfield capabili
 | 2.5.2 | Scheduled Automated Backups             | Improvement | Frictionless data protection with Storage Access Framework.             |
 | 2.6.4 | Dynamic Accessibility Adaptation        | Improvement | Responsive layout adaptation to system accessibility flags.             |
 | 3.3   | ScanLens AI (Heuristic Intent Engine)   | New         | Explains what the QR payload intends to do in plain English.            |
-| 3.5   | GhostScan (Compliant Screen Capture)    | New         | Convenient scanning of on-screen barcodes without manual cropping.      |
+| 3.5   | GhostScan (Compliant Screen Capture)    | New         | ✅ Implemented. Native Quick Settings tile & on-demand screen capture.  |
 | 3.6   | TimeVault (Self-Expiring Payloads)      | New         | Privacy-first temporary credentials and tickets.                        |
 | 3.8   | TrustBadge (Cryptographic Authenticity) | New         | Cryptographic protection against counterfeit payment stickers.          |
 | 3.10  | Multi-Language Content Translation      | New         | High utility for international travelers.                               |

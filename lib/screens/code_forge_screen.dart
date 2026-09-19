@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:sreeraj_qr_reader/core/constants/app_constants.dart';
+import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
 import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
 import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
@@ -40,6 +45,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
   late final TextEditingController _geoLngController;
 
   bool _obscureWifiPassword = true;
+  bool _isFetchingLocation = false;
   final CodeForgeService _service = CodeForgeService();
 
   @override
@@ -104,6 +110,76 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         behavior: SnackBarBehavior.floating,
       ),
     );
+  }
+
+  Future<void> _handleLoadFromFile(CodeForgeProvider provider) async {
+    final result = await _service.pickAndReadTextFile();
+
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context);
+
+    if (result.isSuccess && result.content != null) {
+      _rawContentController.text = result.content!;
+      provider.updateRawContent(result.content!);
+    }
+
+    if (result.message != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(appMessageText(l10n, result.message!)),
+          behavior: SnackBarBehavior.floating,
+          duration: Duration(seconds: result.wasTruncated ? 4 : 2),
+        ),
+      );
+    }
+  }
+
+  Future<void> _fetchCurrentLocation(CodeForgeProvider provider) async {
+    final l10n = AppLocalizations.of(context);
+
+    setState(() => _isFetchingLocation = true);
+
+    try {
+      // Request location permission at point of use
+      final status = await Permission.location.request();
+      if (!status.isGranted) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.codeForgeGeoPermissionDenied),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+        return;
+      }
+
+      // Fetch the current GPS position
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 15),
+        ),
+      );
+
+      final lat = position.latitude.toStringAsFixed(6);
+      final lng = position.longitude.toStringAsFixed(6);
+
+      _geoLatController.text = lat;
+      _geoLngController.text = lng;
+      provider.updateGeo(lat: lat, lng: lng);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.codeForgeGeoFailed),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isFetchingLocation = false);
+    }
   }
 
   @override
@@ -558,20 +634,53 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
 
     switch (config.payloadType) {
       case CodeForgePayloadType.text:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _rawContentController,
+              maxLines: 4,
+              maxLength: AppConstants.maxCodeForgeTextLength,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+              decoration: InputDecoration(
+                labelText: l10n.codeForgePresetText,
+                helperText: l10n.codeForgeTextHint,
+                helperMaxLines: 2,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                prefixIcon: const Icon(Icons.text_fields),
+              ),
+              onChanged: (val) => provider.updateRawContent(val),
+            ),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Tooltip(
+                message: l10n.codeForgeLoadFromFileTooltip,
+                child: OutlinedButton.icon(
+                  icon: const Icon(Icons.file_open_outlined, size: 18),
+                  label: Text(l10n.codeForgeLoadFromFile),
+                  style: OutlinedButton.styleFrom(
+                    visualDensity: VisualDensity.compact,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: () => _handleLoadFromFile(provider),
+                ),
+              ),
+            ),
+          ],
+        );
+
       case CodeForgePayloadType.url:
         return TextField(
           controller: _rawContentController,
-          maxLines: config.payloadType == CodeForgePayloadType.text ? 3 : 1,
           decoration: InputDecoration(
-            labelText: config.payloadType == CodeForgePayloadType.url
-                ? l10n.codeForgePresetUrl
-                : l10n.codeForgePresetText,
+            labelText: l10n.codeForgePresetUrl,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            prefixIcon: Icon(
-              config.payloadType == CodeForgePayloadType.url
-                  ? Icons.link
-                  : Icons.text_fields,
-            ),
+            prefixIcon: const Icon(Icons.link),
           ),
           onChanged: (val) => provider.updateRawContent(val),
         );
@@ -841,39 +950,64 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         );
 
       case CodeForgePayloadType.geo:
-        return Row(
+        return Column(
           children: [
-            Expanded(
-              child: TextField(
-                controller: _geoLatController,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                  signed: true,
-                ),
-                decoration: InputDecoration(
-                  labelText: l10n.codeForgeGeoLat,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _geoLatController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: true,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: l10n.codeForgeGeoLat,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onChanged: (val) => provider.updateGeo(lat: val),
                   ),
                 ),
-                onChanged: (val) => provider.updateGeo(lat: val),
-              ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextField(
+                    controller: _geoLngController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                      signed: true,
+                    ),
+                    decoration: InputDecoration(
+                      labelText: l10n.codeForgeGeoLng,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onChanged: (val) => provider.updateGeo(lng: val),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: TextField(
-                controller: _geoLngController,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                  signed: true,
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: _isFetchingLocation
+                    ? null
+                    : () => _fetchCurrentLocation(provider),
+                icon: _isFetchingLocation
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(Icons.my_location),
+                label: Text(
+                  _isFetchingLocation
+                      ? l10n.codeForgeGeoFetching
+                      : l10n.codeForgeGeoUseMyLocation,
                 ),
-                decoration: InputDecoration(
-                  labelText: l10n.codeForgeGeoLng,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onChanged: (val) => provider.updateGeo(lng: val),
               ),
             ),
           ],

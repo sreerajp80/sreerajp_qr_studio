@@ -11,6 +11,7 @@ import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
 import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
 import 'package:sreeraj_qr_reader/providers/history_provider.dart';
 import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
+import 'package:sreeraj_qr_reader/providers/multi_code_selection_provider.dart';
 import 'package:sreeraj_qr_reader/providers/onboarding_provider.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
 import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
@@ -50,6 +51,7 @@ class SreerajQRReaderApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => CodeForgeProvider()),
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => BatchScanProvider()),
+        ChangeNotifierProvider(create: (_) => MultiCodeSelectionProvider()),
       ],
       child: Consumer3<ThemeProvider, LocaleProvider, OnboardingProvider>(
         builder:

@@ -9,7 +9,7 @@ class AppLocalizationsMl extends AppLocalizations {
   AppLocalizationsMl([String locale = 'ml']) : super(locale);
 
   @override
-  String get appTitle => 'SreerajP QR Reader';
+  String get appTitle => 'ശ്രീരാജ് പി ക്യുആർ റീഡർ';
 
   @override
   String get wifiCardTitle => 'വൈ-ഫൈ ശൃംഖല';
@@ -2279,6 +2279,31 @@ class AppLocalizationsMl extends AppLocalizations {
   String get codeForgePresetText => 'ടെക്സ്റ്റ്';
 
   @override
+  String get codeForgeTextHint =>
+      'വ്യക്തവും എളുപ്പവുമായ സ്കാനിംഗിനായി ടെക്സ്റ്റ് 500 അക്ഷരങ്ങളിൽ പരിമിതപ്പെടുത്തുക';
+
+  @override
+  String get codeForgeLoadFromFile => 'ഫയലിൽ നിന്ന് ചേർക്കുക';
+
+  @override
+  String get codeForgeLoadFromFileTooltip =>
+      'QR കോഡ് നിർമ്മിക്കാൻ ഫയലിൽ നിന്ന് വിവരങ്ങൾ എടുക്കുക';
+
+  @override
+  String get codeForgeFileEmpty => 'തിരഞ്ഞെടുത്ത ഫയൽ ശൂന്യമാണ്.';
+
+  @override
+  String get codeForgeFileTruncated =>
+      'ഒറ്റ QR കോഡിൽ എളുപ്പത്തിൽ സ്കാൻ ചെയ്യുന്നതിനായി ഉള്ളടക്കം 500 അക്ഷരങ്ങളായി ചുരുക്കി.';
+
+  @override
+  String get codeForgeFileLoaded =>
+      'ഫയലിൽ നിന്നുള്ള വിവരങ്ങൾ വിജയകരമായി എടുത്തു.';
+
+  @override
+  String get codeForgeFileReadError => 'തിരഞ്ഞെടുത്ത ഫയൽ വായിക്കാൻ കഴിഞ്ഞില്ല.';
+
+  @override
   String get codeForgePresetUrl => 'ലിങ്ക്';
 
   @override
@@ -2361,6 +2386,18 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get codeForgeGeoLng => 'രേഖാംശം';
+
+  @override
+  String get codeForgeGeoUseMyLocation => 'എന്റെ ലൊക്കേഷൻ';
+
+  @override
+  String get codeForgeGeoFetching => 'ലൊക്കേഷൻ കണ്ടെത്തുന്നു…';
+
+  @override
+  String get codeForgeGeoFailed => 'ലൊക്കേഷൻ ലഭിച്ചില്ല';
+
+  @override
+  String get codeForgeGeoPermissionDenied => 'ലൊക്കേഷൻ അനുമതി നിരസിച്ചു';
 
   @override
   String get codeForgeDesignStudio => 'രൂപകൽപ്പന';
@@ -2640,4 +2677,96 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get scanDistanceModeActive => 'ദൂര മോഡ് സജീവം';
+
+  @override
+  String get scanFromClipboard => 'ക്ലിപ്പ്ബോർഡിൽ നിന്ന് സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get clipboardBannerTitle => 'ക്ലിപ്പ്ബോർഡ് വിവരം കണ്ടെത്തി';
+
+  @override
+  String get clipboardActionScan => 'ഇപ്പോൾ സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get clipboardDismiss => 'ഒഴിവാക്കുക';
+
+  @override
+  String get clipboardEmptyMessage => 'ക്ലിപ്പ്ബോർഡ് ശൂന്യമാണ്';
+
+  @override
+  String get clipboardNoValidContent =>
+      'ക്ലിപ്പ്ബോർഡിൽ സ്കാൻ ചെയ്യാൻ കഴിയുന്ന വിവരങ്ങൾ ഒന്നുമില്ല';
+
+  @override
+  String get clipboardTypeUrl => 'യുആർഎൽ';
+
+  @override
+  String get clipboardTypeBarcode => 'ബാർകോഡ് വിവരം';
+
+  @override
+  String get clipboardTypeImage => 'ചിത്രം';
+
+  @override
+  String get clipboardTypeText => 'വാചകം';
+
+  @override
+  String get multiCodeDetectedBanner =>
+      'ഒന്നിലധികം കോഡുകൾ കണ്ടെത്തി. സ്കാൻ ചെയ്യാൻ കോഡിൽ തൊടുക.';
+
+  @override
+  String get multiCodeTapToScan => 'സ്കാൻ ചെയ്യാൻ തൊടുക';
+
+  @override
+  String get multiCodeSelectionTitle => 'മൾട്ടി-കോഡ് സ്കാൻ';
+
+  @override
+  String get multiCodeSelectionSubtitle =>
+      'ഒന്നിലധികം കോഡുകൾ ഉണ്ടാകുമ്പോൾ അവ അടയാളപ്പെടുത്തി തെരഞ്ഞെടുക്കാൻ അനുവദിക്കുന്നു';
+
+  @override
+  String get multiCodeDismissTooltip => 'ഒഴിവാക്കുക';
+
+  @override
+  String get ghostScanTitle => 'ഗോസ്റ്റ്സ്കാൻ';
+
+  @override
+  String get ghostScanSubtitle => 'സ്ക്രീനിലെ ക്യുആർ കോഡ് സ്കാനർ';
+
+  @override
+  String get ghostScanDescription =>
+      'മറ്റ് ആപ്പുകളിലെ സ്ക്രീനിലുള്ള ക്യുആർ കോഡുകൾ സ്ക്രീൻഷോട്ട് എടുക്കാതെ തന്നെ കണ്ടെത്തുന്നു.';
+
+  @override
+  String get ghostScanTileLabel => 'ഗോസ്റ്റ്സ്കാൻ';
+
+  @override
+  String get ghostScanActionScanNow => 'സ്ക്രീൻ ഇപ്പോൾ സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get ghostScanActionAddTile => 'ക്വിക്ക് സെറ്റിങ്സ് ടൈൽ ചേർക്കുക';
+
+  @override
+  String get ghostScanTileAdded => 'ക്വിക്ക് സെറ്റിങ്സ് ടൈൽ അഭ്യർത്ഥന അയച്ചു';
+
+  @override
+  String get ghostScanHowItWorksTitle => 'ഗോസ്റ്റ്സ്കാൻ എങ്ങനെ ഉപയോഗിക്കാം';
+
+  @override
+  String get ghostScanStep1 =>
+      'ഏത് ആപ്പിൽ നിന്നും നിങ്ങളുടെ ക്വിക്ക് സെറ്റിങ്സ് ഷേഡ് താഴേക്ക് വലിക്കുക.';
+
+  @override
+  String get ghostScanStep2 =>
+      'സ്ക്രീനിലുള്ള കോഡ് സ്കാൻ ചെയ്യാൻ ഗോസ്റ്റ്സ്കാൻ ടൈലിൽ തൊടുക.';
+
+  @override
+  String get ghostScanStep3 =>
+      'ഗാലറിയിൽ ഫോട്ടോ സൂക്ഷിക്കാതെ തന്നെ കോഡ് ഉടനടി സ്കാൻ ചെയ്യുന്നു.';
+
+  @override
+  String get ghostScanAnalyzing => 'സ്ക്രീൻ ഉള്ളടക്കം പരിശോധിക്കുന്നു...';
+
+  @override
+  String get ghostScanNoCodeFound =>
+      'സ്ക്രീനിൽ ക്യുആർ കോഡോ ബാർകോഡോ കണ്ടെത്താനായില്ല';
 }

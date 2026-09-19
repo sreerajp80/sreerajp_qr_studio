@@ -1,0 +1,76 @@
+import 'package:flutter/widgets.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
+/// Immutable model representing a visible barcode in the main scanner viewport
+/// with both camera-frame and screen-logical coordinates for interactive selection.
+@immutable
+class VisibleBarcode {
+  final String id;
+  final String rawValue;
+  final BarcodeFormat format;
+  final BarcodeType type;
+  final List<Offset> corners;
+  final Rect boundingBox;
+  final Rect screenRect;
+  final DateTime lastSeen;
+  final bool isUrl;
+  final String displayLabel;
+
+  const VisibleBarcode({
+    required this.id,
+    required this.rawValue,
+    required this.format,
+    required this.type,
+    required this.corners,
+    required this.boundingBox,
+    required this.screenRect,
+    required this.lastSeen,
+    required this.isUrl,
+    required this.displayLabel,
+  });
+
+  VisibleBarcode copyWith({
+    String? id,
+    String? rawValue,
+    BarcodeFormat? format,
+    BarcodeType? type,
+    List<Offset>? corners,
+    Rect? boundingBox,
+    Rect? screenRect,
+    DateTime? lastSeen,
+    bool? isUrl,
+    String? displayLabel,
+  }) {
+    return VisibleBarcode(
+      id: id ?? this.id,
+      rawValue: rawValue ?? this.rawValue,
+      format: format ?? this.format,
+      type: type ?? this.type,
+      corners: corners ?? this.corners,
+      boundingBox: boundingBox ?? this.boundingBox,
+      screenRect: screenRect ?? this.screenRect,
+      lastSeen: lastSeen ?? this.lastSeen,
+      isUrl: isUrl ?? this.isUrl,
+      displayLabel: displayLabel ?? this.displayLabel,
+    );
+  }
+
+  /// Converts this visible barcode back to a standard MobileScanner [Barcode] instance.
+  Barcode toBarcode() {
+    return Barcode(rawValue: rawValue, format: format, corners: corners);
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is VisibleBarcode &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          rawValue == other.rawValue &&
+          format == other.format &&
+          screenRect == other.screenRect;
+
+  @override
+  int get hashCode =>
+      id.hashCode ^ rawValue.hashCode ^ format.hashCode ^ screenRect.hashCode;
+}

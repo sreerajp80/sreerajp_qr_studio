@@ -140,6 +140,12 @@ enum AppMessageKey {
   mediaPdfPickFailed,
   mediaNoCodeInPdf,
   mediaPdfScanFailed,
+
+  // --- CodeForge file reading ---
+  codeForgeFileEmpty,
+  codeForgeFileTruncated,
+  codeForgeFileLoaded,
+  codeForgeFileReadError,
 }
 
 /// One user-visible message, named by [key], plus any values it carries.

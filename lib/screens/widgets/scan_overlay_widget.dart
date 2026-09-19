@@ -16,7 +16,7 @@ class ScanOverlayWidget extends StatefulWidget {
   const ScanOverlayWidget({
     super.key,
     required this.style,
-    this.scanAreaSize = 250.0,
+    this.scanAreaSize = 290.0,
     this.detectedBoundingBox,
     this.detectedCorners,
     this.isSuccess = false,

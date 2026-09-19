@@ -9,7 +9,7 @@ class AppLocalizationsSa extends AppLocalizations {
   AppLocalizationsSa([String locale = 'sa']) : super(locale);
 
   @override
-  String get appTitle => 'SreerajP QR Reader';
+  String get appTitle => 'श्रीराज् पि क्यू-आर-पाठकः';
 
   @override
   String get wifiCardTitle => 'वै-फाई संजालम्';
@@ -2226,6 +2226,30 @@ class AppLocalizationsSa extends AppLocalizations {
   String get codeForgePresetText => 'पाठ्यम्';
 
   @override
+  String get codeForgeTextHint =>
+      'स्पष्टाय सुकराय च क्रमवीक्षणाय पाठ्यं ५०० वर्णेभ्यः न्यूनं स्थापयतु';
+
+  @override
+  String get codeForgeLoadFromFile => 'सञ्चिकातः पठतु';
+
+  @override
+  String get codeForgeLoadFromFileTooltip =>
+      'QR-संकेत-निर्माणाय सञ्चिकातः पाठं स्वीकरोतु';
+
+  @override
+  String get codeForgeFileEmpty => 'चितसञ्चिका रिक्ता अस्ति।';
+
+  @override
+  String get codeForgeFileTruncated =>
+      'एकस्मिन् त्वरित-स्कैन-QR-संकेते समावेशनाय पाठः ५०० वर्णेभ्यः सीमितः कृतः।';
+
+  @override
+  String get codeForgeFileLoaded => 'सञ्चिकायाः पाठः सफलतया स्वीकृतः।';
+
+  @override
+  String get codeForgeFileReadError => 'चितसञ्चिकायाः पठने असमर्थः।';
+
+  @override
   String get codeForgePresetUrl => 'जालसङ्केतः';
 
   @override
@@ -2308,6 +2332,18 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get codeForgeGeoLng => 'रेखांशः';
+
+  @override
+  String get codeForgeGeoUseMyLocation => 'मम स्थानम्';
+
+  @override
+  String get codeForgeGeoFetching => 'स्थानं प्राप्यते…';
+
+  @override
+  String get codeForgeGeoFailed => 'स्थानं न प्राप्तम्';
+
+  @override
+  String get codeForgeGeoPermissionDenied => 'स्थान-अनुज्ञा निराकृता';
 
   @override
   String get codeForgeDesignStudio => 'संरचना-विन्यासः';
@@ -2580,4 +2616,96 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get scanDistanceModeActive => 'दूरस्थविधिः सक्रियः';
+
+  @override
+  String get scanFromClipboard => 'फलकात् स्कैन् कुर्वन्तु';
+
+  @override
+  String get clipboardBannerTitle => 'फलके सामग्री प्राप्ता';
+
+  @override
+  String get clipboardActionScan => 'स्कैन् क्रियताम्';
+
+  @override
+  String get clipboardDismiss => 'निरस्यतु';
+
+  @override
+  String get clipboardEmptyMessage => 'फलकं रिक्तम्';
+
+  @override
+  String get clipboardNoValidContent =>
+      'फलके कोऽपि स्कैन्-योग्यः सङ्केतः न प्राप्तः';
+
+  @override
+  String get clipboardTypeUrl => 'सम्पर्कतन्तुः';
+
+  @override
+  String get clipboardTypeBarcode => 'बारकोड-दत्तांशः';
+
+  @override
+  String get clipboardTypeImage => 'चित्रम्';
+
+  @override
+  String get clipboardTypeText => 'पाठः';
+
+  @override
+  String get multiCodeDetectedBanner =>
+      'बहवः सङ्केताः दृष्टाः। स्कैनाय सङ्केतं स्पृशतु।';
+
+  @override
+  String get multiCodeTapToScan => 'स्कैनाय स्पृशतु';
+
+  @override
+  String get multiCodeSelectionTitle => 'बहु-सङ्केत-चयनम्';
+
+  @override
+  String get multiCodeSelectionSubtitle =>
+      'यदा बहवः स्युः तदा दृश्यसङ्केतान् रूपरेखयित्वा चयनार्थं स्पृशतु';
+
+  @override
+  String get multiCodeDismissTooltip => 'चयनं निराकरोतु';
+
+  @override
+  String get ghostScanTitle => 'छायावीक्षणम्';
+
+  @override
+  String get ghostScanSubtitle => 'पटपुटस्थ-क्यु-आर्-अन्वेषकम्';
+
+  @override
+  String get ghostScanDescription =>
+      'कस्यामपि प्रयुक्तौ पटपुटे दृश्यमानान् क्यु-आर्-सङ्केतान् छायाचित्रणं विना अभिजानातु।';
+
+  @override
+  String get ghostScanTileLabel => 'छायावीक्षणम्';
+
+  @override
+  String get ghostScanActionScanNow => 'अधुना पटपुटं वीक्षताम्';
+
+  @override
+  String get ghostScanActionAddTile => 'शीघ्रसंयोजन-पट्टिका योज्यताम्';
+
+  @override
+  String get ghostScanTileAdded => 'शीघ्रसंयोजन-पट्टिकानुरोधः प्रेषितः';
+
+  @override
+  String get ghostScanHowItWorksTitle => 'छायावीक्षणस्य उपयोगविधिः';
+
+  @override
+  String get ghostScanStep1 =>
+      'कस्यामपि प्रयुक्तौ शीघ्रसंयोजन-छादनम् अधः आकर्षतु।';
+
+  @override
+  String get ghostScanStep2 =>
+      'पटपुटस्य क्यु-आर्-सङ्केतं पठितुं छायावीक्षण-पट्टिकां स्पृशतु।';
+
+  @override
+  String get ghostScanStep3 =>
+      'चित्रागारे रक्षणं विना एव सङ्केतः सद्यः पठ्यते।';
+
+  @override
+  String get ghostScanAnalyzing => 'पटपुटविषयस्य विश्लेषणं क्रियते...';
+
+  @override
+  String get ghostScanNoCodeFound =>
+      'पटपुटे कश्चिदपि क्यु-आर्-सङ्केतः न दृष्टः';
 }

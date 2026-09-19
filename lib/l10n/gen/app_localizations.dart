@@ -4072,6 +4072,48 @@ abstract class AppLocalizations {
   /// **'Text'**
   String get codeForgePresetText;
 
+  /// Helper hint text suggesting optimal text length for QR code creation
+  ///
+  /// In en, this message translates to:
+  /// **'Keep text concise for clear and reliable scanning (up to 500 characters)'**
+  String get codeForgeTextHint;
+
+  /// Button label to pick and load text from a file into CodeForge
+  ///
+  /// In en, this message translates to:
+  /// **'Read from file'**
+  String get codeForgeLoadFromFile;
+
+  /// Tooltip for read from file button
+  ///
+  /// In en, this message translates to:
+  /// **'Read text from a file into the QR code generator'**
+  String get codeForgeLoadFromFileTooltip;
+
+  /// Error message when the selected text file is empty
+  ///
+  /// In en, this message translates to:
+  /// **'The selected file is empty.'**
+  String get codeForgeFileEmpty;
+
+  /// Notice shown when file text exceeds 500 characters and is trimmed for single QR code sharing
+  ///
+  /// In en, this message translates to:
+  /// **'Text was trimmed to 500 characters to fit in a single, fast-scanning QR code.'**
+  String get codeForgeFileTruncated;
+
+  /// Confirmation message when text is loaded from a file
+  ///
+  /// In en, this message translates to:
+  /// **'Text loaded from file successfully.'**
+  String get codeForgeFileLoaded;
+
+  /// Error message when file reading fails
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to read the selected file.'**
+  String get codeForgeFileReadError;
+
   /// Preset chip for web link payload
   ///
   /// In en, this message translates to:
@@ -4239,6 +4281,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Longitude'**
   String get codeForgeGeoLng;
+
+  /// Button label to auto-fill GPS coordinates from device location
+  ///
+  /// In en, this message translates to:
+  /// **'Use My Location'**
+  String get codeForgeGeoUseMyLocation;
+
+  /// Loading text shown while fetching GPS coordinates
+  ///
+  /// In en, this message translates to:
+  /// **'Getting location…'**
+  String get codeForgeGeoFetching;
+
+  /// Error message when GPS location fetch fails
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get location'**
+  String get codeForgeGeoFailed;
+
+  /// Error message when user denies location permission
+  ///
+  /// In en, this message translates to:
+  /// **'Location permission denied'**
+  String get codeForgeGeoPermissionDenied;
 
   /// Header for QR code visual design customization studio
   ///
@@ -4749,6 +4815,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Distance Mode Active'**
   String get scanDistanceModeActive;
+
+  /// Button and tooltip to scan barcode, URL, or image from system clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Scan from Clipboard'**
+  String get scanFromClipboard;
+
+  /// Title for quick scan banner when clipboard has scannable content
+  ///
+  /// In en, this message translates to:
+  /// **'Clipboard content detected'**
+  String get clipboardBannerTitle;
+
+  /// Action button to trigger scan of detected clipboard content
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Now'**
+  String get clipboardActionScan;
+
+  /// Action button to dismiss the clipboard detection banner
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get clipboardDismiss;
+
+  /// Message shown when clipboard contains no text or image
+  ///
+  /// In en, this message translates to:
+  /// **'Clipboard is empty'**
+  String get clipboardEmptyMessage;
+
+  /// Message shown when clipboard content is not recognized as a barcode, URL, or image
+  ///
+  /// In en, this message translates to:
+  /// **'No scannable link, code, or image found in clipboard'**
+  String get clipboardNoValidContent;
+
+  /// Type label for detected URL in clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'URL'**
+  String get clipboardTypeUrl;
+
+  /// Type label for detected barcode payload in clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode Payload'**
+  String get clipboardTypeBarcode;
+
+  /// Type label for detected image in clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Image'**
+  String get clipboardTypeImage;
+
+  /// Type label for detected text in clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get clipboardTypeText;
+
+  /// Banner informing the user that multiple barcodes are visible in the viewfinder and prompting them to tap one to scan
+  ///
+  /// In en, this message translates to:
+  /// **'Multiple codes detected. Tap a code to scan.'**
+  String get multiCodeDetectedBanner;
+
+  /// Tooltip and action hint for tapping a visible barcode bounding box
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to scan'**
+  String get multiCodeTapToScan;
+
+  /// Settings title for toggling multi-code detection on the main camera scanner
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Code Selection'**
+  String get multiCodeSelectionTitle;
+
+  /// Settings subtitle explaining the multi-code selection behavior
+  ///
+  /// In en, this message translates to:
+  /// **'Outline visible codes and tap to choose when multiple are present'**
+  String get multiCodeSelectionSubtitle;
+
+  /// Tooltip for dismissing the multi-code selection banner
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss selection'**
+  String get multiCodeDismissTooltip;
+
+  /// Title of the GhostScan screen content QR detector feature
+  ///
+  /// In en, this message translates to:
+  /// **'GhostScan'**
+  String get ghostScanTitle;
+
+  /// Subtitle describing GhostScan capability
+  ///
+  /// In en, this message translates to:
+  /// **'Screen Content QR Detector'**
+  String get ghostScanSubtitle;
+
+  /// Explanation of how GhostScan scans screen contents without manual screenshots
+  ///
+  /// In en, this message translates to:
+  /// **'Detect and decode QR codes visible on your screen inside any app without taking manual screenshots.'**
+  String get ghostScanDescription;
+
+  /// Label for the Android Quick Settings tile
+  ///
+  /// In en, this message translates to:
+  /// **'GhostScan'**
+  String get ghostScanTileLabel;
+
+  /// Button to trigger on-demand screen scanning
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Screen Now'**
+  String get ghostScanActionScanNow;
+
+  /// Button to request adding the GhostScan tile to Quick Settings
+  ///
+  /// In en, this message translates to:
+  /// **'Add Quick Settings Tile'**
+  String get ghostScanActionAddTile;
+
+  /// Toast confirming the tile addition request was sent to the system
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Settings tile request sent'**
+  String get ghostScanTileAdded;
+
+  /// Header for step-by-step instructions on using GhostScan
+  ///
+  /// In en, this message translates to:
+  /// **'How to use GhostScan'**
+  String get ghostScanHowItWorksTitle;
+
+  /// First step for using GhostScan via Quick Settings
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down your Quick Settings notification shade from any app.'**
+  String get ghostScanStep1;
+
+  /// Second step for using GhostScan via Quick Settings
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the GhostScan tile to capture and decode the screen.'**
+  String get ghostScanStep2;
+
+  /// Third step for using GhostScan via Quick Settings
+  ///
+  /// In en, this message translates to:
+  /// **'The code is decoded instantly without saving screenshots to your gallery.'**
+  String get ghostScanStep3;
+
+  /// Status message while processing a captured screen image
+  ///
+  /// In en, this message translates to:
+  /// **'Analyzing screen content...'**
+  String get ghostScanAnalyzing;
+
+  /// Message shown when no barcode is found in the screen capture
+  ///
+  /// In en, this message translates to:
+  /// **'No QR code or barcode detected on screen'**
+  String get ghostScanNoCodeFound;
 }
 
 class _AppLocalizationsDelegate

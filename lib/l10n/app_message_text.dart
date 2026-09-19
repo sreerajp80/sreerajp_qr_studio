@@ -242,6 +242,16 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
       return l10n.mediaNoCodeInPdf;
     case AppMessageKey.mediaPdfScanFailed:
       return l10n.mediaPdfScanFailed(args['error'] ?? '');
+
+    // CodeForge file reading
+    case AppMessageKey.codeForgeFileEmpty:
+      return l10n.codeForgeFileEmpty;
+    case AppMessageKey.codeForgeFileTruncated:
+      return l10n.codeForgeFileTruncated;
+    case AppMessageKey.codeForgeFileLoaded:
+      return l10n.codeForgeFileLoaded;
+    case AppMessageKey.codeForgeFileReadError:
+      return l10n.codeForgeFileReadError;
   }
 }
 

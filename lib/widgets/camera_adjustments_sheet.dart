@@ -38,7 +38,10 @@ class CameraAdjustmentsSheet extends StatelessWidget {
             left: 24.0,
             right: 24.0,
             top: 16.0,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 24.0,
+            bottom:
+                MediaQuery.of(context).viewInsets.bottom +
+                MediaQuery.of(context).viewPadding.bottom +
+                24.0,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -274,6 +277,28 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   onChanged: (val) => provider.setUnsharpMaskStrength(val),
                 ),
               ],
+
+              const Divider(height: 24),
+
+              // Multi-Code Tappable Selection Section
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                secondary: const Icon(Icons.qr_code_scanner),
+                title: Text(
+                  l10n.multiCodeSelectionTitle,
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                subtitle: Text(
+                  l10n.multiCodeSelectionSubtitle,
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ),
+                value: provider.multiCodeSelectionEnabled,
+                onChanged: (val) => provider.setMultiCodeSelectionEnabled(val),
+              ),
             ],
           ),
         );

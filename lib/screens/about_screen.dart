@@ -124,7 +124,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
                   // App Name
                   Text(
-                    _config.appName,
+                    _config.appName.resolve(lang),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),

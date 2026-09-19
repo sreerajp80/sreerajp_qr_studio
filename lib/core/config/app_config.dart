@@ -13,6 +13,7 @@ class LocalizedText {
       _byLocale = byLocale;
 
   bool get isEmpty => _plain.trim().isEmpty && _byLocale.isEmpty;
+  bool get isNotEmpty => !isEmpty;
 
   /// [languageCode] is the active app language: 'en', 'ml' or 'sa'.
   String resolve(String languageCode) {
@@ -39,7 +40,7 @@ class LocalizedText {
 /// Typed values for the About screen, loaded from `assets/config/app_config.json`.
 /// Changing About content is a config edit, not a code change.
 class AppConfig {
-  final String appName;
+  final LocalizedText appName;
   final LocalizedText description;
   final String version;
   final String build;
@@ -56,7 +57,7 @@ class AppConfig {
   /// Safe built-in value used when the config file is missing or malformed,
   /// so the app never crashes on a bad config.
   static const AppConfig fallback = AppConfig(
-    appName: 'SreerajP QR Reader',
+    appName: LocalizedText.plain('SreerajP QR Reader'),
     description: LocalizedText.plain(
       'A privacy-first QR and barcode scanner with 6-layer URL safety checks.',
     ),
@@ -86,14 +87,17 @@ class AppConfig {
       raw.forEach((k, v) {
         if (k is String) {
           final text = LocalizedText.fromJson(v);
-          if (!text.isEmpty) out[k] = text;
+          if (text.isNotEmpty) out[k] = text;
         }
       });
       return out;
     }
 
     return AppConfig(
-      appName: str('appName', fallback.appName),
+      appName: LocalizedText.fromJson(
+        json['appName'],
+        fallback: fallback.appName.resolve('en'),
+      ),
       description: LocalizedText.fromJson(
         json['description'],
         fallback: fallback.description.resolve('en'),

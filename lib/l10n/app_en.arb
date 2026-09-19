@@ -3048,6 +3048,34 @@
   "@codeForgePresetText": {
     "description": "Preset chip for plain text payload"
   },
+  "codeForgeTextHint": "Keep text concise for clear and reliable scanning (up to 500 characters)",
+  "@codeForgeTextHint": {
+    "description": "Helper hint text suggesting optimal text length for QR code creation"
+  },
+  "codeForgeLoadFromFile": "Read from file",
+  "@codeForgeLoadFromFile": {
+    "description": "Button label to pick and load text from a file into CodeForge"
+  },
+  "codeForgeLoadFromFileTooltip": "Read text from a file into the QR code generator",
+  "@codeForgeLoadFromFileTooltip": {
+    "description": "Tooltip for read from file button"
+  },
+  "codeForgeFileEmpty": "The selected file is empty.",
+  "@codeForgeFileEmpty": {
+    "description": "Error message when the selected text file is empty"
+  },
+  "codeForgeFileTruncated": "Text was trimmed to 500 characters to fit in a single, fast-scanning QR code.",
+  "@codeForgeFileTruncated": {
+    "description": "Notice shown when file text exceeds 500 characters and is trimmed for single QR code sharing"
+  },
+  "codeForgeFileLoaded": "Text loaded from file successfully.",
+  "@codeForgeFileLoaded": {
+    "description": "Confirmation message when text is loaded from a file"
+  },
+  "codeForgeFileReadError": "Unable to read the selected file.",
+  "@codeForgeFileReadError": {
+    "description": "Error message when file reading fails"
+  },
   "codeForgePresetUrl": "URL / Link",
   "@codeForgePresetUrl": {
     "description": "Preset chip for web link payload"
@@ -3159,6 +3187,22 @@
   "codeForgeGeoLng": "Longitude",
   "@codeForgeGeoLng": {
     "description": "Input field label for geographic longitude"
+  },
+  "codeForgeGeoUseMyLocation": "Use My Location",
+  "@codeForgeGeoUseMyLocation": {
+    "description": "Button label to auto-fill GPS coordinates from device location"
+  },
+  "codeForgeGeoFetching": "Getting location…",
+  "@codeForgeGeoFetching": {
+    "description": "Loading text shown while fetching GPS coordinates"
+  },
+  "codeForgeGeoFailed": "Could not get location",
+  "@codeForgeGeoFailed": {
+    "description": "Error message when GPS location fetch fails"
+  },
+  "codeForgeGeoPermissionDenied": "Location permission denied",
+  "@codeForgeGeoPermissionDenied": {
+    "description": "Error message when user denies location permission"
   },
   "codeForgeDesignStudio": "Design & Structure",
   "@codeForgeDesignStudio": {
@@ -3533,7 +3577,120 @@
   "scanDistanceModeActive": "Distance Mode Active",
   "@scanDistanceModeActive": {
     "description": "HUD badge text displayed when distance scan assist mode is active"
+  },
+  "scanFromClipboard": "Scan from Clipboard",
+  "@scanFromClipboard": {
+    "description": "Button and tooltip to scan barcode, URL, or image from system clipboard"
+  },
+  "clipboardBannerTitle": "Clipboard content detected",
+  "@clipboardBannerTitle": {
+    "description": "Title for quick scan banner when clipboard has scannable content"
+  },
+  "clipboardActionScan": "Scan Now",
+  "@clipboardActionScan": {
+    "description": "Action button to trigger scan of detected clipboard content"
+  },
+  "clipboardDismiss": "Dismiss",
+  "@clipboardDismiss": {
+    "description": "Action button to dismiss the clipboard detection banner"
+  },
+  "clipboardEmptyMessage": "Clipboard is empty",
+  "@clipboardEmptyMessage": {
+    "description": "Message shown when clipboard contains no text or image"
+  },
+  "clipboardNoValidContent": "No scannable link, code, or image found in clipboard",
+  "@clipboardNoValidContent": {
+    "description": "Message shown when clipboard content is not recognized as a barcode, URL, or image"
+  },
+  "clipboardTypeUrl": "URL",
+  "@clipboardTypeUrl": {
+    "description": "Type label for detected URL in clipboard"
+  },
+  "clipboardTypeBarcode": "Barcode Payload",
+  "@clipboardTypeBarcode": {
+    "description": "Type label for detected barcode payload in clipboard"
+  },
+  "clipboardTypeImage": "Image",
+  "@clipboardTypeImage": {
+    "description": "Type label for detected image in clipboard"
+  },
+  "clipboardTypeText": "Text",
+  "@clipboardTypeText": {
+    "description": "Type label for detected text in clipboard"
+  },
+  "multiCodeDetectedBanner": "Multiple codes detected. Tap a code to scan.",
+  "@multiCodeDetectedBanner": {
+    "description": "Banner informing the user that multiple barcodes are visible in the viewfinder and prompting them to tap one to scan"
+  },
+  "multiCodeTapToScan": "Tap to scan",
+  "@multiCodeTapToScan": {
+    "description": "Tooltip and action hint for tapping a visible barcode bounding box"
+  },
+  "multiCodeSelectionTitle": "Multi-Code Selection",
+  "@multiCodeSelectionTitle": {
+    "description": "Settings title for toggling multi-code detection on the main camera scanner"
+  },
+  "multiCodeSelectionSubtitle": "Outline visible codes and tap to choose when multiple are present",
+  "@multiCodeSelectionSubtitle": {
+    "description": "Settings subtitle explaining the multi-code selection behavior"
+  },
+  "multiCodeDismissTooltip": "Dismiss selection",
+  "@multiCodeDismissTooltip": {
+    "description": "Tooltip for dismissing the multi-code selection banner"
+  },
+  "ghostScanTitle": "GhostScan",
+  "@ghostScanTitle": {
+    "description": "Title of the GhostScan screen content QR detector feature"
+  },
+  "ghostScanSubtitle": "Screen Content QR Detector",
+  "@ghostScanSubtitle": {
+    "description": "Subtitle describing GhostScan capability"
+  },
+  "ghostScanDescription": "Detect and decode QR codes visible on your screen inside any app without taking manual screenshots.",
+  "@ghostScanDescription": {
+    "description": "Explanation of how GhostScan scans screen contents without manual screenshots"
+  },
+  "ghostScanTileLabel": "GhostScan",
+  "@ghostScanTileLabel": {
+    "description": "Label for the Android Quick Settings tile"
+  },
+  "ghostScanActionScanNow": "Scan Screen Now",
+  "@ghostScanActionScanNow": {
+    "description": "Button to trigger on-demand screen scanning"
+  },
+  "ghostScanActionAddTile": "Add Quick Settings Tile",
+  "@ghostScanActionAddTile": {
+    "description": "Button to request adding the GhostScan tile to Quick Settings"
+  },
+  "ghostScanTileAdded": "Quick Settings tile request sent",
+  "@ghostScanTileAdded": {
+    "description": "Toast confirming the tile addition request was sent to the system"
+  },
+  "ghostScanHowItWorksTitle": "How to use GhostScan",
+  "@ghostScanHowItWorksTitle": {
+    "description": "Header for step-by-step instructions on using GhostScan"
+  },
+  "ghostScanStep1": "Pull down your Quick Settings notification shade from any app.",
+  "@ghostScanStep1": {
+    "description": "First step for using GhostScan via Quick Settings"
+  },
+  "ghostScanStep2": "Tap the GhostScan tile to capture and decode the screen.",
+  "@ghostScanStep2": {
+    "description": "Second step for using GhostScan via Quick Settings"
+  },
+  "ghostScanStep3": "The code is decoded instantly without saving screenshots to your gallery.",
+  "@ghostScanStep3": {
+    "description": "Third step for using GhostScan via Quick Settings"
+  },
+  "ghostScanAnalyzing": "Analyzing screen content...",
+  "@ghostScanAnalyzing": {
+    "description": "Status message while processing a captured screen image"
+  },
+  "ghostScanNoCodeFound": "No QR code or barcode detected on screen",
+  "@ghostScanNoCodeFound": {
+    "description": "Message shown when no barcode is found in the screen capture"
   }
 }
+
 
 

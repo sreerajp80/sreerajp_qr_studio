@@ -66,6 +66,15 @@ void main() {
       expect(find.text('English'), findsOneWidget);
       expect(find.text('മലയാളം'), findsOneWidget);
       expect(find.text('संस्कृतम्'), findsOneWidget);
+
+      final radioGroup = tester.widget<RadioGroup<String>>(
+        find.byType(RadioGroup<String>),
+      );
+      final systemTile = tester.widget<RadioListTile<String>>(
+        find.widgetWithText(RadioListTile<String>, 'System default'),
+      );
+      expect(systemTile.value, equals(LocaleProvider.systemValue));
+      expect(radioGroup.groupValue, equals(LocaleProvider.systemValue));
     });
 
     testWidgets('Navigates to Appearance page on card tap', (tester) async {

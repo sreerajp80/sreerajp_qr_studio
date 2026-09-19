@@ -10,17 +10,25 @@ import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
 import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
 import 'package:sreeraj_qr_reader/main.dart';
 import 'package:sreeraj_qr_reader/models/camera_settings.dart';
+import 'package:sreeraj_qr_reader/models/clipboard_scan_data.dart';
+import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
 import 'package:sreeraj_qr_reader/providers/batch_scan_provider.dart';
 import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
 import 'package:sreeraj_qr_reader/providers/history_provider.dart';
+import 'package:sreeraj_qr_reader/providers/multi_code_selection_provider.dart';
 import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
 import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/batch_review_sheet.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/multi_code_bounding_box_widget.dart';
+import 'package:sreeraj_qr_reader/screens/widgets/multi_code_hint_banner.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/pdf_scan_results_sheet.dart';
 import 'package:sreeraj_qr_reader/screens/widgets/scan_overlay_widget.dart';
+import 'package:sreeraj_qr_reader/services/clipboard_scan_service.dart';
+import 'package:sreeraj_qr_reader/services/ghost_scan_service.dart';
 import 'package:sreeraj_qr_reader/services/media_scan_service.dart';
 import 'package:sreeraj_qr_reader/widgets/camera_adjustments_sheet.dart';
 import 'package:sreeraj_qr_reader/widgets/focus_ring_widget.dart';
+import 'package:sreeraj_qr_reader/widgets/ghost_scan_sheet.dart';
 
 class ScannerScreen extends StatefulWidget {
   final bool isActive;
@@ -52,13 +60,27 @@ class _ScannerScreenState extends State<ScannerScreen>
   late final MediaScanService _mediaScanService;
   StreamSubscription<List<SharedMediaFile>>? _intentSubscription;
 
+  // Clipboard detection & scanning
+  late final ClipboardScanService _clipboardScanService;
+  ClipboardScanData? _detectedClipboardData;
+  String? _lastDismissedClipboardContent;
+  String? _lastScannedClipboardContent;
+
+  // GhostScan screen content detection
+  late final GhostScanService _ghostScanService;
+  StreamSubscription<String>? _ghostScanSubscription;
+
   @override
   void initState() {
     super.initState();
     _mediaScanService = MediaScanService();
+    _clipboardScanService = ClipboardScanService();
+    _ghostScanService = GhostScanService();
     WidgetsBinding.instance.addObserver(this);
     _initializeScanner();
     _listenToShareIntents();
+    _listenToGhostScan();
+    _checkClipboard();
   }
 
   @override
@@ -97,6 +119,9 @@ class _ScannerScreenState extends State<ScannerScreen>
         controller?.stop();
       }
     } catch (_) {}
+    if (mounted) {
+      Provider.of<MultiCodeSelectionProvider>(context, listen: false).reset();
+    }
   }
 
   Future<void> _resumeCamera() async {
@@ -146,9 +171,6 @@ class _ScannerScreenState extends State<ScannerScreen>
         controller = MobileScannerController(
           cameraResolution: cameraSettings.targetResolution,
           invertImage: cameraSettings.invertColors,
-          autoZoom:
-              cameraSettings.isDistanceEnhanceMode &&
-              cameraSettings.autoZoomEnabled,
           formats: const [
             BarcodeFormat.qrCode,
             BarcodeFormat.code128,
@@ -179,14 +201,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
     if (mounted) {
       await _initializeScanner();
-      if (controller != null && mounted) {
-        try {
-          await controller!.start();
-          await _syncTorchState();
-        } catch (e) {
-          if (kDebugMode) debugPrint('Error restarting camera: $e');
-        }
-      }
+      await _syncTorchState();
     }
   }
 
@@ -240,10 +255,71 @@ class _ScannerScreenState extends State<ScannerScreen>
     _batchToastTimer?.cancel();
     _cameraSettingsProvider?.removeListener(_onCameraSettingsChanged);
     _intentSubscription?.cancel();
+    _ghostScanSubscription?.cancel();
+    _ghostScanService.dispose();
     routeObserver.unsubscribe(this);
     WidgetsBinding.instance.removeObserver(this);
     controller?.dispose();
     super.dispose();
+  }
+
+  void _listenToGhostScan() {
+    _ghostScanSubscription = _ghostScanService.onGhostScanImage.listen(
+      (imagePath) {
+        _handleGhostScanCapture(imagePath);
+      },
+      onError: (err) {
+        if (kDebugMode) debugPrint('Error in GhostScan stream: $err');
+      },
+    );
+
+    // Handle any image captured if app was launched cold by GhostScan
+    _ghostScanService.getInitialGhostScanImage().then((imagePath) {
+      if (imagePath != null && imagePath.isNotEmpty) {
+        _handleGhostScanCapture(imagePath);
+      }
+    });
+  }
+
+  Future<void> _handleGhostScanCapture(String imagePath) async {
+    if (!mounted) return;
+    final l10n = AppLocalizations.of(context);
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            const SizedBox(
+              width: 16,
+              height: 16,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+            const SizedBox(width: 12),
+            Text(l10n.ghostScanAnalyzing),
+          ],
+        ),
+        duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+
+    if (controller == null) {
+      await _initializeScanner();
+    }
+    if (controller == null) return;
+
+    await _scanImagePath(imagePath);
+  }
+
+  void _showGhostScanSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => GhostScanSheet(ghostScanService: _ghostScanService),
+    );
   }
 
   @override
@@ -285,6 +361,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         }
       }
     }
+    _checkClipboard();
   }
 
   @override
@@ -308,6 +385,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             }
           } catch (_) {}
         }
+        _checkClipboard();
         break;
       case AppLifecycleState.inactive:
         break;
@@ -315,6 +393,11 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _navigateToRoute(String routeName) async {
+    if (routeName == '/ghost_scan') {
+      _showGhostScanSheet();
+      return;
+    }
+
     try {
       if (controller != null &&
           controller!.value.isInitialized &&
@@ -362,6 +445,33 @@ class _ScannerScreenState extends State<ScannerScreen>
     final List<Barcode> barcodes = capture.barcodes;
     if (barcodes.isEmpty) return;
 
+    final cameraSettings = Provider.of<CameraSettingsProvider>(
+      context,
+      listen: false,
+    );
+    final multiCodeProvider = Provider.of<MultiCodeSelectionProvider>(
+      context,
+      listen: false,
+    );
+
+    if (cameraSettings.multiCodeSelectionEnabled) {
+      final screenSize = MediaQuery.sizeOf(context);
+      final frameSize = capture.size != Size.zero
+          ? capture.size
+          : cameraSettings.targetResolution;
+
+      if (barcodes.length > 1 || multiCodeProvider.isMultiCodeActive) {
+        multiCodeProvider.processCapture(
+          capture: capture,
+          screenSize: screenSize,
+          frameSize: frameSize,
+        );
+        if (multiCodeProvider.isMultiCodeActive) {
+          return;
+        }
+      }
+    }
+
     final barcode = barcodes.first;
     if (barcode.rawValue == null) return;
 
@@ -378,6 +488,46 @@ class _ScannerScreenState extends State<ScannerScreen>
         barcode.type,
         corners: barcode.corners,
       );
+    }
+  }
+
+  void _onSelectVisibleBarcode(VisibleBarcode visibleBarcode) async {
+    final multiCodeProvider = Provider.of<MultiCodeSelectionProvider>(
+      context,
+      listen: false,
+    );
+    multiCodeProvider.selectBarcode(visibleBarcode.id);
+
+    final scanProvider = Provider.of<ScanProvider>(context, listen: false);
+    if (scanProvider.isVibrationEnabled) {
+      HapticFeedback.mediumImpact();
+    }
+    if (scanProvider.isSoundEnabled) {
+      SystemSound.play(SystemSoundType.click);
+    }
+
+    final batchProvider = Provider.of<BatchScanProvider>(
+      context,
+      listen: false,
+    );
+
+    if (batchProvider.isBatchMode) {
+      _processBatchBarcode(visibleBarcode.toBarcode());
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          multiCodeProvider.selectBarcode('');
+        }
+      });
+    } else {
+      await Future.delayed(const Duration(milliseconds: 200));
+      if (mounted) {
+        multiCodeProvider.dismiss();
+        _processSingleBarcode(
+          visibleBarcode.rawValue,
+          visibleBarcode.type,
+          corners: visibleBarcode.corners,
+        );
+      }
     }
   }
 
@@ -593,6 +743,70 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  Future<void> _checkClipboard() async {
+    try {
+      final data = await _clipboardScanService.checkClipboard();
+      if (!mounted) return;
+      if (data != null &&
+          data.content != _lastDismissedClipboardContent &&
+          data.content != _lastScannedClipboardContent) {
+        setState(() {
+          _detectedClipboardData = data;
+        });
+      } else if (data == null && _detectedClipboardData != null) {
+        setState(() {
+          _detectedClipboardData = null;
+        });
+      }
+    } catch (_) {}
+  }
+
+  Future<void> _scanFromClipboard({ClipboardScanData? data}) async {
+    final targetData =
+        data ??
+        await _clipboardScanService.checkClipboard(includeGenericText: true);
+    if (!mounted) return;
+
+    if (targetData == null) {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(AppLocalizations.of(context).clipboardNoValidContent),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _lastScannedClipboardContent = targetData.content;
+      _detectedClipboardData = null;
+    });
+
+    if (targetData.type == ClipboardContentType.image) {
+      await _scanImagePath(targetData.content);
+    } else {
+      final batchProvider = Provider.of<BatchScanProvider>(
+        context,
+        listen: false,
+      );
+      if (batchProvider.isBatchMode) {
+        final barcodeFormat = switch (targetData.barcodeType) {
+          BarcodeType.product => BarcodeFormat.ean13,
+          BarcodeType.isbn => BarcodeFormat.ean13,
+          _ => BarcodeFormat.qrCode,
+        };
+        final syntheticBarcode = Barcode(
+          rawValue: targetData.content,
+          format: barcodeFormat,
+        );
+        _processBatchBarcode(syntheticBarcode);
+      } else {
+        _processSingleBarcode(targetData.content, targetData.barcodeType);
+      }
+    }
+  }
+
   void _processMediaScanResult(MediaScanResult result) {
     if (!mounted) return;
 
@@ -680,23 +894,45 @@ class _ScannerScreenState extends State<ScannerScreen>
     final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appTitle),
+        title: Text(
+          l10n.appTitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         elevation: 2,
+        actionsPadding: const EdgeInsets.only(right: 4),
         actions: [
           IconButton(
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.photo_library),
             onPressed: _scanGalleryImage,
             tooltip: l10n.scanFromGallery,
           ),
           IconButton(
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.picture_as_pdf),
             onPressed: _scanPdfDocument,
             tooltip: l10n.scanPdfDocument,
+          ),
+          IconButton(
+            visualDensity: VisualDensity.compact,
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
+            icon: const Icon(Icons.content_paste_go),
+            onPressed: () => _scanFromClipboard(),
+            tooltip: l10n.scanFromClipboard,
           ),
           Consumer<BatchScanProvider>(
             builder: (context, batchProvider, _) {
               final isBatch = batchProvider.isBatchMode;
               return IconButton(
+                visualDensity: VisualDensity.compact,
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
                 icon: Icon(
                   isBatch ? Icons.inventory_2 : Icons.inventory_2_outlined,
                   color: isBatch ? Theme.of(context).colorScheme.primary : null,
@@ -721,10 +957,22 @@ class _ScannerScreenState extends State<ScannerScreen>
             },
           ),
           PopupMenuButton<String>(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.more_vert),
             tooltip: l10n.moreOptions,
             onSelected: _navigateToRoute,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              PopupMenuItem<String>(
+                value: '/ghost_scan',
+                child: Row(
+                  children: [
+                    const Icon(Icons.screenshot_monitor),
+                    const SizedBox(width: 12),
+                    Text(l10n.ghostScanTitle),
+                  ],
+                ),
+              ),
               PopupMenuItem<String>(
                 value: '/code_forge',
                 child: Row(
@@ -809,6 +1057,8 @@ class _ScannerScreenState extends State<ScannerScreen>
     final l10n = AppLocalizations.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
     final cameraSettings = Provider.of<CameraSettingsProvider>(context);
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final scanAreaSize = (screenWidth * 0.74).clamp(280.0, 330.0);
 
     return GestureDetector(
       onScaleStart: (details) {
@@ -838,6 +1088,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           ColorFiltered(
             colorFilter: ColorFilter.matrix(cameraSettings.colorMatrix),
             child: MobileScanner(
+              key: ValueKey(controller),
               controller: controller!,
               onDetect: _handleBarcode,
               errorBuilder: (context, error) {
@@ -864,6 +1115,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           // Dynamic customizable scanning overlay & barcode focus box
           Center(
             child: ScanOverlayWidget(
+              scanAreaSize: scanAreaSize,
               style: themeProvider.scanOverlayStyle,
               detectedCorners: _detectedCorners,
               isSuccess: _isScanSuccess,
@@ -876,6 +1128,31 @@ class _ScannerScreenState extends State<ScannerScreen>
               position: cameraSettings.focusPoint!,
               onAnimationComplete: () => cameraSettings.clearFocusPoint(),
             ),
+          // Multi-Code Tappable Selection Bounding Boxes & HUD Banner
+          Consumer<MultiCodeSelectionProvider>(
+            builder: (context, multiCodeProvider, _) {
+              if (!multiCodeProvider.isMultiCodeActive ||
+                  multiCodeProvider.visibleBarcodes.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return Stack(
+                children: [
+                  ...multiCodeProvider.visibleBarcodes.map((visible) {
+                    return MultiCodeBoundingBoxWidget(
+                      key: ValueKey(visible.id),
+                      barcode: visible,
+                      isSelected:
+                          multiCodeProvider.selectedBarcodeId == visible.id,
+                      onTap: () => _onSelectVisibleBarcode(visible),
+                    );
+                  }),
+                  MultiCodeHintBanner(
+                    onDismiss: () => multiCodeProvider.dismiss(),
+                  ),
+                ],
+              );
+            },
+          ),
           // Viewport Controls Suite Bar (Top Overlay)
           Positioned(
             top: 16,
@@ -927,20 +1204,6 @@ class _ScannerScreenState extends State<ScannerScreen>
                       onResolutionChanged: () => _restartScanner(),
                     ),
                     tooltip: l10n.cameraTuneTooltip,
-                  ),
-                  // Distance Scan Assist toggle button
-                  IconButton(
-                    icon: Icon(
-                      Icons.center_focus_strong,
-                      color: cameraSettings.isDistanceEnhanceMode
-                          ? Theme.of(context).colorScheme.primary
-                          : Colors.white,
-                    ),
-                    onPressed: () async {
-                      await cameraSettings.toggleDistanceEnhanceMode();
-                      _restartScanner();
-                    },
-                    tooltip: l10n.scanDistanceModeTooltip,
                   ),
                   IconButton(
                     icon: Icon(
@@ -1036,58 +1299,12 @@ class _ScannerScreenState extends State<ScannerScreen>
                 ),
               ),
             ),
-          // Distance-Enhanced Mode Active Badge
-          if (cameraSettings.isDistanceEnhanceMode)
-            Positioned(
-              top:
-                  (cameraSettings.flashMode == CameraFlashMode.auto &&
-                      cameraSettings.currentLux != null)
-                  ? 104
-                  : 68,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 4,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: 0.75),
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.center_focus_strong,
-                        size: 13,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(width: 5),
-                      Text(
-                        l10n.scanDistanceModeActive,
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
-                          fontSize: 11,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
           // Visual Zoom Slider Bar (Collapsible)
           if (_showZoomBar)
             Positioned(
               top:
-                  ((cameraSettings.flashMode == CameraFlashMode.auto &&
-                          cameraSettings.currentLux != null) ||
-                      cameraSettings.isDistanceEnhanceMode)
+                  (cameraSettings.flashMode == CameraFlashMode.auto &&
+                      cameraSettings.currentLux != null)
                   ? 104
                   : 76,
               left: 24,
@@ -1132,6 +1349,156 @@ class _ScannerScreenState extends State<ScannerScreen>
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+          // Floating Clipboard Scan Quick-Action Pill
+          if (_detectedClipboardData != null)
+            Positioned(
+              bottom: 154,
+              left: 20,
+              right: 20,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.88),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.5,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black54,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        switch (_detectedClipboardData!.type) {
+                          ClipboardContentType.image => Icons.image_outlined,
+                          ClipboardContentType.url => Icons.link,
+                          ClipboardContentType.barcodePayload => Icons.qr_code,
+                          ClipboardContentType.text =>
+                            Icons.text_snippet_outlined,
+                        },
+                        color: Theme.of(context).colorScheme.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      Flexible(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  l10n.clipboardBannerTitle,
+                                  style: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 11,
+                                  ),
+                                ),
+                                const SizedBox(width: 6),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 6,
+                                    vertical: 1,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer
+                                        .withValues(alpha: 0.8),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    switch (_detectedClipboardData!.type) {
+                                      ClipboardContentType.url =>
+                                        l10n.clipboardTypeUrl,
+                                      ClipboardContentType.barcodePayload =>
+                                        l10n.clipboardTypeBarcode,
+                                      ClipboardContentType.image =>
+                                        l10n.clipboardTypeImage,
+                                      ClipboardContentType.text =>
+                                        l10n.clipboardTypeText,
+                                    },
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimaryContainer,
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              _detectedClipboardData!.preview,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      FilledButton.tonal(
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                        onPressed: () =>
+                            _scanFromClipboard(data: _detectedClipboardData),
+                        child: Text(
+                          l10n.clipboardActionScan,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      IconButton(
+                        icon: const Icon(
+                          Icons.close,
+                          size: 18,
+                          color: Colors.white70,
+                        ),
+                        tooltip: l10n.clipboardDismiss,
+                        visualDensity: VisualDensity.compact,
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(),
+                        onPressed: () {
+                          setState(() {
+                            _lastDismissedClipboardContent =
+                                _detectedClipboardData!.content;
+                            _detectedClipboardData = null;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

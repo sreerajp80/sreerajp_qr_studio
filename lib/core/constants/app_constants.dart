@@ -5,4 +5,7 @@ class AppConstants {
     'BUILD_DATE',
     defaultValue: 'dev',
   );
+
+  /// Maximum character length for plain text QR code to ensure reliable scanning.
+  static const int maxCodeForgeTextLength = 500;
 }

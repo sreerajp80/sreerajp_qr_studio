@@ -330,28 +330,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
       builder: (dialogContext) {
         return AlertDialog(
           title: Text(l10n.settingsLanguageTitle),
-          content: RadioGroup<String?>(
+          content: RadioGroup<String>(
             groupValue: localeProvider.languageCode,
             onChanged: (val) {
-              localeProvider.setLanguage(val ?? 'system');
-              Navigator.pop(dialogContext);
+              if (val != null) {
+                localeProvider.setLanguage(val);
+                Navigator.pop(dialogContext);
+              }
             },
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RadioListTile<String?>(
+                RadioListTile<String>(
                   title: Text(l10n.languageSystemDefault),
-                  value: null,
+                  value: LocaleProvider.systemValue,
                 ),
-                RadioListTile<String?>(
+                RadioListTile<String>(
                   title: Text(l10n.languageEnglish),
                   value: 'en',
                 ),
-                RadioListTile<String?>(
+                RadioListTile<String>(
                   title: Text(l10n.languageMalayalam),
                   value: 'ml',
                 ),
-                RadioListTile<String?>(
+                RadioListTile<String>(
                   title: Text(l10n.languageSanskrit),
                   value: 'sa',
                 ),

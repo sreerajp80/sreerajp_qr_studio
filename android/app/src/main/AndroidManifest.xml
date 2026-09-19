@@ -8,11 +8,19 @@
     <!-- Biometric authentication permission -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <!-- Location permissions for CodeForge GPS coordinate picker -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <!-- Wi-Fi network connection permissions -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <!-- Foreground service permissions for GhostScan on-demand screen capture -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
     <!-- Camera features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
@@ -93,6 +101,33 @@
                 <data android:mimeType="application/pdf" />
             </intent-filter>
         </activity>
+
+        <!-- GhostScan Quick Settings Tile -->
+        <service
+            android:name=".GhostScanTileService"
+            android:label="@string/ghost_scan_tile_label"
+            android:icon="@drawable/ic_ghost_scan_tile"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <!-- GhostScan single-frame screen capture foreground service -->
+        <service
+            android:name=".GhostScanCaptureService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
+
+        <!-- GhostScan transparent activity for user MediaProjection prompt -->
+        <activity
+            android:name=".GhostScanActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GhostScanTransparent"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
 
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

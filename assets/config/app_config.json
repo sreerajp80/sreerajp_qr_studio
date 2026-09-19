@@ -1,21 +1,37 @@
 {
-  "appName": "SreerajP QR Reader",
+  "appName": {
+    "en": "Sreeraj P QR Reader",
+    "ml": "ശ്രീരാജ് പി ക്യുആർ റീഡർ",
+    "sa": "श्रीराज् पि क्यू-आर-पाठकः"
+  },
   "description": {
     "en": "A privacy-first QR and barcode scanner with 6-layer link safety checks, sandboxed page preview, physical tamper (quishing) detection, hidden StegoQR content, smart actions for Wi-Fi/contacts/payments/2FA, encrypted scan history, AR CodeVision multi-code tracking, and offline AirQR data transfer.",
     "ml": "6-തല സുരക്ഷാ പരിശോധനകൾ, സാൻഡ്‌ബോക്സ് പ്രിവ്യൂ, ക്വിഷിംഗ് തടയൽ, സ്റ്റെഗോ ക്യുആർ, എൻക്രിപ്റ്റ് ചെയ്ത ഹിസ്റ്ററി, എആർ കോഡ്‌വിഷൻ എന്നിവ ഉൾപ്പെടുന്ന സ്വകാര്യത കേന്ദ്രീകരിച്ചുള്ള ക്യുആർ & ബാർകോഡ് സ്കാനർ.",
     "sa": "षट्स्तर-सुरक्षा-परीक्षणैः, प्रयुक्त-पूर्वदर्शनेन, गूढ-विषय-संरक्षणेन, सङ्केत-क्रियाभिः च युक्तः एकान्तता-प्रधानः क्यू-आर-दण्डलेखा-संवीक्षकः।"
   },
-  "version": "3.0.0",
-  "build": "22",
+  "version": "3.1.2",
+  "build": "27",
   "details": {
-    "author": "Sreeraj P",
+    "author": {
+      "en": "Sreeraj P",
+      "ml": "ശ്രീരാജ് പി",
+      "sa": "श्रीराज् पि"
+    },
     "email": "sreerajp@zohomail.in",
     "license": {
       "en": "All libraries used are open source.",
       "ml": "ഉപയോഗിച്ച എല്ലാ ലൈബ്രറികളും ഓപ്പൺ സോഴ്സ് ആണ്.",
       "sa": "सर्वाणि प्रयुक्तानि पुस्तकालयानि मुक्तस्रोतानि सन्ति।"
     },
-    "aiUsed": "Anthropic Claude, Gemini 3.6, ChatGPT 5.4",
-    "ideUsed": "VS Code / Gemini Antigravity IDE"
+    "aiUsed": {
+      "en": "Anthropic Claude, Gemini 3.6, ChatGPT 5.4",
+      "ml": "ആന്ത്രോപിക് ക്ലോഡ്, ജെമിനി 3.6, ചാറ്റ്ജിപിടി 5.4",
+      "sa": "अन्ट्रॉपिक् क्लोद्, जेम्नि ३.६, चॅट्जिपीटि ५.४"
+    },
+    "ideUsed": {
+      "en": "VS Code / Gemini Antigravity IDE",
+      "ml": "വിഎസ് കോഡ് / ജെമിനി ആന്റിഗ്രാവിറ്റി ഐഡിഇ",
+      "sa": "वि एस्स् कोड् / जेम्नि अन्टग्रॅविटि आइडीइ"
+    }
   }
 }

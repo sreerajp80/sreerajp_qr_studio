@@ -1,230 +1,292 @@
 # SreerajP QR Reader
 
-A comprehensive Flutter application for scanning QR codes and barcodes with advanced features including URL safety verification, clipboard integration, and content sharing.
+<div align="center">
 
-## Features
+![SreerajP QR Reader](assets/app_icon.png)
 
-### Core Functionality
-- **QR Code Scanner**: High-performance QR code scanning with camera preview
-- **Barcode Scanner**: Support for multiple barcode formats including Code128, Code39, EAN, UPC, and more
-- **Scanning Rectangle**: Visual scanning area with animated scanning line and corner indicators
+**Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Quishing Guard, StegoQR Encryption, AirQR Optical Streaming, and Tri-Lingual Support.**
 
-### Content Handling
-- **URL Detection**: Automatically detects URLs in scanned content
-- **URL Safety Verification**: Checks URLs against known safe and suspicious domains
-- **Safety Alerts**: Visual indicators for safe and potentially unsafe URLs
-- **Content Display**: Clean, readable display of scanned content
+[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.44.8-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-%3E%3D3.12.2-0175C2?logo=dart&logoColor=white)](https://dart.dev)
+[![Platform](https://img.shields.io/badge/Platform-Android%20(SDK%2024%2B)-3DDC84?logo=android&logoColor=white)](https://android.com)
+[![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20ML%20%7C%20SA-blue)](#-tri-lingual-localization)
+[![Security](https://img.shields.io/badge/Privacy-Offline--First-success)](#-security--privacy-architecture)
+[![License](https://img.shields.io/badge/License-Open%20Source-orange)](#-license)
 
-### Integration Features
-- **Clipboard Integration**: One-tap copy to Android clipboard with visual feedback
-- **Browser Integration**: Open detected URLs in the default Android browser
-- **Share Integration**: Share scanned content with other Android apps
-- **Multiple Content Types**: Support for URLs, plain text, WiFi credentials, and email addresses
+</div>
 
-### User Interface
-- **Modern Material Design**: Clean, intuitive interface following Material Design 3 guidelines
-- **Responsive Layout**: Optimized for various Android screen sizes
-- **Visual Feedback**: Animated scanning indicators and action confirmations
-- **Permission Handling**: Proper camera permission requests and handling
+---
 
-## Supported Barcode Formats
+## 📖 Overview
 
-- QR Code
-- Code 128
-- Code 39
-- Code 93
-- EAN-8
-- EAN-13
-- UPC-A
-- UPC-E
-- PDF417
-- Data Matrix
+**SreerajP QR Reader** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
 
-## Technical Specifications
+Beyond standard barcode decoding, SreerajP QR Reader serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
+- **6-Layer URL Safety Verification** protects against phishing, malicious redirects, and lookalike domains.
+- **QuishingGuard™** performs on-device computer vision forensic analysis to detect physical sticker overlays on genuine QR codes.
+- **Zero-Trust Sandboxed Preview** renders web destinations in an isolated, script-disabled environment with domain age (WHOIS) insights before opening.
+- **StegoQR** allows secret payloads hidden within standard QR codes, encrypted with AES-256 and protected by passphrases and biometric authentication.
+- **AirQR** provides an air-gapped optical data transfer mechanism (5–25 FPS animated QR sequences) to send and receive files without Wi-Fi, Bluetooth, or internet.
+- **CodeForge Studio** provides a full-featured QR and barcode generator suite with custom styling, color palettes, and embedded logos.
+- **AR CodeVision HUD** tracks and labels multiple barcodes in real time with interactive selection and warehouse batch tools.
+- **Tri-Lingual Standard**: Fully translated across **English**, **Malayalam (മലയാളം)**, and **Sanskrit (संस्कृतम्)** with live in-app switching.
 
-### Flutter SDK
-- **Flutter Version**: 3.44.8+
-- **Dart SDK**: 3.12.2+
-- **Material Design**: Version 3
-- **Null Safety**: Fully enabled
+---
 
-### Dependencies
-- `mobile_scanner`: ^7.2.0 - QR/Barcode scanning
-- `provider`: ^6.1.5 - State management
-- `http`: ^1.6.0 - HTTP requests for URL safety checks
-- `url_launcher`: ^6.3.2 - URL launching in external browser
-- `share_plus`: ^12.0.1 - Content sharing
-- `permission_handler`: ^12.0.1 - Camera permission handling
-- `flutter_secure_storage`: ^10.0.0 - Encrypted storage for API key
-- `shared_preferences`: ^2.5.5 - Non-sensitive preferences
-- `package_info_plus`: ^9.0.0 - App version info
+## 📱 Visual Showcase
 
-### Android Requirements
-- **Min SDK**: 24 (Android 7.0)
-- **Target SDK**: Latest Android version
-- **Permissions**: Camera, Internet
-- **Architecture**: ARM64, x86_64
+<div align="center">
 
-## Installation & Setup
+| Live Camera Scanner | CodeForge Studio | Encrypted History |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/01_live_scanner.png" width="260" alt="Live Scanner" /> | <img src="docs/screenshots/02_code_forge_generator.png" width="260" alt="CodeForge Studio" /> | <img src="docs/screenshots/03_encrypted_history.png" width="260" alt="Encrypted History" /> |
+| *Viewfinder with zoom, reticle & toolbar* | *QR & Barcode generator with live preview* | *Searchable, categorized scan logs* |
+
+| Scan Result & URL Safety | AirQR Optical Receiver | AirQR Optical Transmitter |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/08_scan_result_and_safety.png" width="260" alt="Scan Result & URL Safety" /> | <img src="docs/screenshots/07_air_qr_optical_transfer.png" width="260" alt="AirQR Receiver" /> | <img src="docs/screenshots/07_air_qr_transmitter.png" width="260" alt="AirQR Transmitter" /> |
+| *QuishingGuard™ & Zero-Trust Sandbox* | *Optical stream capture with error recovery* | *Air-gapped animated stream broadcast* |
+
+| Settings & Security | Appearance & Themes | About & Verification |
+| :---: | :---: | :---: |
+| <img src="docs/screenshots/04_settings_and_privacy.png" width="260" alt="Settings & Security" /> | <img src="docs/screenshots/05_appearance_and_themes.png" width="260" alt="Appearance & Themes" /> | <img src="docs/screenshots/06_about_and_credits.png" width="260" alt="About Screen" /> |
+| *Privacy controls & Safe Browsing API* | *Material You, OLED black & reticle styles* | *Version, build metadata & India badge* |
+
+</div>
+
+---
+
+## ✨ Key Features
+
+### 🛡️ 6-Layer URL Safety & Anti-Phishing Engine
+Every scanned link is evaluated across six rigorous security layers before the user can open it:
+1. **HTTPS / SSL Protocol Validation**: Verifies secure communication channels.
+2. **Redirect Chain Inspection**: Traverses HTTP redirect chains to detect evasive redirect loops and open redirect traps.
+3. **Heuristic Suspicious Pattern Analysis**: Identifies raw IP hostnames, excessive subdomains, long digit strings, and phishing keywords.
+4. **Known Link-Shortener Detection**: Automatically recognizes and expands shortened links (e.g., bit.ly, tinyurl) to verify true targets.
+5. **Homoglyph & Lookalike Attack Detection**: Identifies internationalized domain names (IDN) using Cyrillic or Greek characters to spoof trusted domains.
+6. **Google Safe Browsing API**: Optional integration using the user's personal API key, stored securely in encrypted hardware-backed storage.
+
+> **Private by Default**: Outbound server queries run only when **Active Online Probing** is explicitly enabled. In private mode, all checks run entirely on-device.
+
+### 🔍 QuishingGuard™ Physical Tamper Detection
+Protects users from real-world "quishing" (QR phishing) where attackers paste fraudulent stickers over legitimate QR codes on parking meters, restaurants, or payment terminals.
+- **On-Device Computer Vision**: Analyzes camera frames surrounding the detected code.
+- **Forensic Indicators**: Evaluates double edge boundaries, cast shadow steps, paper seam gradients, and print grain mismatches.
+- **Scored Risk Verdict**: Delivers an instant visual score: **Authentic** (green), **Wear & Tear** (yellow), or **High Warning** (red).
+
+### 🌐 Zero-Trust Sandboxed Web Preview
+- Fetches destination pages in an isolated, script-disabled sandbox.
+- Blocks JavaScript execution, iframes, trackers, and hidden meta-refresh redirects.
+- Extracts page title, meta description, favicon, and primary heading.
+- Queries WHOIS/RDAP to display domain registration age, flagging newly registered domains (<30 days old).
+
+### 🔐 StegoQR Encrypted Payloads & Biometric Protection
+- Encodes hidden, encrypted payloads inside standard-looking QR codes.
+- The visible "decoy" payload scans normally for casual viewers.
+- Secret payload is encrypted with **AES-256-GCM** using keys derived via **PBKDF2-HMAC-SHA256**.
+- Unlocking requires the passphrase, with optional biometric verification (fingerprint or face unlock) as a secondary check.
+
+### ⚡ Smart Payload Action Engine
+Scanned content is automatically parsed into interactive action cards:
+- **Wi-Fi**: Displays SSID and password (hidden by default). One-tap copy and quick navigation to Android Wi-Fi settings.
+- **UPI Payments**: Detects `upi://pay` strings; displays payee name, VPA, amount, and reference notes with a high-contrast UI and direct launch into installed UPI payment apps.
+- **Contacts (vCard / MeCard)**: Parses name, organization, title, phone numbers, emails, addresses, and websites with a "Save to Contacts" action.
+- **Calendar Events (iCalendar)**: Parses `BEGIN:VEVENT` with summary, timestamps, location, and an "Add to Calendar" button.
+- **2FA / Authenticator (TOTP)**: Parses `otpauth://totp/` URIs and computes live 6-digit TOTP codes with a 30-second countdown timer using HMAC-SHA1.
+- **Geo GPS Coordinates**: Parses `geo:lat,lng` and renders device-drawn coordinate banners with "Open in Google Maps".
+
+### 📡 AirQR Optical Air-Gapped Data Transfer
+Transfer data between two devices without Wi-Fi, Bluetooth, cellular data, or cables:
+- **Transmitter Mode**: Splits data into 256-byte chunks with Fountain FEC error-correction codes and broadcasts them as an animated sequence of QR codes at configurable frame rates (5–25 FPS).
+- **Receiver Mode**: Captures the optical QR stream via camera, tracks received blocks, recovers missing packets via error correction, and reassembles the complete payload.
+
+### 👓 AR CodeVision Multi-Code HUD
+- Scans and tracks multiple barcodes simultaneously in real time.
+- Anchors interactive floating visual chips to detected codes as the camera moves.
+- **Warehouse Mode**: Highlights product details and enables multi-selection with single-tap batch clipboard copying.
+- **Safety Mode**: Displays instant green/red security ratings over all detected URLs in the viewfinder.
+
+### 🎨 CodeForge: QR & Barcode Creator Studio
+- Built-in generator supporting QR codes and 10+ standard 1D and 2D barcode formats.
+- Supports text, URLs, Wi-Fi networks, contacts, UPI payment strings, SMS, email, and GPS coordinates.
+- Custom styling: adjustable error correction (L, M, Q, H), foreground/background colors, and embedded logo badges.
+- One-tap copy, share, and image export.
+
+### 📸 Advanced Media & Pipeline Scanning
+- **Distance-Enhanced Scanning**: Pure-Dart digital zoom-crop-enhance pipeline for scanning distant codes on billboards and signs. Applies bilinear upscaling, contrast enhancement, and unsharp masking.
+- **Gallery & Multi-Page PDF Scanning**: Scan codes from existing photos or multi-page PDF documents with batch extraction and "Save All to History".
+- **Android Share Sheet Target**: Receives shared images and PDF files directly from other applications.
+- **GhostScan Screen Content Detector**: Scans QR codes visible on your screen via an Android Quick Settings tile without manual screenshot cropping.
+- **Clipboard Scanner**: Automatically identifies and previews scannable barcode data present on the Android clipboard.
+- **Continuous Batch Scan Mode**: Rapidly queues multiple scans without leaving the viewfinder, complete with duplicate prevention and multi-format export.
+
+### 🗄️ Encrypted SQLite History & Export
+- All scans are securely persisted on-device in an **AES-256 encrypted SQLite database**.
+- Searchable by content, format, and custom user notes.
+- Categorized filters: All, Starred, URLs, Wi-Fi, Contacts, Text, Barcodes.
+- Multi-format export: **CSV**, **JSON**, **TXT**, and formatted **PDF Reports**.
+- Encrypted backup and restore using password-protected `.sreerajqr` containers.
+
+### 🌐 Tri-Lingual Localization
+- Developed under a strict tri-lingual standard with 100% key parity across:
+  - **English (`en`)**
+  - **Malayalam (`ml`)** — മലയാളം
+  - **Sanskrit (`sa`)** — संस्कृतम्
+- Includes dedicated fallback delegates (`SaMaterialLocalizationsDelegate`, `SaCupertinoLocalizationsDelegate`, `SaWidgetsLocalizationsDelegate`) for full Material/Cupertino framework support under Sanskrit.
+- Live in-app language picker switches instantly without requiring an application restart.
+
+### 🎨 Material 3 & OLED Themes
+- Full **Material Design 3** compliance with **Material You dynamic color** support (Monet engine on Android 12+).
+- Four theme modes: **System Default**, **Light**, **Dark**, and **True OLED Pure Black** (`#000000`).
+- Four animated scan overlay styles: **Laser Line**, **Pulsing Corners**, **Cybernetic Grid**, and **Subtle Dot Matrix**.
+
+---
+
+## 📊 Supported Barcode Formats
+
+| Format | Type | Standard Use Case |
+| :--- | :--- | :--- |
+| **QR Code** | 2D Matrix | URLs, Wi-Fi, Contacts, Payments, StegoQR, AirQR |
+| **Data Matrix** | 2D Matrix | Electronics, logistics, small-item marking |
+| **PDF417** | 2D Stacked | Boarding passes, government IDs, shipping labels |
+| **Code 128** | 1D Linear | Packaging, shipping, inventory tracking |
+| **Code 39** | 1D Linear | Automotive, defense, industrial inventory |
+| **Code 93** | 1D Linear | Postal services, high-density inventory |
+| **EAN-13** | 1D Linear | Global retail product numbering |
+| **EAN-8** | 1D Linear | Compact retail packaging |
+| **UPC-A** | 1D Linear | North American retail products |
+| **UPC-E** | 1D Linear | Small North American retail packages |
+
+---
+
+## 🏗️ Architecture & Engineering Standards
+
+The codebase strictly follows a **Tier 1 Layer-First** directory layout:
+
+```
+lib/
+├── core/
+│   ├── config/             # Typed AppConfig & ConfigService loader
+│   └── constants/          # Technical constants & build metadata
+├── l10n/
+│   ├── app_en.arb          # English ARB template (source of truth)
+│   ├── app_ml.arb          # Malayalam ARB translation
+│   ├── app_sa.arb          # Sanskrit ARB translation
+│   └── sa_material_localizations.dart # Sanskrit framework fallback delegates
+├── models/                 # Immutable domain value objects (const constructors)
+├── providers/              # ChangeNotifier state handlers (Provider architecture)
+├── screens/                # Presentational UI screens & dialogs
+├── services/               # Stateless business logic, cryptography, SQLite
+├── widgets/                # Reusable UI components & MadeWithLove footer
+└── main.dart               # Entry point, Provider tree, dynamic color & routes
+```
+
+### Architectural Principles:
+- **Dependency Flow**: `screens → providers → services → models`.
+- **Stateless Services**: Services never depend on `BuildContext`, UI strings, or navigation routes.
+- **Immutable Models**: Domain models use `const` constructors and never mutate in place.
+- **Provider Only**: State management is handled exclusively via `package:provider` (`ChangeNotifier`).
+
+---
+
+## 🔒 Security & Privacy Architecture
+
+- **Offline-First**: Scanning, decoding, QuishingGuard™, StegoQR, AirQR, and database storage operate 100% offline.
+- **Hardware-Backed Key Storage**: The optional Google Safe Browsing API key is stored strictly within `flutter_secure_storage` (Android Keystore / EncryptedSharedPreferences).
+- **Anti-Fingerprinting**: When Active Online Probing is enabled, outbound requests strip identifying browser user agents.
+- **No Cloud, No Analytics**: Zero tracking SDKs, zero crash reporting telemetry, zero advertising libraries.
+- **Backup Protection**: `android:allowBackup="false"` prevents database or secret leakage via Android system backups.
+- **Permission on Demand**: Camera, biometric, and storage permissions are requested strictly at point of use.
+
+---
+
+## 🚀 Getting Started
 
 ### Prerequisites
-1. **Flutter SDK**: Install the latest Flutter SDK
-2. **Android Studio**: Install Android Studio with Android SDK
-3. **Visual Studio Code**: Install VS Code with Flutter extension
-4. **Android Emulator**: Set up Android Emulator for testing
+- **Flutter SDK**: `>=3.44.8`
+- **Dart SDK**: `>=3.12.2 <4.0.0`
+- **Android SDK**: `minSdk 24`, `compileSdk 37`, `targetSdk 35`
+- Android Studio / VS Code with Flutter extension
 
-### Setup Steps
+### Installation & Setup
 
-1. **Clone the Project**
+1. **Clone the repository**:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/sreerajp80/sreeraj_qr_reader.git
    cd sreeraj_qr_reader
    ```
 
-2. **Install Dependencies**
+2. **Install dependencies**:
    ```bash
    flutter pub get
    ```
 
-3. **Verify Setup**
+3. **Verify environment**:
    ```bash
    flutter doctor
    ```
 
-4. **Run the App**
+4. **Run development build**:
    ```bash
-   flutter run
+   flutter run --flavor dev
    ```
-
-### Building for Release
-
-1. **Build APK**
-   ```bash
-   flutter build apk --release
-   ```
-
-2. **Build App Bundle**
-   ```bash
-   flutter build appbundle --release
-   ```
-
-## Usage Guide
-
-### Scanning Codes
-1. Launch the app and grant camera permission
-2. Position the QR code or barcode within the scanning rectangle
-3. The app will automatically detect and process the code
-4. View the results on the result screen
-
-### Handling URLs
-1. When a URL is detected, the app automatically checks its safety
-2. Green indicator: Safe URL
-3. Red indicator: Potentially unsafe URL
-4. Tap "Open in Browser" to launch in default browser
-
-### Copying Content
-1. On the result screen, tap "Copy to Clipboard"
-2. The content is copied to your Android clipboard
-3. Visual feedback confirms the copy action
-
-### Sharing Content
-1. On the result screen, tap "Share"
-2. Select the app you want to share with
-3. The content is shared in plain text format
-
-## Development
-
-### Project Structure
-```
-sreeraj_qr_reader/
-├── assets/
-│   └── config/
-│       └── app_config.json        # About screen data (single source of truth)
-├── lib/
-│   ├── main.dart                  # App entry point
-│   ├── core/
-│   │   ├── config/
-│   │   │   ├── app_config.dart    # Typed About model & fallback
-│   │   │   └── config_service.dart# Config asset loader
-│   │   └── constants/
-│   │       └── app_constants.dart # Technical constants
-│   ├── models/
-│   │   └── safety_check_result.dart # Immutable result model
-│   ├── providers/
-│   │   └── scan_provider.dart     # State management (ChangeNotifier)
-│   ├── screens/
-│   │   ├── scanner_screen.dart    # QR/Barcode scanner UI
-│   │   ├── result_screen.dart     # Result display and actions
-│   │   ├── settings_screen.dart   # API key management
-│   │   └── about_screen.dart      # Data-driven App info screen
-│   └── services/
-│       └── url_safety_service.dart# Six URL safety check algorithms
-└── test/
-    └── core/
-        └── config/
-            └── app_config_test.dart
-```
-
-### Key Classes
-- `ScannerScreen`: Main scanning interface with camera preview
-- `ResultScreen`: Display and interaction with scan results
-- `ScanProvider`: State management for scan data and URL safety
-- `UrlSafetyService`: Six URL safety checks (SSL, redirects, patterns, shorteners, homographs, Safe Browsing API)
-
-### Customization
-- Modify `ThemeData` in `main.dart` to change app theme
-- Update scanning rectangle in `scanner_screen.dart`
-- Add new barcode formats in the scanner controller
-- Extend URL safety checks in `scan_provider.dart`
-
-## Testing
-
-### Manual Testing
-1. Test with various QR codes and barcodes
-2. Verify URL safety detection
-3. Test clipboard and sharing functionality
-4. Check permission handling
-5. Test on different Android devices
-
-### Test Scenarios
-- **Valid QR codes**: URLs, plain text, WiFi credentials
-- **Invalid codes**: Damaged, blurry, or unsupported formats
-- **URL safety**: Safe URLs, suspicious URLs, shortened URLs
-- **Permissions**: Camera permission granted/denied
-- **Sharing**: Various target apps and content types
-
-## Troubleshooting
-
-### Common Issues
-1. **Camera not working**: Check camera permission
-2. **Scanning not detecting**: Ensure good lighting and focus
-3. **URL not opening**: Check internet connection
-4. **App crashing**: Run `flutter clean` and rebuild
-
-### Debug Tips
-- Use `flutter logs` to view device logs
-- Enable debug mode in Flutter for detailed error messages
-- Check Android Studio Logcat for native errors
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is created for Sreeraj P as a personal QR Reader application.
-
-## Support
-
-For issues, feature requests, or questions:
-1. Check the troubleshooting section
-2. Review the code documentation
-3. Create an issue in the repository
 
 ---
 
-**Built with Flutter ❤️ for Android**
+## 🛠️ Build & Release Commands
+
+### Development & Validation
+```bash
+# Static analysis (must be 0 warnings)
+flutter analyze
+
+# Run complete unit and widget test suite
+flutter test
+
+# Format code to standard
+dart format .
+
+# Regenerate localizations after editing ARB files
+flutter gen-l10n
+```
+
+### Production Builds
+```bash
+# Build release APK (split per ABI for optimal size)
+flutter build apk --flavor prod --release \
+  --obfuscate --split-debug-info=build/symbols/android-prod/ --split-per-abi
+
+# Build Play Store App Bundle (AAB)
+flutter build appbundle --flavor prod --release
+```
+
+### Build Flavors
+
+| Flavor | Application ID | Display Name | Signing |
+| :--- | :--- | :--- | :--- |
+| **`dev`** | `in.sreeraj.qr_reader.dev` | `QR Reader Dev` | Automatic Debug Keystore |
+| **`prod`** | `in.sreeraj.qr_reader` | `SreerajP QR Reader` | Release Keystore (`android/key.properties`) |
+
+---
+
+## 👥 Credits & Acknowledgments
+
+- **Author**: Sreeraj P ([sreerajp@zohomail.in](mailto:sreerajp@zohomail.in))
+- **AI Coding Assistance**: Anthropic Claude, Gemini 3.6, ChatGPT 5.4
+- **IDEs**: VS Code / Gemini Antigravity IDE
+- **Core Open-Source Libraries**: `mobile_scanner`, `provider`, `dynamic_color`, `encrypt`, `pointycastle`, `sqflite`, `local_auth`, `url_launcher`, `share_plus`, `pdfx`, `pdf`, `receive_sharing_intent`, `permission_handler`.
+
+---
+
+## 📄 License
+
+This project is open source. All third-party libraries and dependencies used in this project are distributed under permissive open-source licenses (MIT, Apache 2.0, BSD-3-Clause).
+
+---
+
+<div align="center">
+
+**Made with ❤️ from India**
+
+</div>

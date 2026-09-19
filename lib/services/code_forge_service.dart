@@ -1,15 +1,33 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:barcode/barcode.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sreeraj_qr_reader/core/constants/app_constants.dart';
+import 'package:sreeraj_qr_reader/models/app_message.dart';
 import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
 import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
 import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
 import 'package:sreeraj_qr_reader/widgets/code_forge_qr_painter.dart';
+
+/// Result of reading a text file for CodeForge QR generation.
+class CodeForgeFileReadResult {
+  final String? content;
+  final bool wasTruncated;
+  final AppMessage? message;
+  final bool isSuccess;
+
+  const CodeForgeFileReadResult({
+    this.content,
+    this.wasTruncated = false,
+    this.message,
+    this.isSuccess = true,
+  });
+}
 
 /// Service responsible for payload formatting, barcode encoding,
 /// high-resolution PNG rasterization, vector SVG generation, and file sharing.
@@ -140,6 +158,10 @@ class CodeForgeService {
     }
 
     if (config.barcodeType == CodeForgeBarcodeType.qrCode) {
+      if (config.payloadType == CodeForgePayloadType.text &&
+          config.rawContent.length > AppConstants.maxCodeForgeTextLength) {
+        return 'Text must not exceed ${AppConstants.maxCodeForgeTextLength} characters';
+      }
       if (config.payloadType == CodeForgePayloadType.wifi &&
           config.wifiSsid.trim().isEmpty) {
         return 'Wi-Fi Network Name (SSID) is required';
@@ -305,5 +327,82 @@ class CodeForgeService {
   /// Pre-flight URL safety verification check using UrlSafetyService.
   Future<List<SafetyCheckResult>> verifyUrlSafety(String url) async {
     return _urlSafetyService.runAllChecks(url);
+  }
+
+  /// Reads text from a local file at [filePath], validating and truncating if it exceeds [maxLength].
+  Future<CodeForgeFileReadResult> readTextFromFile(
+    String filePath, {
+    int maxLength = AppConstants.maxCodeForgeTextLength,
+  }) async {
+    try {
+      final file = File(filePath);
+      if (!await file.exists()) {
+        return const CodeForgeFileReadResult(
+          isSuccess: false,
+          message: AppMessage(AppMessageKey.codeForgeFileReadError),
+        );
+      }
+      final rawText = await file.readAsString();
+      if (rawText.trim().isEmpty) {
+        return const CodeForgeFileReadResult(
+          isSuccess: false,
+          message: AppMessage(AppMessageKey.codeForgeFileEmpty),
+        );
+      }
+      if (rawText.length > maxLength) {
+        final truncated = rawText.substring(0, maxLength);
+        return CodeForgeFileReadResult(
+          content: truncated,
+          wasTruncated: true,
+          message: const AppMessage(AppMessageKey.codeForgeFileTruncated),
+        );
+      }
+      return CodeForgeFileReadResult(
+        content: rawText,
+        message: const AppMessage(AppMessageKey.codeForgeFileLoaded),
+      );
+    } catch (e) {
+      if (kDebugMode) debugPrint('Error reading text file: $e');
+      return const CodeForgeFileReadResult(
+        isSuccess: false,
+        message: AppMessage(AppMessageKey.codeForgeFileReadError),
+      );
+    }
+  }
+
+  /// Opens the system file picker to select a text-based document and reads its contents.
+  Future<CodeForgeFileReadResult> pickAndReadTextFile({
+    int maxLength = AppConstants.maxCodeForgeTextLength,
+  }) async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: [
+          'txt',
+          'csv',
+          'json',
+          'md',
+          'log',
+          'xml',
+          'yaml',
+          'yml',
+        ],
+      );
+      if (result == null ||
+          result.files.isEmpty ||
+          result.files.single.path == null) {
+        return const CodeForgeFileReadResult(isSuccess: false);
+      }
+      return await readTextFromFile(
+        result.files.single.path!,
+        maxLength: maxLength,
+      );
+    } catch (e) {
+      if (kDebugMode) debugPrint('Error picking text file: $e');
+      return const CodeForgeFileReadResult(
+        isSuccess: false,
+        message: AppMessage(AppMessageKey.codeForgeFileReadError),
+      );
+    }
   }
 }

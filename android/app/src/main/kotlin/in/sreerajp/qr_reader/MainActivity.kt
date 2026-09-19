@@ -15,10 +15,21 @@ import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+import java.io.File
+import android.content.ClipboardManager
+import android.app.StatusBarManager
+import android.content.ComponentName
+import android.graphics.drawable.Icon
+import android.os.Handler
+import android.os.Looper
 
 class MainActivity: FlutterFragmentActivity() {
     private val lightChannel = "in.sreeraj.qr_reader/ambient_light"
     private val wifiChannel = "in.sreeraj.qr_reader/wifi"
+    private val clipboardChannel = "in.sreeraj.qr_reader/clipboard"
+    private val ghostScanChannel = "in.sreeraj.qr_reader/ghost_scan"
+    private var pendingGhostScanImagePath: String? = null
+    private var ghostScanMethodChannel: MethodChannel? = null
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -72,6 +83,136 @@ class MainActivity: FlutterFragmentActivity() {
                 result.notImplemented()
             }
         }
+
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, clipboardChannel).setMethodCallHandler { call, result ->
+            if (call.method == "getClipboardImage") {
+                try {
+                    val imagePath = getClipboardImagePath()
+                    result.success(imagePath)
+                } catch (e: Exception) {
+                    result.error("CLIPBOARD_IMAGE_ERROR", e.message, null)
+                }
+            } else {
+                result.notImplemented()
+            }
+        }
+
+        ghostScanMethodChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ghostScanChannel).apply {
+            setMethodCallHandler { call, result ->
+                when (call.method) {
+                    "isSupported" -> {
+                        result.success(true)
+                    }
+                    "isTileRequestSupported" -> {
+                        val supported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+                        result.success(supported)
+                    }
+                    "requestAddTile" -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            try {
+                                val statusBarManager = getSystemService(Context.STATUS_BAR_SERVICE) as StatusBarManager
+                                val componentName = ComponentName(this@MainActivity, GhostScanTileService::class.java)
+                                statusBarManager.requestAddTileService(
+                                    componentName,
+                                    getString(R.string.ghost_scan_tile_label),
+                                    Icon.createWithResource(this@MainActivity, R.drawable.ic_ghost_scan_tile),
+                                    mainExecutor
+                                ) { statusCode ->
+                                    val success = statusCode == StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ADDED ||
+                                        statusCode == StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED
+                                    result.success(success)
+                                }
+                            } catch (e: Exception) {
+                                result.error("TILE_REQUEST_ERROR", e.message, null)
+                            }
+                        } else {
+                            result.success(false)
+                        }
+                    }
+                    "startGhostScan" -> {
+                        try {
+                            moveTaskToBack(true)
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                val intent = Intent(this@MainActivity, GhostScanActivity::class.java).apply {
+                                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                }
+                                startActivity(intent)
+                            }, 350)
+                            result.success(true)
+                        } catch (e: Exception) {
+                            result.error("GHOST_SCAN_START_ERROR", e.message, null)
+                        }
+                    }
+                    "getInitialGhostScanImage" -> {
+                        val path = pendingGhostScanImagePath
+                        pendingGhostScanImagePath = null
+                        result.success(path)
+                    }
+                    else -> result.notImplemented()
+                }
+            }
+        }
+
+        handleGhostScanIntent(intent)
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleGhostScanIntent(intent)
+    }
+
+    private fun handleGhostScanIntent(intent: Intent?) {
+        if (intent?.action == "in.sreeraj.qr_reader.ACTION_GHOST_SCAN") {
+            val imagePath = intent.getStringExtra("image_path")
+            if (imagePath != null) {
+                if (ghostScanMethodChannel != null) {
+                    ghostScanMethodChannel?.invokeMethod("onGhostScanImage", imagePath)
+                } else {
+                    pendingGhostScanImagePath = imagePath
+                }
+            }
+        }
+    }
+
+
+    private fun getClipboardImagePath(): String? {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        if (!clipboard.hasPrimaryClip()) return null
+        val clip = clipboard.primaryClip ?: return null
+        if (clip.itemCount == 0) return null
+
+        val item = clip.getItemAt(0)
+        val uri = item.uri
+        val mimeType = clip.description?.getMimeType(0)
+
+        val isImageMime = clip.description?.hasMimeType("image/*") == true
+        val isImageUri = uri != null && (contentResolver.getType(uri)?.startsWith("image/") == true ||
+                uri.toString().lowercase().endsWith(".png") ||
+                uri.toString().lowercase().endsWith(".jpg") ||
+                uri.toString().lowercase().endsWith(".jpeg") ||
+                uri.toString().lowercase().endsWith(".webp"))
+
+        if (uri != null && (isImageMime || isImageUri)) {
+            try {
+                val inputStream = contentResolver.openInputStream(uri) ?: return null
+                val resolvedMime = contentResolver.getType(uri) ?: mimeType
+                val ext = when {
+                    resolvedMime?.contains("png") == true -> ".png"
+                    resolvedMime?.contains("webp") == true -> ".webp"
+                    else -> ".jpg"
+                }
+                val tempFile = File(cacheDir, "clipboard_image_${System.currentTimeMillis()}$ext")
+                tempFile.outputStream().use { output ->
+                    inputStream.copyTo(output)
+                }
+                inputStream.close()
+                return tempFile.absolutePath
+            } catch (e: Exception) {
+                return null
+            }
+        }
+        return null
     }
 
     private fun connectToWifi(ssid: String, password: String, securityType: String, isHidden: Boolean): Boolean {

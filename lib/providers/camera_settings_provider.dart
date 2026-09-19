@@ -14,6 +14,8 @@ class CameraSettingsProvider extends ChangeNotifier {
       'camera_distance_enhance_mode';
   static const String _prefDistanceZoomKey = 'camera_distance_zoom';
   static const String _prefUnsharpStrengthKey = 'camera_unsharp_strength';
+  static const String _prefMultiCodeSelectionKey =
+      'camera_multi_code_selection';
 
   final LightSensorService _lightSensorService;
   final ColorMatrixService _colorMatrixService;
@@ -28,6 +30,7 @@ class CameraSettingsProvider extends ChangeNotifier {
   double _distanceZoomFactor = 2.5;
   double _unsharpMaskStrength = 1.5;
   bool _autoZoomEnabled = true;
+  bool _multiCodeSelectionEnabled = true;
 
   double? _currentLux;
   bool _isLightSensorAvailable = true;
@@ -61,6 +64,7 @@ class CameraSettingsProvider extends ChangeNotifier {
   double get distanceZoomFactor => _distanceZoomFactor;
   double get unsharpMaskStrength => _unsharpMaskStrength;
   bool get autoZoomEnabled => _autoZoomEnabled;
+  bool get multiCodeSelectionEnabled => _multiCodeSelectionEnabled;
 
   /// Whether the camera flash should physically be illuminated right now.
   bool get shouldTorchBeOn {
@@ -108,6 +112,8 @@ class CameraSettingsProvider extends ChangeNotifier {
           prefs.getBool(_prefDistanceEnhanceModeKey) ?? false;
       _distanceZoomFactor = prefs.getDouble(_prefDistanceZoomKey) ?? 2.5;
       _unsharpMaskStrength = prefs.getDouble(_prefUnsharpStrengthKey) ?? 1.5;
+      _multiCodeSelectionEnabled =
+          prefs.getBool(_prefMultiCodeSelectionKey) ?? true;
     } catch (e) {
       if (kDebugMode) debugPrint('Error loading camera settings: $e');
     } finally {
@@ -258,6 +264,18 @@ class CameraSettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Sets whether multi-code tappable selection is enabled on the main scanner.
+  Future<void> setMultiCodeSelectionEnabled(bool enabled) async {
+    if (_multiCodeSelectionEnabled == enabled) return;
+    _multiCodeSelectionEnabled = enabled;
+    notifyListeners();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(_prefMultiCodeSelectionKey, enabled);
+    } catch (_) {}
+  }
+
   /// Resets brightness, contrast, inverted colors, and distance enhancement to factory defaults.
   void resetAdjustments() {
     _brightness = 0.0;
@@ -265,6 +283,7 @@ class CameraSettingsProvider extends ChangeNotifier {
     _invertColors = false;
     _distanceZoomFactor = 2.5;
     _unsharpMaskStrength = 1.5;
+    _multiCodeSelectionEnabled = true;
     notifyListeners();
   }
 

@@ -68,7 +68,7 @@ void main() {
       };
 
       final config = AppConfig.fromJson(json);
-      expect(config.appName, 'Test App');
+      expect(config.appName.resolve('en'), 'Test App');
       expect(config.description.resolve('en'), 'Test Description EN');
       expect(config.description.resolve('ml'), 'Test Description ML');
       expect(config.version, '2.0.0');
@@ -85,7 +85,10 @@ void main() {
       };
 
       final config = AppConfig.fromJson(json);
-      expect(config.appName, AppConfig.fallback.appName);
+      expect(
+        config.appName.resolve('en'),
+        AppConfig.fallback.appName.resolve('en'),
+      );
       expect(
         config.description.resolve('en'),
         AppConfig.fallback.description.resolve('en'),
@@ -115,7 +118,7 @@ void main() {
       final service = ConfigService(loadAsset: mockLoader);
       final config = await service.load();
 
-      expect(config.appName, 'Mock App');
+      expect(config.appName.resolve('en'), 'Mock App');
       expect(config.version, '1.4.3');
       expect(config.details['author']?.resolve('en'), 'Mock Author');
     });

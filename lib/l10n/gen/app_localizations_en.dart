@@ -2277,6 +2277,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get codeForgePresetText => 'Text';
 
   @override
+  String get codeForgeTextHint =>
+      'Keep text concise for clear and reliable scanning (up to 500 characters)';
+
+  @override
+  String get codeForgeLoadFromFile => 'Read from file';
+
+  @override
+  String get codeForgeLoadFromFileTooltip =>
+      'Read text from a file into the QR code generator';
+
+  @override
+  String get codeForgeFileEmpty => 'The selected file is empty.';
+
+  @override
+  String get codeForgeFileTruncated =>
+      'Text was trimmed to 500 characters to fit in a single, fast-scanning QR code.';
+
+  @override
+  String get codeForgeFileLoaded => 'Text loaded from file successfully.';
+
+  @override
+  String get codeForgeFileReadError => 'Unable to read the selected file.';
+
+  @override
   String get codeForgePresetUrl => 'URL / Link';
 
   @override
@@ -2359,6 +2383,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get codeForgeGeoLng => 'Longitude';
+
+  @override
+  String get codeForgeGeoUseMyLocation => 'Use My Location';
+
+  @override
+  String get codeForgeGeoFetching => 'Getting location…';
+
+  @override
+  String get codeForgeGeoFailed => 'Could not get location';
+
+  @override
+  String get codeForgeGeoPermissionDenied => 'Location permission denied';
 
   @override
   String get codeForgeDesignStudio => 'Design & Structure';
@@ -2633,4 +2669,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get scanDistanceModeActive => 'Distance Mode Active';
+
+  @override
+  String get scanFromClipboard => 'Scan from Clipboard';
+
+  @override
+  String get clipboardBannerTitle => 'Clipboard content detected';
+
+  @override
+  String get clipboardActionScan => 'Scan Now';
+
+  @override
+  String get clipboardDismiss => 'Dismiss';
+
+  @override
+  String get clipboardEmptyMessage => 'Clipboard is empty';
+
+  @override
+  String get clipboardNoValidContent =>
+      'No scannable link, code, or image found in clipboard';
+
+  @override
+  String get clipboardTypeUrl => 'URL';
+
+  @override
+  String get clipboardTypeBarcode => 'Barcode Payload';
+
+  @override
+  String get clipboardTypeImage => 'Image';
+
+  @override
+  String get clipboardTypeText => 'Text';
+
+  @override
+  String get multiCodeDetectedBanner =>
+      'Multiple codes detected. Tap a code to scan.';
+
+  @override
+  String get multiCodeTapToScan => 'Tap to scan';
+
+  @override
+  String get multiCodeSelectionTitle => 'Multi-Code Selection';
+
+  @override
+  String get multiCodeSelectionSubtitle =>
+      'Outline visible codes and tap to choose when multiple are present';
+
+  @override
+  String get multiCodeDismissTooltip => 'Dismiss selection';
+
+  @override
+  String get ghostScanTitle => 'GhostScan';
+
+  @override
+  String get ghostScanSubtitle => 'Screen Content QR Detector';
+
+  @override
+  String get ghostScanDescription =>
+      'Detect and decode QR codes visible on your screen inside any app without taking manual screenshots.';
+
+  @override
+  String get ghostScanTileLabel => 'GhostScan';
+
+  @override
+  String get ghostScanActionScanNow => 'Scan Screen Now';
+
+  @override
+  String get ghostScanActionAddTile => 'Add Quick Settings Tile';
+
+  @override
+  String get ghostScanTileAdded => 'Quick Settings tile request sent';
+
+  @override
+  String get ghostScanHowItWorksTitle => 'How to use GhostScan';
+
+  @override
+  String get ghostScanStep1 =>
+      'Pull down your Quick Settings notification shade from any app.';
+
+  @override
+  String get ghostScanStep2 =>
+      'Tap the GhostScan tile to capture and decode the screen.';
+
+  @override
+  String get ghostScanStep3 =>
+      'The code is decoded instantly without saving screenshots to your gallery.';
+
+  @override
+  String get ghostScanAnalyzing => 'Analyzing screen content...';
+
+  @override
+  String get ghostScanNoCodeFound => 'No QR code or barcode detected on screen';
 }

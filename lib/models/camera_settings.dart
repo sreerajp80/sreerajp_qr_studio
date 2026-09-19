@@ -35,6 +35,7 @@ class CameraSettings {
   final double brightness;
   final double contrast;
   final bool invertColors;
+  final bool multiCodeSelectionEnabled;
 
   const CameraSettings({
     this.flashMode = CameraFlashMode.off,
@@ -42,6 +43,7 @@ class CameraSettings {
     this.brightness = 0.0,
     this.contrast = 1.0,
     this.invertColors = false,
+    this.multiCodeSelectionEnabled = true,
   });
 
   CameraSettings copyWith({
@@ -50,6 +52,7 @@ class CameraSettings {
     double? brightness,
     double? contrast,
     bool? invertColors,
+    bool? multiCodeSelectionEnabled,
   }) {
     return CameraSettings(
       flashMode: flashMode ?? this.flashMode,
@@ -57,6 +60,8 @@ class CameraSettings {
       brightness: brightness ?? this.brightness,
       contrast: contrast ?? this.contrast,
       invertColors: invertColors ?? this.invertColors,
+      multiCodeSelectionEnabled:
+          multiCodeSelectionEnabled ?? this.multiCodeSelectionEnabled,
     );
   }
 }

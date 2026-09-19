@@ -57,6 +57,17 @@ class FeaturesScreen extends StatelessWidget {
           highlights: ['Gallery Photos', 'Multi-Page PDF', 'Live Viewport'],
         ),
         _AppFeature(
+          title: 'GhostScan Screen Content Detector',
+          description:
+              'Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile or on-demand trigger without saving screenshots.',
+          icon: Icons.screenshot_monitor,
+          highlights: [
+            'Quick Settings Tile',
+            'No Screenshots Saved',
+            'Instant Scan',
+          ],
+        ),
+        _AppFeature(
           title: 'Precision Camera Controls',
           description:
               'Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.',
