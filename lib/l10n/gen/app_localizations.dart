@@ -2812,6 +2812,288 @@ abstract class AppLocalizations {
   /// **'API error (status: {status})'**
   String maliciousApiError(String status);
 
+  /// Label for the VirusTotal URL safety check row
+  ///
+  /// In en, this message translates to:
+  /// **'VirusTotal'**
+  String get checkNameVirusTotal;
+
+  /// Result when no VirusTotal key is saved
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped (API key not configured)'**
+  String get virusTotalSkippedNoKey;
+
+  /// Result when the VirusTotal free daily quota is exhausted
+  ///
+  /// In en, this message translates to:
+  /// **'Daily limit reached (500/day — resets tomorrow)'**
+  String get virusTotalDailyLimit;
+
+  /// Result when VirusTotal reports malicious votes
+  ///
+  /// In en, this message translates to:
+  /// **'Threats detected by {engines} engine(s)'**
+  String virusTotalThreats(String engines);
+
+  /// Result when VirusTotal reports the URL is clean
+  ///
+  /// In en, this message translates to:
+  /// **'No threats detected (VirusTotal)'**
+  String get virusTotalNone;
+
+  /// Result when VirusTotal rejects the key
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid API key or request (VirusTotal)'**
+  String get virusTotalInvalidKey;
+
+  /// Result when VirusTotal asks us to slow down
+  ///
+  /// In en, this message translates to:
+  /// **'Rate limit exceeded (VirusTotal)'**
+  String get virusTotalRateLimited;
+
+  /// Result when VirusTotal returned an unexpected HTTP status
+  ///
+  /// In en, this message translates to:
+  /// **'API error (status: {status})'**
+  String virusTotalApiError(String status);
+
+  /// Result when the VirusTotal lookup could not run
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to check (VirusTotal)'**
+  String get virusTotalUnavailable;
+
+  /// Label for the URLhaus URL safety check row
+  ///
+  /// In en, this message translates to:
+  /// **'URLhaus'**
+  String get checkNameUrlhaus;
+
+  /// Result when no URLhaus key is saved
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped (API key not configured)'**
+  String get urlhausSkippedNoKey;
+
+  /// Result when URLhaus flags the URL as a malware host
+  ///
+  /// In en, this message translates to:
+  /// **'Malware URL detected: {tags}'**
+  String urlhausMalware(String tags);
+
+  /// Result when URLhaus reports the URL is offline or clean
+  ///
+  /// In en, this message translates to:
+  /// **'No known malware hosting (URLhaus)'**
+  String get urlhausClean;
+
+  /// Result when URLhaus has no record of this URL
+  ///
+  /// In en, this message translates to:
+  /// **'Not in URLhaus database'**
+  String get urlhausNotFound;
+
+  /// Result when URLhaus rejects the auth key
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid API key (URLhaus)'**
+  String get urlhausInvalidKey;
+
+  /// Result when URLhaus returned an unexpected HTTP status
+  ///
+  /// In en, this message translates to:
+  /// **'API error (status: {status})'**
+  String urlhausApiError(String status);
+
+  /// Result when the URLhaus lookup could not run
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to check (URLhaus)'**
+  String get urlhausUnavailable;
+
+  /// Label for the PhishTank URL safety check row
+  ///
+  /// In en, this message translates to:
+  /// **'PhishTank'**
+  String get checkNamePhishTank;
+
+  /// Result when PhishTank is toggled off in settings
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped (PhishTank disabled)'**
+  String get phishTankSkippedDisabled;
+
+  /// Result when PhishTank confirms the URL is a phishing site
+  ///
+  /// In en, this message translates to:
+  /// **'Known phishing site (PhishTank)'**
+  String get phishTankPhishing;
+
+  /// Result when PhishTank says the URL is valid / not phishing
+  ///
+  /// In en, this message translates to:
+  /// **'Not a known phishing site (PhishTank)'**
+  String get phishTankClean;
+
+  /// Result when PhishTank has no record of this URL
+  ///
+  /// In en, this message translates to:
+  /// **'Not in PhishTank database'**
+  String get phishTankNotInDatabase;
+
+  /// Result when PhishTank returned an unexpected HTTP status
+  ///
+  /// In en, this message translates to:
+  /// **'API error (status: {status})'**
+  String phishTankApiError(String status);
+
+  /// Result when the PhishTank lookup could not run
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to check (PhishTank)'**
+  String get phishTankUnavailable;
+
+  /// Label for the OpenPhish offline URL safety check row
+  ///
+  /// In en, this message translates to:
+  /// **'OpenPhish'**
+  String get checkNameOpenPhish;
+
+  /// Result when OpenPhish is toggled off in settings
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped (OpenPhish disabled)'**
+  String get openPhishSkippedDisabled;
+
+  /// Result when the URL appears in the cached OpenPhish feed
+  ///
+  /// In en, this message translates to:
+  /// **'Known phishing site (OpenPhish)'**
+  String get openPhishPhishing;
+
+  /// Result when the URL does not appear in the OpenPhish feed
+  ///
+  /// In en, this message translates to:
+  /// **'Not in phishing feed (OpenPhish)'**
+  String get openPhishClean;
+
+  /// Result when no cached feed exists and network is unavailable
+  ///
+  /// In en, this message translates to:
+  /// **'Feed unavailable — offline check skipped'**
+  String get openPhishFeedStale;
+
+  /// Result when the OpenPhish check could not run
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to check (OpenPhish)'**
+  String get openPhishUnavailable;
+
+  /// Settings card that opens the URL safety providers page
+  ///
+  /// In en, this message translates to:
+  /// **'URL Safety Providers'**
+  String get settingsUrlSafetyProvidersTitle;
+
+  /// Summary under the URL safety providers card
+  ///
+  /// In en, this message translates to:
+  /// **'{count} provider(s) active'**
+  String settingsUrlSafetyProvidersSubtitle(String count);
+
+  /// Help text at the top of the URL safety providers settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Configure optional online URL safety checks. Each provider is independent. Non-commercial providers require your own free account and API key.'**
+  String get urlSafetyProvidersHelpText;
+
+  /// Section header for providers that require the user to supply a key
+  ///
+  /// In en, this message translates to:
+  /// **'Your API Keys'**
+  String get urlSafetyUserSuppliedHeader;
+
+  /// Note below the user-supplied section header
+  ///
+  /// In en, this message translates to:
+  /// **'Non-commercial use only'**
+  String get urlSafetyUserSuppliedNote;
+
+  /// Section header for providers that are built in and just need a toggle
+  ///
+  /// In en, this message translates to:
+  /// **'Built-In Providers'**
+  String get urlSafetyBuiltInHeader;
+
+  /// Note below the built-in providers section header
+  ///
+  /// In en, this message translates to:
+  /// **'No account needed — just toggle on'**
+  String get urlSafetyBuiltInNote;
+
+  /// Label for the optional custom API endpoint URL field
+  ///
+  /// In en, this message translates to:
+  /// **'API Endpoint URL'**
+  String get providerEndpointLabel;
+
+  /// Hint text inside the API key text field
+  ///
+  /// In en, this message translates to:
+  /// **'Paste your API key'**
+  String get providerApiKeyHint;
+
+  /// Prefix label before the registration URL link
+  ///
+  /// In en, this message translates to:
+  /// **'Get a free key at:'**
+  String get providerGetKeyAt;
+
+  /// Shows how many daily requests have been used out of the limit
+  ///
+  /// In en, this message translates to:
+  /// **'{used} / {max} requests today'**
+  String providerDailyUsage(String used, String max);
+
+  /// Shows when the OpenPhish feed was last downloaded
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: {datetime}'**
+  String openPhishLastUpdated(String datetime);
+
+  /// Button to manually refresh the OpenPhish phishing feed
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh feed now'**
+  String get openPhishRefreshNow;
+
+  /// Snackbar after a successful OpenPhish feed refresh
+  ///
+  /// In en, this message translates to:
+  /// **'Feed updated ({count} URLs)'**
+  String openPhishFeedRefreshed(String count);
+
+  /// Snackbar when the OpenPhish feed download fails
+  ///
+  /// In en, this message translates to:
+  /// **'Feed refresh failed'**
+  String get openPhishFeedFailed;
+
+  /// Toggle switch label for the PhishTank built-in provider
+  ///
+  /// In en, this message translates to:
+  /// **'Enable PhishTank'**
+  String get phishTankToggleLabel;
+
+  /// Toggle switch label for the OpenPhish built-in provider
+  ///
+  /// In en, this message translates to:
+  /// **'Enable OpenPhish feed'**
+  String get openPhishToggleLabel;
+
   /// Summary when the printed code looks untouched
   ///
   /// In en, this message translates to:

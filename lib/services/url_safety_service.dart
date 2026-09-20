@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
@@ -41,6 +42,10 @@ class UrlSafetyService {
       await checkUrlShorteners(url, activeProbing: activeProbing),
       await checkHomographAttacks(url),
       await checkGoogleSafeBrowsing(url),
+      await checkVirusTotal(url),
+      await checkUrlhaus(url),
+      await checkPhishTank(url),
+      await checkOpenPhish(url),
     ];
   }
 
@@ -604,6 +609,415 @@ class UrlSafetyService {
         checkName: AppMessage(AppMessageKey.checkNameMalicious),
         passed: false,
         message: AppMessage(AppMessageKey.maliciousUnavailable),
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // VirusTotal
+  // ---------------------------------------------------------------------------
+
+  /// SharedPreferences keys used by the VirusTotal check.
+  static const String vtRequestCountKey = 'virustotal_request_count';
+  static const String vtLastResetKey = 'virustotal_last_reset';
+  static const String vtEndpointPrefKey = 'virustotal_endpoint_url';
+  static const String vtDefaultEndpoint =
+      'https://www.virustotal.com/api/v3/urls';
+  static const int vtMaxRequestsPerDay = 500;
+
+  Future<SafetyCheckResult> checkVirusTotal(String url) async {
+    try {
+      final apiKey = await _secureStorage.read(key: 'virustotal_api_key');
+
+      if (apiKey == null || apiKey.isEmpty) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: true,
+          message: AppMessage(AppMessageKey.virusTotalSkippedNoKey),
+        );
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final today = DateTime.now().toIso8601String().split('T')[0];
+      final lastReset = prefs.getString(vtLastResetKey);
+
+      if (lastReset != today) {
+        await prefs.setInt(vtRequestCountKey, 0);
+        await prefs.setString(vtLastResetKey, today);
+      }
+
+      final requestCount = prefs.getInt(vtRequestCountKey) ?? 0;
+      if (requestCount >= vtMaxRequestsPerDay) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: true,
+          message: AppMessage(AppMessageKey.virusTotalDailyLimit),
+        );
+      }
+
+      final prefs2 = await SharedPreferences.getInstance();
+      final endpointBase =
+          prefs2.getString(vtEndpointPrefKey) ?? vtDefaultEndpoint;
+      // Derive the base URL (strip trailing /urls if user copied it with path).
+      final baseUrl = endpointBase.replaceAll(RegExp(r'/urls/?$'), '');
+
+      // VirusTotal v3: look up by URL ID (url-safe base64 of the URL).
+      final urlId = base64Url.encode(utf8.encode(url)).replaceAll('=', '');
+      final getUri = Uri.parse('$baseUrl/urls/$urlId');
+
+      final response = await _httpClient
+          .get(
+            getUri,
+            headers: {'x-apikey': apiKey, 'Accept': 'application/json'},
+          )
+          .timeout(const Duration(seconds: 10));
+
+      await prefs.setInt(vtRequestCountKey, requestCount + 1);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        final stats =
+            (data['data']?['attributes']?['last_analysis_stats'])
+                as Map<String, dynamic>?;
+        if (stats != null) {
+          final malicious = (stats['malicious'] as int?) ?? 0;
+          final suspicious = (stats['suspicious'] as int?) ?? 0;
+          final flagged = malicious + suspicious;
+          if (flagged > 0) {
+            return SafetyCheckResult(
+              checkName: const AppMessage(AppMessageKey.checkNameVirusTotal),
+              passed: false,
+              message: AppMessage(
+                AppMessageKey.virusTotalThreats,
+                args: {'engines': '$flagged'},
+              ),
+            );
+          }
+        }
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: true,
+          message: AppMessage(AppMessageKey.virusTotalNone),
+        );
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: false,
+          message: AppMessage(AppMessageKey.virusTotalInvalidKey),
+        );
+      } else if (response.statusCode == 429) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: true,
+          message: AppMessage(AppMessageKey.virusTotalRateLimited),
+        );
+      } else {
+        return SafetyCheckResult(
+          checkName: const AppMessage(AppMessageKey.checkNameVirusTotal),
+          passed: false,
+          message: AppMessage(
+            AppMessageKey.virusTotalApiError,
+            args: {'status': '${response.statusCode}'},
+          ),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('VirusTotal check error: ${e.runtimeType}');
+      }
+      return const SafetyCheckResult(
+        checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
+        passed: false,
+        message: AppMessage(AppMessageKey.virusTotalUnavailable),
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // URLhaus
+  // ---------------------------------------------------------------------------
+
+  static const String urlhausEndpointPrefKey = 'urlhaus_endpoint_url';
+  static const String urlhausDefaultEndpoint =
+      'https://urlhaus-api.abuse.ch/v1/url/';
+
+  Future<SafetyCheckResult> checkUrlhaus(String url) async {
+    try {
+      final apiKey = await _secureStorage.read(key: 'urlhaus_api_key');
+
+      if (apiKey == null || apiKey.isEmpty) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
+          passed: true,
+          message: AppMessage(AppMessageKey.urlhausSkippedNoKey),
+        );
+      }
+
+      final prefs = await SharedPreferences.getInstance();
+      final endpoint =
+          prefs.getString(urlhausEndpointPrefKey) ?? urlhausDefaultEndpoint;
+
+      final response = await _httpClient
+          .post(
+            Uri.parse(endpoint),
+            headers: {
+              'Auth-Key': apiKey,
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'url=${Uri.encodeComponent(url)}',
+          )
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        final queryStatus = data['query_status'] as String?;
+
+        switch (queryStatus) {
+          case 'is_malware':
+            final tagsList = (data['tags'] as List<dynamic>?) ?? [];
+            final tags = tagsList.isEmpty
+                ? 'unknown'
+                : tagsList.map((t) => t.toString()).join(', ');
+            return SafetyCheckResult(
+              checkName: const AppMessage(AppMessageKey.checkNameUrlhaus),
+              passed: false,
+              message: AppMessage(
+                AppMessageKey.urlhausMalware,
+                args: {'tags': tags},
+              ),
+            );
+          case 'is_online':
+          case 'is_offline':
+            return const SafetyCheckResult(
+              checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
+              passed: true,
+              message: AppMessage(AppMessageKey.urlhausClean),
+            );
+          case 'no_results':
+          default:
+            return const SafetyCheckResult(
+              checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
+              passed: true,
+              message: AppMessage(AppMessageKey.urlhausNotFound),
+            );
+        }
+      } else if (response.statusCode == 401 || response.statusCode == 403) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
+          passed: false,
+          message: AppMessage(AppMessageKey.urlhausInvalidKey),
+        );
+      } else {
+        return SafetyCheckResult(
+          checkName: const AppMessage(AppMessageKey.checkNameUrlhaus),
+          passed: false,
+          message: AppMessage(
+            AppMessageKey.urlhausApiError,
+            args: {'status': '${response.statusCode}'},
+          ),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('URLhaus check error: ${e.runtimeType}');
+      }
+      return const SafetyCheckResult(
+        checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
+        passed: false,
+        message: AppMessage(AppMessageKey.urlhausUnavailable),
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // PhishTank
+  // ---------------------------------------------------------------------------
+
+  static const String phishTankEnabledPrefKey = 'phishtank_enabled';
+
+  Future<SafetyCheckResult> checkPhishTank(String url) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final enabled = prefs.getBool(phishTankEnabledPrefKey) ?? false;
+
+      if (!enabled) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNamePhishTank),
+          passed: true,
+          message: AppMessage(AppMessageKey.phishTankSkippedDisabled),
+        );
+      }
+
+      final response = await _httpClient
+          .post(
+            Uri.parse('https://checkurl.phishtank.com/checkurl/'),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: 'url=${Uri.encodeComponent(url)}&format=json',
+          )
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body) as Map<String, dynamic>;
+        final results = data['results'] as Map<String, dynamic>?;
+        final inDatabase = results?['in_database'] as bool? ?? false;
+        final valid = results?['valid'] as bool? ?? false;
+
+        if (inDatabase && valid) {
+          return const SafetyCheckResult(
+            checkName: AppMessage(AppMessageKey.checkNamePhishTank),
+            passed: false,
+            message: AppMessage(AppMessageKey.phishTankPhishing),
+          );
+        } else if (inDatabase) {
+          return const SafetyCheckResult(
+            checkName: AppMessage(AppMessageKey.checkNamePhishTank),
+            passed: true,
+            message: AppMessage(AppMessageKey.phishTankClean),
+          );
+        } else {
+          return const SafetyCheckResult(
+            checkName: AppMessage(AppMessageKey.checkNamePhishTank),
+            passed: true,
+            message: AppMessage(AppMessageKey.phishTankNotInDatabase),
+          );
+        }
+      } else {
+        return SafetyCheckResult(
+          checkName: const AppMessage(AppMessageKey.checkNamePhishTank),
+          passed: false,
+          message: AppMessage(
+            AppMessageKey.phishTankApiError,
+            args: {'status': '${response.statusCode}'},
+          ),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('PhishTank check error: ${e.runtimeType}');
+      }
+      return const SafetyCheckResult(
+        checkName: AppMessage(AppMessageKey.checkNamePhishTank),
+        passed: false,
+        message: AppMessage(AppMessageKey.phishTankUnavailable),
+      );
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // OpenPhish (offline feed cache)
+  // ---------------------------------------------------------------------------
+
+  static const String openPhishEnabledPrefKey = 'openphish_enabled';
+  static const String _openPhishFeedCacheKey = 'openphish_feed_cache';
+  static const String _openPhishTimestampKey = 'openphish_feed_timestamp';
+  static const String _openPhishFeedUrl = 'https://openphish.com/feed.txt';
+  static const int _openPhishCacheTtlHours = 12;
+
+  /// Downloads and caches the OpenPhish community feed.
+  ///
+  /// Returns the number of URLs in the refreshed feed, or -1 on failure.
+  Future<int> refreshOpenPhishFeed() async {
+    try {
+      final response = await _httpClient
+          .get(Uri.parse(_openPhishFeedUrl))
+          .timeout(const Duration(seconds: 15));
+      if (response.statusCode != 200) return -1;
+
+      final lines = response.body
+          .split('\n')
+          .map((l) => l.trim().toLowerCase())
+          .where((l) => l.isNotEmpty)
+          .toList();
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_openPhishFeedCacheKey, json.encode(lines));
+      await prefs.setString(
+        _openPhishTimestampKey,
+        DateTime.now().toIso8601String(),
+      );
+      return lines.length;
+    } catch (_) {
+      return -1;
+    }
+  }
+
+  Future<SafetyCheckResult> checkOpenPhish(String url) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final enabled = prefs.getBool(openPhishEnabledPrefKey) ?? false;
+
+      if (!enabled) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
+          passed: true,
+          message: AppMessage(AppMessageKey.openPhishSkippedDisabled),
+        );
+      }
+
+      // Refresh feed if stale or missing.
+      final cachedJson = prefs.getString(_openPhishFeedCacheKey);
+      final timestampStr = prefs.getString(_openPhishTimestampKey);
+      final cacheAge = timestampStr != null
+          ? DateTime.now().difference(DateTime.parse(timestampStr))
+          : const Duration(days: 999);
+
+      List<String> feed;
+      if (cachedJson == null || cacheAge.inHours >= _openPhishCacheTtlHours) {
+        final count = await refreshOpenPhishFeed();
+        if (count < 0) {
+          if (cachedJson == null) {
+            return const SafetyCheckResult(
+              checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
+              passed: true,
+              message: AppMessage(AppMessageKey.openPhishFeedStale),
+            );
+          }
+          // Use stale cache rather than skip entirely.
+          feed = (json.decode(cachedJson) as List<dynamic>)
+              .map((e) => e.toString())
+              .toList();
+        } else {
+          final fresh = prefs.getString(_openPhishFeedCacheKey) ?? '[]';
+          feed = (json.decode(fresh) as List<dynamic>)
+              .map((e) => e.toString())
+              .toList();
+        }
+      } else {
+        feed = (json.decode(cachedJson) as List<dynamic>)
+            .map((e) => e.toString())
+            .toList();
+      }
+
+      // Normalise: scheme + host + path, lowercase, no trailing slash.
+      final uri = Uri.tryParse(url);
+      final normalised = uri != null
+          ? '${uri.scheme}://${uri.host}${uri.path}'.toLowerCase().replaceAll(
+              RegExp(r'/$'),
+              '',
+            )
+          : url.toLowerCase();
+
+      if (feed.any((entry) => entry.contains(normalised))) {
+        return const SafetyCheckResult(
+          checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
+          passed: false,
+          message: AppMessage(AppMessageKey.openPhishPhishing),
+        );
+      }
+
+      return const SafetyCheckResult(
+        checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
+        passed: true,
+        message: AppMessage(AppMessageKey.openPhishClean),
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        debugPrint('OpenPhish check error: ${e.runtimeType}');
+      }
+      return const SafetyCheckResult(
+        checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
+        passed: false,
+        message: AppMessage(AppMessageKey.openPhishUnavailable),
       );
     }
   }

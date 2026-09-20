@@ -47,7 +47,7 @@ void main() {
       expect(find.text('Features'), findsOneWidget);
       expect(find.text('Scan Feedback & Alerts'), findsOneWidget);
       expect(find.text('Privacy & Online Probing'), findsOneWidget);
-      expect(find.text('Google Safe Browsing API'), findsOneWidget);
+      expect(find.text('URL Safety Providers'), findsOneWidget);
       expect(find.text('Permissions'), findsOneWidget);
       expect(find.text('Help & Feature Guides'), findsOneWidget);
       expect(find.text('About'), findsOneWidget);

@@ -121,7 +121,76 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
     case AppMessageKey.maliciousUnavailable:
       return l10n.maliciousUnavailable;
 
+    // VirusTotal
+    case AppMessageKey.checkNameVirusTotal:
+      return l10n.checkNameVirusTotal;
+    case AppMessageKey.virusTotalSkippedNoKey:
+      return l10n.virusTotalSkippedNoKey;
+    case AppMessageKey.virusTotalDailyLimit:
+      return l10n.virusTotalDailyLimit;
+    case AppMessageKey.virusTotalThreats:
+      return l10n.virusTotalThreats(args['engines'] ?? '');
+    case AppMessageKey.virusTotalNone:
+      return l10n.virusTotalNone;
+    case AppMessageKey.virusTotalInvalidKey:
+      return l10n.virusTotalInvalidKey;
+    case AppMessageKey.virusTotalRateLimited:
+      return l10n.virusTotalRateLimited;
+    case AppMessageKey.virusTotalApiError:
+      return l10n.virusTotalApiError(args['status'] ?? '');
+    case AppMessageKey.virusTotalUnavailable:
+      return l10n.virusTotalUnavailable;
+
+    // URLhaus
+    case AppMessageKey.checkNameUrlhaus:
+      return l10n.checkNameUrlhaus;
+    case AppMessageKey.urlhausSkippedNoKey:
+      return l10n.urlhausSkippedNoKey;
+    case AppMessageKey.urlhausMalware:
+      return l10n.urlhausMalware(args['tags'] ?? '');
+    case AppMessageKey.urlhausClean:
+      return l10n.urlhausClean;
+    case AppMessageKey.urlhausNotFound:
+      return l10n.urlhausNotFound;
+    case AppMessageKey.urlhausInvalidKey:
+      return l10n.urlhausInvalidKey;
+    case AppMessageKey.urlhausApiError:
+      return l10n.urlhausApiError(args['status'] ?? '');
+    case AppMessageKey.urlhausUnavailable:
+      return l10n.urlhausUnavailable;
+
+    // PhishTank
+    case AppMessageKey.checkNamePhishTank:
+      return l10n.checkNamePhishTank;
+    case AppMessageKey.phishTankSkippedDisabled:
+      return l10n.phishTankSkippedDisabled;
+    case AppMessageKey.phishTankPhishing:
+      return l10n.phishTankPhishing;
+    case AppMessageKey.phishTankClean:
+      return l10n.phishTankClean;
+    case AppMessageKey.phishTankNotInDatabase:
+      return l10n.phishTankNotInDatabase;
+    case AppMessageKey.phishTankApiError:
+      return l10n.phishTankApiError(args['status'] ?? '');
+    case AppMessageKey.phishTankUnavailable:
+      return l10n.phishTankUnavailable;
+
+    // OpenPhish
+    case AppMessageKey.checkNameOpenPhish:
+      return l10n.checkNameOpenPhish;
+    case AppMessageKey.openPhishSkippedDisabled:
+      return l10n.openPhishSkippedDisabled;
+    case AppMessageKey.openPhishPhishing:
+      return l10n.openPhishPhishing;
+    case AppMessageKey.openPhishClean:
+      return l10n.openPhishClean;
+    case AppMessageKey.openPhishFeedStale:
+      return l10n.openPhishFeedStale;
+    case AppMessageKey.openPhishUnavailable:
+      return l10n.openPhishUnavailable;
+
     // printed-code tamper check
+
     case AppMessageKey.quishingSummaryAuthentic:
       return l10n.quishingSummaryAuthentic;
     case AppMessageKey.quishingSummaryWearAndTear:

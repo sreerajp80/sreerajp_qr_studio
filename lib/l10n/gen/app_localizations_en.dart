@@ -1572,6 +1572,167 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get checkNameVirusTotal => 'VirusTotal';
+
+  @override
+  String get virusTotalSkippedNoKey => 'Skipped (API key not configured)';
+
+  @override
+  String get virusTotalDailyLimit =>
+      'Daily limit reached (500/day — resets tomorrow)';
+
+  @override
+  String virusTotalThreats(String engines) {
+    return 'Threats detected by $engines engine(s)';
+  }
+
+  @override
+  String get virusTotalNone => 'No threats detected (VirusTotal)';
+
+  @override
+  String get virusTotalInvalidKey => 'Invalid API key or request (VirusTotal)';
+
+  @override
+  String get virusTotalRateLimited => 'Rate limit exceeded (VirusTotal)';
+
+  @override
+  String virusTotalApiError(String status) {
+    return 'API error (status: $status)';
+  }
+
+  @override
+  String get virusTotalUnavailable => 'Unable to check (VirusTotal)';
+
+  @override
+  String get checkNameUrlhaus => 'URLhaus';
+
+  @override
+  String get urlhausSkippedNoKey => 'Skipped (API key not configured)';
+
+  @override
+  String urlhausMalware(String tags) {
+    return 'Malware URL detected: $tags';
+  }
+
+  @override
+  String get urlhausClean => 'No known malware hosting (URLhaus)';
+
+  @override
+  String get urlhausNotFound => 'Not in URLhaus database';
+
+  @override
+  String get urlhausInvalidKey => 'Invalid API key (URLhaus)';
+
+  @override
+  String urlhausApiError(String status) {
+    return 'API error (status: $status)';
+  }
+
+  @override
+  String get urlhausUnavailable => 'Unable to check (URLhaus)';
+
+  @override
+  String get checkNamePhishTank => 'PhishTank';
+
+  @override
+  String get phishTankSkippedDisabled => 'Skipped (PhishTank disabled)';
+
+  @override
+  String get phishTankPhishing => 'Known phishing site (PhishTank)';
+
+  @override
+  String get phishTankClean => 'Not a known phishing site (PhishTank)';
+
+  @override
+  String get phishTankNotInDatabase => 'Not in PhishTank database';
+
+  @override
+  String phishTankApiError(String status) {
+    return 'API error (status: $status)';
+  }
+
+  @override
+  String get phishTankUnavailable => 'Unable to check (PhishTank)';
+
+  @override
+  String get checkNameOpenPhish => 'OpenPhish';
+
+  @override
+  String get openPhishSkippedDisabled => 'Skipped (OpenPhish disabled)';
+
+  @override
+  String get openPhishPhishing => 'Known phishing site (OpenPhish)';
+
+  @override
+  String get openPhishClean => 'Not in phishing feed (OpenPhish)';
+
+  @override
+  String get openPhishFeedStale => 'Feed unavailable — offline check skipped';
+
+  @override
+  String get openPhishUnavailable => 'Unable to check (OpenPhish)';
+
+  @override
+  String get settingsUrlSafetyProvidersTitle => 'URL Safety Providers';
+
+  @override
+  String settingsUrlSafetyProvidersSubtitle(String count) {
+    return '$count provider(s) active';
+  }
+
+  @override
+  String get urlSafetyProvidersHelpText =>
+      'Configure optional online URL safety checks. Each provider is independent. Non-commercial providers require your own free account and API key.';
+
+  @override
+  String get urlSafetyUserSuppliedHeader => 'Your API Keys';
+
+  @override
+  String get urlSafetyUserSuppliedNote => 'Non-commercial use only';
+
+  @override
+  String get urlSafetyBuiltInHeader => 'Built-In Providers';
+
+  @override
+  String get urlSafetyBuiltInNote => 'No account needed — just toggle on';
+
+  @override
+  String get providerEndpointLabel => 'API Endpoint URL';
+
+  @override
+  String get providerApiKeyHint => 'Paste your API key';
+
+  @override
+  String get providerGetKeyAt => 'Get a free key at:';
+
+  @override
+  String providerDailyUsage(String used, String max) {
+    return '$used / $max requests today';
+  }
+
+  @override
+  String openPhishLastUpdated(String datetime) {
+    return 'Last updated: $datetime';
+  }
+
+  @override
+  String get openPhishRefreshNow => 'Refresh feed now';
+
+  @override
+  String openPhishFeedRefreshed(String count) {
+    return 'Feed updated ($count URLs)';
+  }
+
+  @override
+  String get openPhishFeedFailed => 'Feed refresh failed';
+
+  @override
+  String get phishTankToggleLabel => 'Enable PhishTank';
+
+  @override
+  String get openPhishToggleLabel => 'Enable OpenPhish feed';
+
+  @override
   String get quishingSummaryAuthentic =>
       'Authentic Printed Code. No physical tampering detected.';
 

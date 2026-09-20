@@ -4,7 +4,7 @@
 
 ![SreerajP QR Reader](assets/app_icon.png)
 
-**Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Quishing Guard, StegoQR Encryption, AirQR Optical Streaming, and Tri-Lingual Support.**
+**Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Multi-Provider Threat Intelligence, Quishing Guard, StegoQR Encryption, AirQR Optical Sync, and Tri-Lingual Support.**
 
 [![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.44.8-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-%3E%3D3.12.2-0175C2?logo=dart&logoColor=white)](https://dart.dev)
@@ -22,13 +22,14 @@
 **SreerajP QR Reader** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
 
 Beyond standard barcode decoding, SreerajP QR Reader serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
-- **6-Layer URL Safety Verification** protects against phishing, malicious redirects, and lookalike domains.
+- **6-Layer URL Safety & Threat Intelligence** protects against phishing, malicious redirects, and lookalike domains using local heuristics plus Google Safe Browsing, VirusTotal, URLhaus, PhishTank, and OpenPhish.
 - **QuishingGuard™** performs on-device computer vision forensic analysis to detect physical sticker overlays on genuine QR codes.
 - **Zero-Trust Sandboxed Preview** renders web destinations in an isolated, script-disabled environment with domain age (WHOIS) insights before opening.
 - **StegoQR** allows secret payloads hidden within standard QR codes, encrypted with AES-256 and protected by passphrases and biometric authentication.
-- **AirQR** provides an air-gapped optical data transfer mechanism (5–25 FPS animated QR sequences) to send and receive files without Wi-Fi, Bluetooth, or internet.
+- **AirQR Optical Streaming & Device Sync** provides an air-gapped optical transfer mechanism (5–25 FPS animated QR sequences) to send files, encrypted scan history, and app settings between phones without Wi-Fi, Bluetooth, or cables.
 - **CodeForge Studio** provides a full-featured QR and barcode generator suite with custom styling, color palettes, and embedded logos.
-- **AR CodeVision HUD** tracks and labels multiple barcodes in real time with interactive selection and warehouse batch tools.
+- **Multi-Code Viewport Selection & AR CodeVision** tracks, labels, and provides interactive touch targets for multiple barcodes simultaneously in real time.
+- **Distance-Enhanced Pipeline & GhostScan™** scans distant codes using digital zoom-crop-enhancement and screen barcodes via an Android Quick Settings tile.
 - **Tri-Lingual Standard**: Fully translated across **English**, **Malayalam (മലയാളം)**, and **Sanskrit (संस्कृतम्)** with live in-app switching.
 
 ---
@@ -58,16 +59,21 @@ Beyond standard barcode decoding, SreerajP QR Reader serves as a comprehensive *
 
 ## ✨ Key Features
 
-### 🛡️ 6-Layer URL Safety & Anti-Phishing Engine
+### 🛡️ 6-Layer URL Safety & Multi-Provider Threat Intelligence
 Every scanned link is evaluated across six rigorous security layers before the user can open it:
 1. **HTTPS / SSL Protocol Validation**: Verifies secure communication channels.
 2. **Redirect Chain Inspection**: Traverses HTTP redirect chains to detect evasive redirect loops and open redirect traps.
 3. **Heuristic Suspicious Pattern Analysis**: Identifies raw IP hostnames, excessive subdomains, long digit strings, and phishing keywords.
 4. **Known Link-Shortener Detection**: Automatically recognizes and expands shortened links (e.g., bit.ly, tinyurl) to verify true targets.
 5. **Homoglyph & Lookalike Attack Detection**: Identifies internationalized domain names (IDN) using Cyrillic or Greek characters to spoof trusted domains.
-6. **Google Safe Browsing API**: Optional integration using the user's personal API key, stored securely in encrypted hardware-backed storage.
+6. **Multi-Provider Threat Intelligence**: Comprehensive verification against leading security engines managed from a dedicated settings screen:
+   - **Google Safe Browsing**: Free personal API key integration for known deceptive and malware sites.
+   - **VirusTotal v3**: Free personal API key integration querying 70+ antivirus engines with daily 500-request quota tracking and customizable endpoints.
+   - **URLhaus (abuse.ch)**: Free Auth-Key integration flagging active malware distribution sites and campaigns with tags and customizable endpoints.
+   - **PhishTank**: Built-in, commercial-friendly phishing verification database with a 1-tap on/off toggle (no API key needed).
+   - **OpenPhish**: Built-in community feed with automatic 12-hour local caching that operates 100% offline once cached.
 
-> **Private by Default**: Outbound server queries run only when **Active Online Probing** is explicitly enabled. In private mode, all checks run entirely on-device.
+> **Private by Default**: Outbound threat queries run only when enabled by the user or when **Active Online Probing** is explicitly enabled. In private mode, heuristic checks run entirely on-device.
 
 ### 🔍 QuishingGuard™ Physical Tamper Detection
 Protects users from real-world "quishing" (QR phishing) where attackers paste fraudulent stickers over legitimate QR codes on parking meters, restaurants, or payment terminals.
@@ -89,21 +95,25 @@ Protects users from real-world "quishing" (QR phishing) where attackers paste fr
 
 ### ⚡ Smart Payload Action Engine
 Scanned content is automatically parsed into interactive action cards:
-- **Wi-Fi**: Displays SSID and password (hidden by default). One-tap copy and quick navigation to Android Wi-Fi settings.
-- **UPI Payments**: Detects `upi://pay` strings; displays payee name, VPA, amount, and reference notes with a high-contrast UI and direct launch into installed UPI payment apps.
+- **Wi-Fi**: Displays SSID and password (hidden by default). One-tap direct native connection using Android's network suggestions API (`Settings.ACTION_WIFI_ADD_NETWORKS` / `WifiManager`), one-tap copy, and quick navigation to Android Wi-Fi settings.
+- **Payments & Banking**:
+  - **UPI Payments**: Detects `upi://pay` strings; displays payee name, VPA, amount, and reference notes with a high-contrast UI and direct launch into installed UPI payment apps.
+  - **SEPA Bank Transfers**: Parses European EPC QR / SEPA credit transfer payloads (`BCD\n`, `sepa:`) with IBAN, BIC, payee name, amount, and payment reference.
+  - **Cryptocurrency**: Parses Bitcoin (`bitcoin:`), Ethereum (`ethereum:`), and Solana (`solana:`) payment links with address, amount, and label extraction.
 - **Contacts (vCard / MeCard)**: Parses name, organization, title, phone numbers, emails, addresses, and websites with a "Save to Contacts" action.
 - **Calendar Events (iCalendar)**: Parses `BEGIN:VEVENT` with summary, timestamps, location, and an "Add to Calendar" button.
 - **2FA / Authenticator (TOTP)**: Parses `otpauth://totp/` URIs and computes live 6-digit TOTP codes with a 30-second countdown timer using HMAC-SHA1.
 - **Geo GPS Coordinates**: Parses `geo:lat,lng` and renders device-drawn coordinate banners with "Open in Google Maps".
 
-### 📡 AirQR Optical Air-Gapped Data Transfer
-Transfer data between two devices without Wi-Fi, Bluetooth, cellular data, or cables:
+### 📡 AirQR Optical Air-Gapped Data Transfer & Device Sync
+Transfer data and synchronize devices without Wi-Fi, Bluetooth, cellular data, or cables:
 - **Transmitter Mode**: Splits data into 256-byte chunks with Fountain FEC error-correction codes and broadcasts them as an animated sequence of QR codes at configurable frame rates (5–25 FPS).
 - **Receiver Mode**: Captures the optical QR stream via camera, tracks received blocks, recovers missing packets via error correction, and reassembles the complete payload.
+- **Air-Gapped Device Sync**: Beams encrypted SQLite scan history and application settings (`.sreerajqr` / `SREERAJ_AIRQR_SYNC_V1` container) from one phone to another. The receiving phone detects the sync container, prompts for the decryption passphrase, and immediately restores history and applies app preferences without restart.
 
-### 👓 AR CodeVision Multi-Code HUD
-- Scans and tracks multiple barcodes simultaneously in real time.
-- Anchors interactive floating visual chips to detected codes as the camera moves.
+### 👓 AR CodeVision & Viewfinder Intelligence
+- **Multi-Code Tappable Selection**: When multiple barcodes appear in the camera viewport simultaneously, the scanner draws glowing bounding boxes and corner brackets around all detected codes with format badges. Users can tap the exact barcode they wish to inspect or queue.
+- **Simultaneous AR Tracking**: Tracks and labels multiple barcodes in real time with anchored floating visual chips as the camera moves.
 - **Warehouse Mode**: Highlights product details and enables multi-selection with single-tap batch clipboard copying.
 - **Safety Mode**: Displays instant green/red security ratings over all detected URLs in the viewfinder.
 
@@ -114,12 +124,17 @@ Transfer data between two devices without Wi-Fi, Bluetooth, cellular data, or ca
 - One-tap copy, share, and image export.
 
 ### 📸 Advanced Media & Pipeline Scanning
-- **Distance-Enhanced Scanning**: Pure-Dart digital zoom-crop-enhance pipeline for scanning distant codes on billboards and signs. Applies bilinear upscaling, contrast enhancement, and unsharp masking.
+- **Distance-Enhanced Scanning**: Pure-Dart digital zoom-crop-enhance pipeline for scanning distant codes on billboards and signs. Applies candidate region-of-interest (ROI) extraction, bilinear upscaling, contrast enhancement, and unsharp masking. Includes viewport distance assist toggle and automated multi-scale fallback scanning for photo files.
 - **Gallery & Multi-Page PDF Scanning**: Scan codes from existing photos or multi-page PDF documents with batch extraction and "Save All to History".
 - **Android Share Sheet Target**: Receives shared images and PDF files directly from other applications.
-- **GhostScan Screen Content Detector**: Scans QR codes visible on your screen via an Android Quick Settings tile without manual screenshot cropping.
-- **Clipboard Scanner**: Automatically identifies and previews scannable barcode data present on the Android clipboard.
+- **GhostScan™ Screen Content Detector**: Scans QR codes visible on your screen via an Android Quick Settings tile without manual screenshot cropping.
+- **Clipboard Scanner**: Automatically identifies and previews scannable barcode data present on the Android clipboard with 1-tap scanning.
 - **Continuous Batch Scan Mode**: Rapidly queues multiple scans without leaving the viewfinder, complete with duplicate prevention and multi-format export.
+
+### 🚀 Interactive Onboarding & Feature Guides
+- **Welcome Tour**: 3-slide interactive onboarding carousel on first launch introducing the 6-Layer URL Safety Engine, QuishingGuard™ tamper detection, and 100% offline privacy architecture.
+- **Tour Replay**: Replay the onboarding tour at any time from the Settings screen or the Help Center.
+- **Feature Help Guides**: Dedicated in-app guide cards explaining AR CodeVision, AirQR, QuishingGuard™, URL threat checks, and permission requirements.
 
 ### 🗄️ Encrypted SQLite History & Export
 - All scans are securely persisted on-device in an **AES-256 encrypted SQLite database**.
@@ -275,7 +290,7 @@ flutter build appbundle --flavor prod --release
 - **Author**: Sreeraj P ([sreerajp@zohomail.in](mailto:sreerajp@zohomail.in))
 - **AI Coding Assistance**: Anthropic Claude, Gemini 3.6, ChatGPT 5.4
 - **IDEs**: VS Code / Gemini Antigravity IDE
-- **Core Open-Source Libraries**: `mobile_scanner`, `provider`, `dynamic_color`, `encrypt`, `pointycastle`, `sqflite`, `local_auth`, `url_launcher`, `share_plus`, `pdfx`, `pdf`, `receive_sharing_intent`, `permission_handler`.
+- **Core Open-Source Libraries**: `mobile_scanner`, `provider`, `dynamic_color`, `qr_flutter`, `encrypt`, `pointycastle`, `sqflite`, `local_auth`, `url_launcher`, `share_plus`, `pdfx`, `pdf`, `receive_sharing_intent`, `permission_handler`.
 
 ---
 

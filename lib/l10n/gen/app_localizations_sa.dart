@@ -1542,6 +1542,167 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
+  String get checkNameVirusTotal => 'वायरसटोटल';
+
+  @override
+  String get virusTotalSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
+
+  @override
+  String get virusTotalDailyLimit => 'दैनिक-सीमा समाप्ता (५००/दिनम्)';
+
+  @override
+  String virusTotalThreats(String engines) {
+    return '$engines यन्त्रेण दोषाः प्राप्ताः';
+  }
+
+  @override
+  String get virusTotalNone => 'न कोऽपि दोषः (वायरसटोटल)';
+
+  @override
+  String get virusTotalInvalidKey => 'दोषयुक्ता API कुञ्चिका (वायरसटोटल)';
+
+  @override
+  String get virusTotalRateLimited => 'गति-सीमा अतीता (वायरसटोटल)';
+
+  @override
+  String virusTotalApiError(String status) {
+    return 'API दोषः (स्थितिः: $status)';
+  }
+
+  @override
+  String get virusTotalUnavailable => 'परीक्षणम् अशक्यम् (वायरसटोटल)';
+
+  @override
+  String get checkNameUrlhaus => 'URLhaus';
+
+  @override
+  String get urlhausSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
+
+  @override
+  String urlhausMalware(String tags) {
+    return 'दुष्टसङ्केतस्थानं प्राप्तम्: $tags';
+  }
+
+  @override
+  String get urlhausClean => 'न कोऽपि दुष्ट-आतिथ्यम् (URLhaus)';
+
+  @override
+  String get urlhausNotFound => 'URLhaus-कोषे न विद्यते';
+
+  @override
+  String get urlhausInvalidKey => 'दोषयुक्ता API कुञ्चिका (URLhaus)';
+
+  @override
+  String urlhausApiError(String status) {
+    return 'API दोषः (स्थितिः: $status)';
+  }
+
+  @override
+  String get urlhausUnavailable => 'परीक्षणम् अशक्यम् (URLhaus)';
+
+  @override
+  String get checkNamePhishTank => 'PhishTank';
+
+  @override
+  String get phishTankSkippedDisabled => 'त्यक्तम् (PhishTank निष्क्रियम्)';
+
+  @override
+  String get phishTankPhishing => 'ज्ञात-प्रलोभन-स्थानम् (PhishTank)';
+
+  @override
+  String get phishTankClean => 'प्रलोभन-स्थानं नास्ति (PhishTank)';
+
+  @override
+  String get phishTankNotInDatabase => 'PhishTank-कोषे न विद्यते';
+
+  @override
+  String phishTankApiError(String status) {
+    return 'API दोषः (स्थितिः: $status)';
+  }
+
+  @override
+  String get phishTankUnavailable => 'परीक्षणम् अशक्यम् (PhishTank)';
+
+  @override
+  String get checkNameOpenPhish => 'OpenPhish';
+
+  @override
+  String get openPhishSkippedDisabled => 'त्यक्तम् (OpenPhish निष्क्रियम्)';
+
+  @override
+  String get openPhishPhishing => 'ज्ञात-प्रलोभन-स्थानम् (OpenPhish)';
+
+  @override
+  String get openPhishClean => 'प्रलोभन-सूचौ न विद्यते (OpenPhish)';
+
+  @override
+  String get openPhishFeedStale =>
+      'सूचिः अनुपलब्धा — स्वस्थानीय-परीक्षणं त्यक्तम्';
+
+  @override
+  String get openPhishUnavailable => 'परीक्षणम् अशक्यम् (OpenPhish)';
+
+  @override
+  String get settingsUrlSafetyProvidersTitle => 'URL-सुरक्षा-दाताः';
+
+  @override
+  String settingsUrlSafetyProvidersSubtitle(String count) {
+    return '$count दाता सक्रियाः';
+  }
+
+  @override
+  String get urlSafetyProvidersHelpText =>
+      'ऐच्छिकान् URL-सुरक्षा-परीक्षणान् संयोजयतु। प्रतिदाता स्वतन्त्रः। अव्यावसायिक-उपयोगिनः स्वकीयां कुञ्चिकां नयन्तु।';
+
+  @override
+  String get urlSafetyUserSuppliedHeader => 'भवतः API कुञ्चिकाः';
+
+  @override
+  String get urlSafetyUserSuppliedNote => 'केवलम् अव्यावसायिक-उपयोगः';
+
+  @override
+  String get urlSafetyBuiltInHeader => 'अन्तर्निहित-दाताः';
+
+  @override
+  String get urlSafetyBuiltInNote => 'खाता-रहितम् — केवलं सक्रियीकरणम्';
+
+  @override
+  String get providerEndpointLabel => 'API-समाप्ति-सङ्केतः';
+
+  @override
+  String get providerApiKeyHint => 'API कुञ्चिकां योजयतु';
+
+  @override
+  String get providerGetKeyAt => 'निःशुल्क-कुञ्चिकार्थम्:';
+
+  @override
+  String providerDailyUsage(String used, String max) {
+    return 'अद्य $used / $max अनुरोधाः';
+  }
+
+  @override
+  String openPhishLastUpdated(String datetime) {
+    return 'अन्तिम-नवीकरणम्: $datetime';
+  }
+
+  @override
+  String get openPhishRefreshNow => 'सूचिं नवीकरोतु';
+
+  @override
+  String openPhishFeedRefreshed(String count) {
+    return 'सूचिः नवीकृता ($count सङ्केताः)';
+  }
+
+  @override
+  String get openPhishFeedFailed => 'सूचि-नवीकरणं विफलम्';
+
+  @override
+  String get phishTankToggleLabel => 'PhishTank सक्रियीकरणम्';
+
+  @override
+  String get openPhishToggleLabel => 'OpenPhish-सूचिः सक्रियीकरणम्';
+
+  @override
   String get quishingSummaryAuthentic =>
       'प्रामाणिकः मुद्रित-सङ्केतः। न काऽपि विकृतिः।';
 

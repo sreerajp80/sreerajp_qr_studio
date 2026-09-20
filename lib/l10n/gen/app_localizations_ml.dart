@@ -1574,6 +1574,166 @@ class AppLocalizationsMl extends AppLocalizations {
   }
 
   @override
+  String get checkNameVirusTotal => 'VirusTotal';
+
+  @override
+  String get virusTotalSkippedNoKey => 'ഒഴിവാക്കി (API കീ ക്രമീകരിച്ചിട്ടില്ല)';
+
+  @override
+  String get virusTotalDailyLimit => 'ദൈനിക പരിധി കഴിഞ്ഞു (500/ദിവസം)';
+
+  @override
+  String virusTotalThreats(String engines) {
+    return '$engines എൻജിൻ(കൾ) ഭീഷണി കണ്ടെത്തി';
+  }
+
+  @override
+  String get virusTotalNone => 'ഭീഷണി കണ്ടെത്തിയില്ല (VirusTotal)';
+
+  @override
+  String get virusTotalInvalidKey => 'തെറ്റായ API കീ (VirusTotal)';
+
+  @override
+  String get virusTotalRateLimited => 'നിരക്ക് പരിധി കഴിഞ്ഞു (VirusTotal)';
+
+  @override
+  String virusTotalApiError(String status) {
+    return 'API പിശക് (നില: $status)';
+  }
+
+  @override
+  String get virusTotalUnavailable => 'പരിശോധിക്കാൻ കഴിഞ്ഞില്ല (VirusTotal)';
+
+  @override
+  String get checkNameUrlhaus => 'URLhaus';
+
+  @override
+  String get urlhausSkippedNoKey => 'ഒഴിവാക്കി (API കീ ക്രമീകരിച്ചിട്ടില്ല)';
+
+  @override
+  String urlhausMalware(String tags) {
+    return 'ക്ഷുദ്രവെയർ URL കണ്ടെത്തി: $tags';
+  }
+
+  @override
+  String get urlhausClean => 'ക്ഷുദ്ര ഹോസ്റ്റിംഗ് ഇല്ല (URLhaus)';
+
+  @override
+  String get urlhausNotFound => 'URLhaus ഡേറ്റാബേസിൽ ഇല്ല';
+
+  @override
+  String get urlhausInvalidKey => 'തെറ്റായ API കീ (URLhaus)';
+
+  @override
+  String urlhausApiError(String status) {
+    return 'API പിശക് (നില: $status)';
+  }
+
+  @override
+  String get urlhausUnavailable => 'പരിശോധിക്കാൻ കഴിഞ്ഞില്ല (URLhaus)';
+
+  @override
+  String get checkNamePhishTank => 'PhishTank';
+
+  @override
+  String get phishTankSkippedDisabled => 'ഒഴിവാക്കി (PhishTank നിഷ്ക്രിയം)';
+
+  @override
+  String get phishTankPhishing => 'അറിയപ്പെടുന്ന ഫിഷിംഗ് സൈറ്റ് (PhishTank)';
+
+  @override
+  String get phishTankClean => 'ഫിഷിംഗ് സൈറ്റ് അല്ല (PhishTank)';
+
+  @override
+  String get phishTankNotInDatabase => 'PhishTank ഡേറ്റാബേസിൽ ഇല്ല';
+
+  @override
+  String phishTankApiError(String status) {
+    return 'API പിശക് (നില: $status)';
+  }
+
+  @override
+  String get phishTankUnavailable => 'പരിശോധിക്കാൻ കഴിഞ്ഞില്ല (PhishTank)';
+
+  @override
+  String get checkNameOpenPhish => 'OpenPhish';
+
+  @override
+  String get openPhishSkippedDisabled => 'ഒഴിവാക്കി (OpenPhish നിഷ്ക്രിയം)';
+
+  @override
+  String get openPhishPhishing => 'അറിയപ്പെടുന്ന ഫിഷിംഗ് സൈറ്റ് (OpenPhish)';
+
+  @override
+  String get openPhishClean => 'ഫിഷിംഗ് ഫീഡിൽ ഇല്ല (OpenPhish)';
+
+  @override
+  String get openPhishFeedStale => 'ഫീഡ് ലഭ്യമല്ല — ഓഫ്‌ലൈൻ പരിശോധന ഒഴിവാക്കി';
+
+  @override
+  String get openPhishUnavailable => 'പരിശോധിക്കാൻ കഴിഞ്ഞില്ല (OpenPhish)';
+
+  @override
+  String get settingsUrlSafetyProvidersTitle => 'URL സുരക്ഷാ ദാതാക്കൾ';
+
+  @override
+  String settingsUrlSafetyProvidersSubtitle(String count) {
+    return '$count ദാതാക്കൾ സജീവം';
+  }
+
+  @override
+  String get urlSafetyProvidersHelpText =>
+      'ഓൺലൈൻ URL സുരക്ഷാ പരിശോധനകൾ ക്രമീകരിക്കുക. ഓരോ ദാതാവും സ്വതന്ത്രമാണ്. വ്യക്തിഗത API കീ ആവശ്യമുള്ളവ ചിഹ്നീകരിച്ചിരിക്കുന്നു.';
+
+  @override
+  String get urlSafetyUserSuppliedHeader => 'നിങ്ങളുടെ API കീകൾ';
+
+  @override
+  String get urlSafetyUserSuppliedNote => 'വ്യക്തിഗതേതര ഉപയോഗം മാത്രം';
+
+  @override
+  String get urlSafetyBuiltInHeader => 'ബിൽറ്റ്-ഇൻ ദാതാക്കൾ';
+
+  @override
+  String get urlSafetyBuiltInNote => 'അക്കൗണ്ട് ആവശ്യമില്ല — ടോഗിൾ ചെയ്യുക';
+
+  @override
+  String get providerEndpointLabel => 'API എൻഡ്‌പോയിന്റ് URL';
+
+  @override
+  String get providerApiKeyHint => 'നിങ്ങളുടെ API കീ ഒട്ടിക്കുക';
+
+  @override
+  String get providerGetKeyAt => 'സൗജന്യ കീ ലഭിക്കാൻ:';
+
+  @override
+  String providerDailyUsage(String used, String max) {
+    return 'ഇന്ന് $used / $max അഭ്യർത്ഥനകൾ';
+  }
+
+  @override
+  String openPhishLastUpdated(String datetime) {
+    return 'അവസാനം അപ്ഡേറ്റ് ചെയ്തത്: $datetime';
+  }
+
+  @override
+  String get openPhishRefreshNow => 'ഫീഡ് ഇപ്പോൾ പുതുക്കുക';
+
+  @override
+  String openPhishFeedRefreshed(String count) {
+    return 'ഫീഡ് അപ്ഡേറ്റ് ചെയ്തു ($count URLs)';
+  }
+
+  @override
+  String get openPhishFeedFailed => 'ഫീഡ് പുതുക്കൽ പരാജയപ്പെട്ടു';
+
+  @override
+  String get phishTankToggleLabel => 'PhishTank പ്രവർത്തനക്ഷമമാക്കുക';
+
+  @override
+  String get openPhishToggleLabel => 'OpenPhish ഫീഡ് പ്രവർത്തനക്ഷമമാക്കുക';
+
+  @override
   String get quishingSummaryAuthentic =>
       'യഥാർത്ഥ പ്രിന്റ് ചെയ്ത കോഡ്. ഭൗതിക കൃത്രിമത്വം കണ്ടെത്തിയില്ല.';
 

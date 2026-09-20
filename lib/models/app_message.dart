@@ -71,6 +71,44 @@ enum AppMessageKey {
   maliciousApiError,
   maliciousUnavailable,
 
+  // --- VirusTotal ---
+  checkNameVirusTotal,
+  virusTotalSkippedNoKey,
+  virusTotalDailyLimit,
+  virusTotalThreats,
+  virusTotalNone,
+  virusTotalInvalidKey,
+  virusTotalRateLimited,
+  virusTotalApiError,
+  virusTotalUnavailable,
+
+  // --- URLhaus (abuse.ch) ---
+  checkNameUrlhaus,
+  urlhausSkippedNoKey,
+  urlhausMalware,
+  urlhausClean,
+  urlhausNotFound,
+  urlhausInvalidKey,
+  urlhausApiError,
+  urlhausUnavailable,
+
+  // --- PhishTank ---
+  checkNamePhishTank,
+  phishTankSkippedDisabled,
+  phishTankPhishing,
+  phishTankClean,
+  phishTankNotInDatabase,
+  phishTankApiError,
+  phishTankUnavailable,
+
+  // --- OpenPhish ---
+  checkNameOpenPhish,
+  openPhishSkippedDisabled,
+  openPhishPhishing,
+  openPhishClean,
+  openPhishFeedStale,
+  openPhishUnavailable,
+
   // --- printed-code tamper check: summaries and status labels ---
   quishingSummaryAuthentic,
   quishingSummaryWearAndTear,

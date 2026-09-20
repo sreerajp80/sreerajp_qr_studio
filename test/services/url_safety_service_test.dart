@@ -1,3 +1,4 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
@@ -298,6 +299,189 @@ void main() {
       // Either "Skipped" (null key) or "Unable to check" (platform channel threw).
       // Both are acceptable without a real device keystore.
       expect(result.checkName.key, AppMessageKey.checkNameMalicious);
+    });
+  });
+
+  group('UrlSafetyService.checkVirusTotal', () {
+    test('returns skipped when no API key is stored', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({});
+      final service = UrlSafetyService();
+      final result = await service.checkVirusTotal('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.virusTotalSkippedNoKey);
+    });
+
+    test('returns clean when VT reports zero malicious engines', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({
+        'virustotal_api_key': 'fake_vt_key',
+      });
+      final client = MockClient((request) async {
+        return http.Response(
+          '{"data": {"attributes": {"last_analysis_stats": {"malicious": 0, "suspicious": 0, "harmless": 70}}}}',
+          200,
+        );
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkVirusTotal('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.virusTotalNone);
+    });
+
+    test('returns threats when VT reports malicious engines', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({
+        'virustotal_api_key': 'fake_vt_key',
+      });
+      final client = MockClient((request) async {
+        return http.Response(
+          '{"data": {"attributes": {"last_analysis_stats": {"malicious": 5, "suspicious": 1, "harmless": 50}}}}',
+          200,
+        );
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkVirusTotal(
+        'https://malicious.example.com',
+      );
+      expect(result.passed, false);
+      expect(result.message.key, AppMessageKey.virusTotalThreats);
+      expect(result.message.args['engines'], '6');
+    });
+
+    test('handles 429 rate limit gracefully', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({
+        'virustotal_api_key': 'fake_vt_key',
+      });
+      final client = MockClient((request) async => http.Response('', 429));
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkVirusTotal('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.virusTotalRateLimited);
+    });
+  });
+
+  group('UrlSafetyService.checkUrlhaus', () {
+    test('returns skipped when no API key is stored', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({});
+      final service = UrlSafetyService();
+      final result = await service.checkUrlhaus('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.urlhausSkippedNoKey);
+    });
+
+    test('returns clean when urlhaus reports no_results', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({
+        'urlhaus_api_key': 'fake_uh_key',
+      });
+      final client = MockClient((request) async {
+        return http.Response('{"query_status": "no_results"}', 200);
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkUrlhaus('https://clean.example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.urlhausNotFound);
+    });
+
+    test('returns malware when urlhaus reports is_malware', () async {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({
+        'urlhaus_api_key': 'fake_uh_key',
+      });
+      final client = MockClient((request) async {
+        return http.Response(
+          '{"query_status": "is_malware", "tags": ["emotet", "payload"]}',
+          200,
+        );
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkUrlhaus('https://malware.example.com');
+      expect(result.passed, false);
+      expect(result.message.key, AppMessageKey.urlhausMalware);
+      expect(result.message.args['tags'], 'emotet, payload');
+    });
+  });
+
+  group('UrlSafetyService.checkPhishTank', () {
+    test('returns skipped when toggle is disabled', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.phishTankEnabledPrefKey: false,
+      });
+      final service = UrlSafetyService();
+      final result = await service.checkPhishTank('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.phishTankSkippedDisabled);
+    });
+
+    test('returns clean when URL is not in phishtank database', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.phishTankEnabledPrefKey: true,
+      });
+      final client = MockClient((request) async {
+        return http.Response('{"results": {"in_database": false}}', 200);
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkPhishTank('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.phishTankNotInDatabase);
+    });
+
+    test('returns phishing when URL is in database and valid', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.phishTankEnabledPrefKey: true,
+      });
+      final client = MockClient((request) async {
+        return http.Response(
+          '{"results": {"in_database": true, "valid": true}}',
+          200,
+        );
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkPhishTank(
+        'https://phishing.example.com',
+      );
+      expect(result.passed, false);
+      expect(result.message.key, AppMessageKey.phishTankPhishing);
+    });
+  });
+
+  group('UrlSafetyService.checkOpenPhish', () {
+    test('returns skipped when toggle is disabled', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.openPhishEnabledPrefKey: false,
+      });
+      final service = UrlSafetyService();
+      final result = await service.checkOpenPhish('https://example.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.openPhishSkippedDisabled);
+    });
+
+    test('flags URL when found in cached openphish feed', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.openPhishEnabledPrefKey: true,
+        'openphish_feed_cache':
+            '["https://phish1.com", "https://phish2.com/login"]',
+        'openphish_feed_timestamp': DateTime.now().toIso8601String(),
+      });
+      final service = UrlSafetyService();
+      final result = await service.checkOpenPhish('https://phish1.com');
+      expect(result.passed, false);
+      expect(result.message.key, AppMessageKey.openPhishPhishing);
+    });
+
+    test('passes URL when not present in feed cache', () async {
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.openPhishEnabledPrefKey: true,
+        'openphish_feed_cache': '["https://phish1.com"]',
+        'openphish_feed_timestamp': DateTime.now().toIso8601String(),
+      });
+      final service = UrlSafetyService();
+      final result = await service.checkOpenPhish('https://safe-domain.com');
+      expect(result.passed, true);
+      expect(result.message.key, AppMessageKey.openPhishClean);
     });
   });
 }

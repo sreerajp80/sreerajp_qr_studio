@@ -36,15 +36,29 @@ class _SettingsScreenState extends State<SettingsScreen> {
     try {
       final prefs = await SharedPreferences.getInstance();
       const secureStorage = FlutterSecureStorage();
-      final apiKey = await secureStorage.read(
-        key: 'google_safe_browsing_api_key',
-      );
+
+      // Count active providers: non-empty API keys + enabled toggles.
+      var activeProviders = 0;
+      for (final key in const [
+        'google_safe_browsing_api_key',
+        'virustotal_api_key',
+        'urlhaus_api_key',
+      ]) {
+        final val = await secureStorage.read(key: key);
+        if (val != null && val.isNotEmpty) activeProviders++;
+      }
+      if (prefs.getBool(UrlSafetyService.phishTankEnabledPrefKey) ?? false) {
+        activeProviders++;
+      }
+      if (prefs.getBool(UrlSafetyService.openPhishEnabledPrefKey) ?? false) {
+        activeProviders++;
+      }
 
       if (mounted) {
         setState(() {
           _activeProbing =
               prefs.getBool(UrlSafetyService.activeProbingPrefKey) ?? false;
-          _hasApiKey = apiKey != null && apiKey.isNotEmpty;
+          _hasApiKey = activeProviders > 0;
           _isLoading = false;
         });
       }
@@ -84,9 +98,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ? l10n.privacySummaryOn
         : l10n.privacySummaryOff;
 
-    final apiStatus = _hasApiKey
-        ? l10n.apiKeyConfigured
-        : l10n.apiKeyNotConfigured;
+    // Count how many providers are active for the subtitle.
+    // _hasApiKey is true if at least one provider is configured.
+    final activeCount = _hasApiKey ? '1+' : '0';
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
@@ -165,15 +179,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   _buildSettingsCard(
                     context: context,
-                    icon: Icons.shield_outlined,
-                    title: l10n.settingsSafeBrowsingTitle,
-                    subtitle: l10n.settingsApiKeySubtitle(apiStatus),
+                    icon: Icons.hub_outlined,
+                    title: l10n.settingsUrlSafetyProvidersTitle,
+                    subtitle: l10n.settingsUrlSafetyProvidersSubtitle(
+                      _hasApiKey ? activeCount : '0',
+                    ),
                     onTap: () async {
                       await Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              const SafeBrowsingSettingsScreen(),
+                              const UrlSafetyProvidersScreen(),
                         ),
                       );
                       _loadSummary();
@@ -723,469 +739,545 @@ class SafeBrowsingSettingsScreen extends StatefulWidget {
 
 class _SafeBrowsingSettingsScreenState
     extends State<SafeBrowsingSettingsScreen> {
-  final _apiKeyController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
+  @override
+  Widget build(BuildContext context) {
+    // Redirects to the new unified screen.
+    return const UrlSafetyProvidersScreen();
+  }
+}
+
+// ============================================================================
+// URL Safety Providers Screen
+// ============================================================================
+
+class UrlSafetyProvidersScreen extends StatefulWidget {
+  const UrlSafetyProvidersScreen({super.key});
+
+  @override
+  State<UrlSafetyProvidersScreen> createState() =>
+      _UrlSafetyProvidersScreenState();
+}
+
+class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
   final _secureStorage = const FlutterSecureStorage();
+  final _urlSafetyService = UrlSafetyService();
 
-  bool _isLoading = true;
-  bool _hasApiKey = false;
-  bool _isObscured = true;
-  int _requestsToday = 0;
-  String? _lastResetDate;
+  // --- state for each key-based provider ---
+  bool _loadingGsb = true;
+  bool _hasGsbKey = false;
+  int _gsbRequestsToday = 0;
 
-  static const int maxRequestsPerDay = 10000;
+  bool _loadingVt = true;
+  bool _hasVtKey = false;
+  int _vtRequestsToday = 0;
+
+  bool _loadingUh = true;
+  bool _hasUhKey = false;
+
+  // --- state for toggle-based providers ---
+  bool _phishTankEnabled = false;
+  bool _openPhishEnabled = false;
+  String? _openPhishLastUpdated;
+  bool _refreshingFeed = false;
+
+  // --- text controllers ---
+  final _gsbKeyCtrl = TextEditingController();
+  final _vtKeyCtrl = TextEditingController();
+  final _vtEndpointCtrl = TextEditingController();
+  final _uhKeyCtrl = TextEditingController();
+  final _uhEndpointCtrl = TextEditingController();
+
+  bool _gsbObscured = true;
+  bool _vtObscured = true;
+  bool _uhObscured = true;
+
+  static const int _gsbMaxPerDay = 10000;
+  static const int _vtMaxPerDay = 500;
 
   @override
   void initState() {
     super.initState();
-    _loadSettings();
+    _loadAll();
   }
 
   @override
   void dispose() {
-    _apiKeyController.dispose();
+    _gsbKeyCtrl.dispose();
+    _vtKeyCtrl.dispose();
+    _vtEndpointCtrl.dispose();
+    _uhKeyCtrl.dispose();
+    _uhEndpointCtrl.dispose();
     super.dispose();
   }
 
-  Future<void> _loadSettings() async {
-    setState(() => _isLoading = true);
+  Future<void> _loadAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().toIso8601String().split('T')[0];
 
-    try {
-      final apiKey = await _secureStorage.read(
-        key: 'google_safe_browsing_api_key',
-      );
+    // GSB
+    final gsbKey = await _secureStorage.read(
+      key: 'google_safe_browsing_api_key',
+    );
+    final gsbLastReset = prefs.getString('safe_browsing_last_reset');
+    final gsbCount = gsbLastReset == today
+        ? prefs.getInt('safe_browsing_request_count') ?? 0
+        : 0;
 
-      final prefs = await SharedPreferences.getInstance();
-      final requestCount = prefs.getInt('safe_browsing_request_count') ?? 0;
-      final lastReset = prefs.getString('safe_browsing_last_reset');
+    // VirusTotal
+    final vtKey = await _secureStorage.read(key: 'virustotal_api_key');
+    final vtLastReset = prefs.getString(UrlSafetyService.vtLastResetKey);
+    final vtCount = vtLastReset == today
+        ? prefs.getInt(UrlSafetyService.vtRequestCountKey) ?? 0
+        : 0;
+    final vtEndpoint =
+        prefs.getString(UrlSafetyService.vtEndpointPrefKey) ??
+        UrlSafetyService.vtDefaultEndpoint;
 
-      final today = DateTime.now().toIso8601String().split('T')[0];
-      if (lastReset != today) {
-        await prefs.setInt('safe_browsing_request_count', 0);
-        await prefs.setString('safe_browsing_last_reset', today);
-        setState(() {
-          _requestsToday = 0;
-          _lastResetDate = today;
-        });
-      } else {
-        setState(() {
-          _requestsToday = requestCount;
-          _lastResetDate = lastReset;
-        });
-      }
+    // URLhaus
+    final uhKey = await _secureStorage.read(key: 'urlhaus_api_key');
+    final uhEndpoint =
+        prefs.getString(UrlSafetyService.urlhausEndpointPrefKey) ??
+        UrlSafetyService.urlhausDefaultEndpoint;
 
+    // Toggles
+    final ptEnabled =
+        prefs.getBool(UrlSafetyService.phishTankEnabledPrefKey) ?? false;
+    final opEnabled =
+        prefs.getBool(UrlSafetyService.openPhishEnabledPrefKey) ?? false;
+    final opTimestamp = prefs.getString('openphish_feed_timestamp');
+
+    if (mounted) {
       setState(() {
-        _hasApiKey = apiKey != null && apiKey.isNotEmpty;
+        _hasGsbKey = gsbKey != null && gsbKey.isNotEmpty;
+        _gsbRequestsToday = gsbCount;
+        _loadingGsb = false;
+
+        _hasVtKey = vtKey != null && vtKey.isNotEmpty;
+        _vtRequestsToday = vtCount;
+        _vtEndpointCtrl.text = vtEndpoint;
+        _loadingVt = false;
+
+        _hasUhKey = uhKey != null && uhKey.isNotEmpty;
+        _uhEndpointCtrl.text = uhEndpoint;
+        _loadingUh = false;
+
+        _phishTankEnabled = ptEnabled;
+        _openPhishEnabled = opEnabled;
+        _openPhishLastUpdated = opTimestamp;
       });
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error loading API settings: $e');
-    } finally {
-      setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _saveApiKey() async {
-    final l10n = AppLocalizations.of(context);
-    if (!_formKey.currentState!.validate()) return;
+  // --- Save / delete helpers ---
 
-    setState(() => _isLoading = true);
-
-    try {
-      final apiKey = _apiKeyController.text.trim();
-
-      await _secureStorage.write(
-        key: 'google_safe_browsing_api_key',
-        value: apiKey,
-      );
-
-      final prefs = await SharedPreferences.getInstance();
-      final today = DateTime.now().toIso8601String().split('T')[0];
-      await prefs.setInt('safe_browsing_request_count', 0);
-      await prefs.setString('safe_browsing_last_reset', today);
-
-      setState(() {
-        _hasApiKey = true;
-        _requestsToday = 0;
-        _lastResetDate = today;
-      });
-
-      _apiKeyController.clear();
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.apiKeySaved),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.apiKeySaveFailed(e.toString())),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      setState(() => _isLoading = false);
-    }
+  Future<void> _saveKey(
+    String storageKey,
+    TextEditingController ctrl,
+    void Function() onSaved,
+  ) async {
+    final key = ctrl.text.trim();
+    if (key.isEmpty) return;
+    await _secureStorage.write(key: storageKey, value: key);
+    ctrl.clear();
+    onSaved();
   }
 
-  Future<void> _deleteApiKey() async {
+  Future<void> _deleteKey(String storageKey, void Function() onDeleted) async {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (ctx) => AlertDialog(
         title: Text(l10n.apiKeyDeleteTitle),
         content: Text(l10n.apiKeyDeleteMessage),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context, false),
+            onPressed: () => Navigator.pop(ctx, false),
             child: Text(l10n.cancelButton),
           ),
           ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            onPressed: () => Navigator.pop(ctx, true),
             child: Text(l10n.deleteButton),
           ),
         ],
       ),
     );
-
     if (confirmed != true) return;
-
-    setState(() => _isLoading = true);
-
-    try {
-      await _secureStorage.delete(key: 'google_safe_browsing_api_key');
-
-      setState(() {
-        _hasApiKey = false;
-        _apiKeyController.clear();
-      });
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.apiKeyDeleted),
-            backgroundColor: Colors.orange,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.apiKeyDeleteFailed(e.toString())),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      setState(() => _isLoading = false);
-    }
+    await _secureStorage.delete(key: storageKey);
+    onDeleted();
   }
+
+  Future<void> _savePrefString(String key, String value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key, value);
+  }
+
+  Future<void> _savePrefBool(String key, bool value) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, value);
+  }
+
+  Future<void> _refreshOpenPhishFeed() async {
+    final l10n = AppLocalizations.of(context);
+    setState(() => _refreshingFeed = true);
+    final count = await _urlSafetyService.refreshOpenPhishFeed();
+    if (!mounted) return;
+    setState(() {
+      _refreshingFeed = false;
+      _openPhishLastUpdated = DateTime.now().toIso8601String();
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          count >= 0
+              ? l10n.openPhishFeedRefreshed('$count')
+              : l10n.openPhishFeedFailed,
+        ),
+        backgroundColor: count >= 0 ? Colors.green : Colors.red,
+      ),
+    );
+  }
+
+  // --- UI ---
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsSafeBrowsingTitle)),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
+      appBar: AppBar(title: Text(l10n.settingsUrlSafetyProvidersTitle)),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        children: [
+          // Help card
+          Card(
+            color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(
+                    Icons.info_outline,
+                    color: theme.colorScheme.primary,
+                    size: 20,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      l10n.urlSafetyProvidersHelpText,
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          // ── USER-SUPPLIED PROVIDERS ──────────────────────────────────────
+          _buildSectionHeader(
+            context,
+            icon: Icons.key,
+            title: l10n.urlSafetyUserSuppliedHeader,
+            note: l10n.urlSafetyUserSuppliedNote,
+            iconColor: theme.colorScheme.tertiary,
+          ),
+          const SizedBox(height: 8),
+
+          // Google Safe Browsing
+          _buildKeyProviderCard(
+            context: context,
+            icon: Icons.shield_outlined,
+            iconColor: Colors.green,
+            title: 'Google Safe Browsing',
+            regUrl: 'console.cloud.google.com',
+            isLoading: _loadingGsb,
+            hasKey: _hasGsbKey,
+            obscured: _gsbObscured,
+            keyCtrl: _gsbKeyCtrl,
+            onToggleObscure: () => setState(() => _gsbObscured = !_gsbObscured),
+            usageText: _hasGsbKey
+                ? l10n.providerDailyUsage(
+                    '$_gsbRequestsToday',
+                    '$_gsbMaxPerDay',
+                  )
+                : null,
+            onSave: () => _saveKey(
+              'google_safe_browsing_api_key',
+              _gsbKeyCtrl,
+              () => setState(() => _hasGsbKey = true),
+            ),
+            onDelete: () => _deleteKey(
+              'google_safe_browsing_api_key',
+              () => setState(() {
+                _hasGsbKey = false;
+                _gsbRequestsToday = 0;
+              }),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // VirusTotal
+          _buildKeyProviderCard(
+            context: context,
+            icon: Icons.biotech_outlined,
+            iconColor: Colors.blue,
+            title: 'VirusTotal',
+            regUrl: 'virustotal.com',
+            isLoading: _loadingVt,
+            hasKey: _hasVtKey,
+            obscured: _vtObscured,
+            keyCtrl: _vtKeyCtrl,
+            endpointCtrl: _vtEndpointCtrl,
+            onToggleObscure: () => setState(() => _vtObscured = !_vtObscured),
+            usageText: _hasVtKey
+                ? l10n.providerDailyUsage('$_vtRequestsToday', '$_vtMaxPerDay')
+                : null,
+            onSave: () async {
+              await _saveKey(
+                'virustotal_api_key',
+                _vtKeyCtrl,
+                () => setState(() => _hasVtKey = true),
+              );
+              final ep = _vtEndpointCtrl.text.trim();
+              if (ep.isNotEmpty) {
+                await _savePrefString(UrlSafetyService.vtEndpointPrefKey, ep);
+              }
+            },
+            onDelete: () => _deleteKey(
+              'virustotal_api_key',
+              () => setState(() {
+                _hasVtKey = false;
+                _vtRequestsToday = 0;
+              }),
+            ),
+          ),
+          const SizedBox(height: 12),
+
+          // URLhaus
+          _buildKeyProviderCard(
+            context: context,
+            icon: Icons.bug_report_outlined,
+            iconColor: Colors.orange,
+            title: 'URLhaus (abuse.ch)',
+            regUrl: 'auth.abuse.ch',
+            isLoading: _loadingUh,
+            hasKey: _hasUhKey,
+            obscured: _uhObscured,
+            keyCtrl: _uhKeyCtrl,
+            endpointCtrl: _uhEndpointCtrl,
+            onToggleObscure: () => setState(() => _uhObscured = !_uhObscured),
+            onSave: () async {
+              await _saveKey(
+                'urlhaus_api_key',
+                _uhKeyCtrl,
+                () => setState(() => _hasUhKey = true),
+              );
+              final ep = _uhEndpointCtrl.text.trim();
+              if (ep.isNotEmpty) {
+                await _savePrefString(
+                  UrlSafetyService.urlhausEndpointPrefKey,
+                  ep,
+                );
+              }
+            },
+            onDelete: () => _deleteKey(
+              'urlhaus_api_key',
+              () => setState(() => _hasUhKey = false),
+            ),
+          ),
+          const SizedBox(height: 28),
+
+          // ── BUILT-IN PROVIDERS ───────────────────────────────────────────
+          _buildSectionHeader(
+            context,
+            icon: Icons.lock_open_outlined,
+            title: l10n.urlSafetyBuiltInHeader,
+            note: l10n.urlSafetyBuiltInNote,
+            iconColor: theme.colorScheme.primary,
+          ),
+          const SizedBox(height: 8),
+
+          // PhishTank
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildInfoCard(),
-                  const SizedBox(height: 20),
-                  if (_hasApiKey) ...[
-                    _buildApiKeyStatusCard(),
-                    const SizedBox(height: 20),
-                    _buildUsageCard(),
-                    const SizedBox(height: 20),
-                    _buildDeleteButton(),
-                  ] else ...[
-                    _buildApiKeyForm(),
-                  ],
-                  const SizedBox(height: 32),
-                  _buildHowToGetApiKey(),
-                ],
-              ),
-            ),
-    );
-  }
-
-  Widget _buildInfoCard() {
-    final l10n = AppLocalizations.of(context);
-    return Card(
-      color: Colors.blue[50],
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.info_outline, color: Colors.blue[700]),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    l10n.apiAboutHeading,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue[700],
-                    ),
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.deepOrange.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.phishing_outlined,
+                          color: Colors.deepOrange,
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'PhishTank',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Text(
+                              l10n.phishTankToggleLabel,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        value: _phishTankEnabled,
+                        onChanged: (val) {
+                          setState(() => _phishTankEnabled = val);
+                          _savePrefBool(
+                            UrlSafetyService.phishTankEnabledPrefKey,
+                            val,
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.apiAboutBody,
-              style: TextStyle(fontSize: 14, color: Colors.blue[900]),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.orange[50],
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.orange[200]!),
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.warning_amber,
-                    color: Colors.orange[700],
-                    size: 20,
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      l10n.apiDailyLimit(maxRequestsPerDay),
+                  if (_phishTankEnabled) ...[
+                    const SizedBox(height: 8),
+                    Text(
+                      'checkurl.phishtank.com',
                       style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.orange[900],
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
+          ),
+          const SizedBox(height: 12),
 
-  Widget _buildApiKeyStatusCard() {
-    final l10n = AppLocalizations.of(context);
-    return Card(
-      color: Colors.green[50],
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Icon(Icons.check_circle, color: Colors.green[700], size: 32),
-            const SizedBox(width: 16),
-            Expanded(
+          // OpenPhish
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    l10n.apiKeyConfiguredTitle,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.green[700],
+                  Row(
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.teal.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(
+                          Icons.downloading_outlined,
+                          color: Colors.teal,
+                          size: 22,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'OpenPhish',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 15,
+                              ),
+                            ),
+                            Text(
+                              l10n.openPhishToggleLabel,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Switch(
+                        value: _openPhishEnabled,
+                        onChanged: (val) {
+                          setState(() => _openPhishEnabled = val);
+                          _savePrefBool(
+                            UrlSafetyService.openPhishEnabledPrefKey,
+                            val,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  if (_openPhishEnabled) ...[
+                    const SizedBox(height: 10),
+                    if (_openPhishLastUpdated != null)
+                      Text(
+                        l10n.openPhishLastUpdated(
+                          _openPhishLastUpdated!.split('T').first,
+                        ),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      )
+                    else
+                      Text(
+                        'Feed not yet downloaded',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    const SizedBox(height: 8),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        icon: _refreshingFeed
+                            ? const SizedBox(
+                                width: 16,
+                                height: 16,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : const Icon(Icons.refresh, size: 18),
+                        label: Text(l10n.openPhishRefreshNow),
+                        onPressed: _refreshingFeed
+                            ? null
+                            : _refreshOpenPhishFeed,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    l10n.apiKeyConfiguredSubtitle,
-                    style: TextStyle(fontSize: 14, color: Colors.green[900]),
-                  ),
+                  ],
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildUsageCard() {
-    final l10n = AppLocalizations.of(context);
-    final percentage = (_requestsToday / maxRequestsPerDay * 100).clamp(
-      0.0,
-      100.0,
-    );
-    final isNearLimit = _requestsToday >= maxRequestsPerDay * 0.8;
-    final isAtLimit = _requestsToday >= maxRequestsPerDay;
-
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.apiTodaysUsage,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  '$_requestsToday / $maxRequestsPerDay',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: isAtLimit
-                        ? Colors.red
-                        : isNearLimit
-                        ? Colors.orange
-                        : Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: LinearProgressIndicator(
-                value: percentage / 100,
-                minHeight: 10,
-                backgroundColor: Colors.grey[200],
-                color: isAtLimit
-                    ? Colors.red
-                    : isNearLimit
-                    ? Colors.orange
-                    : Colors.blue,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              l10n.apiQuotaPercentageUsed(percentage.toStringAsFixed(1)),
-              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-            ),
-            if (isAtLimit) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.red[50],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red[200]!),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.error, color: Colors.red[700], size: 20),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.apiLimitReached,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.red[900],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ] else if (isNearLimit) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.orange[50],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.orange[200]!),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber,
-                      color: Colors.orange[700],
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.apiLimitApproaching,
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.orange[900],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            const SizedBox(height: 8),
-            Text(
-              l10n.apiResets(_lastResetDate ?? l10n.unknownLabel),
-              style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildApiKeyForm() {
-    final l10n = AppLocalizations.of(context);
-    return Form(
-      key: _formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            controller: _apiKeyController,
-            obscureText: _isObscured,
-            decoration: InputDecoration(
-              labelText: l10n.apiKeyFieldLabel,
-              hintText: l10n.apiKeyFieldHint,
-              border: const OutlineInputBorder(),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  _isObscured ? Icons.visibility : Icons.visibility_off,
-                ),
-                tooltip: _isObscured ? l10n.revealAction : l10n.hideAction,
-                onPressed: () {
-                  setState(() => _isObscured = !_isObscured);
-                },
-              ),
-            ),
-            validator: (value) {
-              if (value == null || value.trim().isEmpty) {
-                return l10n.apiKeyRequired;
-              }
-              if (value.trim().length < 20) {
-                return l10n.apiKeyTooShort;
-              }
-              return null;
-            },
-          ),
-          const SizedBox(height: 16),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: _saveApiKey,
-              icon: const Icon(Icons.save),
-              label: Text(l10n.apiKeySaveButton),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
               ),
             ),
           ),
@@ -1194,103 +1286,227 @@ class _SafeBrowsingSettingsScreenState
     );
   }
 
-  Widget _buildDeleteButton() {
-    final l10n = AppLocalizations.of(context);
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton.icon(
-        onPressed: _deleteApiKey,
-        icon: const Icon(Icons.delete),
-        label: Text(l10n.apiKeyDeleteTitle),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: Colors.red,
-          padding: const EdgeInsets.symmetric(vertical: 16),
+  Widget _buildSectionHeader(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String note,
+    required Color iconColor,
+  }) {
+    final theme = Theme.of(context);
+    return Row(
+      children: [
+        Icon(icon, color: iconColor, size: 18),
+        const SizedBox(width: 8),
+        Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontSize: 15,
+            color: theme.colorScheme.onSurface,
+          ),
         ),
-      ),
+        const SizedBox(width: 6),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+          decoration: BoxDecoration(
+            color: iconColor.withValues(alpha: 0.12),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            note,
+            style: TextStyle(
+              fontSize: 11,
+              color: iconColor,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
-  Widget _buildHowToGetApiKey() {
+  Widget _buildKeyProviderCard({
+    required BuildContext context,
+    required IconData icon,
+    required Color iconColor,
+    required String title,
+    required String regUrl,
+    required bool isLoading,
+    required bool hasKey,
+    required bool obscured,
+    required TextEditingController keyCtrl,
+    TextEditingController? endpointCtrl,
+    required VoidCallback onToggleObscure,
+    String? usageText,
+    required Future<void> Function() onSave,
+    required Future<void> Function() onDelete,
+  }) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
     return Card(
-      child: ExpansionTile(
-        leading: const Icon(Icons.help_outline),
-        title: Text(l10n.apiHowToHeading),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildStep('1', l10n.apiStep1Title, l10n.apiStep1Desc),
-                const SizedBox(height: 12),
-                _buildStep('2', l10n.apiStep2Title, l10n.apiStep2Desc),
-                const SizedBox(height: 12),
-                _buildStep('3', l10n.apiStep3Title, l10n.apiStep3Desc),
-                const SizedBox(height: 12),
-                _buildStep('4', l10n.apiStep4Title, l10n.apiStep4Desc),
-                const SizedBox(height: 12),
-                _buildStep('5', l10n.apiStep5Title, l10n.apiStep5Desc),
-                const SizedBox(height: 16),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.blue[50],
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: isLoading
+            ? const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(8),
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Header row
+                  Row(
                     children: [
-                      Icon(Icons.lightbulb_outline, color: Colors.blue[700]),
-                      const SizedBox(width: 8),
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: iconColor.withValues(alpha: 0.12),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(icon, color: iconColor, size: 22),
+                      ),
+                      const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          l10n.apiFreeTierNote,
+                          title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: hasKey
+                              ? Colors.green.withValues(alpha: 0.15)
+                              : theme.colorScheme.surfaceContainerHighest
+                                    .withValues(alpha: 0.5),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          hasKey
+                              ? l10n.apiKeyConfigured
+                              : l10n.apiKeyNotConfigured,
                           style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.blue[900],
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: hasKey
+                                ? Colors.green[700]
+                                : theme.colorScheme.onSurfaceVariant,
                           ),
                         ),
                       ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildStep(String number, String title, String description) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CircleAvatar(
-          radius: 16,
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Text(
-            number,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-              Text(
-                description,
-                style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                  const SizedBox(height: 14),
+
+                  // API key field
+                  if (!hasKey) ...[
+                    TextField(
+                      controller: keyCtrl,
+                      obscureText: obscured,
+                      decoration: InputDecoration(
+                        labelText: l10n.providerApiKeyHint,
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            obscured
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                          ),
+                          tooltip: obscured
+                              ? l10n.revealAction
+                              : l10n.hideAction,
+                          onPressed: onToggleObscure,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+
+                  // Endpoint field (optional, shown always)
+                  if (endpointCtrl != null) ...[
+                    TextField(
+                      controller: endpointCtrl,
+                      decoration: InputDecoration(
+                        labelText: l10n.providerEndpointLabel,
+                        border: const OutlineInputBorder(),
+                        isDense: true,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+
+                  // Save / Delete buttons
+                  if (!hasKey)
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: onSave,
+                        child: Text(l10n.apiKeySaveButton),
+                      ),
+                    )
+                  else
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton.icon(
+                        icon: const Icon(
+                          Icons.delete_outline,
+                          color: Colors.red,
+                          size: 18,
+                        ),
+                        label: Text(
+                          l10n.deleteButton,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                        onPressed: onDelete,
+                      ),
+                    ),
+
+                  // Usage & registration
+                  if (usageText != null) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      usageText,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.open_in_new,
+                        size: 14,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '${l10n.providerGetKeyAt} $regUrl',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
