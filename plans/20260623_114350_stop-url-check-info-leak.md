@@ -1,5 +1,7 @@
 # Plan: Stop device/IP/connection info leaking to scanned servers during URL sanity check
 
+**Status:** completed
+
 Date: 2026-06-23 11:43:50 (local)
 
 ## The issue

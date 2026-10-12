@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/payload_action_service.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/upi_amount_dialog.dart';
+import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
 
 class PaymentActionCard extends StatelessWidget {
   final PaymentPayload payload;
@@ -231,8 +232,19 @@ class PaymentActionCard extends StatelessWidget {
                   ),
                 ),
                 onPressed: () async {
+                  String? amount;
+                  if (PayloadActionService.upiNeedsAmount(payment)) {
+                    amount = await UpiAmountDialog.show(
+                      context,
+                      payeeName: payment.payeeName.isNotEmpty
+                          ? payment.payeeName
+                          : l10n.paymentPayeeFallback,
+                    );
+                    if (amount == null || !context.mounted) return;
+                  }
                   final launched = await PayloadActionService.payViaApp(
                     payment,
+                    amount: amount,
                   );
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(

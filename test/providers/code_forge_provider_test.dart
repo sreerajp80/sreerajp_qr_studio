@@ -1,6 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
-import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/location_result.dart';
+import 'package:sreerajp_qr_studio/providers/code_forge_provider.dart';
+import 'package:sreerajp_qr_studio/services/location_service.dart';
 
 void main() {
   group('CodeForgeProvider Tests', () {
@@ -75,4 +82,118 @@ void main() {
       expect(provider.config.gradientTheme, QrGradientTheme.none);
     });
   });
+
+  group('CodeForgeProvider location lookup', () {
+    CodeForgeProvider providerWith(Future<LocationResult> Function() lookup) {
+      return CodeForgeProvider(locationService: _FakeLocationService(lookup));
+    }
+
+    test('success fills latitude and longitude with 6 decimals', () async {
+      final provider = providerWith(
+        () async => const LocationResult.success(
+          latitude: 9.9312328,
+          longitude: 76.2673041,
+        ),
+      );
+
+      final result = await provider.fetchCurrentLocation();
+
+      expect(result?.status, LocationStatus.success);
+      expect(provider.config.geoLat, '9.931233');
+      expect(provider.config.geoLng, '76.267304');
+      expect(provider.isFetchingLocation, isFalse);
+    });
+
+    test('permission denied leaves the location empty', () async {
+      final provider = providerWith(
+        () async => const LocationResult.permissionDenied(),
+      );
+
+      final result = await provider.fetchCurrentLocation();
+
+      expect(result?.status, LocationStatus.permissionDenied);
+      expect(provider.config.geoLat, isEmpty);
+      expect(provider.config.geoLng, isEmpty);
+    });
+
+    test('failure leaves the location empty', () async {
+      final provider = providerWith(() async => const LocationResult.failed());
+
+      final result = await provider.fetchCurrentLocation();
+
+      expect(result?.status, LocationStatus.failed);
+      expect(provider.config.geoLat, isEmpty);
+    });
+
+    test('isFetchingLocation is true while the lookup runs', () async {
+      final completer = Completer<LocationResult>();
+      final provider = providerWith(() => completer.future);
+
+      final pending = provider.fetchCurrentLocation();
+      expect(provider.isFetchingLocation, isTrue);
+      // A second call while busy is ignored.
+      expect(await provider.fetchCurrentLocation(), isNull);
+
+      completer.complete(const LocationResult.failed());
+      await pending;
+      expect(provider.isFetchingLocation, isFalse);
+    });
+  });
+
+  group('CodeForgeProvider link safety', () {
+    test('safetyIssueCount is 0 before any check', () {
+      expect(CodeForgeProvider().safetyIssueCount, 0);
+    });
+
+    test('safetyIssueCount is 0 when all checks pass or are skipped', () async {
+      final provider = CodeForgeProvider(
+        service: _FakeSafetyCodeForgeService([
+          _check(passed: true),
+          _check(passed: true, skipped: true),
+        ]),
+      );
+      await provider.runUrlSafetyCheck();
+      expect(provider.isUrlSafe, isTrue);
+      expect(provider.safetyIssueCount, 0);
+    });
+
+    test('safetyIssueCount counts failed checks', () async {
+      final provider = CodeForgeProvider(
+        service: _FakeSafetyCodeForgeService([
+          _check(passed: false),
+          _check(passed: true),
+          _check(passed: false),
+        ]),
+      );
+      await provider.runUrlSafetyCheck();
+      expect(provider.isUrlSafe, isFalse);
+      expect(provider.safetyIssueCount, 2);
+    });
+  });
 }
+
+class _FakeLocationService extends LocationService {
+  final Future<LocationResult> Function() _lookup;
+
+  _FakeLocationService(this._lookup);
+
+  @override
+  Future<LocationResult> getCurrentLocation() => _lookup();
+}
+
+class _FakeSafetyCodeForgeService extends CodeForgeService {
+  final List<SafetyCheckResult> results;
+
+  _FakeSafetyCodeForgeService(this.results);
+
+  @override
+  Future<List<SafetyCheckResult>> verifyUrlSafety(String url) async => results;
+}
+
+SafetyCheckResult _check({required bool passed, bool skipped = false}) =>
+    SafetyCheckResult(
+      checkName: const AppMessage(AppMessageKey.checkNamePattern),
+      passed: passed,
+      message: const AppMessage(AppMessageKey.patternNone),
+      skipped: skipped,
+    );

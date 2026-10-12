@@ -1,6 +1,6 @@
 # Change Plan: Comprehensive README Update with Screenshots and Feature Documentation
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue Description
 The current `README.md` is outdated and only describes an earlier, basic version of the application. It lacks details on the extensive feature set developed in the repository, such as:

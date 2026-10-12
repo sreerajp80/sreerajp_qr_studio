@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/payload_parser_service.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
 
 void main() {
   group('PayloadParserService', () {
@@ -213,12 +213,12 @@ END:VCALENDAR
     });
 
     test('parses Play Store market URI as AppLinkPayload', () {
-      const raw = 'market://details?id=in.sreeraj.qr_reader';
+      const raw = 'market://details?id=in.sreerajp.qr_studio';
       final payload = parser.parse(raw);
 
       expect(payload, isA<AppLinkPayload>());
       final app = payload as AppLinkPayload;
-      expect(app.packageId, equals('in.sreeraj.qr_reader'));
+      expect(app.packageId, equals('in.sreerajp.qr_studio'));
       expect(app.storeName, equals(AppStoreName.playStore));
     });
 

@@ -1,70 +1,53 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class BarcodeScanningHelpScreen extends StatelessWidget {
   const BarcodeScanningHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Barcode & Media Scanning')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Scan any 1D or 2D barcode instantly using live camera, photo gallery images, '
-            'or multi-page PDF documents with high-precision computer vision.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.qr_code_scanner,
-            title: 'Live Camera Viewport',
-            children: [
-              _Bullet(
-                'Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.',
-              ),
-              _Bullet(
-                'Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.',
-              ),
-              _Bullet(
-                'Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.photo_library_outlined,
-            title: 'Scanning Gallery Photos & Images',
-            children: [
-              _Bullet(
-                'Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.',
-              ),
-              _Bullet(
-                'Uses privacy-safe Android Photo Picker without requiring broad storage permissions.',
-              ),
-              _Bullet(
-                'The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.picture_as_pdf_outlined,
-            title: 'Multi-Page PDF Scanning',
-            children: [
-              _Bullet(
-                'Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.',
-              ),
-              _Bullet(
-                'Extracts and renders every page in memory, cataloging all barcodes found across each individual page.',
-              ),
-              _Bullet(
-                'Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpBarcode)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideBarcodeIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.qr_code_scanner,
+              title: l10n.helpGuideBarcodeCameraTitle,
+              children: [
+                _Bullet(l10n.helpGuideBarcodeCameraBullet1),
+                _Bullet(l10n.helpGuideBarcodeCameraBullet2),
+                _Bullet(l10n.helpGuideBarcodeCameraBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.photo_library_outlined,
+              title: l10n.helpGuideBarcodeGalleryTitle,
+              children: [
+                _Bullet(l10n.helpGuideBarcodeGalleryBullet1),
+                _Bullet(l10n.helpGuideBarcodeGalleryBullet2),
+                _Bullet(l10n.helpGuideBarcodeGalleryBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.picture_as_pdf_outlined,
+              title: l10n.helpGuideBarcodePdfTitle,
+              children: [
+                _Bullet(l10n.helpGuideBarcodePdfBullet1),
+                _Bullet(l10n.helpGuideBarcodePdfBullet2),
+                _Bullet(l10n.helpGuideBarcodePdfBullet3),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideBarcodeTip),
+          ],
+        ),
       ),
     );
   }
@@ -112,10 +95,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

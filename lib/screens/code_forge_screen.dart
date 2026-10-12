@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/core/constants/app_constants.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
-import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
-import 'package:sreeraj_qr_reader/services/code_forge_service.dart';
-import 'package:sreeraj_qr_reader/widgets/code_forge_barcode_widget.dart';
-import 'package:sreeraj_qr_reader/widgets/code_forge_qr_painter.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/location_result.dart';
+import 'package:sreerajp_qr_studio/providers/code_forge_provider.dart';
+import 'package:sreerajp_qr_studio/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/widgets/code_forge_barcode_widget.dart';
+import 'package:sreerajp_qr_studio/widgets/code_forge_qr_painter.dart';
 
 /// Full-featured barcode generation suite screen: CodeForge.
 class CodeForgeScreen extends StatefulWidget {
@@ -45,7 +44,6 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
   late final TextEditingController _geoLngController;
 
   bool _obscureWifiPassword = true;
-  bool _isFetchingLocation = false;
   final CodeForgeService _service = CodeForgeService();
 
   @override
@@ -136,50 +134,25 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
 
   Future<void> _fetchCurrentLocation(CodeForgeProvider provider) async {
     final l10n = AppLocalizations.of(context);
+    final result = await provider.fetchCurrentLocation();
+    if (result == null || !mounted) return;
 
-    setState(() => _isFetchingLocation = true);
-
-    try {
-      // Request location permission at point of use
-      final status = await Permission.location.request();
-      if (!status.isGranted) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(l10n.codeForgeGeoPermissionDenied),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-        }
-        return;
-      }
-
-      // Fetch the current GPS position
-      final position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 15),
-        ),
-      );
-
-      final lat = position.latitude.toStringAsFixed(6);
-      final lng = position.longitude.toStringAsFixed(6);
-
-      _geoLatController.text = lat;
-      _geoLngController.text = lng;
-      provider.updateGeo(lat: lat, lng: lng);
-    } catch (_) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.codeForgeGeoFailed),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-      }
-    } finally {
-      if (mounted) setState(() => _isFetchingLocation = false);
+    if (result.isSuccess) {
+      _geoLatController.text = provider.config.geoLat;
+      _geoLngController.text = provider.config.geoLng;
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          result.status == LocationStatus.permissionDenied
+              ? l10n.codeForgeGeoPermissionDenied
+              : l10n.codeForgeGeoFailed,
+        ),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -220,40 +193,43 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // 1. Barcode Format Selector (QR, 1D, 2D)
-            _buildFormatSelector(context, provider, config),
-            const SizedBox(height: 16),
+      body: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // 1. Barcode Format Selector (QR, 1D, 2D)
+              _buildFormatSelector(context, provider, config),
+              const SizedBox(height: 16),
 
-            // 2. Live Interactive Code Preview Card
-            _buildPreviewCard(context, provider, config),
-            const SizedBox(height: 16),
+              // 2. Live Interactive Code Preview Card
+              _buildPreviewCard(context, provider, config),
+              const SizedBox(height: 16),
 
-            // 3. Pre-flight URL Safety Check Banner (if URL detected)
-            if (config.barcodeType == CodeForgeBarcodeType.qrCode &&
-                (config.payloadType == CodeForgePayloadType.url ||
-                    provider.payloadString.startsWith('http://') ||
-                    provider.payloadString.startsWith('https://')))
-              _buildSafetyBanner(context, provider),
+              // 3. Pre-flight URL Safety Check Banner (if URL detected)
+              if (config.barcodeType == CodeForgeBarcodeType.qrCode &&
+                  (config.payloadType == CodeForgePayloadType.url ||
+                      provider.payloadString.startsWith('http://') ||
+                      provider.payloadString.startsWith('https://')))
+                _buildSafetyBanner(context, provider),
 
-            // 4. Payload Content Presets and Forms
-            _buildPayloadForm(context, provider, config),
-            const SizedBox(height: 16),
+              // 4. Payload Content Presets and Forms
+              _buildPayloadForm(context, provider, config),
+              const SizedBox(height: 16),
 
-            // 5. QR Code Structure & Visual Design Studio (QR only)
-            if (config.barcodeType == CodeForgeBarcodeType.qrCode)
-              _buildDesignStudio(context, provider, config),
+              // 5. QR Code Structure & Visual Design Studio (QR only)
+              if (config.barcodeType == CodeForgeBarcodeType.qrCode)
+                _buildDesignStudio(context, provider, config),
 
-            const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-            // 6. Action Bar: Share PNG / Share SVG
-            _buildActionButtons(context, provider),
-            const SizedBox(height: 32),
-          ],
+              // 6. Action Bar: Share PNG / Share SVG
+              _buildActionButtons(context, provider),
+              const SizedBox(height: 32),
+            ],
+          ),
         ),
       ),
     );
@@ -264,8 +240,9 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
     CodeForgeProvider provider,
     CodeForgeConfig config,
   ) {
+    final l10n = AppLocalizations.of(context);
     final formats = [
-      {'type': CodeForgeBarcodeType.qrCode, 'label': 'QR Code'},
+      {'type': CodeForgeBarcodeType.qrCode, 'label': l10n.formatQrCode},
       {'type': CodeForgeBarcodeType.code128, 'label': 'Code 128'},
       {'type': CodeForgeBarcodeType.ean13, 'label': 'EAN-13'},
       {'type': CodeForgeBarcodeType.ean8, 'label': 'EAN-8'},
@@ -371,7 +348,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                     const SizedBox(width: 8),
                     Flexible(
                       child: Text(
-                        provider.validationError!,
+                        appMessageText(l10n, provider.validationError!),
                         style: const TextStyle(
                           color: Colors.red,
                           fontSize: 12,
@@ -441,43 +418,52 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
 
   Widget _buildSafetyBanner(BuildContext context, CodeForgeProvider provider) {
     final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
     final hasChecked = provider.safetyResults != null;
-    final isSafe = provider.isUrlSafe;
+    final isSafe = hasChecked && provider.isUrlSafe;
+    final hasProblems = hasChecked && !provider.isUrlSafe;
+
+    // Four states: not checked, checking, safe, problems found.
+    final Color accent;
+    final IconData icon;
+    final String message;
+    if (isSafe) {
+      accent = Colors.green;
+      icon = Icons.verified;
+      message = l10n.codeForgeSafeVerified;
+    } else if (hasProblems) {
+      accent = Colors.orange.shade800;
+      icon = Icons.warning_amber_rounded;
+      message = l10n.codeForgeSafetyProblems(provider.safetyIssueCount);
+    } else {
+      accent = colorScheme.primary;
+      icon = Icons.shield_outlined;
+      message = l10n.codeForgeSafetyPrompt;
+    }
 
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: hasChecked && isSafe
-            ? Colors.green.withValues(alpha: 0.12)
-            : Theme.of(
-                context,
-              ).colorScheme.primaryContainer.withValues(alpha: 0.4),
+        color: isSafe || hasProblems
+            ? accent.withValues(alpha: 0.12)
+            : colorScheme.primaryContainer.withValues(alpha: 0.4),
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: hasChecked && isSafe
-              ? Colors.green.withValues(alpha: 0.3)
-              : Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: accent.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          Icon(
-            hasChecked && isSafe ? Icons.verified : Icons.shield_outlined,
-            color: hasChecked && isSafe
-                ? Colors.green
-                : Theme.of(context).colorScheme.primary,
-          ),
+          Icon(icon, color: accent),
           const SizedBox(width: 12),
           Expanded(
             child: Text(
-              hasChecked && isSafe
-                  ? l10n.codeForgeSafeVerified
-                  : l10n.codeForgeVerifySafety,
+              message,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 13,
-                color: hasChecked && isSafe ? Colors.green.shade800 : null,
+                color: isSafe
+                    ? Colors.green.shade800
+                    : (hasProblems ? accent : null),
               ),
             ),
           ),
@@ -487,10 +473,20 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               height: 20,
               child: CircularProgressIndicator(strokeWidth: 2),
             )
-          else if (!hasChecked || !isSafe)
-            TextButton(
-              onPressed: () => provider.runUrlSafetyCheck(),
-              child: Text(l10n.codeForgeVerifySafety),
+          else if (!isSafe)
+            // A width cap so a long label wraps instead of pushing the row
+            // past the screen edge; the text keeps the rest of the row.
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 120),
+              child: TextButton(
+                onPressed: () => provider.runUrlSafetyCheck(),
+                child: Text(
+                  hasProblems
+                      ? l10n.codeForgeSafetyCheckAgain
+                      : l10n.codeForgeSafetyCheckButton,
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
         ],
       ),
@@ -513,14 +509,14 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Barcode Content',
+                l10n.codeForgeBarcodeContent,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: _rawContentController,
                 decoration: InputDecoration(
-                  hintText: 'Enter barcode number or code',
+                  hintText: l10n.codeForgeBarcodeContentHint,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -710,6 +706,9 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                 ),
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
+                  tooltip: _obscureWifiPassword
+                      ? l10n.wifiShowPassword
+                      : l10n.wifiHidePassword,
                   icon: Icon(
                     _obscureWifiPassword
                         ? Icons.visibility
@@ -736,12 +735,15 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    items: const [
-                      DropdownMenuItem(value: 'WPA', child: Text('WPA / WPA2')),
-                      DropdownMenuItem(value: 'WEP', child: Text('WEP')),
+                    items: [
+                      const DropdownMenuItem(
+                        value: 'WPA',
+                        child: Text('WPA / WPA2'),
+                      ),
+                      const DropdownMenuItem(value: 'WEP', child: Text('WEP')),
                       DropdownMenuItem(
                         value: 'nopass',
-                        child: Text('None (Open)'),
+                        child: Text(l10n.codeForgeWifiSecurityNone),
                       ),
                     ],
                     onChanged: (val) {
@@ -823,7 +825,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _upiVpaController,
               decoration: InputDecoration(
                 labelText: l10n.codeForgeUpiVpa,
-                hintText: 'e.g. merchant@upi',
+                hintText: l10n.codeForgeUpiVpaHint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -851,7 +853,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               ),
               decoration: InputDecoration(
                 labelText: l10n.codeForgeUpiAmount,
-                hintText: 'Optional',
+                hintText: l10n.optionalFieldHint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -864,7 +866,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _upiNoteController,
               decoration: InputDecoration(
                 labelText: l10n.codeForgeUpiNote,
-                hintText: 'Optional',
+                hintText: l10n.optionalFieldHint,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -993,10 +995,10 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
-                onPressed: _isFetchingLocation
+                onPressed: provider.isFetchingLocation
                     ? null
                     : () => _fetchCurrentLocation(provider),
-                icon: _isFetchingLocation
+                icon: provider.isFetchingLocation
                     ? const SizedBox(
                         width: 16,
                         height: 16,
@@ -1004,7 +1006,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                       )
                     : const Icon(Icons.my_location),
                 label: Text(
-                  _isFetchingLocation
+                  provider.isFetchingLocation
                       ? l10n.codeForgeGeoFetching
                       : l10n.codeForgeGeoUseMyLocation,
                 ),
@@ -1038,26 +1040,25 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           // A. Eye Outer Design
           _buildSectionHeader(l10n.codeForgeEyeShape),
           const SizedBox(height: 6),
-          Row(
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
             children: [
               _buildChoiceChip(
                 label: l10n.codeForgeShapeSquare,
                 selected: config.eyeShape == QrEyeShape.square,
                 onSelect: () => provider.setEyeShape(QrEyeShape.square),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeRounded,
                 selected: config.eyeShape == QrEyeShape.rounded,
                 onSelect: () => provider.setEyeShape(QrEyeShape.rounded),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeCircle,
                 selected: config.eyeShape == QrEyeShape.circle,
                 onSelect: () => provider.setEyeShape(QrEyeShape.circle),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeLeaf,
                 selected: config.eyeShape == QrEyeShape.leaf,
@@ -1070,27 +1071,26 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           // B. Eye Inner Ball (Pupil) Design
           _buildSectionHeader(l10n.codeForgeEyeBallShape),
           const SizedBox(height: 6),
-          Row(
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
             children: [
               _buildChoiceChip(
                 label: l10n.codeForgeShapeSquare,
                 selected: config.eyeBallShape == QrEyeBallShape.square,
                 onSelect: () => provider.setEyeBallShape(QrEyeBallShape.square),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeRounded,
                 selected: config.eyeBallShape == QrEyeBallShape.rounded,
                 onSelect: () =>
                     provider.setEyeBallShape(QrEyeBallShape.rounded),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeCircle,
                 selected: config.eyeBallShape == QrEyeBallShape.circle,
                 onSelect: () => provider.setEyeBallShape(QrEyeBallShape.circle),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeShapeDiamond,
                 selected: config.eyeBallShape == QrEyeBallShape.diamond,
@@ -1231,26 +1231,25 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           // G. Error Correction
           _buildSectionHeader(l10n.codeForgeErrorCorrection),
           const SizedBox(height: 6),
-          Row(
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
             children: [
               _buildChoiceChip(
                 label: 'L (7%)',
                 selected: config.errorCorrectionLevel == 1,
                 onSelect: () => provider.setErrorCorrectionLevel(1),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: 'M (15%)',
                 selected: config.errorCorrectionLevel == 0,
                 onSelect: () => provider.setErrorCorrectionLevel(0),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: 'Q (25%)',
                 selected: config.errorCorrectionLevel == 3,
                 onSelect: () => provider.setErrorCorrectionLevel(3),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: 'H (30%)',
                 selected: config.errorCorrectionLevel == 2,
@@ -1263,21 +1262,21 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           // H. Center Badge
           _buildSectionHeader(l10n.codeForgeCenterBadge),
           const SizedBox(height: 6),
-          Row(
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
             children: [
               _buildChoiceChip(
                 label: l10n.codeForgeBadgeNone,
                 selected: config.centerBadge == QrCenterBadge.none,
                 onSelect: () => provider.setCenterBadge(QrCenterBadge.none),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeBadgeIcon,
                 selected: config.centerBadge == QrCenterBadge.payloadIcon,
                 onSelect: () =>
                     provider.setCenterBadge(QrCenterBadge.payloadIcon),
               ),
-              const SizedBox(width: 6),
               _buildChoiceChip(
                 label: l10n.codeForgeBadgeShield,
                 selected: config.centerBadge == QrCenterBadge.shieldVerified,

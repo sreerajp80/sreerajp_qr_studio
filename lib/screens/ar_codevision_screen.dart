@@ -1,14 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/providers/ar_codevision_provider.dart';
-import 'package:sreeraj_qr_reader/services/ar_spatial_service.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/ar_action_sheet.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/ar_floating_chip_widget.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/services/ar_spatial_service.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/ar_action_sheet.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/ar_floating_chip_widget.dart';
+import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/scan_camera_view.dart';
 
 /// AR CodeVision Spatial Multi-Target Camera HUD Screen.
 class ArCodevisionScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class ArCodevisionScreen extends StatefulWidget {
 
 class _ArCodevisionScreenState extends State<ArCodevisionScreen>
     with WidgetsBindingObserver {
-  MobileScannerController? _controller;
+  ScanCameraController? _controller;
   bool _hasPermission = false;
   bool _isInitialized = false;
   bool _isTorchOn = false;
@@ -38,21 +39,8 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
     if (status.isGranted && mounted) {
       setState(() {
         _hasPermission = true;
-        _controller = MobileScannerController(
+        _controller = ScanCameraController(
           cameraResolution: const Size(1920, 1080),
-          formats: const [
-            BarcodeFormat.qrCode,
-            BarcodeFormat.code128,
-            BarcodeFormat.code39,
-            BarcodeFormat.code93,
-            BarcodeFormat.ean8,
-            BarcodeFormat.ean13,
-            BarcodeFormat.upcA,
-            BarcodeFormat.upcE,
-            BarcodeFormat.pdf417,
-            BarcodeFormat.dataMatrix,
-          ],
-          detectionSpeed: DetectionSpeed.unrestricted,
         );
         _isInitialized = true;
       });
@@ -106,7 +94,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
     try {
       if (_controller != null) {
         await _controller!.stop();
-        await _controller!.dispose();
+        _controller!.dispose();
         _controller = null;
       }
     } catch (_) {}
@@ -126,7 +114,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
         try {
           if (_controller != null) {
             await _controller!.stop();
-            await _controller!.dispose();
+            _controller!.dispose();
             _controller = null;
           }
         } catch (_) {}
@@ -145,6 +133,35 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
               const SizedBox(width: 8),
               Text(l10n.arScreenTitle),
             ],
+          ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(56),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+              child: SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<ArHudMode>(
+                  segments: [
+                    ButtonSegment(
+                      value: ArHudMode.warehouse,
+                      icon: const Icon(Icons.inventory_2_outlined),
+                      label: Text(l10n.arModeWarehouse),
+                      tooltip: l10n.arModeWarehouseTooltip,
+                    ),
+                    ButtonSegment(
+                      value: ArHudMode.safety,
+                      icon: const Icon(Icons.shield_outlined),
+                      label: Text(l10n.arModeSafety),
+                      tooltip: l10n.arModeSafetyTooltip,
+                    ),
+                  ],
+                  selected: {arProvider.hudMode},
+                  showSelectedIcon: false,
+                  onSelectionChanged: (selection) =>
+                      arProvider.setHudMode(selection.first),
+                ),
+              ),
+            ),
           ),
           actions: [
             IconButton(
@@ -168,7 +185,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                   return Stack(
                     children: [
                       // Live MobileScanner Viewport
-                      MobileScanner(
+                      ScanCameraView(
                         controller: _controller!,
                         onDetect: (capture) {
                           arProvider.processBarcodeCapture(capture);
@@ -259,7 +276,9 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  '${arProvider.selectedCount} Items Selected',
+                                  l10n.arItemsSelected(
+                                    arProvider.selectedCount,
+                                  ),
                                   style: theme.textTheme.titleSmall?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -283,17 +302,16 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                                         Clipboard.setData(
                                           ClipboardData(text: selectedValues),
                                         );
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              l10n.arBatchCopied(
-                                                arProvider.selectedCount,
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  l10n.arBatchCopied(
+                                                    arProvider.selectedCount,
+                                                  ),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                        );
+                                            );
                                       },
                                       icon: const Icon(Icons.copy, size: 18),
                                       label: Text(l10n.arBatchCopy),

@@ -1,4 +1,4 @@
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// Outcome of one link safety check.
 ///
@@ -10,9 +10,15 @@ class SafetyCheckResult {
   final bool passed;
   final AppMessage message;
 
+  /// True when the check did not run (no API key, service turned off, or
+  /// skipped in private mode). A skipped check also has [passed] set, so it
+  /// never counts as a failure.
+  final bool skipped;
+
   const SafetyCheckResult({
     required this.checkName,
     required this.passed,
     required this.message,
+    this.skipped = false,
   });
 }

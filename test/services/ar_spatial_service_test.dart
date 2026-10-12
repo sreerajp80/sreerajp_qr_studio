@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/ar_code_target.dart';
-import 'package:sreeraj_qr_reader/services/ar_spatial_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/services/ar_spatial_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('ArSpatialService Unit Tests', () {
@@ -46,7 +46,7 @@ void main() {
         ArCodeTarget(
           id: 'fresh',
           rawValue: 'https://example.com',
-          type: BarcodeType.url,
+          type: CodeContentType.url,
           corners: const [],
           boundingBox: Rect.zero,
           isUrl: true,
@@ -59,7 +59,7 @@ void main() {
         ArCodeTarget(
           id: 'stale',
           rawValue: '12345678',
-          type: BarcodeType.product,
+          type: CodeContentType.product,
           corners: const [],
           boundingBox: Rect.zero,
           isUrl: false,
@@ -81,8 +81,14 @@ void main() {
     });
 
     test('generatePriceTag produces consistent price string for input', () {
-      final price1 = service.generatePriceTag('123456789', BarcodeType.product);
-      final price2 = service.generatePriceTag('123456789', BarcodeType.product);
+      final price1 = service.generatePriceTag(
+        '123456789',
+        CodeContentType.product,
+      );
+      final price2 = service.generatePriceTag(
+        '123456789',
+        CodeContentType.product,
+      );
 
       expect(price1, startsWith('\$'));
       expect(price1, equals(price2));

@@ -1,6 +1,6 @@
 # Plan: Smart Action Cards Gaps and History Integration
 
-**Status:** Approved
+**Status:** completed
 
 ## Files to be changed
 - `lib/services/history_database_service.dart`

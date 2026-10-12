@@ -1,67 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class AirQrHelpScreen extends StatelessWidget {
   const AirQrHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('AirQR™ Optical Air-Gap Stream')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using '
-            'high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.stream,
-            title: 'How Optical Streaming Works',
-            children: [
-              _Bullet(
-                'Large files, cryptographic keys, or long documents are divided into sequential data frames encoded with Reed-Solomon error correction.',
-              ),
-              _Bullet(
-                'The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 20 FPS).',
-              ),
-              _Bullet(
-                'The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.security,
-            title: 'Air-Gap Security & Privacy',
-            children: [
-              _Bullet(
-                'Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).',
-              ),
-              _Bullet(
-                'Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.',
-              ),
-              _Bullet(
-                'Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.settings_suggest_outlined,
-            title: 'Transmitter & Receiver Controls',
-            children: [
-              _Bullet(
-                'Transmitter Screen: Customize chunk size (bytes per frame), frame rate (FPS), and monitor total transmitted packets.',
-              ),
-              _Bullet(
-                'Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpAirQr)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideAirQrIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.stream,
+              title: l10n.helpGuideAirQrStreamingTitle,
+              children: [
+                _Bullet(l10n.helpGuideAirQrStreamingBullet1),
+                _Bullet(l10n.helpGuideAirQrStreamingBullet2),
+                _Bullet(l10n.helpGuideAirQrStreamingBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.security,
+              title: l10n.helpGuideAirQrSecurityTitle,
+              children: [
+                _Bullet(l10n.helpGuideAirQrSecurityBullet1),
+                _Bullet(l10n.helpGuideAirQrSecurityBullet2),
+                _Bullet(l10n.helpGuideAirQrSecurityBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.settings_suggest_outlined,
+              title: l10n.helpGuideAirQrControlsTitle,
+              children: [
+                _Bullet(l10n.helpGuideAirQrControlsBullet1),
+                _Bullet(l10n.helpGuideAirQrControlsBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideAirQrTip),
+          ],
+        ),
       ),
     );
   }
@@ -109,10 +94,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

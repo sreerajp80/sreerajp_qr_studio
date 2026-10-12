@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/screens/appearance/accent_color_settings_screen.dart';
-import 'package:sreeraj_qr_reader/screens/appearance/scan_overlay_settings_screen.dart';
-import 'package:sreeraj_qr_reader/screens/appearance/theme_mode_settings_screen.dart';
-import 'package:sreeraj_qr_reader/screens/appearance/typography_settings_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/appearance/accent_color_settings_screen.dart';
+import 'package:sreerajp_qr_studio/screens/appearance/scan_overlay_settings_screen.dart';
+import 'package:sreerajp_qr_studio/screens/appearance/theme_mode_settings_screen.dart';
+import 'package:sreerajp_qr_studio/screens/appearance/typography_settings_screen.dart';
 
 /// Appearance preferences hub reached from Settings -> Appearance.
 class AppearanceScreen extends StatelessWidget {
@@ -15,37 +15,40 @@ class AppearanceScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appearanceHubTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        children: [
-          _AppearanceCard(
-            icon: Icons.brightness_6_outlined,
-            title: l10n.appearanceThemeModeCardTitle,
-            subtitle: l10n.appearanceThemeModeCardSubtitle,
-            onTap: () => _push(context, const ThemeModeSettingsScreen()),
-          ),
-          const SizedBox(height: 12),
-          _AppearanceCard(
-            icon: Icons.layers_outlined,
-            title: l10n.appearanceOverlayCardTitle,
-            subtitle: l10n.appearanceOverlayCardSubtitle,
-            onTap: () => _push(context, const ScanOverlaySettingsScreen()),
-          ),
-          const SizedBox(height: 12),
-          _AppearanceCard(
-            icon: Icons.color_lens_outlined,
-            title: l10n.appearanceAccentCardTitle,
-            subtitle: l10n.appearanceAccentCardSubtitle,
-            onTap: () => _push(context, const AccentColorSettingsScreen()),
-          ),
-          const SizedBox(height: 12),
-          _AppearanceCard(
-            icon: Icons.font_download_outlined,
-            title: l10n.appearanceTypographyCardTitle,
-            subtitle: l10n.appearanceTypographyCardSubtitle,
-            onTap: () => _push(context, const TypographySettingsScreen()),
-          ),
-        ],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            _AppearanceCard(
+              icon: Icons.brightness_6_outlined,
+              title: l10n.appearanceThemeModeCardTitle,
+              subtitle: l10n.appearanceThemeModeCardSubtitle,
+              onTap: () => _push(context, const ThemeModeSettingsScreen()),
+            ),
+            const SizedBox(height: 12),
+            _AppearanceCard(
+              icon: Icons.layers_outlined,
+              title: l10n.appearanceOverlayCardTitle,
+              subtitle: l10n.appearanceOverlayCardSubtitle,
+              onTap: () => _push(context, const ScanOverlaySettingsScreen()),
+            ),
+            const SizedBox(height: 12),
+            _AppearanceCard(
+              icon: Icons.color_lens_outlined,
+              title: l10n.appearanceAccentCardTitle,
+              subtitle: l10n.appearanceAccentCardSubtitle,
+              onTap: () => _push(context, const AccentColorSettingsScreen()),
+            ),
+            const SizedBox(height: 12),
+            _AppearanceCard(
+              icon: Icons.font_download_outlined,
+              title: l10n.appearanceTypographyCardTitle,
+              subtitle: l10n.appearanceTypographyCardSubtitle,
+              onTap: () => _push(context, const TypographySettingsScreen()),
+            ),
+          ],
+        ),
       ),
     );
   }

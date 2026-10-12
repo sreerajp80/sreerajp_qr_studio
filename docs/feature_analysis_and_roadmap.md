@@ -1,13 +1,13 @@
 # Comprehensive Feature Analysis, Enhancements & Novel Innovation Roadmap
-**SreerajP QR Reader (Android / Flutter)**
+**SreerajP QR Studio (Android / Flutter)**
 
 ---
 
 ## Executive Summary
 
-**SreerajP QR Reader** is a high-performance Android QR and Barcode scanner application built with Flutter, focused on real-time scanning, URL safety inspection, clipboard integration, and clean Material 3 UI design.
+**SreerajP QR Studio** is a high-performance Android QR and Barcode scanner application built with Flutter, focused on real-time scanning, URL safety inspection, clipboard integration, and clean Material 3 UI design.
 
-While the current version (v1.4.3+1) provides solid foundation scanning with **10 supported barcode formats** and a multi-heuristic **UrlSafetyService**, the modern mobile utilities landscape demands richer utility, enhanced safety against physical/digital attacks, offline data sovereignty, and advanced productivity features.
+When this analysis was written (app version v1.4.3+1), the app provided solid foundation scanning with **10 supported barcode formats** and a multi-heuristic **UrlSafetyService**, the modern mobile utilities landscape demands richer utility, enhanced safety against physical/digital attacks, offline data sovereignty, and advanced productivity features.
 
 This document presents a comprehensive, multi-phase engineering analysis of the project. It outlines:
 1. A thorough code & feature assessment of the existing codebase.
@@ -20,7 +20,7 @@ This document presents a comprehensive, multi-phase engineering analysis of the 
 ## 1. Existing Codebase & Architecture Assessment
 
 ### 1.1 Current Capabilities
-* **Scanning Engine**: Powered by `mobile_scanner: ^7.2.0`, handling 10 common 1D and 2D barcode formats (`qrCode`, `code128`, `code39`, `code93`, `ean8`, `ean13`, `upcA`, `upcE`, `pdf417`, `dataMatrix`).
+* **Scanning Engine**: The app's own decoder: vendored zxing-cpp v3.1.1 (Apache-2.0) called through dart:ffi, with the `camera` plugin for frames. No Google ML Kit. The live scanner reads 10 formats (`qrCode`, `code128`, `code39`, `code93`, `ean8`, `ean13`, `upcA`, `upcE`, `pdf417`, `dataMatrix`); gallery/PDF scans also read Aztec, Micro QR, rMQR, MaxiCode, Codabar, ITF and DataBar.
 * **URL Safety Engine**: `UrlSafetyService` executes local heuristic checks (SSL requirement, IP format detection, domain risk patterns, top URL shorteners, homograph attack detection) and supports online active probing via Google Safe Browsing API key stored securely in `flutter_secure_storage`.
 * **State Management**: `ScanProvider` manages current scan string, barcode type, URL detection state, and safety evaluation results using Provider pattern.
 * **Basic Actions**: Copy raw string to clipboard, open detected URLs via `url_launcher`, share raw text via `share_plus`.
@@ -41,7 +41,7 @@ This document presents a comprehensive, multi-phase engineering analysis of the 
 
 ```
                                   +---------------------------------------+
-                                  |    SREERAJ QR READER ENHANCEMENTS     |
+                                  |    SREERAJP QR STUDIO ENHANCEMENTS    |
                                   +---------------------------------------+
                                                       |
          +--------------------+-----------------------+-----------------------+--------------------+
@@ -77,7 +77,7 @@ Instead of displaying raw string text, automatically detect and parse standard p
 ### 2.4 Gallery & File Media Scanning ✅ [COMPLETED]
 * **Gallery Image Picker**: Add a "Scan Image" button allowing users to pick photos from Android Gallery / Photos app (`image_picker`).
 * **Multi-Page PDF Scanning**: Allow users to select a PDF document, extract pages, and scan for embedded QR/barcodes automatically.
-* **Android System Share Sheet Target**: Register app as a native Android "Share to..." receiver so users can share images directly from web browsers or messaging apps to Sreeraj QR Reader.
+* **Android System Share Sheet Target**: Register app as a native Android "Share to..." receiver so users can share images directly from web browsers or messaging apps to SreerajP QR Studio.
 
 ### 2.5 Modern Material You (M3) & Dark Theme Engine ✅ [COMPLETED]
 * **Material You Dynamic Colors**: Dynamically sample system wallpaper colors on Android 12+ (Monet engine) for a personalized UI.
@@ -88,7 +88,7 @@ Instead of displaying raw string text, automatically detect and parse standard p
 
 ## 3. World-First Innovative Features (Unmatched in Android QR Apps)
 
-The following 5 features **do not exist in any mainstream Android QR reader application** on the Google Play Store today. Incorporating them will elevate Sreeraj QR Reader to an industry-defining benchmark.
+The following 5 features **do not exist in any mainstream Android QR reader application** on the Google Play Store today. Incorporating them will elevate SreerajP QR Studio to an industry-defining benchmark.
 
 ```
 +---------------------------------------------------------------------------------------------------------+
@@ -121,7 +121,7 @@ A dual-layer QR reading and decryption engine that detects and extracts secret A
 #### How It Works:
 * **The Decoy Layer**: When scanned by any standard QR reader (Google Lens, Samsung Camera, basic scanner), the QR code displays an innocent public text (e.g., `"Scan to view lunch menu"` or `"Visit website for info"`).
 * **The Steganographic Encrypted Layer**: Hidden within lower-order matrix bits or payload padding of the QR code is an AES-256-GCM encrypted secret payload (e.g., confidential passcodes, private keys, secret contact info).
-* **The Sreeraj Reader Advantage**: When scanned by Sreeraj QR Reader, the app detects the StegoQR signature header. It prompts for biometric authentication (Fingerprint / Face Unlock via `local_auth`) or passphrase, decrypts the payload, and displays the secret content seamlessly.
+* **The SreerajP QR Studio Advantage**: When scanned by SreerajP QR Studio, the app detects the StegoQR signature header. It prompts for biometric authentication (Fingerprint / Face Unlock via `local_auth`) or passphrase, decrypts the payload, and displays the secret content seamlessly.
 
 #### Why It's Unique:
 No mobile QR app combines dual-layer steganography with biometric authorization. It provides physical security against shoulder surfing and unauthorized scanning.
@@ -152,7 +152,7 @@ Existing scanners only check the URL string *after* decoding. QuishingGuard is t
 An offline optical data receiving engine that captures and reassembles large text blocks, contact lists, encrypted notes, or small file backups from continuous animated QR code streams (Fountain Codes / Raptor Codes) without Bluetooth, Wi-Fi, NFC, or cellular data.
 
 #### How It Works:
-* **Optical Stream Receiver Mode**: The Sreeraj QR Reader camera points at an animated QR stream playing on an external screen or device.
+* **Optical Stream Receiver Mode**: The SreerajP QR Studio camera points at an animated QR stream playing on an external screen or device.
 * **Frame Decoding & Reassembly**: The custom frame decoder captures 256-byte chunks in any sequence order, applies forward error correction (RS-EC / Fountain code decoding) to recover missing frames, and automatically reassembles the complete payload offline.
 
 #### Why It's Unique:
@@ -183,7 +183,7 @@ Traditional apps freeze camera and navigate away on the first code encountered. 
 An isolated off-screen sandbox renderer that generates a static visual preview screenshot of web URLs scanned from QR codes **before** opening them in the device browser.
 
 #### How It Works:
-1. When a URL QR code is scanned, Sreeraj QR Reader fetches the destination HTML header and DOM hierarchy using a headless, script-disabled sandbox socket.
+1. When a URL QR code is scanned, SreerajP QR Studio fetches the destination HTML header and DOM hierarchy using a headless, script-disabled sandbox socket.
 2. It blocks execution of tracking scripts, automatic downloads, popups, and malicious redirects.
 3. Renders an instant **Sanitized Visual Thumbnail Preview** on `ResultScreen`, allowing the user to view the actual target site visual layout before tapping "Open in Browser".
 4. Checks domain age, SSL certificate validity, open redirect traps, and WHOIS domain creation date.
@@ -195,7 +195,7 @@ Prevents drive-by downloads, IP logger grabs, and zero-click mobile web exploits
 
 ## 4. Comprehensive Feature Comparison Table
 
-| Feature Dimension | Standard Android QR Apps | SreerajP QR Reader (Planned V2) |
+| Feature Dimension | Standard Android QR Apps | SreerajP QR Studio (Planned V2) |
 | :--- | :--- | :--- |
 | **Basic QR & Barcode Scanning** | ✅ Yes | ✅ Enhanced with 10 Formats |
 | **Camera Controls (Torch/Zoom)** | ⚠️ Basic or None | ✅ Full Control Bar & Multi-Touch Zoom |
@@ -244,6 +244,6 @@ Prevents drive-by downloads, IP logger grabs, and zero-click mobile web exploits
 
 ## 6. Conclusion & Strategic Value
 
-By combining essential core scanner improvements (persistent storage, camera suite, smart action parsers, gallery scanning) with **groundbreaking innovations like StegoQR, QuishingGuard, AirQR, AR CodeVision, and Sandboxed HTML Pre-rendering**, SreerajP QR Reader will transcend standard scanning tools.
+By combining essential core scanner improvements (persistent storage, camera suite, smart action parsers, gallery scanning) with **groundbreaking innovations like StegoQR, QuishingGuard, AirQR, AR CodeVision, and Sandboxed HTML Pre-rendering**, SreerajP QR Studio will transcend standard scanning tools.
 
 It positions the application as a **next-generation security, privacy, and spatial productivity platform** for Android, setting a new benchmark for mobile QR scanning applications worldwide.

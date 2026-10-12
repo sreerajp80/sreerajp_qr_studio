@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sreeraj_qr_reader/core/config/config_service.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/screens/about_screen.dart';
-import 'package:sreeraj_qr_reader/widgets/made_with_love.dart';
+import 'package:sreerajp_qr_studio/core/config/config_service.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/about_screen.dart';
+import 'package:sreerajp_qr_studio/widgets/made_with_love.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
     PackageInfo.setMockInitialValues(
-      appName: 'Test QR Reader',
-      packageName: 'in.sreeraj.qr_reader',
+      appName: 'Test QR Studio',
+      packageName: 'in.sreerajp.qr_studio',
       version: '1.0.0',
       buildNumber: '1',
       buildSignature: '',
@@ -25,7 +25,7 @@ void main() {
     Future<String> mockLoader(String path) async {
       return '''
       {
-        "appName": "Test QR Reader",
+        "appName": "Test QR Studio",
         "description": "A test QR scanner application.",
         "version": "1.0.0",
         "build": "1",
@@ -51,7 +51,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify app name and description
-    expect(find.text('Test QR Reader'), findsOneWidget);
+    expect(find.text('Test QR Studio'), findsOneWidget);
     expect(find.text('A test QR scanner application.'), findsOneWidget);
 
     // Verify localized detail titles

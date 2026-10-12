@@ -1,9 +1,9 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/services/history_database_service.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
 class FakeFlutterSecureStorage extends Fake implements FlutterSecureStorage {
   final Map<String, String> _storage = {};

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

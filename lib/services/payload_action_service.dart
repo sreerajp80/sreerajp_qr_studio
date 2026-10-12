@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 
 /// Helper service for performing native 1-tap actions on parsed QR payloads.
 class PayloadActionService {
@@ -98,9 +98,56 @@ class PayloadActionService {
     return false;
   }
 
+  static final RegExp _upiAmountPattern = RegExp(r'^\d{1,7}(\.\d{1,2})?$');
+  static final RegExp _upiAmParam = RegExp(
+    r'([?&])am=[^&#]*',
+    caseSensitive: false,
+  );
+
+  /// True when a UPI payload carries no usable amount (missing, empty,
+  /// unparseable, or zero/negative). Some UPI apps reject such links when they
+  /// are opened from another app, so the user must supply the amount first.
+  static bool upiNeedsAmount(PaymentPayload payment) {
+    if (payment.scheme != PaymentScheme.upi) return false;
+    final value = double.tryParse(payment.amount.trim());
+    return value == null || value <= 0;
+  }
+
+  /// True when [text] is a valid UPI amount: digits with up to 2 decimal
+  /// places and a value of at least 1. The UPI app applies its own upper limit.
+  static bool isValidUpiAmount(String text) {
+    final trimmed = text.trim();
+    if (!_upiAmountPattern.hasMatch(trimmed)) return false;
+    final value = double.tryParse(trimmed);
+    return value != null && value >= 1;
+  }
+
+  /// Returns [raw] with its `am` parameter set to [amount] (formatted to 2
+  /// decimal places). An existing `am` value is replaced; otherwise `am` is
+  /// appended. The rest of the link is kept byte-for-byte as scanned.
+  static String withUpiAmount(String raw, String amount) {
+    final formatted = double.parse(amount.trim()).toStringAsFixed(2);
+    if (_upiAmParam.hasMatch(raw)) {
+      return raw.replaceFirstMapped(
+        _upiAmParam,
+        (m) => '${m.group(1)}am=$formatted',
+      );
+    }
+    final separator = raw.contains('?') ? '&' : '?';
+    return '$raw${separator}am=$formatted';
+  }
+
   /// Launches payment app deep link (UPI, Crypto, SEPA).
-  static Future<bool> payViaApp(PaymentPayload payment) async {
-    final uri = Uri.tryParse(payment.rawContent);
+  ///
+  /// For UPI, a user-entered [amount] is written into the link's `am` value.
+  static Future<bool> payViaApp(
+    PaymentPayload payment, {
+    String? amount,
+  }) async {
+    final link = amount != null && payment.scheme == PaymentScheme.upi
+        ? withUpiAmount(payment.rawContent, amount)
+        : payment.rawContent;
+    final uri = Uri.tryParse(link);
     if (uri == null) return false;
     try {
       if (await canLaunchUrl(uri)) {
@@ -241,20 +288,22 @@ class PayloadActionService {
   }
 
   static const MethodChannel _wifiChannel = MethodChannel(
-    'in.sreeraj.qr_reader/wifi',
+    'in.sreerajp.qr_studio/wifi',
   );
 
   /// Connects to a Wi-Fi network using Android's native Wi-Fi suggestion or configuration API.
   /// Falls back to openWifiSettings() only if native connection fails or is unavailable.
   static Future<bool> connectToWifi(WifiPayload wifi) async {
     try {
-      final bool? success = await _wifiChannel
-          .invokeMethod<bool>('connectWifi', {
-            'ssid': wifi.ssid,
-            'password': wifi.password,
-            'securityType': wifi.securityType,
-            'isHidden': wifi.isHidden,
-          });
+      final bool? success = await _wifiChannel.invokeMethod<bool>(
+        'connectWifi',
+        {
+          'ssid': wifi.ssid,
+          'password': wifi.password,
+          'securityType': wifi.securityType,
+          'isHidden': wifi.isHidden,
+        },
+      );
       if (success == true) {
         return true;
       }

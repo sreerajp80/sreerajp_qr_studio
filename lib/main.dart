@@ -2,35 +2,39 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/l10n/sa_material_localizations.dart';
-import 'package:sreeraj_qr_reader/providers/air_qr_provider.dart';
-import 'package:sreeraj_qr_reader/providers/ar_codevision_provider.dart';
-import 'package:sreeraj_qr_reader/providers/batch_scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
-import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
-import 'package:sreeraj_qr_reader/providers/multi_code_selection_provider.dart';
-import 'package:sreeraj_qr_reader/providers/onboarding_provider.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/screens/about_screen.dart';
-import 'package:sreeraj_qr_reader/screens/air_qr_screen.dart';
-import 'package:sreeraj_qr_reader/screens/air_qr_transmitter_screen.dart';
-import 'package:sreeraj_qr_reader/screens/ar_codevision_screen.dart';
-import 'package:sreeraj_qr_reader/screens/code_forge_screen.dart';
-import 'package:sreeraj_qr_reader/screens/history_screen.dart';
-import 'package:sreeraj_qr_reader/screens/main_shell_screen.dart';
-import 'package:sreeraj_qr_reader/screens/onboarding_screen.dart';
-import 'package:sreeraj_qr_reader/screens/result_screen.dart';
-import 'package:sreeraj_qr_reader/screens/scanner_screen.dart';
-import 'package:sreeraj_qr_reader/screens/settings_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/providers/air_qr_provider.dart';
+import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/providers/batch_scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
+import 'package:sreerajp_qr_studio/providers/code_forge_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
+import 'package:sreerajp_qr_studio/providers/multi_code_selection_provider.dart';
+import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_bubble_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/about_screen.dart';
+import 'package:sreerajp_qr_studio/screens/air_qr_screen.dart';
+import 'package:sreerajp_qr_studio/screens/air_qr_transmitter_screen.dart';
+import 'package:sreerajp_qr_studio/screens/ar_codevision_screen.dart';
+import 'package:sreerajp_qr_studio/screens/code_forge_screen.dart';
+import 'package:sreerajp_qr_studio/screens/history_screen.dart';
+import 'package:sreerajp_qr_studio/screens/main_shell_screen.dart';
+import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
+import 'package:sreerajp_qr_studio/screens/result_screen.dart';
+import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
+import 'package:sreerajp_qr_studio/screens/scanner_screen.dart';
+import 'package:sreerajp_qr_studio/screens/settings_screen.dart';
+import 'package:sreerajp_qr_studio/services/open_source_licenses.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
 void main() {
+  OpenSourceLicenses.register();
   runApp(const SreerajQRReaderApp());
 }
 
@@ -52,6 +56,7 @@ class SreerajQRReaderApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => OnboardingProvider()),
         ChangeNotifierProvider(create: (_) => BatchScanProvider()),
         ChangeNotifierProvider(create: (_) => MultiCodeSelectionProvider()),
+        ChangeNotifierProvider(create: (_) => ScanBubbleProvider()),
       ],
       child: Consumer3<ThemeProvider, LocaleProvider, OnboardingProvider>(
         builder:
@@ -136,6 +141,8 @@ class SreerajQRReaderApp extends StatelessWidget {
                       '/air_qr_transmitter': (context) =>
                           const AirQrTransmitterScreen(),
                       '/ar_codevision': (context) => const ArCodevisionScreen(),
+                      ScanBubbleSettingsScreen.routeName: (context) =>
+                          const ScanBubbleSettingsScreen(),
                       '/onboarding': (context) =>
                           const OnboardingScreen(isReplay: true),
                     },

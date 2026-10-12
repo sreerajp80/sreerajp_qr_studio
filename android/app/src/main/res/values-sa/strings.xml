@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_bubble_tile_label">वीक्षण-बुद्बुदः</string>
+    <string name="scan_bubble_shortcut_short">वीक्षण-बुद्बुदः</string>
+    <string name="scan_bubble_shortcut_long">वीक्षण-बुद्बुदः आरभ्यताम्</string>
+    <string name="scan_bubble_channel_name">वीक्षण-बुद्बुदः</string>
+    <string name="scan_bubble_channel_description">वीक्षण-बुद्बुदे सक्रिये इयं सूचना दृश्यते</string>
+    <string name="scan_bubble_notification_title">वीक्षण-बुद्बुदः सक्रियः</string>
+    <string name="scan_bubble_notification_text">पटपुटस्थं सङ्केतं पठितुं बुद्बुदं स्पृशतु</string>
+    <string name="scan_bubble_notification_turn_off">निष्क्रियीक्रियताम्</string>
+    <string name="scan_bubble_content_description">पटपुटस्थः सङ्केतः वीक्ष्यताम्</string>
+</resources>

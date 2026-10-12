@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="ghost_scan_tile_label">GhostScan</string>
+
+    <!-- Scan bubble (shown by Android, outside Flutter) -->
+    <string name="scan_bubble_tile_label">Scan bubble</string>
+    <string name="scan_bubble_shortcut_short">Scan bubble</string>
+    <string name="scan_bubble_shortcut_long">Start scan bubble</string>
+    <string name="scan_bubble_channel_name">Scan bubble</string>
+    <string name="scan_bubble_channel_description">Shown while the floating scan bubble is on</string>
+    <string name="scan_bubble_notification_title">Scan bubble is on</string>
+    <string name="scan_bubble_notification_text">Tap the bubble to scan a code on your screen</string>
+    <string name="scan_bubble_notification_turn_off">Turn off</string>
+    <string name="scan_bubble_content_description">Scan a code on the screen</string>
 </resources>

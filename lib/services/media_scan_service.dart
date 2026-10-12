@@ -1,19 +1,20 @@
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:pdfx/pdfx.dart';
 
-import 'package:sreeraj_qr_reader/services/distance_enhancement_service.dart';
+import 'package:sreerajp_qr_studio/services/barcode_decoder/barcode_decoder_service.dart';
+import 'package:sreerajp_qr_studio/services/distance_enhancement_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
+import 'package:sreerajp_qr_studio/models/scanned_code.dart';
 
 /// Represents a barcode found on a specific page of a PDF document.
 class PdfPageBarcode {
   final int pageNumber;
   final String rawValue;
-  final BarcodeType format;
+  final CodeContentType format;
 
   const PdfPageBarcode({
     required this.pageNumber,
@@ -24,7 +25,7 @@ class PdfPageBarcode {
 
 /// Holds the result of an image or PDF media barcode scan.
 class MediaScanResult {
-  final List<Barcode> barcodes;
+  final List<ScannedCode> barcodes;
   final List<PdfPageBarcode> pdfBarcodes;
   final AppMessage? errorMessage;
   final bool isPdf;
@@ -43,18 +44,22 @@ class MediaScanResult {
 class MediaScanService {
   final ImagePicker _imagePicker;
   final DistanceEnhancementService _distanceEnhancementService;
+  final BarcodeDecoder _decoder;
 
   MediaScanService({
     ImagePicker? imagePicker,
     DistanceEnhancementService? distanceEnhancementService,
+    BarcodeDecoder? decoder,
   }) : _imagePicker = imagePicker ?? ImagePicker(),
+       _decoder = decoder ?? BarcodeDecoderService.instance,
        _distanceEnhancementService =
-           distanceEnhancementService ?? const DistanceEnhancementService();
+           distanceEnhancementService ??
+           DistanceEnhancementService(decoder: decoder);
 
-  /// Pick an image from gallery and analyze it for barcodes using [controller].
-  Future<MediaScanResult> pickAndScanImage(
-    MobileScannerController controller, {
+  /// Pick an image from gallery and analyze it for barcodes.
+  Future<MediaScanResult> pickAndScanImage({
     bool enableDistanceEnhancement = true,
+    DistanceScanConfig distanceConfig = const DistanceScanConfig(),
   }) async {
     try {
       final XFile? image = await _imagePicker.pickImage(
@@ -64,9 +69,9 @@ class MediaScanService {
         return const MediaScanResult();
       }
       return await scanImageFile(
-        controller,
         image.path,
         enableDistanceEnhancement: enableDistanceEnhancement,
+        distanceConfig: distanceConfig,
       );
     } catch (e) {
       if (kDebugMode) debugPrint('Error picking image: $e');
@@ -80,15 +85,17 @@ class MediaScanService {
   }
 
   /// Scan a specific image file by path with automated distance enhancement fallback.
+  ///
+  /// [distanceConfig] is the base zoom and sharpening used by the fallback.
   Future<MediaScanResult> scanImageFile(
-    MobileScannerController controller,
     String filePath, {
     bool enableDistanceEnhancement = true,
+    DistanceScanConfig distanceConfig = const DistanceScanConfig(),
   }) async {
     try {
-      final capture = await controller.analyzeImage(filePath);
-      if (capture != null && capture.barcodes.isNotEmpty) {
-        return MediaScanResult(barcodes: capture.barcodes);
+      final codes = await _decoder.decodeImageFile(filePath);
+      if (codes.isNotEmpty) {
+        return MediaScanResult(barcodes: codes);
       }
 
       // If initial scan finds no barcode and distance enhancement is enabled,
@@ -97,17 +104,12 @@ class MediaScanService {
         final distanceResult = await _distanceEnhancementService
             .runMultiScaleDistanceScan(
               imagePath: filePath,
-              controller: controller,
+              baseConfig: distanceConfig,
             );
         if (distanceResult.success && distanceResult.rawValue != null) {
-          final syntheticBarcode = Barcode(
+          final syntheticBarcode = ScannedCode(
             rawValue: distanceResult.rawValue,
-            format: BarcodeFormat.values.firstWhere(
-              (f) =>
-                  f.name.toLowerCase() ==
-                  (distanceResult.format ?? '').toLowerCase(),
-              orElse: () => BarcodeFormat.qrCode,
-            ),
+            type: CodeContentType.fromName(distanceResult.format),
           );
           return MediaScanResult(barcodes: [syntheticBarcode]);
         }
@@ -128,25 +130,19 @@ class MediaScanService {
   }
 
   /// Pick a PDF document and analyze each page for embedded barcodes.
-  Future<MediaScanResult> pickAndScanPdf(
-    MobileScannerController controller, {
+  Future<MediaScanResult> pickAndScanPdf({
     void Function(int current, int total)? onProgress,
   }) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final picked = await FilePicker.pickFile(
         type: FileType.custom,
         allowedExtensions: ['pdf'],
       );
-      if (result == null ||
-          result.files.isEmpty ||
-          result.files.single.path == null) {
+      final path = picked?.path;
+      if (path == null) {
         return const MediaScanResult(isPdf: true);
       }
-      return await scanPdfFile(
-        controller,
-        result.files.single.path!,
-        onProgress: onProgress,
-      );
+      return await scanPdfFile(path, onProgress: onProgress);
     } catch (e) {
       if (kDebugMode) debugPrint('Error picking PDF: $e');
       return MediaScanResult(
@@ -161,15 +157,12 @@ class MediaScanService {
 
   /// Scan a PDF file by path page-by-page.
   Future<MediaScanResult> scanPdfFile(
-    MobileScannerController controller,
     String pdfPath, {
     void Function(int current, int total)? onProgress,
   }) async {
     final pdfBarcodes = <PdfPageBarcode>[];
-    Directory? tempDir;
 
     try {
-      tempDir = await getTemporaryDirectory();
       final document = await PdfDocument.openFile(pdfPath);
       final totalPages = document.pagesCount;
 
@@ -177,43 +170,33 @@ class MediaScanService {
         onProgress?.call(i, totalPages);
         final page = await document.getPage(i);
 
-        final pageImage = await page.render(
-          width: page.width * 2,
-          height: page.height * 2,
-        );
-
-        if (pageImage != null) {
-          final tempFile = File(
-            '${tempDir.path}/pdf_page_${DateTime.now().millisecondsSinceEpoch}_$i.jpg',
+        try {
+          final pageImage = await page.render(
+            width: page.width * 2,
+            height: page.height * 2,
+            format: PdfPageImageFormat.png,
+            backgroundColor: '#FFFFFF',
           );
-          await tempFile.writeAsBytes(pageImage.bytes);
-
-          try {
-            final capture = await controller.analyzeImage(tempFile.path);
-            if (capture != null && capture.barcodes.isNotEmpty) {
-              for (final bc in capture.barcodes) {
-                if (bc.rawValue != null && bc.rawValue!.isNotEmpty) {
-                  pdfBarcodes.add(
-                    PdfPageBarcode(
-                      pageNumber: i,
-                      rawValue: bc.rawValue!,
-                      format: bc.type,
-                    ),
-                  );
-                }
+          if (pageImage != null) {
+            // Pages are decoded in memory; nothing is written to disk.
+            final codes = await _decoder.decodeEncodedImage(pageImage.bytes);
+            for (final bc in codes) {
+              if (bc.rawValue != null && bc.rawValue!.isNotEmpty) {
+                pdfBarcodes.add(
+                  PdfPageBarcode(
+                    pageNumber: i,
+                    rawValue: bc.rawValue!,
+                    format: bc.type,
+                  ),
+                );
               }
             }
-          } catch (e) {
-            if (kDebugMode) debugPrint('Error analyzing page $i image: $e');
-          } finally {
-            try {
-              if (await tempFile.exists()) {
-                await tempFile.delete();
-              }
-            } catch (_) {}
           }
+        } catch (e) {
+          if (kDebugMode) debugPrint('Error analyzing page $i image: $e');
+        } finally {
+          await page.close();
         }
-        await page.close();
       }
       await document.close();
 

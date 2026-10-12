@@ -1,6 +1,6 @@
 # Plan: Strictly Adhere to Project Guidelines
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem Statement
 

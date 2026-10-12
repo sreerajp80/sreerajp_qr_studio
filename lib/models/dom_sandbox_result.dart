@@ -1,4 +1,4 @@
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:flutter/material.dart';
 
 /// Model representing the results of the Zero-Trust Sandboxed HTML Pre-Render Previewer.
@@ -24,6 +24,10 @@ class DomSandboxResult {
   final Color? pageThemeColor;
   final AppMessage statusMessage;
 
+  /// True when the live page could not be fetched (offline, timeout or
+  /// network error). [pageTitle] then holds only the host name.
+  final bool fetchFailed;
+
   const DomSandboxResult({
     required this.url,
     this.pageTitle,
@@ -45,6 +49,7 @@ class DomSandboxResult {
     this.sanitizedBodyHtml,
     this.pageThemeColor,
     required this.statusMessage,
+    this.fetchFailed = false,
   });
 
   /// True if domain age is considered newly registered (< 30 days old).

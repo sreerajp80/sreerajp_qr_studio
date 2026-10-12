@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/clipboard_scan_data.dart';
+import 'package:sreerajp_qr_studio/models/clipboard_scan_data.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('ClipboardScanData', () {
@@ -8,13 +8,13 @@ void main() {
       const data = ClipboardScanData(
         type: ClipboardContentType.url,
         content: 'https://example.com',
-        barcodeType: BarcodeType.url,
+        barcodeType: CodeContentType.url,
         preview: 'https://example.com',
       );
 
       expect(data.type, equals(ClipboardContentType.url));
       expect(data.content, equals('https://example.com'));
-      expect(data.barcodeType, equals(BarcodeType.url));
+      expect(data.barcodeType, equals(CodeContentType.url));
       expect(data.preview, equals('https://example.com'));
     });
 
@@ -22,21 +22,21 @@ void main() {
       const data1 = ClipboardScanData(
         type: ClipboardContentType.barcodePayload,
         content: 'WIFI:S:Home;T:WPA;P:secret;;',
-        barcodeType: BarcodeType.wifi,
+        barcodeType: CodeContentType.wifi,
         preview: 'WIFI:S:Home...',
       );
 
       const data2 = ClipboardScanData(
         type: ClipboardContentType.barcodePayload,
         content: 'WIFI:S:Home;T:WPA;P:secret;;',
-        barcodeType: BarcodeType.wifi,
+        barcodeType: CodeContentType.wifi,
         preview: 'WIFI:S:Home...',
       );
 
       const data3 = ClipboardScanData(
         type: ClipboardContentType.image,
         content: '/path/to/image.png',
-        barcodeType: BarcodeType.unknown,
+        barcodeType: CodeContentType.unknown,
         preview: 'Image',
       );
 
@@ -49,7 +49,7 @@ void main() {
       const data = ClipboardScanData(
         type: ClipboardContentType.text,
         content: 'Hello World',
-        barcodeType: BarcodeType.text,
+        barcodeType: CodeContentType.text,
         preview: 'Hello World',
       );
 

@@ -1,67 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class ArCodeVisionHelpScreen extends StatelessWidget {
   const ArCodeVisionHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('AR CodeVision™ Spatial HUD')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display '
-            'that detects, tracks, and analyzes multiple barcodes simultaneously in real time.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.view_in_ar,
-            title: 'Real-Time Spatial Tracking',
-            children: [
-              _Bullet(
-                'Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.',
-              ),
-              _Bullet(
-                'Renders floating interactive chips directly above each physical barcode on screen as you move your camera.',
-              ),
-              _Bullet(
-                'Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.checklist_outlined,
-            title: 'Interactive Multi-Select & Batch Actions',
-            children: [
-              _Bullet(
-                'Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.',
-              ),
-              _Bullet(
-                'Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.',
-              ),
-              _Bullet(
-                'Copy all selected payload contents or export targets to your history in a single tap.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.flash_on_outlined,
-            title: 'HUD Controls & Performance',
-            children: [
-              _Bullet(
-                'HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.',
-              ),
-              _Bullet(
-                'Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpArCodeVision)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideArCodeVisionIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.view_in_ar,
+              title: l10n.helpGuideArCodeVisionTrackingTitle,
+              children: [
+                _Bullet(l10n.helpGuideArCodeVisionTrackingBullet1),
+                _Bullet(l10n.helpGuideArCodeVisionTrackingBullet2),
+                _Bullet(l10n.helpGuideArCodeVisionTrackingBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.checklist_outlined,
+              title: l10n.helpGuideArCodeVisionBatchTitle,
+              children: [
+                _Bullet(l10n.helpGuideArCodeVisionBatchBullet1),
+                _Bullet(l10n.helpGuideArCodeVisionBatchBullet2),
+                _Bullet(l10n.helpGuideArCodeVisionBatchBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.flash_on_outlined,
+              title: l10n.helpGuideArCodeVisionHudTitle,
+              children: [
+                _Bullet(l10n.helpGuideArCodeVisionHudBullet1),
+                _Bullet(l10n.helpGuideArCodeVisionHudBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideArCodeVisionTip),
+          ],
+        ),
       ),
     );
   }
@@ -109,10 +94,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

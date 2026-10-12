@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -18,19 +18,16 @@ void main() {
       expect(provider.isSoundEnabled, isTrue);
     });
 
-    test(
-      'Updating vibration setting changes state and persists to SharedPreferences',
-      () async {
-        final provider = ScanProvider();
-        await Future<void>.delayed(Duration.zero);
+    test('Updating vibration setting changes state and persists to SharedPreferences', () async {
+      final provider = ScanProvider();
+      await Future<void>.delayed(Duration.zero);
 
-        await provider.setVibrationEnabled(false);
-        expect(provider.isVibrationEnabled, isFalse);
+      await provider.setVibrationEnabled(false);
+      expect(provider.isVibrationEnabled, isFalse);
 
-        final prefs = await SharedPreferences.getInstance();
-        expect(prefs.getBool(ScanProvider.vibrationPrefKey), isFalse);
-      },
-    );
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool(ScanProvider.vibrationPrefKey), isFalse);
+    });
 
     test(
       'Updating sound setting changes state and persists to SharedPreferences',

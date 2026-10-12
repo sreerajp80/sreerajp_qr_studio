@@ -1,6 +1,6 @@
 # Continuous Batch Scan Mode Plan
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 In `docs/feature_improvements_and_roadmap.md` item 2.1.1, the scanner only supports a single scan flow:

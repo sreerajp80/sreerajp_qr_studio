@@ -1,6 +1,6 @@
 # Plan: Bring Project Documentation into Strict Adherence with Guidelines
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem Statement
 

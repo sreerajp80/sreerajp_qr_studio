@@ -3,14 +3,28 @@
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+.pub-cache/
+.pub/
 build/
+migrate_working_dir/
+app.*.symbols
+app.*.map.json
+**/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
 
 # Android
 android/.gradle/
+android/.kotlin/
+android/app/.cxx/
+android/captures/
 android/local.properties
 android/key.properties
+android/hs_err_pid*.log
+android/replay_pid*.log
 *.jks
 *.keystore
+
+# Logs
+*.log
 
 # IDE
 .idea/
@@ -19,3 +33,10 @@ android/key.properties
 
 # macOS
 .DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Local-only Play Console notes (never commit)
+play_store_private/

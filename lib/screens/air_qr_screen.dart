@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/air_qr_progress.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/providers/air_qr_provider.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/services/device_sync_service.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/air_qr_progress.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/providers/air_qr_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/services/device_sync_service.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
+import 'package:sreerajp_qr_studio/models/decode_profile.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
+import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/scan_camera_view.dart';
 
 class AirQrScreen extends StatefulWidget {
   const AirQrScreen({super.key});
@@ -25,7 +30,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   final DeviceSyncService _deviceSyncService = DeviceSyncService();
   final TextEditingController _syncPassphraseController =
       TextEditingController();
-  MobileScannerController? controller;
+  ScanCameraController? controller;
   bool _isTorchOn = false;
   bool _isFrontCamera = false;
   bool _hasSavedRecord = false;
@@ -33,21 +38,73 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   bool _syncApplySettings = true;
   bool _isSyncing = false;
   String? _syncError;
+  bool _permissionDenied = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    controller = MobileScannerController(
-      cameraResolution: const Size(1920, 1080),
-      formats: const [BarcodeFormat.qrCode],
-      detectionSpeed: DetectionSpeed.unrestricted,
-    );
+    _requestCameraAndStart();
 
     // Reset stream state on enter
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<AirQrProvider>(context, listen: false).resetStream();
     });
+  }
+
+  /// Asks for camera permission at point of use. The camera controller is
+  /// created only once permission is granted.
+  Future<void> _requestCameraAndStart() async {
+    final status = await Permission.camera.request();
+    if (!mounted) return;
+    setState(() {
+      _permissionDenied = !status.isGranted;
+      if (status.isGranted) {
+        controller ??= ScanCameraController(
+          cameraResolution: const Size(1920, 1080),
+          formats: const [CodeFormat.qrCode],
+          profile: DecodeProfile.fast,
+          maxSymbols: 1,
+        );
+      }
+    });
+  }
+
+  /// Message shown instead of the camera, with one action button.
+  Widget _buildCameraMessage({
+    required IconData icon,
+    required String message,
+    required String buttonLabel,
+    required VoidCallback onPressed,
+  }) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 0, 24, 160),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 64, color: Colors.grey),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.white, fontSize: 18),
+            ),
+            const SizedBox(height: 12),
+            ElevatedButton(onPressed: onPressed, child: Text(buttonLabel)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPermissionMessage(AppLocalizations l10n) {
+    return _buildCameraMessage(
+      icon: Icons.camera_alt,
+      message: l10n.scanCameraPermissionRequired,
+      buttonLabel: l10n.grantPermission,
+      onPressed: _requestCameraAndStart,
+    );
   }
 
   @override
@@ -83,7 +140,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
     }
   }
 
-  void _onDetect(BarcodeCapture capture) {
+  void _onDetect(ScanFrameResult capture) {
     final barcodes = capture.barcodes;
     if (barcodes.isEmpty) return;
 
@@ -123,7 +180,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
     try {
       if (controller != null) {
         await controller!.stop();
-        await controller!.dispose();
+        controller!.dispose();
         controller = null;
       }
     } catch (_) {}
@@ -143,7 +200,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
         try {
           if (controller != null) {
             await controller!.stop();
-            await controller!.dispose();
+            controller!.dispose();
             controller = null;
           }
         } catch (_) {}
@@ -199,28 +256,44 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
         ),
         body: Stack(
           children: [
-            if (controller != null)
-              MobileScanner(
+            if (_permissionDenied)
+              _buildPermissionMessage(l10n)
+            else if (controller != null)
+              ScanCameraView(
                 controller: controller!,
                 onDetect: _onDetect,
+                placeholderBuilder: (context) => Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.sensors_outlined,
+                        size: 48,
+                        color: Colors.cyanAccent,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        l10n.airQrInitializing,
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                    ],
+                  ),
+                ),
                 errorBuilder: (context, error) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.sensors_outlined,
-                          size: 48,
-                          color: Colors.cyanAccent,
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          l10n.airQrInitializing,
-                          style: const TextStyle(color: Colors.white70),
-                        ),
-                      ],
-                    ),
-                  );
+                  switch (error) {
+                    case ScanCameraError.permissionDenied:
+                      return _buildPermissionMessage(l10n);
+                    case ScanCameraError.noCamera:
+                    case ScanCameraError.failed:
+                      return _buildCameraMessage(
+                        icon: Icons.no_photography_outlined,
+                        message: error == ScanCameraError.noCamera
+                            ? l10n.cameraNotFound
+                            : l10n.cameraStartFailed,
+                        buttonLabel: l10n.cameraRetryButton,
+                        onPressed: () => controller?.start(),
+                      );
+                  }
                 },
               ),
             // HUD Controls Bar (Top)

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/ar_code_target.dart';
-import 'package:sreeraj_qr_reader/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
 
 /// Interactive Material 3 floating chip anchored in AR camera space.
 class ArFloatingChipWidget extends StatelessWidget {

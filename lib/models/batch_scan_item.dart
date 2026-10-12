@@ -1,14 +1,14 @@
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Domain model representing an individual scanned item in a continuous batch.
 class BatchScanItem {
   final String id;
   final DateTime timestamp;
   final String rawValue;
-  final BarcodeType format;
+  final CodeContentType format;
   final ParsedPayload? parsedPayload;
   final bool isUrl;
   final bool? isSafeUrl;
@@ -33,7 +33,7 @@ class BatchScanItem {
     String? id,
     DateTime? timestamp,
     String? rawValue,
-    BarcodeType? format,
+    CodeContentType? format,
     ParsedPayload? parsedPayload,
     bool? isUrl,
     bool? isSafeUrl,
@@ -62,7 +62,7 @@ class BatchScanItem {
       category = parsedPayload!.type.name;
     } else if (isUrl) {
       category = 'url';
-    } else if (format != BarcodeType.unknown) {
+    } else if (format != CodeContentType.unknown) {
       category = 'barcode';
     }
 

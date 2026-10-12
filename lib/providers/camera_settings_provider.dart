@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/camera_settings.dart';
-import 'package:sreeraj_qr_reader/services/color_matrix_service.dart';
-import 'package:sreeraj_qr_reader/services/light_sensor_service.dart';
+import 'package:sreerajp_qr_studio/models/camera_settings.dart';
+import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
+import 'package:sreerajp_qr_studio/services/color_matrix_service.dart';
+import 'package:sreerajp_qr_studio/services/light_sensor_service.dart';
 
 /// Provider managing camera settings, image adjustments, flash modes, and resolution.
 class CameraSettingsProvider extends ChangeNotifier {
@@ -16,6 +18,16 @@ class CameraSettingsProvider extends ChangeNotifier {
   static const String _prefUnsharpStrengthKey = 'camera_unsharp_strength';
   static const String _prefMultiCodeSelectionKey =
       'camera_multi_code_selection';
+
+  /// Saved preview image adjustments. Public so device sync can copy them.
+  static const String prefBrightnessKey = 'camera_brightness';
+  static const String prefContrastKey = 'camera_contrast';
+  static const String prefInvertColorsKey = 'camera_invert_colors';
+
+  static const double _minBrightness = -1.0;
+  static const double _maxBrightness = 1.0;
+  static const double _minContrast = 0.5;
+  static const double _maxContrast = 2.5;
 
   final LightSensorService _lightSensorService;
   final ColorMatrixService _colorMatrixService;
@@ -29,7 +41,6 @@ class CameraSettingsProvider extends ChangeNotifier {
   bool _isDistanceEnhanceMode = false;
   double _distanceZoomFactor = 2.5;
   double _unsharpMaskStrength = 1.5;
-  bool _autoZoomEnabled = true;
   bool _multiCodeSelectionEnabled = true;
 
   double? _currentLux;
@@ -63,8 +74,13 @@ class CameraSettingsProvider extends ChangeNotifier {
   bool get isDistanceEnhanceMode => _isDistanceEnhanceMode;
   double get distanceZoomFactor => _distanceZoomFactor;
   double get unsharpMaskStrength => _unsharpMaskStrength;
-  bool get autoZoomEnabled => _autoZoomEnabled;
   bool get multiCodeSelectionEnabled => _multiCodeSelectionEnabled;
+
+  /// Distance pipeline settings built from the saved zoom and sharpness.
+  DistanceScanConfig get distanceScanConfig => DistanceScanConfig(
+    zoomFactor: _distanceZoomFactor,
+    unsharpAmount: _unsharpMaskStrength,
+  );
 
   /// Whether the camera flash should physically be illuminated right now.
   bool get shouldTorchBeOn {
@@ -114,6 +130,16 @@ class CameraSettingsProvider extends ChangeNotifier {
       _unsharpMaskStrength = prefs.getDouble(_prefUnsharpStrengthKey) ?? 1.5;
       _multiCodeSelectionEnabled =
           prefs.getBool(_prefMultiCodeSelectionKey) ?? true;
+
+      // Clamp saved values so a bad stored number cannot break the preview.
+      _brightness = (_readDouble(prefs, prefBrightnessKey) ?? 0.0)
+          .clamp(_minBrightness, _maxBrightness)
+          .toDouble();
+      _contrast = (_readDouble(prefs, prefContrastKey) ?? 1.0)
+          .clamp(_minContrast, _maxContrast)
+          .toDouble();
+      final savedInvert = prefs.get(prefInvertColorsKey);
+      _invertColors = savedInvert is bool ? savedInvert : false;
     } catch (e) {
       if (kDebugMode) debugPrint('Error loading camera settings: $e');
     } finally {
@@ -181,7 +207,7 @@ class CameraSettingsProvider extends ChangeNotifier {
 
   /// Sets live brightness adjustment [-1.0, 1.0].
   void setBrightness(double value) {
-    final clamped = value.clamp(-1.0, 1.0);
+    final clamped = value.clamp(_minBrightness, _maxBrightness);
     if ((_brightness - clamped).abs() < 0.001) return;
     _brightness = clamped;
     notifyListeners();
@@ -189,7 +215,7 @@ class CameraSettingsProvider extends ChangeNotifier {
 
   /// Sets live contrast adjustment [0.5, 2.5].
   void setContrast(double value) {
-    final clamped = value.clamp(0.5, 2.5);
+    final clamped = value.clamp(_minContrast, _maxContrast);
     if ((_contrast - clamped).abs() < 0.001) return;
     _contrast = clamped;
     notifyListeners();
@@ -200,6 +226,35 @@ class CameraSettingsProvider extends ChangeNotifier {
     if (_invertColors == value) return;
     _invertColors = value;
     notifyListeners();
+    _saveBool(prefInvertColorsKey, value);
+  }
+
+  /// Saves the current brightness and contrast. The adjustment sliders call
+  /// this once when the user lets go, not on every small move.
+  Future<void> saveImageAdjustments() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble(prefBrightnessKey, _brightness);
+      await prefs.setDouble(prefContrastKey, _contrast);
+    } catch (e) {
+      if (kDebugMode) debugPrint('Error saving image adjustments: $e');
+    }
+  }
+
+  Future<void> _saveBool(String key, bool value) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool(key, value);
+    } catch (e) {
+      if (kDebugMode) debugPrint('Error saving camera setting: $e');
+    }
+  }
+
+  /// Reads a saved number as a double. Accepts an int too (for example a
+  /// value copied in by device sync), and returns null for anything else.
+  static double? _readDouble(SharedPreferences prefs, String key) {
+    final value = prefs.get(key);
+    return value is num ? value.toDouble() : null;
   }
 
   /// Sets the desired camera capture resolution preset.
@@ -231,7 +286,7 @@ class CameraSettingsProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  /// Sets digital zoom factor applied to candidate distant ROIs (2.0 to 4.0).
+  /// Sets digital zoom factor applied to candidate distant ROIs (1.5 to 4.0).
   Future<void> setDistanceZoomFactor(double factor) async {
     final clamped = factor.clamp(1.5, 4.0);
     if ((_distanceZoomFactor - clamped).abs() < 0.01) return;
@@ -257,13 +312,6 @@ class CameraSettingsProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  /// Sets whether hardware/MLKit auto-zoom is enabled during distance scanning.
-  void setAutoZoomEnabled(bool enabled) {
-    if (_autoZoomEnabled == enabled) return;
-    _autoZoomEnabled = enabled;
-    notifyListeners();
-  }
-
   /// Sets whether multi-code tappable selection is enabled on the main scanner.
   Future<void> setMultiCodeSelectionEnabled(bool enabled) async {
     if (_multiCodeSelectionEnabled == enabled) return;
@@ -276,8 +324,10 @@ class CameraSettingsProvider extends ChangeNotifier {
     } catch (_) {}
   }
 
-  /// Resets brightness, contrast, inverted colors, and distance enhancement to factory defaults.
-  void resetAdjustments() {
+  /// Resets brightness, contrast, inverted colors, distance zoom, edge
+  /// sharpness, and multi-code selection to factory defaults. The Distance
+  /// Scan Assist switch is left as it is. Saved values are reset too.
+  Future<void> resetAdjustments() async {
     _brightness = 0.0;
     _contrast = 1.0;
     _invertColors = false;
@@ -285,6 +335,19 @@ class CameraSettingsProvider extends ChangeNotifier {
     _unsharpMaskStrength = 1.5;
     _multiCodeSelectionEnabled = true;
     notifyListeners();
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble(_prefDistanceZoomKey, _distanceZoomFactor);
+      await prefs.setDouble(_prefUnsharpStrengthKey, _unsharpMaskStrength);
+      await prefs.setBool(
+        _prefMultiCodeSelectionKey,
+        _multiCodeSelectionEnabled,
+      );
+      await prefs.remove(prefBrightnessKey);
+      await prefs.remove(prefContrastKey);
+      await prefs.remove(prefInvertColorsKey);
+    } catch (_) {}
   }
 
   /// Records tap-to-focus point and timestamp for animation.

@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/services/history_database_service.dart';
-import 'package:sreeraj_qr_reader/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/services/history_database_service.dart';
+import 'package:sreerajp_qr_studio/services/history_export_service.dart';
 
 enum ExportFormat { csv, json, txt, pdf }
 

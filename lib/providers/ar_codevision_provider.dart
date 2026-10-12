@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/ar_code_target.dart';
-import 'package:sreeraj_qr_reader/services/ar_spatial_service.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/services/ar_spatial_service.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 
 /// HUD operating mode for AR CodeVision viewport.
 enum ArHudMode { warehouse, safety }
@@ -30,15 +31,19 @@ class ArCodevisionProvider with ChangeNotifier {
   int get selectedCount => _selectedTargetIds.length;
 
   /// Changes active HUD mode (Warehouse vs Safety HUD).
+  ///
+  /// Clears the selection, because selecting codes and Batch Copy exist only
+  /// in Warehouse mode.
   void setHudMode(ArHudMode mode) {
     if (_hudMode != mode) {
       _hudMode = mode;
+      _selectedTargetIds.clear();
       notifyListeners();
     }
   }
 
   /// Processes fresh frame capture from MobileScanner.
-  void processBarcodeCapture(BarcodeCapture capture) {
+  void processBarcodeCapture(ScanFrameResult capture) {
     final now = DateTime.now();
     final List<ArCodeTarget> updatedTargets = List.from(_targets);
 
@@ -50,7 +55,7 @@ class ArCodevisionProvider with ChangeNotifier {
       final isUrl =
           rawValue.startsWith('http://') ||
           rawValue.startsWith('https://') ||
-          barcode.type == BarcodeType.url;
+          barcode.type == CodeContentType.url;
 
       final existingIndex = updatedTargets.indexWhere((t) => t.id == id);
       final isSelected = _selectedTargetIds.contains(id);

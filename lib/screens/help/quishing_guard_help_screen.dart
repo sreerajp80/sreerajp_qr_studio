@@ -1,52 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class QuishingGuardHelpScreen extends StatelessWidget {
   const QuishingGuardHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('QuishingGuard™ Tamper Detection')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes '
-            'over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.policy_outlined,
-            title: 'On-Device Computer Vision Analysis',
-            children: [
-              _Bullet(
-                'Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.',
-              ),
-              _Bullet(
-                'Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.',
-              ),
-              _Bullet(
-                'Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.analytics_outlined,
-            title: 'Forensic Signal Inspection',
-            children: [
-              _Bullet(
-                'Tap "View Forensic Analysis" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.',
-              ),
-              _Bullet(
-                'Helps identify suspicious payment QR codes in public places before sending money or typing credentials.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpQuishing)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideQuishingIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.policy_outlined,
+              title: l10n.helpGuideQuishingCvTitle,
+              children: [
+                _Bullet(l10n.helpGuideQuishingCvBullet1),
+                _Bullet(l10n.helpGuideQuishingCvBullet2),
+                _Bullet(l10n.helpGuideQuishingCvBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.analytics_outlined,
+              title: l10n.helpGuideQuishingForensicTitle,
+              children: [
+                _Bullet(l10n.helpGuideQuishingForensicBullet1),
+                _Bullet(l10n.helpGuideQuishingForensicBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideQuishingTip),
+          ],
+        ),
       ),
     );
   }
@@ -94,10 +85,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

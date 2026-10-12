@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr/qr.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/location_result.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/services/location_service.dart';
 
 /// State management provider for CodeForge barcode generator.
 class CodeForgeProvider extends ChangeNotifier {
   final CodeForgeService _service;
+  final LocationService _locationService;
 
   CodeForgeConfig _config = const CodeForgeConfig(
-    rawContent: 'https://github.com/sreerajp80/sreeraj_qr_reader',
+    rawContent: 'https://example.com',
     payloadType: CodeForgePayloadType.url,
   );
 
@@ -18,9 +22,13 @@ class CodeForgeProvider extends ChangeNotifier {
   List<SafetyCheckResult>? _safetyResults;
   bool _isCheckingSafety = false;
   bool _isExporting = false;
+  bool _isFetchingLocation = false;
 
-  CodeForgeProvider({CodeForgeService? service})
-    : _service = service ?? CodeForgeService() {
+  CodeForgeProvider({
+    CodeForgeService? service,
+    LocationService? locationService,
+  }) : _service = service ?? CodeForgeService(),
+       _locationService = locationService ?? LocationService() {
     _refreshQrMatrix();
   }
 
@@ -30,10 +38,16 @@ class CodeForgeProvider extends ChangeNotifier {
   bool get isUrlSafe =>
       _safetyResults != null && _safetyResults!.every((r) => r.passed);
   bool get isCheckingSafety => _isCheckingSafety;
+
+  /// Number of link safety checks that did not pass in the last check.
+  /// Skipped checks count as passed, the same as [isUrlSafe].
+  int get safetyIssueCount =>
+      _safetyResults?.where((r) => !r.passed).length ?? 0;
   bool get isExporting => _isExporting;
+  bool get isFetchingLocation => _isFetchingLocation;
 
   String get payloadString => _service.buildPayloadString(_config);
-  String? get validationError => _service.validateContent(_config);
+  AppMessage? get validationError => _service.validateContent(_config);
   bool get isValid => validationError == null;
 
   void _refreshQrMatrix() {
@@ -83,7 +97,7 @@ class CodeForgeProvider extends ChangeNotifier {
       case CodeForgeBarcodeType.qrCode:
         return _config.rawContent.isNotEmpty
             ? _config.rawContent
-            : 'https://github.com/sreerajp80/sreeraj_qr_reader';
+            : 'https://example.com';
     }
   }
 
@@ -169,6 +183,29 @@ class CodeForgeProvider extends ChangeNotifier {
     _config = _config.copyWith(geoLat: lat, geoLng: lng);
     _refreshQrMatrix();
     notifyListeners();
+  }
+
+  /// Fills the location code with the device's current position.
+  ///
+  /// Returns the lookup result so the screen can update its text fields or
+  /// show the matching message. Does nothing if a lookup is already running.
+  Future<LocationResult?> fetchCurrentLocation() async {
+    if (_isFetchingLocation) return null;
+    _isFetchingLocation = true;
+    notifyListeners();
+    try {
+      final result = await _locationService.getCurrentLocation();
+      if (result.isSuccess) {
+        updateGeo(
+          lat: result.latitude!.toStringAsFixed(6),
+          lng: result.longitude!.toStringAsFixed(6),
+        );
+      }
+      return result;
+    } finally {
+      _isFetchingLocation = false;
+      notifyListeners();
+    }
   }
 
   void setPatternShape(QrPatternShape shape) {

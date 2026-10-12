@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 void main() {
   group('ScanRecord Model Tests', () {

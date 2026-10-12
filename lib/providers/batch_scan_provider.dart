@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/batch_scan_item.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/services/history_export_service.dart';
-import 'package:sreeraj_qr_reader/services/payload_parser_service.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/batch_scan_item.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Provider managing Continuous Batch Scan Mode state, queuing, deduplication,
 /// background 6-layer URL safety verification, and batch export formatting.
@@ -78,7 +78,10 @@ class BatchScanProvider extends ChangeNotifier {
 
   /// Adds a newly scanned barcode into the continuous batch queue.
   /// If it contains a URL, triggers background 6-layer URL safety verification.
-  Future<BatchScanItem?> addBarcode(String rawValue, BarcodeType format) async {
+  Future<BatchScanItem?> addBarcode(
+    String rawValue,
+    CodeContentType format,
+  ) async {
     if (!canAccept(rawValue)) return null;
 
     final now = DateTime.now();

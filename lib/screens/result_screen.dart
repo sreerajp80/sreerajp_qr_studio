@@ -3,27 +3,33 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/encrypted_payload_data.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/wifi_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/contact_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/geo_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/calendar_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/payment_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/totp_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/email_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/phone_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/sms_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/app_link_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/product_barcode_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/isbn_action_card.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/quishing_risk_bar_widget.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/dom_sandbox_preview_card.dart';
+import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/wifi_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/contact_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/geo_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/calendar_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/payment_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/totp_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/email_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/phone_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/sms_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/app_link_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/product_barcode_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/isbn_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/quishing_risk_bar_widget.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/dom_sandbox_preview_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/url_verdict_card.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+
+/// How risky it looks to open the scanned link. Drives the look of the
+/// Open button and the confirm dialog.
+enum _OpenRisk { safe, warning, danger }
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});
@@ -36,6 +42,9 @@ class _ResultScreenState extends State<ResultScreen> {
   bool _isCopied = false;
   bool _isSecretCopied = false;
   bool _showSecretText = true;
+  bool _showPassedChecks = false;
+  bool _showSkippedChecks = false;
+  final GlobalKey _safetyCardKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -67,6 +76,11 @@ class _ResultScreenState extends State<ResultScreen> {
           ),
         ],
       ),
+      bottomNavigationBar: _buildBottomBar(
+        context,
+        scanProvider,
+        displayedContent,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -74,32 +88,7 @@ class _ResultScreenState extends State<ResultScreen> {
           children: [
             // Result type indicator
             _buildResultTypeCard(scanProvider),
-            const SizedBox(height: 20),
-
-            // QuishingGuard Risk Indicator Card
-            if (scanProvider.quishingResult != null) ...[
-              QuishingRiskBarWidget(result: scanProvider.quishingResult!),
-              const SizedBox(height: 20),
-            ],
-
-            // StegoQR Card if detected
-            if (isStego) ...[
-              _buildStegoCard(scanProvider),
-              const SizedBox(height: 20),
-            ],
-
-            // Smart Action Card if parsed
-            if (scanProvider.parsedPayload != null &&
-                scanProvider.parsedPayload is! GenericPayload) ...[
-              _buildSmartPayloadCard(scanProvider),
-              const SizedBox(height: 20),
-            ],
-
-            // Zero-Trust Sandboxed HTML Pre-Render Preview Card if URL
-            if (isUrl && scanProvider.domSandboxResult != null) ...[
-              DomSandboxPreviewCard(result: scanProvider.domSandboxResult!),
-              const SizedBox(height: 20),
-            ],
+            const SizedBox(height: 16),
 
             // Content display (Decoy or plain text)
             _buildContentCard(
@@ -108,17 +97,75 @@ class _ResultScreenState extends State<ResultScreen> {
                   ? l10n.resultDecoyContentLabel
                   : l10n.resultContentLabel,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
 
-            // URL safety indicator (if URL)
-            if (isUrl) _buildSafetyCard(scanProvider),
-            const SizedBox(height: 20),
+            // Short safety verdict, close to the actions
+            if (isUrl) ...[
+              _buildVerdictCard(scanProvider),
+              const SizedBox(height: 16),
+            ],
 
-            // Action buttons
-            _buildActionButtons(context, scanProvider, displayedContent),
+            // QuishingGuard Risk Indicator Card
+            if (scanProvider.quishingResult != null) ...[
+              QuishingRiskBarWidget(result: scanProvider.quishingResult!),
+              const SizedBox(height: 16),
+            ],
+
+            // StegoQR Card if detected
+            if (isStego) ...[
+              _buildStegoCard(scanProvider),
+              const SizedBox(height: 16),
+            ],
+
+            // Smart Action Card if parsed
+            if (scanProvider.parsedPayload != null &&
+                scanProvider.parsedPayload is! GenericPayload) ...[
+              _buildSmartPayloadCard(scanProvider),
+              const SizedBox(height: 16),
+            ],
+
+            // Zero-Trust Sandboxed HTML Pre-Render Preview Card if URL
+            if (isUrl && scanProvider.domSandboxResult != null) ...[
+              DomSandboxPreviewCard(result: scanProvider.domSandboxResult!),
+              const SizedBox(height: 16),
+            ],
+
+            // Full URL safety details (if URL)
+            if (isUrl)
+              KeyedSubtree(
+                key: _safetyCardKey,
+                child: _buildSafetyCard(scanProvider),
+              ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildVerdictCard(ScanProvider provider) {
+    final l10n = AppLocalizations.of(context);
+    final ran = provider.safetyChecks.where((c) => !c.skipped).toList();
+    final failed = ran.where((c) => !c.passed).toList();
+    return UrlVerdictCard(
+      isLoading: provider.isLoading,
+      failedCount: failed.length,
+      passedCount: ran.length - failed.length,
+      ranCount: ran.length,
+      firstFailedName: failed.isEmpty
+          ? null
+          : appMessageText(l10n, failed.first.checkName),
+      activeProbing: provider.activeProbingEnabled,
+      onSeeDetails: provider.safetyChecks.isEmpty ? null : _scrollToSafetyCard,
+    );
+  }
+
+  void _scrollToSafetyCard() {
+    final target = _safetyCardKey.currentContext;
+    if (target == null) return;
+    Scrollable.ensureVisible(
+      target,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
     );
   }
 
@@ -198,7 +245,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   ? Icons.qr_code_scanner
                   : payload is IsbnPayload
                   ? Icons.menu_book
-                  : provider.scanType == BarcodeType.url
+                  : provider.scanType == CodeContentType.url
                   ? Icons.link
                   : Icons.qr_code,
               size: 32,
@@ -248,7 +295,7 @@ class _ResultScreenState extends State<ResultScreen> {
 
     if (encryptedData?.containerType == EncryptedContainerType.airQr) {
       cardTitle = isUnlocked
-          ? '🔓 AirQR Payload Unlocked'
+          ? '🔓 ${l10n.airQrUnlockedTitle}'
           : '🔒 ${l10n.airQrDetectedTitle}';
       cardSubtitle = isUnlocked
           ? l10n.stegoUnlockedMessage
@@ -256,15 +303,15 @@ class _ResultScreenState extends State<ResultScreen> {
     } else if (encryptedData?.containerType ==
         EncryptedContainerType.jsonEnvelope) {
       cardTitle = isUnlocked
-          ? '🔓 JSON Payload Unlocked'
+          ? '🔓 ${l10n.jsonEnvelopeUnlockedTitle}'
           : '🔒 ${l10n.jsonEnvelopeDetectedTitle}';
       cardSubtitle = isUnlocked
           ? l10n.stegoUnlockedMessage
           : l10n.jsonEnvelopeDetectedSubtitle;
     } else {
       cardTitle = isUnlocked
-          ? '🔓 StegoQR Payload Unlocked'
-          : '🔒 StegoQR Encrypted Payload Detected';
+          ? '🔓 ${l10n.stegoUnlockedTitle}'
+          : '🔒 ${l10n.stegoDetectedTitle}';
       cardSubtitle = isUnlocked
           ? l10n.stegoUnlockedMessage
           : l10n.stegoLockedMessage;
@@ -615,26 +662,6 @@ class _ResultScreenState extends State<ResultScreen> {
     }
   }
 
-  Widget _buildRecheckButton(ScanProvider p) {
-    final l10n = AppLocalizations.of(context);
-    if (!p.isUrl || p.isLoading || !p.hasNetworkError) return const SizedBox();
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: SizedBox(
-        width: double.infinity,
-        child: OutlinedButton.icon(
-          icon: const Icon(Icons.refresh),
-          label: Text(l10n.resultRecheckButton),
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-          onPressed: () =>
-              p.checkUrlSafety(p.stegoQrData?.decoyText ?? p.scanResult!),
-        ),
-      ),
-    );
-  }
-
   Widget _buildContentCard(String content, {String? title}) {
     final l10n = AppLocalizations.of(context);
     final cardTitle = title ?? l10n.resultContentLabel;
@@ -693,6 +720,12 @@ class _ResultScreenState extends State<ResultScreen> {
     final hasIssues = provider.safetyChecks.any((check) => !check.passed);
     final failedChecks = provider.safetyChecks
         .where((check) => !check.passed)
+        .toList();
+    final passedChecks = provider.safetyChecks
+        .where((check) => check.passed && !check.skipped)
+        .toList();
+    final skippedChecks = provider.safetyChecks
+        .where((check) => check.skipped)
         .toList();
 
     return Card(
@@ -776,85 +809,13 @@ class _ResultScreenState extends State<ResultScreen> {
               ],
             ),
 
-            // General Warning
-            if (!provider.isLoading) ...[
-              const SizedBox(height: 16),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF3F2B0D) : Colors.orange[100],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isDark ? Colors.orange[700]! : Colors.orange[300]!,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      color: isDark ? Colors.orange[300] : Colors.orange[700],
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.safetyTrustSourceHint,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDark
-                              ? Colors.orange[200]
-                              : Colors.orange[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-
-            // Privacy / probing-mode notice
+            // One compact info row: trust hint + privacy mode
             if (!provider.isLoading) ...[
               const SizedBox(height: 12),
               _buildProbingModeBanner(provider.activeProbingEnabled),
             ],
 
-            // Additional warning for issues
-            if (!provider.isLoading && hasIssues) ...[
-              const SizedBox(height: 12),
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: isDark ? const Color(0xFF3F0D0D) : Colors.red[100],
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: isDark ? Colors.red[700]! : Colors.red[300]!,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Icon(
-                      Icons.warning_amber,
-                      color: isDark ? Colors.red[300] : Colors.red[700],
-                      size: 20,
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        l10n.safetyIssuesWarning,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: isDark ? Colors.red[200] : Colors.red[700],
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-
-            // Security checks results
+            // Check results: failed always shown, passed and skipped folded
             if (!provider.isLoading && provider.safetyChecks.isNotEmpty) ...[
               const SizedBox(height: 16),
               Text(
@@ -866,9 +827,43 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-              ...provider.safetyChecks.map(
-                (check) => _buildDetailedCheckItem(check),
-              ),
+              ...failedChecks.map((check) => _buildDetailedCheckItem(check)),
+              if (passedChecks.isNotEmpty) ...[
+                _buildFoldToggle(
+                  label: _showPassedChecks
+                      ? l10n.safetyHidePassed
+                      : l10n.safetyShowPassed(passedChecks.length),
+                  expanded: _showPassedChecks,
+                  onTap: () =>
+                      setState(() => _showPassedChecks = !_showPassedChecks),
+                ),
+                if (_showPassedChecks)
+                  ...passedChecks.map(
+                    (check) => _buildDetailedCheckItem(check),
+                  ),
+              ],
+              if (skippedChecks.isNotEmpty) ...[
+                _buildFoldToggle(
+                  label: l10n.safetySkippedGroup(skippedChecks.length),
+                  expanded: _showSkippedChecks,
+                  onTap: () =>
+                      setState(() => _showSkippedChecks = !_showSkippedChecks),
+                ),
+                if (_showSkippedChecks) ...[
+                  ...skippedChecks.map(
+                    (check) => _buildDetailedCheckItem(check),
+                  ),
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: TextButton.icon(
+                      icon: const Icon(Icons.settings_outlined, size: 18),
+                      label: Text(l10n.safetySkippedSetup),
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/settings'),
+                    ),
+                  ),
+                ],
+              ],
             ],
 
             // Loading indicator message
@@ -920,9 +915,8 @@ class _ResultScreenState extends State<ResultScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              activeProbing
-                  ? l10n.probingBannerActive
-                  : l10n.probingBannerPrivate,
+              '${l10n.safetyTrustSourceHint}\n'
+              '${activeProbing ? l10n.probingBannerActive : l10n.probingBannerPrivate}',
               style: TextStyle(
                 fontSize: 13,
                 color: isDark
@@ -933,6 +927,42 @@ class _ResultScreenState extends State<ResultScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFoldToggle({
+    required String label,
+    required bool expanded,
+    required VoidCallback onTap,
+  }) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final color = isDark ? Colors.grey[300] : Colors.grey[800];
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+        child: Row(
+          children: [
+            Icon(
+              expanded ? Icons.expand_less : Icons.expand_more,
+              size: 20,
+              color: color,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: color,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -997,116 +1027,212 @@ class _ResultScreenState extends State<ResultScreen> {
     );
   }
 
-  Widget _buildActionButtons(
+  /// Works out how risky opening the link looks, from results the provider
+  /// already holds.
+  _OpenRisk _openRiskFor(ScanProvider p) {
+    final failed = p.safetyChecks.where((c) => !c.passed).length;
+    final quishing = p.quishingResult?.riskLevel;
+    final sandboxUnsafe = p.domSandboxResult?.isSafe == false;
+    if (quishing == QuishingRiskLevel.highWarning ||
+        sandboxUnsafe ||
+        failed >= 2) {
+      return _OpenRisk.danger;
+    }
+    if (failed > 0 ||
+        quishing == QuishingRiskLevel.wearAndTear ||
+        !p.isSafeUrl) {
+      return _OpenRisk.warning;
+    }
+    return _OpenRisk.safe;
+  }
+
+  bool _canDecrypt(ScanProvider p) =>
+      !p.isStegoQr ||
+      !(p.encryptedPayloadData?.isUnlocked ??
+          p.stegoQrData?.isUnlocked ??
+          false);
+
+  Widget _buildBottomBar(
     BuildContext context,
     ScanProvider provider,
     String displayedContent,
   ) {
     final l10n = AppLocalizations.of(context);
-    return Column(
-      children: [
-        if (provider.isUrl) ...[
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              icon: const Icon(Icons.open_in_browser),
-              label: Text(l10n.resultOpenInBrowser),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                backgroundColor: provider.isSafeUrl
-                    ? Theme.of(context).primaryColor
-                    : Colors.orange,
+    final theme = Theme.of(context);
+    return Material(
+      color: theme.colorScheme.surfaceContainer,
+      elevation: 8,
+      child: SafeArea(
+        top: false,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (provider.isUrl) ...[
+                _buildOpenButton(context, provider, displayedContent),
+                const SizedBox(height: 10),
+              ],
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      icon: Icon(_isCopied ? Icons.check : Icons.content_copy),
+                      label: Text(
+                        _isCopied
+                            ? l10n.copiedLabel
+                            : (provider.isStegoQr
+                                  ? l10n.resultCopyDecoyText
+                                  : l10n.resultCopyText),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: () => _copyToClipboard(displayedContent),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.share),
+                      label: Text(
+                        provider.isStegoQr
+                            ? l10n.resultShareDecoyText
+                            : l10n.resultShareText,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                      ),
+                      onPressed: () => _shareContent(displayedContent),
+                    ),
+                  ),
+                  const SizedBox(width: 6),
+                  IconButton.outlined(
+                    icon: const Icon(Icons.more_vert),
+                    tooltip: l10n.resultMoreActions,
+                    onPressed: () => _showMoreSheet(context, provider),
+                  ),
+                ],
               ),
-              onPressed: provider.isLoading
-                  ? null
-                  : () {
-                      _showWarningDialog(context, displayedContent);
-                    },
-            ),
+            ],
           ),
-          _buildRecheckButton(provider),
-          const SizedBox(height: 12),
-        ],
+        ),
+      ),
+    );
+  }
 
-        Row(
+  Widget _buildOpenButton(
+    BuildContext context,
+    ScanProvider provider,
+    String displayedContent,
+  ) {
+    final l10n = AppLocalizations.of(context);
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final onPressed = provider.isLoading
+        ? null
+        : () => _showWarningDialog(context, displayedContent);
+    const padding = EdgeInsets.symmetric(vertical: 16);
+    final label = Text(l10n.resultOpenInBrowser);
+
+    final Widget button;
+    switch (_openRiskFor(provider)) {
+      case _OpenRisk.safe:
+        button = ElevatedButton.icon(
+          icon: const Icon(Icons.open_in_browser),
+          label: label,
+          style: ElevatedButton.styleFrom(
+            padding: padding,
+            backgroundColor: colorScheme.primary,
+            foregroundColor: colorScheme.onPrimary,
+          ),
+          onPressed: onPressed,
+        );
+      case _OpenRisk.warning:
+        button = ElevatedButton.icon(
+          icon: const Icon(Icons.warning_amber_rounded),
+          label: label,
+          style: ElevatedButton.styleFrom(
+            padding: padding,
+            backgroundColor: Colors.amber[800],
+            foregroundColor: Colors.white,
+          ),
+          onPressed: onPressed,
+        );
+      case _OpenRisk.danger:
+        final red = isDark ? Colors.red[300]! : Colors.red[700]!;
+        button = OutlinedButton.icon(
+          icon: const Icon(Icons.warning_amber_rounded),
+          label: label,
+          style: OutlinedButton.styleFrom(
+            padding: padding,
+            foregroundColor: red,
+            side: BorderSide(color: red, width: 1.5),
+          ),
+          onPressed: onPressed,
+        );
+    }
+    return SizedBox(width: double.infinity, child: button);
+  }
+
+  Future<void> _showMoreSheet(
+    BuildContext context,
+    ScanProvider provider,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final showRecheck =
+        provider.isUrl && !provider.isLoading && provider.hasNetworkError;
+    await showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: OutlinedButton.icon(
-                icon: Icon(_isCopied ? Icons.check : Icons.content_copy),
-                label: Text(
-                  _isCopied
-                      ? l10n.copiedLabel
-                      : (provider.isStegoQr
-                            ? l10n.resultCopyDecoyText
-                            : l10n.resultCopyText),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  l10n.resultMoreActions,
+                  style: Theme.of(sheetContext).textTheme.titleMedium,
                 ),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                onPressed: () => _copyToClipboard(displayedContent),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: OutlinedButton.icon(
-                icon: const Icon(Icons.share),
-                label: Text(
-                  provider.isStegoQr
-                      ? l10n.resultShareDecoyText
-                      : l10n.resultShareText,
-                ),
-                style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                onPressed: () => _shareContent(displayedContent),
+            if (_canDecrypt(provider))
+              ListTile(
+                leading: const Icon(Icons.vpn_key_outlined),
+                title: Text(l10n.decryptPayloadAction),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  _showManualDecryptionDialog(context, provider);
+                },
               ),
+            if (showRecheck)
+              ListTile(
+                leading: const Icon(Icons.refresh),
+                title: Text(l10n.resultRecheckButton),
+                onTap: () {
+                  Navigator.pop(sheetContext);
+                  provider.checkUrlSafety(
+                    provider.stegoQrData?.decoyText ?? provider.scanResult!,
+                  );
+                },
+              ),
+            ListTile(
+              leading: const Icon(Icons.qr_code_scanner),
+              title: Text(l10n.resultScanAnother),
+              onTap: () {
+                Navigator.pop(sheetContext);
+                provider.clearScan();
+                Navigator.pop(context);
+              },
             ),
           ],
         ),
-
-        if (!provider.isStegoQr ||
-            !(provider.encryptedPayloadData?.isUnlocked ??
-                provider.stegoQrData?.isUnlocked ??
-                false)) ...[
-          const SizedBox(height: 12),
-          SizedBox(
-            width: double.infinity,
-            child: OutlinedButton.icon(
-              icon: const Icon(
-                Icons.vpn_key_outlined,
-                color: Colors.deepPurple,
-              ),
-              label: Text(
-                l10n.decryptPayloadAction,
-                style: const TextStyle(color: Colors.deepPurple),
-              ),
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                side: const BorderSide(color: Colors.deepPurple),
-              ),
-              onPressed: () => _showManualDecryptionDialog(context, provider),
-            ),
-          ),
-        ],
-
-        const SizedBox(height: 20),
-
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).primaryColor,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-            ),
-            onPressed: () {
-              provider.clearScan();
-              Navigator.pop(context);
-            },
-            child: Text(l10n.resultScanAnother),
-          ),
-        ),
-      ],
+      ),
     );
   }
 
@@ -1218,8 +1344,8 @@ class _ResultScreenState extends State<ResultScreen> {
                     ),
                     label: Text(
                       showAdvanced
-                          ? 'Hide Advanced'
-                          : 'Show Advanced (Salt / IV)',
+                          ? l10n.decryptHideAdvanced
+                          : l10n.decryptShowAdvanced,
                     ),
                     onPressed: () {
                       setSheetState(() => showAdvanced = !showAdvanced);
@@ -1229,17 +1355,17 @@ class _ResultScreenState extends State<ResultScreen> {
                   if (showAdvanced) ...[
                     TextField(
                       controller: saltController,
-                      decoration: const InputDecoration(
-                        labelText: 'Salt (Base64 / Optional)',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l10n.decryptSaltLabel,
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: ivController,
-                      decoration: const InputDecoration(
-                        labelText: 'IV / Nonce (Base64 / Optional)',
-                        border: OutlineInputBorder(),
+                      decoration: InputDecoration(
+                        labelText: l10n.decryptIvLabel,
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -1338,7 +1464,11 @@ class _ResultScreenState extends State<ResultScreen> {
   Future<void> _showWarningDialog(BuildContext context, String url) async {
     final l10n = AppLocalizations.of(context);
     final scanProvider = Provider.of<ScanProvider>(context, listen: false);
-    final hasIssues = scanProvider.safetyChecks.any((check) => !check.passed);
+    final failedCount = scanProvider.safetyChecks
+        .where((check) => !check.passed)
+        .length;
+    final risk = _openRiskFor(scanProvider);
+    final hasIssues = risk != _OpenRisk.safe;
 
     final result = await showDialog<bool>(
       context: context,
@@ -1350,25 +1480,41 @@ class _ResultScreenState extends State<ResultScreen> {
               color: hasIssues ? Colors.red : Colors.orange,
             ),
             const SizedBox(width: 8),
-            Text(hasIssues ? l10n.warningDialogTitle : l10n.cautionDialogTitle),
+            Flexible(
+              child: Text(
+                hasIssues ? l10n.warningDialogTitle : l10n.cautionDialogTitle,
+              ),
+            ),
           ],
         ),
         content: Text(
-          hasIssues ? l10n.warningDialogMessage : l10n.cautionDialogMessage,
+          failedCount > 0
+              ? l10n.openRiskDialogIssues(failedCount)
+              : hasIssues
+              ? l10n.warningDialogMessage
+              : l10n.cautionDialogMessage,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
             child: Text(l10n.cancelButton),
           ),
-          ElevatedButton(
-            onPressed: () => Navigator.pop(context, true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: hasIssues ? Colors.red : Colors.orange,
-              foregroundColor: Colors.white,
+          // For danger, keep "Open anyway" plain so Cancel is the easy choice.
+          if (risk == _OpenRisk.danger)
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text(l10n.openAnywayButton),
+            )
+          else
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: hasIssues ? Colors.amber[800] : Colors.orange,
+                foregroundColor: Colors.white,
+              ),
+              child: Text(l10n.openAnywayButton),
             ),
-            child: Text(l10n.openAnywayButton),
-          ),
         ],
       ),
     );

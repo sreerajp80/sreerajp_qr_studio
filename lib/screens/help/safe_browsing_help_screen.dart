@@ -1,61 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class SafeBrowsingHelpScreen extends StatelessWidget {
   const SafeBrowsingHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Google Safe Browsing Setup')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against '
-            'billions of constantly updated known malware, social engineering, and phishing threat entries.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.vpn_key_outlined,
-            title: 'How to Obtain a Free API Key',
-            children: [
-              _Bullet(
-                '1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.',
-              ),
-              _Bullet(
-                '2. Create a new Google Cloud Project (e.g., "My QR Reader Security").',
-              ),
-              _Bullet(
-                '3. Navigate to APIs & Services -> Library and search for "Web Risk API" or "Safe Browsing API" and click Enable.',
-              ),
-              _Bullet(
-                '4. Go to APIs & Services -> Credentials and click "+ CREATE CREDENTIALS" -> "API key".',
-              ),
-              _Bullet(
-                '5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.lock_outline,
-            title: 'Privacy & Secure Keystore Storage',
-            children: [
-              _Bullet(
-                'Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.',
-              ),
-              _Bullet(
-                'Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.',
-              ),
-              _Bullet(
-                'Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpSafeBrowsing)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideSafeBrowsingIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.vpn_key_outlined,
+              title: l10n.helpGuideSafeBrowsingKeyTitle,
+              children: [
+                _Bullet(l10n.helpGuideSafeBrowsingKeyStep1),
+                _Bullet(l10n.helpGuideSafeBrowsingKeyStep2),
+                _Bullet(l10n.helpGuideSafeBrowsingKeyStep3),
+                _Bullet(l10n.helpGuideSafeBrowsingKeyStep4),
+                _Bullet(l10n.helpGuideSafeBrowsingKeyStep5),
+              ],
+            ),
+            _Section(
+              icon: Icons.lock_outline,
+              title: l10n.helpGuideSafeBrowsingPrivacyTitle,
+              children: [
+                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet1),
+                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet2),
+                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet3),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideSafeBrowsingTip),
+          ],
+        ),
       ),
     );
   }
@@ -103,10 +88,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

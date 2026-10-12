@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// The fixed "Made with ❤️ from India" badge shown at the bottom of every
 /// About screen. Text is localized; the heart is always red.

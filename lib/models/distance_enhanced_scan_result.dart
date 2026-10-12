@@ -15,15 +15,11 @@ class DistanceScanConfig {
   /// Fractional padding margin added around candidate bounding box (e.g. 0.25 = 25%).
   final double cropPadding;
 
-  /// Whether Android native MLKit auto-zoom is active on the camera controller.
-  final bool autoZoom;
-
   const DistanceScanConfig({
     this.zoomFactor = 2.5,
     this.unsharpAmount = 1.5,
     this.contrastBoost = 1.3,
     this.cropPadding = 0.25,
-    this.autoZoom = true,
   });
 
   DistanceScanConfig copyWith({
@@ -31,14 +27,23 @@ class DistanceScanConfig {
     double? unsharpAmount,
     double? contrastBoost,
     double? cropPadding,
-    bool? autoZoom,
   }) {
     return DistanceScanConfig(
       zoomFactor: zoomFactor ?? this.zoomFactor,
       unsharpAmount: unsharpAmount ?? this.unsharpAmount,
       contrastBoost: contrastBoost ?? this.contrastBoost,
       cropPadding: cropPadding ?? this.cropPadding,
-      autoZoom: autoZoom ?? this.autoZoom,
+    );
+  }
+
+  /// One step stronger than this config, for a second, harder pass:
+  /// 1.0x more zoom (max 4.0x), 0.5 more sharpening (max 2.5) and a
+  /// 1.45 contrast boost. From the defaults this gives 3.5x / 2.0.
+  DistanceScanConfig stronger() {
+    return copyWith(
+      zoomFactor: (zoomFactor + 1.0).clamp(1.0, 4.0).toDouble(),
+      unsharpAmount: (unsharpAmount + 0.5).clamp(0.0, 2.5).toDouble(),
+      contrastBoost: 1.45,
     );
   }
 }
@@ -305,7 +310,7 @@ class ImagePixelBuffer {
   }
 
   /// Encodes this pixel buffer into standard 24-bit uncompressed BMP bytes.
-  /// Fully supported by Android BitmapFactory and MLKit analyzeImage without dependencies.
+  /// Fully supported by Android BitmapFactory without dependencies.
   Uint8List toBmpBytes() {
     final rowSize = ((width * 3 + 3) ~/ 4) * 4;
     final pixelDataSize = rowSize * height;

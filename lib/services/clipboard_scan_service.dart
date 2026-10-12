@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sreeraj_qr_reader/models/clipboard_scan_data.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/payload_parser_service.dart';
-import 'package:sreeraj_qr_reader/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/clipboard_scan_data.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Service responsible for inspecting the system clipboard and detecting scannable
 /// images, URLs, and structured barcode payloads.
 class ClipboardScanService {
-  static const String _clipboardChannelName = 'in.sreeraj.qr_reader/clipboard';
+  static const String _clipboardChannelName = 'in.sreerajp.qr_studio/clipboard';
   final MethodChannel _channel;
   final PayloadParserService _payloadParserService;
   final StegoQrService _stegoQrService;
@@ -46,7 +47,7 @@ class ClipboardScanService {
         return ClipboardScanData(
           type: ClipboardContentType.image,
           content: nativeImagePath,
-          barcodeType: BarcodeType.unknown,
+          barcodeType: CodeContentType.unknown,
           preview: 'Image',
         );
       }
@@ -64,7 +65,7 @@ class ClipboardScanService {
         return ClipboardScanData(
           type: ClipboardContentType.image,
           content: dataUriFile,
-          barcodeType: BarcodeType.unknown,
+          barcodeType: CodeContentType.unknown,
           preview: 'Image',
         );
       }
@@ -74,7 +75,7 @@ class ClipboardScanService {
         return ClipboardScanData(
           type: ClipboardContentType.image,
           content: rawText,
-          barcodeType: BarcodeType.unknown,
+          barcodeType: CodeContentType.unknown,
           preview: 'Image',
         );
       }
@@ -84,7 +85,7 @@ class ClipboardScanService {
         return ClipboardScanData(
           type: ClipboardContentType.url,
           content: rawText,
-          barcodeType: BarcodeType.url,
+          barcodeType: CodeContentType.url,
           preview: _makePreview(rawText),
         );
       }
@@ -105,7 +106,7 @@ class ClipboardScanService {
         return ClipboardScanData(
           type: ClipboardContentType.text,
           content: rawText,
-          barcodeType: BarcodeType.text,
+          barcodeType: CodeContentType.text,
           preview: _makePreview(rawText),
         );
       }
@@ -177,31 +178,31 @@ class ClipboardScanService {
   }
 
   /// Detects if [text] matches structured barcode formats or StegoQR payloads.
-  BarcodeType? _detectBarcodePayloadType(String text) {
+  CodeContentType? _detectBarcodePayloadType(String text) {
     if (_stegoQrService.isStegoQr(text)) {
-      return BarcodeType.text;
+      return CodeContentType.text;
     }
 
     if (_numericBarcodeRegex.hasMatch(text)) {
-      return BarcodeType.product;
+      return CodeContentType.product;
     }
 
     final parsed = _payloadParserService.parse(text);
     if (parsed is! GenericPayload) {
       return switch (parsed) {
-        WifiPayload _ => BarcodeType.wifi,
-        EmailPayload _ => BarcodeType.email,
-        PhonePayload _ => BarcodeType.phone,
-        SmsPayload _ => BarcodeType.sms,
-        GeoPayload _ => BarcodeType.geo,
-        ContactPayload _ => BarcodeType.contactInfo,
-        IsbnPayload _ => BarcodeType.isbn,
-        ProductBarcodePayload _ => BarcodeType.product,
-        AppLinkPayload _ => BarcodeType.url,
-        PaymentPayload _ => BarcodeType.text,
-        TotpPayload _ => BarcodeType.text,
-        CalendarPayload _ => BarcodeType.text,
-        _ => BarcodeType.text,
+        WifiPayload _ => CodeContentType.wifi,
+        EmailPayload _ => CodeContentType.email,
+        PhonePayload _ => CodeContentType.phone,
+        SmsPayload _ => CodeContentType.sms,
+        GeoPayload _ => CodeContentType.geo,
+        ContactPayload _ => CodeContentType.contactInfo,
+        IsbnPayload _ => CodeContentType.isbn,
+        ProductBarcodePayload _ => CodeContentType.product,
+        AppLinkPayload _ => CodeContentType.url,
+        PaymentPayload _ => CodeContentType.text,
+        TotpPayload _ => CodeContentType.text,
+        CalendarPayload _ => CodeContentType.text,
+        _ => CodeContentType.text,
       };
     }
 

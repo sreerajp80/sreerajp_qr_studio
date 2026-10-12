@@ -1,10 +1,11 @@
 import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 /// Service interfacing with native device ambient light sensors (lux).
 class LightSensorService {
   static const EventChannel _eventChannel = EventChannel(
-    'in.sreeraj.qr_reader/ambient_light',
+    'in.sreerajp.qr_studio/ambient_light',
   );
 
   Stream<double>? _luxStream;

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/services/ghost_scan_service.dart';
-import 'package:sreeraj_qr_reader/widgets/ghost_scan_sheet.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/services/ghost_scan_service.dart';
+import 'package:sreerajp_qr_studio/widgets/ghost_scan_sheet.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const channelName = 'in.sreeraj.qr_reader/ghost_scan';
+  const channelName = 'in.sreerajp.qr_studio/ghost_scan';
   late MethodChannel channel;
   final List<MethodCall> methodCalls = [];
   bool mockIsTileRequestSupported = true;

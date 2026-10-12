@@ -1,21 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/dom_sandbox_result.dart';
-import 'package:sreeraj_qr_reader/models/encrypted_payload_data.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/models/quishing_analysis_result.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/models/stego_qr_data.dart';
-import 'package:sreeraj_qr_reader/services/biometric_service.dart';
-import 'package:sreeraj_qr_reader/services/dom_sandbox_service.dart';
-import 'package:sreeraj_qr_reader/services/encrypted_payload_service.dart';
-import 'package:sreeraj_qr_reader/services/payload_parser_service.dart';
-import 'package:sreeraj_qr_reader/services/quishing_guard_service.dart';
-import 'package:sreeraj_qr_reader/services/stego_qr_service.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
+import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/stego_qr_data.dart';
+import 'package:sreerajp_qr_studio/services/biometric_service.dart';
+import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
+import 'package:sreerajp_qr_studio/services/encrypted_payload_service.dart';
+import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
+import 'package:sreerajp_qr_studio/services/quishing_guard_service.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Provider managing scan results, URL safety checks, StegoQR & AirQR state, Smart Payload parsing, QuishingGuard tamper detection, Zero-Trust DOM Sandboxing, and Scan Feedback preferences.
 class ScanProvider extends ChangeNotifier {
@@ -24,7 +24,7 @@ class ScanProvider extends ChangeNotifier {
   static const String animationPrefKey = 'scan_feedback_animation';
 
   String? _scanResult;
-  BarcodeType? _scanType;
+  CodeContentType? _scanType;
   bool _isUrl = false;
   bool _isSafeUrl = true;
   bool _isLoading = false;
@@ -71,7 +71,7 @@ class ScanProvider extends ChangeNotifier {
   }
 
   String? get scanResult => _scanResult;
-  BarcodeType? get scanType => _scanType;
+  CodeContentType? get scanType => _scanType;
   bool get isUrl => _isUrl;
   bool get isSafeUrl => _isSafeUrl;
   bool get isLoading => _isLoading;
@@ -160,7 +160,7 @@ class ScanProvider extends ChangeNotifier {
 
   void setScanResult(
     String result,
-    BarcodeType type, {
+    CodeContentType type, {
     List<int>? rawFrameBytes,
     int frameWidth = 0,
     int frameHeight = 0,
@@ -332,6 +332,7 @@ class ScanProvider extends ChangeNotifier {
     String? notes,
     String? locationTag,
     bool isFavorite = false,
+    String? source,
   }) {
     if (_scanResult == null) return null;
 
@@ -340,7 +341,7 @@ class ScanProvider extends ChangeNotifier {
       category = _parsedPayload!.type.name;
     } else if (_isUrl) {
       category = 'url';
-    } else if (_scanType != null && _scanType != BarcodeType.unknown) {
+    } else if (_scanType != null && _scanType != CodeContentType.unknown) {
       category = 'barcode';
     }
 
@@ -364,6 +365,7 @@ class ScanProvider extends ChangeNotifier {
         'isStego': isStegoQr,
         'isSafeUrl': _isSafeUrl,
         'quishingRisk': _quishingResult?.riskLevel.name,
+        'source': ?source,
       },
     );
   }

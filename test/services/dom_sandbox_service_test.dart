@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
-import 'package:sreeraj_qr_reader/services/dom_sandbox_service.dart';
+import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
 
 void main() {
   group('DomSandboxService Tests', () {
@@ -20,6 +20,26 @@ void main() {
         expect(result.headings, contains('example.com'));
       },
     );
+
+    test('A failed page fetch is flagged without English text', () async {
+      final service = DomSandboxService(
+        httpClient: MockClient((_) async => throw Exception('offline')),
+      );
+      final result = await service.analyzeAndRender(
+        'https://example.com/login',
+        activeProbing: true,
+      );
+
+      expect(result.fetchFailed, isTrue);
+      expect(result.pageTitle, equals('example.com'));
+    });
+
+    test('Private mode is not marked as a failed fetch', () async {
+      final result = await DomSandboxService().analyzeAndRender(
+        'https://example.com',
+      );
+      expect(result.fetchFailed, isFalse);
+    });
 
     test(
       'Strips script tags, inline handlers, and tracking pixels from HTML',

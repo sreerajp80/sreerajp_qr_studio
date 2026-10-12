@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appTitle": "SreerajP QR Reader",
+  "appTitle": "SreerajP QR Studio",
   "@appTitle": {
     "description": "The application name, shown as the task title and in the About screen"
   },
@@ -307,6 +307,31 @@
   "@paymentCopyIdAction": {
     "description": "Action on the failure message that copies the payee address instead"
   },
+  "paymentAmountDialogTitle": "Enter amount",
+  "@paymentAmountDialogTitle": {
+    "description": "Title of the dialog that asks for an amount when a UPI code has none"
+  },
+  "paymentAmountDialogBody": "This QR has no amount. Enter the amount to pay to {payee}.",
+  "@paymentAmountDialogBody": {
+    "description": "Explains why the amount dialog is shown; payee is the merchant or person being paid",
+    "placeholders": {
+      "payee": {
+        "type": "String"
+      }
+    }
+  },
+  "paymentAmountFieldLabel": "Amount",
+  "@paymentAmountFieldLabel": {
+    "description": "Label of the amount input field in the UPI amount dialog"
+  },
+  "paymentAmountInvalid": "Enter ₹1 or more",
+  "@paymentAmountInvalid": {
+    "description": "Error under the amount field when the amount is below 1 rupee or badly formatted"
+  },
+  "paymentAmountPayButton": "Pay",
+  "@paymentAmountPayButton": {
+    "description": "Button in the UPI amount dialog that opens the UPI app with the entered amount"
+  },
   "percentValue": "{value}%",
   "@percentValue": {
     "description": "A percentage shown to the user, for example 42%",
@@ -567,15 +592,15 @@
   "@exportCreateBackupButton": {
     "description": "Button that builds and shares the encrypted backup file"
   },
-  "exportShareText": "Sreeraj QR Reader Scan History Export",
+  "exportShareText": "SreerajP QR Studio Scan History Export",
   "@exportShareText": {
     "description": "Message attached when sharing an exported history file"
   },
-  "exportSharePdfText": "Sreeraj QR Reader Scan History Report (PDF)",
+  "exportSharePdfText": "SreerajP QR Studio Scan History Report (PDF)",
   "@exportSharePdfText": {
     "description": "Message attached when sharing the PDF history report"
   },
-  "exportShareBackupText": "Sreeraj QR Reader Encrypted Backup File",
+  "exportShareBackupText": "SreerajP QR Studio Encrypted Backup File",
   "@exportShareBackupText": {
     "description": "Message attached when sharing the encrypted backup file"
   },
@@ -788,6 +813,14 @@
   "@aboutBuildDate": {
     "description": "Label for the application build date on the About screen"
   },
+  "aboutOpenSourceLicenses": "Open-source licences",
+  "@aboutOpenSourceLicenses": {
+    "description": "Title of the About screen card that opens the list of open-source licences used by the app (max 22 characters)"
+  },
+  "aboutOpenSourceLicensesDetail": "Includes zxing-cpp (Apache-2.0) as the barcode decoder. Tap to view all licences.",
+  "@aboutOpenSourceLicensesDetail": {
+    "description": "Subtitle of the open-source licences card on the About screen. 'zxing-cpp' and 'Apache-2.0' are names and must not be translated."
+  },
   "aboutDetailAuthor": "Author",
   "@aboutDetailAuthor": {
     "description": "Detail label for author in About screen"
@@ -829,7 +862,7 @@
   "@airQrTransmitterTitle": {
     "description": "Title of the screen that sends data as a stream of codes"
   },
-  "airQrSamplePayload": "AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is encoded into 256-byte chunks with Fountain FEC error correction.",
+  "airQrSamplePayload": "AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is split into small chunks with Fountain FEC error correction.",
   "@airQrSamplePayload": {
     "description": "Sample text that fills the payload box when the transmitter screen opens"
   },
@@ -1301,10 +1334,6 @@
   "@safetyTrustSourceHint": {
     "description": "Advice shown when the link passed the checks but still needs care"
   },
-  "safetyIssuesWarning": "Security issues detected. Do not enter personal information or download files from this URL",
-  "@safetyIssuesWarning": {
-    "description": "Warning shown when the link failed one or more checks"
-  },
   "safetyResultsHeading": "Security Analysis Results:",
   "@safetyResultsHeading": {
     "description": "Heading above the list of individual safety checks"
@@ -1428,14 +1457,6 @@
   "settingsTitle": "Settings",
   "@settingsTitle": {
     "description": "Title of the settings screen"
-  },
-  "settingsAppearanceTitle": "Appearance & Theme",
-  "@settingsAppearanceTitle": {
-    "description": "Settings card that opens the theme options"
-  },
-  "settingsOverlayTitle": "Customizable Scan Overlay",
-  "@settingsOverlayTitle": {
-    "description": "Settings card that opens the scan overlay options"
   },
   "settingsFeedbackTitle": "Scan Feedback & Alerts",
   "@settingsFeedbackTitle": {
@@ -1696,126 +1717,6 @@
   "permissionFeedbackDesc": "Active only when Vibration is enabled in Scan Feedback & Alerts settings.",
   "@permissionFeedbackDesc": {
     "description": "When scan vibration is used"
-  },
-  "helpArBadge": "Augmented Reality",
-  "@helpArBadge": {
-    "description": "Badge on the AR CodeVision help card"
-  },
-  "helpArDesc": "Real-time camera overlay feature that highlights and visualizes barcode and QR code data directly within the 3D viewfinder.",
-  "@helpArDesc": {
-    "description": "Summary of the AR CodeVision feature"
-  },
-  "helpArPoint1": "Multi-Target Detection: Automatically detects, indexes, and tracks multiple barcodes simultaneously in real time.",
-  "@helpArPoint1": {
-    "description": "AR CodeVision capability"
-  },
-  "helpArPoint2": "Spatial Bounding Boxes: Overlays dynamic AR reticles and interactive floating chips above each detected code.",
-  "@helpArPoint2": {
-    "description": "AR CodeVision capability"
-  },
-  "helpArPoint3": "Interactive Action Sheet: Tap any detected AR chip to inspect payload details, copy data, or execute smart actions without exiting the camera.",
-  "@helpArPoint3": {
-    "description": "AR CodeVision capability"
-  },
-  "helpArPoint4": "Camera Viewport Suite: Built-in torch toggle, front/rear camera switching, and pinch-to-zoom controls.",
-  "@helpArPoint4": {
-    "description": "AR CodeVision capability"
-  },
-  "helpAirQrBadge": "Optical Data Protocol",
-  "@helpAirQrBadge": {
-    "description": "Badge on the AirQR help card"
-  },
-  "helpAirQrDesc": "High-speed optical data transfer receiver designed to reconstruct large multi-part payloads serialized across animated QR code loops.",
-  "@helpAirQrDesc": {
-    "description": "Summary of the AirQR feature"
-  },
-  "helpAirQrPoint1": "Sequential Frame Assembly: Scans animated QR streams (AirQR format) frame-by-frame and stitches chunks back into complete files or text.",
-  "@helpAirQrPoint1": {
-    "description": "AirQR capability"
-  },
-  "helpAirQrPoint2": "Real-Time Live Progress: Interactive progress indicator displaying completed percentage, total payload size, missing chunk count, and decoding speed.",
-  "@helpAirQrPoint2": {
-    "description": "AirQR capability"
-  },
-  "helpAirQrPoint3": "Dual Input Modes: Supports live scanning through the camera feed or offline processing by importing saved video recordings/images from gallery.",
-  "@helpAirQrPoint3": {
-    "description": "AirQR capability"
-  },
-  "helpAirQrPoint4": "AirQR Transmitter: Reverse mode allowing payload generation and animated QR stream transmission to other devices.",
-  "@helpAirQrPoint4": {
-    "description": "AirQR capability"
-  },
-  "helpQuishingTitle": "Quishing Guard (Physical QR Sticker Tamper Check)",
-  "@helpQuishingTitle": {
-    "description": "Title of the tamper check help card"
-  },
-  "helpQuishingBadge": "On-Device Computer Vision",
-  "@helpQuishingBadge": {
-    "description": "Badge on the tamper check help card"
-  },
-  "helpQuishingDesc": "On-device computer vision engine that detects physical QR code sticker tampering, fake code overlays, and print alterations before processing payloads.",
-  "@helpQuishingDesc": {
-    "description": "Summary of the tamper check feature"
-  },
-  "helpQuishingPoint1": "100% Offline & Private Guarantee: Operates entirely on-device using local camera frame computer vision with zero internet connection required.",
-  "@helpQuishingPoint1": {
-    "description": "Tamper check capability"
-  },
-  "helpQuishingPoint2": "Physical Sticker & Overlay Detection: Identifies physical stickers pasted over legitimate printed QR codes.",
-  "@helpQuishingPoint2": {
-    "description": "Tamper check capability"
-  },
-  "helpQuishingPoint3": "Edge & Alignment Anomaly Analysis: Checks for suspicious boundaries, cutouts, and alignment discrepancies.",
-  "@helpQuishingPoint3": {
-    "description": "Tamper check capability"
-  },
-  "helpQuishingPoint4": "Print Texture & Contrast Verification: Analyzes visual print artifacts, reflectivity shifts, and paper texture inconsistencies.",
-  "@helpQuishingPoint4": {
-    "description": "Tamper check capability"
-  },
-  "helpUrlTitle": "URL Safety & Link Tamper Engine",
-  "@helpUrlTitle": {
-    "description": "Title of the link safety help card"
-  },
-  "helpUrlBadge": "6-Layer Digital Safety",
-  "@helpUrlBadge": {
-    "description": "Badge on the link safety help card"
-  },
-  "helpUrlDesc": "Comprehensive digital link analysis suite protecting against malicious web links, phishing (Quishing), and URL payload tampering.",
-  "@helpUrlDesc": {
-    "description": "Summary of the link safety feature"
-  },
-  "helpUrlPoint1": "Homograph & IDN Attack Detection: Identifies spoofed domain names using mixed-script Cyrillic or lookalike Unicode characters.",
-  "@helpUrlPoint1": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint2": "Zero-Width Space & Character Tamper Detector: Detects hidden zero-width spaces, non-printable control characters, or obfuscated payloads embedded in links.",
-  "@helpUrlPoint2": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint3": "IP Literal & Userinfo Verification: Flags suspicious IP address hostnames and dangerous embedded credentials (e.g. user:pass@host).",
-  "@helpUrlPoint3": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint4": "Suspicious TLD & Pattern Analysis: Scans for risky top-level domains, excessive subdomains, and unencrypted HTTP connections carrying login/payment data.",
-  "@helpUrlPoint4": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint5": "URL Shortener Unrolling & Redirect Tracing: Identifies shortened links (bit.ly, t.co) and traces redirect chains (Active Probing required for live HTTP inspection).",
-  "@helpUrlPoint5": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint6": "Google Safe Browsing Cloud Lookup: Optional cloud check against Google threat database when configured with an API key.",
-  "@helpUrlPoint6": {
-    "description": "Link safety capability"
-  },
-  "helpUrlPoint7": "Privacy First Guarantee: Core 5 pattern checks run 100% offline on your device without sending URLs anywhere.",
-  "@helpUrlPoint7": {
-    "description": "Link safety capability"
-  },
-  "helpCapabilitiesHeading": "Key Capabilities:",
-  "@helpCapabilitiesHeading": {
-    "description": "Heading above the list of what a feature can do"
   },
   "onLabel": "On",
   "@onLabel": {
@@ -2623,7 +2524,7 @@
   "@backupWrongPassphrase": {
     "description": "Shown when a backup could not be unlocked"
   },
-  "reportHeading": "SREERAJ P QR READER - SCAN HISTORY",
+  "reportHeading": "SREERAJP QR STUDIO - SCAN HISTORY",
   "@reportHeading": {
     "description": "Heading at the top of the exported history report"
   },
@@ -2756,7 +2657,7 @@
   "@settingsFeaturesTitle": {
     "description": "Title of the Features settings card"
   },
-  "settingsFeaturesSubtitle": "Explore all features of SreerajP QR Reader",
+  "settingsFeaturesSubtitle": "Explore all features of SreerajP QR Studio",
   "@settingsFeaturesSubtitle": {
     "description": "Subtitle of the Features settings card"
   },
@@ -2796,7 +2697,7 @@
   "@appearanceTypographyCardSubtitle": {
     "description": "Subtitle of the Typography & Text Size card in Appearance hub"
   },
-  "featuresHeaderTitle": "SreerajP QR Reader Features",
+  "featuresHeaderTitle": "SreerajP QR Studio Features",
   "@featuresHeaderTitle": {
     "description": "Hero header title on the Features screen"
   },
@@ -2804,11 +2705,571 @@
   "@featuresHeaderSubtitle": {
     "description": "Hero header subtitle on the Features screen"
   },
+  "featuresCatScanningName": "Core Scanning & Ingestion",
+  "@featuresCatScanningName": {
+    "description": "Features screen: name of the core scanning category"
+  },
+  "featuresCatScanningSubtitle": "Lightning-fast 1D/2D barcode engine with multi-source media support",
+  "@featuresCatScanningSubtitle": {
+    "description": "Features screen: subtitle of the core scanning category"
+  },
+  "featuresCatSafetyName": "6-Layer URL Safety & Forensic Engine",
+  "@featuresCatSafetyName": {
+    "description": "Features screen: name of the URL safety engine category"
+  },
+  "featuresCatSafetySubtitle": "Zero-trust forensic analysis defending you against malicious QR phishing & scams",
+  "@featuresCatSafetySubtitle": {
+    "description": "Features screen: subtitle of the URL safety engine category"
+  },
+  "featuresCatVisionName": "QuishingGuard™ & Advanced AI Vision",
+  "@featuresCatVisionName": {
+    "description": "Features screen: name of the QuishingGuard and AI vision category"
+  },
+  "featuresCatVisionSubtitle": "Cutting-edge on-device computer vision and optical air-gap data streaming",
+  "@featuresCatVisionSubtitle": {
+    "description": "Features screen: subtitle of the QuishingGuard and AI vision category"
+  },
+  "featuresCatPayloadsName": "Smart Payloads & 1-Tap Integrations",
+  "@featuresCatPayloadsName": {
+    "description": "Features screen: name of the smart payloads category"
+  },
+  "featuresCatPayloadsSubtitle": "Instant parsing and contextual native actions for everyday barcodes",
+  "@featuresCatPayloadsSubtitle": {
+    "description": "Features screen: subtitle of the smart payloads category"
+  },
+  "featuresCatHistoryName": "History, Backup & Privacy Vault",
+  "@featuresCatHistoryName": {
+    "description": "Features screen: name of the history and privacy category"
+  },
+  "featuresCatHistorySubtitle": "Your personal scan history protected by biometric security and offline storage",
+  "@featuresCatHistorySubtitle": {
+    "description": "Features screen: subtitle of the history and privacy category"
+  },
+  "featureBarcodeEngineTitle": "Multi-Format Barcode Engine",
+  "@featureBarcodeEngineTitle": {
+    "description": "Features screen: title of the barcode engine feature"
+  },
+  "featureBarcodeEngineDesc": "Instantly decodes 1D barcodes (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) and 2D codes (QR, Data Matrix, Aztec, PDF417) in milliseconds.",
+  "@featureBarcodeEngineDesc": {
+    "description": "Features screen: description of the barcode engine feature"
+  },
+  "featureBarcodeEngineChip1": "QR & Data Matrix",
+  "@featureBarcodeEngineChip1": {
+    "description": "Features screen: highlight chip 1 of the barcode engine feature (max 22 characters)"
+  },
+  "featureBarcodeEngineChip2": "Aztec & PDF417",
+  "@featureBarcodeEngineChip2": {
+    "description": "Features screen: highlight chip 2 of the barcode engine feature (max 22 characters)"
+  },
+  "featureBarcodeEngineChip3": "EAN & Code 128",
+  "@featureBarcodeEngineChip3": {
+    "description": "Features screen: highlight chip 3 of the barcode engine feature (max 22 characters)"
+  },
+  "featureMediaSourcesTitle": "Multi-Source Media & PDF Ingestion",
+  "@featureMediaSourcesTitle": {
+    "description": "Features screen: title of the multi-source media feature"
+  },
+  "featureMediaSourcesDesc": "Scan barcodes from live camera feed, select existing images from your gallery, or extract and parse barcodes across multi-page PDF documents.",
+  "@featureMediaSourcesDesc": {
+    "description": "Features screen: description of the multi-source media feature"
+  },
+  "featureMediaSourcesChip1": "Gallery Photos",
+  "@featureMediaSourcesChip1": {
+    "description": "Features screen: highlight chip 1 of the multi-source media feature (max 22 characters)"
+  },
+  "featureMediaSourcesChip2": "Multi-Page PDF",
+  "@featureMediaSourcesChip2": {
+    "description": "Features screen: highlight chip 2 of the multi-source media feature (max 22 characters)"
+  },
+  "featureMediaSourcesChip3": "Live Viewport",
+  "@featureMediaSourcesChip3": {
+    "description": "Features screen: highlight chip 3 of the multi-source media feature (max 22 characters)"
+  },
+  "featureGhostScanTitle": "GhostScan Screen Content Detector",
+  "@featureGhostScanTitle": {
+    "description": "Features screen: title of the GhostScan feature"
+  },
+  "featureGhostScanDesc": "Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile, the floating Scan bubble, or on-demand trigger without saving screenshots.",
+  "@featureGhostScanDesc": {
+    "description": "Features screen: description of the GhostScan feature"
+  },
+  "featureGhostScanChip1": "Quick Settings Tile",
+  "@featureGhostScanChip1": {
+    "description": "Features screen: highlight chip 1 of the GhostScan feature (max 22 characters)"
+  },
+  "featureGhostScanChip2": "Floating Scan Bubble",
+  "@featureGhostScanChip2": {
+    "description": "Features screen: highlight chip 2 of the GhostScan feature (max 22 characters)"
+  },
+  "featureGhostScanChip3": "No Screenshots Saved",
+  "@featureGhostScanChip3": {
+    "description": "Features screen: highlight chip 3 of the GhostScan feature (max 22 characters)"
+  },
+  "featureCameraControlsTitle": "Precision Camera Controls",
+  "@featureCameraControlsTitle": {
+    "description": "Features screen: title of the camera controls feature"
+  },
+  "featureCameraControlsDesc": "Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.",
+  "@featureCameraControlsDesc": {
+    "description": "Features screen: description of the camera controls feature"
+  },
+  "featureCameraControlsChip1": "Flashlight Torch",
+  "@featureCameraControlsChip1": {
+    "description": "Features screen: highlight chip 1 of the camera controls feature (max 22 characters)"
+  },
+  "featureCameraControlsChip2": "Zoom Control",
+  "@featureCameraControlsChip2": {
+    "description": "Features screen: highlight chip 2 of the camera controls feature (max 22 characters)"
+  },
+  "featureCameraControlsChip3": "Front/Back Flip",
+  "@featureCameraControlsChip3": {
+    "description": "Features screen: highlight chip 3 of the camera controls feature (max 22 characters)"
+  },
+  "featureScanOverlaysTitle": "Customizable Scan Overlays",
+  "@featureScanOverlaysTitle": {
+    "description": "Features screen: title of the scan overlays feature"
+  },
+  "featureScanOverlaysDesc": "Choose between Laser Line, Pulsing Corners, Cybernetic Grid, or Subtle Dot Matrix viewfinder overlays with live feedback.",
+  "@featureScanOverlaysDesc": {
+    "description": "Features screen: description of the scan overlays feature"
+  },
+  "featureScanOverlaysChip1": "4 Overlay Styles",
+  "@featureScanOverlaysChip1": {
+    "description": "Features screen: highlight chip 1 of the scan overlays feature (max 22 characters)"
+  },
+  "featureScanOverlaysChip2": "Live Animation",
+  "@featureScanOverlaysChip2": {
+    "description": "Features screen: highlight chip 2 of the scan overlays feature (max 22 characters)"
+  },
+  "featureScanOverlaysChip3": "OLED Compatible",
+  "@featureScanOverlaysChip3": {
+    "description": "Features screen: highlight chip 3 of the scan overlays feature (max 22 characters)"
+  },
+  "featureFeedbackTitle": "Tactile Haptic & Audio Feedback",
+  "@featureFeedbackTitle": {
+    "description": "Features screen: title of the haptic and audio feedback feature"
+  },
+  "featureFeedbackDesc": "Customizable vibration pulses and audible beep tones confirm successful recognition even in noisy environments.",
+  "@featureFeedbackDesc": {
+    "description": "Features screen: description of the haptic and audio feedback feature"
+  },
+  "featureFeedbackChip1": "Haptic Pulse",
+  "@featureFeedbackChip1": {
+    "description": "Features screen: highlight chip 1 of the haptic and audio feedback feature (max 22 characters)"
+  },
+  "featureFeedbackChip2": "Audio Beep",
+  "@featureFeedbackChip2": {
+    "description": "Features screen: highlight chip 2 of the haptic and audio feedback feature (max 22 characters)"
+  },
+  "featureFeedbackChip3": "Independent Toggles",
+  "@featureFeedbackChip3": {
+    "description": "Features screen: highlight chip 3 of the haptic and audio feedback feature (max 22 characters)"
+  },
+  "featureProtocolGuardTitle": "Protocol & Syntax Guard (Layer 1)",
+  "@featureProtocolGuardTitle": {
+    "description": "Features screen: title of the protocol guard (layer 1) feature"
+  },
+  "featureProtocolGuardDesc": "Validates scheme authenticity, checks for encrypted HTTPS connections, and flags plain HTTP or unsupported schemes.",
+  "@featureProtocolGuardDesc": {
+    "description": "Features screen: description of the protocol guard (layer 1) feature"
+  },
+  "featureProtocolGuardChip1": "HTTPS Validation",
+  "@featureProtocolGuardChip1": {
+    "description": "Features screen: highlight chip 1 of the protocol guard (layer 1) feature (max 22 characters)"
+  },
+  "featureProtocolGuardChip2": "Scheme Checking",
+  "@featureProtocolGuardChip2": {
+    "description": "Features screen: highlight chip 2 of the protocol guard (layer 1) feature (max 22 characters)"
+  },
+  "featureProtocolGuardChip3": "Zero-Width Char Trap",
+  "@featureProtocolGuardChip3": {
+    "description": "Features screen: highlight chip 3 of the protocol guard (layer 1) feature (max 22 characters)"
+  },
+  "featureHomographShieldTitle": "Homograph & Unicode Shield (Layer 2)",
+  "@featureHomographShieldTitle": {
+    "description": "Features screen: title of the homograph shield (layer 2) feature"
+  },
+  "featureHomographShieldDesc": "Detects lookalike Cyrillic, Greek, and Unicode spoofing characters used to disguise fraudulent domain names (IDN punycode defense).",
+  "@featureHomographShieldDesc": {
+    "description": "Features screen: description of the homograph shield (layer 2) feature"
+  },
+  "featureHomographShieldChip1": "Punycode Defense",
+  "@featureHomographShieldChip1": {
+    "description": "Features screen: highlight chip 1 of the homograph shield (layer 2) feature (max 22 characters)"
+  },
+  "featureHomographShieldChip2": "Cyrillic Lookalikes",
+  "@featureHomographShieldChip2": {
+    "description": "Features screen: highlight chip 2 of the homograph shield (layer 2) feature (max 22 characters)"
+  },
+  "featureHomographShieldChip3": "Mixed-Script Trap",
+  "@featureHomographShieldChip3": {
+    "description": "Features screen: highlight chip 3 of the homograph shield (layer 2) feature (max 22 characters)"
+  },
+  "featureTldEntropyTitle": "Suspicious TLD & Entropy Analysis (Layer 3)",
+  "@featureTldEntropyTitle": {
+    "description": "Features screen: title of the TLD and entropy analysis (layer 3) feature"
+  },
+  "featureTldEntropyDesc": "Flags high-risk top-level domains, excessive subdomains, and evaluates domain name character entropy to catch algorithmic domains.",
+  "@featureTldEntropyDesc": {
+    "description": "Features screen: description of the TLD and entropy analysis (layer 3) feature"
+  },
+  "featureTldEntropyChip1": "High-Risk TLDs",
+  "@featureTldEntropyChip1": {
+    "description": "Features screen: highlight chip 1 of the TLD and entropy analysis (layer 3) feature (max 22 characters)"
+  },
+  "featureTldEntropyChip2": "Entropy Scoring",
+  "@featureTldEntropyChip2": {
+    "description": "Features screen: highlight chip 2 of the TLD and entropy analysis (layer 3) feature (max 22 characters)"
+  },
+  "featureTldEntropyChip3": "Subdomain Depth",
+  "@featureTldEntropyChip3": {
+    "description": "Features screen: highlight chip 3 of the TLD and entropy analysis (layer 3) feature (max 22 characters)"
+  },
+  "featureIpPortTitle": "Heuristic IP & Port Flagging (Layer 4)",
+  "@featureIpPortTitle": {
+    "description": "Features screen: title of the IP and port flagging (layer 4) feature"
+  },
+  "featureIpPortDesc": "Flags links pointing directly to raw IP addresses or non-standard HTTP/HTTPS network ports designed to bypass firewalls.",
+  "@featureIpPortDesc": {
+    "description": "Features screen: description of the IP and port flagging (layer 4) feature"
+  },
+  "featureIpPortChip1": "Raw IP Traps",
+  "@featureIpPortChip1": {
+    "description": "Features screen: highlight chip 1 of the IP and port flagging (layer 4) feature (max 22 characters)"
+  },
+  "featureIpPortChip2": "Non-Standard Ports",
+  "@featureIpPortChip2": {
+    "description": "Features screen: highlight chip 2 of the IP and port flagging (layer 4) feature (max 22 characters)"
+  },
+  "featureIpPortChip3": "Embedded Userinfo",
+  "@featureIpPortChip3": {
+    "description": "Features screen: highlight chip 3 of the IP and port flagging (layer 4) feature (max 22 characters)"
+  },
+  "featureHeadProbeTitle": "Privacy-Safe Online Head Probing (Layer 5)",
+  "@featureHeadProbeTitle": {
+    "description": "Features screen: title of the online HEAD probing (layer 5) feature"
+  },
+  "featureHeadProbeDesc": "Optional opt-in lightweight HTTP HEAD probing to resolve URL shorteners, uncover hidden redirect chains, and verify TLS certificates.",
+  "@featureHeadProbeDesc": {
+    "description": "Features screen: description of the online HEAD probing (layer 5) feature"
+  },
+  "featureHeadProbeChip1": "Redirect Chains",
+  "@featureHeadProbeChip1": {
+    "description": "Features screen: highlight chip 1 of the online HEAD probing (layer 5) feature (max 22 characters)"
+  },
+  "featureHeadProbeChip2": "Shortener Unrolling",
+  "@featureHeadProbeChip2": {
+    "description": "Features screen: highlight chip 2 of the online HEAD probing (layer 5) feature (max 22 characters)"
+  },
+  "featureHeadProbeChip3": "Opt-In Privacy",
+  "@featureHeadProbeChip3": {
+    "description": "Features screen: highlight chip 3 of the online HEAD probing (layer 5) feature (max 22 characters)"
+  },
+  "featureSafeBrowsingTitle": "Google Safe Browsing API (Layer 6)",
+  "@featureSafeBrowsingTitle": {
+    "description": "Features screen: title of the Google Safe Browsing (layer 6) feature"
+  },
+  "featureSafeBrowsingDesc": "Optional cloud threat intelligence against millions of known malicious URLs, malware distribution hubs, and social engineering sites.",
+  "@featureSafeBrowsingDesc": {
+    "description": "Features screen: description of the Google Safe Browsing (layer 6) feature"
+  },
+  "featureSafeBrowsingChip1": "Google Threat DB",
+  "@featureSafeBrowsingChip1": {
+    "description": "Features screen: highlight chip 1 of the Google Safe Browsing (layer 6) feature (max 22 characters)"
+  },
+  "featureSafeBrowsingChip2": "Local Key Storage",
+  "@featureSafeBrowsingChip2": {
+    "description": "Features screen: highlight chip 2 of the Google Safe Browsing (layer 6) feature (max 22 characters)"
+  },
+  "featureSafeBrowsingChip3": "Daily Quota Meter",
+  "@featureSafeBrowsingChip3": {
+    "description": "Features screen: highlight chip 3 of the Google Safe Browsing (layer 6) feature (max 22 characters)"
+  },
+  "featureQuishingGuardTitle": "QuishingGuard™ Physical Tamper Detection",
+  "@featureQuishingGuardTitle": {
+    "description": "Features screen: title of the QuishingGuard tamper detection feature"
+  },
+  "featureQuishingGuardDesc": "Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.",
+  "@featureQuishingGuardDesc": {
+    "description": "Features screen: description of the QuishingGuard tamper detection feature"
+  },
+  "featureQuishingGuardChip1": "Sticker Overlays",
+  "@featureQuishingGuardChip1": {
+    "description": "Features screen: highlight chip 1 of the QuishingGuard tamper detection feature (max 22 characters)"
+  },
+  "featureQuishingGuardChip2": "Edge Discontinuity",
+  "@featureQuishingGuardChip2": {
+    "description": "Features screen: highlight chip 2 of the QuishingGuard tamper detection feature (max 22 characters)"
+  },
+  "featureQuishingGuardChip3": "Print Grain Analysis",
+  "@featureQuishingGuardChip3": {
+    "description": "Features screen: highlight chip 3 of the QuishingGuard tamper detection feature (max 22 characters)"
+  },
+  "featureArCodeVisionTitle": "AR CodeVision™ Spatial HUD",
+  "@featureArCodeVisionTitle": {
+    "description": "Features screen: title of the AR CodeVision feature"
+  },
+  "featureArCodeVisionDesc": "Augmented Reality multi-barcode scanner displaying floating interactive chips over all detected codes with live safety badges and batch selection.",
+  "@featureArCodeVisionDesc": {
+    "description": "Features screen: description of the AR CodeVision feature"
+  },
+  "featureArCodeVisionChip1": "Spatial Tracking",
+  "@featureArCodeVisionChip1": {
+    "description": "Features screen: highlight chip 1 of the AR CodeVision feature (max 22 characters)"
+  },
+  "featureArCodeVisionChip2": "Multi-Code HUD",
+  "@featureArCodeVisionChip2": {
+    "description": "Features screen: highlight chip 2 of the AR CodeVision feature (max 22 characters)"
+  },
+  "featureArCodeVisionChip3": "Batch Select",
+  "@featureArCodeVisionChip3": {
+    "description": "Features screen: highlight chip 3 of the AR CodeVision feature (max 22 characters)"
+  },
+  "featureAirQrTitle": "AirQR™ Optical Air-Gap Data Stream",
+  "@featureAirQrTitle": {
+    "description": "Features screen: title of the AirQR feature"
+  },
+  "featureAirQrDesc": "High-speed animated strobe QR transmitter & receiver pipeline transferring encrypted text, files, and keys completely offline without Wi-Fi or Bluetooth.",
+  "@featureAirQrDesc": {
+    "description": "Features screen: description of the AirQR feature"
+  },
+  "featureAirQrChip1": "Animated Strobe QR",
+  "@featureAirQrChip1": {
+    "description": "Features screen: highlight chip 1 of the AirQR feature (max 22 characters)"
+  },
+  "featureAirQrChip2": "Reed-Solomon FEC",
+  "@featureAirQrChip2": {
+    "description": "Features screen: highlight chip 2 of the AirQR feature (max 22 characters)"
+  },
+  "featureAirQrChip3": "100% Offline Air-Gap",
+  "@featureAirQrChip3": {
+    "description": "Features screen: highlight chip 3 of the AirQR feature (max 22 characters)"
+  },
+  "featureStegoQrTitle": "StegoQR™ Steganographic Scanner",
+  "@featureStegoQrTitle": {
+    "description": "Features screen: title of the StegoQR feature"
+  },
+  "featureStegoQrDesc": "Discovers and extracts hidden encrypted payloads and watermarked data layers invisibly embedded within custom QR codes.",
+  "@featureStegoQrDesc": {
+    "description": "Features screen: description of the StegoQR feature"
+  },
+  "featureStegoQrChip1": "Decoy QR Parsing",
+  "@featureStegoQrChip1": {
+    "description": "Features screen: highlight chip 1 of the StegoQR feature (max 22 characters)"
+  },
+  "featureStegoQrChip2": "AES Decryption",
+  "@featureStegoQrChip2": {
+    "description": "Features screen: highlight chip 2 of the StegoQR feature (max 22 characters)"
+  },
+  "featureStegoQrChip3": "Biometric Auth",
+  "@featureStegoQrChip3": {
+    "description": "Features screen: highlight chip 3 of the StegoQR feature (max 22 characters)"
+  },
+  "featureWifiTitle": "Wi-Fi Instant Auto Connect",
+  "@featureWifiTitle": {
+    "description": "Features screen: title of the Wi-Fi auto connect feature"
+  },
+  "featureWifiDesc": "Parses WPA/WPA2/WPA3 network credentials, displays network info, copies passwords, and opens Wi-Fi settings in 1 tap.",
+  "@featureWifiDesc": {
+    "description": "Features screen: description of the Wi-Fi auto connect feature"
+  },
+  "featureWifiChip1": "WPA3 & WPA2",
+  "@featureWifiChip1": {
+    "description": "Features screen: highlight chip 1 of the Wi-Fi auto connect feature (max 22 characters)"
+  },
+  "featureWifiChip2": "1-Tap Connect",
+  "@featureWifiChip2": {
+    "description": "Features screen: highlight chip 2 of the Wi-Fi auto connect feature (max 22 characters)"
+  },
+  "featureWifiChip3": "Password Reveal/Copy",
+  "@featureWifiChip3": {
+    "description": "Features screen: highlight chip 3 of the Wi-Fi auto connect feature (max 22 characters)"
+  },
+  "featurePaymentsTitle": "UPI & Global Crypto Payments",
+  "@featurePaymentsTitle": {
+    "description": "Features screen: title of the UPI and crypto payments feature"
+  },
+  "featurePaymentsDesc": "Parses Indian UPI QR codes (dispatching to GPay, PhonePe, Paytm) and Bitcoin/Ethereum/Solana crypto payment addresses with amount detection.",
+  "@featurePaymentsDesc": {
+    "description": "Features screen: description of the UPI and crypto payments feature"
+  },
+  "featurePaymentsChip1": "UPI App Dispatch",
+  "@featurePaymentsChip1": {
+    "description": "Features screen: highlight chip 1 of the UPI and crypto payments feature (max 22 characters)"
+  },
+  "featurePaymentsChip2": "Crypto Wallets",
+  "@featurePaymentsChip2": {
+    "description": "Features screen: highlight chip 2 of the UPI and crypto payments feature (max 22 characters)"
+  },
+  "featurePaymentsChip3": "SEPA Transfer",
+  "@featurePaymentsChip3": {
+    "description": "Features screen: highlight chip 3 of the UPI and crypto payments feature (max 22 characters)"
+  },
+  "featureTotpTitle": "TOTP 2FA Authenticator & Token Generator",
+  "@featureTotpTitle": {
+    "description": "Features screen: title of the TOTP authenticator feature"
+  },
+  "featureTotpDesc": "Scans 2FA setup codes, renders live rolling 6-digit OTP passcodes with circular countdown timers, and imports into authenticator apps.",
+  "@featureTotpDesc": {
+    "description": "Features screen: description of the TOTP authenticator feature"
+  },
+  "featureTotpChip1": "Live Passcodes",
+  "@featureTotpChip1": {
+    "description": "Features screen: highlight chip 1 of the TOTP authenticator feature (max 22 characters)"
+  },
+  "featureTotpChip2": "Visual Countdown",
+  "@featureTotpChip2": {
+    "description": "Features screen: highlight chip 2 of the TOTP authenticator feature (max 22 characters)"
+  },
+  "featureTotpChip3": "App Importer",
+  "@featureTotpChip3": {
+    "description": "Features screen: highlight chip 3 of the TOTP authenticator feature (max 22 characters)"
+  },
+  "featureContactsTitle": "Contacts & vCard Importer",
+  "@featureContactsTitle": {
+    "description": "Features screen: title of the contacts and vCard feature"
+  },
+  "featureContactsDesc": "Parses vCard 2.1/3.0/4.0 and MeCard contact barcodes with 1-tap phone dialing, email composition, and saving to your address book.",
+  "@featureContactsDesc": {
+    "description": "Features screen: description of the contacts and vCard feature"
+  },
+  "featureContactsChip1": "vCard 4.0",
+  "@featureContactsChip1": {
+    "description": "Features screen: highlight chip 1 of the contacts and vCard feature (max 22 characters)"
+  },
+  "featureContactsChip2": "1-Tap Save",
+  "@featureContactsChip2": {
+    "description": "Features screen: highlight chip 2 of the contacts and vCard feature (max 22 characters)"
+  },
+  "featureContactsChip3": "Direct Call & Email",
+  "@featureContactsChip3": {
+    "description": "Features screen: highlight chip 3 of the contacts and vCard feature (max 22 characters)"
+  },
+  "featureCalendarTitle": "Calendar Events & Scheduling",
+  "@featureCalendarTitle": {
+    "description": "Features screen: title of the calendar events feature"
+  },
+  "featureCalendarDesc": "Reads iCalendar VEVENT formats with start/end time ranges, locations, and descriptions, adding them directly to your device calendar.",
+  "@featureCalendarDesc": {
+    "description": "Features screen: description of the calendar events feature"
+  },
+  "featureCalendarChip1": "iCal Parsing",
+  "@featureCalendarChip1": {
+    "description": "Features screen: highlight chip 1 of the calendar events feature (max 22 characters)"
+  },
+  "featureCalendarChip2": "Start/End Time",
+  "@featureCalendarChip2": {
+    "description": "Features screen: highlight chip 2 of the calendar events feature (max 22 characters)"
+  },
+  "featureCalendarChip3": "Device Calendar Add",
+  "@featureCalendarChip3": {
+    "description": "Features screen: highlight chip 3 of the calendar events feature (max 22 characters)"
+  },
+  "featureGeoTitle": "Geographic Location & Navigation",
+  "@featureGeoTitle": {
+    "description": "Features screen: title of the geo location feature"
+  },
+  "featureGeoDesc": "Parses geo: coordinates and search queries, offering instant navigation directions via Google Maps.",
+  "@featureGeoDesc": {
+    "description": "Features screen: description of the geo location feature"
+  },
+  "featureGeoChip1": "Lat/Long Parsing",
+  "@featureGeoChip1": {
+    "description": "Features screen: highlight chip 1 of the geo location feature (max 22 characters)"
+  },
+  "featureGeoChip2": "Google Maps Link",
+  "@featureGeoChip2": {
+    "description": "Features screen: highlight chip 2 of the geo location feature (max 22 characters)"
+  },
+  "featureGeoChip3": "Search Queries",
+  "@featureGeoChip3": {
+    "description": "Features screen: highlight chip 3 of the geo location feature (max 22 characters)"
+  },
+  "featureScanHistoryTitle": "Comprehensive Offline Scan History",
+  "@featureScanHistoryTitle": {
+    "description": "Features screen: title of the scan history feature"
+  },
+  "featureScanHistoryDesc": "Stores every scan locally with payload categorization, safety scores, timestamp tracking, favorite stars, and real-time full-text search.",
+  "@featureScanHistoryDesc": {
+    "description": "Features screen: description of the scan history feature"
+  },
+  "featureScanHistoryChip1": "Full-Text Search",
+  "@featureScanHistoryChip1": {
+    "description": "Features screen: highlight chip 1 of the scan history feature (max 22 characters)"
+  },
+  "featureScanHistoryChip2": "Category Filtering",
+  "@featureScanHistoryChip2": {
+    "description": "Features screen: highlight chip 2 of the scan history feature (max 22 characters)"
+  },
+  "featureScanHistoryChip3": "Favorite Stars",
+  "@featureScanHistoryChip3": {
+    "description": "Features screen: highlight chip 3 of the scan history feature (max 22 characters)"
+  },
+  "featureBackupsTitle": "Flexible JSON & CSV Backups",
+  "@featureBackupsTitle": {
+    "description": "Features screen: title of the backups feature"
+  },
+  "featureBackupsDesc": "Export your complete scan history to standard CSV spreadsheets or encrypted JSON backup files with one-click restore.",
+  "@featureBackupsDesc": {
+    "description": "Features screen: description of the backups feature"
+  },
+  "featureBackupsChip1": "CSV Spreadsheet",
+  "@featureBackupsChip1": {
+    "description": "Features screen: highlight chip 1 of the backups feature (max 22 characters)"
+  },
+  "featureBackupsChip2": "JSON Backup",
+  "@featureBackupsChip2": {
+    "description": "Features screen: highlight chip 2 of the backups feature (max 22 characters)"
+  },
+  "featureBackupsChip3": "One-Click Restore",
+  "@featureBackupsChip3": {
+    "description": "Features screen: highlight chip 3 of the backups feature (max 22 characters)"
+  },
+  "featureBiometricGuardTitle": "Biometric & Screen Security Guard",
+  "@featureBiometricGuardTitle": {
+    "description": "Features screen: title of the biometric and screen guard feature"
+  },
+  "featureBiometricGuardDesc": "Protects sensitive hidden StegoQR payloads and history with fingerprint/face authentication and blocks screen captures (FLAG_SECURE).",
+  "@featureBiometricGuardDesc": {
+    "description": "Features screen: description of the biometric and screen guard feature"
+  },
+  "featureBiometricGuardChip1": "Biometric Prompt",
+  "@featureBiometricGuardChip1": {
+    "description": "Features screen: highlight chip 1 of the biometric and screen guard feature (max 22 characters)"
+  },
+  "featureBiometricGuardChip2": "Screenshot Guard",
+  "@featureBiometricGuardChip2": {
+    "description": "Features screen: highlight chip 2 of the biometric and screen guard feature (max 22 characters)"
+  },
+  "featureBiometricGuardChip3": "Encrypted Storage",
+  "@featureBiometricGuardChip3": {
+    "description": "Features screen: highlight chip 3 of the biometric and screen guard feature (max 22 characters)"
+  },
+  "featureOfflinePrivacyTitle": "100% Offline-First Privacy",
+  "@featureOfflinePrivacyTitle": {
+    "description": "Features screen: title of the offline privacy feature"
+  },
+  "featureOfflinePrivacyDesc": "Scans, decodes, and analyzes barcodes completely on your phone without sending any data to external servers by default.",
+  "@featureOfflinePrivacyDesc": {
+    "description": "Features screen: description of the offline privacy feature"
+  },
+  "featureOfflinePrivacyChip1": "No Telemetry",
+  "@featureOfflinePrivacyChip1": {
+    "description": "Features screen: highlight chip 1 of the offline privacy feature (max 22 characters)"
+  },
+  "featureOfflinePrivacyChip2": "Zero Ads",
+  "@featureOfflinePrivacyChip2": {
+    "description": "Features screen: highlight chip 2 of the offline privacy feature (max 22 characters)"
+  },
+  "featureOfflinePrivacyChip3": "Open-Source Safety",
+  "@featureOfflinePrivacyChip3": {
+    "description": "Features screen: highlight chip 3 of the offline privacy feature (max 22 characters)"
+  },
   "helpCenterHeaderTitle": "Help Center & User Guides",
   "@helpCenterHeaderTitle": {
     "description": "Hero header title on the Help Home screen"
   },
-  "helpCenterHeaderSubtitle": "Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Reader.",
+  "helpCenterHeaderSubtitle": "Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.",
   "@helpCenterHeaderSubtitle": {
     "description": "Hero header subtitle on the Help Home screen"
   },
@@ -3561,10 +4022,6 @@
   "@codeForgeCopied": {
     "description": "Toast message after copying barcode content"
   },
-  "codeForgeVerifySafety": "Link Safety Check",
-  "@codeForgeVerifySafety": {
-    "description": "Button to run URL safety check on generated link"
-  },
   "codeForgeSafeVerified": "Verified Safe by 6-Layer Security Engine",
   "@codeForgeSafeVerified": {
     "description": "Badge label shown when URL passes all safety checks"
@@ -3807,6 +4264,10 @@
   "@cameraUnsharpLabel": {
     "description": "Label for unsharp mask sharpness slider in camera settings"
   },
+  "cameraDistanceZoomLabel": "Distance Zoom",
+  "@cameraDistanceZoomLabel": {
+    "description": "Label for the digital zoom slider of Distance Scan Assist in camera settings"
+  },
   "scanDistanceModeTooltip": "Distance Scan Assist",
   "@scanDistanceModeTooltip": {
     "description": "Tooltip for distance scan assist toggle button in camera viewport"
@@ -3926,8 +4387,1032 @@
   "ghostScanNoCodeFound": "No QR code or barcode detected on screen",
   "@ghostScanNoCodeFound": {
     "description": "Message shown when no barcode is found in the screen capture"
+  },
+  "helpGuideGroupScanning": "Scanning & Ingestion Guides",
+  "@helpGuideGroupScanning": {
+    "description": "Help Center hub: group header above the scanning guides"
+  },
+  "helpGuideGroupSecurity": "Security & Threat Defense",
+  "@helpGuideGroupSecurity": {
+    "description": "Help Center hub: group header above the security guides"
+  },
+  "helpGuideGroupPayloads": "Payloads, Storage & Privacy",
+  "@helpGuideGroupPayloads": {
+    "description": "Help Center hub: group header above the payload, storage and privacy guides"
+  },
+  "titleHelpBarcode": "Barcode scanning",
+  "@titleHelpBarcode": {
+    "description": "App bar title of the Barcode & Media Scanning help screen. Short label."
+  },
+  "helpGuideBarcodeName": "Barcode & Media Scanning",
+  "@helpGuideBarcodeName": {
+    "description": "Help Center hub: card title for the Barcode & Media Scanning guide"
+  },
+  "helpGuideBarcodeSummary": "Live camera controls, gallery photos, and multi-page PDF document scanning.",
+  "@helpGuideBarcodeSummary": {
+    "description": "Help Center hub: card subtitle for the Barcode & Media Scanning guide"
+  },
+  "helpGuideBarcodeIntro": "Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.",
+  "@helpGuideBarcodeIntro": {
+    "description": "Barcode help screen: intro paragraph"
+  },
+  "helpGuideBarcodeCameraTitle": "Live Camera Viewport",
+  "@helpGuideBarcodeCameraTitle": {
+    "description": "Barcode help screen: section heading about the live camera"
+  },
+  "helpGuideBarcodeCameraBullet1": "Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.",
+  "@helpGuideBarcodeCameraBullet1": {
+    "description": "Barcode help screen: live camera bullet 1 (supported formats; keep format names as-is)"
+  },
+  "helpGuideBarcodeCameraBullet2": "Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.",
+  "@helpGuideBarcodeCameraBullet2": {
+    "description": "Barcode help screen: live camera bullet 2 (torch and zoom)"
+  },
+  "helpGuideBarcodeCameraBullet3": "Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.",
+  "@helpGuideBarcodeCameraBullet3": {
+    "description": "Barcode help screen: live camera bullet 3 (viewfinder overlays in Settings)"
+  },
+  "helpGuideBarcodeGalleryTitle": "Scanning Gallery Photos & Images",
+  "@helpGuideBarcodeGalleryTitle": {
+    "description": "Barcode help screen: section heading about scanning gallery images"
+  },
+  "helpGuideBarcodeGalleryBullet1": "Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.",
+  "@helpGuideBarcodeGalleryBullet1": {
+    "description": "Barcode help screen: gallery bullet 1"
+  },
+  "helpGuideBarcodeGalleryBullet2": "Uses privacy-safe Android Photo Picker without requiring broad storage permissions.",
+  "@helpGuideBarcodeGalleryBullet2": {
+    "description": "Barcode help screen: gallery bullet 2 (photo picker privacy)"
+  },
+  "helpGuideBarcodeGalleryBullet3": "The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.",
+  "@helpGuideBarcodeGalleryBullet3": {
+    "description": "Barcode help screen: gallery bullet 3"
+  },
+  "helpGuideBarcodePdfTitle": "Multi-Page PDF Scanning",
+  "@helpGuideBarcodePdfTitle": {
+    "description": "Barcode help screen: section heading about PDF scanning"
+  },
+  "helpGuideBarcodePdfBullet1": "Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.",
+  "@helpGuideBarcodePdfBullet1": {
+    "description": "Barcode help screen: PDF bullet 1"
+  },
+  "helpGuideBarcodePdfBullet2": "Extracts and renders every page in memory, cataloging all barcodes found across each individual page.",
+  "@helpGuideBarcodePdfBullet2": {
+    "description": "Barcode help screen: PDF bullet 2"
+  },
+  "helpGuideBarcodePdfBullet3": "Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.",
+  "@helpGuideBarcodePdfBullet3": {
+    "description": "Barcode help screen: PDF bullet 3"
+  },
+  "helpGuideBarcodeTip": "Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.",
+  "@helpGuideBarcodeTip": {
+    "description": "Barcode help screen: tip box at the bottom"
+  },
+  "titleHelpArCodeVision": "AR CodeVision",
+  "@titleHelpArCodeVision": {
+    "description": "App bar title of the AR CodeVision help screen. Short label."
+  },
+  "helpGuideArCodeVisionName": "AR CodeVision™ Spatial HUD",
+  "@helpGuideArCodeVisionName": {
+    "description": "Help Center hub: card title for the AR CodeVision guide (keep the trademark name)"
+  },
+  "helpGuideArCodeVisionSummary": "Real-time multi-barcode camera tracking, floating chips, and batch actions.",
+  "@helpGuideArCodeVisionSummary": {
+    "description": "Help Center hub: card subtitle for the AR CodeVision guide"
+  },
+  "helpGuideArCodeVisionIntro": "AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.",
+  "@helpGuideArCodeVisionIntro": {
+    "description": "AR CodeVision help screen: intro paragraph"
+  },
+  "helpGuideArCodeVisionTrackingTitle": "Real-Time Spatial Tracking",
+  "@helpGuideArCodeVisionTrackingTitle": {
+    "description": "AR CodeVision help screen: section heading about spatial tracking"
+  },
+  "helpGuideArCodeVisionTrackingBullet1": "Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.",
+  "@helpGuideArCodeVisionTrackingBullet1": {
+    "description": "AR CodeVision help screen: tracking bullet 1"
+  },
+  "helpGuideArCodeVisionTrackingBullet2": "Renders floating interactive chips directly above each physical barcode on screen as you move your camera.",
+  "@helpGuideArCodeVisionTrackingBullet2": {
+    "description": "AR CodeVision help screen: tracking bullet 2"
+  },
+  "helpGuideArCodeVisionTrackingBullet3": "Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).",
+  "@helpGuideArCodeVisionTrackingBullet3": {
+    "description": "AR CodeVision help screen: tracking bullet 3 (color badges)"
+  },
+  "helpGuideArCodeVisionBatchTitle": "Interactive Multi-Select & Batch Actions",
+  "@helpGuideArCodeVisionBatchTitle": {
+    "description": "AR CodeVision help screen: section heading about multi-select and batch actions"
+  },
+  "helpGuideArCodeVisionBatchBullet1": "Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.",
+  "@helpGuideArCodeVisionBatchBullet1": {
+    "description": "AR CodeVision help screen: batch bullet 1"
+  },
+  "helpGuideArCodeVisionBatchBullet2": "Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.",
+  "@helpGuideArCodeVisionBatchBullet2": {
+    "description": "AR CodeVision help screen: batch bullet 2"
+  },
+  "helpGuideArCodeVisionBatchBullet3": "Copy all selected payload contents or export targets to your history in a single tap.",
+  "@helpGuideArCodeVisionBatchBullet3": {
+    "description": "AR CodeVision help screen: batch bullet 3"
+  },
+  "helpGuideArCodeVisionHudTitle": "HUD Controls & Performance",
+  "@helpGuideArCodeVisionHudTitle": {
+    "description": "AR CodeVision help screen: section heading about HUD controls"
+  },
+  "helpGuideArCodeVisionHudBullet1": "HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.",
+  "@helpGuideArCodeVisionHudBullet1": {
+    "description": "AR CodeVision help screen: HUD bullet 1"
+  },
+  "helpGuideArCodeVisionHudBullet2": "Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.",
+  "@helpGuideArCodeVisionHudBullet2": {
+    "description": "AR CodeVision help screen: HUD bullet 2"
+  },
+  "helpGuideArCodeVisionTip": "Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.",
+  "@helpGuideArCodeVisionTip": {
+    "description": "AR CodeVision help screen: tip box at the bottom"
+  },
+  "titleHelpAirQr": "AirQR guide",
+  "@titleHelpAirQr": {
+    "description": "App bar title of the AirQR help screen. Short label."
+  },
+  "helpGuideAirQrName": "AirQR™ Optical Air-Gap Stream",
+  "@helpGuideAirQrName": {
+    "description": "Help Center hub: card title for the AirQR guide (keep the trademark name)"
+  },
+  "helpGuideAirQrSummary": "Offline animated QR strobe transmitter and receiver for radio-silent data sharing.",
+  "@helpGuideAirQrSummary": {
+    "description": "Help Center hub: card subtitle for the AirQR guide"
+  },
+  "helpGuideAirQrIntro": "AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.",
+  "@helpGuideAirQrIntro": {
+    "description": "AirQR help screen: intro paragraph"
+  },
+  "helpGuideAirQrStreamingTitle": "How Optical Streaming Works",
+  "@helpGuideAirQrStreamingTitle": {
+    "description": "AirQR help screen: section heading about how streaming works"
+  },
+  "helpGuideAirQrStreamingBullet1": "Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.",
+  "@helpGuideAirQrStreamingBullet1": {
+    "description": "AirQR help screen: streaming bullet 1 (data frames plus LT fountain-code repair frames)"
+  },
+  "helpGuideAirQrStreamingBullet2": "The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).",
+  "@helpGuideAirQrStreamingBullet2": {
+    "description": "AirQR help screen: streaming bullet 2 (frame rate range 5 to 25 FPS)"
+  },
+  "helpGuideAirQrStreamingBullet3": "The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.",
+  "@helpGuideAirQrStreamingBullet3": {
+    "description": "AirQR help screen: streaming bullet 3"
+  },
+  "helpGuideAirQrSecurityTitle": "Air-Gap Security & Privacy",
+  "@helpGuideAirQrSecurityTitle": {
+    "description": "AirQR help screen: section heading about air-gap security"
+  },
+  "helpGuideAirQrSecurityBullet1": "Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).",
+  "@helpGuideAirQrSecurityBullet1": {
+    "description": "AirQR help screen: security bullet 1"
+  },
+  "helpGuideAirQrSecurityBullet2": "Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.",
+  "@helpGuideAirQrSecurityBullet2": {
+    "description": "AirQR help screen: security bullet 2"
+  },
+  "helpGuideAirQrSecurityBullet3": "Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.",
+  "@helpGuideAirQrSecurityBullet3": {
+    "description": "AirQR help screen: security bullet 3"
+  },
+  "helpGuideAirQrControlsTitle": "Transmitter & Receiver Controls",
+  "@helpGuideAirQrControlsTitle": {
+    "description": "AirQR help screen: section heading about transmitter and receiver controls"
+  },
+  "helpGuideAirQrControlsBullet1": "Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.",
+  "@helpGuideAirQrControlsBullet1": {
+    "description": "AirQR help screen: controls bullet 1 (transmitter has a frame rate control only; no chunk-size control)"
+  },
+  "helpGuideAirQrControlsBullet2": "Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.",
+  "@helpGuideAirQrControlsBullet2": {
+    "description": "AirQR help screen: controls bullet 2"
+  },
+  "helpGuideAirQrTip": "Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.",
+  "@helpGuideAirQrTip": {
+    "description": "AirQR help screen: tip box at the bottom"
+  },
+  "titleHelpUrlSafety": "URL safety",
+  "@titleHelpUrlSafety": {
+    "description": "App bar title of the URL safety help screen. Short label."
+  },
+  "helpGuideUrlSafetyName": "6-Layer URL Safety Engine",
+  "@helpGuideUrlSafetyName": {
+    "description": "Help Center hub: card title for the URL safety guide"
+  },
+  "helpGuideUrlSafetySummary": "Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.",
+  "@helpGuideUrlSafetySummary": {
+    "description": "Help Center hub: card subtitle for the URL safety guide"
+  },
+  "helpGuideUrlSafetyIntro": "Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.",
+  "@helpGuideUrlSafetyIntro": {
+    "description": "URL safety help screen: intro paragraph"
+  },
+  "helpGuideUrlSafetyLayersTitle": "The 6 Safety Layers Explained",
+  "@helpGuideUrlSafetyLayersTitle": {
+    "description": "URL safety help screen: section heading for the list of 6 layers"
+  },
+  "helpGuideUrlSafetyLayersBullet1": "Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.",
+  "@helpGuideUrlSafetyLayersBullet1": {
+    "description": "URL safety help screen: layer 1 description"
+  },
+  "helpGuideUrlSafetyLayersBullet2": "Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.",
+  "@helpGuideUrlSafetyLayersBullet2": {
+    "description": "URL safety help screen: layer 2 description. Keep the Cyrillic example letter as-is."
+  },
+  "helpGuideUrlSafetyLayersBullet3": "Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.",
+  "@helpGuideUrlSafetyLayersBullet3": {
+    "description": "URL safety help screen: layer 3 description"
+  },
+  "helpGuideUrlSafetyLayersBullet4": "Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.",
+  "@helpGuideUrlSafetyLayersBullet4": {
+    "description": "URL safety help screen: layer 4 description"
+  },
+  "helpGuideUrlSafetyLayersBullet5": "Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.",
+  "@helpGuideUrlSafetyLayersBullet5": {
+    "description": "URL safety help screen: layer 5 description"
+  },
+  "helpGuideUrlSafetyLayersBullet6": "Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.",
+  "@helpGuideUrlSafetyLayersBullet6": {
+    "description": "URL safety help screen: layer 6 description"
+  },
+  "helpGuideUrlSafetyVerdictsTitle": "Safety Verdicts & Action Guidance",
+  "@helpGuideUrlSafetyVerdictsTitle": {
+    "description": "URL safety help screen: section heading about safety verdicts"
+  },
+  "helpGuideUrlSafetyVerdictsBullet1": "Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.",
+  "@helpGuideUrlSafetyVerdictsBullet1": {
+    "description": "URL safety help screen: verdict bullet 1 (green)"
+  },
+  "helpGuideUrlSafetyVerdictsBullet2": "Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.",
+  "@helpGuideUrlSafetyVerdictsBullet2": {
+    "description": "URL safety help screen: verdict bullet 2 (orange/red)"
+  },
+  "helpGuideUrlSafetyTip": "Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.",
+  "@helpGuideUrlSafetyTip": {
+    "description": "URL safety help screen: tip box at the bottom"
+  },
+  "titleHelpQuishing": "QuishingGuard",
+  "@titleHelpQuishing": {
+    "description": "App bar title of the QuishingGuard help screen. Short label."
+  },
+  "helpGuideQuishingName": "QuishingGuard™ Tamper Detection",
+  "@helpGuideQuishingName": {
+    "description": "Help Center hub: card title for the QuishingGuard guide (keep the trademark name)"
+  },
+  "helpGuideQuishingSummary": "On-device computer vision analyzing physical QR sticker overlays and edge cuts.",
+  "@helpGuideQuishingSummary": {
+    "description": "Help Center hub: card subtitle for the QuishingGuard guide"
+  },
+  "helpGuideQuishingIntro": "Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.",
+  "@helpGuideQuishingIntro": {
+    "description": "QuishingGuard help screen: intro paragraph (explains what quishing is)"
+  },
+  "helpGuideQuishingCvTitle": "On-Device Computer Vision Analysis",
+  "@helpGuideQuishingCvTitle": {
+    "description": "QuishingGuard help screen: section heading about on-device computer vision"
+  },
+  "helpGuideQuishingCvBullet1": "Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.",
+  "@helpGuideQuishingCvBullet1": {
+    "description": "QuishingGuard help screen: computer vision bullet 1 (edge metric)"
+  },
+  "helpGuideQuishingCvBullet2": "Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.",
+  "@helpGuideQuishingCvBullet2": {
+    "description": "QuishingGuard help screen: computer vision bullet 2 (print grain metric)"
+  },
+  "helpGuideQuishingCvBullet3": "Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).",
+  "@helpGuideQuishingCvBullet3": {
+    "description": "QuishingGuard help screen: computer vision bullet 3 (risk score)"
+  },
+  "helpGuideQuishingForensicTitle": "Forensic Signal Inspection",
+  "@helpGuideQuishingForensicTitle": {
+    "description": "QuishingGuard help screen: section heading about forensic signals"
+  },
+  "helpGuideQuishingForensicBullet1": "Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.",
+  "@helpGuideQuishingForensicBullet1": {
+    "description": "QuishingGuard help screen: forensic bullet 1. The quoted text must match the quishingViewSignals button."
+  },
+  "helpGuideQuishingForensicBullet2": "Helps identify suspicious payment QR codes in public places before sending money or typing credentials.",
+  "@helpGuideQuishingForensicBullet2": {
+    "description": "QuishingGuard help screen: forensic bullet 2"
+  },
+  "helpGuideQuishingTip": "Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.",
+  "@helpGuideQuishingTip": {
+    "description": "QuishingGuard help screen: tip box at the bottom"
+  },
+  "titleHelpSafeBrowsing": "Safe Browsing",
+  "@titleHelpSafeBrowsing": {
+    "description": "App bar title of the Google Safe Browsing setup help screen. Short label."
+  },
+  "helpGuideSafeBrowsingName": "Google Safe Browsing Setup",
+  "@helpGuideSafeBrowsingName": {
+    "description": "Help Center hub: card title for the Google Safe Browsing setup guide"
+  },
+  "helpGuideSafeBrowsingSummary": "Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.",
+  "@helpGuideSafeBrowsingSummary": {
+    "description": "Help Center hub: card subtitle for the Google Safe Browsing setup guide"
+  },
+  "helpGuideSafeBrowsingIntro": "Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.",
+  "@helpGuideSafeBrowsingIntro": {
+    "description": "Safe Browsing help screen: intro paragraph"
+  },
+  "helpGuideSafeBrowsingKeyTitle": "How to Obtain a Free API Key",
+  "@helpGuideSafeBrowsingKeyTitle": {
+    "description": "Safe Browsing help screen: section heading for the API key steps"
+  },
+  "helpGuideSafeBrowsingKeyStep1": "1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.",
+  "@helpGuideSafeBrowsingKeyStep1": {
+    "description": "Safe Browsing help screen: API key step 1 (keep the URL as-is)"
+  },
+  "helpGuideSafeBrowsingKeyStep2": "2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").",
+  "@helpGuideSafeBrowsingKeyStep2": {
+    "description": "Safe Browsing help screen: API key step 2 (the quoted project name is an English example)"
+  },
+  "helpGuideSafeBrowsingKeyStep3": "3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.",
+  "@helpGuideSafeBrowsingKeyStep3": {
+    "description": "Safe Browsing help screen: API key step 3. Google Cloud Console menu names stay in English."
+  },
+  "helpGuideSafeBrowsingKeyStep4": "4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".",
+  "@helpGuideSafeBrowsingKeyStep4": {
+    "description": "Safe Browsing help screen: API key step 4. Google Cloud Console menu names stay in English."
+  },
+  "helpGuideSafeBrowsingKeyStep5": "5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.",
+  "@helpGuideSafeBrowsingKeyStep5": {
+    "description": "Safe Browsing help screen: API key step 5"
+  },
+  "helpGuideSafeBrowsingPrivacyTitle": "Privacy & Secure Keystore Storage",
+  "@helpGuideSafeBrowsingPrivacyTitle": {
+    "description": "Safe Browsing help screen: section heading about key storage and privacy"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet1": "Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.",
+  "@helpGuideSafeBrowsingPrivacyBullet1": {
+    "description": "Safe Browsing help screen: privacy bullet 1"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet2": "Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.",
+  "@helpGuideSafeBrowsingPrivacyBullet2": {
+    "description": "Safe Browsing help screen: privacy bullet 2"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet3": "Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.",
+  "@helpGuideSafeBrowsingPrivacyBullet3": {
+    "description": "Safe Browsing help screen: privacy bullet 3 (daily free quota)"
+  },
+  "helpGuideSafeBrowsingTip": "Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.",
+  "@helpGuideSafeBrowsingTip": {
+    "description": "Safe Browsing help screen: tip box at the bottom"
+  },
+  "titleHelpSmartPayloads": "Smart actions",
+  "@titleHelpSmartPayloads": {
+    "description": "App bar title of the Smart Actions & Payments help screen. Short label."
+  },
+  "helpGuideSmartPayloadsName": "Smart Actions & Payments",
+  "@helpGuideSmartPayloadsName": {
+    "description": "Help Center hub: card title for the Smart Actions & Payments guide"
+  },
+  "helpGuideSmartPayloadsSummary": "Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.",
+  "@helpGuideSmartPayloadsSummary": {
+    "description": "Help Center hub: card subtitle for the Smart Actions & Payments guide"
+  },
+  "helpGuideSmartPayloadsIntro": "SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.",
+  "@helpGuideSmartPayloadsIntro": {
+    "description": "Smart Actions help screen: intro paragraph"
+  },
+  "helpGuideSmartPayloadsWifiTitle": "Wi-Fi Network Auto-Connect",
+  "@helpGuideSmartPayloadsWifiTitle": {
+    "description": "Smart Actions help screen: section heading about Wi-Fi"
+  },
+  "helpGuideSmartPayloadsWifiBullet1": "Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.",
+  "@helpGuideSmartPayloadsWifiBullet1": {
+    "description": "Smart Actions help screen: Wi-Fi bullet 1. Keep the protocol token WIFI: as-is."
+  },
+  "helpGuideSmartPayloadsWifiBullet2": "Includes a Password Reveal / Hide button and 1-tap clipboard copy.",
+  "@helpGuideSmartPayloadsWifiBullet2": {
+    "description": "Smart Actions help screen: Wi-Fi bullet 2"
+  },
+  "helpGuideSmartPayloadsWifiBullet3": "Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.",
+  "@helpGuideSmartPayloadsWifiBullet3": {
+    "description": "Smart Actions help screen: Wi-Fi bullet 3. The quoted text must match the wifiConnectButton label."
+  },
+  "helpGuideSmartPayloadsPaymentsTitle": "UPI & Cryptocurrency Payments",
+  "@helpGuideSmartPayloadsPaymentsTitle": {
+    "description": "Smart Actions help screen: section heading about UPI and crypto payments"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet1": "Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.",
+  "@helpGuideSmartPayloadsPaymentsBullet1": {
+    "description": "Smart Actions help screen: payments bullet 1 (UPI)"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet2": "1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.",
+  "@helpGuideSmartPayloadsPaymentsBullet2": {
+    "description": "Smart Actions help screen: payments bullet 2 (keep app names as-is)"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet3": "Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.",
+  "@helpGuideSmartPayloadsPaymentsBullet3": {
+    "description": "Smart Actions help screen: payments bullet 3 (crypto)"
+  },
+  "helpGuideSmartPayloadsTotpTitle": "TOTP 2FA Authenticator & Tokens",
+  "@helpGuideSmartPayloadsTotpTitle": {
+    "description": "Smart Actions help screen: section heading about TOTP 2FA"
+  },
+  "helpGuideSmartPayloadsTotpBullet1": "Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.",
+  "@helpGuideSmartPayloadsTotpBullet1": {
+    "description": "Smart Actions help screen: TOTP bullet 1. Keep otpauth:// as-is."
+  },
+  "helpGuideSmartPayloadsTotpBullet2": "Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.",
+  "@helpGuideSmartPayloadsTotpBullet2": {
+    "description": "Smart Actions help screen: TOTP bullet 2"
+  },
+  "helpGuideSmartPayloadsTotpBullet3": "Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.",
+  "@helpGuideSmartPayloadsTotpBullet3": {
+    "description": "Smart Actions help screen: TOTP bullet 3. The quoted text must match the totpImportButton label."
+  },
+  "helpGuideSmartPayloadsContactsTitle": "Contacts & Calendar Events",
+  "@helpGuideSmartPayloadsContactsTitle": {
+    "description": "Smart Actions help screen: section heading about contacts and calendar events"
+  },
+  "helpGuideSmartPayloadsContactsBullet1": "vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.",
+  "@helpGuideSmartPayloadsContactsBullet1": {
+    "description": "Smart Actions help screen: contacts bullet 1 (vCard and MeCard)"
+  },
+  "helpGuideSmartPayloadsContactsBullet2": "iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.",
+  "@helpGuideSmartPayloadsContactsBullet2": {
+    "description": "Smart Actions help screen: contacts bullet 2 (iCalendar events)"
+  },
+  "helpGuideSmartPayloadsTip": "Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.",
+  "@helpGuideSmartPayloadsTip": {
+    "description": "Smart Actions help screen: tip box at the bottom"
+  },
+  "titleHelpHistory": "History & privacy",
+  "@titleHelpHistory": {
+    "description": "App bar title of the History, Backups & Privacy help screen. Short label."
+  },
+  "helpGuideHistoryName": "History, Backups & Privacy",
+  "@helpGuideHistoryName": {
+    "description": "Help Center hub: card title for the History, Backups & Privacy guide"
+  },
+  "helpGuideHistorySummary": "Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.",
+  "@helpGuideHistorySummary": {
+    "description": "Help Center hub: card subtitle for the History, Backups & Privacy guide"
+  },
+  "helpGuideHistoryIntro": "Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.",
+  "@helpGuideHistoryIntro": {
+    "description": "History help screen: intro paragraph"
+  },
+  "helpGuideHistoryManageTitle": "Scan History Management",
+  "@helpGuideHistoryManageTitle": {
+    "description": "History help screen: section heading about managing scan history"
+  },
+  "helpGuideHistoryManageBullet1": "Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).",
+  "@helpGuideHistoryManageBullet1": {
+    "description": "History help screen: manage bullet 1 (search and filter)"
+  },
+  "helpGuideHistoryManageBullet2": "Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.",
+  "@helpGuideHistoryManageBullet2": {
+    "description": "History help screen: manage bullet 2 (favorites)"
+  },
+  "helpGuideHistoryManageBullet3": "Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.",
+  "@helpGuideHistoryManageBullet3": {
+    "description": "History help screen: manage bullet 3 (detail sheet)"
+  },
+  "helpGuideHistoryBackupTitle": "Backup & Restore (JSON / CSV)",
+  "@helpGuideHistoryBackupTitle": {
+    "description": "History help screen: section heading about backup and restore"
+  },
+  "helpGuideHistoryBackupBullet1": "JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.",
+  "@helpGuideHistoryBackupBullet1": {
+    "description": "History help screen: backup bullet 1 (JSON)"
+  },
+  "helpGuideHistoryBackupBullet2": "CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.",
+  "@helpGuideHistoryBackupBullet2": {
+    "description": "History help screen: backup bullet 2 (CSV)"
+  },
+  "helpGuideHistoryBackupBullet3": "One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.",
+  "@helpGuideHistoryBackupBullet3": {
+    "description": "History help screen: backup bullet 3 (restore)"
+  },
+  "helpGuideHistoryBiometricsTitle": "Biometrics & Screenshot Guard",
+  "@helpGuideHistoryBiometricsTitle": {
+    "description": "History help screen: section heading about biometrics and screenshot guard"
+  },
+  "helpGuideHistoryBiometricsBullet1": "Biometric Authentication: Protects sensitive StegoQR hidden records using your device fingerprint or facial recognition.",
+  "@helpGuideHistoryBiometricsBullet1": {
+    "description": "History help screen: biometrics bullet 1"
+  },
+  "helpGuideHistoryBiometricsBullet2": "Screenshot Guard: Prevents malicious background apps or unauthorized shoulder-surfers from capturing screen content (FLAG_SECURE).",
+  "@helpGuideHistoryBiometricsBullet2": {
+    "description": "History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is."
+  },
+  "helpGuideHistoryTip": "Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.",
+  "@helpGuideHistoryTip": {
+    "description": "History help screen: tip box at the bottom"
+  },
+  "titleHelpFaq": "FAQ & help",
+  "@titleHelpFaq": {
+    "description": "App bar title of the FAQ & Troubleshooting help screen. Short label."
+  },
+  "helpGuideFaqName": "FAQ & Troubleshooting",
+  "@helpGuideFaqName": {
+    "description": "Help Center hub: card title for the FAQ & Troubleshooting guide"
+  },
+  "helpGuideFaqSummary": "Common questions, camera focus tips, permission recovery, and offline guarantees.",
+  "@helpGuideFaqSummary": {
+    "description": "Help Center hub: card subtitle for the FAQ & Troubleshooting guide"
+  },
+  "helpGuideFaqIntro": "Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.",
+  "@helpGuideFaqIntro": {
+    "description": "FAQ help screen: intro paragraph"
+  },
+  "helpGuideFaqQuestionsTitle": "Frequently Asked Questions",
+  "@helpGuideFaqQuestionsTitle": {
+    "description": "FAQ help screen: section heading for the questions"
+  },
+  "helpGuideFaqQuestion1": "Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.",
+  "@helpGuideFaqQuestion1": {
+    "description": "FAQ help screen: question 1 and its answer, split by a line break"
+  },
+  "helpGuideFaqQuestion2": "Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.",
+  "@helpGuideFaqQuestion2": {
+    "description": "FAQ help screen: question 2 and its answer, split by a line break"
+  },
+  "helpGuideFaqQuestion3": "Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.",
+  "@helpGuideFaqQuestion3": {
+    "description": "FAQ help screen: question 3 and its answer, split by a line break"
+  },
+  "helpGuideFaqCameraTitle": "Camera Troubleshooting",
+  "@helpGuideFaqCameraTitle": {
+    "description": "FAQ help screen: section heading for camera troubleshooting"
+  },
+  "helpGuideFaqCameraBullet1": "Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.",
+  "@helpGuideFaqCameraBullet1": {
+    "description": "FAQ help screen: camera bullet 1 (focus problems)"
+  },
+  "helpGuideFaqCameraBullet2": "Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.",
+  "@helpGuideFaqCameraBullet2": {
+    "description": "FAQ help screen: camera bullet 2 (tiny or dense codes)"
+  },
+  "helpGuideFaqCameraBullet3": "Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.",
+  "@helpGuideFaqCameraBullet3": {
+    "description": "FAQ help screen: camera bullet 3 (restoring camera permission in Android Settings; the app name in the path is the Android app label)"
+  },
+  "helpGuideFaqTip": "Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.",
+  "@helpGuideFaqTip": {
+    "description": "FAQ help screen: tip box at the bottom"
+  },
+  "resultMoreActions": "More actions",
+  "@resultMoreActions": {
+    "description": "Tooltip and sheet title for the menu of extra actions on the scan result screen"
+  },
+  "verdictChecking": "Checking link safety…",
+  "@verdictChecking": {
+    "description": "Shown in the safety summary card while link checks are running"
+  },
+  "verdictNoIssues": "No issues found",
+  "@verdictNoIssues": {
+    "description": "Safety summary headline when no link check failed"
+  },
+  "verdictIssuesFound": "{count, plural, =1{1 issue found} other{{count} issues found}}",
+  "@verdictIssuesFound": {
+    "description": "Safety summary headline with the number of failed link checks",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "verdictChecksPassed": "{passed} of {total} checks passed",
+  "@verdictChecksPassed": {
+    "description": "Safety summary line: how many link checks passed out of all checks",
+    "placeholders": {
+      "passed": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "verdictSeeDetails": "See details",
+  "@verdictSeeDetails": {
+    "description": "Link in the safety summary card that scrolls to the full safety check list"
+  },
+  "verdictModePrivate": "Private mode",
+  "@verdictModePrivate": {
+    "description": "Short label: link checks ran without contacting the site"
+  },
+  "verdictModeActive": "Active probing",
+  "@verdictModeActive": {
+    "description": "Short label: link checks contacted the site directly"
+  },
+  "safetyShowPassed": "{count, plural, =1{Show 1 passed check} other{Show {count} passed checks}}",
+  "@safetyShowPassed": {
+    "description": "Toggle that shows the folded list of passed safety checks",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "safetyHidePassed": "Hide passed checks",
+  "@safetyHidePassed": {
+    "description": "Toggle that folds the list of passed safety checks"
+  },
+  "safetySkippedGroup": "{count, plural, =1{1 check skipped} other{{count} checks skipped}}",
+  "@safetySkippedGroup": {
+    "description": "One line that groups safety checks that did not run (no API key or service off)",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "safetySkippedSetup": "Set up in Settings",
+  "@safetySkippedSetup": {
+    "description": "Button that opens Settings so the user can turn on skipped safety checks"
+  },
+  "openRiskDialogIssues": "{count, plural, =1{This link has 1 issue. Open it anyway?} other{This link has {count} issues. Open it anyway?}}",
+  "@openRiskDialogIssues": {
+    "description": "Confirm dialog text before opening a link that failed some safety checks",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sandboxShowPreview": "Show preview",
+  "@sandboxShowPreview": {
+    "description": "Tooltip to unfold the sandboxed page preview"
+  },
+  "sandboxHidePreview": "Hide preview",
+  "@sandboxHidePreview": {
+    "description": "Tooltip to fold the sandboxed page preview"
+  },
+  "quishingCompactGenuine": "Genuine print · {percent}%",
+  "@quishingCompactGenuine": {
+    "description": "Folded Quishing Guard line when the printed code looks genuine; percent is the tamper risk",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "scanBubbleTitle": "Scan bubble",
+  "@scanBubbleTitle": {
+    "description": "Title of the floating Scan bubble feature (settings tile, screen title, menu item). Keep short."
+  },
+  "scanBubbleSettingsSubtitle": "Scan codes shown in other apps",
+  "@scanBubbleSettingsSubtitle": {
+    "description": "Subtitle of the Scan bubble tile on the Settings screen"
+  },
+  "scanBubbleSwitchTitle": "Show scan bubble",
+  "@scanBubbleSwitchTitle": {
+    "description": "Switch label that turns the floating Scan bubble on or off"
+  },
+  "scanBubbleSwitchSubtitle": "A small button that floats over other apps. Tap it to scan a code on the screen.",
+  "@scanBubbleSwitchSubtitle": {
+    "description": "Explanation under the Scan bubble on/off switch"
+  },
+  "scanBubblePermissionGranted": "Allowed",
+  "@scanBubblePermissionGranted": {
+    "description": "Status shown when the Display over other apps permission is granted"
+  },
+  "scanBubblePermissionMissing": "Not allowed yet. Needed for the bubble.",
+  "@scanBubblePermissionMissing": {
+    "description": "Status shown when the Display over other apps permission is not granted"
+  },
+  "scanBubbleAllowButton": "Allow",
+  "@scanBubbleAllowButton": {
+    "description": "Button that starts the Display over other apps permission flow"
+  },
+  "scanBubbleStartOnBootTitle": "Start after restart",
+  "@scanBubbleStartOnBootTitle": {
+    "description": "Switch label: show the bubble again after the phone restarts. Keep short."
+  },
+  "scanBubbleStartOnBootSubtitle": "If the bubble was on, show it again after the phone restarts. Some phones may block this.",
+  "@scanBubbleStartOnBootSubtitle": {
+    "description": "Explanation under the start after restart switch"
+  },
+  "scanBubbleAddTileButton": "Add to Quick Settings",
+  "@scanBubbleAddTileButton": {
+    "description": "Button that asks Android to add the Scan bubble Quick Settings tile. Keep short."
+  },
+  "scanBubbleTileAdded": "Quick Settings tile request sent",
+  "@scanBubbleTileAdded": {
+    "description": "Message after the request to add the Scan bubble tile was sent"
+  },
+  "scanBubbleTileManual": "Pull down Quick Settings, tap the edit (pencil) button, and drag the Scan bubble tile in.",
+  "@scanBubbleTileManual": {
+    "description": "Message telling the user how to add the Scan bubble tile by hand"
+  },
+  "scanBubblePermissionDialogTitle": "Allow the bubble",
+  "@scanBubblePermissionDialogTitle": {
+    "description": "Title of the dialog that explains the Display over other apps permission"
+  },
+  "scanBubblePermissionDialogBody": "To float over other apps, the bubble needs the \"Display over other apps\" permission. On the next page, turn it on for this app, then come back.",
+  "@scanBubblePermissionDialogBody": {
+    "description": "Body of the dialog that explains the Display over other apps permission"
+  },
+  "scanBubbleOpenSettings": "Open settings",
+  "@scanBubbleOpenSettings": {
+    "description": "Button that opens the Android permission page"
+  },
+  "scanBubbleStartFailed": "Could not start the bubble. Please try again.",
+  "@scanBubbleStartFailed": {
+    "description": "Error shown when Android refuses to start the bubble"
+  },
+  "scanBubbleBlockedCapture": "This app blocks screen capture, so its codes cannot be read.",
+  "@scanBubbleBlockedCapture": {
+    "description": "Message shown when the screen capture came back black because the app on screen blocks capture"
+  },
+  "historySourceScreen": "From screen",
+  "@historySourceScreen": {
+    "description": "Label on a history item that was read from a picture of the phone screen (GhostScan or Scan bubble)"
+  },
+  "permissionOverlayTitle": "Display over other apps",
+  "@permissionOverlayTitle": {
+    "description": "Name of the Android permission that lets the Scan bubble float over other apps"
+  },
+  "permissionOverlayDesc": "Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.",
+  "@permissionOverlayDesc": {
+    "description": "Why the app uses the Display over other apps permission"
+  },
+  "permissionNotificationTitle": "Notifications",
+  "@permissionNotificationTitle": {
+    "description": "Name of the Android notification permission"
+  },
+  "permissionNotificationDesc": "Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.",
+  "@permissionNotificationDesc": {
+    "description": "Why the app uses the notification permission"
+  },
+  "helpGuideScanBubbleName": "Scan bubble",
+  "@helpGuideScanBubbleName": {
+    "description": "Name of the Scan bubble help guide"
+  },
+  "helpGuideScanBubbleSummary": "A floating button to scan QR codes and barcodes shown in other apps.",
+  "@helpGuideScanBubbleSummary": {
+    "description": "One-line summary of the Scan bubble help guide"
+  },
+  "helpGuideScanBubbleIntro": "The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.",
+  "@helpGuideScanBubbleIntro": {
+    "description": "Intro paragraph of the Scan bubble help guide"
+  },
+  "helpGuideScanBubbleUseTitle": "How to use it",
+  "@helpGuideScanBubbleUseTitle": {
+    "description": "Section title: how to use the Scan bubble"
+  },
+  "helpGuideScanBubbleUseBullet1": "Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.",
+  "@helpGuideScanBubbleUseBullet1": {
+    "description": "How to turn the Scan bubble on"
+  },
+  "helpGuideScanBubbleUseBullet2": "Open any app that shows a QR code or barcode, then tap the bubble.",
+  "@helpGuideScanBubbleUseBullet2": {
+    "description": "Second step for using the Scan bubble"
+  },
+  "helpGuideScanBubbleUseBullet3": "Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.",
+  "@helpGuideScanBubbleUseBullet3": {
+    "description": "Third step for using the Scan bubble"
+  },
+  "helpGuideScanBubbleUseBullet4": "Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.",
+  "@helpGuideScanBubbleUseBullet4": {
+    "description": "How to move and close the Scan bubble"
+  },
+  "helpGuideScanBubblePrivacyTitle": "Privacy",
+  "@helpGuideScanBubblePrivacyTitle": {
+    "description": "Section title: privacy of the Scan bubble"
+  },
+  "helpGuideScanBubblePrivacyBullet1": "The screen is captured only when you tap the bubble, and Android always asks you first.",
+  "@helpGuideScanBubblePrivacyBullet1": {
+    "description": "Privacy point: capture only on tap"
+  },
+  "helpGuideScanBubblePrivacyBullet2": "The code is read on your phone. Nothing is sent online for reading.",
+  "@helpGuideScanBubblePrivacyBullet2": {
+    "description": "Privacy point: offline decoding"
+  },
+  "helpGuideScanBubblePrivacyBullet3": "The screen picture is not saved to your gallery and is deleted right after reading.",
+  "@helpGuideScanBubblePrivacyBullet3": {
+    "description": "Privacy point: picture deleted"
+  },
+  "helpGuideScanBubbleLimitsTitle": "Good to know",
+  "@helpGuideScanBubbleLimitsTitle": {
+    "description": "Section title: limits of the Scan bubble"
+  },
+  "helpGuideScanBubbleLimitsBullet1": "On Android 14 and newer, Android asks for screen capture permission on every tap.",
+  "@helpGuideScanBubbleLimitsBullet1": {
+    "description": "Limit: Android 14 asks every time"
+  },
+  "helpGuideScanBubbleLimitsBullet2": "Banking, payment and some video apps block screen capture. Codes inside them cannot be read.",
+  "@helpGuideScanBubbleLimitsBullet2": {
+    "description": "Limit: some apps block capture"
+  },
+  "helpGuideScanBubbleLimitsBullet3": "Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.",
+  "@helpGuideScanBubbleLimitsBullet3": {
+    "description": "Limit: phone maker settings"
+  },
+  "helpGuideScanBubbleTip": "Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.",
+  "@helpGuideScanBubbleTip": {
+    "description": "Tip at the end of the Scan bubble help guide"
+  },
+  "codeForgeBarcodeContent": "Barcode content",
+  "@codeForgeBarcodeContent": {
+    "description": "CodeForge: heading above the text box for 1D/2D barcode content."
+  },
+  "codeForgeBarcodeContentHint": "Enter the barcode number or code",
+  "@codeForgeBarcodeContentHint": {
+    "description": "CodeForge: hint text inside the barcode content text box."
+  },
+  "codeForgeWifiSecurityNone": "None (open)",
+  "@codeForgeWifiSecurityNone": {
+    "description": "CodeForge Wi-Fi form: security option for an open network with no password."
+  },
+  "codeForgeUpiVpaHint": "e.g. merchant@upi",
+  "@codeForgeUpiVpaHint": {
+    "description": "CodeForge UPI form: example hint for the UPI ID field. Keep 'merchant@upi' as an example ID."
+  },
+  "optionalFieldHint": "Optional",
+  "@optionalFieldHint": {
+    "description": "Hint text inside a form field the user may leave empty."
+  },
+  "codeForgeContentEmpty": "Content cannot be empty",
+  "@codeForgeContentEmpty": {
+    "description": "CodeForge validation error: the code has no content."
+  },
+  "codeForgeTextTooLong": "Text must not be longer than {max} characters",
+  "@codeForgeTextTooLong": {
+    "description": "CodeForge validation error: text is over the length limit.",
+    "placeholders": {
+      "max": {
+        "type": "String",
+        "example": "1000"
+      }
+    }
+  },
+  "codeForgeWifiSsidRequired": "Wi-Fi network name (SSID) is required",
+  "@codeForgeWifiSsidRequired": {
+    "description": "CodeForge validation error: Wi-Fi network name is missing."
+  },
+  "codeForgeUpiVpaRequired": "UPI ID is required",
+  "@codeForgeUpiVpaRequired": {
+    "description": "CodeForge validation error: UPI ID (VPA) is missing."
+  },
+  "codeForgeBarcodeInvalid": "Not valid for this barcode type ({detail})",
+  "@codeForgeBarcodeInvalid": {
+    "description": "CodeForge validation error: content does not fit the chosen barcode type. {detail} is a short technical reason from the barcode library, in English.",
+    "placeholders": {
+      "detail": {
+        "type": "String",
+        "example": "EAN must contain 12 digits"
+      }
+    }
+  },
+  "airQrUnlockedTitle": "AirQR payload unlocked",
+  "@airQrUnlockedTitle": {
+    "description": "Result screen: card title after an encrypted AirQR payload is decrypted."
+  },
+  "jsonEnvelopeUnlockedTitle": "JSON payload unlocked",
+  "@jsonEnvelopeUnlockedTitle": {
+    "description": "Result screen: card title after an encrypted JSON container is decrypted."
+  },
+  "stegoUnlockedTitle": "StegoQR payload unlocked",
+  "@stegoUnlockedTitle": {
+    "description": "Result screen: card title after hidden StegoQR content is decrypted."
+  },
+  "stegoDetectedTitle": "StegoQR encrypted payload found",
+  "@stegoDetectedTitle": {
+    "description": "Result screen: card title when a StegoQR code with hidden encrypted content is found."
+  },
+  "decryptShowAdvanced": "Advanced (Salt / IV)",
+  "@decryptShowAdvanced": {
+    "description": "Decrypt sheet: button that shows the advanced Salt and IV fields. Keep Salt and IV as technical terms."
+  },
+  "decryptHideAdvanced": "Hide advanced",
+  "@decryptHideAdvanced": {
+    "description": "Decrypt sheet: button that hides the advanced Salt and IV fields."
+  },
+  "decryptSaltLabel": "Salt (Base64, optional)",
+  "@decryptSaltLabel": {
+    "description": "Decrypt sheet: label of the optional Salt field (cryptography term)."
+  },
+  "decryptIvLabel": "IV / Nonce (Base64, optional)",
+  "@decryptIvLabel": {
+    "description": "Decrypt sheet: label of the optional IV / nonce field (cryptography term)."
+  },
+  "historyRecordCount": "{count, plural, =1{1 scan record found} other{{count} scan records found}}",
+  "@historyRecordCount": {
+    "description": "History screen: number of scan records shown.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "arItemsSelected": "{count, plural, =1{1 item selected} other{{count} items selected}}",
+  "@arItemsSelected": {
+    "description": "AR CodeVision: number of codes the user has selected.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "settingsAppearanceSummary": "{themeMode} • Dynamic colors",
+  "@settingsAppearanceSummary": {
+    "description": "Settings: subtitle of the Appearance card. {themeMode} is the current theme name.",
+    "placeholders": {
+      "themeMode": {
+        "type": "String",
+        "example": "Dark Theme"
+      }
+    }
+  },
+  "openPhishFeedNotDownloaded": "Feed not downloaded yet",
+  "@openPhishFeedNotDownloaded": {
+    "description": "URL safety providers: shown when the OpenPhish list has never been downloaded."
+  },
+  "accentDynamicColorInfo": "Dynamic Color builds a matching palette from your Android wallpaper (Android 12+). When it is off, the standard high-contrast security palette is used.",
+  "@accentDynamicColorInfo": {
+    "description": "Accent color settings: info box explaining Dynamic Color."
+  },
+  "typographySampleLine": "6-Layer URL Safety Check • 100% Offline QuishingGuard™ CV Engine",
+  "@typographySampleLine": {
+    "description": "Typography settings: sample line in the text-size preview. Product names stay as they are."
+  },
+  "typographyScaleTitle": "Text size",
+  "@typographyScaleTitle": {
+    "description": "Typography settings: heading above the text-size slider."
+  },
+  "typographyScaleInfo": "The app follows your Android accessibility text size, while keeping the scan frame and on-screen labels easy to read.",
+  "@typographyScaleInfo": {
+    "description": "Typography settings: info box explaining how text size works."
+  },
+  "domFetchFailedTitle": "{host} (offline or network blocked)",
+  "@domFetchFailedTitle": {
+    "description": "Sandbox preview: page title when the page could not be loaded. {host} is the site address.",
+    "placeholders": {
+      "host": {
+        "type": "String",
+        "example": "example.com"
+      }
+    }
+  },
+  "scanPauseTooltip": "Pause scanning",
+  "@scanPauseTooltip": {
+    "description": "Scanner: tooltip of the button that pauses scanning."
+  },
+  "scanResumeTooltip": "Resume scanning",
+  "@scanResumeTooltip": {
+    "description": "Scanner: tooltip of the button that resumes scanning."
+  },
+  "arModeWarehouse": "Warehouse",
+  "@arModeWarehouse": {
+    "description": "AR CodeVision: switch label for Warehouse mode (price/batch info, select codes, Batch Copy)."
+  },
+  "arModeSafety": "Safety",
+  "@arModeSafety": {
+    "description": "AR CodeVision: switch label for Safety mode (link safety badge on each code)."
+  },
+  "arModeWarehouseTooltip": "Show item info and select codes",
+  "@arModeWarehouseTooltip": {
+    "description": "AR CodeVision: tooltip of the Warehouse mode switch."
+  },
+  "arModeSafetyTooltip": "Show a safety badge on each link",
+  "@arModeSafetyTooltip": {
+    "description": "AR CodeVision: tooltip of the Safety mode switch."
+  },
+  "cameraStartFailed": "Camera could not start",
+  "@cameraStartFailed": {
+    "description": "Camera screens: shown when the camera fails to start."
+  },
+  "cameraNotFound": "No camera found on this phone",
+  "@cameraNotFound": {
+    "description": "Camera screens: shown when the phone has no usable camera."
+  },
+  "cameraRetryButton": "Try again",
+  "@cameraRetryButton": {
+    "description": "Camera screens: button that tries to start the camera again."
+  },
+  "codeForgeSafetyPrompt": "Check this link before you share it",
+  "@codeForgeSafetyPrompt": {
+    "description": "CodeForge link safety banner: text shown before the link has been checked."
+  },
+  "codeForgeSafetyCheckButton": "Check",
+  "@codeForgeSafetyCheckButton": {
+    "description": "CodeForge link safety banner: button that runs the link safety checks."
+  },
+  "codeForgeSafetyProblems": "{count, plural, =1{1 problem found in this link} other{{count} problems found in this link}}",
+  "@codeForgeSafetyProblems": {
+    "description": "CodeForge link safety banner: shown when the safety checks found problems.",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "codeForgeSafetyCheckAgain": "Check again",
+  "@codeForgeSafetyCheckAgain": {
+    "description": "CodeForge link safety banner: button that runs the checks again after problems were found."
   }
 }
-
-
-

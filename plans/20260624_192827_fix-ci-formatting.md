@@ -1,5 +1,7 @@
 # Fix CI failure: formatting check (and Node 20 warning)
 
+**Status:** completed
+
 ## Issue
 
 GitHub Actions CI (`.github/workflows/ci.yml`) fails on the **Check formatting** step:

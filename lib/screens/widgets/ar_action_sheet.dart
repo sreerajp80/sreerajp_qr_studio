@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/ar_code_target.dart';
-import 'package:sreeraj_qr_reader/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// Non-blocking floating action sheet for examining tapped AR targets.

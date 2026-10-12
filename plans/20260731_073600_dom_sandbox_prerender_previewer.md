@@ -1,6 +1,6 @@
 # Zero-Trust Sandboxed HTML Pre-Render Previewer
 
-**Status:** Proposed
+**Status:** completed
 
 ## Problem / Goal
 Implement Feature 5: Zero-Trust Sandboxed HTML Pre-Render Previewer in Sreeraj QR Reader. When a web URL QR code is scanned, the app fetches the destination HTML header and DOM hierarchy using a headless, script-disabled sandbox socket, blocks tracking scripts/automatic downloads/popups/redirect traps, checks domain age via WHOIS/RDAP, SSL validity, and renders a sanitized visual thumbnail preview card on `ResultScreen` before the user opens the link in the device browser.

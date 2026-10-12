@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/providers/batch_scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/providers/batch_scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 class MockUrlSafetyService extends UrlSafetyService {
   final bool returnSafe;
@@ -66,7 +66,10 @@ void main() {
     test('adds non-URL barcode into batch queue', () async {
       final provider = BatchScanProvider();
 
-      final item = await provider.addBarcode('ITEM-001', BarcodeType.product);
+      final item = await provider.addBarcode(
+        'ITEM-001',
+        CodeContentType.product,
+      );
       expect(item, isNotNull);
       expect(provider.count, equals(1));
       expect(provider.items.first.rawValue, equals('ITEM-001'));
@@ -77,12 +80,15 @@ void main() {
       final provider = BatchScanProvider();
       provider.setPreventDuplicates(true);
 
-      final first = await provider.addBarcode('ITEM-999', BarcodeType.text);
+      final first = await provider.addBarcode('ITEM-999', CodeContentType.text);
       expect(first, isNotNull);
       expect(provider.count, equals(1));
 
       // Attempt immediate duplicate
-      final second = await provider.addBarcode('ITEM-999', BarcodeType.text);
+      final second = await provider.addBarcode(
+        'ITEM-999',
+        CodeContentType.text,
+      );
       expect(second, isNull);
       expect(provider.count, equals(1));
     });
@@ -95,7 +101,7 @@ void main() {
 
         final item = await provider.addBarcode(
           'https://safe-link.com',
-          BarcodeType.url,
+          CodeContentType.url,
         );
         expect(item, isNotNull);
         expect(item!.isUrl, isTrue);
@@ -114,8 +120,8 @@ void main() {
 
     test('removes individual item and clears batch', () async {
       final provider = BatchScanProvider();
-      await provider.addBarcode('A', BarcodeType.text);
-      await provider.addBarcode('B', BarcodeType.text);
+      await provider.addBarcode('A', CodeContentType.text);
+      await provider.addBarcode('B', CodeContentType.text);
       expect(provider.count, equals(2));
 
       final firstId = provider.items.first.id;
@@ -130,8 +136,8 @@ void main() {
 
     test('exports batch records to CSV and JSON formats', () async {
       final provider = BatchScanProvider();
-      await provider.addBarcode('BOX-123', BarcodeType.product);
-      await provider.addBarcode('BOX-456', BarcodeType.product);
+      await provider.addBarcode('BOX-123', CodeContentType.product);
+      await provider.addBarcode('BOX-456', CodeContentType.product);
 
       final csvResult = await provider.exportBatch(ExportFormat.csv, labels);
       expect(csvResult, isA<String>());

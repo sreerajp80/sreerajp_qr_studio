@@ -1,6 +1,6 @@
 # Plan — 2.5 Modern Material You (M3), True OLED Dark Theme & Customizable Scan Overlay
 
-**Status:** Approved
+**Status:** completed
 
 ## Goal
 Implement Feature 2.5:

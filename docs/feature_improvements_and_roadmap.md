@@ -1,6 +1,6 @@
-# Feature Improvements & New Feature Roadmap — SreerajP QR Reader
+# Feature Improvements & New Feature Roadmap — SreerajP QR Studio
 
-> **Purpose:** This document lists improvements to existing features and new unique features that make SreerajP QR Reader stand out in the Android app market. Each item includes a brief rationale, expected user impact, architectural fit, and priority rating.
+> **Purpose:** This document lists improvements to existing features and new unique features that make SreerajP QR Studio stand out in the Android app market. Each item includes a brief rationale, expected user impact, architectural fit, and priority rating.
 >
 > **Audience:** Developer planning, product roadmap, AI agent reference.
 >
@@ -50,7 +50,7 @@ Before listing improvements, here is what the app already includes:
 | #     | Improvement                                       | Current State                                                                                                          | Proposed Change                                                                                                                                                                                             | Impact                                                                                     | Priority       |
 | ----- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | -------------- |
 | 2.1.1 | **Continuous Batch Scan Mode**                    | Implemented (`BatchScanProvider` + floating counter badge + `BatchReviewSheet` with 6-layer URL safety & batch export) | Toggle for continuous scanning queues multiple codes into a list without leaving the camera viewport, shows floating counter badge, batch list review, and CSV/JSON/TXT/PDF export with 6-layer URL safety. | High — warehouse workers and professionals scanning inventory need this.                   | ✅  Implemented |
-| 2.1.2 | **Distance-Enhanced Scanning Pipeline**           | Implemented (`DistanceEnhancementService` + ROI cropping, bilinear digital zoom, contrast boost, unsharp masking, camera autoZoom & Viewport controls) | Pure-Dart digital zoom-crop-enhance pipeline that extracts candidate regions of interest, applies bilinear upscaling and high-pass unsharp masking, leverages MLKit autoZoom, and provides a multi-scale fallback for distant photos. | Medium — accessibility improvement for physically distant codes (posters, overhead signs). | ✅  Implemented |
+| 2.1.2 | **Distance-Enhanced Scanning Pipeline**           | Implemented (`DistanceEnhancementService` + ROI cropping, bilinear digital zoom, contrast boost, unsharp masking, camera zoom & Viewport controls) | Pure-Dart digital zoom-crop-enhance pipeline that extracts candidate regions of interest, applies bilinear upscaling and high-pass unsharp masking, uses the app's own camera zoom control (`camera` plugin), and provides a multi-scale fallback for distant photos. | Medium — accessibility improvement for physically distant codes (posters, overhead signs). | ✅  Implemented |
 | 2.1.3 | **Scan From Clipboard**                           | Implemented (`ClipboardScanService` + native Android clipboard bridge + quick-action detection pill & AppBar button)   | Detect if system clipboard contains an image, URL, or raw barcode payload and offer a quick "Scan from Clipboard" button on the scanner screen.                                                             | Medium — fast workflow for links or images copied in messaging apps.                       | ✅  Implemented |
 | 2.1.4 | **Multi-Code Tappable Selection on Main Scanner** | Implemented (`MultiCodeSelectionProvider` + `MultiCodeService` + bounding box overlay & hint banner + CameraAdjustments toggle) | Outline all visible barcodes in the main camera view with subtle bounding boxes and let the user tap which specific code to inspect. | Medium — eliminates scan errors when multiple QR codes are printed close together. | ✅  Implemented |
 
@@ -74,7 +74,7 @@ Before listing improvements, here is what the app already includes:
 
 | #     | Improvement                              | Current State                                                      | Proposed Change                                                                                                                                         | Impact                                                                            | Priority      |
 | ----- | ---------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------- |
-| 2.4.1 | **Direct Wi-Fi Suggestion API**          | Implemented via native MethodChannel (`in.sreeraj.qr_reader/wifi`) | Uses Android's `WifiNetworkSuggestion` / `ACTION_WIFI_ADD_NETWORKS` to connect to the scanned Wi-Fi network with 1 tap.                                 | High — instant network connection without leaving the app.                        | ✅ Implemented |
+| 2.4.1 | **Direct Wi-Fi Suggestion API**          | Implemented via native MethodChannel (`in.sreerajp.qr_studio/wifi`) | Uses Android's `WifiNetworkSuggestion` / `ACTION_WIFI_ADD_NETWORKS` to connect to the scanned Wi-Fi network with 1 tap.                                 | High — instant network connection without leaving the app.                        | ✅ Implemented |
 | 2.4.2 | **TOTP Cloud-Free Vault**                | Scans TOTP and displays live countdown card                        | Provide an encrypted local vault screen where users can store and manage multiple 2FA accounts, transforming the app into an offline authenticator.     | High — dual utility: secure scanner + privacy-first 2FA authenticator.            | 🔴 High        |
 | 2.4.3 | **Rich Calendar Card & Timezone Picker** | Text preview with Google Calendar link                             | Display an interactive mini-calendar widget showing event start/end, recurrence rules, and a timezone selector.                                         | Medium — refined UX for business schedules.                                       | 🟡 Medium      |
 | 2.4.4 | **Inline Product Nutrition & Details**   | `ProductBarcodeActionCard` with Open Food Facts and Google buttons | Fetch Open Food Facts data directly inside the card (product name, brand, image, Nutri-Score, allergens) with local caching, avoiding a browser detour. | Medium — high value for grocery and retail shoppers.                              | 🟡 Medium      |
@@ -101,7 +101,7 @@ Before listing improvements, here is what the app already includes:
 
 ## 3. New Unique Features
 
-These features do not exist in the current app and represent greenfield capabilities designed to set SreerajP QR Reader apart.
+These features do not exist in the current app and represent greenfield capabilities designed to set SreerajP QR Studio apart.
 
 ### 3.1 🏆 QR ThreatMap — Community Threat Intelligence Feed
 
@@ -179,7 +179,7 @@ These features do not exist in the current app and represent greenfield capabili
 
 ### 3.6 🏆 TimeVault — Self-Destructing / Time-Locked QR Payloads
 
-**What:** In conjunction with CodeForge, generate QR codes that self-expire after a set timestamp. Scanned by SreerajP QR Reader, the content is decrypted only if the device clock is prior to the expiration timestamp; otherwise, the app displays a friendly expiration notice.
+**What:** In conjunction with CodeForge, generate QR codes that self-expire after a set timestamp. Scanned by SreerajP QR Studio, the content is decrypted only if the device clock is prior to the expiration timestamp; otherwise, the app displays a friendly expiration notice.
 
 **Why it stands out:** Privacy-centric temporary payload sharing for temporary Wi-Fi guest access, one-time coupons, or temporary event coordinates without requiring any cloud server.
 
@@ -203,7 +203,7 @@ These features do not exist in the current app and represent greenfield capabili
 
 ### 3.8 🏆 TrustBadge — Cryptographic QR Authenticity Verification
 
-**What:** Allows merchants and organizations to digitally sign their QR codes with an asymmetric private key. When scanned, SreerajP QR Reader verifies the digital signature using an embedded public key or local certificate, displaying a verified green "TrustBadge: Verified Authentic Merchant" certificate.
+**What:** Allows merchants and organizations to digitally sign their QR codes with an asymmetric private key. When scanned, SreerajP QR Studio verifies the digital signature using an embedded public key or local certificate, displaying a verified green "TrustBadge: Verified Authentic Merchant" certificate.
 
 **Why it stands out:** Directly solves physical quishing and counterfeit payment QR stickers by providing cryptographic proof of code authenticity.
 
@@ -344,7 +344,7 @@ These features do not exist in the current app and represent greenfield capabili
 
 ## 5. Competitive Edge Summary
 
-What makes SreerajP QR Reader already unique:
+What makes SreerajP QR Studio already unique:
 
 - **6-layer URL safety** — no competitor goes beyond single-layer checks.
 - **QuishingGuard** physical tamper detection — zero competitors detect printed sticker overlays.

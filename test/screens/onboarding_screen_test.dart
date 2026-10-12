@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/providers/batch_scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
-import 'package:sreeraj_qr_reader/providers/code_forge_provider.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
-import 'package:sreeraj_qr_reader/providers/onboarding_provider.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/screens/onboarding_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/providers/batch_scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
+import 'package:sreerajp_qr_studio/providers/code_forge_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
+import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
 
 Widget _createTestWidget({
   required OnboardingProvider onboardingProvider,

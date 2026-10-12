@@ -1,6 +1,6 @@
 # Plan — 2.4 Gallery & File Media Scanning
 
-**Status:** Completed
+**Status:** completed
 
 ## Goal
 Implement Feature 2.4 — Gallery & File Media Scanning:

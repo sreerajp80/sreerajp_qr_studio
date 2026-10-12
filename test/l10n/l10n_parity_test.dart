@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();

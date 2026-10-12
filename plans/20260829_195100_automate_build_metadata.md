@@ -1,6 +1,6 @@
 # Change Plan: Automate Build Version and Date Generation and Display Build Date in About Screen
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue Description
 Currently:

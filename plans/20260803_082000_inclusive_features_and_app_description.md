@@ -1,6 +1,6 @@
 # Plan: Ensure all features are listed and App Description is fully inclusive
 
-**Status:** Proposed
+**Status:** completed
 
 ## Problem / Issue
 

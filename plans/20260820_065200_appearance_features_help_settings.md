@@ -1,6 +1,6 @@
 # Plan: Replicate Appearance, Features, and Help Cards under Settings
 
-**Status:** Completed
+**Status:** completed
 
 ## Files to Change
 1. `lib/l10n/app_en.arb` - Add localization strings and `@key` descriptions for Appearance, Features, and Help screens, categories, topics, and guides.

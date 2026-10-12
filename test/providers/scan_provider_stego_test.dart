@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('ScanProvider StegoQR Integration', () {
@@ -24,7 +24,7 @@ void main() {
         decoyText: decoyUrl,
       );
 
-      provider.setScanResult(stegoPayload, BarcodeType.url);
+      provider.setScanResult(stegoPayload, CodeContentType.url);
 
       expect(provider.isStegoQr, isTrue);
       expect(provider.stegoQrData, isNotNull);
@@ -44,7 +44,7 @@ void main() {
         decoyText: decoy,
       );
 
-      provider.setScanResult(stegoPayload, BarcodeType.text);
+      provider.setScanResult(stegoPayload, CodeContentType.text);
 
       final success = provider.unlockStegoWithPassphrase(passphrase);
       expect(success, isTrue);
@@ -54,7 +54,7 @@ void main() {
 
     test('clearScan resets StegoQR state', () {
       const stegoPayload = 'Decoy\n\n[STEGOQR:v1:salt:iv:ciphertext]';
-      provider.setScanResult(stegoPayload, BarcodeType.text);
+      provider.setScanResult(stegoPayload, CodeContentType.text);
 
       expect(provider.isStegoQr, isTrue);
 

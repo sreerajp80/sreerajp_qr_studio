@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 /// Service providing export capabilities (CSV, JSON, TXT, PDF) and encrypted backup/restore.
 class HistoryExportService {
@@ -51,7 +52,7 @@ class HistoryExportService {
     final list = records.map((r) => r.toJson()).toList();
     const encoder = JsonEncoder.withIndent('  ');
     return encoder.convert({
-      'app': 'SreerajP QR Reader',
+      'app': 'SreerajP QR Studio',
       'version': '2.4.3',
       'exportedAt': DateTime.now().toIso8601String(),
       'totalRecords': records.length,

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/air_qr_progress.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/services/air_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/air_qr_progress.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/services/air_qr_service.dart';
 
 /// Provider managing AirQR optical stream decoding state, progress, and reassembled result.
 class AirQrProvider extends ChangeNotifier {

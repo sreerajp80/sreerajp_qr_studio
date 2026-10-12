@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sreeraj_qr_reader/core/config/app_config.dart';
-import 'package:sreeraj_qr_reader/core/config/config_service.dart';
+import 'package:sreerajp_qr_studio/core/config/app_config.dart';
+import 'package:sreerajp_qr_studio/core/config/config_service.dart';
 
 void main() {
   group('LocalizedText', () {
@@ -153,7 +153,7 @@ void main() {
         final service = ConfigService(loadAsset: mockLoader);
         final mockInfo = PackageInfo(
           appName: 'Mock App',
-          packageName: 'in.sreeraj.qr_reader',
+          packageName: 'in.sreerajp.qr_studio',
           version: '1.4.3',
           buildNumber: '2',
         );

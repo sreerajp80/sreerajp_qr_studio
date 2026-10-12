@@ -1,6 +1,6 @@
 # Plan — Update docs/features.md to reflect all app features accurately
 
-**Status:** Proposed
+**Status:** completed
 
 ## Problem / Issue
 `docs/features.md` contains several minor inaccuracies, missing feature details, and outdated metadata when compared against the codebase in `lib/`, `pubspec.yaml`, and `assets/config/app_config.json`:

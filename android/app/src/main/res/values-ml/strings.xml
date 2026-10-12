@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_bubble_tile_label">സ്കാൻ ബബിൾ</string>
+    <string name="scan_bubble_shortcut_short">സ്കാൻ ബബിൾ</string>
+    <string name="scan_bubble_shortcut_long">സ്കാൻ ബബിൾ തുടങ്ങുക</string>
+    <string name="scan_bubble_channel_name">സ്കാൻ ബബിൾ</string>
+    <string name="scan_bubble_channel_description">സ്കാൻ ബബിൾ ഓണായിരിക്കുമ്പോൾ കാണിക്കും</string>
+    <string name="scan_bubble_notification_title">സ്കാൻ ബബിൾ ഓണാണ്</string>
+    <string name="scan_bubble_notification_text">സ്ക്രീനിലെ കോഡ് സ്കാൻ ചെയ്യാൻ ബബിളിൽ തൊടുക</string>
+    <string name="scan_bubble_notification_turn_off">ഓഫാക്കുക</string>
+    <string name="scan_bubble_content_description">സ്ക്രീനിലെ കോഡ് സ്കാൻ ചെയ്യുക</string>
+</resources>

@@ -1,6 +1,6 @@
 # Plan: Remove Redundant About Icon from Scanner Screen Top Bar
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem / Background
 The **About** section was moved inside the **Settings** screen as an About Card. However, the top `AppBar` of `ScannerScreen` still contains a separate `IconButton` for `Icons.info_outline` pointing to `/about`. Having both a Settings icon and an About icon in the top action bar is redundant since About is accessible inside Settings.

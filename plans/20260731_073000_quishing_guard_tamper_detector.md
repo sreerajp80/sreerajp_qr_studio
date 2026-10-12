@@ -1,6 +1,6 @@
 # QuishingGuard — Physical Print & Sticker Tamper Detector
 
-**Status:** Proposed
+**Status:** completed
 
 ## Problem / Goal
 Implement on-device computer vision engine `QuishingGuard` to detect physical sticker overlays ("Quishing" / QR Phishing) over legitimate public posters, parking meters, or restaurant menus by analyzing edge reflection profiles, boundary depth discontinuities, print DPI micro-patterns, dot density variance, and chromatic aberration.

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 /// Immutable container carrying scan history records and app configuration
 /// for air-gapped device synchronization via AirQR.
@@ -21,7 +21,7 @@ class DeviceSyncData {
 
   Map<String, dynamic> toJson() {
     return {
-      'app': 'SreerajP QR Reader',
+      'app': 'SreerajP QR Studio',
       'version': version,
       'exportedAt': exportedAt.toIso8601String(),
       'totalRecords': records.length,

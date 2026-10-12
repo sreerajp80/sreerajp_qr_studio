@@ -1,6 +1,6 @@
 # Wi-Fi Direct Connect Action Plan
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 When a user scans a Wi-Fi QR code and taps "Connect to Wi-Fi", the app currently copies the Wi-Fi password to the clipboard and redirects the user to the Android Wi-Fi settings page. It does not connect to the network directly. The user expected the action button to connect directly to the Wi-Fi network instead of opening the settings screen.

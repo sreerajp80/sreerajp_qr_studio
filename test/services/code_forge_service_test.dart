@@ -1,8 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
-import 'package:sreeraj_qr_reader/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/services/code_forge_service.dart';
 
 void main() {
   group('CodeForgeService Tests', () {
@@ -139,6 +140,48 @@ void main() {
         rawContent: 'NOT-NUMBERS',
       );
       expect(service.validateContent(invalidEan13), isNotNull);
+    });
+
+    test('validateContent returns a localizable message key, not text', () {
+      expect(
+        service.validateContent(const CodeForgeConfig())?.key,
+        AppMessageKey.codeForgeContentEmpty,
+      );
+
+      final tooLong = service.validateContent(
+        CodeForgeConfig(rawContent: 'A' * 501),
+      );
+      expect(tooLong?.key, AppMessageKey.codeForgeTextTooLong);
+      expect(tooLong?.args['max'], '500');
+
+      expect(
+        service
+            .validateContent(
+              const CodeForgeConfig(payloadType: CodeForgePayloadType.wifi),
+            )
+            ?.key,
+        AppMessageKey.codeForgeWifiSsidRequired,
+      );
+
+      expect(
+        service
+            .validateContent(
+              const CodeForgeConfig(
+                payloadType: CodeForgePayloadType.upiPayment,
+              ),
+            )
+            ?.key,
+        AppMessageKey.codeForgeUpiVpaRequired,
+      );
+
+      final badEan = service.validateContent(
+        const CodeForgeConfig(
+          barcodeType: CodeForgeBarcodeType.ean13,
+          rawContent: 'NOT-NUMBERS',
+        ),
+      );
+      expect(badEan?.key, AppMessageKey.codeForgeBarcodeInvalid);
+      expect(badEan?.args['detail'], isNotEmpty);
     });
 
     test('generateQrMatrix generates valid matrix and module count', () {

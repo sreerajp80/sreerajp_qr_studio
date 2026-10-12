@@ -1,21 +1,29 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
+import 'package:sreerajp_qr_studio/models/ghost_scan_capture.dart';
 
 /// Service interfacing with the native Android GhostScan platform channel.
 ///
-/// Enables on-demand screen content QR code detection via Quick Settings tile
-/// or in-app trigger, strictly compliant with Google Play Store policies.
+/// Enables on-demand screen content QR code detection via Quick Settings tile,
+/// the floating Scan bubble, or in-app trigger, strictly compliant with
+/// Google Play Store policies.
 class GhostScanService {
   static const MethodChannel _defaultChannel = MethodChannel(
-    'in.sreeraj.qr_reader/ghost_scan',
+    'in.sreerajp.qr_studio/ghost_scan',
   );
 
   final MethodChannel _channel;
-  final StreamController<String> _ghostScanImageController =
-      StreamController<String>.broadcast();
+  final StreamController<GhostScanCapture> _captureController =
+      StreamController<GhostScanCapture>.broadcast();
+
+  /// Stream of screen captures delivered from GhostScan.
+  Stream<GhostScanCapture> get onCapture => _captureController.stream;
 
   /// Stream of captured image paths delivered from GhostScan.
-  Stream<String> get onGhostScanImage => _ghostScanImageController.stream;
+  Stream<String> get onGhostScanImage =>
+      onCapture.map((capture) => capture.imagePath);
 
   GhostScanService({MethodChannel? channel})
     : _channel = channel ?? _defaultChannel {
@@ -24,9 +32,9 @@ class GhostScanService {
 
   Future<dynamic> _handleMethodCall(MethodCall call) async {
     if (call.method == 'onGhostScanImage') {
-      final dynamic arg = call.arguments;
-      if (arg is String && arg.isNotEmpty) {
-        _ghostScanImageController.add(arg);
+      final capture = GhostScanCapture.fromChannel(call.arguments);
+      if (capture != null) {
+        _captureController.add(capture);
       }
     }
   }
@@ -74,16 +82,37 @@ class GhostScanService {
   }
 
   /// Checks if the app was launched with a pending GhostScan capture.
-  Future<String?> getInitialGhostScanImage() async {
+  Future<GhostScanCapture?> getInitialCapture() async {
     try {
-      return await _channel.invokeMethod<String>('getInitialGhostScanImage');
+      final dynamic value = await _channel.invokeMethod<dynamic>(
+        'getInitialGhostScanImage',
+      );
+      return GhostScanCapture.fromChannel(value);
     } catch (_) {
       return null;
     }
   }
 
+  /// Checks if the app was launched with a pending GhostScan capture and
+  /// returns only its image path.
+  Future<String?> getInitialGhostScanImage() async {
+    final capture = await getInitialCapture();
+    return capture?.imagePath;
+  }
+
+  /// Deletes a captured screen picture from the app cache once it has been
+  /// decoded. Errors are ignored: the cache is cleared by Android anyway.
+  Future<void> deleteCapture(String imagePath) async {
+    try {
+      final file = File(imagePath);
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (_) {}
+  }
+
   /// Releases resources.
   void dispose() {
-    _ghostScanImageController.close();
+    _captureController.close();
   }
 }

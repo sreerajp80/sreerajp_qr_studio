@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 /// Modal bottom sheet displaying detailed scan record metadata with note editing and location tagging.
 class HistoryDetailSheet extends StatefulWidget {
@@ -100,6 +100,13 @@ class _HistoryDetailSheetState extends State<HistoryDetailSheet> {
                   label: Text(widget.record.barcodeFormat),
                   backgroundColor: theme.colorScheme.secondaryContainer,
                 ),
+                if (widget.record.isFromScreen) ...[
+                  const SizedBox(width: 8),
+                  Chip(
+                    avatar: const Icon(Icons.screenshot_monitor, size: 16),
+                    label: Text(l10n.historySourceScreen),
+                  ),
+                ],
                 const Spacer(),
                 Text(
                   l10n.historySafetyBadge(widget.record.safetyScore),

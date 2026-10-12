@@ -1,13 +1,13 @@
-# SreerajP QR Reader
+# SreerajP QR Studio
 
 <div align="center">
 
-![SreerajP QR Reader](assets/app_icon.png)
+![SreerajP QR Studio](assets/app_icon.png)
 
 **Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Multi-Provider Threat Intelligence, Quishing Guard, StegoQR Encryption, AirQR Optical Sync, and Tri-Lingual Support.**
 
-[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.44.8-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-%3E%3D3.12.2-0175C2?logo=dart&logoColor=white)](https://dart.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.47.6-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-%3E%3D3.13.5-0175C2?logo=dart&logoColor=white)](https://dart.dev)
 [![Platform](https://img.shields.io/badge/Platform-Android%20(SDK%2024%2B)-3DDC84?logo=android&logoColor=white)](https://android.com)
 [![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20ML%20%7C%20SA-blue)](#-tri-lingual-localization)
 [![Security](https://img.shields.io/badge/Privacy-Offline--First-success)](#-security--privacy-architecture)
@@ -19,9 +19,9 @@
 
 ## 📖 Overview
 
-**SreerajP QR Reader** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
+**SreerajP QR Studio** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
 
-Beyond standard barcode decoding, SreerajP QR Reader serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
+Beyond standard barcode decoding, SreerajP QR Studio serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
 - **6-Layer URL Safety & Threat Intelligence** protects against phishing, malicious redirects, and lookalike domains using local heuristics plus Google Safe Browsing, VirusTotal, URLhaus, PhishTank, and OpenPhish.
 - **QuishingGuard™** performs on-device computer vision forensic analysis to detect physical sticker overlays on genuine QR codes.
 - **Zero-Trust Sandboxed Preview** renders web destinations in an isolated, script-disabled environment with domain age (WHOIS) insights before opening.
@@ -107,7 +107,7 @@ Scanned content is automatically parsed into interactive action cards:
 
 ### 📡 AirQR Optical Air-Gapped Data Transfer & Device Sync
 Transfer data and synchronize devices without Wi-Fi, Bluetooth, cellular data, or cables:
-- **Transmitter Mode**: Splits data into 256-byte chunks with Fountain FEC error-correction codes and broadcasts them as an animated sequence of QR codes at configurable frame rates (5–25 FPS).
+- **Transmitter Mode**: Splits data into small chunks (150 bytes by default) with Fountain FEC error-correction codes and broadcasts them as an animated sequence of QR codes at configurable frame rates (5–25 FPS).
 - **Receiver Mode**: Captures the optical QR stream via camera, tracks received blocks, recovers missing packets via error correction, and reassembles the complete payload.
 - **Air-Gapped Device Sync**: Beams encrypted SQLite scan history and application settings (`.sreerajqr` / `SREERAJ_AIRQR_SYNC_V1` container) from one phone to another. The receiving phone detects the sync container, prompts for the decryption passphrase, and immediately restores history and applies app preferences without restart.
 
@@ -128,6 +128,7 @@ Transfer data and synchronize devices without Wi-Fi, Bluetooth, cellular data, o
 - **Gallery & Multi-Page PDF Scanning**: Scan codes from existing photos or multi-page PDF documents with batch extraction and "Save All to History".
 - **Android Share Sheet Target**: Receives shared images and PDF files directly from other applications.
 - **GhostScan™ Screen Content Detector**: Scans QR codes visible on your screen via an Android Quick Settings tile without manual screenshot cropping.
+- **Scan Bubble**: An optional floating button over other apps. Tap it to scan a code shown on screen. Turn it on from Settings, a Quick Settings tile, or the app icon shortcut.
 - **Clipboard Scanner**: Automatically identifies and previews scannable barcode data present on the Android clipboard with 1-tap scanning.
 - **Continuous Batch Scan Mode**: Rapidly queues multiple scans without leaving the viewfinder, complete with duplicate prevention and multi-format export.
 
@@ -219,17 +220,17 @@ lib/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Flutter SDK**: `>=3.44.8`
-- **Dart SDK**: `>=3.12.2 <4.0.0`
-- **Android SDK**: `minSdk 24`, `compileSdk 37`, `targetSdk 35`
+- **Flutter SDK**: `>=3.47.6`
+- **Dart SDK**: `>=3.13.5 <4.0.0`
+- **Android SDK**: `minSdk 24`, `compileSdk 37`, `targetSdk 36`
 - Android Studio / VS Code with Flutter extension
 
 ### Installation & Setup
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/sreerajp80/sreeraj_qr_reader.git
-   cd sreeraj_qr_reader
+   git clone https://github.com/sreerajp80/sreerajp_qr_studio.git
+   cd sreerajp_qr_studio
    ```
 
 2. **Install dependencies**:
@@ -280,8 +281,8 @@ flutter build appbundle --flavor prod --release
 
 | Flavor | Application ID | Display Name | Signing |
 | :--- | :--- | :--- | :--- |
-| **`dev`** | `in.sreeraj.qr_reader.dev` | `QR Reader Dev` | Automatic Debug Keystore |
-| **`prod`** | `in.sreeraj.qr_reader` | `SreerajP QR Reader` | Release Keystore (`android/key.properties`) |
+| **`dev`** | `in.sreerajp.qr_studio.dev` | `QR Studio Dev` | Automatic Debug Keystore |
+| **`prod`** | `in.sreerajp.qr_studio` | `SreerajP QR Studio` | Release Keystore (`android/key.properties`) |
 
 ---
 
@@ -290,7 +291,8 @@ flutter build appbundle --flavor prod --release
 - **Author**: Sreeraj P ([sreerajp@zohomail.in](mailto:sreerajp@zohomail.in))
 - **AI Coding Assistance**: Anthropic Claude, Gemini 3.6, ChatGPT 5.4
 - **IDEs**: VS Code / Gemini Antigravity IDE
-- **Core Open-Source Libraries**: `mobile_scanner`, `provider`, `dynamic_color`, `qr_flutter`, `encrypt`, `pointycastle`, `sqflite`, `local_auth`, `url_launcher`, `share_plus`, `pdfx`, `pdf`, `receive_sharing_intent`, `permission_handler`.
+- **Barcode Engine**: the app's own decoder built on [zxing-cpp](https://github.com/zxing-cpp/zxing-cpp) v3.1.1 (Apache-2.0), vendored in `native/` and called through dart:ffi. No Google ML Kit and no scanner telemetry.
+- **Core Open-Source Libraries**: `camera`, `ffi`, `provider`, `dynamic_color`, `qr_flutter`, `encrypt`, `pointycastle`, `sqflite`, `local_auth`, `url_launcher`, `share_plus`, `pdfx`, `pdf`, `receive_sharing_intent`, `permission_handler`.
 
 ---
 

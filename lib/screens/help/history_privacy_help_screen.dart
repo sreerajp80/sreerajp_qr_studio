@@ -1,67 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class HistoryPrivacyHelpScreen extends StatelessWidget {
   const HistoryPrivacyHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('History, Backups & Privacy')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Your scan records belong solely to you. SreerajP QR Reader stores all history entries in a '
-            'local SQLite database on your device with biometric authentication safeguards and structured export formats.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.history,
-            title: 'Scan History Management',
-            children: [
-              _Bullet(
-                'Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).',
-              ),
-              _Bullet(
-                'Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.',
-              ),
-              _Bullet(
-                'Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.import_export,
-            title: 'Backup & Restore (JSON / CSV)',
-            children: [
-              _Bullet(
-                'JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.',
-              ),
-              _Bullet(
-                'CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.',
-              ),
-              _Bullet(
-                'One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.fingerprint,
-            title: 'Biometrics & Screenshot Guard',
-            children: [
-              _Bullet(
-                'Biometric Authentication: Protects sensitive StegoQR hidden records using your device fingerprint or facial recognition.',
-              ),
-              _Bullet(
-                'Screenshot Guard: Prevents malicious background apps or unauthorized shoulder-surfers from capturing screen content (FLAG_SECURE).',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpHistory)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideHistoryIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.history,
+              title: l10n.helpGuideHistoryManageTitle,
+              children: [
+                _Bullet(l10n.helpGuideHistoryManageBullet1),
+                _Bullet(l10n.helpGuideHistoryManageBullet2),
+                _Bullet(l10n.helpGuideHistoryManageBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.import_export,
+              title: l10n.helpGuideHistoryBackupTitle,
+              children: [
+                _Bullet(l10n.helpGuideHistoryBackupBullet1),
+                _Bullet(l10n.helpGuideHistoryBackupBullet2),
+                _Bullet(l10n.helpGuideHistoryBackupBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.fingerprint,
+              title: l10n.helpGuideHistoryBiometricsTitle,
+              children: [
+                _Bullet(l10n.helpGuideHistoryBiometricsBullet1),
+                _Bullet(l10n.helpGuideHistoryBiometricsBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideHistoryTip),
+          ],
+        ),
       ),
     );
   }
@@ -109,10 +94,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

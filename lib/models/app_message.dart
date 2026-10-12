@@ -184,6 +184,13 @@ enum AppMessageKey {
   codeForgeFileTruncated,
   codeForgeFileLoaded,
   codeForgeFileReadError,
+
+  // --- CodeForge input checks ---
+  codeForgeContentEmpty,
+  codeForgeTextTooLong,
+  codeForgeWifiSsidRequired,
+  codeForgeUpiVpaRequired,
+  codeForgeBarcodeInvalid,
 }
 
 /// One user-visible message, named by [key], plus any values it carries.

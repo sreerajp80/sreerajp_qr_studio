@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// One feature item displayed on the Features screen.
 class _AppFeature {
@@ -31,297 +31,333 @@ class _FeatureCategory {
   });
 }
 
-/// Lists all features of SreerajP QR Reader, grouped by category with visual cards.
+/// Lists all features of SreerajP QR Studio, grouped by category with visual cards.
 class FeaturesScreen extends StatelessWidget {
   const FeaturesScreen({super.key});
 
-  static const List<_FeatureCategory> _categories = [
-    _FeatureCategory(
-      name: 'Core Scanning & Ingestion',
-      subtitle:
-          'Lightning-fast 1D/2D barcode engine with multi-source media support',
-      icon: Icons.qr_code_scanner,
-      features: [
-        _AppFeature(
-          title: 'Multi-Format Barcode Engine',
-          description:
-              'Instantly decodes 1D barcodes (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) and 2D codes (QR, Data Matrix, Aztec, PDF417) in milliseconds.',
-          icon: Icons.document_scanner_outlined,
-          highlights: ['QR & Data Matrix', 'Aztec & PDF417', 'EAN & Code 128'],
-        ),
-        _AppFeature(
-          title: 'Multi-Source Media & PDF Ingestion',
-          description:
-              'Scan barcodes from live camera feed, select existing images from your gallery, or extract and parse barcodes across multi-page PDF documents.',
-          icon: Icons.photo_library_outlined,
-          highlights: ['Gallery Photos', 'Multi-Page PDF', 'Live Viewport'],
-        ),
-        _AppFeature(
-          title: 'GhostScan Screen Content Detector',
-          description:
-              'Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile or on-demand trigger without saving screenshots.',
-          icon: Icons.screenshot_monitor,
-          highlights: [
-            'Quick Settings Tile',
-            'No Screenshots Saved',
-            'Instant Scan',
-          ],
-        ),
-        _AppFeature(
-          title: 'Precision Camera Controls',
-          description:
-              'Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.',
-          icon: Icons.camera_alt_outlined,
-          highlights: ['Flashlight Torch', 'Zoom Control', 'Front/Back Flip'],
-        ),
-        _AppFeature(
-          title: 'Customizable Scan Overlays',
-          description:
-              'Choose between Laser Line, Pulsing Corners, Cybernetic Grid, or Subtle Dot Matrix viewfinder overlays with live feedback.',
-          icon: Icons.layers_outlined,
-          highlights: ['4 Overlay Styles', 'Live Animation', 'OLED Compatible'],
-        ),
-        _AppFeature(
-          title: 'Tactile Haptic & Audio Feedback',
-          description:
-              'Customizable vibration pulses and audible beep tones confirm successful recognition even in noisy environments.',
-          icon: Icons.vibration,
-          highlights: ['Haptic Pulse', 'Audio Beep', 'Independent Toggles'],
-        ),
-      ],
-    ),
-    _FeatureCategory(
-      name: '6-Layer URL Safety & Forensic Engine',
-      subtitle:
-          'Zero-trust forensic analysis defending you against malicious QR phishing & scams',
-      icon: Icons.security_outlined,
-      features: [
-        _AppFeature(
-          title: 'Protocol & Syntax Guard (Layer 1)',
-          description:
-              'Validates scheme authenticity, checks for encrypted HTTPS connections, and flags plain HTTP or unsupported schemes.',
-          icon: Icons.lock_outline,
-          highlights: [
-            'HTTPS Validation',
-            'Scheme Checking',
-            'Zero-Width Char Trap',
-          ],
-        ),
-        _AppFeature(
-          title: 'Homograph & Unicode Shield (Layer 2)',
-          description:
-              'Detects lookalike Cyrillic, Greek, and Unicode spoofing characters used to disguise fraudulent domain names (IDN punycode defense).',
-          icon: Icons.spellcheck,
-          highlights: [
-            'Punycode Defense',
-            'Cyrillic Lookalikes',
-            'Mixed-Script Trap',
-          ],
-        ),
-        _AppFeature(
-          title: 'Suspicious TLD & Entropy Analysis (Layer 3)',
-          description:
-              'Flags high-risk top-level domains, excessive subdomains, and evaluates domain name character entropy to catch algorithmic domains.',
-          icon: Icons.dns_outlined,
-          highlights: ['High-Risk TLDs', 'Entropy Scoring', 'Subdomain Depth'],
-        ),
-        _AppFeature(
-          title: 'Heuristic IP & Port Flagging (Layer 4)',
-          description:
-              'Flags links pointing directly to raw IP addresses or non-standard HTTP/HTTPS network ports designed to bypass firewalls.',
-          icon: Icons.router_outlined,
-          highlights: [
-            'Raw IP Traps',
-            'Non-Standard Ports',
-            'Embedded Userinfo',
-          ],
-        ),
-        _AppFeature(
-          title: 'Privacy-Safe Online Head Probing (Layer 5)',
-          description:
-              'Optional opt-in lightweight HTTP HEAD probing to resolve URL shorteners, uncover hidden redirect chains, and verify TLS certificates.',
-          icon: Icons.travel_explore,
-          highlights: [
-            'Redirect Chains',
-            'Shortener Unrolling',
-            'Opt-In Privacy',
-          ],
-        ),
-        _AppFeature(
-          title: 'Google Safe Browsing API (Layer 6)',
-          description:
-              'Optional cloud threat intelligence against millions of known malicious URLs, malware distribution hubs, and social engineering sites.',
-          icon: Icons.shield_outlined,
-          highlights: [
-            'Google Threat DB',
-            'Local Key Storage',
-            'Daily Quota Meter',
-          ],
-        ),
-      ],
-    ),
-    _FeatureCategory(
-      name: 'QuishingGuard™ & Advanced AI Vision',
-      subtitle:
-          'Cutting-edge on-device computer vision and optical air-gap data streaming',
-      icon: Icons.remove_red_eye_outlined,
-      features: [
-        _AppFeature(
-          title: 'QuishingGuard™ Physical Tamper Detection',
-          description:
-              'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.',
-          icon: Icons.policy_outlined,
-          highlights: [
-            'Sticker Overlays',
-            'Edge Discontinuity',
-            'Print Grain Analysis',
-          ],
-        ),
-        _AppFeature(
-          title: 'AR CodeVision™ Spatial HUD',
-          description:
-              'Augmented Reality multi-barcode scanner displaying floating interactive chips over all detected codes with live safety badges and batch selection.',
-          icon: Icons.view_in_ar_outlined,
-          highlights: ['Spatial Tracking', 'Multi-Code HUD', 'Batch Select'],
-        ),
-        _AppFeature(
-          title: 'AirQR™ Optical Air-Gap Data Stream',
-          description:
-              'High-speed animated strobe QR transmitter & receiver pipeline transferring encrypted text, files, and keys completely offline without Wi-Fi or Bluetooth.',
-          icon: Icons.stream,
-          highlights: [
-            'Animated Strobe QR',
-            'Reed-Solomon FEC',
-            '100% Offline Air-Gap',
-          ],
-        ),
-        _AppFeature(
-          title: 'StegoQR™ Steganographic Scanner',
-          description:
-              'Discovers and extracts hidden encrypted payloads and watermarked data layers invisibly embedded within custom QR codes.',
-          icon: Icons.vpn_key_outlined,
-          highlights: ['Decoy QR Parsing', 'AES Decryption', 'Biometric Auth'],
-        ),
-      ],
-    ),
-    _FeatureCategory(
-      name: 'Smart Payloads & 1-Tap Integrations',
-      subtitle:
-          'Instant parsing and contextual native actions for everyday barcodes',
-      icon: Icons.touch_app_outlined,
-      features: [
-        _AppFeature(
-          title: 'Wi-Fi Instant Auto Connect',
-          description:
-              'Parses WPA/WPA2/WPA3 network credentials, displays network info, copies passwords, and opens Wi-Fi settings in 1 tap.',
-          icon: Icons.wifi,
-          highlights: ['WPA3 & WPA2', '1-Tap Connect', 'Password Reveal/Copy'],
-        ),
-        _AppFeature(
-          title: 'UPI & Global Crypto Payments',
-          description:
-              'Parses Indian UPI QR codes (dispatching to GPay, PhonePe, Paytm) and Bitcoin/Ethereum/Solana crypto payment addresses with amount detection.',
-          icon: Icons.payment_outlined,
-          highlights: ['UPI App Dispatch', 'Crypto Wallets', 'SEPA Transfer'],
-        ),
-        _AppFeature(
-          title: 'TOTP 2FA Authenticator & Token Generator',
-          description:
-              'Scans 2FA setup codes, renders live rolling 6-digit OTP passcodes with circular countdown timers, and imports into authenticator apps.',
-          icon: Icons.timer_outlined,
-          highlights: ['Live Passcodes', 'Visual Countdown', 'App Importer'],
-        ),
-        _AppFeature(
-          title: 'Contacts & vCard Importer',
-          description:
-              'Parses vCard 2.1/3.0/4.0 and MeCard contact barcodes with 1-tap phone dialing, email composition, and saving to your address book.',
-          icon: Icons.contact_phone_outlined,
-          highlights: ['vCard 4.0', '1-Tap Save', 'Direct Call & Email'],
-        ),
-        _AppFeature(
-          title: 'Calendar Events & Scheduling',
-          description:
-              'Reads iCalendar VEVENT formats with start/end time ranges, locations, and descriptions, adding them directly to your device calendar.',
-          icon: Icons.event_outlined,
-          highlights: ['iCal Parsing', 'Start/End Time', 'Device Calendar Add'],
-        ),
-        _AppFeature(
-          title: 'Geographic Location & Navigation',
-          description:
-              'Parses geo: coordinates and search queries, offering instant navigation directions via Google Maps.',
-          icon: Icons.location_on_outlined,
-          highlights: [
-            'Lat/Long Parsing',
-            'Google Maps Link',
-            'Search Queries',
-          ],
-        ),
-      ],
-    ),
-    _FeatureCategory(
-      name: 'History, Backup & Privacy Vault',
-      subtitle:
-          'Your personal scan history protected by biometric security and offline storage',
-      icon: Icons.history_edu_outlined,
-      features: [
-        _AppFeature(
-          title: 'Comprehensive Offline Scan History',
-          description:
-              'Stores every scan locally with payload categorization, safety scores, timestamp tracking, favorite stars, and real-time full-text search.',
-          icon: Icons.history,
-          highlights: [
-            'Full-Text Search',
-            'Category Filtering',
-            'Favorite Stars',
-          ],
-        ),
-        _AppFeature(
-          title: 'Flexible JSON & CSV Backups',
-          description:
-              'Export your complete scan history to standard CSV spreadsheets or encrypted JSON backup files with one-click restore.',
-          icon: Icons.import_export,
-          highlights: ['CSV Spreadsheet', 'JSON Backup', 'One-Click Restore'],
-        ),
-        _AppFeature(
-          title: 'Biometric & Screen Security Guard',
-          description:
-              'Protects sensitive hidden StegoQR payloads and history with fingerprint/face authentication and blocks screen captures (FLAG_SECURE).',
-          icon: Icons.fingerprint,
-          highlights: [
-            'Biometric Prompt',
-            'Screenshot Guard',
-            'Encrypted Storage',
-          ],
-        ),
-        _AppFeature(
-          title: '100% Offline-First Privacy',
-          description:
-              'Scans, decodes, and analyzes barcodes completely on your phone without sending any data to external servers by default.',
-          icon: Icons.lock_person_outlined,
-          highlights: ['No Telemetry', 'Zero Ads', 'Open-Source Safety'],
-        ),
-      ],
-    ),
-  ];
+  /// Builds the feature list from localized strings.
+  static List<_FeatureCategory> _buildCategories(AppLocalizations l10n) {
+    return [
+      _FeatureCategory(
+        name: l10n.featuresCatScanningName,
+        subtitle: l10n.featuresCatScanningSubtitle,
+        icon: Icons.qr_code_scanner,
+        features: [
+          _AppFeature(
+            title: l10n.featureBarcodeEngineTitle,
+            description: l10n.featureBarcodeEngineDesc,
+            icon: Icons.document_scanner_outlined,
+            highlights: [
+              l10n.featureBarcodeEngineChip1,
+              l10n.featureBarcodeEngineChip2,
+              l10n.featureBarcodeEngineChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureMediaSourcesTitle,
+            description: l10n.featureMediaSourcesDesc,
+            icon: Icons.photo_library_outlined,
+            highlights: [
+              l10n.featureMediaSourcesChip1,
+              l10n.featureMediaSourcesChip2,
+              l10n.featureMediaSourcesChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureGhostScanTitle,
+            description: l10n.featureGhostScanDesc,
+            icon: Icons.screenshot_monitor,
+            highlights: [
+              l10n.featureGhostScanChip1,
+              l10n.featureGhostScanChip2,
+              l10n.featureGhostScanChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureCameraControlsTitle,
+            description: l10n.featureCameraControlsDesc,
+            icon: Icons.camera_alt_outlined,
+            highlights: [
+              l10n.featureCameraControlsChip1,
+              l10n.featureCameraControlsChip2,
+              l10n.featureCameraControlsChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureScanOverlaysTitle,
+            description: l10n.featureScanOverlaysDesc,
+            icon: Icons.layers_outlined,
+            highlights: [
+              l10n.featureScanOverlaysChip1,
+              l10n.featureScanOverlaysChip2,
+              l10n.featureScanOverlaysChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureFeedbackTitle,
+            description: l10n.featureFeedbackDesc,
+            icon: Icons.vibration,
+            highlights: [
+              l10n.featureFeedbackChip1,
+              l10n.featureFeedbackChip2,
+              l10n.featureFeedbackChip3,
+            ],
+          ),
+        ],
+      ),
+      _FeatureCategory(
+        name: l10n.featuresCatSafetyName,
+        subtitle: l10n.featuresCatSafetySubtitle,
+        icon: Icons.security_outlined,
+        features: [
+          _AppFeature(
+            title: l10n.featureProtocolGuardTitle,
+            description: l10n.featureProtocolGuardDesc,
+            icon: Icons.lock_outline,
+            highlights: [
+              l10n.featureProtocolGuardChip1,
+              l10n.featureProtocolGuardChip2,
+              l10n.featureProtocolGuardChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureHomographShieldTitle,
+            description: l10n.featureHomographShieldDesc,
+            icon: Icons.spellcheck,
+            highlights: [
+              l10n.featureHomographShieldChip1,
+              l10n.featureHomographShieldChip2,
+              l10n.featureHomographShieldChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureTldEntropyTitle,
+            description: l10n.featureTldEntropyDesc,
+            icon: Icons.dns_outlined,
+            highlights: [
+              l10n.featureTldEntropyChip1,
+              l10n.featureTldEntropyChip2,
+              l10n.featureTldEntropyChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureIpPortTitle,
+            description: l10n.featureIpPortDesc,
+            icon: Icons.router_outlined,
+            highlights: [
+              l10n.featureIpPortChip1,
+              l10n.featureIpPortChip2,
+              l10n.featureIpPortChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureHeadProbeTitle,
+            description: l10n.featureHeadProbeDesc,
+            icon: Icons.travel_explore,
+            highlights: [
+              l10n.featureHeadProbeChip1,
+              l10n.featureHeadProbeChip2,
+              l10n.featureHeadProbeChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureSafeBrowsingTitle,
+            description: l10n.featureSafeBrowsingDesc,
+            icon: Icons.shield_outlined,
+            highlights: [
+              l10n.featureSafeBrowsingChip1,
+              l10n.featureSafeBrowsingChip2,
+              l10n.featureSafeBrowsingChip3,
+            ],
+          ),
+        ],
+      ),
+      _FeatureCategory(
+        name: l10n.featuresCatVisionName,
+        subtitle: l10n.featuresCatVisionSubtitle,
+        icon: Icons.remove_red_eye_outlined,
+        features: [
+          _AppFeature(
+            title: l10n.featureQuishingGuardTitle,
+            description: l10n.featureQuishingGuardDesc,
+            icon: Icons.policy_outlined,
+            highlights: [
+              l10n.featureQuishingGuardChip1,
+              l10n.featureQuishingGuardChip2,
+              l10n.featureQuishingGuardChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureArCodeVisionTitle,
+            description: l10n.featureArCodeVisionDesc,
+            icon: Icons.view_in_ar_outlined,
+            highlights: [
+              l10n.featureArCodeVisionChip1,
+              l10n.featureArCodeVisionChip2,
+              l10n.featureArCodeVisionChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureAirQrTitle,
+            description: l10n.featureAirQrDesc,
+            icon: Icons.stream,
+            highlights: [
+              l10n.featureAirQrChip1,
+              l10n.featureAirQrChip2,
+              l10n.featureAirQrChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureStegoQrTitle,
+            description: l10n.featureStegoQrDesc,
+            icon: Icons.vpn_key_outlined,
+            highlights: [
+              l10n.featureStegoQrChip1,
+              l10n.featureStegoQrChip2,
+              l10n.featureStegoQrChip3,
+            ],
+          ),
+        ],
+      ),
+      _FeatureCategory(
+        name: l10n.featuresCatPayloadsName,
+        subtitle: l10n.featuresCatPayloadsSubtitle,
+        icon: Icons.touch_app_outlined,
+        features: [
+          _AppFeature(
+            title: l10n.featureWifiTitle,
+            description: l10n.featureWifiDesc,
+            icon: Icons.wifi,
+            highlights: [
+              l10n.featureWifiChip1,
+              l10n.featureWifiChip2,
+              l10n.featureWifiChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featurePaymentsTitle,
+            description: l10n.featurePaymentsDesc,
+            icon: Icons.payment_outlined,
+            highlights: [
+              l10n.featurePaymentsChip1,
+              l10n.featurePaymentsChip2,
+              l10n.featurePaymentsChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureTotpTitle,
+            description: l10n.featureTotpDesc,
+            icon: Icons.timer_outlined,
+            highlights: [
+              l10n.featureTotpChip1,
+              l10n.featureTotpChip2,
+              l10n.featureTotpChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureContactsTitle,
+            description: l10n.featureContactsDesc,
+            icon: Icons.contact_phone_outlined,
+            highlights: [
+              l10n.featureContactsChip1,
+              l10n.featureContactsChip2,
+              l10n.featureContactsChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureCalendarTitle,
+            description: l10n.featureCalendarDesc,
+            icon: Icons.event_outlined,
+            highlights: [
+              l10n.featureCalendarChip1,
+              l10n.featureCalendarChip2,
+              l10n.featureCalendarChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureGeoTitle,
+            description: l10n.featureGeoDesc,
+            icon: Icons.location_on_outlined,
+            highlights: [
+              l10n.featureGeoChip1,
+              l10n.featureGeoChip2,
+              l10n.featureGeoChip3,
+            ],
+          ),
+        ],
+      ),
+      _FeatureCategory(
+        name: l10n.featuresCatHistoryName,
+        subtitle: l10n.featuresCatHistorySubtitle,
+        icon: Icons.history_edu_outlined,
+        features: [
+          _AppFeature(
+            title: l10n.featureScanHistoryTitle,
+            description: l10n.featureScanHistoryDesc,
+            icon: Icons.history,
+            highlights: [
+              l10n.featureScanHistoryChip1,
+              l10n.featureScanHistoryChip2,
+              l10n.featureScanHistoryChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureBackupsTitle,
+            description: l10n.featureBackupsDesc,
+            icon: Icons.import_export,
+            highlights: [
+              l10n.featureBackupsChip1,
+              l10n.featureBackupsChip2,
+              l10n.featureBackupsChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureBiometricGuardTitle,
+            description: l10n.featureBiometricGuardDesc,
+            icon: Icons.fingerprint,
+            highlights: [
+              l10n.featureBiometricGuardChip1,
+              l10n.featureBiometricGuardChip2,
+              l10n.featureBiometricGuardChip3,
+            ],
+          ),
+          _AppFeature(
+            title: l10n.featureOfflinePrivacyTitle,
+            description: l10n.featureOfflinePrivacyDesc,
+            icon: Icons.lock_person_outlined,
+            highlights: [
+              l10n.featureOfflinePrivacyChip1,
+              l10n.featureOfflinePrivacyChip2,
+              l10n.featureOfflinePrivacyChip3,
+            ],
+          ),
+        ],
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final categories = _buildCategories(l10n);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsFeaturesTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        children: [
-          _buildHeaderCard(context, l10n),
-          const SizedBox(height: 20),
-          for (final category in _categories) ...[
-            _buildCategoryHeader(context, category),
-            const SizedBox(height: 10),
-            _buildCategoryCard(context, category),
-            const SizedBox(height: 24),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            _buildHeaderCard(context, l10n),
+            const SizedBox(height: 20),
+            for (final category in categories) ...[
+              _buildCategoryHeader(context, category),
+              const SizedBox(height: 10),
+              _buildCategoryCard(context, category),
+              const SizedBox(height: 24),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

@@ -1,6 +1,6 @@
-# Dependencies — SreerajP QR Reader
+# Dependencies — SreerajP QR Studio
 
-This document records approved packages, dependency categories, and prohibited packages for SreerajP QR Reader. Read this before adding or updating any dependency in `pubspec.yaml`.
+This document records approved packages, dependency categories, and prohibited packages for SreerajP QR Studio. Read this before adding or updating any dependency in `pubspec.yaml`.
 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)
@@ -24,7 +24,8 @@ This document records approved packages, dependency categories, and prohibited p
 
 | Package | Version | Purpose | Security / Privacy Note |
 |---|---|---|---|
-| `mobile_scanner` | `^7.2.0` | Live camera QR and barcode scanning | Requires camera permission at point of use |
+| `camera` | `^0.12.1` | Live camera preview and YUV frame stream for scanning (Flutter team, BSD-3, CameraX on Android) | Camera permission requested at point of use; no ML Kit, no network |
+| `ffi` | `^2.2.0` | Native memory helpers for the own barcode decoder (Dart team, BSD-3) | Pure Dart; zero network |
 | `qr_flutter` | `^4.1.0` | Offline optical QR code matrix rendering for AirQR | Pure Dart; zero network; offline rendering |
 | `qr` | `^3.0.2` | Core QR matrix and error correction computation | Pure Dart; zero network; offline generation |
 | `barcode` | `^2.2.9` | 1D and 2D barcode generation for CodeForge | Pure Dart; zero network; offline generation |
@@ -32,13 +33,13 @@ This document records approved packages, dependency categories, and prohibited p
 | `intl` | `any` | Date, number, and locale formatting | Formats dates and numbers; Sanskrit falls back to English patterns |
 | `http` | `^1.6.0` | HTTP client for URL safety & redirect checks | Gated within `UrlSafetyService`; offline-safe fallback |
 | `url_launcher` | `^6.3.2` | Open URLs in system browser or intent apps | System intent launcher; user-confirmed |
-| `share_plus` | `^12.0.1` | Share scanned text/URLs via system share sheet | System share sheet; zero external network |
+| `share_plus` | `^13.3.1` | Share scanned text/URLs via system share sheet | System share sheet; zero external network |
 | `permission_handler` | `^12.0.1` | Runtime Android permissions | Camera and biometrics requested on demand |
 | `provider` | `^6.1.5` | App state management (`ChangeNotifier`) | Zero network; sole approved state framework |
-| `dynamic_color` | `^1.7.0` | Material You Android 12+ dynamic color extraction | Reads device wallpaper palette locally |
-| `package_info_plus` | `^9.0.0` | Retrieve app version and build number | Local platform channel read |
+| `dynamic_color` | `^1.9.0` | Material You Android 12+ dynamic color extraction | Reads device wallpaper palette locally |
+| `package_info_plus` | `^10.2.2` | Retrieve app version and build number | Local platform channel read |
 | `flutter_secure_storage` | `^10.0.0` | Encrypted storage for API keys | Uses Android KeyStore |
-| `shared_preferences` | `^2.5.5` | Non-sensitive preferences (theme, language, counters) | Plaintext local key-value store |
+| `shared_preferences` | `^2.5.6` | Non-sensitive preferences (theme, language, counters) | Plaintext local key-value store |
 | `local_auth` | `^2.3.0` | Biometric authentication for StegoQR secret reveal | Local Android BiometricPrompt; biometric data never leaves OS |
 | `flutter_plugin_android_lifecycle` | `^2.0.24` | Android lifecycle glue for local auth plugin | Flutter team maintained |
 | `encrypt` | `^5.0.3` | Symmetric AES encryption for StegoQR payloads | Pure Dart; zero network |
@@ -49,8 +50,8 @@ This document records approved packages, dependency categories, and prohibited p
 | `crypto` | `^3.0.6` | Hashing functions (SHA-256 for code fingerprinting) | Pure Dart hashing |
 | `pdf` | `^3.11.1` | PDF export report generation | Generates PDF documents locally |
 | `image_picker` | `^1.1.2` | Select images from gallery for barcode scanning | Uses modern Android Photo Picker |
-| `file_picker` | `^8.1.7` | Select PDF documents for document barcode scanning | Android Storage Access Framework |
-| `pdfx` | `^2.7.0` | Local PDF document rendering for barcode scanning | Renders PDF pages into images locally for scanning |
+| `file_picker` | `^13.1.0` | Select PDF documents for document barcode scanning | Android Storage Access Framework |
+| `pdfx` | `^2.11.0` | Local PDF document rendering for barcode scanning | Renders PDF pages into images locally for scanning |
 | `receive_sharing_intent` | `^1.8.1` | Receive shared text/images/PDFs from Android share sheet | Inbound Android intent receiver |
 
 ---
@@ -62,6 +63,22 @@ This document records approved packages, dependency categories, and prohibited p
 | `flutter_test` | `sdk: flutter` | Framework unit & widget test library |
 | `flutter_lints` | `^6.0.0` | Static analysis lint rule baseline |
 | `sqflite_common_ffi` | `^2.3.4` | In-memory SQLite FFI driver for fast headless unit testing |
+| `integration_test` | `sdk: flutter` | On-device tests for the native barcode decoder (`integration_test/`) |
+
+---
+
+## 3a. Vendored Native Code
+
+| Component | Version | Licence | Location | Purpose |
+|---|---|---|---|---|
+| zxing-cpp (reader part only) | `v3.1.1` | Apache-2.0 (`libzueci/` is BSD-3-Clause) | `native/zxing-cpp/` | Barcode and QR decoding engine, built into `libsreeraj_barcode.so` |
+
+- The source is copied into the repository and pinned. It is **not** downloaded at build time.
+- No upstream file is edited. Our own bridge lives in `native/sreeraj_barcode/`.
+- Update steps and the list of left-out writer files are in `native/zxing-cpp/UPSTREAM.md`.
+- Both licence texts ship in `assets/licenses/` and appear on the in-app licence page.
+- **Google ML Kit (`mobile_scanner`) was removed** because it bundles Google's `datatransport`
+  telemetry. Do not add ML Kit, Firebase or Play Services vision libraries back.
 
 ---
 
@@ -74,3 +91,5 @@ This document records approved packages, dependency categories, and prohibited p
 - **Ad Frameworks:** AdMob, Unity Ads, AppLovin, ironSource (zero ads policy).
 - **Heavy State Frameworks:** Riverpod, Bloc, Redux, MobX (`provider` is the sole state standard).
 - **Unvetted Cryptography / Network Proxies:** Any closed-source or unverified binary blobs.
+- **Closed or telemetry-bearing scanning SDKs:** Google ML Kit (`mobile_scanner`, `google_mlkit_*`),
+  Firebase ML, Scandit, Dynamsoft. Barcode decoding must stay on the vendored zxing-cpp engine.

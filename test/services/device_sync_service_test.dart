@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/models/device_sync_data.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/services/device_sync_service.dart';
-import 'package:sreeraj_qr_reader/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/models/device_sync_data.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
+import 'package:sreerajp_qr_studio/services/device_sync_service.dart';
+import 'package:sreerajp_qr_studio/services/history_export_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,7 @@ void main() {
       );
 
       final json = syncData.toJson();
-      expect(json['app'], 'SreerajP QR Reader');
+      expect(json['app'], 'SreerajP QR Studio');
       expect(json['totalRecords'], 2);
       expect(json['records'], hasLength(2));
       expect(json['settings'], equals(sampleSettings));
@@ -178,6 +179,42 @@ void main() {
       expect(collected[DeviceSyncService.prefVibrationKey], isFalse);
       expect(collected[DeviceSyncService.prefSoundKey], isTrue);
       expect(collected[DeviceSyncService.prefFlashModeKey], 'on');
+    });
+
+    test('collects and applies camera image adjustments', () async {
+      SharedPreferences.setMockInitialValues({
+        DeviceSyncService.prefBrightnessKey: 0.25,
+        DeviceSyncService.prefContrastKey: 1.5,
+        DeviceSyncService.prefInvertColorsKey: true,
+      });
+      final source = await SharedPreferences.getInstance();
+      final collected = service.collectSettings(source);
+
+      expect(collected[DeviceSyncService.prefBrightnessKey], 0.25);
+      expect(collected[DeviceSyncService.prefContrastKey], 1.5);
+      expect(collected[DeviceSyncService.prefInvertColorsKey], isTrue);
+
+      SharedPreferences.setMockInitialValues({});
+      final target = await SharedPreferences.getInstance();
+      await service.applySettings(collected, target);
+      expect(target.getDouble(DeviceSyncService.prefBrightnessKey), 0.25);
+      expect(target.getDouble(DeviceSyncService.prefContrastKey), 1.5);
+      expect(target.getBool(DeviceSyncService.prefInvertColorsKey), isTrue);
+    });
+
+    test('camera keys match the ones CameraSettingsProvider saves', () {
+      expect(
+        DeviceSyncService.prefBrightnessKey,
+        CameraSettingsProvider.prefBrightnessKey,
+      );
+      expect(
+        DeviceSyncService.prefContrastKey,
+        CameraSettingsProvider.prefContrastKey,
+      );
+      expect(
+        DeviceSyncService.prefInvertColorsKey,
+        CameraSettingsProvider.prefInvertColorsKey,
+      );
     });
 
     test('applies synced settings into SharedPreferences correctly', () async {

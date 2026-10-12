@@ -1,6 +1,6 @@
 # Change Plan: Fix System Default Language Radio Selection in Language Dialog
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue Description
 In `SettingsScreen`, tapping the "Language" card opens a dialog allowing users to pick the app language:

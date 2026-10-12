@@ -1,82 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class SmartPayloadsHelpScreen extends StatelessWidget {
   const SmartPayloadsHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Smart Actions & Payments')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'SreerajP QR Reader automatically identifies the semantic type of every barcode, '
-            'presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.wifi,
-            title: 'Wi-Fi Network Auto-Connect',
-            children: [
-              _Bullet(
-                'Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.',
-              ),
-              _Bullet(
-                'Includes a Password Reveal / Hide button and 1-tap clipboard copy.',
-              ),
-              _Bullet(
-                'Tap "Connect to Wi-Fi" to trigger direct connection or jump straight to system Wi-Fi settings.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.payment_outlined,
-            title: 'UPI & Cryptocurrency Payments',
-            children: [
-              _Bullet(
-                'Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.',
-              ),
-              _Bullet(
-                '1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.',
-              ),
-              _Bullet(
-                'Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.timer_outlined,
-            title: 'TOTP 2FA Authenticator & Tokens',
-            children: [
-              _Bullet(
-                'Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.',
-              ),
-              _Bullet(
-                'Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.',
-              ),
-              _Bullet(
-                'Tap "Import into Authenticator App" to register the key in your preferred 2FA app.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.contact_page_outlined,
-            title: 'Contacts & Calendar Events',
-            children: [
-              _Bullet(
-                'vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.',
-              ),
-              _Bullet(
-                'iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpSmartPayloads)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideSmartPayloadsIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.wifi,
+              title: l10n.helpGuideSmartPayloadsWifiTitle,
+              children: [
+                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet1),
+                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet2),
+                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.payment_outlined,
+              title: l10n.helpGuideSmartPayloadsPaymentsTitle,
+              children: [
+                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet1),
+                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet2),
+                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.timer_outlined,
+              title: l10n.helpGuideSmartPayloadsTotpTitle,
+              children: [
+                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet1),
+                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet2),
+                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet3),
+              ],
+            ),
+            _Section(
+              icon: Icons.contact_page_outlined,
+              title: l10n.helpGuideSmartPayloadsContactsTitle,
+              children: [
+                _Bullet(l10n.helpGuideSmartPayloadsContactsBullet1),
+                _Bullet(l10n.helpGuideSmartPayloadsContactsBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideSmartPayloadsTip),
+          ],
+        ),
       ),
     );
   }
@@ -124,10 +103,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

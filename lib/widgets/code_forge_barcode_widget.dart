@@ -1,6 +1,6 @@
 import 'package:barcode/barcode.dart';
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 
 /// Canvas painter for rendering 1D and 2D barcodes (Code 128, EAN-13, UPC-A, etc.)
 class CodeForgeBarcodePainter extends CustomPainter {

@@ -1,4 +1,4 @@
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// The category of content detected in the system clipboard.
 enum ClipboardContentType {
@@ -23,8 +23,8 @@ class ClipboardScanData {
   /// The raw string content, URL, or local image file path.
   final String content;
 
-  /// The associated barcode type (e.g. [BarcodeType.url], [BarcodeType.wifi], [BarcodeType.text]).
-  final BarcodeType barcodeType;
+  /// The associated barcode type (e.g. [CodeContentType.url], [CodeContentType.wifi], [CodeContentType.text]).
+  final CodeContentType barcodeType;
 
   /// A shortened representation suitable for quick display in UI pills or chips.
   final String preview;

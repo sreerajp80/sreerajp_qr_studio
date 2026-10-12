@@ -1,7 +1,8 @@
 import 'dart:math' as math;
+
 import 'package:flutter/widgets.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Pure service handling coordinate transformations, bounding box calculations,
 /// decay management, and display label formatting for Multi-Code Tappable Selection.
@@ -131,29 +132,29 @@ class MultiCodeService {
   }
 
   /// Returns a concise display label for the barcode type and content.
-  String getDisplayLabel(BarcodeType type, String rawValue) {
+  String getDisplayLabel(CodeContentType type, String rawValue) {
     switch (type) {
-      case BarcodeType.url:
+      case CodeContentType.url:
         return 'URL';
-      case BarcodeType.wifi:
+      case CodeContentType.wifi:
         return 'Wi-Fi';
-      case BarcodeType.contactInfo:
+      case CodeContentType.contactInfo:
         return 'Contact';
-      case BarcodeType.email:
+      case CodeContentType.email:
         return 'Email';
-      case BarcodeType.phone:
+      case CodeContentType.phone:
         return 'Phone';
-      case BarcodeType.sms:
+      case CodeContentType.sms:
         return 'SMS';
-      case BarcodeType.geo:
+      case CodeContentType.geo:
         return 'Location';
-      case BarcodeType.calendarEvent:
+      case CodeContentType.calendarEvent:
         return 'Event';
-      case BarcodeType.isbn:
+      case CodeContentType.isbn:
         return 'ISBN';
-      case BarcodeType.product:
+      case CodeContentType.product:
         return 'Product';
-      case BarcodeType.text:
+      case CodeContentType.text:
       default:
         if (rawValue.startsWith('http://') || rawValue.startsWith('https://')) {
           return 'URL';
@@ -169,7 +170,7 @@ class MultiCodeService {
           return 'UPI Pay';
         }
         if (RegExp(r'^\d{8}$|^\d{12,13}$').hasMatch(rawValue)) {
-          return 'Barcode';
+          return 'ScannedCode';
         }
         return 'Code';
     }

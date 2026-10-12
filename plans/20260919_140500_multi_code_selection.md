@@ -1,6 +1,6 @@
 # Plan: Multi-Code Tappable Selection on Main Scanner
 
-**Status:** Completed
+**Status:** completed
 
 **Date:** 2026-09-19
 

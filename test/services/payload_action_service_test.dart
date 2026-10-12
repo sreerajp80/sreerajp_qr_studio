@@ -1,13 +1,13 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/payload_action_service.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('PayloadActionService connectToWifi Tests', () {
-    const channel = MethodChannel('in.sreeraj.qr_reader/wifi');
+    const channel = MethodChannel('in.sreerajp.qr_studio/wifi');
     final log = <MethodCall>[];
 
     setUp(() {
@@ -237,6 +237,138 @@ void main() {
         lastLaunchedUrl(),
         equals('https://openlibrary.org/isbn/0306406152'),
       );
+    });
+  });
+
+  group('PayloadActionService UPI amount helpers', () {
+    PaymentPayload upi(String raw, {String amount = ''}) => PaymentPayload(
+      rawContent: raw,
+      scheme: PaymentScheme.upi,
+      payeeName: 'Shop',
+      payeeAddress: 'shop@bank',
+      amount: amount,
+    );
+
+    test('upiNeedsAmount is true when amount is missing, zero or bad', () {
+      for (final amount in ['', '0', '0.00', 'abc', '-5']) {
+        expect(
+          PayloadActionService.upiNeedsAmount(
+            upi('upi://pay?pa=shop@bank', amount: amount),
+          ),
+          isTrue,
+          reason: 'amount "$amount"',
+        );
+      }
+    });
+
+    test('upiNeedsAmount is false for a valid amount or non-UPI', () {
+      expect(
+        PayloadActionService.upiNeedsAmount(
+          upi('upi://pay?pa=shop@bank&am=10', amount: '10'),
+        ),
+        isFalse,
+      );
+      for (final scheme in [PaymentScheme.sepa, PaymentScheme.crypto]) {
+        expect(
+          PayloadActionService.upiNeedsAmount(
+            PaymentPayload(
+              rawContent: 'bitcoin:abc',
+              scheme: scheme,
+              payeeName: '',
+              payeeAddress: 'abc',
+            ),
+          ),
+          isFalse,
+        );
+      }
+    });
+
+    test('isValidUpiAmount accepts 1 or more with up to 2 decimals', () {
+      for (final ok in ['1', '1.5', '250.75', ' 99 ']) {
+        expect(PayloadActionService.isValidUpiAmount(ok), isTrue, reason: ok);
+      }
+      for (final bad in ['', '0', '0.99', '-5', '1.234', 'abc', '1.', '.5']) {
+        expect(
+          PayloadActionService.isValidUpiAmount(bad),
+          isFalse,
+          reason: bad,
+        );
+      }
+    });
+
+    test('withUpiAmount appends am and keeps the rest unchanged', () {
+      const raw =
+          'upi://pay?pa=shop@bank&pn=POPULAR VEHICLES AND SERVICES&cu=INR';
+      expect(
+        PayloadActionService.withUpiAmount(raw, '50'),
+        equals('$raw&am=50.00'),
+      );
+    });
+
+    test('withUpiAmount replaces an empty or zero am value', () {
+      expect(
+        PayloadActionService.withUpiAmount(
+          'upi://pay?pa=shop@bank&am=&cu=INR',
+          '12.5',
+        ),
+        equals('upi://pay?pa=shop@bank&am=12.50&cu=INR'),
+      );
+      expect(
+        PayloadActionService.withUpiAmount('upi://pay?am=0&pa=shop@bank', '7'),
+        equals('upi://pay?am=7.00&pa=shop@bank'),
+      );
+    });
+
+    test('withUpiAmount does not touch params that only end in am', () {
+      expect(
+        PayloadActionService.withUpiAmount('upi://pay?pa=x@y&tam=1', '5'),
+        equals('upi://pay?pa=x@y&tam=1&am=5.00'),
+      );
+    });
+  });
+
+  group('PayloadActionService payViaApp amount', () {
+    const launcherChannel = MethodChannel('plugins.flutter.io/url_launcher');
+    final launched = <String>[];
+
+    setUp(() {
+      launched.clear();
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(launcherChannel, (call) async {
+            if (call.method == 'launch') {
+              launched.add((call.arguments as Map)['url'] as String);
+            }
+            return true;
+          });
+    });
+
+    tearDown(() {
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .setMockMethodCallHandler(launcherChannel, null);
+    });
+
+    test('adds the entered amount to a UPI link', () async {
+      const payment = PaymentPayload(
+        rawContent: 'upi://pay?pa=shop@bank&cu=INR',
+        scheme: PaymentScheme.upi,
+        payeeName: 'Shop',
+        payeeAddress: 'shop@bank',
+      );
+      final ok = await PayloadActionService.payViaApp(payment, amount: '20');
+      expect(ok, isTrue);
+      expect(launched.last, contains('am=20.00'));
+    });
+
+    test('launches the scanned link unchanged without an amount', () async {
+      const payment = PaymentPayload(
+        rawContent: 'upi://pay?pa=shop@bank&am=10',
+        scheme: PaymentScheme.upi,
+        payeeName: 'Shop',
+        payeeAddress: 'shop@bank',
+        amount: '10',
+      );
+      await PayloadActionService.payViaApp(payment);
+      expect(launched.last, endsWith('am=10'));
     });
   });
 }

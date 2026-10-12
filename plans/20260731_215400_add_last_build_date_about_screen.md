@@ -1,6 +1,6 @@
 # Change Plan: Add Last Build Date to About Screen
 
-**Status:** Pending Approval
+**Status:** completed
 
 ## Proposed Changes
 

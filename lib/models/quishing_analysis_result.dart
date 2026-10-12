@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// Risk levels determined by the QuishingGuard tamper detection engine.
 enum QuishingRiskLevel {

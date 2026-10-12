@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:sreeraj_qr_reader/core/config/app_config.dart';
-import 'package:sreeraj_qr_reader/core/config/config_service.dart';
-import 'package:sreeraj_qr_reader/core/constants/build_date.g.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/widgets/made_with_love.dart';
+import 'package:sreerajp_qr_studio/core/config/app_config.dart';
+import 'package:sreerajp_qr_studio/core/config/config_service.dart';
+import 'package:sreerajp_qr_studio/core/constants/build_date.g.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/widgets/made_with_love.dart';
 
 /// Maps a config detail key to its translated label, falling back to the raw key.
 String aboutDetailLabel(AppLocalizations l10n, String key) {
@@ -91,125 +91,141 @@ class _AboutScreenState extends State<AboutScreen> {
     final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.aboutTitle)),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 40),
+      body: SafeArea(
+        top: false,
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 40),
 
-                  // App Icon
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 10,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+                    // App Icon
+                    Container(
+                      width: 120,
+                      height: 120,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.qr_code_scanner,
+                        size: 64,
+                        color: Colors.white,
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.qr_code_scanner,
-                      size: 64,
-                      color: Colors.white,
-                    ),
-                  ),
 
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                  // App Name
-                  Text(
-                    _config.appName.resolve(lang),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  // Description
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      _config.description.resolve(lang),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodyMedium?.copyWith(color: Colors.grey[700]),
+                    // App Name
+                    Text(
+                      _config.appName.resolve(lang),
+                      style: Theme.of(context).textTheme.headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
                     ),
-                  ),
 
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 8),
 
-                  // Version Info
-                  Text(
-                    l10n.aboutVersion(_config.version, _config.build),
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey[600]),
-                  ),
+                    // Description
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Text(
+                        _config.description.resolve(lang),
+                        style: Theme.of(context).textTheme.bodyMedium
+                            ?.copyWith(color: Colors.grey[700]),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
 
-                  const SizedBox(height: 32),
+                    const SizedBox(height: 8),
 
-                  // Dynamic Info Cards from details map + Build Date
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        if (kBuildDate.trim().isNotEmpty) ...[
-                          _buildInfoCard(
-                            context,
-                            icon: Icons.calendar_today,
-                            title: l10n.aboutBuildDate,
-                            content: kBuildDate,
-                          ),
-                          const SizedBox(height: 12),
-                        ],
-                        for (final entry in _config.details.entries)
-                          if (entry.key.trim().isNotEmpty &&
-                              entry.value.resolve(lang).trim().isNotEmpty) ...[
+                    // Version Info
+                    Text(
+                      l10n.aboutVersion(_config.version, _config.build),
+                      style: Theme.of(context).textTheme.bodyMedium
+                          ?.copyWith(color: Colors.grey[600]),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Dynamic Info Cards from details map + Build Date
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          if (kBuildDate.trim().isNotEmpty) ...[
                             _buildInfoCard(
                               context,
-                              icon: _getIconForKey(entry.key),
-                              title: aboutDetailLabel(l10n, entry.key),
-                              content: entry.value.resolve(lang),
-                              onTap: entry.key.trim().toLowerCase() == 'email'
-                                  ? () => _openMail(entry.value.resolve(lang))
-                                  : null,
+                              icon: Icons.calendar_today,
+                              title: l10n.aboutBuildDate,
+                              content: kBuildDate,
                             ),
                             const SizedBox(height: 12),
                           ],
-                      ],
+                          for (final entry in _config.details.entries)
+                            if (entry.key.trim().isNotEmpty &&
+                                entry.value
+                                    .resolve(lang)
+                                    .trim()
+                                    .isNotEmpty) ...[
+                              _buildInfoCard(
+                                context,
+                                icon: _getIconForKey(entry.key),
+                                title: aboutDetailLabel(l10n, entry.key),
+                                content: entry.value.resolve(lang),
+                                onTap: entry.key.trim().toLowerCase() == 'email'
+                                    ? () => _openMail(entry.value.resolve(lang))
+                                    : null,
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          _buildInfoCard(
+                            context,
+                            icon: Icons.gavel_outlined,
+                            title: l10n.aboutOpenSourceLicenses,
+                            content: l10n.aboutOpenSourceLicensesDetail,
+                            onTap: () => showLicensePage(
+                              context: context,
+                              applicationName: _config.appName.resolve(lang),
+                              applicationVersion: l10n.aboutVersion(
+                                _config.version,
+                                _config.build,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  // Copyright
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      l10n.aboutCopyright(DateTime.now().year.toString()),
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-                      textAlign: TextAlign.center,
+                    // Copyright
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        l10n.aboutCopyright(DateTime.now().year.toString()),
+                        style: Theme.of(context).textTheme.bodySmall
+                            ?.copyWith(color: Colors.grey[600]),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  ),
 
-                  // Made with ❤️ from India badge
-                  const MadeWithLove(),
+                    // Made with ❤️ from India badge
+                    const MadeWithLove(),
 
-                  const SizedBox(height: 16),
-                ],
+                    const SizedBox(height: 16),
+                  ],
+                ),
               ),
-            ),
+      ),
     );
   }
 

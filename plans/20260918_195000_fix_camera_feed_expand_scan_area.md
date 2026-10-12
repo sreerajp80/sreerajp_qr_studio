@@ -1,6 +1,6 @@
 # Fix Camera Feed, Remove Buggy Distance Mode, and Expand Scan Area Plan
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 1. **Broken Distance Mode & Frozen Grey Camera**:

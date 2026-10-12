@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/quishing_analysis_result.dart';
-import 'package:sreeraj_qr_reader/services/quishing_guard_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
+import 'package:sreerajp_qr_studio/services/quishing_guard_service.dart';
 
 void main() {
   group('QuishingGuardService', () {
@@ -72,31 +72,28 @@ void main() {
       },
     );
 
-    test(
-      'analyzeFrameBytes detects double-edge reflection and micro-shadows in synthetic image data',
-      () {
-        const width = 40;
-        const height = 40;
-        final List<int> bytes = List<int>.filled(width * height, 128);
+    test('analyzeFrameBytes detects double-edge reflection and micro-shadows in synthetic image data', () {
+      const width = 40;
+      const height = 40;
+      final List<int> bytes = List<int>.filled(width * height, 128);
 
-        // Inject synthetic perimeter double edge gradient (d1 > 45 and d2 > 45)
-        for (int y = 5; y < 35; y++) {
-          final lineOffset = y * width;
-          bytes[lineOffset + 10] = 220;
-          bytes[lineOffset + 11] = 30;
-          bytes[lineOffset + 12] = 230;
-          bytes[lineOffset + 13] = 20;
-        }
+      // Inject synthetic perimeter double edge gradient (d1 > 45 and d2 > 45)
+      for (int y = 5; y < 35; y++) {
+        final lineOffset = y * width;
+        bytes[lineOffset + 10] = 220;
+        bytes[lineOffset + 11] = 30;
+        bytes[lineOffset + 12] = 230;
+        bytes[lineOffset + 13] = 20;
+      }
 
-        final result = service.analyzeFrameBytes(
-          imageBytes: bytes,
-          width: width,
-          height: height,
-        );
+      final result = service.analyzeFrameBytes(
+        imageBytes: bytes,
+        width: width,
+        height: height,
+      );
 
-        expect(result.edgeDiscontinuityScore, greaterThan(0.2));
-        expect(result.detectedSignals, isNotEmpty);
-      },
-    );
+      expect(result.edgeDiscontinuityScore, greaterThan(0.2));
+      expect(result.detectedSignals, isNotEmpty);
+    });
   });
 }

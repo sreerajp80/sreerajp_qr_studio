@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/encrypted_payload_data.dart';
-import 'package:sreeraj_qr_reader/services/encrypted_payload_service.dart';
-import 'package:sreeraj_qr_reader/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
+import 'package:sreerajp_qr_studio/services/encrypted_payload_service.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
 
 void main() {
   late EncryptedPayloadService service;

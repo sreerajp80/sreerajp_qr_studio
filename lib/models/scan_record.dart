@@ -2,12 +2,19 @@ import 'dart:convert';
 
 /// Domain model representing a persistent scan record with rich metadata.
 class ScanRecord {
+  /// `metadata['source']` value for a scan started from GhostScan
+  /// (Quick Settings tile or in-app screen scan).
+  static const String sourceScreen = 'screen';
+
+  /// `metadata['source']` value for a scan started from the floating
+  /// Scan bubble.
+  static const String sourceScreenBubble = 'screen_bubble';
+
   final String id;
   final DateTime timestamp;
   final String rawContent;
   final String barcodeFormat;
-  final String
-  category; // 'url', 'wifi', 'contact', 'text', 'barcode', 'geo', 'event', 'totp'
+  final String category; // 'url', 'wifi', 'contact', 'text', 'barcode', 'geo', 'event', 'totp'
   final String? imageThumbnail; // Base64 thumbnail or local path
   final String? locationTag;
   final int safetyScore; // 0 (dangerous) to 100 (safe)
@@ -28,6 +35,13 @@ class ScanRecord {
     this.isFavorite = false,
     this.metadata,
   });
+
+  /// True when the code was read from a picture of the phone screen
+  /// (GhostScan tile or Scan bubble) rather than the camera.
+  bool get isFromScreen {
+    final source = metadata?['source'];
+    return source == sourceScreen || source == sourceScreenBubble;
+  }
 
   ScanRecord copyWith({
     String? id,

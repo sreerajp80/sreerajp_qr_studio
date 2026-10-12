@@ -1,6 +1,6 @@
 # Plan: Multi-Provider URL Safety Integration
 
-**Status:** Implemented
+**Status:** completed
 
 **Slug:** `20260920_164731_multi_provider_url_safety`
 

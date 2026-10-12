@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/key_derivators/api.dart';
 import 'package:pointycastle/key_derivators/pbkdf2.dart';
 import 'package:pointycastle/macs/hmac.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/encrypted_payload_data.dart';
-import 'package:sreeraj_qr_reader/services/stego_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
 
 /// Service for auto-detecting and decrypting multi-protocol encrypted QR codes,
 /// including AirQR (`textdataqr://`), StegoQR, JSON crypto containers, and raw ciphertexts.

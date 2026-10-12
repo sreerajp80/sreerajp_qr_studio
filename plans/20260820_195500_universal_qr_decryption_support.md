@@ -1,6 +1,6 @@
 # Plan: Universal Encrypted QR Code Auto-Detection & Manual Decryption
 
-**Status:** Completed
+**Status:** completed
 
 ## Overview
 This plan adds universal encrypted QR code handling to `sreeraj_qr_reader`:

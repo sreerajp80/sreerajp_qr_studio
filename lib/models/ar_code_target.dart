@@ -1,6 +1,6 @@
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Represents the safety status of a detected target in Safety HUD mode.
 enum TargetSafetyStatus { safe, warning, unknown }
@@ -10,7 +10,7 @@ enum TargetSafetyStatus { safe, warning, unknown }
 class ArCodeTarget {
   final String id;
   final String rawValue;
-  final BarcodeType type;
+  final CodeContentType type;
   final List<Offset> corners;
   final Rect boundingBox;
   final bool isUrl;
@@ -37,7 +37,7 @@ class ArCodeTarget {
   ArCodeTarget copyWith({
     String? id,
     String? rawValue,
-    BarcodeType? type,
+    CodeContentType? type,
     List<Offset>? corners,
     Rect? boundingBox,
     bool? isUrl,

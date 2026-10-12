@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -9,7 +10,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'SreerajP QR Reader';
+  String get appTitle => 'SreerajP QR Studio';
 
   @override
   String get wifiCardTitle => 'Wi-Fi Network';
@@ -212,6 +213,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paymentCopyIdAction => 'Copy ID';
 
   @override
+  String get paymentAmountDialogTitle => 'Enter amount';
+
+  @override
+  String paymentAmountDialogBody(String payee) {
+    return 'This QR has no amount. Enter the amount to pay to $payee.';
+  }
+
+  @override
+  String get paymentAmountFieldLabel => 'Amount';
+
+  @override
+  String get paymentAmountInvalid => 'Enter ₹1 or more';
+
+  @override
+  String get paymentAmountPayButton => 'Pay';
+
+  @override
   String percentValue(String value) {
     return '$value%';
   }
@@ -400,14 +418,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportCreateBackupButton => 'Create Encrypted Backup File';
 
   @override
-  String get exportShareText => 'Sreeraj QR Reader Scan History Export';
+  String get exportShareText => 'SreerajP QR Studio Scan History Export';
 
   @override
   String get exportSharePdfText =>
-      'Sreeraj QR Reader Scan History Report (PDF)';
+      'SreerajP QR Studio Scan History Report (PDF)';
 
   @override
-  String get exportShareBackupText => 'Sreeraj QR Reader Encrypted Backup File';
+  String get exportShareBackupText =>
+      'SreerajP QR Studio Encrypted Backup File';
 
   @override
   String get restoreHeading => 'Restore History from Encrypted Backup File:';
@@ -545,6 +564,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get aboutBuildDate => 'Build Date';
 
   @override
+  String get aboutOpenSourceLicenses => 'Open-source licences';
+
+  @override
+  String get aboutOpenSourceLicensesDetail =>
+      'Includes zxing-cpp (Apache-2.0) as the barcode decoder. Tap to view all licences.';
+
+  @override
   String get aboutDetailAuthor => 'Author';
 
   @override
@@ -575,7 +601,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get airQrSamplePayload =>
-      'AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is encoded into 256-byte chunks with Fountain FEC error correction.';
+      'AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is split into small chunks with Fountain FEC error correction.';
 
   @override
   String get airQrPayloadLabel => 'Payload Data to Broadcast';
@@ -914,10 +940,6 @@ class AppLocalizationsEn extends AppLocalizations {
       'Only open this URL if you trust the source';
 
   @override
-  String get safetyIssuesWarning =>
-      'Security issues detected. Do not enter personal information or download files from this URL';
-
-  @override
   String get safetyResultsHeading => 'Security Analysis Results:';
 
   @override
@@ -1018,12 +1040,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsTitle => 'Settings';
-
-  @override
-  String get settingsAppearanceTitle => 'Appearance & Theme';
-
-  @override
-  String get settingsOverlayTitle => 'Customizable Scan Overlay';
 
   @override
   String get settingsFeedbackTitle => 'Scan Feedback & Alerts';
@@ -1241,120 +1257,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get permissionFeedbackDesc =>
       'Active only when Vibration is enabled in Scan Feedback & Alerts settings.';
-
-  @override
-  String get helpArBadge => 'Augmented Reality';
-
-  @override
-  String get helpArDesc =>
-      'Real-time camera overlay feature that highlights and visualizes barcode and QR code data directly within the 3D viewfinder.';
-
-  @override
-  String get helpArPoint1 =>
-      'Multi-Target Detection: Automatically detects, indexes, and tracks multiple barcodes simultaneously in real time.';
-
-  @override
-  String get helpArPoint2 =>
-      'Spatial Bounding Boxes: Overlays dynamic AR reticles and interactive floating chips above each detected code.';
-
-  @override
-  String get helpArPoint3 =>
-      'Interactive Action Sheet: Tap any detected AR chip to inspect payload details, copy data, or execute smart actions without exiting the camera.';
-
-  @override
-  String get helpArPoint4 =>
-      'Camera Viewport Suite: Built-in torch toggle, front/rear camera switching, and pinch-to-zoom controls.';
-
-  @override
-  String get helpAirQrBadge => 'Optical Data Protocol';
-
-  @override
-  String get helpAirQrDesc =>
-      'High-speed optical data transfer receiver designed to reconstruct large multi-part payloads serialized across animated QR code loops.';
-
-  @override
-  String get helpAirQrPoint1 =>
-      'Sequential Frame Assembly: Scans animated QR streams (AirQR format) frame-by-frame and stitches chunks back into complete files or text.';
-
-  @override
-  String get helpAirQrPoint2 =>
-      'Real-Time Live Progress: Interactive progress indicator displaying completed percentage, total payload size, missing chunk count, and decoding speed.';
-
-  @override
-  String get helpAirQrPoint3 =>
-      'Dual Input Modes: Supports live scanning through the camera feed or offline processing by importing saved video recordings/images from gallery.';
-
-  @override
-  String get helpAirQrPoint4 =>
-      'AirQR Transmitter: Reverse mode allowing payload generation and animated QR stream transmission to other devices.';
-
-  @override
-  String get helpQuishingTitle =>
-      'Quishing Guard (Physical QR Sticker Tamper Check)';
-
-  @override
-  String get helpQuishingBadge => 'On-Device Computer Vision';
-
-  @override
-  String get helpQuishingDesc =>
-      'On-device computer vision engine that detects physical QR code sticker tampering, fake code overlays, and print alterations before processing payloads.';
-
-  @override
-  String get helpQuishingPoint1 =>
-      '100% Offline & Private Guarantee: Operates entirely on-device using local camera frame computer vision with zero internet connection required.';
-
-  @override
-  String get helpQuishingPoint2 =>
-      'Physical Sticker & Overlay Detection: Identifies physical stickers pasted over legitimate printed QR codes.';
-
-  @override
-  String get helpQuishingPoint3 =>
-      'Edge & Alignment Anomaly Analysis: Checks for suspicious boundaries, cutouts, and alignment discrepancies.';
-
-  @override
-  String get helpQuishingPoint4 =>
-      'Print Texture & Contrast Verification: Analyzes visual print artifacts, reflectivity shifts, and paper texture inconsistencies.';
-
-  @override
-  String get helpUrlTitle => 'URL Safety & Link Tamper Engine';
-
-  @override
-  String get helpUrlBadge => '6-Layer Digital Safety';
-
-  @override
-  String get helpUrlDesc =>
-      'Comprehensive digital link analysis suite protecting against malicious web links, phishing (Quishing), and URL payload tampering.';
-
-  @override
-  String get helpUrlPoint1 =>
-      'Homograph & IDN Attack Detection: Identifies spoofed domain names using mixed-script Cyrillic or lookalike Unicode characters.';
-
-  @override
-  String get helpUrlPoint2 =>
-      'Zero-Width Space & Character Tamper Detector: Detects hidden zero-width spaces, non-printable control characters, or obfuscated payloads embedded in links.';
-
-  @override
-  String get helpUrlPoint3 =>
-      'IP Literal & Userinfo Verification: Flags suspicious IP address hostnames and dangerous embedded credentials (e.g. user:pass@host).';
-
-  @override
-  String get helpUrlPoint4 =>
-      'Suspicious TLD & Pattern Analysis: Scans for risky top-level domains, excessive subdomains, and unencrypted HTTP connections carrying login/payment data.';
-
-  @override
-  String get helpUrlPoint5 =>
-      'URL Shortener Unrolling & Redirect Tracing: Identifies shortened links (bit.ly, t.co) and traces redirect chains (Active Probing required for live HTTP inspection).';
-
-  @override
-  String get helpUrlPoint6 =>
-      'Google Safe Browsing Cloud Lookup: Optional cloud check against Google threat database when configured with an API key.';
-
-  @override
-  String get helpUrlPoint7 =>
-      'Privacy First Guarantee: Core 5 pattern checks run 100% offline on your device without sending URLs anywhere.';
-
-  @override
-  String get helpCapabilitiesHeading => 'Key Capabilities:';
 
   @override
   String get onLabel => 'On';
@@ -1936,7 +1838,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Incorrect passphrase or corrupted backup payload.';
 
   @override
-  String get reportHeading => 'SREERAJ P QR READER - SCAN HISTORY';
+  String get reportHeading => 'SREERAJP QR STUDIO - SCAN HISTORY';
 
   @override
   String get reportTitle => 'Scan History Export';
@@ -2037,7 +1939,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsFeaturesSubtitle =>
-      'Explore all features of SreerajP QR Reader';
+      'Explore all features of SreerajP QR Studio';
 
   @override
   String get appearanceHubTitle => 'Appearance';
@@ -2071,18 +1973,473 @@ class AppLocalizationsEn extends AppLocalizations {
       'App font family and text scale preferences';
 
   @override
-  String get featuresHeaderTitle => 'SreerajP QR Reader Features';
+  String get featuresHeaderTitle => 'SreerajP QR Studio Features';
 
   @override
   String get featuresHeaderSubtitle =>
       'Explore every intelligent scanning tool, 6-layer URL safety engine, AR CodeVision, and offline feature designed for you.';
 
   @override
+  String get featuresCatScanningName => 'Core Scanning & Ingestion';
+
+  @override
+  String get featuresCatScanningSubtitle =>
+      'Lightning-fast 1D/2D barcode engine with multi-source media support';
+
+  @override
+  String get featuresCatSafetyName => '6-Layer URL Safety & Forensic Engine';
+
+  @override
+  String get featuresCatSafetySubtitle =>
+      'Zero-trust forensic analysis defending you against malicious QR phishing & scams';
+
+  @override
+  String get featuresCatVisionName => 'QuishingGuard™ & Advanced AI Vision';
+
+  @override
+  String get featuresCatVisionSubtitle =>
+      'Cutting-edge on-device computer vision and optical air-gap data streaming';
+
+  @override
+  String get featuresCatPayloadsName => 'Smart Payloads & 1-Tap Integrations';
+
+  @override
+  String get featuresCatPayloadsSubtitle =>
+      'Instant parsing and contextual native actions for everyday barcodes';
+
+  @override
+  String get featuresCatHistoryName => 'History, Backup & Privacy Vault';
+
+  @override
+  String get featuresCatHistorySubtitle =>
+      'Your personal scan history protected by biometric security and offline storage';
+
+  @override
+  String get featureBarcodeEngineTitle => 'Multi-Format Barcode Engine';
+
+  @override
+  String get featureBarcodeEngineDesc =>
+      'Instantly decodes 1D barcodes (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) and 2D codes (QR, Data Matrix, Aztec, PDF417) in milliseconds.';
+
+  @override
+  String get featureBarcodeEngineChip1 => 'QR & Data Matrix';
+
+  @override
+  String get featureBarcodeEngineChip2 => 'Aztec & PDF417';
+
+  @override
+  String get featureBarcodeEngineChip3 => 'EAN & Code 128';
+
+  @override
+  String get featureMediaSourcesTitle => 'Multi-Source Media & PDF Ingestion';
+
+  @override
+  String get featureMediaSourcesDesc =>
+      'Scan barcodes from live camera feed, select existing images from your gallery, or extract and parse barcodes across multi-page PDF documents.';
+
+  @override
+  String get featureMediaSourcesChip1 => 'Gallery Photos';
+
+  @override
+  String get featureMediaSourcesChip2 => 'Multi-Page PDF';
+
+  @override
+  String get featureMediaSourcesChip3 => 'Live Viewport';
+
+  @override
+  String get featureGhostScanTitle => 'GhostScan Screen Content Detector';
+
+  @override
+  String get featureGhostScanDesc =>
+      'Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile, the floating Scan bubble, or on-demand trigger without saving screenshots.';
+
+  @override
+  String get featureGhostScanChip1 => 'Quick Settings Tile';
+
+  @override
+  String get featureGhostScanChip2 => 'Floating Scan Bubble';
+
+  @override
+  String get featureGhostScanChip3 => 'No Screenshots Saved';
+
+  @override
+  String get featureCameraControlsTitle => 'Precision Camera Controls';
+
+  @override
+  String get featureCameraControlsDesc =>
+      'Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.';
+
+  @override
+  String get featureCameraControlsChip1 => 'Flashlight Torch';
+
+  @override
+  String get featureCameraControlsChip2 => 'Zoom Control';
+
+  @override
+  String get featureCameraControlsChip3 => 'Front/Back Flip';
+
+  @override
+  String get featureScanOverlaysTitle => 'Customizable Scan Overlays';
+
+  @override
+  String get featureScanOverlaysDesc =>
+      'Choose between Laser Line, Pulsing Corners, Cybernetic Grid, or Subtle Dot Matrix viewfinder overlays with live feedback.';
+
+  @override
+  String get featureScanOverlaysChip1 => '4 Overlay Styles';
+
+  @override
+  String get featureScanOverlaysChip2 => 'Live Animation';
+
+  @override
+  String get featureScanOverlaysChip3 => 'OLED Compatible';
+
+  @override
+  String get featureFeedbackTitle => 'Tactile Haptic & Audio Feedback';
+
+  @override
+  String get featureFeedbackDesc =>
+      'Customizable vibration pulses and audible beep tones confirm successful recognition even in noisy environments.';
+
+  @override
+  String get featureFeedbackChip1 => 'Haptic Pulse';
+
+  @override
+  String get featureFeedbackChip2 => 'Audio Beep';
+
+  @override
+  String get featureFeedbackChip3 => 'Independent Toggles';
+
+  @override
+  String get featureProtocolGuardTitle => 'Protocol & Syntax Guard (Layer 1)';
+
+  @override
+  String get featureProtocolGuardDesc =>
+      'Validates scheme authenticity, checks for encrypted HTTPS connections, and flags plain HTTP or unsupported schemes.';
+
+  @override
+  String get featureProtocolGuardChip1 => 'HTTPS Validation';
+
+  @override
+  String get featureProtocolGuardChip2 => 'Scheme Checking';
+
+  @override
+  String get featureProtocolGuardChip3 => 'Zero-Width Char Trap';
+
+  @override
+  String get featureHomographShieldTitle =>
+      'Homograph & Unicode Shield (Layer 2)';
+
+  @override
+  String get featureHomographShieldDesc =>
+      'Detects lookalike Cyrillic, Greek, and Unicode spoofing characters used to disguise fraudulent domain names (IDN punycode defense).';
+
+  @override
+  String get featureHomographShieldChip1 => 'Punycode Defense';
+
+  @override
+  String get featureHomographShieldChip2 => 'Cyrillic Lookalikes';
+
+  @override
+  String get featureHomographShieldChip3 => 'Mixed-Script Trap';
+
+  @override
+  String get featureTldEntropyTitle =>
+      'Suspicious TLD & Entropy Analysis (Layer 3)';
+
+  @override
+  String get featureTldEntropyDesc =>
+      'Flags high-risk top-level domains, excessive subdomains, and evaluates domain name character entropy to catch algorithmic domains.';
+
+  @override
+  String get featureTldEntropyChip1 => 'High-Risk TLDs';
+
+  @override
+  String get featureTldEntropyChip2 => 'Entropy Scoring';
+
+  @override
+  String get featureTldEntropyChip3 => 'Subdomain Depth';
+
+  @override
+  String get featureIpPortTitle => 'Heuristic IP & Port Flagging (Layer 4)';
+
+  @override
+  String get featureIpPortDesc =>
+      'Flags links pointing directly to raw IP addresses or non-standard HTTP/HTTPS network ports designed to bypass firewalls.';
+
+  @override
+  String get featureIpPortChip1 => 'Raw IP Traps';
+
+  @override
+  String get featureIpPortChip2 => 'Non-Standard Ports';
+
+  @override
+  String get featureIpPortChip3 => 'Embedded Userinfo';
+
+  @override
+  String get featureHeadProbeTitle =>
+      'Privacy-Safe Online Head Probing (Layer 5)';
+
+  @override
+  String get featureHeadProbeDesc =>
+      'Optional opt-in lightweight HTTP HEAD probing to resolve URL shorteners, uncover hidden redirect chains, and verify TLS certificates.';
+
+  @override
+  String get featureHeadProbeChip1 => 'Redirect Chains';
+
+  @override
+  String get featureHeadProbeChip2 => 'Shortener Unrolling';
+
+  @override
+  String get featureHeadProbeChip3 => 'Opt-In Privacy';
+
+  @override
+  String get featureSafeBrowsingTitle => 'Google Safe Browsing API (Layer 6)';
+
+  @override
+  String get featureSafeBrowsingDesc =>
+      'Optional cloud threat intelligence against millions of known malicious URLs, malware distribution hubs, and social engineering sites.';
+
+  @override
+  String get featureSafeBrowsingChip1 => 'Google Threat DB';
+
+  @override
+  String get featureSafeBrowsingChip2 => 'Local Key Storage';
+
+  @override
+  String get featureSafeBrowsingChip3 => 'Daily Quota Meter';
+
+  @override
+  String get featureQuishingGuardTitle =>
+      'QuishingGuard™ Physical Tamper Detection';
+
+  @override
+  String get featureQuishingGuardDesc =>
+      'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.';
+
+  @override
+  String get featureQuishingGuardChip1 => 'Sticker Overlays';
+
+  @override
+  String get featureQuishingGuardChip2 => 'Edge Discontinuity';
+
+  @override
+  String get featureQuishingGuardChip3 => 'Print Grain Analysis';
+
+  @override
+  String get featureArCodeVisionTitle => 'AR CodeVision™ Spatial HUD';
+
+  @override
+  String get featureArCodeVisionDesc =>
+      'Augmented Reality multi-barcode scanner displaying floating interactive chips over all detected codes with live safety badges and batch selection.';
+
+  @override
+  String get featureArCodeVisionChip1 => 'Spatial Tracking';
+
+  @override
+  String get featureArCodeVisionChip2 => 'Multi-Code HUD';
+
+  @override
+  String get featureArCodeVisionChip3 => 'Batch Select';
+
+  @override
+  String get featureAirQrTitle => 'AirQR™ Optical Air-Gap Data Stream';
+
+  @override
+  String get featureAirQrDesc =>
+      'High-speed animated strobe QR transmitter & receiver pipeline transferring encrypted text, files, and keys completely offline without Wi-Fi or Bluetooth.';
+
+  @override
+  String get featureAirQrChip1 => 'Animated Strobe QR';
+
+  @override
+  String get featureAirQrChip2 => 'Reed-Solomon FEC';
+
+  @override
+  String get featureAirQrChip3 => '100% Offline Air-Gap';
+
+  @override
+  String get featureStegoQrTitle => 'StegoQR™ Steganographic Scanner';
+
+  @override
+  String get featureStegoQrDesc =>
+      'Discovers and extracts hidden encrypted payloads and watermarked data layers invisibly embedded within custom QR codes.';
+
+  @override
+  String get featureStegoQrChip1 => 'Decoy QR Parsing';
+
+  @override
+  String get featureStegoQrChip2 => 'AES Decryption';
+
+  @override
+  String get featureStegoQrChip3 => 'Biometric Auth';
+
+  @override
+  String get featureWifiTitle => 'Wi-Fi Instant Auto Connect';
+
+  @override
+  String get featureWifiDesc =>
+      'Parses WPA/WPA2/WPA3 network credentials, displays network info, copies passwords, and opens Wi-Fi settings in 1 tap.';
+
+  @override
+  String get featureWifiChip1 => 'WPA3 & WPA2';
+
+  @override
+  String get featureWifiChip2 => '1-Tap Connect';
+
+  @override
+  String get featureWifiChip3 => 'Password Reveal/Copy';
+
+  @override
+  String get featurePaymentsTitle => 'UPI & Global Crypto Payments';
+
+  @override
+  String get featurePaymentsDesc =>
+      'Parses Indian UPI QR codes (dispatching to GPay, PhonePe, Paytm) and Bitcoin/Ethereum/Solana crypto payment addresses with amount detection.';
+
+  @override
+  String get featurePaymentsChip1 => 'UPI App Dispatch';
+
+  @override
+  String get featurePaymentsChip2 => 'Crypto Wallets';
+
+  @override
+  String get featurePaymentsChip3 => 'SEPA Transfer';
+
+  @override
+  String get featureTotpTitle => 'TOTP 2FA Authenticator & Token Generator';
+
+  @override
+  String get featureTotpDesc =>
+      'Scans 2FA setup codes, renders live rolling 6-digit OTP passcodes with circular countdown timers, and imports into authenticator apps.';
+
+  @override
+  String get featureTotpChip1 => 'Live Passcodes';
+
+  @override
+  String get featureTotpChip2 => 'Visual Countdown';
+
+  @override
+  String get featureTotpChip3 => 'App Importer';
+
+  @override
+  String get featureContactsTitle => 'Contacts & vCard Importer';
+
+  @override
+  String get featureContactsDesc =>
+      'Parses vCard 2.1/3.0/4.0 and MeCard contact barcodes with 1-tap phone dialing, email composition, and saving to your address book.';
+
+  @override
+  String get featureContactsChip1 => 'vCard 4.0';
+
+  @override
+  String get featureContactsChip2 => '1-Tap Save';
+
+  @override
+  String get featureContactsChip3 => 'Direct Call & Email';
+
+  @override
+  String get featureCalendarTitle => 'Calendar Events & Scheduling';
+
+  @override
+  String get featureCalendarDesc =>
+      'Reads iCalendar VEVENT formats with start/end time ranges, locations, and descriptions, adding them directly to your device calendar.';
+
+  @override
+  String get featureCalendarChip1 => 'iCal Parsing';
+
+  @override
+  String get featureCalendarChip2 => 'Start/End Time';
+
+  @override
+  String get featureCalendarChip3 => 'Device Calendar Add';
+
+  @override
+  String get featureGeoTitle => 'Geographic Location & Navigation';
+
+  @override
+  String get featureGeoDesc =>
+      'Parses geo: coordinates and search queries, offering instant navigation directions via Google Maps.';
+
+  @override
+  String get featureGeoChip1 => 'Lat/Long Parsing';
+
+  @override
+  String get featureGeoChip2 => 'Google Maps Link';
+
+  @override
+  String get featureGeoChip3 => 'Search Queries';
+
+  @override
+  String get featureScanHistoryTitle => 'Comprehensive Offline Scan History';
+
+  @override
+  String get featureScanHistoryDesc =>
+      'Stores every scan locally with payload categorization, safety scores, timestamp tracking, favorite stars, and real-time full-text search.';
+
+  @override
+  String get featureScanHistoryChip1 => 'Full-Text Search';
+
+  @override
+  String get featureScanHistoryChip2 => 'Category Filtering';
+
+  @override
+  String get featureScanHistoryChip3 => 'Favorite Stars';
+
+  @override
+  String get featureBackupsTitle => 'Flexible JSON & CSV Backups';
+
+  @override
+  String get featureBackupsDesc =>
+      'Export your complete scan history to standard CSV spreadsheets or encrypted JSON backup files with one-click restore.';
+
+  @override
+  String get featureBackupsChip1 => 'CSV Spreadsheet';
+
+  @override
+  String get featureBackupsChip2 => 'JSON Backup';
+
+  @override
+  String get featureBackupsChip3 => 'One-Click Restore';
+
+  @override
+  String get featureBiometricGuardTitle => 'Biometric & Screen Security Guard';
+
+  @override
+  String get featureBiometricGuardDesc =>
+      'Protects sensitive hidden StegoQR payloads and history with fingerprint/face authentication and blocks screen captures (FLAG_SECURE).';
+
+  @override
+  String get featureBiometricGuardChip1 => 'Biometric Prompt';
+
+  @override
+  String get featureBiometricGuardChip2 => 'Screenshot Guard';
+
+  @override
+  String get featureBiometricGuardChip3 => 'Encrypted Storage';
+
+  @override
+  String get featureOfflinePrivacyTitle => '100% Offline-First Privacy';
+
+  @override
+  String get featureOfflinePrivacyDesc =>
+      'Scans, decodes, and analyzes barcodes completely on your phone without sending any data to external servers by default.';
+
+  @override
+  String get featureOfflinePrivacyChip1 => 'No Telemetry';
+
+  @override
+  String get featureOfflinePrivacyChip2 => 'Zero Ads';
+
+  @override
+  String get featureOfflinePrivacyChip3 => 'Open-Source Safety';
+
+  @override
   String get helpCenterHeaderTitle => 'Help Center & User Guides';
 
   @override
   String get helpCenterHeaderSubtitle =>
-      'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Reader.';
+      'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.';
 
   @override
   String get decryptPayloadAction => 'Decrypt Payload';
@@ -2648,9 +3005,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get codeForgeCopied => 'Barcode content copied to clipboard';
 
   @override
-  String get codeForgeVerifySafety => 'Link Safety Check';
-
-  @override
   String get codeForgeSafeVerified =>
       'Verified Safe by 6-Layer Security Engine';
 
@@ -2826,6 +3180,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cameraUnsharpLabel => 'Edge Sharpness';
 
   @override
+  String get cameraDistanceZoomLabel => 'Distance Zoom';
+
+  @override
   String get scanDistanceModeTooltip => 'Distance Scan Assist';
 
   @override
@@ -2921,4 +3278,916 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ghostScanNoCodeFound => 'No QR code or barcode detected on screen';
+
+  @override
+  String get helpGuideGroupScanning => 'Scanning & Ingestion Guides';
+
+  @override
+  String get helpGuideGroupSecurity => 'Security & Threat Defense';
+
+  @override
+  String get helpGuideGroupPayloads => 'Payloads, Storage & Privacy';
+
+  @override
+  String get titleHelpBarcode => 'Barcode scanning';
+
+  @override
+  String get helpGuideBarcodeName => 'Barcode & Media Scanning';
+
+  @override
+  String get helpGuideBarcodeSummary =>
+      'Live camera controls, gallery photos, and multi-page PDF document scanning.';
+
+  @override
+  String get helpGuideBarcodeIntro =>
+      'Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.';
+
+  @override
+  String get helpGuideBarcodeCameraTitle => 'Live Camera Viewport';
+
+  @override
+  String get helpGuideBarcodeCameraBullet1 =>
+      'Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet2 =>
+      'Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet3 =>
+      'Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.';
+
+  @override
+  String get helpGuideBarcodeGalleryTitle => 'Scanning Gallery Photos & Images';
+
+  @override
+  String get helpGuideBarcodeGalleryBullet1 =>
+      'Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.';
+
+  @override
+  String get helpGuideBarcodeGalleryBullet2 =>
+      'Uses privacy-safe Android Photo Picker without requiring broad storage permissions.';
+
+  @override
+  String get helpGuideBarcodeGalleryBullet3 =>
+      'The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.';
+
+  @override
+  String get helpGuideBarcodePdfTitle => 'Multi-Page PDF Scanning';
+
+  @override
+  String get helpGuideBarcodePdfBullet1 =>
+      'Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.';
+
+  @override
+  String get helpGuideBarcodePdfBullet2 =>
+      'Extracts and renders every page in memory, cataloging all barcodes found across each individual page.';
+
+  @override
+  String get helpGuideBarcodePdfBullet3 =>
+      'Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.';
+
+  @override
+  String get helpGuideBarcodeTip =>
+      'Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.';
+
+  @override
+  String get titleHelpArCodeVision => 'AR CodeVision';
+
+  @override
+  String get helpGuideArCodeVisionName => 'AR CodeVision™ Spatial HUD';
+
+  @override
+  String get helpGuideArCodeVisionSummary =>
+      'Real-time multi-barcode camera tracking, floating chips, and batch actions.';
+
+  @override
+  String get helpGuideArCodeVisionIntro =>
+      'AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingTitle => 'Real-Time Spatial Tracking';
+
+  @override
+  String get helpGuideArCodeVisionTrackingBullet1 =>
+      'Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingBullet2 =>
+      'Renders floating interactive chips directly above each physical barcode on screen as you move your camera.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingBullet3 =>
+      'Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).';
+
+  @override
+  String get helpGuideArCodeVisionBatchTitle =>
+      'Interactive Multi-Select & Batch Actions';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet1 =>
+      'Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet2 =>
+      'Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet3 =>
+      'Copy all selected payload contents or export targets to your history in a single tap.';
+
+  @override
+  String get helpGuideArCodeVisionHudTitle => 'HUD Controls & Performance';
+
+  @override
+  String get helpGuideArCodeVisionHudBullet1 =>
+      'HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.';
+
+  @override
+  String get helpGuideArCodeVisionHudBullet2 =>
+      'Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.';
+
+  @override
+  String get helpGuideArCodeVisionTip =>
+      'Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.';
+
+  @override
+  String get titleHelpAirQr => 'AirQR guide';
+
+  @override
+  String get helpGuideAirQrName => 'AirQR™ Optical Air-Gap Stream';
+
+  @override
+  String get helpGuideAirQrSummary =>
+      'Offline animated QR strobe transmitter and receiver for radio-silent data sharing.';
+
+  @override
+  String get helpGuideAirQrIntro =>
+      'AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.';
+
+  @override
+  String get helpGuideAirQrStreamingTitle => 'How Optical Streaming Works';
+
+  @override
+  String get helpGuideAirQrStreamingBullet1 =>
+      'Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.';
+
+  @override
+  String get helpGuideAirQrStreamingBullet2 =>
+      'The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).';
+
+  @override
+  String get helpGuideAirQrStreamingBullet3 =>
+      'The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.';
+
+  @override
+  String get helpGuideAirQrSecurityTitle => 'Air-Gap Security & Privacy';
+
+  @override
+  String get helpGuideAirQrSecurityBullet1 =>
+      'Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).';
+
+  @override
+  String get helpGuideAirQrSecurityBullet2 =>
+      'Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.';
+
+  @override
+  String get helpGuideAirQrSecurityBullet3 =>
+      'Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.';
+
+  @override
+  String get helpGuideAirQrControlsTitle => 'Transmitter & Receiver Controls';
+
+  @override
+  String get helpGuideAirQrControlsBullet1 =>
+      'Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.';
+
+  @override
+  String get helpGuideAirQrControlsBullet2 =>
+      'Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.';
+
+  @override
+  String get helpGuideAirQrTip =>
+      'Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.';
+
+  @override
+  String get titleHelpUrlSafety => 'URL safety';
+
+  @override
+  String get helpGuideUrlSafetyName => '6-Layer URL Safety Engine';
+
+  @override
+  String get helpGuideUrlSafetySummary =>
+      'Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.';
+
+  @override
+  String get helpGuideUrlSafetyIntro =>
+      'Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.';
+
+  @override
+  String get helpGuideUrlSafetyLayersTitle => 'The 6 Safety Layers Explained';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet1 =>
+      'Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet2 =>
+      'Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet3 =>
+      'Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet4 =>
+      'Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet5 =>
+      'Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet6 =>
+      'Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsTitle =>
+      'Safety Verdicts & Action Guidance';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet1 =>
+      'Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet2 =>
+      'Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.';
+
+  @override
+  String get helpGuideUrlSafetyTip =>
+      'Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.';
+
+  @override
+  String get titleHelpQuishing => 'QuishingGuard';
+
+  @override
+  String get helpGuideQuishingName => 'QuishingGuard™ Tamper Detection';
+
+  @override
+  String get helpGuideQuishingSummary =>
+      'On-device computer vision analyzing physical QR sticker overlays and edge cuts.';
+
+  @override
+  String get helpGuideQuishingIntro =>
+      'Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.';
+
+  @override
+  String get helpGuideQuishingCvTitle => 'On-Device Computer Vision Analysis';
+
+  @override
+  String get helpGuideQuishingCvBullet1 =>
+      'Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.';
+
+  @override
+  String get helpGuideQuishingCvBullet2 =>
+      'Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.';
+
+  @override
+  String get helpGuideQuishingCvBullet3 =>
+      'Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).';
+
+  @override
+  String get helpGuideQuishingForensicTitle => 'Forensic Signal Inspection';
+
+  @override
+  String get helpGuideQuishingForensicBullet1 =>
+      'Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.';
+
+  @override
+  String get helpGuideQuishingForensicBullet2 =>
+      'Helps identify suspicious payment QR codes in public places before sending money or typing credentials.';
+
+  @override
+  String get helpGuideQuishingTip =>
+      'Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.';
+
+  @override
+  String get titleHelpSafeBrowsing => 'Safe Browsing';
+
+  @override
+  String get helpGuideSafeBrowsingName => 'Google Safe Browsing Setup';
+
+  @override
+  String get helpGuideSafeBrowsingSummary =>
+      'Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.';
+
+  @override
+  String get helpGuideSafeBrowsingIntro =>
+      'Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyTitle => 'How to Obtain a Free API Key';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep1 =>
+      '1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep2 =>
+      '2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep3 =>
+      '3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep4 =>
+      '4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep5 =>
+      '5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyTitle =>
+      'Privacy & Secure Keystore Storage';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet1 =>
+      'Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet2 =>
+      'Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet3 =>
+      'Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.';
+
+  @override
+  String get helpGuideSafeBrowsingTip =>
+      'Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.';
+
+  @override
+  String get titleHelpSmartPayloads => 'Smart actions';
+
+  @override
+  String get helpGuideSmartPayloadsName => 'Smart Actions & Payments';
+
+  @override
+  String get helpGuideSmartPayloadsSummary =>
+      'Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.';
+
+  @override
+  String get helpGuideSmartPayloadsIntro =>
+      'SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.';
+
+  @override
+  String get helpGuideSmartPayloadsWifiTitle => 'Wi-Fi Network Auto-Connect';
+
+  @override
+  String get helpGuideSmartPayloadsWifiBullet1 =>
+      'Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.';
+
+  @override
+  String get helpGuideSmartPayloadsWifiBullet2 =>
+      'Includes a Password Reveal / Hide button and 1-tap clipboard copy.';
+
+  @override
+  String get helpGuideSmartPayloadsWifiBullet3 =>
+      'Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsTitle =>
+      'UPI & Cryptocurrency Payments';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet1 =>
+      'Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet2 =>
+      '1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet3 =>
+      'Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpTitle =>
+      'TOTP 2FA Authenticator & Tokens';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet1 =>
+      'Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet2 =>
+      'Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet3 =>
+      'Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.';
+
+  @override
+  String get helpGuideSmartPayloadsContactsTitle =>
+      'Contacts & Calendar Events';
+
+  @override
+  String get helpGuideSmartPayloadsContactsBullet1 =>
+      'vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.';
+
+  @override
+  String get helpGuideSmartPayloadsContactsBullet2 =>
+      'iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.';
+
+  @override
+  String get helpGuideSmartPayloadsTip =>
+      'Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.';
+
+  @override
+  String get titleHelpHistory => 'History & privacy';
+
+  @override
+  String get helpGuideHistoryName => 'History, Backups & Privacy';
+
+  @override
+  String get helpGuideHistorySummary =>
+      'Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.';
+
+  @override
+  String get helpGuideHistoryIntro =>
+      'Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.';
+
+  @override
+  String get helpGuideHistoryManageTitle => 'Scan History Management';
+
+  @override
+  String get helpGuideHistoryManageBullet1 =>
+      'Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).';
+
+  @override
+  String get helpGuideHistoryManageBullet2 =>
+      'Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.';
+
+  @override
+  String get helpGuideHistoryManageBullet3 =>
+      'Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.';
+
+  @override
+  String get helpGuideHistoryBackupTitle => 'Backup & Restore (JSON / CSV)';
+
+  @override
+  String get helpGuideHistoryBackupBullet1 =>
+      'JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.';
+
+  @override
+  String get helpGuideHistoryBackupBullet2 =>
+      'CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.';
+
+  @override
+  String get helpGuideHistoryBackupBullet3 =>
+      'One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.';
+
+  @override
+  String get helpGuideHistoryBiometricsTitle => 'Biometrics & Screenshot Guard';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet1 =>
+      'Biometric Authentication: Protects sensitive StegoQR hidden records using your device fingerprint or facial recognition.';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet2 =>
+      'Screenshot Guard: Prevents malicious background apps or unauthorized shoulder-surfers from capturing screen content (FLAG_SECURE).';
+
+  @override
+  String get helpGuideHistoryTip =>
+      'Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.';
+
+  @override
+  String get titleHelpFaq => 'FAQ & help';
+
+  @override
+  String get helpGuideFaqName => 'FAQ & Troubleshooting';
+
+  @override
+  String get helpGuideFaqSummary =>
+      'Common questions, camera focus tips, permission recovery, and offline guarantees.';
+
+  @override
+  String get helpGuideFaqIntro =>
+      'Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.';
+
+  @override
+  String get helpGuideFaqQuestionsTitle => 'Frequently Asked Questions';
+
+  @override
+  String get helpGuideFaqQuestion1 =>
+      'Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.';
+
+  @override
+  String get helpGuideFaqQuestion2 =>
+      'Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.';
+
+  @override
+  String get helpGuideFaqQuestion3 =>
+      'Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.';
+
+  @override
+  String get helpGuideFaqCameraTitle => 'Camera Troubleshooting';
+
+  @override
+  String get helpGuideFaqCameraBullet1 =>
+      'Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.';
+
+  @override
+  String get helpGuideFaqCameraBullet2 =>
+      'Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.';
+
+  @override
+  String get helpGuideFaqCameraBullet3 =>
+      'Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.';
+
+  @override
+  String get helpGuideFaqTip =>
+      'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.';
+
+  @override
+  String get resultMoreActions => 'More actions';
+
+  @override
+  String get verdictChecking => 'Checking link safety…';
+
+  @override
+  String get verdictNoIssues => 'No issues found';
+
+  @override
+  String verdictIssuesFound(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count issues found',
+      one: '1 issue found',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String verdictChecksPassed(int passed, int total) {
+    return '$passed of $total checks passed';
+  }
+
+  @override
+  String get verdictSeeDetails => 'See details';
+
+  @override
+  String get verdictModePrivate => 'Private mode';
+
+  @override
+  String get verdictModeActive => 'Active probing';
+
+  @override
+  String safetyShowPassed(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Show $count passed checks',
+      one: 'Show 1 passed check',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get safetyHidePassed => 'Hide passed checks';
+
+  @override
+  String safetySkippedGroup(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count checks skipped',
+      one: '1 check skipped',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get safetySkippedSetup => 'Set up in Settings';
+
+  @override
+  String openRiskDialogIssues(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'This link has $count issues. Open it anyway?',
+      one: 'This link has 1 issue. Open it anyway?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get sandboxShowPreview => 'Show preview';
+
+  @override
+  String get sandboxHidePreview => 'Hide preview';
+
+  @override
+  String quishingCompactGenuine(String percent) {
+    return 'Genuine print · $percent%';
+  }
+
+  @override
+  String get scanBubbleTitle => 'Scan bubble';
+
+  @override
+  String get scanBubbleSettingsSubtitle => 'Scan codes shown in other apps';
+
+  @override
+  String get scanBubbleSwitchTitle => 'Show scan bubble';
+
+  @override
+  String get scanBubbleSwitchSubtitle =>
+      'A small button that floats over other apps. Tap it to scan a code on the screen.';
+
+  @override
+  String get scanBubblePermissionGranted => 'Allowed';
+
+  @override
+  String get scanBubblePermissionMissing =>
+      'Not allowed yet. Needed for the bubble.';
+
+  @override
+  String get scanBubbleAllowButton => 'Allow';
+
+  @override
+  String get scanBubbleStartOnBootTitle => 'Start after restart';
+
+  @override
+  String get scanBubbleStartOnBootSubtitle =>
+      'If the bubble was on, show it again after the phone restarts. Some phones may block this.';
+
+  @override
+  String get scanBubbleAddTileButton => 'Add to Quick Settings';
+
+  @override
+  String get scanBubbleTileAdded => 'Quick Settings tile request sent';
+
+  @override
+  String get scanBubbleTileManual =>
+      'Pull down Quick Settings, tap the edit (pencil) button, and drag the Scan bubble tile in.';
+
+  @override
+  String get scanBubblePermissionDialogTitle => 'Allow the bubble';
+
+  @override
+  String get scanBubblePermissionDialogBody =>
+      'To float over other apps, the bubble needs the \"Display over other apps\" permission. On the next page, turn it on for this app, then come back.';
+
+  @override
+  String get scanBubbleOpenSettings => 'Open settings';
+
+  @override
+  String get scanBubbleStartFailed =>
+      'Could not start the bubble. Please try again.';
+
+  @override
+  String get scanBubbleBlockedCapture =>
+      'This app blocks screen capture, so its codes cannot be read.';
+
+  @override
+  String get historySourceScreen => 'From screen';
+
+  @override
+  String get permissionOverlayTitle => 'Display over other apps';
+
+  @override
+  String get permissionOverlayDesc =>
+      'Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.';
+
+  @override
+  String get permissionNotificationTitle => 'Notifications';
+
+  @override
+  String get permissionNotificationDesc =>
+      'Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.';
+
+  @override
+  String get helpGuideScanBubbleName => 'Scan bubble';
+
+  @override
+  String get helpGuideScanBubbleSummary =>
+      'A floating button to scan QR codes and barcodes shown in other apps.';
+
+  @override
+  String get helpGuideScanBubbleIntro =>
+      'The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.';
+
+  @override
+  String get helpGuideScanBubbleUseTitle => 'How to use it';
+
+  @override
+  String get helpGuideScanBubbleUseBullet1 =>
+      'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet2 =>
+      'Open any app that shows a QR code or barcode, then tap the bubble.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet3 =>
+      'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet4 =>
+      'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.';
+
+  @override
+  String get helpGuideScanBubblePrivacyTitle => 'Privacy';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet1 =>
+      'The screen is captured only when you tap the bubble, and Android always asks you first.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet2 =>
+      'The code is read on your phone. Nothing is sent online for reading.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet3 =>
+      'The screen picture is not saved to your gallery and is deleted right after reading.';
+
+  @override
+  String get helpGuideScanBubbleLimitsTitle => 'Good to know';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet1 =>
+      'On Android 14 and newer, Android asks for screen capture permission on every tap.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet2 =>
+      'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet3 =>
+      'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.';
+
+  @override
+  String get helpGuideScanBubbleTip =>
+      'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.';
+
+  @override
+  String get codeForgeBarcodeContent => 'Barcode content';
+
+  @override
+  String get codeForgeBarcodeContentHint => 'Enter the barcode number or code';
+
+  @override
+  String get codeForgeWifiSecurityNone => 'None (open)';
+
+  @override
+  String get codeForgeUpiVpaHint => 'e.g. merchant@upi';
+
+  @override
+  String get optionalFieldHint => 'Optional';
+
+  @override
+  String get codeForgeContentEmpty => 'Content cannot be empty';
+
+  @override
+  String codeForgeTextTooLong(String max) {
+    return 'Text must not be longer than $max characters';
+  }
+
+  @override
+  String get codeForgeWifiSsidRequired =>
+      'Wi-Fi network name (SSID) is required';
+
+  @override
+  String get codeForgeUpiVpaRequired => 'UPI ID is required';
+
+  @override
+  String codeForgeBarcodeInvalid(String detail) {
+    return 'Not valid for this barcode type ($detail)';
+  }
+
+  @override
+  String get airQrUnlockedTitle => 'AirQR payload unlocked';
+
+  @override
+  String get jsonEnvelopeUnlockedTitle => 'JSON payload unlocked';
+
+  @override
+  String get stegoUnlockedTitle => 'StegoQR payload unlocked';
+
+  @override
+  String get stegoDetectedTitle => 'StegoQR encrypted payload found';
+
+  @override
+  String get decryptShowAdvanced => 'Advanced (Salt / IV)';
+
+  @override
+  String get decryptHideAdvanced => 'Hide advanced';
+
+  @override
+  String get decryptSaltLabel => 'Salt (Base64, optional)';
+
+  @override
+  String get decryptIvLabel => 'IV / Nonce (Base64, optional)';
+
+  @override
+  String historyRecordCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count scan records found',
+      one: '1 scan record found',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String arItemsSelected(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items selected',
+      one: '1 item selected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String settingsAppearanceSummary(String themeMode) {
+    return '$themeMode • Dynamic colors';
+  }
+
+  @override
+  String get openPhishFeedNotDownloaded => 'Feed not downloaded yet';
+
+  @override
+  String get accentDynamicColorInfo =>
+      'Dynamic Color builds a matching palette from your Android wallpaper (Android 12+). When it is off, the standard high-contrast security palette is used.';
+
+  @override
+  String get typographySampleLine =>
+      '6-Layer URL Safety Check • 100% Offline QuishingGuard™ CV Engine';
+
+  @override
+  String get typographyScaleTitle => 'Text size';
+
+  @override
+  String get typographyScaleInfo =>
+      'The app follows your Android accessibility text size, while keeping the scan frame and on-screen labels easy to read.';
+
+  @override
+  String domFetchFailedTitle(String host) {
+    return '$host (offline or network blocked)';
+  }
+
+  @override
+  String get scanPauseTooltip => 'Pause scanning';
+
+  @override
+  String get scanResumeTooltip => 'Resume scanning';
+
+  @override
+  String get arModeWarehouse => 'Warehouse';
+
+  @override
+  String get arModeSafety => 'Safety';
+
+  @override
+  String get arModeWarehouseTooltip => 'Show item info and select codes';
+
+  @override
+  String get arModeSafetyTooltip => 'Show a safety badge on each link';
+
+  @override
+  String get cameraStartFailed => 'Camera could not start';
+
+  @override
+  String get cameraNotFound => 'No camera found on this phone';
+
+  @override
+  String get cameraRetryButton => 'Try again';
+
+  @override
+  String get codeForgeSafetyPrompt => 'Check this link before you share it';
+
+  @override
+  String get codeForgeSafetyCheckButton => 'Check';
+
+  @override
+  String codeForgeSafetyProblems(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count problems found in this link',
+      one: '1 problem found in this link',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get codeForgeSafetyCheckAgain => 'Check again';
 }

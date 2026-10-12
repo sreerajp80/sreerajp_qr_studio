@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
-import 'package:sreeraj_qr_reader/services/multi_code_service.dart';
+import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/services/multi_code_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 
 /// Provider managing multi-code detection, spatial coordinate projections,
 /// target decay, and interactive user selection on the main camera scanner.
@@ -37,7 +38,7 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
 
   /// Processes a camera frame capture from [MobileScanner].
   void processCapture({
-    required BarcodeCapture capture,
+    required ScanFrameResult capture,
     required Size screenSize,
     required Size frameSize,
   }) {
@@ -63,7 +64,7 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
         final isUrl =
             rawValue.startsWith('http://') ||
             rawValue.startsWith('https://') ||
-            barcode.type == BarcodeType.url;
+            barcode.type == CodeContentType.url;
 
         final displayLabel = _service.getDisplayLabel(barcode.type, rawValue);
 

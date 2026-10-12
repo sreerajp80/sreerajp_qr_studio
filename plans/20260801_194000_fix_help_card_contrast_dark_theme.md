@@ -1,6 +1,6 @@
 # Plan: Fix Contrast for Help Card Items in Dark/OLED Theme
 
-**Status:** Completed
+**Status:** completed
 
 ## Files to Change
 1. `lib/screens/settings_screen.dart` - Replace hardcoded `Colors.grey[800]` with `Theme.of(context).colorScheme.onSurfaceVariant` so text adapts with high contrast in both light and dark/OLED themes.

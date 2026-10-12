@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
 
 /// Interactive bounding box overlay widget for a single visible barcode in the camera view.
 /// Displays subtle corner reticles, a floating format chip, and handles tap selection.
@@ -151,15 +151,15 @@ class MultiCodeBoundingBoxWidget extends StatelessWidget {
     );
   }
 
-  IconData _getBarcodeIcon(BarcodeFormat format) {
+  IconData _getBarcodeIcon(CodeFormat format) {
     switch (format) {
-      case BarcodeFormat.qrCode:
+      case CodeFormat.qrCode:
         return Icons.qr_code_2;
-      case BarcodeFormat.dataMatrix:
+      case CodeFormat.dataMatrix:
         return Icons.grid_4x4;
-      case BarcodeFormat.aztec:
+      case CodeFormat.aztec:
         return Icons.blur_on;
-      case BarcodeFormat.pdf417:
+      case CodeFormat.pdf417:
         return Icons.view_column;
       default:
         return Icons.view_week;

@@ -1,6 +1,6 @@
 # Plan — 2.1 Camera & Viewport Controls Suite
 
-**Status:** Completed
+**Status:** completed
 
 ## Goal
 Implement Feature Suite 2.1 — Camera & Viewport Controls Suite:

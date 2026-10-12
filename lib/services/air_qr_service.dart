@@ -1,13 +1,20 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/air_qr_frame.dart';
-import 'package:sreeraj_qr_reader/models/air_qr_progress.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/air_qr_frame.dart';
+import 'package:sreerajp_qr_studio/models/air_qr_progress.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// High-performance offline Optical Fountain & Systematic Stream Decoder & Encoder Engine.
 class AirQrService {
-  static const int defaultBlockSize = 180;
+  /// Bytes per frame. Keeps each data frame near QR version 10 (level L), so
+  /// frames stay readable at the transmitter's QR size.
+  static const int defaultBlockSize = 150;
+
+  /// Robust Soliton tuning constants (standard LT code values).
+  static const double _solitonC = 0.1;
+  static const double _solitonDelta = 0.5;
 
   String? _activeStreamId;
   int _totalBlocks = 0;
@@ -43,6 +50,9 @@ class AirQrService {
       reset();
       _activeStreamId = frame.streamId;
       _totalBlocks = frame.totalBlocks;
+    } else if (frame.totalBlocks != _totalBlocks) {
+      // Same stream ID but a different size: treat as corrupt and ignore.
+      return currentProgress;
     }
 
     // Insert systematic frame directly
@@ -55,8 +65,10 @@ class AirQrService {
         }
       }
     } else {
-      // Process Parity Frame (LT Fountain code frame)
-      _addParityFrame(frame);
+      // Process Parity Frame (LT Fountain code frame), dropping misreads
+      if (_validateChecksum(frame.payloadBytes, frame.checksum)) {
+        _addParityFrame(frame);
+      }
     }
 
     final capturedIndices = Set<int>.from(_resolvedBlocks.keys);
@@ -251,6 +263,7 @@ class AirQrService {
     String payload, {
     int blockSize = defaultBlockSize,
     int extraParityRatioPercent = 50,
+    int? paritySeed,
   }) {
     final bytes = utf8.encode(payload);
     final totalBlocks = (bytes.length / blockSize).ceil();
@@ -293,10 +306,37 @@ class AirQrService {
 
     // 2. LT Fountain Parity Frames (LT1)
     final parityCount = ((totalBlocks * extraParityRatioPercent) / 100).ceil();
-    final rand = Random(42);
+    frames.addAll(
+      generateParityFrames(frames, count: parityCount, seed: paritySeed),
+    );
 
-    for (int p = 0; p < parityCount; p++) {
-      final degree = min(totalBlocks, max(2, rand.nextInt(totalBlocks) + 1));
+    return frames;
+  }
+
+  /// Generates [count] new LT fountain parity frames from the systematic
+  /// frames of one stream. Without a [seed], every call gives different frames,
+  /// so a looping transmitter can send fresh repair data on each pass.
+  static List<AirQrFrame> generateParityFrames(
+    List<AirQrFrame> systematicFrames, {
+    required int count,
+    int? seed,
+  }) {
+    final dataFrames = systematicFrames.where((f) => !f.isParity).toList()
+      ..sort((a, b) => a.sequenceIndex.compareTo(b.sequenceIndex));
+    if (dataFrames.isEmpty || count <= 0) return [];
+
+    final streamId = dataFrames.first.streamId;
+    final totalBlocks = dataFrames.first.totalBlocks;
+    // Needs the full, in-order set of source blocks for one stream.
+    if (dataFrames.length != totalBlocks) return [];
+    final sourceBlocks = dataFrames.map((f) => f.payloadBytes).toList();
+    final blockSize = sourceBlocks.first.length;
+    final rand = seed == null ? Random() : Random(seed);
+    final cdf = _robustSolitonCdf(totalBlocks);
+
+    final List<AirQrFrame> parityFrames = [];
+    for (int p = 0; p < count; p++) {
+      final degree = _sampleDegree(cdf, rand);
       final indicesSet = <int>{};
       while (indicesSet.length < degree) {
         indicesSet.add(rand.nextInt(totalBlocks));
@@ -311,8 +351,7 @@ class AirQrService {
         }
       }
 
-      final checksum = computeCrc32(combinedPayload);
-      frames.add(
+      parityFrames.add(
         AirQrFrame(
           streamId: streamId,
           totalBlocks: totalBlocks,
@@ -320,12 +359,52 @@ class AirQrService {
           isParity: true,
           degree: indicesList.length,
           indices: indicesList,
-          checksum: checksum,
+          checksum: computeCrc32(combinedPayload),
           payloadBytes: combinedPayload,
         ),
       );
     }
+    return parityFrames;
+  }
 
-    return frames;
+  /// Builds the cumulative Robust Soliton distribution for [k] source blocks.
+  /// Entry `d - 1` is the chance that a frame's degree is `d` or less.
+  static List<double> _robustSolitonCdf(int k) {
+    if (k <= 1) return [1.0];
+
+    final r = _solitonC * log(k / _solitonDelta) * sqrt(k);
+    final pivot = (k / r).round().clamp(1, k);
+    final weights = List<double>.filled(k, 0);
+
+    for (int d = 1; d <= k; d++) {
+      // Ideal Soliton part
+      final rho = d == 1 ? 1 / k : 1 / (d * (d - 1));
+      // Robust extra part
+      double tau = 0;
+      if (d < pivot) {
+        tau = r / (d * k);
+      } else if (d == pivot) {
+        tau = max(0.0, r * log(r / _solitonDelta) / k);
+      }
+      weights[d - 1] = rho + tau;
+    }
+
+    final total = weights.reduce((a, b) => a + b);
+    final cdf = List<double>.filled(k, 0);
+    double running = 0;
+    for (int i = 0; i < k; i++) {
+      running += weights[i] / total;
+      cdf[i] = running;
+    }
+    cdf[k - 1] = 1.0;
+    return cdf;
+  }
+
+  static int _sampleDegree(List<double> cdf, Random rand) {
+    final x = rand.nextDouble();
+    for (int i = 0; i < cdf.length; i++) {
+      if (x < cdf[i]) return i + 1;
+    }
+    return cdf.length;
   }
 }

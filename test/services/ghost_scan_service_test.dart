@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/services/ghost_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/ghost_scan_capture.dart';
+import 'package:sreerajp_qr_studio/services/ghost_scan_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  const channelName = 'in.sreeraj.qr_reader/ghost_scan';
+  const channelName = 'in.sreerajp.qr_studio/ghost_scan';
   late GhostScanService service;
   late MethodChannel channel;
   final List<MethodCall> methodCalls = [];
@@ -15,7 +18,7 @@ void main() {
   bool mockIsTileRequestSupported = true;
   bool mockRequestAddTile = true;
   bool mockStartGhostScan = true;
-  String? mockInitialImage = '/mock/path/image.jpg';
+  Object? mockInitialImage = '/mock/path/image.jpg';
   bool shouldThrowError = false;
 
   setUp(() {
@@ -139,5 +142,65 @@ void main() {
         await sub.cancel();
       },
     );
+  });
+
+  group('GhostScanService - Capture details', () {
+    test('getInitialCapture reads the map form with flags', () async {
+      mockInitialImage = {
+        'imagePath': '/mock/bubble.jpg',
+        'fromBubble': true,
+        'blocked': false,
+      };
+      final capture = await service.getInitialCapture();
+      expect(capture, isNotNull);
+      expect(capture!.imagePath, '/mock/bubble.jpg');
+      expect(capture.fromBubble, isTrue);
+      expect(capture.blocked, isFalse);
+      expect(
+        await service.getInitialGhostScanImage(),
+        equals('/mock/bubble.jpg'),
+      );
+    });
+
+    test('getInitialCapture returns null on platform error', () async {
+      shouldThrowError = true;
+      expect(await service.getInitialCapture(), isNull);
+    });
+
+    test('onCapture emits map pushes with flags', () async {
+      final completer = Completer<GhostScanCapture>();
+      final sub = service.onCapture.listen(completer.complete);
+
+      final message = const StandardMethodCodec().encodeMethodCall(
+        const MethodCall('onGhostScanImage', {
+          'imagePath': '/data/cache/ghost_bubble.jpg',
+          'fromBubble': true,
+          'blocked': true,
+        }),
+      );
+      await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .handlePlatformMessage(channelName, message, (data) {});
+
+      final capture = await completer.future.timeout(
+        const Duration(seconds: 2),
+      );
+      expect(capture.imagePath, '/data/cache/ghost_bubble.jpg');
+      expect(capture.fromBubble, isTrue);
+      expect(capture.blocked, isTrue);
+      await sub.cancel();
+    });
+
+    test('deleteCapture removes the cached picture', () async {
+      final dir = await Directory.systemTemp.createTemp('ghost_scan_test');
+      final file = File('${dir.path}/capture.jpg');
+      await file.writeAsBytes([1, 2, 3]);
+
+      await service.deleteCapture(file.path);
+      expect(await file.exists(), isFalse);
+
+      // A missing file is ignored.
+      await service.deleteCapture(file.path);
+      await dir.delete(recursive: true);
+    });
   });
 }

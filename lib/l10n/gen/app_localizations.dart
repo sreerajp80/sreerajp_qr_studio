@@ -103,7 +103,7 @@ abstract class AppLocalizations {
   /// The application name, shown as the task title and in the About screen
   ///
   /// In en, this message translates to:
-  /// **'SreerajP QR Reader'**
+  /// **'SreerajP QR Studio'**
   String get appTitle;
 
   /// Label above the network name on the Wi-Fi action card
@@ -435,6 +435,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Copy ID'**
   String get paymentCopyIdAction;
+
+  /// Title of the dialog that asks for an amount when a UPI code has none
+  ///
+  /// In en, this message translates to:
+  /// **'Enter amount'**
+  String get paymentAmountDialogTitle;
+
+  /// Explains why the amount dialog is shown; payee is the merchant or person being paid
+  ///
+  /// In en, this message translates to:
+  /// **'This QR has no amount. Enter the amount to pay to {payee}.'**
+  String paymentAmountDialogBody(String payee);
+
+  /// Label of the amount input field in the UPI amount dialog
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get paymentAmountFieldLabel;
+
+  /// Error under the amount field when the amount is below 1 rupee or badly formatted
+  ///
+  /// In en, this message translates to:
+  /// **'Enter ₹1 or more'**
+  String get paymentAmountInvalid;
+
+  /// Button in the UPI amount dialog that opens the UPI app with the entered amount
+  ///
+  /// In en, this message translates to:
+  /// **'Pay'**
+  String get paymentAmountPayButton;
 
   /// A percentage shown to the user, for example 42%
   ///
@@ -787,19 +817,19 @@ abstract class AppLocalizations {
   /// Message attached when sharing an exported history file
   ///
   /// In en, this message translates to:
-  /// **'Sreeraj QR Reader Scan History Export'**
+  /// **'SreerajP QR Studio Scan History Export'**
   String get exportShareText;
 
   /// Message attached when sharing the PDF history report
   ///
   /// In en, this message translates to:
-  /// **'Sreeraj QR Reader Scan History Report (PDF)'**
+  /// **'SreerajP QR Studio Scan History Report (PDF)'**
   String get exportSharePdfText;
 
   /// Message attached when sharing the encrypted backup file
   ///
   /// In en, this message translates to:
-  /// **'Sreeraj QR Reader Encrypted Backup File'**
+  /// **'SreerajP QR Studio Encrypted Backup File'**
   String get exportShareBackupText;
 
   /// Heading above the restore controls
@@ -1024,6 +1054,18 @@ abstract class AppLocalizations {
   /// **'Build Date'**
   String get aboutBuildDate;
 
+  /// Title of the About screen card that opens the list of open-source licences used by the app (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Open-source licences'**
+  String get aboutOpenSourceLicenses;
+
+  /// Subtitle of the open-source licences card on the About screen. 'zxing-cpp' and 'Apache-2.0' are names and must not be translated.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes zxing-cpp (Apache-2.0) as the barcode decoder. Tap to view all licences.'**
+  String get aboutOpenSourceLicensesDetail;
+
   /// Detail label for author in About screen
   ///
   /// In en, this message translates to:
@@ -1081,7 +1123,7 @@ abstract class AppLocalizations {
   /// Sample text that fills the payload box when the transmitter screen opens
   ///
   /// In en, this message translates to:
-  /// **'AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is encoded into 256-byte chunks with Fountain FEC error correction.'**
+  /// **'AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is split into small chunks with Fountain FEC error correction.'**
   String get airQrSamplePayload;
 
   /// Label of the box holding the data to send
@@ -1684,12 +1726,6 @@ abstract class AppLocalizations {
   /// **'Only open this URL if you trust the source'**
   String get safetyTrustSourceHint;
 
-  /// Warning shown when the link failed one or more checks
-  ///
-  /// In en, this message translates to:
-  /// **'Security issues detected. Do not enter personal information or download files from this URL'**
-  String get safetyIssuesWarning;
-
   /// Heading above the list of individual safety checks
   ///
   /// In en, this message translates to:
@@ -1875,18 +1911,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Settings'**
   String get settingsTitle;
-
-  /// Settings card that opens the theme options
-  ///
-  /// In en, this message translates to:
-  /// **'Appearance & Theme'**
-  String get settingsAppearanceTitle;
-
-  /// Settings card that opens the scan overlay options
-  ///
-  /// In en, this message translates to:
-  /// **'Customizable Scan Overlay'**
-  String get settingsOverlayTitle;
 
   /// Settings card that opens the vibration and sound options
   ///
@@ -2277,186 +2301,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Active only when Vibration is enabled in Scan Feedback & Alerts settings.'**
   String get permissionFeedbackDesc;
-
-  /// Badge on the AR CodeVision help card
-  ///
-  /// In en, this message translates to:
-  /// **'Augmented Reality'**
-  String get helpArBadge;
-
-  /// Summary of the AR CodeVision feature
-  ///
-  /// In en, this message translates to:
-  /// **'Real-time camera overlay feature that highlights and visualizes barcode and QR code data directly within the 3D viewfinder.'**
-  String get helpArDesc;
-
-  /// AR CodeVision capability
-  ///
-  /// In en, this message translates to:
-  /// **'Multi-Target Detection: Automatically detects, indexes, and tracks multiple barcodes simultaneously in real time.'**
-  String get helpArPoint1;
-
-  /// AR CodeVision capability
-  ///
-  /// In en, this message translates to:
-  /// **'Spatial Bounding Boxes: Overlays dynamic AR reticles and interactive floating chips above each detected code.'**
-  String get helpArPoint2;
-
-  /// AR CodeVision capability
-  ///
-  /// In en, this message translates to:
-  /// **'Interactive Action Sheet: Tap any detected AR chip to inspect payload details, copy data, or execute smart actions without exiting the camera.'**
-  String get helpArPoint3;
-
-  /// AR CodeVision capability
-  ///
-  /// In en, this message translates to:
-  /// **'Camera Viewport Suite: Built-in torch toggle, front/rear camera switching, and pinch-to-zoom controls.'**
-  String get helpArPoint4;
-
-  /// Badge on the AirQR help card
-  ///
-  /// In en, this message translates to:
-  /// **'Optical Data Protocol'**
-  String get helpAirQrBadge;
-
-  /// Summary of the AirQR feature
-  ///
-  /// In en, this message translates to:
-  /// **'High-speed optical data transfer receiver designed to reconstruct large multi-part payloads serialized across animated QR code loops.'**
-  String get helpAirQrDesc;
-
-  /// AirQR capability
-  ///
-  /// In en, this message translates to:
-  /// **'Sequential Frame Assembly: Scans animated QR streams (AirQR format) frame-by-frame and stitches chunks back into complete files or text.'**
-  String get helpAirQrPoint1;
-
-  /// AirQR capability
-  ///
-  /// In en, this message translates to:
-  /// **'Real-Time Live Progress: Interactive progress indicator displaying completed percentage, total payload size, missing chunk count, and decoding speed.'**
-  String get helpAirQrPoint2;
-
-  /// AirQR capability
-  ///
-  /// In en, this message translates to:
-  /// **'Dual Input Modes: Supports live scanning through the camera feed or offline processing by importing saved video recordings/images from gallery.'**
-  String get helpAirQrPoint3;
-
-  /// AirQR capability
-  ///
-  /// In en, this message translates to:
-  /// **'AirQR Transmitter: Reverse mode allowing payload generation and animated QR stream transmission to other devices.'**
-  String get helpAirQrPoint4;
-
-  /// Title of the tamper check help card
-  ///
-  /// In en, this message translates to:
-  /// **'Quishing Guard (Physical QR Sticker Tamper Check)'**
-  String get helpQuishingTitle;
-
-  /// Badge on the tamper check help card
-  ///
-  /// In en, this message translates to:
-  /// **'On-Device Computer Vision'**
-  String get helpQuishingBadge;
-
-  /// Summary of the tamper check feature
-  ///
-  /// In en, this message translates to:
-  /// **'On-device computer vision engine that detects physical QR code sticker tampering, fake code overlays, and print alterations before processing payloads.'**
-  String get helpQuishingDesc;
-
-  /// Tamper check capability
-  ///
-  /// In en, this message translates to:
-  /// **'100% Offline & Private Guarantee: Operates entirely on-device using local camera frame computer vision with zero internet connection required.'**
-  String get helpQuishingPoint1;
-
-  /// Tamper check capability
-  ///
-  /// In en, this message translates to:
-  /// **'Physical Sticker & Overlay Detection: Identifies physical stickers pasted over legitimate printed QR codes.'**
-  String get helpQuishingPoint2;
-
-  /// Tamper check capability
-  ///
-  /// In en, this message translates to:
-  /// **'Edge & Alignment Anomaly Analysis: Checks for suspicious boundaries, cutouts, and alignment discrepancies.'**
-  String get helpQuishingPoint3;
-
-  /// Tamper check capability
-  ///
-  /// In en, this message translates to:
-  /// **'Print Texture & Contrast Verification: Analyzes visual print artifacts, reflectivity shifts, and paper texture inconsistencies.'**
-  String get helpQuishingPoint4;
-
-  /// Title of the link safety help card
-  ///
-  /// In en, this message translates to:
-  /// **'URL Safety & Link Tamper Engine'**
-  String get helpUrlTitle;
-
-  /// Badge on the link safety help card
-  ///
-  /// In en, this message translates to:
-  /// **'6-Layer Digital Safety'**
-  String get helpUrlBadge;
-
-  /// Summary of the link safety feature
-  ///
-  /// In en, this message translates to:
-  /// **'Comprehensive digital link analysis suite protecting against malicious web links, phishing (Quishing), and URL payload tampering.'**
-  String get helpUrlDesc;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'Homograph & IDN Attack Detection: Identifies spoofed domain names using mixed-script Cyrillic or lookalike Unicode characters.'**
-  String get helpUrlPoint1;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'Zero-Width Space & Character Tamper Detector: Detects hidden zero-width spaces, non-printable control characters, or obfuscated payloads embedded in links.'**
-  String get helpUrlPoint2;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'IP Literal & Userinfo Verification: Flags suspicious IP address hostnames and dangerous embedded credentials (e.g. user:pass@host).'**
-  String get helpUrlPoint3;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'Suspicious TLD & Pattern Analysis: Scans for risky top-level domains, excessive subdomains, and unencrypted HTTP connections carrying login/payment data.'**
-  String get helpUrlPoint4;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'URL Shortener Unrolling & Redirect Tracing: Identifies shortened links (bit.ly, t.co) and traces redirect chains (Active Probing required for live HTTP inspection).'**
-  String get helpUrlPoint5;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'Google Safe Browsing Cloud Lookup: Optional cloud check against Google threat database when configured with an API key.'**
-  String get helpUrlPoint6;
-
-  /// Link safety capability
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy First Guarantee: Core 5 pattern checks run 100% offline on your device without sending URLs anywhere.'**
-  String get helpUrlPoint7;
-
-  /// Heading above the list of what a feature can do
-  ///
-  /// In en, this message translates to:
-  /// **'Key Capabilities:'**
-  String get helpCapabilitiesHeading;
 
   /// Word shown when a setting is turned on
   ///
@@ -3427,7 +3271,7 @@ abstract class AppLocalizations {
   /// Heading at the top of the exported history report
   ///
   /// In en, this message translates to:
-  /// **'SREERAJ P QR READER - SCAN HISTORY'**
+  /// **'SREERAJP QR STUDIO - SCAN HISTORY'**
   String get reportHeading;
 
   /// Title inside the exported PDF report
@@ -3619,7 +3463,7 @@ abstract class AppLocalizations {
   /// Subtitle of the Features settings card
   ///
   /// In en, this message translates to:
-  /// **'Explore all features of SreerajP QR Reader'**
+  /// **'Explore all features of SreerajP QR Studio'**
   String get settingsFeaturesSubtitle;
 
   /// Title of the Appearance preferences hub screen
@@ -3679,7 +3523,7 @@ abstract class AppLocalizations {
   /// Hero header title on the Features screen
   ///
   /// In en, this message translates to:
-  /// **'SreerajP QR Reader Features'**
+  /// **'SreerajP QR Studio Features'**
   String get featuresHeaderTitle;
 
   /// Hero header subtitle on the Features screen
@@ -3687,6 +3531,846 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Explore every intelligent scanning tool, 6-layer URL safety engine, AR CodeVision, and offline feature designed for you.'**
   String get featuresHeaderSubtitle;
+
+  /// Features screen: name of the core scanning category
+  ///
+  /// In en, this message translates to:
+  /// **'Core Scanning & Ingestion'**
+  String get featuresCatScanningName;
+
+  /// Features screen: subtitle of the core scanning category
+  ///
+  /// In en, this message translates to:
+  /// **'Lightning-fast 1D/2D barcode engine with multi-source media support'**
+  String get featuresCatScanningSubtitle;
+
+  /// Features screen: name of the URL safety engine category
+  ///
+  /// In en, this message translates to:
+  /// **'6-Layer URL Safety & Forensic Engine'**
+  String get featuresCatSafetyName;
+
+  /// Features screen: subtitle of the URL safety engine category
+  ///
+  /// In en, this message translates to:
+  /// **'Zero-trust forensic analysis defending you against malicious QR phishing & scams'**
+  String get featuresCatSafetySubtitle;
+
+  /// Features screen: name of the QuishingGuard and AI vision category
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard™ & Advanced AI Vision'**
+  String get featuresCatVisionName;
+
+  /// Features screen: subtitle of the QuishingGuard and AI vision category
+  ///
+  /// In en, this message translates to:
+  /// **'Cutting-edge on-device computer vision and optical air-gap data streaming'**
+  String get featuresCatVisionSubtitle;
+
+  /// Features screen: name of the smart payloads category
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Payloads & 1-Tap Integrations'**
+  String get featuresCatPayloadsName;
+
+  /// Features screen: subtitle of the smart payloads category
+  ///
+  /// In en, this message translates to:
+  /// **'Instant parsing and contextual native actions for everyday barcodes'**
+  String get featuresCatPayloadsSubtitle;
+
+  /// Features screen: name of the history and privacy category
+  ///
+  /// In en, this message translates to:
+  /// **'History, Backup & Privacy Vault'**
+  String get featuresCatHistoryName;
+
+  /// Features screen: subtitle of the history and privacy category
+  ///
+  /// In en, this message translates to:
+  /// **'Your personal scan history protected by biometric security and offline storage'**
+  String get featuresCatHistorySubtitle;
+
+  /// Features screen: title of the barcode engine feature
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Format Barcode Engine'**
+  String get featureBarcodeEngineTitle;
+
+  /// Features screen: description of the barcode engine feature
+  ///
+  /// In en, this message translates to:
+  /// **'Instantly decodes 1D barcodes (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) and 2D codes (QR, Data Matrix, Aztec, PDF417) in milliseconds.'**
+  String get featureBarcodeEngineDesc;
+
+  /// Features screen: highlight chip 1 of the barcode engine feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'QR & Data Matrix'**
+  String get featureBarcodeEngineChip1;
+
+  /// Features screen: highlight chip 2 of the barcode engine feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Aztec & PDF417'**
+  String get featureBarcodeEngineChip2;
+
+  /// Features screen: highlight chip 3 of the barcode engine feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'EAN & Code 128'**
+  String get featureBarcodeEngineChip3;
+
+  /// Features screen: title of the multi-source media feature
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Source Media & PDF Ingestion'**
+  String get featureMediaSourcesTitle;
+
+  /// Features screen: description of the multi-source media feature
+  ///
+  /// In en, this message translates to:
+  /// **'Scan barcodes from live camera feed, select existing images from your gallery, or extract and parse barcodes across multi-page PDF documents.'**
+  String get featureMediaSourcesDesc;
+
+  /// Features screen: highlight chip 1 of the multi-source media feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery Photos'**
+  String get featureMediaSourcesChip1;
+
+  /// Features screen: highlight chip 2 of the multi-source media feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Page PDF'**
+  String get featureMediaSourcesChip2;
+
+  /// Features screen: highlight chip 3 of the multi-source media feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Live Viewport'**
+  String get featureMediaSourcesChip3;
+
+  /// Features screen: title of the GhostScan feature
+  ///
+  /// In en, this message translates to:
+  /// **'GhostScan Screen Content Detector'**
+  String get featureGhostScanTitle;
+
+  /// Features screen: description of the GhostScan feature
+  ///
+  /// In en, this message translates to:
+  /// **'Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile, the floating Scan bubble, or on-demand trigger without saving screenshots.'**
+  String get featureGhostScanDesc;
+
+  /// Features screen: highlight chip 1 of the GhostScan feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Settings Tile'**
+  String get featureGhostScanChip1;
+
+  /// Features screen: highlight chip 2 of the GhostScan feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Floating Scan Bubble'**
+  String get featureGhostScanChip2;
+
+  /// Features screen: highlight chip 3 of the GhostScan feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'No Screenshots Saved'**
+  String get featureGhostScanChip3;
+
+  /// Features screen: title of the camera controls feature
+  ///
+  /// In en, this message translates to:
+  /// **'Precision Camera Controls'**
+  String get featureCameraControlsTitle;
+
+  /// Features screen: description of the camera controls feature
+  ///
+  /// In en, this message translates to:
+  /// **'Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.'**
+  String get featureCameraControlsDesc;
+
+  /// Features screen: highlight chip 1 of the camera controls feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Flashlight Torch'**
+  String get featureCameraControlsChip1;
+
+  /// Features screen: highlight chip 2 of the camera controls feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Zoom Control'**
+  String get featureCameraControlsChip2;
+
+  /// Features screen: highlight chip 3 of the camera controls feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Front/Back Flip'**
+  String get featureCameraControlsChip3;
+
+  /// Features screen: title of the scan overlays feature
+  ///
+  /// In en, this message translates to:
+  /// **'Customizable Scan Overlays'**
+  String get featureScanOverlaysTitle;
+
+  /// Features screen: description of the scan overlays feature
+  ///
+  /// In en, this message translates to:
+  /// **'Choose between Laser Line, Pulsing Corners, Cybernetic Grid, or Subtle Dot Matrix viewfinder overlays with live feedback.'**
+  String get featureScanOverlaysDesc;
+
+  /// Features screen: highlight chip 1 of the scan overlays feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'4 Overlay Styles'**
+  String get featureScanOverlaysChip1;
+
+  /// Features screen: highlight chip 2 of the scan overlays feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Live Animation'**
+  String get featureScanOverlaysChip2;
+
+  /// Features screen: highlight chip 3 of the scan overlays feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'OLED Compatible'**
+  String get featureScanOverlaysChip3;
+
+  /// Features screen: title of the haptic and audio feedback feature
+  ///
+  /// In en, this message translates to:
+  /// **'Tactile Haptic & Audio Feedback'**
+  String get featureFeedbackTitle;
+
+  /// Features screen: description of the haptic and audio feedback feature
+  ///
+  /// In en, this message translates to:
+  /// **'Customizable vibration pulses and audible beep tones confirm successful recognition even in noisy environments.'**
+  String get featureFeedbackDesc;
+
+  /// Features screen: highlight chip 1 of the haptic and audio feedback feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Haptic Pulse'**
+  String get featureFeedbackChip1;
+
+  /// Features screen: highlight chip 2 of the haptic and audio feedback feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Audio Beep'**
+  String get featureFeedbackChip2;
+
+  /// Features screen: highlight chip 3 of the haptic and audio feedback feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Independent Toggles'**
+  String get featureFeedbackChip3;
+
+  /// Features screen: title of the protocol guard (layer 1) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Protocol & Syntax Guard (Layer 1)'**
+  String get featureProtocolGuardTitle;
+
+  /// Features screen: description of the protocol guard (layer 1) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Validates scheme authenticity, checks for encrypted HTTPS connections, and flags plain HTTP or unsupported schemes.'**
+  String get featureProtocolGuardDesc;
+
+  /// Features screen: highlight chip 1 of the protocol guard (layer 1) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'HTTPS Validation'**
+  String get featureProtocolGuardChip1;
+
+  /// Features screen: highlight chip 2 of the protocol guard (layer 1) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme Checking'**
+  String get featureProtocolGuardChip2;
+
+  /// Features screen: highlight chip 3 of the protocol guard (layer 1) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Zero-Width Char Trap'**
+  String get featureProtocolGuardChip3;
+
+  /// Features screen: title of the homograph shield (layer 2) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Homograph & Unicode Shield (Layer 2)'**
+  String get featureHomographShieldTitle;
+
+  /// Features screen: description of the homograph shield (layer 2) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Detects lookalike Cyrillic, Greek, and Unicode spoofing characters used to disguise fraudulent domain names (IDN punycode defense).'**
+  String get featureHomographShieldDesc;
+
+  /// Features screen: highlight chip 1 of the homograph shield (layer 2) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Punycode Defense'**
+  String get featureHomographShieldChip1;
+
+  /// Features screen: highlight chip 2 of the homograph shield (layer 2) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Cyrillic Lookalikes'**
+  String get featureHomographShieldChip2;
+
+  /// Features screen: highlight chip 3 of the homograph shield (layer 2) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Mixed-Script Trap'**
+  String get featureHomographShieldChip3;
+
+  /// Features screen: title of the TLD and entropy analysis (layer 3) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Suspicious TLD & Entropy Analysis (Layer 3)'**
+  String get featureTldEntropyTitle;
+
+  /// Features screen: description of the TLD and entropy analysis (layer 3) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Flags high-risk top-level domains, excessive subdomains, and evaluates domain name character entropy to catch algorithmic domains.'**
+  String get featureTldEntropyDesc;
+
+  /// Features screen: highlight chip 1 of the TLD and entropy analysis (layer 3) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'High-Risk TLDs'**
+  String get featureTldEntropyChip1;
+
+  /// Features screen: highlight chip 2 of the TLD and entropy analysis (layer 3) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Entropy Scoring'**
+  String get featureTldEntropyChip2;
+
+  /// Features screen: highlight chip 3 of the TLD and entropy analysis (layer 3) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Subdomain Depth'**
+  String get featureTldEntropyChip3;
+
+  /// Features screen: title of the IP and port flagging (layer 4) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Heuristic IP & Port Flagging (Layer 4)'**
+  String get featureIpPortTitle;
+
+  /// Features screen: description of the IP and port flagging (layer 4) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Flags links pointing directly to raw IP addresses or non-standard HTTP/HTTPS network ports designed to bypass firewalls.'**
+  String get featureIpPortDesc;
+
+  /// Features screen: highlight chip 1 of the IP and port flagging (layer 4) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Raw IP Traps'**
+  String get featureIpPortChip1;
+
+  /// Features screen: highlight chip 2 of the IP and port flagging (layer 4) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Standard Ports'**
+  String get featureIpPortChip2;
+
+  /// Features screen: highlight chip 3 of the IP and port flagging (layer 4) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Embedded Userinfo'**
+  String get featureIpPortChip3;
+
+  /// Features screen: title of the online HEAD probing (layer 5) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy-Safe Online Head Probing (Layer 5)'**
+  String get featureHeadProbeTitle;
+
+  /// Features screen: description of the online HEAD probing (layer 5) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Optional opt-in lightweight HTTP HEAD probing to resolve URL shorteners, uncover hidden redirect chains, and verify TLS certificates.'**
+  String get featureHeadProbeDesc;
+
+  /// Features screen: highlight chip 1 of the online HEAD probing (layer 5) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Redirect Chains'**
+  String get featureHeadProbeChip1;
+
+  /// Features screen: highlight chip 2 of the online HEAD probing (layer 5) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Shortener Unrolling'**
+  String get featureHeadProbeChip2;
+
+  /// Features screen: highlight chip 3 of the online HEAD probing (layer 5) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Opt-In Privacy'**
+  String get featureHeadProbeChip3;
+
+  /// Features screen: title of the Google Safe Browsing (layer 6) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Google Safe Browsing API (Layer 6)'**
+  String get featureSafeBrowsingTitle;
+
+  /// Features screen: description of the Google Safe Browsing (layer 6) feature
+  ///
+  /// In en, this message translates to:
+  /// **'Optional cloud threat intelligence against millions of known malicious URLs, malware distribution hubs, and social engineering sites.'**
+  String get featureSafeBrowsingDesc;
+
+  /// Features screen: highlight chip 1 of the Google Safe Browsing (layer 6) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Google Threat DB'**
+  String get featureSafeBrowsingChip1;
+
+  /// Features screen: highlight chip 2 of the Google Safe Browsing (layer 6) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Local Key Storage'**
+  String get featureSafeBrowsingChip2;
+
+  /// Features screen: highlight chip 3 of the Google Safe Browsing (layer 6) feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Daily Quota Meter'**
+  String get featureSafeBrowsingChip3;
+
+  /// Features screen: title of the QuishingGuard tamper detection feature
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard™ Physical Tamper Detection'**
+  String get featureQuishingGuardTitle;
+
+  /// Features screen: description of the QuishingGuard tamper detection feature
+  ///
+  /// In en, this message translates to:
+  /// **'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.'**
+  String get featureQuishingGuardDesc;
+
+  /// Features screen: highlight chip 1 of the QuishingGuard tamper detection feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Sticker Overlays'**
+  String get featureQuishingGuardChip1;
+
+  /// Features screen: highlight chip 2 of the QuishingGuard tamper detection feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Edge Discontinuity'**
+  String get featureQuishingGuardChip2;
+
+  /// Features screen: highlight chip 3 of the QuishingGuard tamper detection feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Print Grain Analysis'**
+  String get featureQuishingGuardChip3;
+
+  /// Features screen: title of the AR CodeVision feature
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision™ Spatial HUD'**
+  String get featureArCodeVisionTitle;
+
+  /// Features screen: description of the AR CodeVision feature
+  ///
+  /// In en, this message translates to:
+  /// **'Augmented Reality multi-barcode scanner displaying floating interactive chips over all detected codes with live safety badges and batch selection.'**
+  String get featureArCodeVisionDesc;
+
+  /// Features screen: highlight chip 1 of the AR CodeVision feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Spatial Tracking'**
+  String get featureArCodeVisionChip1;
+
+  /// Features screen: highlight chip 2 of the AR CodeVision feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Code HUD'**
+  String get featureArCodeVisionChip2;
+
+  /// Features screen: highlight chip 3 of the AR CodeVision feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Batch Select'**
+  String get featureArCodeVisionChip3;
+
+  /// Features screen: title of the AirQR feature
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR™ Optical Air-Gap Data Stream'**
+  String get featureAirQrTitle;
+
+  /// Features screen: description of the AirQR feature
+  ///
+  /// In en, this message translates to:
+  /// **'High-speed animated strobe QR transmitter & receiver pipeline transferring encrypted text, files, and keys completely offline without Wi-Fi or Bluetooth.'**
+  String get featureAirQrDesc;
+
+  /// Features screen: highlight chip 1 of the AirQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Animated Strobe QR'**
+  String get featureAirQrChip1;
+
+  /// Features screen: highlight chip 2 of the AirQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Reed-Solomon FEC'**
+  String get featureAirQrChip2;
+
+  /// Features screen: highlight chip 3 of the AirQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'100% Offline Air-Gap'**
+  String get featureAirQrChip3;
+
+  /// Features screen: title of the StegoQR feature
+  ///
+  /// In en, this message translates to:
+  /// **'StegoQR™ Steganographic Scanner'**
+  String get featureStegoQrTitle;
+
+  /// Features screen: description of the StegoQR feature
+  ///
+  /// In en, this message translates to:
+  /// **'Discovers and extracts hidden encrypted payloads and watermarked data layers invisibly embedded within custom QR codes.'**
+  String get featureStegoQrDesc;
+
+  /// Features screen: highlight chip 1 of the StegoQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Decoy QR Parsing'**
+  String get featureStegoQrChip1;
+
+  /// Features screen: highlight chip 2 of the StegoQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'AES Decryption'**
+  String get featureStegoQrChip2;
+
+  /// Features screen: highlight chip 3 of the StegoQR feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Auth'**
+  String get featureStegoQrChip3;
+
+  /// Features screen: title of the Wi-Fi auto connect feature
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi Instant Auto Connect'**
+  String get featureWifiTitle;
+
+  /// Features screen: description of the Wi-Fi auto connect feature
+  ///
+  /// In en, this message translates to:
+  /// **'Parses WPA/WPA2/WPA3 network credentials, displays network info, copies passwords, and opens Wi-Fi settings in 1 tap.'**
+  String get featureWifiDesc;
+
+  /// Features screen: highlight chip 1 of the Wi-Fi auto connect feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'WPA3 & WPA2'**
+  String get featureWifiChip1;
+
+  /// Features screen: highlight chip 2 of the Wi-Fi auto connect feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'1-Tap Connect'**
+  String get featureWifiChip2;
+
+  /// Features screen: highlight chip 3 of the Wi-Fi auto connect feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Password Reveal/Copy'**
+  String get featureWifiChip3;
+
+  /// Features screen: title of the UPI and crypto payments feature
+  ///
+  /// In en, this message translates to:
+  /// **'UPI & Global Crypto Payments'**
+  String get featurePaymentsTitle;
+
+  /// Features screen: description of the UPI and crypto payments feature
+  ///
+  /// In en, this message translates to:
+  /// **'Parses Indian UPI QR codes (dispatching to GPay, PhonePe, Paytm) and Bitcoin/Ethereum/Solana crypto payment addresses with amount detection.'**
+  String get featurePaymentsDesc;
+
+  /// Features screen: highlight chip 1 of the UPI and crypto payments feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'UPI App Dispatch'**
+  String get featurePaymentsChip1;
+
+  /// Features screen: highlight chip 2 of the UPI and crypto payments feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto Wallets'**
+  String get featurePaymentsChip2;
+
+  /// Features screen: highlight chip 3 of the UPI and crypto payments feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'SEPA Transfer'**
+  String get featurePaymentsChip3;
+
+  /// Features screen: title of the TOTP authenticator feature
+  ///
+  /// In en, this message translates to:
+  /// **'TOTP 2FA Authenticator & Token Generator'**
+  String get featureTotpTitle;
+
+  /// Features screen: description of the TOTP authenticator feature
+  ///
+  /// In en, this message translates to:
+  /// **'Scans 2FA setup codes, renders live rolling 6-digit OTP passcodes with circular countdown timers, and imports into authenticator apps.'**
+  String get featureTotpDesc;
+
+  /// Features screen: highlight chip 1 of the TOTP authenticator feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Live Passcodes'**
+  String get featureTotpChip1;
+
+  /// Features screen: highlight chip 2 of the TOTP authenticator feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Visual Countdown'**
+  String get featureTotpChip2;
+
+  /// Features screen: highlight chip 3 of the TOTP authenticator feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'App Importer'**
+  String get featureTotpChip3;
+
+  /// Features screen: title of the contacts and vCard feature
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts & vCard Importer'**
+  String get featureContactsTitle;
+
+  /// Features screen: description of the contacts and vCard feature
+  ///
+  /// In en, this message translates to:
+  /// **'Parses vCard 2.1/3.0/4.0 and MeCard contact barcodes with 1-tap phone dialing, email composition, and saving to your address book.'**
+  String get featureContactsDesc;
+
+  /// Features screen: highlight chip 1 of the contacts and vCard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'vCard 4.0'**
+  String get featureContactsChip1;
+
+  /// Features screen: highlight chip 2 of the contacts and vCard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'1-Tap Save'**
+  String get featureContactsChip2;
+
+  /// Features screen: highlight chip 3 of the contacts and vCard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Direct Call & Email'**
+  String get featureContactsChip3;
+
+  /// Features screen: title of the calendar events feature
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar Events & Scheduling'**
+  String get featureCalendarTitle;
+
+  /// Features screen: description of the calendar events feature
+  ///
+  /// In en, this message translates to:
+  /// **'Reads iCalendar VEVENT formats with start/end time ranges, locations, and descriptions, adding them directly to your device calendar.'**
+  String get featureCalendarDesc;
+
+  /// Features screen: highlight chip 1 of the calendar events feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'iCal Parsing'**
+  String get featureCalendarChip1;
+
+  /// Features screen: highlight chip 2 of the calendar events feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Start/End Time'**
+  String get featureCalendarChip2;
+
+  /// Features screen: highlight chip 3 of the calendar events feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Device Calendar Add'**
+  String get featureCalendarChip3;
+
+  /// Features screen: title of the geo location feature
+  ///
+  /// In en, this message translates to:
+  /// **'Geographic Location & Navigation'**
+  String get featureGeoTitle;
+
+  /// Features screen: description of the geo location feature
+  ///
+  /// In en, this message translates to:
+  /// **'Parses geo: coordinates and search queries, offering instant navigation directions via Google Maps.'**
+  String get featureGeoDesc;
+
+  /// Features screen: highlight chip 1 of the geo location feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Lat/Long Parsing'**
+  String get featureGeoChip1;
+
+  /// Features screen: highlight chip 2 of the geo location feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Google Maps Link'**
+  String get featureGeoChip2;
+
+  /// Features screen: highlight chip 3 of the geo location feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Search Queries'**
+  String get featureGeoChip3;
+
+  /// Features screen: title of the scan history feature
+  ///
+  /// In en, this message translates to:
+  /// **'Comprehensive Offline Scan History'**
+  String get featureScanHistoryTitle;
+
+  /// Features screen: description of the scan history feature
+  ///
+  /// In en, this message translates to:
+  /// **'Stores every scan locally with payload categorization, safety scores, timestamp tracking, favorite stars, and real-time full-text search.'**
+  String get featureScanHistoryDesc;
+
+  /// Features screen: highlight chip 1 of the scan history feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Full-Text Search'**
+  String get featureScanHistoryChip1;
+
+  /// Features screen: highlight chip 2 of the scan history feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Category Filtering'**
+  String get featureScanHistoryChip2;
+
+  /// Features screen: highlight chip 3 of the scan history feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite Stars'**
+  String get featureScanHistoryChip3;
+
+  /// Features screen: title of the backups feature
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible JSON & CSV Backups'**
+  String get featureBackupsTitle;
+
+  /// Features screen: description of the backups feature
+  ///
+  /// In en, this message translates to:
+  /// **'Export your complete scan history to standard CSV spreadsheets or encrypted JSON backup files with one-click restore.'**
+  String get featureBackupsDesc;
+
+  /// Features screen: highlight chip 1 of the backups feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'CSV Spreadsheet'**
+  String get featureBackupsChip1;
+
+  /// Features screen: highlight chip 2 of the backups feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'JSON Backup'**
+  String get featureBackupsChip2;
+
+  /// Features screen: highlight chip 3 of the backups feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'One-Click Restore'**
+  String get featureBackupsChip3;
+
+  /// Features screen: title of the biometric and screen guard feature
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric & Screen Security Guard'**
+  String get featureBiometricGuardTitle;
+
+  /// Features screen: description of the biometric and screen guard feature
+  ///
+  /// In en, this message translates to:
+  /// **'Protects sensitive hidden StegoQR payloads and history with fingerprint/face authentication and blocks screen captures (FLAG_SECURE).'**
+  String get featureBiometricGuardDesc;
+
+  /// Features screen: highlight chip 1 of the biometric and screen guard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Prompt'**
+  String get featureBiometricGuardChip1;
+
+  /// Features screen: highlight chip 2 of the biometric and screen guard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot Guard'**
+  String get featureBiometricGuardChip2;
+
+  /// Features screen: highlight chip 3 of the biometric and screen guard feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted Storage'**
+  String get featureBiometricGuardChip3;
+
+  /// Features screen: title of the offline privacy feature
+  ///
+  /// In en, this message translates to:
+  /// **'100% Offline-First Privacy'**
+  String get featureOfflinePrivacyTitle;
+
+  /// Features screen: description of the offline privacy feature
+  ///
+  /// In en, this message translates to:
+  /// **'Scans, decodes, and analyzes barcodes completely on your phone without sending any data to external servers by default.'**
+  String get featureOfflinePrivacyDesc;
+
+  /// Features screen: highlight chip 1 of the offline privacy feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'No Telemetry'**
+  String get featureOfflinePrivacyChip1;
+
+  /// Features screen: highlight chip 2 of the offline privacy feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Zero Ads'**
+  String get featureOfflinePrivacyChip2;
+
+  /// Features screen: highlight chip 3 of the offline privacy feature (max 22 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'Open-Source Safety'**
+  String get featureOfflinePrivacyChip3;
 
   /// Hero header title on the Help Home screen
   ///
@@ -3697,7 +4381,7 @@ abstract class AppLocalizations {
   /// Hero header subtitle on the Help Home screen
   ///
   /// In en, this message translates to:
-  /// **'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Reader.'**
+  /// **'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.'**
   String get helpCenterHeaderSubtitle;
 
   /// Button to open the manual decryption tool
@@ -4768,12 +5452,6 @@ abstract class AppLocalizations {
   /// **'Barcode content copied to clipboard'**
   String get codeForgeCopied;
 
-  /// Button to run URL safety check on generated link
-  ///
-  /// In en, this message translates to:
-  /// **'Link Safety Check'**
-  String get codeForgeVerifySafety;
-
   /// Badge label shown when URL passes all safety checks
   ///
   /// In en, this message translates to:
@@ -5086,6 +5764,12 @@ abstract class AppLocalizations {
   /// **'Edge Sharpness'**
   String get cameraUnsharpLabel;
 
+  /// Label for the digital zoom slider of Distance Scan Assist in camera settings
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Zoom'**
+  String get cameraDistanceZoomLabel;
+
   /// Tooltip for distance scan assist toggle button in camera viewport
   ///
   /// In en, this message translates to:
@@ -5265,6 +5949,1434 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No QR code or barcode detected on screen'**
   String get ghostScanNoCodeFound;
+
+  /// Help Center hub: group header above the scanning guides
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning & Ingestion Guides'**
+  String get helpGuideGroupScanning;
+
+  /// Help Center hub: group header above the security guides
+  ///
+  /// In en, this message translates to:
+  /// **'Security & Threat Defense'**
+  String get helpGuideGroupSecurity;
+
+  /// Help Center hub: group header above the payload, storage and privacy guides
+  ///
+  /// In en, this message translates to:
+  /// **'Payloads, Storage & Privacy'**
+  String get helpGuideGroupPayloads;
+
+  /// App bar title of the Barcode & Media Scanning help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode scanning'**
+  String get titleHelpBarcode;
+
+  /// Help Center hub: card title for the Barcode & Media Scanning guide
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode & Media Scanning'**
+  String get helpGuideBarcodeName;
+
+  /// Help Center hub: card subtitle for the Barcode & Media Scanning guide
+  ///
+  /// In en, this message translates to:
+  /// **'Live camera controls, gallery photos, and multi-page PDF document scanning.'**
+  String get helpGuideBarcodeSummary;
+
+  /// Barcode help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.'**
+  String get helpGuideBarcodeIntro;
+
+  /// Barcode help screen: section heading about the live camera
+  ///
+  /// In en, this message translates to:
+  /// **'Live Camera Viewport'**
+  String get helpGuideBarcodeCameraTitle;
+
+  /// Barcode help screen: live camera bullet 1 (supported formats; keep format names as-is)
+  ///
+  /// In en, this message translates to:
+  /// **'Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.'**
+  String get helpGuideBarcodeCameraBullet1;
+
+  /// Barcode help screen: live camera bullet 2 (torch and zoom)
+  ///
+  /// In en, this message translates to:
+  /// **'Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.'**
+  String get helpGuideBarcodeCameraBullet2;
+
+  /// Barcode help screen: live camera bullet 3 (viewfinder overlays in Settings)
+  ///
+  /// In en, this message translates to:
+  /// **'Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.'**
+  String get helpGuideBarcodeCameraBullet3;
+
+  /// Barcode help screen: section heading about scanning gallery images
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning Gallery Photos & Images'**
+  String get helpGuideBarcodeGalleryTitle;
+
+  /// Barcode help screen: gallery bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.'**
+  String get helpGuideBarcodeGalleryBullet1;
+
+  /// Barcode help screen: gallery bullet 2 (photo picker privacy)
+  ///
+  /// In en, this message translates to:
+  /// **'Uses privacy-safe Android Photo Picker without requiring broad storage permissions.'**
+  String get helpGuideBarcodeGalleryBullet2;
+
+  /// Barcode help screen: gallery bullet 3
+  ///
+  /// In en, this message translates to:
+  /// **'The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.'**
+  String get helpGuideBarcodeGalleryBullet3;
+
+  /// Barcode help screen: section heading about PDF scanning
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Page PDF Scanning'**
+  String get helpGuideBarcodePdfTitle;
+
+  /// Barcode help screen: PDF bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.'**
+  String get helpGuideBarcodePdfBullet1;
+
+  /// Barcode help screen: PDF bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Extracts and renders every page in memory, cataloging all barcodes found across each individual page.'**
+  String get helpGuideBarcodePdfBullet2;
+
+  /// Barcode help screen: PDF bullet 3
+  ///
+  /// In en, this message translates to:
+  /// **'Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.'**
+  String get helpGuideBarcodePdfBullet3;
+
+  /// Barcode help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.'**
+  String get helpGuideBarcodeTip;
+
+  /// App bar title of the AR CodeVision help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision'**
+  String get titleHelpArCodeVision;
+
+  /// Help Center hub: card title for the AR CodeVision guide (keep the trademark name)
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision™ Spatial HUD'**
+  String get helpGuideArCodeVisionName;
+
+  /// Help Center hub: card subtitle for the AR CodeVision guide
+  ///
+  /// In en, this message translates to:
+  /// **'Real-time multi-barcode camera tracking, floating chips, and batch actions.'**
+  String get helpGuideArCodeVisionSummary;
+
+  /// AR CodeVision help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.'**
+  String get helpGuideArCodeVisionIntro;
+
+  /// AR CodeVision help screen: section heading about spatial tracking
+  ///
+  /// In en, this message translates to:
+  /// **'Real-Time Spatial Tracking'**
+  String get helpGuideArCodeVisionTrackingTitle;
+
+  /// AR CodeVision help screen: tracking bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.'**
+  String get helpGuideArCodeVisionTrackingBullet1;
+
+  /// AR CodeVision help screen: tracking bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Renders floating interactive chips directly above each physical barcode on screen as you move your camera.'**
+  String get helpGuideArCodeVisionTrackingBullet2;
+
+  /// AR CodeVision help screen: tracking bullet 3 (color badges)
+  ///
+  /// In en, this message translates to:
+  /// **'Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).'**
+  String get helpGuideArCodeVisionTrackingBullet3;
+
+  /// AR CodeVision help screen: section heading about multi-select and batch actions
+  ///
+  /// In en, this message translates to:
+  /// **'Interactive Multi-Select & Batch Actions'**
+  String get helpGuideArCodeVisionBatchTitle;
+
+  /// AR CodeVision help screen: batch bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.'**
+  String get helpGuideArCodeVisionBatchBullet1;
+
+  /// AR CodeVision help screen: batch bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.'**
+  String get helpGuideArCodeVisionBatchBullet2;
+
+  /// AR CodeVision help screen: batch bullet 3
+  ///
+  /// In en, this message translates to:
+  /// **'Copy all selected payload contents or export targets to your history in a single tap.'**
+  String get helpGuideArCodeVisionBatchBullet3;
+
+  /// AR CodeVision help screen: section heading about HUD controls
+  ///
+  /// In en, this message translates to:
+  /// **'HUD Controls & Performance'**
+  String get helpGuideArCodeVisionHudTitle;
+
+  /// AR CodeVision help screen: HUD bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.'**
+  String get helpGuideArCodeVisionHudBullet1;
+
+  /// AR CodeVision help screen: HUD bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.'**
+  String get helpGuideArCodeVisionHudBullet2;
+
+  /// AR CodeVision help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.'**
+  String get helpGuideArCodeVisionTip;
+
+  /// App bar title of the AirQR help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR guide'**
+  String get titleHelpAirQr;
+
+  /// Help Center hub: card title for the AirQR guide (keep the trademark name)
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR™ Optical Air-Gap Stream'**
+  String get helpGuideAirQrName;
+
+  /// Help Center hub: card subtitle for the AirQR guide
+  ///
+  /// In en, this message translates to:
+  /// **'Offline animated QR strobe transmitter and receiver for radio-silent data sharing.'**
+  String get helpGuideAirQrSummary;
+
+  /// AirQR help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.'**
+  String get helpGuideAirQrIntro;
+
+  /// AirQR help screen: section heading about how streaming works
+  ///
+  /// In en, this message translates to:
+  /// **'How Optical Streaming Works'**
+  String get helpGuideAirQrStreamingTitle;
+
+  /// AirQR help screen: streaming bullet 1 (data frames plus LT fountain-code repair frames)
+  ///
+  /// In en, this message translates to:
+  /// **'Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.'**
+  String get helpGuideAirQrStreamingBullet1;
+
+  /// AirQR help screen: streaming bullet 2 (frame rate range 5 to 25 FPS)
+  ///
+  /// In en, this message translates to:
+  /// **'The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).'**
+  String get helpGuideAirQrStreamingBullet2;
+
+  /// AirQR help screen: streaming bullet 3
+  ///
+  /// In en, this message translates to:
+  /// **'The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.'**
+  String get helpGuideAirQrStreamingBullet3;
+
+  /// AirQR help screen: section heading about air-gap security
+  ///
+  /// In en, this message translates to:
+  /// **'Air-Gap Security & Privacy'**
+  String get helpGuideAirQrSecurityTitle;
+
+  /// AirQR help screen: security bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).'**
+  String get helpGuideAirQrSecurityBullet1;
+
+  /// AirQR help screen: security bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.'**
+  String get helpGuideAirQrSecurityBullet2;
+
+  /// AirQR help screen: security bullet 3
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.'**
+  String get helpGuideAirQrSecurityBullet3;
+
+  /// AirQR help screen: section heading about transmitter and receiver controls
+  ///
+  /// In en, this message translates to:
+  /// **'Transmitter & Receiver Controls'**
+  String get helpGuideAirQrControlsTitle;
+
+  /// AirQR help screen: controls bullet 1 (transmitter has a frame rate control only; no chunk-size control)
+  ///
+  /// In en, this message translates to:
+  /// **'Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.'**
+  String get helpGuideAirQrControlsBullet1;
+
+  /// AirQR help screen: controls bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.'**
+  String get helpGuideAirQrControlsBullet2;
+
+  /// AirQR help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.'**
+  String get helpGuideAirQrTip;
+
+  /// App bar title of the URL safety help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'URL safety'**
+  String get titleHelpUrlSafety;
+
+  /// Help Center hub: card title for the URL safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'6-Layer URL Safety Engine'**
+  String get helpGuideUrlSafetyName;
+
+  /// Help Center hub: card subtitle for the URL safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.'**
+  String get helpGuideUrlSafetySummary;
+
+  /// URL safety help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.'**
+  String get helpGuideUrlSafetyIntro;
+
+  /// URL safety help screen: section heading for the list of 6 layers
+  ///
+  /// In en, this message translates to:
+  /// **'The 6 Safety Layers Explained'**
+  String get helpGuideUrlSafetyLayersTitle;
+
+  /// URL safety help screen: layer 1 description
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.'**
+  String get helpGuideUrlSafetyLayersBullet1;
+
+  /// URL safety help screen: layer 2 description. Keep the Cyrillic example letter as-is.
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.'**
+  String get helpGuideUrlSafetyLayersBullet2;
+
+  /// URL safety help screen: layer 3 description
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.'**
+  String get helpGuideUrlSafetyLayersBullet3;
+
+  /// URL safety help screen: layer 4 description
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.'**
+  String get helpGuideUrlSafetyLayersBullet4;
+
+  /// URL safety help screen: layer 5 description
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.'**
+  String get helpGuideUrlSafetyLayersBullet5;
+
+  /// URL safety help screen: layer 6 description
+  ///
+  /// In en, this message translates to:
+  /// **'Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.'**
+  String get helpGuideUrlSafetyLayersBullet6;
+
+  /// URL safety help screen: section heading about safety verdicts
+  ///
+  /// In en, this message translates to:
+  /// **'Safety Verdicts & Action Guidance'**
+  String get helpGuideUrlSafetyVerdictsTitle;
+
+  /// URL safety help screen: verdict bullet 1 (green)
+  ///
+  /// In en, this message translates to:
+  /// **'Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.'**
+  String get helpGuideUrlSafetyVerdictsBullet1;
+
+  /// URL safety help screen: verdict bullet 2 (orange/red)
+  ///
+  /// In en, this message translates to:
+  /// **'Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.'**
+  String get helpGuideUrlSafetyVerdictsBullet2;
+
+  /// URL safety help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.'**
+  String get helpGuideUrlSafetyTip;
+
+  /// App bar title of the QuishingGuard help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard'**
+  String get titleHelpQuishing;
+
+  /// Help Center hub: card title for the QuishingGuard guide (keep the trademark name)
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard™ Tamper Detection'**
+  String get helpGuideQuishingName;
+
+  /// Help Center hub: card subtitle for the QuishingGuard guide
+  ///
+  /// In en, this message translates to:
+  /// **'On-device computer vision analyzing physical QR sticker overlays and edge cuts.'**
+  String get helpGuideQuishingSummary;
+
+  /// QuishingGuard help screen: intro paragraph (explains what quishing is)
+  ///
+  /// In en, this message translates to:
+  /// **'Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.'**
+  String get helpGuideQuishingIntro;
+
+  /// QuishingGuard help screen: section heading about on-device computer vision
+  ///
+  /// In en, this message translates to:
+  /// **'On-Device Computer Vision Analysis'**
+  String get helpGuideQuishingCvTitle;
+
+  /// QuishingGuard help screen: computer vision bullet 1 (edge metric)
+  ///
+  /// In en, this message translates to:
+  /// **'Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.'**
+  String get helpGuideQuishingCvBullet1;
+
+  /// QuishingGuard help screen: computer vision bullet 2 (print grain metric)
+  ///
+  /// In en, this message translates to:
+  /// **'Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.'**
+  String get helpGuideQuishingCvBullet2;
+
+  /// QuishingGuard help screen: computer vision bullet 3 (risk score)
+  ///
+  /// In en, this message translates to:
+  /// **'Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).'**
+  String get helpGuideQuishingCvBullet3;
+
+  /// QuishingGuard help screen: section heading about forensic signals
+  ///
+  /// In en, this message translates to:
+  /// **'Forensic Signal Inspection'**
+  String get helpGuideQuishingForensicTitle;
+
+  /// QuishingGuard help screen: forensic bullet 1. The quoted text must match the quishingViewSignals button.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.'**
+  String get helpGuideQuishingForensicBullet1;
+
+  /// QuishingGuard help screen: forensic bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Helps identify suspicious payment QR codes in public places before sending money or typing credentials.'**
+  String get helpGuideQuishingForensicBullet2;
+
+  /// QuishingGuard help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.'**
+  String get helpGuideQuishingTip;
+
+  /// App bar title of the Google Safe Browsing setup help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'Safe Browsing'**
+  String get titleHelpSafeBrowsing;
+
+  /// Help Center hub: card title for the Google Safe Browsing setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Google Safe Browsing Setup'**
+  String get helpGuideSafeBrowsingName;
+
+  /// Help Center hub: card subtitle for the Google Safe Browsing setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.'**
+  String get helpGuideSafeBrowsingSummary;
+
+  /// Safe Browsing help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.'**
+  String get helpGuideSafeBrowsingIntro;
+
+  /// Safe Browsing help screen: section heading for the API key steps
+  ///
+  /// In en, this message translates to:
+  /// **'How to Obtain a Free API Key'**
+  String get helpGuideSafeBrowsingKeyTitle;
+
+  /// Safe Browsing help screen: API key step 1 (keep the URL as-is)
+  ///
+  /// In en, this message translates to:
+  /// **'1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.'**
+  String get helpGuideSafeBrowsingKeyStep1;
+
+  /// Safe Browsing help screen: API key step 2 (the quoted project name is an English example)
+  ///
+  /// In en, this message translates to:
+  /// **'2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").'**
+  String get helpGuideSafeBrowsingKeyStep2;
+
+  /// Safe Browsing help screen: API key step 3. Google Cloud Console menu names stay in English.
+  ///
+  /// In en, this message translates to:
+  /// **'3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.'**
+  String get helpGuideSafeBrowsingKeyStep3;
+
+  /// Safe Browsing help screen: API key step 4. Google Cloud Console menu names stay in English.
+  ///
+  /// In en, this message translates to:
+  /// **'4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".'**
+  String get helpGuideSafeBrowsingKeyStep4;
+
+  /// Safe Browsing help screen: API key step 5
+  ///
+  /// In en, this message translates to:
+  /// **'5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.'**
+  String get helpGuideSafeBrowsingKeyStep5;
+
+  /// Safe Browsing help screen: section heading about key storage and privacy
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & Secure Keystore Storage'**
+  String get helpGuideSafeBrowsingPrivacyTitle;
+
+  /// Safe Browsing help screen: privacy bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.'**
+  String get helpGuideSafeBrowsingPrivacyBullet1;
+
+  /// Safe Browsing help screen: privacy bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.'**
+  String get helpGuideSafeBrowsingPrivacyBullet2;
+
+  /// Safe Browsing help screen: privacy bullet 3 (daily free quota)
+  ///
+  /// In en, this message translates to:
+  /// **'Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.'**
+  String get helpGuideSafeBrowsingPrivacyBullet3;
+
+  /// Safe Browsing help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.'**
+  String get helpGuideSafeBrowsingTip;
+
+  /// App bar title of the Smart Actions & Payments help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'Smart actions'**
+  String get titleHelpSmartPayloads;
+
+  /// Help Center hub: card title for the Smart Actions & Payments guide
+  ///
+  /// In en, this message translates to:
+  /// **'Smart Actions & Payments'**
+  String get helpGuideSmartPayloadsName;
+
+  /// Help Center hub: card subtitle for the Smart Actions & Payments guide
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.'**
+  String get helpGuideSmartPayloadsSummary;
+
+  /// Smart Actions help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.'**
+  String get helpGuideSmartPayloadsIntro;
+
+  /// Smart Actions help screen: section heading about Wi-Fi
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi Network Auto-Connect'**
+  String get helpGuideSmartPayloadsWifiTitle;
+
+  /// Smart Actions help screen: Wi-Fi bullet 1. Keep the protocol token WIFI: as-is.
+  ///
+  /// In en, this message translates to:
+  /// **'Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.'**
+  String get helpGuideSmartPayloadsWifiBullet1;
+
+  /// Smart Actions help screen: Wi-Fi bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Includes a Password Reveal / Hide button and 1-tap clipboard copy.'**
+  String get helpGuideSmartPayloadsWifiBullet2;
+
+  /// Smart Actions help screen: Wi-Fi bullet 3. The quoted text must match the wifiConnectButton label.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.'**
+  String get helpGuideSmartPayloadsWifiBullet3;
+
+  /// Smart Actions help screen: section heading about UPI and crypto payments
+  ///
+  /// In en, this message translates to:
+  /// **'UPI & Cryptocurrency Payments'**
+  String get helpGuideSmartPayloadsPaymentsTitle;
+
+  /// Smart Actions help screen: payments bullet 1 (UPI)
+  ///
+  /// In en, this message translates to:
+  /// **'Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.'**
+  String get helpGuideSmartPayloadsPaymentsBullet1;
+
+  /// Smart Actions help screen: payments bullet 2 (keep app names as-is)
+  ///
+  /// In en, this message translates to:
+  /// **'1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.'**
+  String get helpGuideSmartPayloadsPaymentsBullet2;
+
+  /// Smart Actions help screen: payments bullet 3 (crypto)
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.'**
+  String get helpGuideSmartPayloadsPaymentsBullet3;
+
+  /// Smart Actions help screen: section heading about TOTP 2FA
+  ///
+  /// In en, this message translates to:
+  /// **'TOTP 2FA Authenticator & Tokens'**
+  String get helpGuideSmartPayloadsTotpTitle;
+
+  /// Smart Actions help screen: TOTP bullet 1. Keep otpauth:// as-is.
+  ///
+  /// In en, this message translates to:
+  /// **'Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.'**
+  String get helpGuideSmartPayloadsTotpBullet1;
+
+  /// Smart Actions help screen: TOTP bullet 2
+  ///
+  /// In en, this message translates to:
+  /// **'Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.'**
+  String get helpGuideSmartPayloadsTotpBullet2;
+
+  /// Smart Actions help screen: TOTP bullet 3. The quoted text must match the totpImportButton label.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.'**
+  String get helpGuideSmartPayloadsTotpBullet3;
+
+  /// Smart Actions help screen: section heading about contacts and calendar events
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts & Calendar Events'**
+  String get helpGuideSmartPayloadsContactsTitle;
+
+  /// Smart Actions help screen: contacts bullet 1 (vCard and MeCard)
+  ///
+  /// In en, this message translates to:
+  /// **'vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.'**
+  String get helpGuideSmartPayloadsContactsBullet1;
+
+  /// Smart Actions help screen: contacts bullet 2 (iCalendar events)
+  ///
+  /// In en, this message translates to:
+  /// **'iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.'**
+  String get helpGuideSmartPayloadsContactsBullet2;
+
+  /// Smart Actions help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.'**
+  String get helpGuideSmartPayloadsTip;
+
+  /// App bar title of the History, Backups & Privacy help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'History & privacy'**
+  String get titleHelpHistory;
+
+  /// Help Center hub: card title for the History, Backups & Privacy guide
+  ///
+  /// In en, this message translates to:
+  /// **'History, Backups & Privacy'**
+  String get helpGuideHistoryName;
+
+  /// Help Center hub: card subtitle for the History, Backups & Privacy guide
+  ///
+  /// In en, this message translates to:
+  /// **'Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.'**
+  String get helpGuideHistorySummary;
+
+  /// History help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.'**
+  String get helpGuideHistoryIntro;
+
+  /// History help screen: section heading about managing scan history
+  ///
+  /// In en, this message translates to:
+  /// **'Scan History Management'**
+  String get helpGuideHistoryManageTitle;
+
+  /// History help screen: manage bullet 1 (search and filter)
+  ///
+  /// In en, this message translates to:
+  /// **'Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).'**
+  String get helpGuideHistoryManageBullet1;
+
+  /// History help screen: manage bullet 2 (favorites)
+  ///
+  /// In en, this message translates to:
+  /// **'Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.'**
+  String get helpGuideHistoryManageBullet2;
+
+  /// History help screen: manage bullet 3 (detail sheet)
+  ///
+  /// In en, this message translates to:
+  /// **'Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.'**
+  String get helpGuideHistoryManageBullet3;
+
+  /// History help screen: section heading about backup and restore
+  ///
+  /// In en, this message translates to:
+  /// **'Backup & Restore (JSON / CSV)'**
+  String get helpGuideHistoryBackupTitle;
+
+  /// History help screen: backup bullet 1 (JSON)
+  ///
+  /// In en, this message translates to:
+  /// **'JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.'**
+  String get helpGuideHistoryBackupBullet1;
+
+  /// History help screen: backup bullet 2 (CSV)
+  ///
+  /// In en, this message translates to:
+  /// **'CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.'**
+  String get helpGuideHistoryBackupBullet2;
+
+  /// History help screen: backup bullet 3 (restore)
+  ///
+  /// In en, this message translates to:
+  /// **'One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.'**
+  String get helpGuideHistoryBackupBullet3;
+
+  /// History help screen: section heading about biometrics and screenshot guard
+  ///
+  /// In en, this message translates to:
+  /// **'Biometrics & Screenshot Guard'**
+  String get helpGuideHistoryBiometricsTitle;
+
+  /// History help screen: biometrics bullet 1
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Authentication: Protects sensitive StegoQR hidden records using your device fingerprint or facial recognition.'**
+  String get helpGuideHistoryBiometricsBullet1;
+
+  /// History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot Guard: Prevents malicious background apps or unauthorized shoulder-surfers from capturing screen content (FLAG_SECURE).'**
+  String get helpGuideHistoryBiometricsBullet2;
+
+  /// History help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.'**
+  String get helpGuideHistoryTip;
+
+  /// App bar title of the FAQ & Troubleshooting help screen. Short label.
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ & help'**
+  String get titleHelpFaq;
+
+  /// Help Center hub: card title for the FAQ & Troubleshooting guide
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ & Troubleshooting'**
+  String get helpGuideFaqName;
+
+  /// Help Center hub: card subtitle for the FAQ & Troubleshooting guide
+  ///
+  /// In en, this message translates to:
+  /// **'Common questions, camera focus tips, permission recovery, and offline guarantees.'**
+  String get helpGuideFaqSummary;
+
+  /// FAQ help screen: intro paragraph
+  ///
+  /// In en, this message translates to:
+  /// **'Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.'**
+  String get helpGuideFaqIntro;
+
+  /// FAQ help screen: section heading for the questions
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get helpGuideFaqQuestionsTitle;
+
+  /// FAQ help screen: question 1 and its answer, split by a line break
+  ///
+  /// In en, this message translates to:
+  /// **'Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.'**
+  String get helpGuideFaqQuestion1;
+
+  /// FAQ help screen: question 2 and its answer, split by a line break
+  ///
+  /// In en, this message translates to:
+  /// **'Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.'**
+  String get helpGuideFaqQuestion2;
+
+  /// FAQ help screen: question 3 and its answer, split by a line break
+  ///
+  /// In en, this message translates to:
+  /// **'Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.'**
+  String get helpGuideFaqQuestion3;
+
+  /// FAQ help screen: section heading for camera troubleshooting
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Troubleshooting'**
+  String get helpGuideFaqCameraTitle;
+
+  /// FAQ help screen: camera bullet 1 (focus problems)
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.'**
+  String get helpGuideFaqCameraBullet1;
+
+  /// FAQ help screen: camera bullet 2 (tiny or dense codes)
+  ///
+  /// In en, this message translates to:
+  /// **'Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.'**
+  String get helpGuideFaqCameraBullet2;
+
+  /// FAQ help screen: camera bullet 3 (restoring camera permission in Android Settings; the app name in the path is the Android app label)
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.'**
+  String get helpGuideFaqCameraBullet3;
+
+  /// FAQ help screen: tip box at the bottom
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.'**
+  String get helpGuideFaqTip;
+
+  /// Tooltip and sheet title for the menu of extra actions on the scan result screen
+  ///
+  /// In en, this message translates to:
+  /// **'More actions'**
+  String get resultMoreActions;
+
+  /// Shown in the safety summary card while link checks are running
+  ///
+  /// In en, this message translates to:
+  /// **'Checking link safety…'**
+  String get verdictChecking;
+
+  /// Safety summary headline when no link check failed
+  ///
+  /// In en, this message translates to:
+  /// **'No issues found'**
+  String get verdictNoIssues;
+
+  /// Safety summary headline with the number of failed link checks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 issue found} other{{count} issues found}}'**
+  String verdictIssuesFound(int count);
+
+  /// Safety summary line: how many link checks passed out of all checks
+  ///
+  /// In en, this message translates to:
+  /// **'{passed} of {total} checks passed'**
+  String verdictChecksPassed(int passed, int total);
+
+  /// Link in the safety summary card that scrolls to the full safety check list
+  ///
+  /// In en, this message translates to:
+  /// **'See details'**
+  String get verdictSeeDetails;
+
+  /// Short label: link checks ran without contacting the site
+  ///
+  /// In en, this message translates to:
+  /// **'Private mode'**
+  String get verdictModePrivate;
+
+  /// Short label: link checks contacted the site directly
+  ///
+  /// In en, this message translates to:
+  /// **'Active probing'**
+  String get verdictModeActive;
+
+  /// Toggle that shows the folded list of passed safety checks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Show 1 passed check} other{Show {count} passed checks}}'**
+  String safetyShowPassed(int count);
+
+  /// Toggle that folds the list of passed safety checks
+  ///
+  /// In en, this message translates to:
+  /// **'Hide passed checks'**
+  String get safetyHidePassed;
+
+  /// One line that groups safety checks that did not run (no API key or service off)
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 check skipped} other{{count} checks skipped}}'**
+  String safetySkippedGroup(int count);
+
+  /// Button that opens Settings so the user can turn on skipped safety checks
+  ///
+  /// In en, this message translates to:
+  /// **'Set up in Settings'**
+  String get safetySkippedSetup;
+
+  /// Confirm dialog text before opening a link that failed some safety checks
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{This link has 1 issue. Open it anyway?} other{This link has {count} issues. Open it anyway?}}'**
+  String openRiskDialogIssues(int count);
+
+  /// Tooltip to unfold the sandboxed page preview
+  ///
+  /// In en, this message translates to:
+  /// **'Show preview'**
+  String get sandboxShowPreview;
+
+  /// Tooltip to fold the sandboxed page preview
+  ///
+  /// In en, this message translates to:
+  /// **'Hide preview'**
+  String get sandboxHidePreview;
+
+  /// Folded Quishing Guard line when the printed code looks genuine; percent is the tamper risk
+  ///
+  /// In en, this message translates to:
+  /// **'Genuine print · {percent}%'**
+  String quishingCompactGenuine(String percent);
+
+  /// Title of the floating Scan bubble feature (settings tile, screen title, menu item). Keep short.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan bubble'**
+  String get scanBubbleTitle;
+
+  /// Subtitle of the Scan bubble tile on the Settings screen
+  ///
+  /// In en, this message translates to:
+  /// **'Scan codes shown in other apps'**
+  String get scanBubbleSettingsSubtitle;
+
+  /// Switch label that turns the floating Scan bubble on or off
+  ///
+  /// In en, this message translates to:
+  /// **'Show scan bubble'**
+  String get scanBubbleSwitchTitle;
+
+  /// Explanation under the Scan bubble on/off switch
+  ///
+  /// In en, this message translates to:
+  /// **'A small button that floats over other apps. Tap it to scan a code on the screen.'**
+  String get scanBubbleSwitchSubtitle;
+
+  /// Status shown when the Display over other apps permission is granted
+  ///
+  /// In en, this message translates to:
+  /// **'Allowed'**
+  String get scanBubblePermissionGranted;
+
+  /// Status shown when the Display over other apps permission is not granted
+  ///
+  /// In en, this message translates to:
+  /// **'Not allowed yet. Needed for the bubble.'**
+  String get scanBubblePermissionMissing;
+
+  /// Button that starts the Display over other apps permission flow
+  ///
+  /// In en, this message translates to:
+  /// **'Allow'**
+  String get scanBubbleAllowButton;
+
+  /// Switch label: show the bubble again after the phone restarts. Keep short.
+  ///
+  /// In en, this message translates to:
+  /// **'Start after restart'**
+  String get scanBubbleStartOnBootTitle;
+
+  /// Explanation under the start after restart switch
+  ///
+  /// In en, this message translates to:
+  /// **'If the bubble was on, show it again after the phone restarts. Some phones may block this.'**
+  String get scanBubbleStartOnBootSubtitle;
+
+  /// Button that asks Android to add the Scan bubble Quick Settings tile. Keep short.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Quick Settings'**
+  String get scanBubbleAddTileButton;
+
+  /// Message after the request to add the Scan bubble tile was sent
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Settings tile request sent'**
+  String get scanBubbleTileAdded;
+
+  /// Message telling the user how to add the Scan bubble tile by hand
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down Quick Settings, tap the edit (pencil) button, and drag the Scan bubble tile in.'**
+  String get scanBubbleTileManual;
+
+  /// Title of the dialog that explains the Display over other apps permission
+  ///
+  /// In en, this message translates to:
+  /// **'Allow the bubble'**
+  String get scanBubblePermissionDialogTitle;
+
+  /// Body of the dialog that explains the Display over other apps permission
+  ///
+  /// In en, this message translates to:
+  /// **'To float over other apps, the bubble needs the \"Display over other apps\" permission. On the next page, turn it on for this app, then come back.'**
+  String get scanBubblePermissionDialogBody;
+
+  /// Button that opens the Android permission page
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get scanBubbleOpenSettings;
+
+  /// Error shown when Android refuses to start the bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Could not start the bubble. Please try again.'**
+  String get scanBubbleStartFailed;
+
+  /// Message shown when the screen capture came back black because the app on screen blocks capture
+  ///
+  /// In en, this message translates to:
+  /// **'This app blocks screen capture, so its codes cannot be read.'**
+  String get scanBubbleBlockedCapture;
+
+  /// Label on a history item that was read from a picture of the phone screen (GhostScan or Scan bubble)
+  ///
+  /// In en, this message translates to:
+  /// **'From screen'**
+  String get historySourceScreen;
+
+  /// Name of the Android permission that lets the Scan bubble float over other apps
+  ///
+  /// In en, this message translates to:
+  /// **'Display over other apps'**
+  String get permissionOverlayTitle;
+
+  /// Why the app uses the Display over other apps permission
+  ///
+  /// In en, this message translates to:
+  /// **'Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.'**
+  String get permissionOverlayDesc;
+
+  /// Name of the Android notification permission
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get permissionNotificationTitle;
+
+  /// Why the app uses the notification permission
+  ///
+  /// In en, this message translates to:
+  /// **'Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.'**
+  String get permissionNotificationDesc;
+
+  /// Name of the Scan bubble help guide
+  ///
+  /// In en, this message translates to:
+  /// **'Scan bubble'**
+  String get helpGuideScanBubbleName;
+
+  /// One-line summary of the Scan bubble help guide
+  ///
+  /// In en, this message translates to:
+  /// **'A floating button to scan QR codes and barcodes shown in other apps.'**
+  String get helpGuideScanBubbleSummary;
+
+  /// Intro paragraph of the Scan bubble help guide
+  ///
+  /// In en, this message translates to:
+  /// **'The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.'**
+  String get helpGuideScanBubbleIntro;
+
+  /// Section title: how to use the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'How to use it'**
+  String get helpGuideScanBubbleUseTitle;
+
+  /// How to turn the Scan bubble on
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.'**
+  String get helpGuideScanBubbleUseBullet1;
+
+  /// Second step for using the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Open any app that shows a QR code or barcode, then tap the bubble.'**
+  String get helpGuideScanBubbleUseBullet2;
+
+  /// Third step for using the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.'**
+  String get helpGuideScanBubbleUseBullet3;
+
+  /// How to move and close the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.'**
+  String get helpGuideScanBubbleUseBullet4;
+
+  /// Section title: privacy of the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get helpGuideScanBubblePrivacyTitle;
+
+  /// Privacy point: capture only on tap
+  ///
+  /// In en, this message translates to:
+  /// **'The screen is captured only when you tap the bubble, and Android always asks you first.'**
+  String get helpGuideScanBubblePrivacyBullet1;
+
+  /// Privacy point: offline decoding
+  ///
+  /// In en, this message translates to:
+  /// **'The code is read on your phone. Nothing is sent online for reading.'**
+  String get helpGuideScanBubblePrivacyBullet2;
+
+  /// Privacy point: picture deleted
+  ///
+  /// In en, this message translates to:
+  /// **'The screen picture is not saved to your gallery and is deleted right after reading.'**
+  String get helpGuideScanBubblePrivacyBullet3;
+
+  /// Section title: limits of the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Good to know'**
+  String get helpGuideScanBubbleLimitsTitle;
+
+  /// Limit: Android 14 asks every time
+  ///
+  /// In en, this message translates to:
+  /// **'On Android 14 and newer, Android asks for screen capture permission on every tap.'**
+  String get helpGuideScanBubbleLimitsBullet1;
+
+  /// Limit: some apps block capture
+  ///
+  /// In en, this message translates to:
+  /// **'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.'**
+  String get helpGuideScanBubbleLimitsBullet2;
+
+  /// Limit: phone maker settings
+  ///
+  /// In en, this message translates to:
+  /// **'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.'**
+  String get helpGuideScanBubbleLimitsBullet3;
+
+  /// Tip at the end of the Scan bubble help guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.'**
+  String get helpGuideScanBubbleTip;
+
+  /// CodeForge: heading above the text box for 1D/2D barcode content.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode content'**
+  String get codeForgeBarcodeContent;
+
+  /// CodeForge: hint text inside the barcode content text box.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the barcode number or code'**
+  String get codeForgeBarcodeContentHint;
+
+  /// CodeForge Wi-Fi form: security option for an open network with no password.
+  ///
+  /// In en, this message translates to:
+  /// **'None (open)'**
+  String get codeForgeWifiSecurityNone;
+
+  /// CodeForge UPI form: example hint for the UPI ID field. Keep 'merchant@upi' as an example ID.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. merchant@upi'**
+  String get codeForgeUpiVpaHint;
+
+  /// Hint text inside a form field the user may leave empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get optionalFieldHint;
+
+  /// CodeForge validation error: the code has no content.
+  ///
+  /// In en, this message translates to:
+  /// **'Content cannot be empty'**
+  String get codeForgeContentEmpty;
+
+  /// CodeForge validation error: text is over the length limit.
+  ///
+  /// In en, this message translates to:
+  /// **'Text must not be longer than {max} characters'**
+  String codeForgeTextTooLong(String max);
+
+  /// CodeForge validation error: Wi-Fi network name is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi network name (SSID) is required'**
+  String get codeForgeWifiSsidRequired;
+
+  /// CodeForge validation error: UPI ID (VPA) is missing.
+  ///
+  /// In en, this message translates to:
+  /// **'UPI ID is required'**
+  String get codeForgeUpiVpaRequired;
+
+  /// CodeForge validation error: content does not fit the chosen barcode type. {detail} is a short technical reason from the barcode library, in English.
+  ///
+  /// In en, this message translates to:
+  /// **'Not valid for this barcode type ({detail})'**
+  String codeForgeBarcodeInvalid(String detail);
+
+  /// Result screen: card title after an encrypted AirQR payload is decrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR payload unlocked'**
+  String get airQrUnlockedTitle;
+
+  /// Result screen: card title after an encrypted JSON container is decrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'JSON payload unlocked'**
+  String get jsonEnvelopeUnlockedTitle;
+
+  /// Result screen: card title after hidden StegoQR content is decrypted.
+  ///
+  /// In en, this message translates to:
+  /// **'StegoQR payload unlocked'**
+  String get stegoUnlockedTitle;
+
+  /// Result screen: card title when a StegoQR code with hidden encrypted content is found.
+  ///
+  /// In en, this message translates to:
+  /// **'StegoQR encrypted payload found'**
+  String get stegoDetectedTitle;
+
+  /// Decrypt sheet: button that shows the advanced Salt and IV fields. Keep Salt and IV as technical terms.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced (Salt / IV)'**
+  String get decryptShowAdvanced;
+
+  /// Decrypt sheet: button that hides the advanced Salt and IV fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide advanced'**
+  String get decryptHideAdvanced;
+
+  /// Decrypt sheet: label of the optional Salt field (cryptography term).
+  ///
+  /// In en, this message translates to:
+  /// **'Salt (Base64, optional)'**
+  String get decryptSaltLabel;
+
+  /// Decrypt sheet: label of the optional IV / nonce field (cryptography term).
+  ///
+  /// In en, this message translates to:
+  /// **'IV / Nonce (Base64, optional)'**
+  String get decryptIvLabel;
+
+  /// History screen: number of scan records shown.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 scan record found} other{{count} scan records found}}'**
+  String historyRecordCount(int count);
+
+  /// AR CodeVision: number of codes the user has selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 item selected} other{{count} items selected}}'**
+  String arItemsSelected(int count);
+
+  /// Settings: subtitle of the Appearance card. {themeMode} is the current theme name.
+  ///
+  /// In en, this message translates to:
+  /// **'{themeMode} • Dynamic colors'**
+  String settingsAppearanceSummary(String themeMode);
+
+  /// URL safety providers: shown when the OpenPhish list has never been downloaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Feed not downloaded yet'**
+  String get openPhishFeedNotDownloaded;
+
+  /// Accent color settings: info box explaining Dynamic Color.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic Color builds a matching palette from your Android wallpaper (Android 12+). When it is off, the standard high-contrast security palette is used.'**
+  String get accentDynamicColorInfo;
+
+  /// Typography settings: sample line in the text-size preview. Product names stay as they are.
+  ///
+  /// In en, this message translates to:
+  /// **'6-Layer URL Safety Check • 100% Offline QuishingGuard™ CV Engine'**
+  String get typographySampleLine;
+
+  /// Typography settings: heading above the text-size slider.
+  ///
+  /// In en, this message translates to:
+  /// **'Text size'**
+  String get typographyScaleTitle;
+
+  /// Typography settings: info box explaining how text size works.
+  ///
+  /// In en, this message translates to:
+  /// **'The app follows your Android accessibility text size, while keeping the scan frame and on-screen labels easy to read.'**
+  String get typographyScaleInfo;
+
+  /// Sandbox preview: page title when the page could not be loaded. {host} is the site address.
+  ///
+  /// In en, this message translates to:
+  /// **'{host} (offline or network blocked)'**
+  String domFetchFailedTitle(String host);
+
+  /// Scanner: tooltip of the button that pauses scanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause scanning'**
+  String get scanPauseTooltip;
+
+  /// Scanner: tooltip of the button that resumes scanning.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume scanning'**
+  String get scanResumeTooltip;
+
+  /// AR CodeVision: switch label for Warehouse mode (price/batch info, select codes, Batch Copy).
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse'**
+  String get arModeWarehouse;
+
+  /// AR CodeVision: switch label for Safety mode (link safety badge on each code).
+  ///
+  /// In en, this message translates to:
+  /// **'Safety'**
+  String get arModeSafety;
+
+  /// AR CodeVision: tooltip of the Warehouse mode switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Show item info and select codes'**
+  String get arModeWarehouseTooltip;
+
+  /// AR CodeVision: tooltip of the Safety mode switch.
+  ///
+  /// In en, this message translates to:
+  /// **'Show a safety badge on each link'**
+  String get arModeSafetyTooltip;
+
+  /// Camera screens: shown when the camera fails to start.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera could not start'**
+  String get cameraStartFailed;
+
+  /// Camera screens: shown when the phone has no usable camera.
+  ///
+  /// In en, this message translates to:
+  /// **'No camera found on this phone'**
+  String get cameraNotFound;
+
+  /// Camera screens: button that tries to start the camera again.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get cameraRetryButton;
+
+  /// CodeForge link safety banner: text shown before the link has been checked.
+  ///
+  /// In en, this message translates to:
+  /// **'Check this link before you share it'**
+  String get codeForgeSafetyPrompt;
+
+  /// CodeForge link safety banner: button that runs the link safety checks.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get codeForgeSafetyCheckButton;
+
+  /// CodeForge link safety banner: shown when the safety checks found problems.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 problem found in this link} other{{count} problems found in this link}}'**
+  String codeForgeSafetyProblems(int count);
+
+  /// CodeForge link safety banner: button that runs the checks again after problems were found.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get codeForgeSafetyCheckAgain;
 }
 
 class _AppLocalizationsDelegate

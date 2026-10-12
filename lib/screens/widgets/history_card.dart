@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/l10n/date_format_locale.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 /// Card widget rendering a single scan history item with rich metadata badges and quick actions.
 class HistoryCard extends StatelessWidget {
@@ -96,7 +97,8 @@ class HistoryCard extends StatelessWidget {
   /// Formats the scan time using the reader's own locale, so month names and
   /// the 12- or 24-hour clock follow the device language.
   String _formatTimestamp(AppLocalizations l10n, DateTime dt) {
-    final locale = l10n.localeName;
+    // intl has no Sanskrit date data; fall back so the card never throws.
+    final locale = dateFormatLocale(l10n.localeName);
     return l10n.historyTimestamp(
       DateFormat.yMMMd(locale).format(dt),
       DateFormat.jm(locale).format(dt),
@@ -287,12 +289,21 @@ class HistoryCard extends StatelessWidget {
                 ),
               ),
               if ((record.notes != null && record.notes!.isNotEmpty) ||
+                  record.isFromScreen ||
                   (record.locationTag != null &&
                       record.locationTag!.isNotEmpty)) ...[
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
                   children: [
+                    if (record.isFromScreen)
+                      Chip(
+                        avatar: const Icon(Icons.screenshot_monitor, size: 14),
+                        label: Text(l10n.historySourceScreen),
+                        visualDensity: VisualDensity.compact,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                      ),
                     if (record.notes != null && record.notes!.isNotEmpty)
                       Chip(
                         avatar: const Icon(Icons.note_alt_outlined, size: 14),

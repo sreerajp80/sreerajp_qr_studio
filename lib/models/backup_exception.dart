@@ -1,4 +1,4 @@
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// Raised when an encrypted backup file cannot be read.
 ///

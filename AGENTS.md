@@ -1,4 +1,4 @@
-# AGENTS.md — SreerajP QR Reader
+# AGENTS.md — SreerajP QR Studio
 
 This file is read by AI agents and LLM coding assistants (Gemini, Antigravity, Cursor, Windsurf, Codex, and others) at the start of every session in this repository.
 Read it before making any change. See the docs table below for full detail.
@@ -11,12 +11,12 @@ Read it before making any change. See the docs table below for full detail.
 
 | Field            | Value                                                                                                                                                                 |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| App name         | SreerajP QR Reader                                                                                                                                                    |
+| App name         | SreerajP QR Studio                                                                                                                                                    |
 | Type             | Flutter Android application for scanning QR codes & barcodes with 6-layer URL safety, StegoQR encryption, AirQR optical transfer, AR CodeVision, and encrypted history |
-| Platform(s)      | Android only (minSdk 24, targetSdk 35)                                                                                                                                |
-| Package / org id | `in.sreeraj.qr_reader`                                                                                                                                                |
-| Flutter SDK      | `>=3.44.8`                                                                                                                                                            |
-| Dart SDK         | `>=3.12.2 <4.0.0`                                                                                                                                                     |
+| Platform(s)      | Android only (minSdk 24, targetSdk 36)                                                                                                                                |
+| Package / org id | `in.sreerajp.qr_studio`                                                                                                                                                |
+| Flutter SDK      | `>=3.47.6`                                                                                                                                                            |
+| Dart SDK         | `>=3.13.5 <4.0.0`                                                                                                                                                     |
 | State management | Provider (`ChangeNotifier`)                                                                                                                                           |
 | Navigation       | Named routes (`Navigator 1.0`)                                                                                                                                        |
 | Database         | SQLite (`sqflite` for encrypted scan history), `shared_preferences` (settings/counters), `flutter_secure_storage` (API keys)                                          |
@@ -72,6 +72,7 @@ flutter run --flavor dev               # daily development (dev flavor)
 flutter run --flavor prod              # production build with debug tooling
 flutter analyze                        # static analysis (must be clean)
 flutter test                           # run all unit tests
+flutter test integration_test --flavor dev -d <device>  # on-device native decoder tests
 dart format .                          # format code before committing
 
 # Production release APK (split per ABI)
@@ -88,8 +89,8 @@ flutter build apk --flavor prod --release \
 
 | Flavor | App ID                     | Display name        | Signing                                     |
 | ------ | -------------------------- | ------------------- | ------------------------------------------- |
-| `dev`  | `in.sreeraj.qr_reader.dev` | QR Reader Dev       | Debug keystore (automatic)                  |
-| `prod` | `in.sreeraj.qr_reader`     | SreerajP QR Reader | Release keystore (`android/key.properties`) |
+| `dev`  | `in.sreerajp.qr_studio.dev` | QR Studio Dev       | Debug keystore (automatic)                  |
+| `prod` | `in.sreerajp.qr_studio`     | SreerajP QR Studio | Release keystore (`android/key.properties`) |
 
 > Flutter sets `FLUTTER_APP_FLAVOR` automatically. Read it with `String.fromEnvironment('FLUTTER_APP_FLAVOR')`.
 
@@ -131,7 +132,7 @@ flutter build apk --flavor prod --release \
 ## Code style / naming
 
 - Files `snake_case.dart`; classes `PascalCase`; variables/methods `camelCase`; providers `camelCase` + `Provider` suffix.
-- Use `package:` imports (`package:sreeraj_qr_reader/...`), not relative imports.
+- Use `package:` imports (`package:sreerajp_qr_studio/...`), not relative imports.
 - Prefer `const` constructors, `final` locals, and single quotes.
 - Run `dart format .` and keep `flutter analyze` clean (0 warnings) before every commit.
 
@@ -148,7 +149,8 @@ flutter build apk --flavor prod --release \
 
 ## Dependency constraints
 
-- Blocked dependencies: Analytics, crash reporting, ads, heavy state frameworks (Riverpod, Redux).
+- Blocked dependencies: Analytics, crash reporting, ads, heavy state frameworks (Riverpod, Redux), and closed or telemetry-bearing scanning SDKs (Google ML Kit / `mobile_scanner`, Firebase ML).
+- Barcode decoding uses the app's own engine: vendored zxing-cpp (`native/`, Apache-2.0) via dart:ffi. Never edit files under `native/zxing-cpp/`; follow `native/zxing-cpp/UPSTREAM.md` to update it.
 - Provider (`provider`) is the sole state management solution.
 - Before adding any package: verify license, check transitive dependencies, and confirm offline friendliness.
 
@@ -164,6 +166,8 @@ plans/               # change plans (plan-before-changing)
 change_log/          # change logs (log-after-changing)
 lib/                 # app source code (Tier 1 layer-first)
 test/                # unit & widget test suite
+integration_test/    # on-device tests (native barcode decoder)
+native/              # own barcode decoder: C bridge + vendored zxing-cpp
 tool/                # release & build scripts
 ```
 

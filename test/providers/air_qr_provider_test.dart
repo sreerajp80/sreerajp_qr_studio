@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/air_qr_progress.dart';
-import 'package:sreeraj_qr_reader/providers/air_qr_provider.dart';
-import 'package:sreeraj_qr_reader/services/air_qr_service.dart';
+import 'package:sreerajp_qr_studio/models/air_qr_progress.dart';
+import 'package:sreerajp_qr_studio/providers/air_qr_provider.dart';
+import 'package:sreerajp_qr_studio/services/air_qr_service.dart';
 
 void main() {
   group('AirQrProvider tests', () {

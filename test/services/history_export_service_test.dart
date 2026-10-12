@@ -1,13 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/services/history_export_service.dart';
 
 void main() {
   const testLabels = HistoryReportLabels(
-    reportHeading: 'SREERAJ P QR READER - SCAN HISTORY',
+    reportHeading: 'SREERAJP QR STUDIO - SCAN HISTORY',
     reportTitle: 'Scan History Export',
     exportDateLabel: 'Export Date',
     totalScansLabel: 'Total Scans',
@@ -70,14 +71,14 @@ void main() {
       final jsonStr = service.exportToJson(records);
       final map = jsonDecode(jsonStr) as Map<String, dynamic>;
 
-      expect(map['app'], 'SreerajP QR Reader');
+      expect(map['app'], 'SreerajP QR Studio');
       expect(map['totalRecords'], 2);
       expect((map['records'] as List).length, 2);
     });
 
     test('exportToFormattedTxt generates readable report', () {
       final txt = service.exportToFormattedTxt(records, testLabels);
-      expect(txt, contains('SREERAJ P QR READER - SCAN HISTORY'));
+      expect(txt, contains('SREERAJP QR STUDIO - SCAN HISTORY'));
       expect(txt, contains('Total Scans: 2'));
       expect(txt, contains('Category     : URL'));
       expect(txt, contains('Category     : WIFI'));

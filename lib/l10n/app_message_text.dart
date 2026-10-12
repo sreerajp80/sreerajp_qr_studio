@@ -1,5 +1,5 @@
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// Turns an [AppMessage] produced by a service into text the user can read.
 ///
@@ -321,6 +321,18 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
       return l10n.codeForgeFileLoaded;
     case AppMessageKey.codeForgeFileReadError:
       return l10n.codeForgeFileReadError;
+
+    // CodeForge input checks
+    case AppMessageKey.codeForgeContentEmpty:
+      return l10n.codeForgeContentEmpty;
+    case AppMessageKey.codeForgeTextTooLong:
+      return l10n.codeForgeTextTooLong(args['max'] ?? '');
+    case AppMessageKey.codeForgeWifiSsidRequired:
+      return l10n.codeForgeWifiSsidRequired;
+    case AppMessageKey.codeForgeUpiVpaRequired:
+      return l10n.codeForgeUpiVpaRequired;
+    case AppMessageKey.codeForgeBarcodeInvalid:
+      return l10n.codeForgeBarcodeInvalid(args['detail'] ?? '');
   }
 }
 

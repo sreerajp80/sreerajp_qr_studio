@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 
 void main() {
   group('CodeForgeConfig Tests', () {

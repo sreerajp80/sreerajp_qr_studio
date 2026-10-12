@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/scan_overlay_widget.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/scan_overlay_widget.dart';
 
 void main() {
   group('ScanOverlayWidget Tests', () {

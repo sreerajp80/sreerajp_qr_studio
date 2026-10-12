@@ -1,61 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class UrlSafetyHelpScreen extends StatelessWidget {
   const UrlSafetyHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('6-Layer URL Safety Engine')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Before you open any scanned web link, our comprehensive 6-layer forensic safety engine '
-            'evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.shield_outlined,
-            title: 'The 6 Safety Layers Explained',
-            children: [
-              _Bullet(
-                'Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.',
-              ),
-              _Bullet(
-                'Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as "а" instead of "a") used by scammers to imitate trusted websites.',
-              ),
-              _Bullet(
-                'Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.',
-              ),
-              _Bullet(
-                'Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.',
-              ),
-              _Bullet(
-                'Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.',
-              ),
-              _Bullet(
-                'Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.lock_outline,
-            title: 'Safety Verdicts & Action Guidance',
-            children: [
-              _Bullet(
-                'Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.',
-              ),
-              _Bullet(
-                'Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpUrlSafety)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideUrlSafetyIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.shield_outlined,
+              title: l10n.helpGuideUrlSafetyLayersTitle,
+              children: [
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet1),
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet2),
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet3),
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet4),
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet5),
+                _Bullet(l10n.helpGuideUrlSafetyLayersBullet6),
+              ],
+            ),
+            _Section(
+              icon: Icons.lock_outline,
+              title: l10n.helpGuideUrlSafetyVerdictsTitle,
+              children: [
+                _Bullet(l10n.helpGuideUrlSafetyVerdictsBullet1),
+                _Bullet(l10n.helpGuideUrlSafetyVerdictsBullet2),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideUrlSafetyTip),
+          ],
+        ),
       ),
     );
   }
@@ -103,10 +88,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

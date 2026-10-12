@@ -1,6 +1,6 @@
 # Fix Camera Hardware Release Delay on Route Return
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem Analysis
 When returning to `ScannerScreen` from `ArCodevisionScreen` or `AirQrScreen`:

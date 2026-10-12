@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/quishing_analysis_result.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
 
 /// Widget displaying the QuishingGuard Physical Print & Sticker Tamper Alert Index.
 class QuishingRiskBarWidget extends StatefulWidget {
@@ -15,6 +15,9 @@ class QuishingRiskBarWidget extends StatefulWidget {
 
 class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
   bool _isExpanded = false;
+
+  /// A genuine print shows as one short row until the user taps it.
+  late bool _isCompact = widget.result.riskLevel == QuishingRiskLevel.authentic;
 
   Color get _statusColor {
     switch (widget.result.riskLevel) {
@@ -43,6 +46,8 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
     final res = widget.result;
     final l10n = AppLocalizations.of(context);
     final color = _statusColor;
+
+    if (_isCompact) return _buildCompact(context, l10n, color);
 
     return Card(
       elevation: 3,
@@ -258,6 +263,56 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
     );
   }
 
+  Widget _buildCompact(
+    BuildContext context,
+    AppLocalizations l10n,
+    Color color,
+  ) {
+    final percent = (widget.result.overallRiskScore * 100).toStringAsFixed(0);
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: color.withValues(alpha: 0.4), width: 1.5),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => setState(() => _isCompact = false),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Row(
+            children: [
+              Icon(_statusIcon, color: color, size: 22),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.quishingGuardTitle,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      l10n.quishingCompactGenuine(percent),
+                      style: TextStyle(fontSize: 12, color: color),
+                    ),
+                  ],
+                ),
+              ),
+              Tooltip(
+                message: l10n.quishingViewSignals,
+                child: const Icon(Icons.expand_more, size: 20),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildMetricTile({
     required String label,
     required double score,
@@ -288,9 +343,8 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(
-                  context,
-                ).percentValue((score * 100).toStringAsFixed(0)),
+                AppLocalizations.of(context)
+                    .percentValue((score * 100).toStringAsFixed(0)),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,

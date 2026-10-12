@@ -1,14 +1,15 @@
 import 'dart:convert';
 import 'dart:typed_data';
+
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/models/device_sync_data.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/models/device_sync_data.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
 
 /// Service handling packaging, encryption, decryption, and restoration of
 /// scan history and application preferences for AirQR air-gapped device sync.
@@ -27,6 +28,9 @@ class DeviceSyncService {
       UrlSafetyService.activeProbingPrefKey;
   static const String prefFlashModeKey = 'camera_flash_mode';
   static const String prefResolutionPresetKey = 'camera_resolution_preset';
+  static const String prefBrightnessKey = 'camera_brightness';
+  static const String prefContrastKey = 'camera_contrast';
+  static const String prefInvertColorsKey = 'camera_invert_colors';
 
   /// Packages and encrypts [data] with [passphrase] using AES-256-CBC into an AirQR Sync payload container.
   String createEncryptedSyncPackage(DeviceSyncData data, String passphrase) {
@@ -183,6 +187,13 @@ class DeviceSyncService {
     }
     if (prefs.containsKey(prefResolutionPresetKey)) {
       map[prefResolutionPresetKey] = prefs.getString(prefResolutionPresetKey);
+    }
+    for (final key in const [prefBrightnessKey, prefContrastKey]) {
+      final value = prefs.get(key);
+      if (value is num) map[key] = value.toDouble();
+    }
+    if (prefs.containsKey(prefInvertColorsKey)) {
+      map[prefInvertColorsKey] = prefs.getBool(prefInvertColorsKey);
     }
 
     return map;

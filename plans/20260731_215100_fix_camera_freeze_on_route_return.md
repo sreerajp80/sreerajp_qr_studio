@@ -1,6 +1,6 @@
 # Fix Camera Preview Freeze When Returning from AR CodeVision & AirQR Screens
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 When navigating to AR CodeVision (`/ar_codevision`) or AirQR Stream Receiver (`/air_qr`) from the main `ScannerScreen`, those screens instantiate a new `MobileScannerController` to access device camera hardware.

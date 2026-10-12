@@ -22,6 +22,12 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 
+    <!-- Scan bubble: floating button over other apps (user turns it on) -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <!-- Camera features -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
@@ -127,6 +133,52 @@
             android:exported="false"
             android:theme="@style/Theme.GhostScanTransparent"
             android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+
+        <!-- Scan bubble: floating overlay button, on only while the user keeps it on -->
+        <service
+            android:name=".ScanBubbleService"
+            android:enabled="true"
+            android:exported="false"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Shows a floating button that the user turned on. Tapping it starts a one-time, user-approved screen capture to read a QR code or barcode. Stays on until the user turns it off." />
+        </service>
+
+        <!-- Scan bubble Quick Settings tile (turns the bubble on/off) -->
+        <service
+            android:name=".ScanBubbleTileService"
+            android:label="@string/scan_bubble_tile_label"
+            android:icon="@drawable/ic_scan_bubble"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="true" />
+        </service>
+
+        <!-- Scan bubble: restart after phone reboot (only if the user turned it on) -->
+        <receiver
+            android:name=".ScanBubbleBootReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Scan bubble: invisible starter used by the app shortcut and the tile -->
+        <activity
+            android:name=".ScanBubbleShortcutActivity"
+            android:exported="false"
+            android:theme="@style/Theme.GhostScanTransparent"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity=""
             android:launchMode="singleInstance" />
 
         <!-- Don't delete the meta-data below.

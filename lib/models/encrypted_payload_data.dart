@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 
 /// The kind of encrypted container detected in the QR or barcode payload.
 enum EncryptedContainerType {

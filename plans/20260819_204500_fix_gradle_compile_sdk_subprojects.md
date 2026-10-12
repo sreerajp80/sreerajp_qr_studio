@@ -1,6 +1,6 @@
 # Plan: Fix Android Gradle compileSdk in Subprojects and Plugin Evaluation
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem / Background
 When running `flutter build apk --flavor prod --release --split-per-abi`, the build fails during the configuration of the `:flutter_plugin_android_lifecycle` project with the following error:

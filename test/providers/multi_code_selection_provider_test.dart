@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/providers/multi_code_selection_provider.dart';
+import 'package:sreerajp_qr_studio/providers/multi_code_selection_provider.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
+import 'package:sreerajp_qr_studio/models/scanned_code.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 
 void main() {
   group('MultiCodeSelectionProvider Unit Tests', () {
@@ -20,10 +22,10 @@ void main() {
     });
 
     test('setEnabled toggles state and resets on disable', () {
-      const capture = BarcodeCapture(
+      const capture = ScanFrameResult(
         barcodes: [
-          Barcode(rawValue: 'code1', format: BarcodeFormat.qrCode),
-          Barcode(rawValue: 'code2', format: BarcodeFormat.qrCode),
+          ScannedCode(rawValue: 'code1', format: CodeFormat.qrCode),
+          ScannedCode(rawValue: 'code2', format: CodeFormat.qrCode),
         ],
       );
 
@@ -41,60 +43,54 @@ void main() {
       expect(provider.visibleBarcodes, isEmpty);
     });
 
-    test(
-      'processCapture activates multi-code mode when multiple barcodes are detected',
-      () {
-        const capture = BarcodeCapture(
-          barcodes: [
-            Barcode(
-              rawValue: 'https://example.com/1',
-              format: BarcodeFormat.qrCode,
-            ),
-            Barcode(
-              rawValue: 'https://example.com/2',
-              format: BarcodeFormat.qrCode,
-            ),
-          ],
-        );
+    test('processCapture activates multi-code mode when multiple barcodes are detected', () {
+      const capture = ScanFrameResult(
+        barcodes: [
+          ScannedCode(
+            rawValue: 'https://example.com/1',
+            format: CodeFormat.qrCode,
+          ),
+          ScannedCode(
+            rawValue: 'https://example.com/2',
+            format: CodeFormat.qrCode,
+          ),
+        ],
+      );
 
-        provider.processCapture(
-          capture: capture,
-          screenSize: const Size(400, 800),
-          frameSize: const Size(1080, 1920),
-        );
+      provider.processCapture(
+        capture: capture,
+        screenSize: const Size(400, 800),
+        frameSize: const Size(1080, 1920),
+      );
 
-        expect(provider.isMultiCodeActive, isTrue);
-        expect(provider.visibleCount, 2);
-        expect(provider.visibleBarcodes[0].rawValue, 'https://example.com/1');
-        expect(provider.visibleBarcodes[1].rawValue, 'https://example.com/2');
-      },
-    );
+      expect(provider.isMultiCodeActive, isTrue);
+      expect(provider.visibleCount, 2);
+      expect(provider.visibleBarcodes[0].rawValue, 'https://example.com/1');
+      expect(provider.visibleBarcodes[1].rawValue, 'https://example.com/2');
+    });
 
-    test(
-      'processCapture does not activate multi-code when single barcode is seen initially',
-      () {
-        const capture = BarcodeCapture(
-          barcodes: [
-            Barcode(rawValue: 'single_code', format: BarcodeFormat.qrCode),
-          ],
-        );
+    test('processCapture does not activate multi-code when single barcode is seen initially', () {
+      const capture = ScanFrameResult(
+        barcodes: [
+          ScannedCode(rawValue: 'single_code', format: CodeFormat.qrCode),
+        ],
+      );
 
-        provider.processCapture(
-          capture: capture,
-          screenSize: const Size(400, 800),
-          frameSize: const Size(1080, 1920),
-        );
+      provider.processCapture(
+        capture: capture,
+        screenSize: const Size(400, 800),
+        frameSize: const Size(1080, 1920),
+      );
 
-        expect(provider.isMultiCodeActive, isFalse);
-        expect(provider.visibleBarcodes, isEmpty);
-      },
-    );
+      expect(provider.isMultiCodeActive, isFalse);
+      expect(provider.visibleBarcodes, isEmpty);
+    });
 
     test('selectBarcode and dismiss work correctly', () {
-      const capture = BarcodeCapture(
+      const capture = ScanFrameResult(
         barcodes: [
-          Barcode(rawValue: 'codeA', format: BarcodeFormat.qrCode),
-          Barcode(rawValue: 'codeB', format: BarcodeFormat.qrCode),
+          ScannedCode(rawValue: 'codeA', format: CodeFormat.qrCode),
+          ScannedCode(rawValue: 'codeB', format: CodeFormat.qrCode),
         ],
       );
 

@@ -1,6 +1,6 @@
 # Fix MobileScannerController Already Running Error and Stale Camera Preview
 
-**Status:** Approved
+**Status:** completed
 
 ## Issue Summary
 When navigating between the main `ScannerScreen` and secondary camera screens (`AR CodeVision HUD` or `AirQR Stream Receiver`), the camera viewport displays the error message:

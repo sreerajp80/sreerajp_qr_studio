@@ -1,6 +1,6 @@
 # Plan: Add Permissions and Help Cards to Settings Screen
 
-**Status:** Completed
+**Status:** completed
 
 ## Files to Change
 1. `lib/screens/settings_screen.dart` - Add Permissions and Help cards to SettingsScreen and implement `PermissionsSettingsScreen` and `HelpSettingsScreen` detail screens.

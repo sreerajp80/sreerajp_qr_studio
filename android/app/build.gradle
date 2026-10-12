@@ -1,6 +1,5 @@
 plugins {
     id "com.android.application"
-    id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
 
@@ -42,6 +41,13 @@ def dartExecutable = new File(
 )
 def projectRootDir = rootProject.projectDir.parentFile
 
+// Gradle 9 removed project.exec; ExecOperations is the supported replacement.
+interface InjectedExecOps {
+    @javax.inject.Inject
+    ExecOperations getExecOps()
+}
+def execOps = project.objects.newInstance(InjectedExecOps).execOps
+
 def generateBuildMetadata = tasks.register("generateBuildMetadata") {
     group = "build setup"
     description = "Generates About-screen build metadata before Android builds."
@@ -61,11 +67,11 @@ def generateBuildMetadata = tasks.register("generateBuildMetadata") {
             )
         }
 
-        project.exec {
+        execOps.exec {
             workingDir = projectRootDir
             commandLine dartExecutable.absolutePath, "run", "tool/generate_app_version.dart"
         }
-        project.exec {
+        execOps.exec {
             workingDir = projectRootDir
             commandLine dartExecutable.absolutePath, "run", "tool/generate_build_date.dart"
         }
@@ -83,17 +89,13 @@ tasks.matching { task ->
 }
 
 android {
-    namespace = "in.sreeraj.qr_reader"
+    namespace = "in.sreerajp.qr_studio"
     compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
     }
 
     sourceSets {
@@ -110,14 +112,29 @@ android {
     }
 
     defaultConfig {
-        applicationId = "in.sreeraj.qr_reader"
+        applicationId = "in.sreerajp.qr_studio"
         minSdk = 24
-        targetSdk = flutter.targetSdkVersion
+        targetSdk = 36
         versionCode = flutterVersionCode.toInteger()
         versionName = flutterVersionName
+
+        // Our own barcode decoder (native/): build only the ABIs Flutter ships.
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_static"
+                abiFilters "arm64-v8a", "armeabi-v7a", "x86_64"
+            }
+        }
     }
 
-    flavorDimensions "environment"
+    externalNativeBuild {
+        cmake {
+            path = file("../../native/CMakeLists.txt")
+            version = "3.22.1"
+        }
+    }
+
+    flavorDimensions = ["environment"]
 
     productFlavors {
         dev {
@@ -144,16 +161,18 @@ android {
         }
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
 flutter {
     source = '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

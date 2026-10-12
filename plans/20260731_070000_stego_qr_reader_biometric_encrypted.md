@@ -1,6 +1,6 @@
 # Plan: Biometric-Locked Encrypted Steganographic QR Reader (StegoQR)
 
-**Status:** Approved — In Execution
+**Status:** completed
 
 ## Summary
 Implement StegoQR reading capability in Sreeraj QR Reader. StegoQR is a dual-layer QR system where standard scanners see an innocent decoy payload, while Sreeraj QR Reader detects the hidden AES-256 encrypted payload header (`STEGOQR:v1:` or `--STEGOQR--`), prompts for biometric authentication (`local_auth`) or passphrase fallback, and seamlessly decrypts and presents the secret contents.

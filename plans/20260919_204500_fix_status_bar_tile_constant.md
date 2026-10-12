@@ -1,6 +1,6 @@
 # Change Plan: Fix Unresolved StatusBarManager Constant in MainActivity.kt
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue Description
 Running `flutter build apk --flavor prod --release --split-per-abi` fails during the `:app:compileProdReleaseKotlin` compilation task:

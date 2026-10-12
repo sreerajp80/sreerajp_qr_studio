@@ -1,6 +1,6 @@
-# Release Process — SreerajP QR Reader
+# Release Process — SreerajP QR Studio
 
-This document provides the step-by-step release runbook, signing instructions, versioning rules, build commands, and release checklist for SreerajP QR Reader. Read this before building or distributing a release artifact.
+This document provides the step-by-step release runbook, signing instructions, versioning rules, build commands, and release checklist for SreerajP QR Studio. Read this before building or distributing a release artifact.
 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)
@@ -20,10 +20,10 @@ This document provides the step-by-step release runbook, signing instructions, v
 
 ## 2. Release Scope
 
-- App: SreerajP QR Reader
+- App: SreerajP QR Studio
 - Release profiles: Personal / Production distribution
-- Supported platforms: Android only (minSdk 24, targetSdk 35, compileSdk 37)
-- Current version: `2.8.1+21`
+- Supported platforms: Android only (minSdk 24, targetSdk 36, compileSdk 37)
+- Current version: `4.0.4+33`
 - Supported languages: English (`en`), Malayalam (`ml`), Sanskrit (`sa`)
 
 ---
@@ -42,8 +42,8 @@ This document provides the step-by-step release runbook, signing instructions, v
 - Version format: `MAJOR.MINOR.PATCH+BUILD`
 - Source of truth: `pubspec.yaml`
 - Synchronized config: `assets/config/app_config.json` (`version` and `build` MUST match `pubspec.yaml`)
-- Current version: `2.8.1+21`
-- Git tag format: `vX.Y.Z` (e.g. `v2.8.1`)
+- Current version: `4.0.4+33`
+- Git tag format: `vX.Y.Z` (e.g. `v4.0.4`)
 
 ---
 
@@ -51,9 +51,9 @@ This document provides the step-by-step release runbook, signing instructions, v
 
 | Flavor | App ID | Purpose | Build Command |
 |---|---|---|---|
-| `dev` | `in.sreeraj.qr_reader.dev` | Daily development and testing | `flutter run --flavor dev` |
-| `prod` | `in.sreeraj.qr_reader` | Production split APKs | `flutter build apk --flavor prod --release --obfuscate --split-debug-info=build/symbols/android-prod/ --split-per-abi` |
-| `prod` | `in.sreeraj.qr_reader` | Production Google Play Bundle | `flutter build appbundle --flavor prod --release --obfuscate --split-debug-info=build/symbols/android-prod/` |
+| `dev` | `in.sreerajp.qr_studio.dev` | Daily development and testing | `flutter run --flavor dev` |
+| `prod` | `in.sreerajp.qr_studio` | Production split APKs | `flutter build apk --flavor prod --release --obfuscate --split-debug-info=build/symbols/android-prod/ --split-per-abi` |
+| `prod` | `in.sreerajp.qr_studio` | Production Google Play Bundle | `flutter build appbundle --flavor prod --release --obfuscate --split-debug-info=build/symbols/android-prod/` |
 
 > **Hardening Note (`guideline.md` §2.4):** Every production release build MUST include `--release`, `--obfuscate`, and `--split-debug-info`. Immediately archive the resulting `build/symbols/android-prod/` directory securely so crash stack traces can be decoded.
 
@@ -93,8 +93,15 @@ This document provides the step-by-step release runbook, signing instructions, v
 - [ ] `android/key.properties` present for release signing.
 - [ ] `pubspec.lock` committed.
 
+### Google Play Declarations
+- [ ] Play Console > App content > Foreground service permissions: declare `FOREGROUND_SERVICE_SPECIAL_USE` for the Scan bubble. Reason: "Shows a floating button that the user turned on. Tapping it starts a one-time, user-approved screen capture to read a QR code or barcode. Stays on until the user turns it off." Attach a short video of turning the bubble on and scanning a code.
+- [ ] Declare `FOREGROUND_SERVICE_MEDIA_PROJECTION` for GhostScan (one-frame capture after user consent).
+- [ ] Ready-to-paste answers for both entries, and the demo video shot list, are kept locally in `play_store_private/foreground_service_declaration.md` (gitignored, never committed).
+- [ ] Play Console > App content > Privacy policy: enter the public URL of [PRIVACY_POLICY.md](../PRIVACY_POLICY.md). Update the policy first if permissions or network features changed.
+- [ ] Play Console > App content > Data safety: form filled in. The answers are kept locally in `play_store_private/` (gitignored, never committed).
+
 ### Verification & Artifact Hardening
 - [ ] Production split APKs built with `--obfuscate` and `--split-debug-info`.
 - [ ] Symbols from `build/symbols/android-prod/` safely archived.
-- [ ] APK installed and tested on a physical Android device (camera scanning, URL analysis, StegoQR, AirQR, language switching).
+- [ ] APK installed and tested on a physical Android device (camera scanning, URL analysis, StegoQR, AirQR, Scan bubble on/off from Settings, tile and shortcut, language switching).
 - [ ] Git release tag created (`vX.Y.Z`).

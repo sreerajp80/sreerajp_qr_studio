@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scanned_code.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 
 void main() {
   group('ArCodevisionProvider Unit Tests', () {
@@ -21,11 +23,43 @@ void main() {
       expect(provider.hudMode, equals(ArHudMode.safety));
     });
 
+    test('changing mode clears the selection', () {
+      const capture = ScanFrameResult(
+        barcodes: [ScannedCode(rawValue: 'item_1', type: CodeContentType.text)],
+      );
+      provider.processBarcodeCapture(capture);
+      provider.toggleTargetSelection(provider.targets.first.id);
+      expect(provider.selectedCount, 1);
+
+      provider.setHudMode(ArHudMode.safety);
+
+      expect(provider.hudMode, ArHudMode.safety);
+      expect(provider.selectedCount, 0);
+    });
+
+    test('setting the same mode again changes nothing', () {
+      const capture = ScanFrameResult(
+        barcodes: [ScannedCode(rawValue: 'item_1', type: CodeContentType.text)],
+      );
+      provider.processBarcodeCapture(capture);
+      provider.toggleTargetSelection(provider.targets.first.id);
+      var notified = 0;
+      provider.addListener(() => notified++);
+
+      provider.setHudMode(ArHudMode.warehouse);
+
+      expect(notified, 0);
+      expect(provider.selectedCount, 1);
+    });
+
     test('processBarcodeCapture tracks incoming barcodes', () {
-      const capture = BarcodeCapture(
+      const capture = ScanFrameResult(
         barcodes: [
-          Barcode(rawValue: 'https://example.com/test', type: BarcodeType.url),
-          Barcode(rawValue: '8901234567890', type: BarcodeType.product),
+          ScannedCode(
+            rawValue: 'https://example.com/test',
+            type: CodeContentType.url,
+          ),
+          ScannedCode(rawValue: '8901234567890', type: CodeContentType.product),
         ],
       );
 
@@ -39,10 +73,10 @@ void main() {
     });
 
     test('toggleTargetSelection and batch selection operations', () {
-      const capture = BarcodeCapture(
+      const capture = ScanFrameResult(
         barcodes: [
-          Barcode(rawValue: 'item_1', type: BarcodeType.text),
-          Barcode(rawValue: 'item_2', type: BarcodeType.text),
+          ScannedCode(rawValue: 'item_1', type: CodeContentType.text),
+          ScannedCode(rawValue: 'item_2', type: CodeContentType.text),
         ],
       );
 

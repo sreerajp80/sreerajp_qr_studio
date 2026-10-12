@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/camera_settings.dart';
-import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/camera_settings.dart';
+import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
 
 /// Modal bottom sheet providing sliders and toggles for camera tuning.
 class CameraAdjustmentsSheet extends StatelessWidget {
@@ -118,6 +118,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 divisions: 40,
                 label: '${(provider.brightness * 100).round()}%',
                 onChanged: (val) => provider.setBrightness(val),
+                onChangeEnd: (_) => provider.saveImageAdjustments(),
               ),
 
               // Contrast Slider
@@ -152,6 +153,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 divisions: 40,
                 label: '${provider.contrast.toStringAsFixed(1)}x',
                 onChanged: (val) => provider.setContrast(val),
+                onChangeEnd: (_) => provider.saveImageAdjustments(),
               ),
 
               const Divider(height: 24),
@@ -242,13 +244,37 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   ),
                 ),
                 value: provider.isDistanceEnhanceMode,
-                onChanged: (val) async {
-                  await provider.setDistanceEnhanceMode(val);
-                  onResolutionChanged?.call();
-                },
+                onChanged: (val) => provider.setDistanceEnhanceMode(val),
               ),
 
               if (provider.isDistanceEnhanceMode) ...[
+                const SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      l10n.cameraDistanceZoomLabel,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      '${provider.distanceZoomFactor.toStringAsFixed(1)}x',
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                Slider(
+                  value: provider.distanceZoomFactor,
+                  min: 1.5,
+                  max: 4.0,
+                  divisions: 25,
+                  label: '${provider.distanceZoomFactor.toStringAsFixed(1)}x',
+                  onChanged: (val) => provider.setDistanceZoomFactor(val),
+                ),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

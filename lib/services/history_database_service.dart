@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:math';
+
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sreeraj_qr_reader/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 /// Database service handling AES-256 field-encrypted persistent storage of scan history in SQLite.
 class HistoryDatabaseService {

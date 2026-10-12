@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/payload_action_service.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
 
 class ContactActionCard extends StatelessWidget {
   final ContactPayload payload;
@@ -58,7 +58,9 @@ class ContactActionCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green[800],
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.green[300]
+                              : Colors.green[800],
                         ),
                       ),
                       Text(

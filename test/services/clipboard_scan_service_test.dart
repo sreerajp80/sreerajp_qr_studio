@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/clipboard_scan_data.dart';
-import 'package:sreeraj_qr_reader/services/clipboard_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/clipboard_scan_data.dart';
+import 'package:sreerajp_qr_studio/services/clipboard_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -56,7 +57,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.url));
-      expect(result.barcodeType, equals(BarcodeType.url));
+      expect(result.barcodeType, equals(CodeContentType.url));
       expect(result.content, equals('https://flutter.dev/docs'));
       expect(result.preview, equals('https://flutter.dev/docs'));
     });
@@ -69,7 +70,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.url));
-      expect(result.barcodeType, equals(BarcodeType.url));
+      expect(result.barcodeType, equals(CodeContentType.url));
       expect(
         result.content,
         equals('http://example.com/search?q=qr+code&safe=1'),
@@ -77,7 +78,7 @@ void main() {
     });
   });
 
-  group('ClipboardScanService - Barcode Payloads', () {
+  group('ClipboardScanService - ScannedCode Payloads', () {
     test('detects Wi-Fi network payload', () async {
       await Clipboard.setData(
         const ClipboardData(text: 'WIFI:S:MyNetwork;T:WPA;P:MySecretPass;;'),
@@ -86,7 +87,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.wifi));
+      expect(result.barcodeType, equals(CodeContentType.wifi));
       expect(result.content, equals('WIFI:S:MyNetwork;T:WPA;P:MySecretPass;;'));
     });
 
@@ -98,7 +99,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.contactInfo));
+      expect(result.barcodeType, equals(CodeContentType.contactInfo));
     });
 
     test('detects SMS payload', () async {
@@ -109,7 +110,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.sms));
+      expect(result.barcodeType, equals(CodeContentType.sms));
     });
 
     test('detects Email mailto: payload', () async {
@@ -120,7 +121,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.email));
+      expect(result.barcodeType, equals(CodeContentType.email));
     });
 
     test('detects Geographic coordinate payload', () async {
@@ -131,7 +132,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.geo));
+      expect(result.barcodeType, equals(CodeContentType.geo));
     });
 
     test('detects Phone tel: payload', () async {
@@ -140,7 +141,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.phone));
+      expect(result.barcodeType, equals(CodeContentType.phone));
     });
 
     test('detects UPI payment payload', () async {
@@ -158,8 +159,7 @@ void main() {
     test('detects 2FA / TOTP payload', () async {
       await Clipboard.setData(
         const ClipboardData(
-          text:
-              'otpauth://totp/Service:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=Service',
+          text: 'otpauth://totp/Service:user@example.com?secret=JBSWY3DPEHPK3PXP&issuer=Service',
         ),
       );
 
@@ -174,7 +174,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.product));
+      expect(result.barcodeType, equals(CodeContentType.product));
     });
 
     test('detects EAN-8 numeric barcode', () async {
@@ -183,7 +183,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.barcodePayload));
-      expect(result.barcodeType, equals(BarcodeType.product));
+      expect(result.barcodeType, equals(CodeContentType.product));
     });
   });
 
@@ -197,7 +197,7 @@ void main() {
       final result = await service.checkClipboard();
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.image));
-      expect(result.barcodeType, equals(BarcodeType.unknown));
+      expect(result.barcodeType, equals(CodeContentType.unknown));
       expect(result.content, endsWith('.png'));
       expect(File(result.content).existsSync(), isTrue);
 
@@ -246,7 +246,7 @@ void main() {
       final result = await service.checkClipboard(includeGenericText: true);
       expect(result, isNotNull);
       expect(result!.type, equals(ClipboardContentType.text));
-      expect(result.barcodeType, equals(BarcodeType.text));
+      expect(result.barcodeType, equals(CodeContentType.text));
       expect(result.content, equals('Remember to pick up groceries at 5 PM'));
     });
 

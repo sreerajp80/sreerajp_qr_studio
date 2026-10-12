@@ -1,34 +1,44 @@
 import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/main.dart';
-import 'package:sreeraj_qr_reader/models/camera_settings.dart';
-import 'package:sreeraj_qr_reader/models/clipboard_scan_data.dart';
-import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
-import 'package:sreeraj_qr_reader/providers/batch_scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/camera_settings_provider.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
-import 'package:sreeraj_qr_reader/providers/multi_code_selection_provider.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/batch_review_sheet.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/multi_code_bounding_box_widget.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/multi_code_hint_banner.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/pdf_scan_results_sheet.dart';
-import 'package:sreeraj_qr_reader/screens/widgets/scan_overlay_widget.dart';
-import 'package:sreeraj_qr_reader/services/clipboard_scan_service.dart';
-import 'package:sreeraj_qr_reader/services/ghost_scan_service.dart';
-import 'package:sreeraj_qr_reader/services/media_scan_service.dart';
-import 'package:sreeraj_qr_reader/widgets/camera_adjustments_sheet.dart';
-import 'package:sreeraj_qr_reader/widgets/focus_ring_widget.dart';
-import 'package:sreeraj_qr_reader/widgets/ghost_scan_sheet.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/main.dart';
+import 'package:sreerajp_qr_studio/models/camera_settings.dart';
+import 'package:sreerajp_qr_studio/models/clipboard_scan_data.dart';
+import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/providers/batch_scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/providers/multi_code_selection_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/batch_review_sheet.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/multi_code_bounding_box_widget.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/multi_code_hint_banner.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/pdf_scan_results_sheet.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/scan_overlay_widget.dart';
+import 'package:sreerajp_qr_studio/services/clipboard_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/ghost_scan_capture.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
+import 'package:sreerajp_qr_studio/services/ghost_scan_service.dart';
+import 'package:sreerajp_qr_studio/services/media_scan_service.dart';
+import 'package:sreerajp_qr_studio/widgets/camera_adjustments_sheet.dart';
+import 'package:sreerajp_qr_studio/widgets/focus_ring_widget.dart';
+import 'package:sreerajp_qr_studio/widgets/ghost_scan_sheet.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scanned_code.dart';
+import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
+import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
+import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/scan_camera_view.dart';
 
 class ScannerScreen extends StatefulWidget {
   final bool isActive;
@@ -40,7 +50,7 @@ class ScannerScreen extends StatefulWidget {
 
 class _ScannerScreenState extends State<ScannerScreen>
     with WidgetsBindingObserver, RouteAware {
-  MobileScannerController? controller;
+  ScanCameraController? controller;
   bool _isScanning = true;
   bool _hasPermission = false;
   bool _isInitialized = false;
@@ -68,7 +78,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   // GhostScan screen content detection
   late final GhostScanService _ghostScanService;
-  StreamSubscription<String>? _ghostScanSubscription;
+  StreamSubscription<GhostScanCapture>? _ghostScanSubscription;
 
   @override
   void initState() {
@@ -140,7 +150,19 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   void _onCameraSettingsChanged() {
+    controller?.distanceAssist = _liveDistanceAssist;
     _syncTorchState();
+  }
+
+  /// Distance pipeline settings for picked, shared, and captured images.
+  DistanceScanConfig get _distanceConfig =>
+      _cameraSettingsProvider?.distanceScanConfig ?? const DistanceScanConfig();
+
+  /// Live camera Distance Scan Assist settings; null when the switch is off.
+  DistanceScanConfig? get _liveDistanceAssist {
+    final settings = _cameraSettingsProvider;
+    if (settings == null || !settings.isDistanceEnhanceMode) return null;
+    return settings.distanceScanConfig;
   }
 
   Future<void> _syncTorchState() async {
@@ -168,21 +190,12 @@ class _ScannerScreenState extends State<ScannerScreen>
         listen: false,
       );
       setState(() {
-        controller = MobileScannerController(
+        controller = ScanCameraController(
           cameraResolution: cameraSettings.targetResolution,
           invertImage: cameraSettings.invertColors,
-          formats: const [
-            BarcodeFormat.qrCode,
-            BarcodeFormat.code128,
-            BarcodeFormat.code39,
-            BarcodeFormat.code93,
-            BarcodeFormat.ean8,
-            BarcodeFormat.ean13,
-            BarcodeFormat.upcA,
-            BarcodeFormat.upcE,
-            BarcodeFormat.pdf417,
-            BarcodeFormat.dataMatrix,
-          ],
+          distanceAssist: cameraSettings.isDistanceEnhanceMode
+              ? cameraSettings.distanceScanConfig
+              : null,
         );
         _isInitialized = true;
       });
@@ -193,7 +206,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     if (controller != null) {
       try {
         await controller!.stop();
-        await controller!.dispose();
+        controller!.dispose();
       } catch (e) {
         if (kDebugMode) debugPrint('Error disposing controller on restart: $e');
       }
@@ -236,11 +249,6 @@ class _ScannerScreenState extends State<ScannerScreen>
     if (files.isEmpty || !mounted) return;
     final sharedFile = files.first;
 
-    if (controller == null) {
-      await _initializeScanner();
-    }
-    if (controller == null) return;
-
     final path = sharedFile.path;
     if (path.toLowerCase().endsWith('.pdf') ||
         sharedFile.mimeType == 'application/pdf') {
@@ -264,9 +272,9 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   void _listenToGhostScan() {
-    _ghostScanSubscription = _ghostScanService.onGhostScanImage.listen(
-      (imagePath) {
-        _handleGhostScanCapture(imagePath);
+    _ghostScanSubscription = _ghostScanService.onCapture.listen(
+      (capture) {
+        _handleGhostScanCapture(capture);
       },
       onError: (err) {
         if (kDebugMode) debugPrint('Error in GhostScan stream: $err');
@@ -274,17 +282,33 @@ class _ScannerScreenState extends State<ScannerScreen>
     );
 
     // Handle any image captured if app was launched cold by GhostScan
-    _ghostScanService.getInitialGhostScanImage().then((imagePath) {
-      if (imagePath != null && imagePath.isNotEmpty) {
-        _handleGhostScanCapture(imagePath);
+    _ghostScanService.getInitialCapture().then((capture) {
+      if (capture != null) {
+        _handleGhostScanCapture(capture);
       }
     });
   }
 
-  Future<void> _handleGhostScanCapture(String imagePath) async {
-    if (!mounted) return;
+  Future<void> _handleGhostScanCapture(GhostScanCapture capture) async {
+    if (!mounted) {
+      await _ghostScanService.deleteCapture(capture.imagePath);
+      return;
+    }
     final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    if (capture.blocked) {
+      await _ghostScanService.deleteCapture(capture.imagePath);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.scanBubbleBlockedCapture),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
@@ -303,12 +327,17 @@ class _ScannerScreenState extends State<ScannerScreen>
       ),
     );
 
-    if (controller == null) {
-      await _initializeScanner();
-    }
-    if (controller == null) return;
-
-    await _scanImagePath(imagePath);
+    final result = await _mediaScanService.scanImageFile(
+      capture.imagePath,
+      distanceConfig: _distanceConfig,
+    );
+    await _ghostScanService.deleteCapture(capture.imagePath);
+    _processMediaScanResult(
+      result,
+      source: capture.fromBubble
+          ? ScanRecord.sourceScreenBubble
+          : ScanRecord.sourceScreen,
+    );
   }
 
   void _showGhostScanSheet() {
@@ -397,6 +426,10 @@ class _ScannerScreenState extends State<ScannerScreen>
       _showGhostScanSheet();
       return;
     }
+    if (routeName == ScanBubbleSettingsScreen.routeName) {
+      Navigator.of(context).pushNamed(routeName);
+      return;
+    }
 
     try {
       if (controller != null &&
@@ -439,10 +472,10 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
-  void _handleBarcode(BarcodeCapture capture) async {
+  void _handleBarcode(ScanFrameResult capture) async {
     if (!_isScanning) return;
 
-    final List<Barcode> barcodes = capture.barcodes;
+    final List<ScannedCode> barcodes = capture.barcodes;
     if (barcodes.isEmpty) return;
 
     final cameraSettings = Provider.of<CameraSettingsProvider>(
@@ -512,7 +545,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     );
 
     if (batchProvider.isBatchMode) {
-      _processBatchBarcode(visibleBarcode.toBarcode());
+      _processBatchBarcode(visibleBarcode.toScannedCode());
       Future.delayed(const Duration(milliseconds: 300), () {
         if (mounted) {
           multiCodeProvider.selectBarcode('');
@@ -531,7 +564,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
-  void _processBatchBarcode(Barcode barcode) async {
+  void _processBatchBarcode(ScannedCode barcode) async {
     final rawValue = barcode.rawValue;
     if (rawValue == null || rawValue.isEmpty) return;
 
@@ -608,8 +641,9 @@ class _ScannerScreenState extends State<ScannerScreen>
 
   void _processSingleBarcode(
     String rawValue,
-    BarcodeType format, {
+    CodeContentType format, {
     List<Offset>? corners,
+    String? source,
   }) async {
     final scanProvider = Provider.of<ScanProvider>(context, listen: false);
 
@@ -634,7 +668,7 @@ class _ScannerScreenState extends State<ScannerScreen>
 
     scanProvider.setScanResult(rawValue, format);
 
-    final record = scanProvider.createScanRecord();
+    final record = scanProvider.createScanRecord(source: source);
     if (record != null) {
       Provider.of<HistoryProvider>(
         context,
@@ -680,20 +714,21 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _scanGalleryImage() async {
-    if (controller == null) return;
-    final result = await _mediaScanService.pickAndScanImage(controller!);
+    final result = await _mediaScanService.pickAndScanImage(
+      distanceConfig: _distanceConfig,
+    );
     _processMediaScanResult(result);
   }
 
   Future<void> _scanImagePath(String path) async {
-    if (controller == null) return;
-    final result = await _mediaScanService.scanImageFile(controller!, path);
+    final result = await _mediaScanService.scanImageFile(
+      path,
+      distanceConfig: _distanceConfig,
+    );
     _processMediaScanResult(result);
   }
 
   Future<void> _scanPdfDocument() async {
-    if (controller == null) return;
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -708,7 +743,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       ),
     );
 
-    final result = await _mediaScanService.pickAndScanPdf(controller!);
+    final result = await _mediaScanService.pickAndScanPdf();
 
     if (mounted) {
       Navigator.of(context, rootNavigator: true).pop(); // Dismiss progress
@@ -717,8 +752,6 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _scanPdfPath(String pdfPath) async {
-    if (controller == null) return;
-
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -735,7 +768,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       ),
     );
 
-    final result = await _mediaScanService.scanPdfFile(controller!, pdfPath);
+    final result = await _mediaScanService.scanPdfFile(pdfPath);
 
     if (mounted) {
       Navigator.of(context, rootNavigator: true).pop(); // Dismiss progress
@@ -792,11 +825,11 @@ class _ScannerScreenState extends State<ScannerScreen>
       );
       if (batchProvider.isBatchMode) {
         final barcodeFormat = switch (targetData.barcodeType) {
-          BarcodeType.product => BarcodeFormat.ean13,
-          BarcodeType.isbn => BarcodeFormat.ean13,
-          _ => BarcodeFormat.qrCode,
+          CodeContentType.product => CodeFormat.ean13,
+          CodeContentType.isbn => CodeFormat.ean13,
+          _ => CodeFormat.qrCode,
         };
-        final syntheticBarcode = Barcode(
+        final syntheticBarcode = ScannedCode(
           rawValue: targetData.content,
           format: barcodeFormat,
         );
@@ -807,7 +840,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
-  void _processMediaScanResult(MediaScanResult result) {
+  void _processMediaScanResult(MediaScanResult result, {String? source}) {
     if (!mounted) return;
 
     if (!result.hasBarcodes) {
@@ -850,7 +883,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     } else if (result.barcodes.isNotEmpty) {
       final first = result.barcodes.first;
       if (first.rawValue != null) {
-        _processSingleBarcode(first.rawValue!, first.type);
+        _processSingleBarcode(first.rawValue!, first.type, source: source);
       }
     }
   }
@@ -974,6 +1007,16 @@ class _ScannerScreenState extends State<ScannerScreen>
                 ),
               ),
               PopupMenuItem<String>(
+                value: ScanBubbleSettingsScreen.routeName,
+                child: Row(
+                  children: [
+                    const Icon(Icons.bubble_chart_outlined),
+                    const SizedBox(width: 12),
+                    Text(l10n.scanBubbleTitle),
+                  ],
+                ),
+              ),
+              PopupMenuItem<String>(
                 value: '/code_forge',
                 child: Row(
                   children: [
@@ -1047,6 +1090,9 @@ class _ScannerScreenState extends State<ScannerScreen>
       floatingActionButton: _hasPermission && _isInitialized
           ? FloatingActionButton(
               onPressed: _toggleScanning,
+              tooltip: _isScanning
+                  ? l10n.scanPauseTooltip
+                  : l10n.scanResumeTooltip,
               child: Icon(_isScanning ? Icons.pause : Icons.play_arrow),
             )
           : null,
@@ -1087,7 +1133,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         children: [
           ColorFiltered(
             colorFilter: ColorFilter.matrix(cameraSettings.colorMatrix),
-            child: MobileScanner(
+            child: ScanCameraView(
               key: ValueKey(controller),
               controller: controller!,
               onDetect: _handleBarcode,
@@ -1405,9 +1451,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                                 Text(
                                   l10n.clipboardBannerTitle,
                                   style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .primary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 11,
                                   ),
@@ -1437,9 +1483,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                                         l10n.clipboardTypeText,
                                     },
                                     style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -1621,9 +1667,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                                 child: Icon(
                                   Icons.inventory_2,
                                   size: 16,
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onPrimary,
                                 ),
                               ),
                               const SizedBox(width: 10),
@@ -1674,9 +1720,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     Text(
                                       l10n.batchReviewTitle,
                                       style: TextStyle(
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.onPrimaryContainer,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 11,
                                       ),
@@ -1685,9 +1731,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     Icon(
                                       Icons.chevron_right,
                                       size: 14,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimaryContainer,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
                                     ),
                                   ],
                                 ),

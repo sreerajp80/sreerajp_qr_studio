@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/batch_scan_item.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/batch_scan_item.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('BatchScanItem Tests', () {
@@ -11,14 +11,14 @@ void main() {
         id: '123',
         timestamp: now,
         rawValue: 'https://example.com',
-        format: BarcodeType.url,
+        format: CodeContentType.url,
         isUrl: true,
       );
 
       expect(item.id, equals('123'));
       expect(item.timestamp, equals(now));
       expect(item.rawValue, equals('https://example.com'));
-      expect(item.format, equals(BarcodeType.url));
+      expect(item.format, equals(CodeContentType.url));
       expect(item.isUrl, isTrue);
       expect(item.isSafeUrl, isNull);
       expect(item.safetyScore, equals(100));
@@ -31,7 +31,7 @@ void main() {
         id: '123',
         timestamp: DateTime.now(),
         rawValue: 'https://example.com',
-        format: BarcodeType.url,
+        format: CodeContentType.url,
         isUrl: true,
       );
 
@@ -54,7 +54,7 @@ void main() {
         id: 'item_1',
         timestamp: now,
         rawValue: 'https://safe-domain.org',
-        format: BarcodeType.url,
+        format: CodeContentType.url,
         isUrl: true,
         isSafeUrl: true,
       );
@@ -74,7 +74,7 @@ void main() {
         id: 'item_wifi',
         timestamp: DateTime.now(),
         rawValue: 'WIFI:S:MyWifi;T:WPA;P:secret;;',
-        format: BarcodeType.wifi,
+        format: CodeContentType.wifi,
         parsedPayload: const WifiPayload(
           rawContent: 'WIFI:S:MyWifi;T:WPA;P:secret;;',
           ssid: 'MyWifi',

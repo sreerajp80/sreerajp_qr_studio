@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/dom_sandbox_result.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
 
 /// Service providing Zero-Trust Sandboxed HTML Pre-Rendering & Analysis.
 ///
@@ -56,6 +57,7 @@ class DomSandboxService {
 
     // Default DOM metadata (Private mode or before fetch)
     String? pageTitle = uri.host;
+    var fetchFailed = false;
     String? metaDescription;
     List<String> headings = [];
     List<String> paragraphs = [];
@@ -122,7 +124,8 @@ class DomSandboxService {
         }
       } catch (e) {
         // Handle network timeout or fetch error gracefully
-        pageTitle = '${uri.host} (Offline / Network Restricted)';
+        pageTitle = uri.host;
+        fetchFailed = true;
       }
     } else {
       // Offline / Private Mode Heuristic DOM Preview
@@ -171,6 +174,7 @@ class DomSandboxService {
       sanitizedBodyHtml: sanitizedBodyHtml,
       pageThemeColor: pageThemeColor,
       statusMessage: statusMessage,
+      fetchFailed: fetchFailed,
     );
   }
 

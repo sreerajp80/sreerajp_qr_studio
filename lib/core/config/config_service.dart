@@ -1,8 +1,9 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sreeraj_qr_reader/core/config/app_config.dart';
+import 'package:sreerajp_qr_studio/core/config/app_config.dart';
 
 class ConfigService {
   static const String assetPath = 'assets/config/app_config.json';

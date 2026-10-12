@@ -1,6 +1,6 @@
 # Change Plan: Settings Screen Card Layout & About Migration
 
-**Status:** Pending Approval
+**Status:** completed
 
 ## Proposed Changes
 

@@ -1,6 +1,6 @@
 # Fix CI formatting in distance enhancement service test
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue
 

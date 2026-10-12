@@ -3,8 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -235,6 +235,7 @@ void main() {
         );
         expect(result.passed, true);
         expect(result.message.key, AppMessageKey.redirectSkippedPrivate);
+        expect(result.skipped, isTrue);
       },
     );
   });
@@ -310,6 +311,7 @@ void main() {
       final result = await service.checkVirusTotal('https://example.com');
       expect(result.passed, true);
       expect(result.message.key, AppMessageKey.virusTotalSkippedNoKey);
+      expect(result.skipped, isTrue);
     });
 
     test('returns clean when VT reports zero malicious engines', () async {
@@ -370,6 +372,7 @@ void main() {
       final result = await service.checkUrlhaus('https://example.com');
       expect(result.passed, true);
       expect(result.message.key, AppMessageKey.urlhausSkippedNoKey);
+      expect(result.skipped, isTrue);
     });
 
     test('returns clean when urlhaus reports no_results', () async {
@@ -414,6 +417,7 @@ void main() {
       final result = await service.checkPhishTank('https://example.com');
       expect(result.passed, true);
       expect(result.message.key, AppMessageKey.phishTankSkippedDisabled);
+      expect(result.skipped, isTrue);
     });
 
     test('returns clean when URL is not in phishtank database', () async {
@@ -457,6 +461,7 @@ void main() {
       final result = await service.checkOpenPhish('https://example.com');
       expect(result.passed, true);
       expect(result.message.key, AppMessageKey.openPhishSkippedDisabled);
+      expect(result.skipped, isTrue);
     });
 
     test('flags URL when found in cached openphish feed', () async {
@@ -482,6 +487,89 @@ void main() {
       final result = await service.checkOpenPhish('https://safe-domain.com');
       expect(result.passed, true);
       expect(result.message.key, AppMessageKey.openPhishClean);
+    });
+  });
+
+  group('UrlSafetyService API key storage', () {
+    setUp(() {
+      SharedPreferences.setMockInitialValues({});
+      FlutterSecureStorage.setMockInitialValues({});
+    });
+
+    test('hasApiKey is false when nothing is saved', () async {
+      final service = UrlSafetyService();
+      expect(
+        await service.hasApiKey(UrlSafetyService.virusTotalApiKeyStorageKey),
+        isFalse,
+      );
+    });
+
+    test(
+      'saveApiKey then hasApiKey is true; deleteApiKey removes it',
+      () async {
+        final service = UrlSafetyService();
+        const key = UrlSafetyService.safeBrowsingApiKeyStorageKey;
+
+        await service.saveApiKey(key, 'test-key-value');
+        expect(await service.hasApiKey(key), isTrue);
+
+        await service.deleteApiKey(key);
+        expect(await service.hasApiKey(key), isFalse);
+      },
+    );
+
+    test('an empty saved key does not count as configured', () async {
+      FlutterSecureStorage.setMockInitialValues({
+        UrlSafetyService.urlhausApiKeyStorageKey: '',
+      });
+      final service = UrlSafetyService();
+      expect(
+        await service.hasApiKey(UrlSafetyService.urlhausApiKeyStorageKey),
+        isFalse,
+      );
+    });
+
+    test('countActiveProviders adds saved keys and enabled feeds', () async {
+      FlutterSecureStorage.setMockInitialValues({
+        UrlSafetyService.safeBrowsingApiKeyStorageKey: 'a',
+        UrlSafetyService.urlhausApiKeyStorageKey: 'b',
+      });
+      SharedPreferences.setMockInitialValues({
+        UrlSafetyService.phishTankEnabledPrefKey: true,
+        UrlSafetyService.openPhishEnabledPrefKey: false,
+      });
+      final service = UrlSafetyService();
+      expect(await service.countActiveProviders(), 3);
+    });
+
+    test('countActiveProviders is 0 when nothing is set up', () async {
+      final service = UrlSafetyService();
+      expect(await service.countActiveProviders(), 0);
+    });
+
+    test('saved key is used by the matching check', () async {
+      final service = UrlSafetyService(
+        httpClient: MockClient((_) async => http.Response('{}', 200)),
+      );
+      await service.saveApiKey(
+        UrlSafetyService.safeBrowsingApiKeyStorageKey,
+        'test-key-value',
+      );
+      final result = await service.checkGoogleSafeBrowsing(
+        'https://example.com',
+      );
+      expect(result.skipped, isFalse);
+    });
+  });
+
+  group('UrlSafetyService lookalike characters', () {
+    test('lists lookalikes with a language-neutral arrow', () async {
+      final result = await UrlSafetyService().checkHomographAttacks(
+        'https://аpple.com',
+      );
+      expect(result.passed, isFalse);
+      expect(result.message.args['characters'], contains('→'));
+      expect(result.message.args['characters'], isNot(contains('looks like')));
     });
   });
 }

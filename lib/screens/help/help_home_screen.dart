@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/screens/help/air_qr_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/ar_codevision_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/barcode_scanning_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/faq_troubleshooting_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/history_privacy_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/quishing_guard_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/safe_browsing_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/smart_payloads_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/url_safety_help_screen.dart';
-import 'package:sreeraj_qr_reader/screens/onboarding_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/help/air_qr_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/ar_codevision_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/barcode_scanning_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/faq_troubleshooting_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/history_privacy_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/quishing_guard_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/safe_browsing_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/scan_bubble_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/smart_payloads_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/url_safety_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
 
 /// Help Center hub reached from Settings -> Help.
 class HelpHomeScreen extends StatelessWidget {
@@ -21,111 +22,113 @@ class HelpHomeScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsHelpTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        children: [
-          _buildHeaderCard(context, l10n),
-          const SizedBox(height: 16),
-          _HelpTopicCard(
-            icon: Icons.auto_stories_outlined,
-            title: l10n.settingsOnboardingTourTitle,
-            subtitle: l10n.settingsOnboardingTourSubtitle,
-            onTap: () => _push(context, const OnboardingScreen(isReplay: true)),
-          ),
-          const SizedBox(height: 20),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            _buildHeaderCard(context, l10n),
+            const SizedBox(height: 16),
+            _HelpTopicCard(
+              icon: Icons.auto_stories_outlined,
+              title: l10n.settingsOnboardingTourTitle,
+              subtitle: l10n.settingsOnboardingTourSubtitle,
+              onTap: () =>
+                  _push(context, const OnboardingScreen(isReplay: true)),
+            ),
+            const SizedBox(height: 20),
 
-          _buildSectionHeader(
-            context,
-            'Scanning & Ingestion Guides',
-            Icons.qr_code_scanner,
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.document_scanner_outlined,
-            title: 'Barcode & Media Scanning',
-            subtitle:
-                'Live camera controls, gallery photos, and multi-page PDF document scanning.',
-            onTap: () => _push(context, const BarcodeScanningHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.view_in_ar,
-            title: 'AR CodeVision™ Spatial HUD',
-            subtitle:
-                'Real-time multi-barcode camera tracking, floating chips, and batch actions.',
-            onTap: () => _push(context, const ArCodeVisionHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.stream,
-            title: 'AirQR™ Optical Air-Gap Stream',
-            subtitle:
-                'Offline animated QR strobe transmitter and receiver for radio-silent data sharing.',
-            onTap: () => _push(context, const AirQrHelpScreen()),
-          ),
-          const SizedBox(height: 22),
+            _buildSectionHeader(
+              context,
+              l10n.helpGuideGroupScanning,
+              Icons.qr_code_scanner,
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.document_scanner_outlined,
+              title: l10n.helpGuideBarcodeName,
+              subtitle: l10n.helpGuideBarcodeSummary,
+              onTap: () => _push(context, const BarcodeScanningHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.view_in_ar,
+              title: l10n.helpGuideArCodeVisionName,
+              subtitle: l10n.helpGuideArCodeVisionSummary,
+              onTap: () => _push(context, const ArCodeVisionHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.stream,
+              title: l10n.helpGuideAirQrName,
+              subtitle: l10n.helpGuideAirQrSummary,
+              onTap: () => _push(context, const AirQrHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.bubble_chart_outlined,
+              title: l10n.helpGuideScanBubbleName,
+              subtitle: l10n.helpGuideScanBubbleSummary,
+              onTap: () => _push(context, const ScanBubbleHelpScreen()),
+            ),
+            const SizedBox(height: 22),
 
-          _buildSectionHeader(
-            context,
-            'Security & Threat Defense',
-            Icons.security_outlined,
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.shield_outlined,
-            title: '6-Layer URL Safety Engine',
-            subtitle:
-                'Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.',
-            onTap: () => _push(context, const UrlSafetyHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.policy_outlined,
-            title: 'QuishingGuard™ Tamper Detection',
-            subtitle:
-                'On-device computer vision analyzing physical QR sticker overlays and edge cuts.',
-            onTap: () => _push(context, const QuishingGuardHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.vpn_key_outlined,
-            title: 'Google Safe Browsing Setup',
-            subtitle:
-                'Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.',
-            onTap: () => _push(context, const SafeBrowsingHelpScreen()),
-          ),
-          const SizedBox(height: 22),
+            _buildSectionHeader(
+              context,
+              l10n.helpGuideGroupSecurity,
+              Icons.security_outlined,
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.shield_outlined,
+              title: l10n.helpGuideUrlSafetyName,
+              subtitle: l10n.helpGuideUrlSafetySummary,
+              onTap: () => _push(context, const UrlSafetyHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.policy_outlined,
+              title: l10n.helpGuideQuishingName,
+              subtitle: l10n.helpGuideQuishingSummary,
+              onTap: () => _push(context, const QuishingGuardHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.vpn_key_outlined,
+              title: l10n.helpGuideSafeBrowsingName,
+              subtitle: l10n.helpGuideSafeBrowsingSummary,
+              onTap: () => _push(context, const SafeBrowsingHelpScreen()),
+            ),
+            const SizedBox(height: 22),
 
-          _buildSectionHeader(
-            context,
-            'Payloads, Storage & Privacy',
-            Icons.inventory_2_outlined,
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.touch_app_outlined,
-            title: 'Smart Actions & Payments',
-            subtitle:
-                'Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.',
-            onTap: () => _push(context, const SmartPayloadsHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.history_edu_outlined,
-            title: 'History, Backups & Privacy',
-            subtitle:
-                'Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.',
-            onTap: () => _push(context, const HistoryPrivacyHelpScreen()),
-          ),
-          const SizedBox(height: 10),
-          _HelpTopicCard(
-            icon: Icons.help_center_outlined,
-            title: 'FAQ & Troubleshooting',
-            subtitle:
-                'Common questions, camera focus tips, permission recovery, and offline guarantees.',
-            onTap: () => _push(context, const FaqTroubleshootingHelpScreen()),
-          ),
-        ],
+            _buildSectionHeader(
+              context,
+              l10n.helpGuideGroupPayloads,
+              Icons.inventory_2_outlined,
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.touch_app_outlined,
+              title: l10n.helpGuideSmartPayloadsName,
+              subtitle: l10n.helpGuideSmartPayloadsSummary,
+              onTap: () => _push(context, const SmartPayloadsHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.history_edu_outlined,
+              title: l10n.helpGuideHistoryName,
+              subtitle: l10n.helpGuideHistorySummary,
+              onTap: () => _push(context, const HistoryPrivacyHelpScreen()),
+            ),
+            const SizedBox(height: 10),
+            _HelpTopicCard(
+              icon: Icons.help_center_outlined,
+              title: l10n.helpGuideFaqName,
+              subtitle: l10n.helpGuideFaqSummary,
+              onTap: () => _push(context, const FaqTroubleshootingHelpScreen()),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -222,12 +225,14 @@ class HelpHomeScreen extends StatelessWidget {
         children: [
           Icon(icon, size: 18, color: primary),
           const SizedBox(width: 8),
-          Text(
-            title.toUpperCase(),
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: primary,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 0.6,
+          Expanded(
+            child: Text(
+              title.toUpperCase(),
+              style: theme.textTheme.labelLarge?.copyWith(
+                color: primary,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+              ),
             ),
           ),
         ],

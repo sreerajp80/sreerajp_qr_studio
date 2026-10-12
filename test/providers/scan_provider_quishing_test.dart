@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/quishing_analysis_result.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('ScanProvider QuishingGuard Integration', () {
@@ -17,7 +17,7 @@ void main() {
 
       provider.setScanResult(
         'https://example-parking.com/pay',
-        BarcodeType.url,
+        CodeContentType.url,
       );
 
       expect(provider.quishingResult, isNotNull);
@@ -33,7 +33,7 @@ void main() {
       () {
         provider.setScanResult(
           'https://fake-phishing-sticker.com',
-          BarcodeType.url,
+          CodeContentType.url,
           quishingMetadata: {
             'simulatedRiskLevel': QuishingRiskLevel.highWarning,
             'simulatedEdgeScore': 0.90,
@@ -57,7 +57,7 @@ void main() {
     test('runQuishingAnalysis updates quishingResult for active scan', () {
       provider.setScanResult(
         'https://test-restaurant.com/menu',
-        BarcodeType.url,
+        CodeContentType.url,
       );
 
       provider.runQuishingAnalysis(
@@ -72,7 +72,7 @@ void main() {
     });
 
     test('clearScan resets quishingResult state', () {
-      provider.setScanResult('https://example.com', BarcodeType.url);
+      provider.setScanResult('https://example.com', CodeContentType.url);
       expect(provider.quishingResult, isNotNull);
 
       provider.clearScan();

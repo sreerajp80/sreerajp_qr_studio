@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 
 /// Represents a single frame captured in an optical AirQR stream.
@@ -35,11 +36,13 @@ class AirQrFrame {
       final version = parts[1];
       final streamId = parts[2];
       final totalBlocks = int.parse(parts[3]);
+      if (totalBlocks <= 0) return null;
       final checksum = int.parse(parts[5]);
       final payloadBytes = base64.decode(parts[6]);
 
       if (version == 'v1') {
         final seqIndex = int.parse(parts[4]);
+        if (seqIndex < 0 || seqIndex >= totalBlocks) return null;
         return AirQrFrame(
           streamId: streamId,
           totalBlocks: totalBlocks,
@@ -58,6 +61,9 @@ class AirQrFrame {
             .where((s) => s.isNotEmpty)
             .map(int.parse)
             .toList();
+        if (indices.isEmpty || indices.length != degree) return null;
+        if (indices.any((i) => i < 0 || i >= totalBlocks)) return null;
+        if (indices.toSet().length != indices.length) return null;
 
         return AirQrFrame(
           streamId: streamId,

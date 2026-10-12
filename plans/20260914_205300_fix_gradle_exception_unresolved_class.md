@@ -1,6 +1,6 @@
 # Change Plan: Fix Unresolved GradleException in android/app/build.gradle
 
-**Status:** Completed
+**Status:** completed
 
 ## Issue Description
 The IDE static analyzer reports a build script error in `android/app/build.gradle` at line 58:

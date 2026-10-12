@@ -1,6 +1,6 @@
 # AirQR Encrypted History & Settings Sync Plan
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 Currently, users can only back up and restore their scan history by exporting a manual file (JSON/CSV/PDF) or copying encrypted strings. App settings (theme mode, dynamic color, overlay style, language, vibration, sound, active probing, and camera preferences) are not included in backups or transferable between devices. Furthermore, the existing AirQR optical transmitter/receiver pipeline exists for streaming text, but was not connected to history or settings, and the transmitter painted a mock pattern rather than a standard scannable QR code.

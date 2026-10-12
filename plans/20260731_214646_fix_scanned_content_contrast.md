@@ -1,6 +1,6 @@
 # Fix Scanned Content Low Contrast in Dark/OLED Mode and Night Light
 
-**Status:** Proposed
+**Status:** completed
 
 ## Problem
 In `lib/screens/result_screen.dart`, the `_buildContentCard` widget renders scanned text inside a container with a fixed light background (`Colors.grey[100]`). In Dark Mode / OLED mode, the default text color is light (`onSurface` / white / light yellow dynamic theme color).

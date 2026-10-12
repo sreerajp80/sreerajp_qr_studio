@@ -1,8 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/visible_barcode.dart';
-import 'package:sreeraj_qr_reader/services/multi_code_service.dart';
+import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
+import 'package:sreerajp_qr_studio/services/multi_code_service.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('MultiCodeService Unit Tests', () {
@@ -53,30 +54,27 @@ void main() {
       expect(result[3], const Offset(0, 640));
     });
 
-    test(
-      'projectFrameToScreenRect expands to minTouchTargetSize for small targets',
-      () {
-        const smallRect = Rect.fromLTWH(100, 100, 10, 10);
-        const frameSize = Size(1000, 1000);
-        const screenSize = Size(1000, 1000);
+    test('projectFrameToScreenRect expands to minTouchTargetSize for small targets', () {
+      const smallRect = Rect.fromLTWH(100, 100, 10, 10);
+      const frameSize = Size(1000, 1000);
+      const screenSize = Size(1000, 1000);
 
-        final projected = service.projectFrameToScreenRect(
-          frameRect: smallRect,
-          frameSize: frameSize,
-          screenSize: screenSize,
-        );
+      final projected = service.projectFrameToScreenRect(
+        frameRect: smallRect,
+        frameSize: frameSize,
+        screenSize: screenSize,
+      );
 
-        expect(
-          projected.width,
-          greaterThanOrEqualTo(MultiCodeService.minTouchTargetSize),
-        );
-        expect(
-          projected.height,
-          greaterThanOrEqualTo(MultiCodeService.minTouchTargetSize),
-        );
-        expect(projected.center, const Offset(105, 105));
-      },
-    );
+      expect(
+        projected.width,
+        greaterThanOrEqualTo(MultiCodeService.minTouchTargetSize),
+      );
+      expect(
+        projected.height,
+        greaterThanOrEqualTo(MultiCodeService.minTouchTargetSize),
+      );
+      expect(projected.center, const Offset(105, 105));
+    });
 
     test('computeBoundingBox calculates enclosing rect from corners', () {
       const corners = [
@@ -98,8 +96,8 @@ void main() {
       final fresh = VisibleBarcode(
         id: 'fresh',
         rawValue: 'fresh',
-        format: BarcodeFormat.qrCode,
-        type: BarcodeType.text,
+        format: CodeFormat.qrCode,
+        type: CodeContentType.text,
         corners: const [],
         boundingBox: Rect.zero,
         screenRect: Rect.zero,
@@ -110,8 +108,8 @@ void main() {
       final stale = VisibleBarcode(
         id: 'stale',
         rawValue: 'stale',
-        format: BarcodeFormat.qrCode,
-        type: BarcodeType.text,
+        format: CodeFormat.qrCode,
+        type: CodeContentType.text,
         corners: const [],
         boundingBox: Rect.zero,
         screenRect: Rect.zero,
@@ -131,23 +129,23 @@ void main() {
 
     test('getDisplayLabel returns appropriate labels', () {
       expect(
-        service.getDisplayLabel(BarcodeType.url, 'https://example.com'),
+        service.getDisplayLabel(CodeContentType.url, 'https://example.com'),
         'URL',
       );
       expect(
-        service.getDisplayLabel(BarcodeType.wifi, 'WIFI:S:Home;P:pass;;'),
+        service.getDisplayLabel(CodeContentType.wifi, 'WIFI:S:Home;P:pass;;'),
         'Wi-Fi',
       );
       expect(
-        service.getDisplayLabel(BarcodeType.contactInfo, 'BEGIN:VCARD'),
+        service.getDisplayLabel(CodeContentType.contactInfo, 'BEGIN:VCARD'),
         'Contact',
       );
       expect(
-        service.getDisplayLabel(BarcodeType.product, '123456789012'),
+        service.getDisplayLabel(CodeContentType.product, '123456789012'),
         'Product',
       );
       expect(
-        service.getDisplayLabel(BarcodeType.text, 'upi://pay?pa=test@upi'),
+        service.getDisplayLabel(CodeContentType.text, 'upi://pay?pa=test@upi'),
         'UPI Pay',
       );
     });

@@ -1,6 +1,6 @@
 # Smart Quick-Action Cards for All Payload Types
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:barcode/barcode.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -7,12 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sreeraj_qr_reader/core/constants/app_constants.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
-import 'package:sreeraj_qr_reader/services/url_safety_service.dart';
-import 'package:sreeraj_qr_reader/widgets/code_forge_qr_painter.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/widgets/code_forge_qr_painter.dart';
 
 /// Result of reading a text file for CodeForge QR generation.
 class CodeForgeFileReadResult {
@@ -151,24 +152,27 @@ class CodeForgeService {
   }
 
   /// Validates whether the given configuration contains valid content for its barcode type.
-  String? validateContent(CodeForgeConfig config) {
+  AppMessage? validateContent(CodeForgeConfig config) {
     final payload = buildPayloadString(config);
     if (payload.trim().isEmpty) {
-      return 'Content cannot be empty';
+      return const AppMessage(AppMessageKey.codeForgeContentEmpty);
     }
 
     if (config.barcodeType == CodeForgeBarcodeType.qrCode) {
       if (config.payloadType == CodeForgePayloadType.text &&
           config.rawContent.length > AppConstants.maxCodeForgeTextLength) {
-        return 'Text must not exceed ${AppConstants.maxCodeForgeTextLength} characters';
+        return const AppMessage(
+          AppMessageKey.codeForgeTextTooLong,
+          args: {'max': '${AppConstants.maxCodeForgeTextLength}'},
+        );
       }
       if (config.payloadType == CodeForgePayloadType.wifi &&
           config.wifiSsid.trim().isEmpty) {
-        return 'Wi-Fi Network Name (SSID) is required';
+        return const AppMessage(AppMessageKey.codeForgeWifiSsidRequired);
       }
       if (config.payloadType == CodeForgePayloadType.upiPayment &&
           config.upiVpa.trim().isEmpty) {
-        return 'UPI ID / VPA is required';
+        return const AppMessage(AppMessageKey.codeForgeUpiVpaRequired);
       }
       return null;
     }
@@ -179,8 +183,13 @@ class CodeForgeService {
       barcode.verify(payload);
       return null;
     } catch (e) {
-      final message = e.toString().replaceFirst('Exception: ', '');
-      return message;
+      // The barcode package only gives English detail; it is passed as an
+      // argument inside a localized sentence.
+      final detail = e.toString().replaceFirst('Exception: ', '');
+      return AppMessage(
+        AppMessageKey.codeForgeBarcodeInvalid,
+        args: {'detail': detail},
+      );
     }
   }
 
@@ -375,7 +384,7 @@ class CodeForgeService {
     int maxLength = AppConstants.maxCodeForgeTextLength,
   }) async {
     try {
-      final result = await FilePicker.platform.pickFiles(
+      final picked = await FilePicker.pickFile(
         type: FileType.custom,
         allowedExtensions: [
           'txt',
@@ -388,15 +397,11 @@ class CodeForgeService {
           'yml',
         ],
       );
-      if (result == null ||
-          result.files.isEmpty ||
-          result.files.single.path == null) {
+      final path = picked?.path;
+      if (path == null) {
         return const CodeForgeFileReadResult(isSuccess: false);
       }
-      return await readTextFromFile(
-        result.files.single.path!,
-        maxLength: maxLength,
-      );
+      return await readTextFromFile(path, maxLength: maxLength);
     } catch (e) {
       if (kDebugMode) debugPrint('Error picking text file: $e');
       return const CodeForgeFileReadResult(

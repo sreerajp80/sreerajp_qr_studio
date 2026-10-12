@@ -1,7 +1,8 @@
 import 'dart:typed_data';
 import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/models/distance_enhanced_scan_result.dart';
+import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
 
 void main() {
   group('DistanceScanConfig Tests', () {
@@ -11,7 +12,6 @@ void main() {
       expect(config.unsharpAmount, 1.5);
       expect(config.contrastBoost, 1.3);
       expect(config.cropPadding, 0.25);
-      expect(config.autoZoom, true);
     });
 
     test('copyWith updates properties properly', () {
@@ -21,14 +21,36 @@ void main() {
         unsharpAmount: 2.0,
         contrastBoost: 1.5,
         cropPadding: 0.3,
-        autoZoom: false,
       );
 
       expect(updated.zoomFactor, 3.5);
       expect(updated.unsharpAmount, 2.0);
       expect(updated.contrastBoost, 1.5);
       expect(updated.cropPadding, 0.3);
-      expect(updated.autoZoom, false);
+    });
+
+    test('stronger() steps up from the defaults to 3.5x / 2.0', () {
+      final stronger = const DistanceScanConfig().stronger();
+      expect(stronger.zoomFactor, 3.5);
+      expect(stronger.unsharpAmount, 2.0);
+      expect(stronger.contrastBoost, 1.45);
+      expect(stronger.cropPadding, 0.25);
+    });
+
+    test('stronger() follows user values and stays within limits', () {
+      final fromLow = const DistanceScanConfig(
+        zoomFactor: 1.5,
+        unsharpAmount: 0.5,
+      ).stronger();
+      expect(fromLow.zoomFactor, 2.5);
+      expect(fromLow.unsharpAmount, 1.0);
+
+      final fromHigh = const DistanceScanConfig(
+        zoomFactor: 3.8,
+        unsharpAmount: 2.3,
+      ).stronger();
+      expect(fromHigh.zoomFactor, 4.0);
+      expect(fromHigh.unsharpAmount, 2.5);
     });
   });
 

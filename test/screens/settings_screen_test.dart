@@ -3,15 +3,15 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/providers/locale_provider.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
-import 'package:sreeraj_qr_reader/screens/about_screen.dart';
-import 'package:sreeraj_qr_reader/screens/appearance_screen.dart';
-import 'package:sreeraj_qr_reader/screens/features_screen.dart';
-import 'package:sreeraj_qr_reader/screens/help/help_home_screen.dart';
-import 'package:sreeraj_qr_reader/screens/settings_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/about_screen.dart';
+import 'package:sreerajp_qr_studio/screens/appearance_screen.dart';
+import 'package:sreerajp_qr_studio/screens/features_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/help_home_screen.dart';
+import 'package:sreerajp_qr_studio/screens/settings_screen.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +48,7 @@ void main() {
       expect(find.text('Scan Feedback & Alerts'), findsOneWidget);
       expect(find.text('Privacy & Online Probing'), findsOneWidget);
       expect(find.text('URL Safety Providers'), findsOneWidget);
+      expect(find.text('Scan bubble'), findsOneWidget);
       expect(find.text('Permissions'), findsOneWidget);
       expect(find.text('Help & Feature Guides'), findsOneWidget);
       expect(find.text('About'), findsOneWidget);
@@ -103,7 +104,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.byType(FeaturesScreen), findsOneWidget);
-      expect(find.text('SreerajP QR Reader Features'), findsOneWidget);
+      expect(find.text('SreerajP QR Studio Features'), findsOneWidget);
       expect(find.text('CORE SCANNING & INGESTION'), findsOneWidget);
     });
 

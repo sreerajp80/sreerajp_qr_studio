@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 
 /// Configuration screen for scanner viewport frame overlay styles.
 class ScanOverlaySettingsScreen extends StatelessWidget {
@@ -14,52 +14,55 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.appearanceOverlayCardTitle)),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        children: [
-          Card(
-            margin: EdgeInsets.zero,
-            child: Column(
-              children: [
-                _buildOverlayTile(
-                  context: context,
-                  themeProvider: themeProvider,
-                  style: ScanOverlayStyle.laserLine,
-                  icon: Icons.linear_scale,
-                  title: l10n.overlayLaserLine,
-                  subtitle: l10n.overlayLaserLineDesc,
-                ),
-                const Divider(height: 1, indent: 16, endIndent: 16),
-                _buildOverlayTile(
-                  context: context,
-                  themeProvider: themeProvider,
-                  style: ScanOverlayStyle.pulsingCorners,
-                  icon: Icons.crop_free,
-                  title: l10n.overlayPulsingCorners,
-                  subtitle: l10n.overlayPulsingCornersDesc,
-                ),
-                const Divider(height: 1, indent: 16, endIndent: 16),
-                _buildOverlayTile(
-                  context: context,
-                  themeProvider: themeProvider,
-                  style: ScanOverlayStyle.cyberneticGrid,
-                  icon: Icons.grid_4x4,
-                  title: l10n.overlayCyberneticGrid,
-                  subtitle: l10n.overlayCyberneticGridDesc,
-                ),
-                const Divider(height: 1, indent: 16, endIndent: 16),
-                _buildOverlayTile(
-                  context: context,
-                  themeProvider: themeProvider,
-                  style: ScanOverlayStyle.subtleDotMatrix,
-                  icon: Icons.grain,
-                  title: l10n.overlaySubtleDotMatrix,
-                  subtitle: l10n.overlaySubtleDotMatrixDesc,
-                ),
-              ],
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          children: [
+            Card(
+              margin: EdgeInsets.zero,
+              child: Column(
+                children: [
+                  _buildOverlayTile(
+                    context: context,
+                    themeProvider: themeProvider,
+                    style: ScanOverlayStyle.laserLine,
+                    icon: Icons.linear_scale,
+                    title: l10n.overlayLaserLine,
+                    subtitle: l10n.overlayLaserLineDesc,
+                  ),
+                  const Divider(height: 1, indent: 16, endIndent: 16),
+                  _buildOverlayTile(
+                    context: context,
+                    themeProvider: themeProvider,
+                    style: ScanOverlayStyle.pulsingCorners,
+                    icon: Icons.crop_free,
+                    title: l10n.overlayPulsingCorners,
+                    subtitle: l10n.overlayPulsingCornersDesc,
+                  ),
+                  const Divider(height: 1, indent: 16, endIndent: 16),
+                  _buildOverlayTile(
+                    context: context,
+                    themeProvider: themeProvider,
+                    style: ScanOverlayStyle.cyberneticGrid,
+                    icon: Icons.grid_4x4,
+                    title: l10n.overlayCyberneticGrid,
+                    subtitle: l10n.overlayCyberneticGridDesc,
+                  ),
+                  const Divider(height: 1, indent: 16, endIndent: 16),
+                  _buildOverlayTile(
+                    context: context,
+                    themeProvider: themeProvider,
+                    style: ScanOverlayStyle.subtleDotMatrix,
+                    icon: Icons.grain,
+                    title: l10n.overlaySubtleDotMatrix,
+                    subtitle: l10n.overlaySubtleDotMatrixDesc,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

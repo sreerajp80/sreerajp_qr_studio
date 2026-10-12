@@ -1,5 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:sreerajp_qr_studio/models/code_format.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scanned_code.dart';
 
 /// Immutable model representing a visible barcode in the main scanner viewport
 /// with both camera-frame and screen-logical coordinates for interactive selection.
@@ -7,8 +9,8 @@ import 'package:mobile_scanner/mobile_scanner.dart';
 class VisibleBarcode {
   final String id;
   final String rawValue;
-  final BarcodeFormat format;
-  final BarcodeType type;
+  final CodeFormat format;
+  final CodeContentType type;
   final List<Offset> corners;
   final Rect boundingBox;
   final Rect screenRect;
@@ -32,8 +34,8 @@ class VisibleBarcode {
   VisibleBarcode copyWith({
     String? id,
     String? rawValue,
-    BarcodeFormat? format,
-    BarcodeType? type,
+    CodeFormat? format,
+    CodeContentType? type,
     List<Offset>? corners,
     Rect? boundingBox,
     Rect? screenRect,
@@ -55,9 +57,9 @@ class VisibleBarcode {
     );
   }
 
-  /// Converts this visible barcode back to a standard MobileScanner [Barcode] instance.
-  Barcode toBarcode() {
-    return Barcode(rawValue: rawValue, format: format, corners: corners);
+  /// Converts this visible barcode back to a standard MobileScanner [ScannedCode] instance.
+  ScannedCode toScannedCode() {
+    return ScannedCode(rawValue: rawValue, format: format, corners: corners);
   }
 
   @override

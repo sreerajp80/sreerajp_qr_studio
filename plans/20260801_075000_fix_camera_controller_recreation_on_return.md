@@ -1,6 +1,6 @@
 # Fix Camera Controller Recreation on Route Return
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem Analysis
 When returning to `ScannerScreen` from camera-based secondary screens (`ArCodevisionScreen` or `AirQrScreen`), or non-camera screens:

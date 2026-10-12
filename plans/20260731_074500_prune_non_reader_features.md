@@ -1,6 +1,6 @@
 # Plan: Remove Non-Valid (Generator/Sender) Features from Roadmap
 
-**Status:** Proposed
+**Status:** completed
 
 ## Target File
 - `docs/feature_analysis_and_roadmap.md`

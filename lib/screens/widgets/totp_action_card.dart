@@ -1,10 +1,11 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
-import 'package:sreeraj_qr_reader/services/totp_service.dart';
-import 'package:sreeraj_qr_reader/services/payload_action_service.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/services/totp_service.dart';
+import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
 
 class TotpActionCard extends StatefulWidget {
   final TotpPayload payload;
@@ -98,7 +99,9 @@ class _TotpActionCardState extends State<TotpActionCard> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepPurple[800],
+                          color: Theme.of(context).brightness == Brightness.dark
+                              ? Colors.deepPurple[200]
+                              : Colors.deepPurple[800],
                         ),
                       ),
                       Text(
@@ -214,9 +217,8 @@ class _TotpActionCardState extends State<TotpActionCard> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? Theme.of(
-                          context,
-                        ).colorScheme.outline.withValues(alpha: 0.3)
+                      ? Theme.of(context).colorScheme.outline
+                            .withValues(alpha: 0.3)
                       : Colors.grey[300]!,
                 ),
               ),

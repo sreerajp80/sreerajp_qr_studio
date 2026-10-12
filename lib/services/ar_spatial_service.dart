@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Pure service handling coordinate transformations, target decay,
 /// and metadata formatting for AR CodeVision HUD mode.
@@ -48,27 +48,27 @@ class ArSpatialService {
   }
 
   /// Names the kind of code that was seen, as a message key.
-  AppMessage getFormatDisplayName(BarcodeType type, String rawValue) {
+  AppMessage getFormatDisplayName(CodeContentType type, String rawValue) {
     switch (type) {
-      case BarcodeType.url:
+      case CodeContentType.url:
         return const AppMessage(AppMessageKey.formatQrUrl);
-      case BarcodeType.email:
+      case CodeContentType.email:
         return const AppMessage(AppMessageKey.formatQrEmail);
-      case BarcodeType.phone:
+      case CodeContentType.phone:
         return const AppMessage(AppMessageKey.formatQrPhone);
-      case BarcodeType.sms:
+      case CodeContentType.sms:
         return const AppMessage(AppMessageKey.formatQrSms);
-      case BarcodeType.wifi:
+      case CodeContentType.wifi:
         return const AppMessage(AppMessageKey.formatQrWifi);
-      case BarcodeType.geo:
+      case CodeContentType.geo:
         return const AppMessage(AppMessageKey.formatQrLocation);
-      case BarcodeType.contactInfo:
+      case CodeContentType.contactInfo:
         return const AppMessage(AppMessageKey.formatQrContact);
-      case BarcodeType.isbn:
+      case CodeContentType.isbn:
         return const AppMessage(AppMessageKey.formatIsbn);
-      case BarcodeType.product:
+      case CodeContentType.product:
         return const AppMessage(AppMessageKey.formatEanUpc);
-      case BarcodeType.text:
+      case CodeContentType.text:
       default:
         if (rawValue.startsWith('http://') || rawValue.startsWith('https://')) {
           return const AppMessage(AppMessageKey.formatQrCode);
@@ -81,7 +81,7 @@ class ArSpatialService {
   }
 
   /// Generates price tag / retail label for Warehouse Mode.
-  String generatePriceTag(String rawValue, BarcodeType type) {
+  String generatePriceTag(String rawValue, CodeContentType type) {
     if (rawValue.isEmpty) return '\$0.00';
     // Generate deterministic price representation based on barcode content hash
     final hash = rawValue.codeUnits.fold(0, (prev, elem) => prev + elem);

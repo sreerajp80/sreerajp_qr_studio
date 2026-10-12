@@ -1,5 +1,7 @@
 # Plan: Add "Made with ❤️ from India" footer to About screen
 
+**Status:** completed
+
 ## Issue / Request
 The About screen currently ends with a copyright line (`© <year> Sreeraj P. All rights reserved.`)
 followed by bottom padding. The user wants a "Made with ❤️ from India" line added to the

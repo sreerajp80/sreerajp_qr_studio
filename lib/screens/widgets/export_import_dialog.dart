@@ -1,13 +1,14 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sreeraj_qr_reader/l10n/app_message_text.dart';
-import 'package:sreeraj_qr_reader/models/backup_exception.dart';
-import 'package:sreeraj_qr_reader/models/history_report_labels.dart';
-import 'package:sreeraj_qr_reader/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
+import 'package:sreerajp_qr_studio/models/backup_exception.dart';
+import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 
 /// Modal dialog for choosing export format (CSV, JSON, TXT, PDF) or performing password-encrypted local backup/restore.
 class ExportImportDialog extends StatefulWidget {
@@ -74,9 +75,8 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
     final l10n = AppLocalizations.of(context);
     final passphrase = _passphraseController.text.trim();
     if (passphrase.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text(l10n.exportPassphraseRequired)));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(l10n.exportPassphraseRequired)));
       return;
     }
 

@@ -1,6 +1,6 @@
 # Plan: AR CodeVision — Spatial Multi-Target Real-Time Camera HUD
 
-**Status:** Completed
+**Status:** completed
 
 ## Overview
 Implement **AR CodeVision**, an Augmented Reality (AR) camera viewport engine that continuously scans, tracks, and anchors interactive Material 3 floating chips over every visible barcode and QR code simultaneously in real-time camera space without stopping the live video preview.

@@ -7,14 +7,27 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/safety_check_result.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
 
 class UrlSafetyService {
   /// SharedPreferences key for the opt-in "active online checks" setting.
   /// When false (the default) the service never connects to the scanned
   /// server, so the device IP and User-Agent are not exposed to it.
   static const String activeProbingPrefKey = 'active_probing_enabled';
+
+  /// Secure-storage keys for the API-key based providers.
+  static const String safeBrowsingApiKeyStorageKey =
+      'google_safe_browsing_api_key';
+  static const String virusTotalApiKeyStorageKey = 'virustotal_api_key';
+  static const String urlhausApiKeyStorageKey = 'urlhaus_api_key';
+
+  /// All API-key storage keys, used to count configured providers.
+  static const List<String> apiKeyStorageKeys = [
+    safeBrowsingApiKeyStorageKey,
+    virusTotalApiKeyStorageKey,
+    urlhausApiKeyStorageKey,
+  ];
 
   final http.Client _httpClient;
   final FlutterSecureStorage _secureStorage;
@@ -58,6 +71,42 @@ class UrlSafetyService {
     } catch (_) {
       return false;
     }
+  }
+
+  /// Whether a non-empty API key is saved under [storageKey].
+  /// The key value itself never leaves this service.
+  Future<bool> hasApiKey(String storageKey) async {
+    try {
+      final value = await _secureStorage.read(key: storageKey);
+      return value != null && value.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// Saves [value] as the API key under [storageKey] in secure storage.
+  Future<void> saveApiKey(String storageKey, String value) =>
+      _secureStorage.write(key: storageKey, value: value);
+
+  /// Removes the API key saved under [storageKey].
+  Future<void> deleteApiKey(String storageKey) =>
+      _secureStorage.delete(key: storageKey);
+
+  /// Number of turned-on providers: saved API keys plus the enabled
+  /// PhishTank and OpenPhish feeds.
+  Future<int> countActiveProviders() async {
+    var count = 0;
+    for (final key in apiKeyStorageKeys) {
+      if (await hasApiKey(key)) count++;
+    }
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (prefs.getBool(phishTankEnabledPrefKey) ?? false) count++;
+      if (prefs.getBool(openPhishEnabledPrefKey) ?? false) count++;
+    } catch (_) {
+      // Preferences unavailable: count only the API keys.
+    }
+    return count;
   }
 
   Future<SafetyCheckResult> checkSslCertificate(
@@ -149,6 +198,7 @@ class UrlSafetyService {
         checkName: AppMessage(AppMessageKey.checkNameRedirect),
         passed: true,
         message: AppMessage(AppMessageKey.redirectSkippedPrivate),
+        skipped: true,
       );
     }
     try {
@@ -338,9 +388,8 @@ class UrlSafetyService {
 
       if (path.length > 1 && path.length <= 10) {
         final pathWithoutSlash = path.substring(1);
-        final hasOnlyAlphanumeric = RegExp(
-          r'^[a-zA-Z0-9]+$',
-        ).hasMatch(pathWithoutSlash);
+        final hasOnlyAlphanumeric = RegExp(r'^[a-zA-Z0-9]+$')
+            .hasMatch(pathWithoutSlash);
         final hasUpperAndLower =
             RegExp(r'[a-z]').hasMatch(pathWithoutSlash) &&
             RegExp(r'[A-Z]').hasMatch(pathWithoutSlash);
@@ -451,7 +500,7 @@ class UrlSafetyService {
       final foundChars = <String>[];
       for (final entry in suspiciousChars.entries) {
         if (domain.contains(entry.key)) {
-          foundChars.add('${entry.key} (looks like ${entry.value})');
+          foundChars.add('${entry.key} → ${entry.value}');
         }
       }
 
@@ -493,7 +542,7 @@ class UrlSafetyService {
   Future<SafetyCheckResult> checkGoogleSafeBrowsing(String url) async {
     try {
       final apiKey = await _secureStorage.read(
-        key: 'google_safe_browsing_api_key',
+        key: safeBrowsingApiKeyStorageKey,
       );
 
       if (apiKey == null || apiKey.isEmpty) {
@@ -501,6 +550,7 @@ class UrlSafetyService {
           checkName: AppMessage(AppMessageKey.checkNameMalicious),
           passed: true,
           message: AppMessage(AppMessageKey.maliciousSkippedNoKey),
+          skipped: true,
         );
       }
 
@@ -627,13 +677,14 @@ class UrlSafetyService {
 
   Future<SafetyCheckResult> checkVirusTotal(String url) async {
     try {
-      final apiKey = await _secureStorage.read(key: 'virustotal_api_key');
+      final apiKey = await _secureStorage.read(key: virusTotalApiKeyStorageKey);
 
       if (apiKey == null || apiKey.isEmpty) {
         return const SafetyCheckResult(
           checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
           passed: true,
           message: AppMessage(AppMessageKey.virusTotalSkippedNoKey),
+          skipped: true,
         );
       }
 
@@ -743,13 +794,14 @@ class UrlSafetyService {
 
   Future<SafetyCheckResult> checkUrlhaus(String url) async {
     try {
-      final apiKey = await _secureStorage.read(key: 'urlhaus_api_key');
+      final apiKey = await _secureStorage.read(key: urlhausApiKeyStorageKey);
 
       if (apiKey == null || apiKey.isEmpty) {
         return const SafetyCheckResult(
           checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
           passed: true,
           message: AppMessage(AppMessageKey.urlhausSkippedNoKey),
+          skipped: true,
         );
       }
 
@@ -845,6 +897,7 @@ class UrlSafetyService {
           checkName: AppMessage(AppMessageKey.checkNamePhishTank),
           passed: true,
           message: AppMessage(AppMessageKey.phishTankSkippedDisabled),
+          skipped: true,
         );
       }
 
@@ -951,6 +1004,7 @@ class UrlSafetyService {
           checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
           passed: true,
           message: AppMessage(AppMessageKey.openPhishSkippedDisabled),
+          skipped: true,
         );
       }
 

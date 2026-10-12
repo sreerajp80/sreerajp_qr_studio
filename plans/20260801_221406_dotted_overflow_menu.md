@@ -1,6 +1,6 @@
 # Plan: Move Settings, History, AR CodeVision HUD, and AirQR Stream Receiver to Dotted Overflow Menu
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem / Background
 The top app bar of `ScannerScreen` currently displays six individual icon action buttons:

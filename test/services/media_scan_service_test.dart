@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/services/media_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/services/media_scan_service.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 void main() {
   group('PdfPageBarcode', () {
@@ -9,12 +9,12 @@ void main() {
       const pageBarcode = PdfPageBarcode(
         pageNumber: 3,
         rawValue: 'https://example.com/qr',
-        format: BarcodeType.url,
+        format: CodeContentType.url,
       );
 
       expect(pageBarcode.pageNumber, equals(3));
       expect(pageBarcode.rawValue, equals('https://example.com/qr'));
-      expect(pageBarcode.format, equals(BarcodeType.url));
+      expect(pageBarcode.format, equals(CodeContentType.url));
     });
   });
 
@@ -33,7 +33,7 @@ void main() {
           PdfPageBarcode(
             pageNumber: 1,
             rawValue: 'CODE128_TEST',
-            format: BarcodeType.text,
+            format: CodeContentType.text,
           ),
         ],
       );

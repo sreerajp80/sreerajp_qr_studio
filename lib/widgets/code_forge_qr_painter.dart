@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr/qr.dart';
-import 'package:sreeraj_qr_reader/models/code_forge_config.dart';
+import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 
 /// Canvas painter that renders highly customized QR codes with tailored
 /// eye shapes, inner pupils, pattern module shapes, linear gradients, and center badges.

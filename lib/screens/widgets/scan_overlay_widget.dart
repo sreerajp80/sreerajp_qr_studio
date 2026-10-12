@@ -1,6 +1,7 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:sreeraj_qr_reader/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 
 /// Customizable animated scanner frame overlay supporting 4 styles:
 /// Laser Line, Pulsing Corners, Cybernetic Grid, and Subtle Dot Matrix,

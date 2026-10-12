@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sreeraj_qr_reader/core/constants/app_version.g.dart';
-import 'package:sreeraj_qr_reader/core/constants/build_date.g.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_version.g.dart';
+import 'package:sreerajp_qr_studio/core/constants/build_date.g.dart';
 
 void main() {
   group('Build Metadata Constants', () {

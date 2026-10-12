@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sreeraj_qr_reader/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -54,25 +55,25 @@ void main() {
 
     group('setScanResult – URL detection', () {
       test('stores result and type', () {
-        provider.setScanResult('Hello', BarcodeType.text);
+        provider.setScanResult('Hello', CodeContentType.text);
         expect(provider.scanResult, 'Hello');
-        expect(provider.scanType, BarcodeType.text);
+        expect(provider.scanType, CodeContentType.text);
       });
 
       test('detects https URL', () {
-        provider.setScanResult('https://example.com', BarcodeType.url);
+        provider.setScanResult('https://example.com', CodeContentType.url);
         expect(provider.isUrl, true);
       });
 
       test('detects http URL', () {
-        provider.setScanResult('http://example.com/path', BarcodeType.url);
+        provider.setScanResult('http://example.com/path', CodeContentType.url);
         expect(provider.isUrl, true);
       });
 
       test('detects URL with query string', () {
         provider.setScanResult(
           'https://example.com/page?q=1&lang=en',
-          BarcodeType.url,
+          CodeContentType.url,
         );
         expect(provider.isUrl, true);
       });
@@ -80,30 +81,30 @@ void main() {
       test('detects URL with path and fragment', () {
         provider.setScanResult(
           'https://example.com/docs#section',
-          BarcodeType.url,
+          CodeContentType.url,
         );
         expect(provider.isUrl, true);
       });
 
       test('does not flag plain text as URL', () {
-        provider.setScanResult('Just some text', BarcodeType.text);
+        provider.setScanResult('Just some text', CodeContentType.text);
         expect(provider.isUrl, false);
       });
 
       test('does not flag bare domain without scheme as URL', () {
-        provider.setScanResult('example.com', BarcodeType.text);
+        provider.setScanResult('example.com', CodeContentType.text);
         expect(provider.isUrl, false);
       });
 
       test('does not flag email address as URL', () {
-        provider.setScanResult('user@example.com', BarcodeType.email);
+        provider.setScanResult('user@example.com', CodeContentType.email);
         expect(provider.isUrl, false);
       });
 
       test('does not flag WiFi credential string as URL', () {
         provider.setScanResult(
           'WIFI:T:WPA;S:MyNetwork;P:password;;',
-          BarcodeType.wifi,
+          CodeContentType.wifi,
         );
         expect(provider.isUrl, false);
       });
@@ -111,14 +112,14 @@ void main() {
       test('notifies listeners on change', () {
         var notified = false;
         provider.addListener(() => notified = true);
-        provider.setScanResult('test', BarcodeType.text);
+        provider.setScanResult('test', CodeContentType.text);
         expect(notified, true);
       });
     });
 
     group('clearScan', () {
       setUp(() {
-        provider.setScanResult('https://example.com', BarcodeType.url);
+        provider.setScanResult('https://example.com', CodeContentType.url);
       });
 
       test('clears scanResult', () {
@@ -200,6 +201,25 @@ void main() {
         await provider.setSoundEnabled(false);
         expect(provider.isSoundEnabled, false);
         expect(notified, true);
+      });
+    });
+
+    group('createScanRecord source', () {
+      test('adds the screen bubble source to metadata', () {
+        provider.setScanResult('Hello', CodeContentType.text);
+        final record = provider.createScanRecord(
+          source: ScanRecord.sourceScreenBubble,
+        );
+        expect(record, isNotNull);
+        expect(record!.metadata?['source'], ScanRecord.sourceScreenBubble);
+        expect(record.isFromScreen, isTrue);
+      });
+
+      test('leaves source out for camera scans', () {
+        provider.setScanResult('Hello', CodeContentType.text);
+        final record = provider.createScanRecord();
+        expect(record!.metadata?.containsKey('source'), isFalse);
+        expect(record.isFromScreen, isFalse);
       });
     });
   });

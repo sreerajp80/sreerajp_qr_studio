@@ -1,54 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 class FaqTroubleshootingHelpScreen extends StatelessWidget {
   const FaqTroubleshootingHelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: const Text('FAQ & Troubleshooting')),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-        children: const [
-          _Intro(
-            'Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Reader.',
-          ),
-          SizedBox(height: 24),
-          _Section(
-            icon: Icons.help_outline,
-            title: 'Frequently Asked Questions',
-            children: [
-              _Bullet(
-                'Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.',
-              ),
-              _Bullet(
-                'Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.',
-              ),
-              _Bullet(
-                'Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.',
-              ),
-            ],
-          ),
-          _Section(
-            icon: Icons.build_outlined,
-            title: 'Camera Troubleshooting',
-            children: [
-              _Bullet(
-                'Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.',
-              ),
-              _Bullet(
-                'Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.',
-              ),
-              _Bullet(
-                'Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Reader -> Permissions -> Camera -> Allow.',
-              ),
-            ],
-          ),
-          SizedBox(height: 8),
-          _Footer(
-            'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.',
-          ),
-        ],
+      appBar: AppBar(title: Text(l10n.titleHelpFaq)),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+          children: [
+            _Intro(l10n.helpGuideFaqIntro),
+            const SizedBox(height: 24),
+            _Section(
+              icon: Icons.help_outline,
+              title: l10n.helpGuideFaqQuestionsTitle,
+              children: [
+                _Bullet(l10n.helpGuideFaqQuestion1),
+                _Bullet(l10n.helpGuideFaqQuestion2),
+                _Bullet(l10n.helpGuideFaqQuestion3),
+              ],
+            ),
+            _Section(
+              icon: Icons.build_outlined,
+              title: l10n.helpGuideFaqCameraTitle,
+              children: [
+                _Bullet(l10n.helpGuideFaqCameraBullet1),
+                _Bullet(l10n.helpGuideFaqCameraBullet2),
+                _Bullet(l10n.helpGuideFaqCameraBullet3),
+              ],
+            ),
+            const SizedBox(height: 8),
+            _Footer(l10n.helpGuideFaqTip),
+          ],
+        ),
       ),
     );
   }
@@ -96,10 +86,12 @@ class _Section extends StatelessWidget {
             children: [
               Icon(icon, size: 20, color: accent),
               const SizedBox(width: 8),
-              Text(
-                title,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  title,
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

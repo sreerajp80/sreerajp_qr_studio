@@ -1,6 +1,6 @@
 # Distance-Enhanced Scanning Pipeline Plan
 
-**Status:** Approved
+**Status:** completed
 
 ## Problem
 In `docs/feature_improvements_and_roadmap.md` item 2.1.2:

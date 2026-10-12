@@ -1,5 +1,7 @@
 # Plan: On-screen private-mode awareness + minimal fingerprint when probing
 
+**Status:** completed
+
 Date: 2026-06-23 12:15:00 (local)
 
 Follow-up to `20260623_114350_stop-url-check-info-leak.md`.

@@ -1,6 +1,6 @@
 # Plan: Upgrade compileSdk to Android SDK 37
 
-**Status:** Completed
+**Status:** completed
 
 ## Problem / Background
 The build for release APK (`flutter build apk --flavor prod --release --split-per-abi`) fails because the `receive_sharing_intent` plugin requires Android SDK 37 (or higher), while `android/app/build.gradle` is set to `compileSdk = flutter.compileSdkVersion` (which evaluates to Android SDK 36).

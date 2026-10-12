@@ -1,6 +1,7 @@
 import 'dart:math' as math;
-import 'package:sreeraj_qr_reader/models/app_message.dart';
-import 'package:sreeraj_qr_reader/models/quishing_analysis_result.dart';
+
+import 'package:sreerajp_qr_studio/models/app_message.dart';
+import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
 
 /// On-device computer vision engine for detecting physical QR sticker tampering ("QuishingGuard").
 class QuishingGuardService {

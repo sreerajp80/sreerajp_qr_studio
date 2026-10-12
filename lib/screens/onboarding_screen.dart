@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sreeraj_qr_reader/l10n/gen/app_localizations.dart';
-import 'package:sreeraj_qr_reader/models/onboarding_slide.dart';
-import 'package:sreeraj_qr_reader/providers/onboarding_provider.dart';
-import 'package:sreeraj_qr_reader/screens/main_shell_screen.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/onboarding_slide.dart';
+import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
+import 'package:sreerajp_qr_studio/screens/main_shell_screen.dart';
 
 /// Lightweight 3-slide introductory carousel explaining:
 /// 1. 6-Layer URL Safety Engine

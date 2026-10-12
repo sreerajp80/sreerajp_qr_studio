@@ -1,4 +1,4 @@
-import 'package:sreeraj_qr_reader/models/parsed_payload.dart';
+import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 
 /// Robust service that parses raw QR barcode strings into structured [ParsedPayload] objects.
 class PayloadParserService {
