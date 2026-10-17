@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -47,7 +47,7 @@ class SmsActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.smsCardTitle,
+                        l10n.titleSmsCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -102,7 +102,7 @@ class SmsActionCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            l10n.smsBodyLabel,
+                            l10n.labelSmsBody,
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w600,
@@ -134,7 +134,7 @@ class SmsActionCard extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.send),
-                    label: Text(l10n.smsSendButton),
+                    label: Text(l10n.actionSmsSend),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.indigo[700],
                       foregroundColor: Colors.white,
@@ -149,7 +149,7 @@ class SmsActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.smsLaunchFailed)),
+                          SnackBar(content: Text(l10n.errorSmsLaunchFailed)),
                         );
                       }
                     },
@@ -158,7 +158,7 @@ class SmsActionCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 OutlinedButton.icon(
                   icon: const Icon(Icons.copy),
-                  label: Text(l10n.smsCopyButton),
+                  label: Text(l10n.actionSmsCopy),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -168,7 +168,7 @@ class SmsActionCard extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: payload.number));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.copiedToClipboard)),
+                      SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                     );
                   },
                 ),

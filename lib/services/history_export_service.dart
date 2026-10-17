@@ -1,17 +1,21 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
-import 'package:encrypt/encrypt.dart' as enc;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/backup_exception.dart';
 import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/services/passphrase_cipher.dart';
 
 /// Service providing export capabilities (CSV, JSON, TXT, PDF) and encrypted backup/restore.
 class HistoryExportService {
+  HistoryExportService({PassphraseCipher? cipher})
+    : _cipher = cipher ?? PassphraseCipher();
+
+  final PassphraseCipher _cipher;
+
   /// Converts scan records into a formatted CSV string.
   String exportToCsv(List<ScanRecord> records) {
     final buffer = StringBuffer();
@@ -224,34 +228,27 @@ class HistoryExportService {
     return await pdf.save();
   }
 
-  /// Encrypts scan history with a passphrase into a binary/string backup package (`.sreerajqr`).
-  String createEncryptedBackup(List<ScanRecord> records, String passphrase) {
-    final jsonStr = exportToJson(records);
+  /// Header of backups written by this version (docs/security.md §6.3).
+  static const String backupHeaderV2 = 'SREERAJ_QR_BACKUP_V2';
 
-    // Derive 256-bit key from passphrase SHA-256 hash
-    final bytes = utf8.encode(passphrase);
-    final digest = sha256.convert(bytes);
-    final key = enc.Key(Uint8List.fromList(digest.bytes));
+  /// Header of old backups; they can still be restored, never written.
+  static const String backupHeaderV1 = 'SREERAJ_QR_BACKUP_V1';
 
-    // Create fixed IV for backup container compatibility
-    final iv = enc.IV(Uint8List.fromList(digest.bytes.sublist(0, 16)));
-    final encrypter = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
-
-    final encrypted = encrypter.encrypt(jsonStr, iv: iv);
-
-    final payload = {
-      'header': 'SREERAJ_QR_BACKUP_V1',
-      'encryptedData': encrypted.base64,
-    };
-
-    return jsonEncode(payload);
+  /// Encrypts the scan history with a passphrase into a `.sreerajqr` backup
+  /// (format v2, [PassphraseCipher]).
+  Future<String> createEncryptedBackup(
+    List<ScanRecord> records,
+    String passphrase,
+  ) async {
+    final fields = await _cipher.seal(exportToJson(records), passphrase);
+    return jsonEncode({'header': backupHeaderV2, ...fields});
   }
 
-  /// Decrypts and restores scan history from an encrypted backup container (`.sreerajqr`).
-  List<ScanRecord> restoreEncryptedBackup(
+  /// Restores scan history from a `.sreerajqr` backup (v2, or an old v1).
+  Future<List<ScanRecord>> restoreEncryptedBackup(
     String backupContent,
     String passphrase,
-  ) {
+  ) async {
     Map<String, dynamic> container;
     try {
       container = jsonDecode(backupContent) as Map<String, dynamic>;
@@ -261,37 +258,40 @@ class HistoryExportService {
       );
     }
 
-    if (container['header'] != 'SREERAJ_QR_BACKUP_V1' ||
-        container['encryptedData'] == null) {
-      throw const BackupException(AppMessage(AppMessageKey.backupBadHeader));
+    final String decryptedJson;
+    switch (container['header']) {
+      case backupHeaderV2:
+        decryptedJson = await _cipher.open(container, passphrase);
+      case backupHeaderV1:
+        final encryptedB64 = container['encryptedData'];
+        if (encryptedB64 is! String) {
+          throw const BackupException(
+            AppMessage(AppMessageKey.backupBadHeader),
+          );
+        }
+        decryptedJson = PassphraseCipher.openLegacyV1(encryptedB64, passphrase);
+      default:
+        throw const BackupException(AppMessage(AppMessageKey.backupBadHeader));
     }
+    return recordsFromJson(decryptedJson);
+  }
 
-    final encryptedB64 = container['encryptedData'] as String;
-
-    final bytes = utf8.encode(passphrase);
-    final digest = sha256.convert(bytes);
-    final key = enc.Key(Uint8List.fromList(digest.bytes));
-    final iv = enc.IV(Uint8List.fromList(digest.bytes.sublist(0, 16)));
-    final encrypter = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
-
-    String decryptedJson;
+  /// Parses the `records` list of a JSON export. Throws
+  /// `backupInvalidFormat` if it is not a valid export.
+  static List<ScanRecord> recordsFromJson(String json) {
     try {
-      decryptedJson = encrypter.decrypt64(encryptedB64, iv: iv);
+      final data = jsonDecode(json);
+      final recordsList = data is Map<String, dynamic>
+          ? data['records'] as List<dynamic>?
+          : null;
+      if (recordsList == null) return [];
+      return recordsList
+          .map((item) => ScanRecord.fromJson(item as Map<String, dynamic>))
+          .toList();
     } catch (_) {
       throw const BackupException(
-        AppMessage(AppMessageKey.backupWrongPassphrase),
+        AppMessage(AppMessageKey.backupInvalidFormat),
       );
     }
-
-    final data = jsonDecode(decryptedJson) as Map<String, dynamic>;
-    final recordsList = data['records'] as List<dynamic>?;
-
-    if (recordsList == null) {
-      return [];
-    }
-
-    return recordsList
-        .map((item) => ScanRecord.fromJson(item as Map<String, dynamic>))
-        .toList();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
 import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -89,8 +90,12 @@ class ScanProvider extends ChangeNotifier {
       _isSoundEnabled = prefs.getBool(soundPrefKey) ?? true;
       _isAnimationEnabled = prefs.getBool(animationPrefKey) ?? true;
       notifyListeners();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error loading scan feedback settings: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error loading scan feedback settings',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -100,8 +105,12 @@ class ScanProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(vibrationPrefKey, enabled);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error persisting vibration setting: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error persisting vibration setting',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -111,8 +120,12 @@ class ScanProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(soundPrefKey, enabled);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error persisting sound setting: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error persisting sound setting',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -122,8 +135,12 @@ class ScanProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(animationPrefKey, enabled);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error persisting animation setting: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error persisting animation setting',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -244,9 +261,9 @@ class ScanProvider extends ChangeNotifier {
 
       final failedChecks = _safetyChecks.where((check) => !check.passed).length;
       _isSafeUrl = failedChecks == 0 && (_domSandboxResult?.isSafe ?? true);
-    } catch (e) {
+    } catch (e, st) {
       _isSafeUrl = false;
-      if (kDebugMode) debugPrint('Error checking URL safety: $e');
+      AppLogger.error('Error checking URL safety', error: e, stackTrace: st);
     } finally {
       _isLoading = false;
       notifyListeners();

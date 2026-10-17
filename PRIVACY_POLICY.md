@@ -69,7 +69,7 @@ data goes only where you send it.
 | --- | --- | --- | --- |
 | Link safety providers | The scanned link | [Google Safe Browsing](https://policies.google.com/privacy), [VirusTotal](https://www.virustotal.com/gui/privacy-policy), [URLhaus](https://abuse.ch/privacy-policy/), [PhishTank](https://phishtank.org/), [OpenPhish](https://openphish.com/) | Only for the providers you turn on in Settings. All are off by default. |
 | Active online checks | A request to the scanned website, to follow redirects or open short links | The website in the scanned code | Only if you turn this on. Off by default. |
-| Page preview | A request for the scanned page, and its domain name to look up the domain's age | The website, and [rdap.org](https://rdap.org/) | Only when you tap to preview a page. |
+| Page preview | A request for the scanned page, and its domain name to look up the domain's age | The website, and [rdap.org](https://rdap.org/) | Only if you turn on "Active online checks" (off by default). It then runs by itself after you scan a link. |
 | Smart actions | The scanned content needed for the action (for example a product barcode or an address) | Opens in your browser or another app (for example Maps, Calendar, Open Food Facts, Google Books) | Only when you tap the action. |
 
 When the app talks to a website or service, that service can see your

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// Configuration screen for Font size scaling preferences and typography display.
@@ -20,7 +20,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
     final accent = theme.colorScheme.primary;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appearanceTypographyCardTitle)),
+      appBar: AppBar(title: Text(l10n.labelAppearanceTypographyCard)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -36,7 +36,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.appTitle,
+                      l10n.titleApp,
                       style: TextStyle(
                         fontSize: 18 * _textScale,
                         fontWeight: FontWeight.w800,
@@ -54,7 +54,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      l10n.typographySampleLine,
+                      l10n.bodyTypographySample,
                       style: TextStyle(
                         fontSize: 13 * _textScale,
                         color: theme.colorScheme.onSurfaceVariant,
@@ -78,7 +78,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          l10n.typographyScaleTitle,
+                          l10n.labelTypographyScale,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
@@ -147,7 +147,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
                     const SizedBox(width: 14),
                     Expanded(
                       child: Text(
-                        l10n.typographyScaleInfo,
+                        l10n.helpTypographyScale,
                         style: TextStyle(
                           fontSize: 13,
                           color: theme.colorScheme.onSurfaceVariant,

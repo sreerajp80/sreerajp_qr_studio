@@ -26,3 +26,7 @@ linter:
     always_use_package_imports: true
     cancel_subscriptions: true
     close_sinks: true
+    use_decorated_box: true
+    avoid_bool_literals_in_conditional_expressions: true
+    noop_primitive_operations: true
+    use_enums: true

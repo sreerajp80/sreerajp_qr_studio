@@ -1,10 +1,15 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sreerajp_qr_studio/core/config/config_service.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/about_screen.dart';
 import 'package:sreerajp_qr_studio/widgets/made_with_love.dart';
+
+import '../helpers/accessibility_checks.dart';
+import '../helpers/test_app.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -42,7 +47,10 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          ...GlobalMaterialLocalizations.delegates,
+        ],
         supportedLocales: AppLocalizations.supportedLocales,
         home: AboutScreen(configService: configService),
       ),
@@ -66,5 +74,48 @@ void main() {
 
     // Verify MadeWithLove widget is present
     expect(find.byType(MadeWithLove), findsOneWidget);
+  });
+
+  for (final locale in appTestLocales) {
+    testWidgets(
+      'renders in ${locale.languageCode} without overflow; icon buttons have '
+      'tooltips',
+      (tester) async {
+        final configService = ConfigService(
+          loadAsset: (_) async =>
+              File('assets/config/app_config.json').readAsStringSync(),
+        );
+        await tester.pumpWidget(
+          buildTestApp(
+            locale: locale,
+            home: AboutScreen(configService: configService),
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
+      },
+    );
+  }
+
+  testWidgets('shows the privacy policy row with its localized label', (
+    tester,
+  ) async {
+    final l10n = l10nFor(const Locale('en'));
+    final configService = ConfigService(
+      loadAsset: (_) async =>
+          File('assets/config/app_config.json').readAsStringSync(),
+    );
+    await tester.pumpWidget(
+      buildTestApp(home: AboutScreen(configService: configService)),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text(l10n.aboutDetailPrivacyPolicy),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text(l10n.aboutDetailPrivacyPolicy), findsOneWidget);
+    expect(find.textContaining('PRIVACY_POLICY.md'), findsOneWidget);
   });
 }

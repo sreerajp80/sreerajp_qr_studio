@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
@@ -66,7 +66,7 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
                 Icon(Icons.center_focus_strong, color: color, size: 24),
                 const SizedBox(width: 8),
                 Text(
-                  l10n.quishingGuardTitle,
+                  l10n.titleQuishingGuard,
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: Text(
-                    l10n.quishingTamperBadge,
+                    l10n.labelQuishingTamperBadge,
                     style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
@@ -141,14 +141,14 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  l10n.quishingRiskScoreLabel,
+                  l10n.labelQuishingRiskScore,
                   style: const TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
                 ),
                 Text(
-                  l10n.percentValue(
+                  l10n.labelPercentValue(
                     (res.overallRiskScore * 100).toStringAsFixed(0),
                   ),
                   style: TextStyle(
@@ -185,8 +185,8 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
                   children: [
                     Text(
                       _isExpanded
-                          ? l10n.quishingHideSignals
-                          : l10n.quishingViewSignals,
+                          ? l10n.actionQuishingHideSignals
+                          : l10n.actionQuishingViewSignals,
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.blue.shade700,
@@ -211,17 +211,17 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
                 children: [
                   Expanded(
                     child: _buildMetricTile(
-                      label: l10n.quishingMetricEdgeLabel,
+                      label: l10n.labelQuishingMetricEdge,
                       score: res.edgeDiscontinuityScore,
-                      description: l10n.quishingMetricEdgeDescription,
+                      description: l10n.descQuishingMetricEdge,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: _buildMetricTile(
-                      label: l10n.quishingMetricGrainLabel,
+                      label: l10n.labelQuishingMetricGrain,
                       score: res.textureGrainScore,
-                      description: l10n.quishingMetricGrainDescription,
+                      description: l10n.descQuishingMetricGrain,
                     ),
                   ),
                 ],
@@ -229,7 +229,7 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
               const SizedBox(height: 12),
 
               Text(
-                l10n.quishingSignalsHeading,
+                l10n.titleQuishingSignals,
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
@@ -289,21 +289,21 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.quishingGuardTitle,
+                      l10n.titleQuishingGuard,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      l10n.quishingCompactGenuine(percent),
+                      l10n.labelQuishingCompactGenuine(percent),
                       style: TextStyle(fontSize: 12, color: color),
                     ),
                   ],
                 ),
               ),
               Tooltip(
-                message: l10n.quishingViewSignals,
+                message: l10n.actionQuishingViewSignals,
                 child: const Icon(Icons.expand_more, size: 20),
               ),
             ],
@@ -344,7 +344,7 @@ class _QuishingRiskBarWidgetState extends State<QuishingRiskBarWidget> {
             children: [
               Text(
                 AppLocalizations.of(context)
-                    .percentValue((score * 100).toStringAsFixed(0)),
+                    .labelPercentValue((score * 100).toStringAsFixed(0)),
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.bold,

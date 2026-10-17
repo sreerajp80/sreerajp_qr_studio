@@ -1,12 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
+import 'package:sreerajp_qr_studio/models/app_exception.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/screens/history_screen.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/history_card.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 /// In-memory stand-in for the encrypted SQLite history database.
@@ -37,6 +39,31 @@ class _FakeHistoryDatabaseService extends Fake
       }
       return true;
     }).toList();
+  }
+}
+
+/// Fails the first load (as when the history key cannot be read), then works.
+class _FailingThenWorkingHistoryDatabaseService
+    extends _FakeHistoryDatabaseService {
+  _FailingThenWorkingHistoryDatabaseService(super.stored);
+
+  int calls = 0;
+
+  @override
+  Future<List<ScanRecord>> getRecords({
+    String? category,
+    bool? onlyFavorites,
+    String? searchQuery,
+  }) {
+    calls++;
+    if (calls == 1) {
+      throw const StorageException('history key unavailable');
+    }
+    return super.getRecords(
+      category: category,
+      onlyFavorites: onlyFavorites,
+      searchQuery: searchQuery,
+    );
   }
 }
 
@@ -79,7 +106,7 @@ void main() {
     await tester.pumpWidget(app(const []));
     await tester.pumpAndSettle();
 
-    expect(find.text(l10n.historyEmptyTitle), findsOneWidget);
+    expect(find.text(l10n.emptyHistoryTitle), findsOneWidget);
     expect(find.byType(HistoryCard), findsNothing);
   });
 
@@ -92,8 +119,9 @@ void main() {
         await tester.pumpAndSettle();
 
         expect(find.byType(HistoryCard), findsNWidgets(3));
-        expect(find.text(l10n.historyRecordCount(3)), findsOneWidget);
+        expect(find.text(l10n.bodyHistoryRecordCount(3)), findsOneWidget);
         expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
       },
     );
   }
@@ -107,7 +135,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(HistoryCard), findsOneWidget);
-    expect(find.text(l10n.historyRecordCount(1)), findsOneWidget);
+    expect(find.text(l10n.bodyHistoryRecordCount(1)), findsOneWidget);
   });
 
   testWidgets('category chips change the filter', (tester) async {
@@ -115,17 +143,21 @@ void main() {
     await tester.pumpWidget(app(sampleRecords));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.widgetWithText(FilterChip, l10n.historyFilterWifi));
-    await tester.pumpAndSettle();
-    expect(find.byType(HistoryCard), findsOneWidget);
-
     await tester.tap(
-      find.widgetWithText(FilterChip, l10n.historyFilterStarred),
+      find.widgetWithText(FilterChip, l10n.labelHistoryFilterWifi),
     );
     await tester.pumpAndSettle();
     expect(find.byType(HistoryCard), findsOneWidget);
 
-    await tester.tap(find.widgetWithText(FilterChip, l10n.historyFilterAll));
+    await tester.tap(
+      find.widgetWithText(FilterChip, l10n.labelHistoryFilterStarred),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(HistoryCard), findsOneWidget);
+
+    await tester.tap(
+      find.widgetWithText(FilterChip, l10n.labelHistoryFilterAll),
+    );
     await tester.pumpAndSettle();
     expect(find.byType(HistoryCard), findsNWidgets(3));
   });
@@ -141,6 +173,40 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(HistoryCard), findsNothing);
-    expect(find.text(l10n.historyNoMatches('zzz-nothing')), findsOneWidget);
+    expect(
+      find.text(l10n.emptyHistoryNoMatches('zzz-nothing')),
+      findsOneWidget,
+    );
   });
+
+  for (final locale in appTestLocales) {
+    testWidgets(
+      'a load error shows a message and Try again in ${locale.languageCode}',
+      (tester) async {
+        final l10n = l10nFor(locale);
+        final db = _FailingThenWorkingHistoryDatabaseService(sampleRecords);
+        await tester.pumpWidget(
+          buildTestApp(
+            locale: locale,
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => HistoryProvider(dbService: db),
+              ),
+            ],
+            home: const HistoryScreen(),
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(find.text(l10n.errorHistoryLoadFailed), findsOneWidget);
+        expect(find.text(l10n.emptyHistoryTitle), findsNothing);
+        expect(tester.takeException(), isNull);
+
+        await tester.tap(find.text(l10n.actionTryAgain));
+        await tester.pumpAndSettle();
+        expect(find.text(l10n.errorHistoryLoadFailed), findsNothing);
+        expect(find.byType(HistoryCard), findsNWidgets(3));
+      },
+    );
+  }
 }

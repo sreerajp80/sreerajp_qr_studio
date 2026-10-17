@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
 import 'package:sreerajp_qr_studio/services/ar_spatial_service.dart';
@@ -85,8 +85,8 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
       setState(() {
         _isTorchOn = !_isTorchOn;
       });
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error toggling torch: $e');
+    } catch (e, st) {
+      AppLogger.error('Error toggling torch', error: e, stackTrace: st);
     }
   }
 
@@ -131,7 +131,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
             children: [
               const Icon(Icons.view_in_ar),
               const SizedBox(width: 8),
-              Text(l10n.arScreenTitle),
+              Text(l10n.titleArScreen),
             ],
           ),
           bottom: PreferredSize(
@@ -145,14 +145,14 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                     ButtonSegment(
                       value: ArHudMode.warehouse,
                       icon: const Icon(Icons.inventory_2_outlined),
-                      label: Text(l10n.arModeWarehouse),
-                      tooltip: l10n.arModeWarehouseTooltip,
+                      label: Text(l10n.labelArModeWarehouse),
+                      tooltip: l10n.tooltipArModeWarehouse,
                     ),
                     ButtonSegment(
                       value: ArHudMode.safety,
                       icon: const Icon(Icons.shield_outlined),
-                      label: Text(l10n.arModeSafety),
-                      tooltip: l10n.arModeSafetyTooltip,
+                      label: Text(l10n.labelArModeSafety),
+                      tooltip: l10n.tooltipArModeSafety,
                     ),
                   ],
                   selected: {arProvider.hudMode},
@@ -170,7 +170,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                 color: _isTorchOn ? Colors.amber : null,
               ),
               onPressed: _toggleTorch,
-              tooltip: l10n.toggleFlashlight,
+              tooltip: l10n.tooltipToggleFlashlight,
             ),
           ],
         ),
@@ -202,7 +202,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
-                                  l10n.arInitializing,
+                                  l10n.bodyArInitializing,
                                   style: const TextStyle(color: Colors.white70),
                                 ),
                               ],
@@ -276,7 +276,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  l10n.arItemsSelected(
+                                  l10n.bodyArItemsSelected(
                                     arProvider.selectedCount,
                                   ),
                                   style: theme.textTheme.titleSmall?.copyWith(
@@ -289,7 +289,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                                       onPressed: () {
                                         arProvider.clearSelection();
                                       },
-                                      child: Text(l10n.arClearSelection),
+                                      child: Text(l10n.actionArClearSelection),
                                     ),
                                     const SizedBox(width: 8),
                                     ElevatedButton.icon(
@@ -306,7 +306,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                                             .showSnackBar(
                                               SnackBar(
                                                 content: Text(
-                                                  l10n.arBatchCopied(
+                                                  l10n.bodyArBatchCopied(
                                                     arProvider.selectedCount,
                                                   ),
                                                 ),
@@ -314,7 +314,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                                             );
                                       },
                                       icon: const Icon(Icons.copy, size: 18),
-                                      label: Text(l10n.arBatchCopy),
+                                      label: Text(l10n.actionArBatchCopy),
                                     ),
                                   ],
                                 ),
@@ -340,13 +340,13 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
           const Icon(Icons.camera_alt, size: 64, color: Colors.grey),
           const SizedBox(height: 16),
           Text(
-            l10n.arCameraPermissionMessage,
+            l10n.bodyArCameraPermission,
             style: const TextStyle(color: Colors.white, fontSize: 16),
           ),
           const SizedBox(height: 12),
           ElevatedButton(
             onPressed: _initializeScanner,
-            child: Text(l10n.grantCameraPermission),
+            child: Text(l10n.actionGrantCameraPermission),
           ),
         ],
       ),

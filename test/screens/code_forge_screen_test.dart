@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +10,7 @@ import 'package:sreerajp_qr_studio/providers/code_forge_provider.dart';
 import 'package:sreerajp_qr_studio/screens/code_forge_screen.dart';
 import 'package:sreerajp_qr_studio/services/location_service.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 class _FakeLocationService extends LocationService {
@@ -88,9 +89,10 @@ void main() {
       final l10n = l10nFor(locale);
       await pumpScreen(tester, locale: locale);
 
-      expect(find.text(l10n.codeForgeTitle), findsOneWidget);
-      expect(find.text(l10n.codeForgePresetWifi), findsOneWidget);
+      expect(find.text(l10n.titleCodeForge), findsOneWidget);
+      expect(find.text(l10n.labelCodeForgePresetWifi), findsOneWidget);
       expect(tester.takeException(), isNull);
+      expectAllIconButtonsHaveTooltips(tester);
     });
   }
 
@@ -100,13 +102,16 @@ void main() {
     final l10n = l10nFor(const Locale('ml'));
     await pumpScreen(tester, locale: const Locale('ml'));
 
-    await tapVisible(tester, find.text(l10n.codeForgePresetWifi));
-    final ssidField = find.widgetWithText(TextField, l10n.codeForgeWifiSsid);
+    await tapVisible(tester, find.text(l10n.labelCodeForgePresetWifi));
+    final ssidField = find.widgetWithText(
+      TextField,
+      l10n.labelCodeForgeWifiSsid,
+    );
     await tester.ensureVisible(ssidField);
     await tester.enterText(ssidField, '');
     await tester.pumpAndSettle();
 
-    expect(find.text(l10n.codeForgeWifiSsidRequired), findsOneWidget);
+    expect(find.text(l10n.errorCodeForgeWifiSsidRequired), findsOneWidget);
   });
 
   testWidgets('Wi-Fi password show/hide button has a changing tooltip', (
@@ -115,12 +120,12 @@ void main() {
     final l10n = l10nFor(const Locale('en'));
     await pumpScreen(tester);
 
-    await tapVisible(tester, find.text(l10n.codeForgePresetWifi));
-    final showButton = find.byTooltip(l10n.wifiShowPassword);
+    await tapVisible(tester, find.text(l10n.labelCodeForgePresetWifi));
+    final showButton = find.byTooltip(l10n.tooltipWifiShowPassword);
     expect(showButton, findsOneWidget);
 
     await tapVisible(tester, showButton);
-    expect(find.byTooltip(l10n.wifiHidePassword), findsOneWidget);
+    expect(find.byTooltip(l10n.tooltipWifiHidePassword), findsOneWidget);
   });
 
   testWidgets('EAN-13 with letters shows the localized barcode error', (
@@ -130,17 +135,20 @@ void main() {
     await pumpScreen(tester);
 
     await tapVisible(tester, find.text('EAN-13'));
-    expect(find.text(l10n.codeForgeBarcodeContent), findsOneWidget);
+    expect(find.text(l10n.labelCodeForgeBarcodeContent), findsOneWidget);
 
     final field = find.widgetWithText(
       TextField,
-      l10n.codeForgeBarcodeContentHint,
+      l10n.helpCodeForgeBarcodeContent,
     );
     await tester.ensureVisible(field);
     await tester.enterText(field, 'ABC');
     await tester.pumpAndSettle();
 
-    final prefix = l10n.codeForgeBarcodeInvalid('').replaceAll('()', '').trim();
+    final prefix = l10n
+        .errorCodeForgeBarcodeInvalid('')
+        .replaceAll('()', '')
+        .trim();
     expect(find.textContaining(prefix), findsOneWidget);
   });
 
@@ -151,8 +159,8 @@ void main() {
       location: const LocationResult.success(latitude: 9.5, longitude: 76.25),
     );
 
-    await tapVisible(tester, find.text(l10n.codeForgePresetGeo));
-    await tapVisible(tester, find.text(l10n.codeForgeGeoUseMyLocation));
+    await tapVisible(tester, find.text(l10n.labelCodeForgePresetGeo));
+    await tapVisible(tester, find.text(l10n.actionCodeForgeGeoUseMyLocation));
 
     expect(find.widgetWithText(TextField, '9.500000'), findsOneWidget);
     expect(find.widgetWithText(TextField, '76.250000'), findsOneWidget);
@@ -164,10 +172,10 @@ void main() {
     final l10n = l10nFor(const Locale('en'));
     await pumpScreen(tester, location: const LocationResult.permissionDenied());
 
-    await tapVisible(tester, find.text(l10n.codeForgePresetGeo));
-    await tapVisible(tester, find.text(l10n.codeForgeGeoUseMyLocation));
+    await tapVisible(tester, find.text(l10n.labelCodeForgePresetGeo));
+    await tapVisible(tester, find.text(l10n.actionCodeForgeGeoUseMyLocation));
 
-    expect(find.text(l10n.codeForgeGeoPermissionDenied), findsOneWidget);
+    expect(find.text(l10n.errorCodeForgeGeoPermissionDenied), findsOneWidget);
   });
 
   for (final locale in appTestLocales) {
@@ -211,9 +219,9 @@ void main() {
       final l10n = l10nFor(const Locale('en'));
       await pumpScreen(tester);
 
-      expect(find.text(l10n.codeForgeSafetyPrompt), findsOneWidget);
+      expect(find.text(l10n.bodyCodeForgeSafetyPrompt), findsOneWidget);
       expect(
-        find.widgetWithText(TextButton, l10n.codeForgeSafetyCheckButton),
+        find.widgetWithText(TextButton, l10n.actionCodeForgeSafetyCheck),
         findsOneWidget,
       );
     });
@@ -227,12 +235,12 @@ void main() {
 
       await tapVisible(
         tester,
-        find.widgetWithText(TextButton, l10n.codeForgeSafetyCheckButton),
+        find.widgetWithText(TextButton, l10n.actionCodeForgeSafetyCheck),
       );
 
-      expect(find.text(l10n.codeForgeSafeVerified), findsOneWidget);
-      expect(find.text(l10n.codeForgeSafetyCheckButton), findsNothing);
-      expect(find.text(l10n.codeForgeSafetyCheckAgain), findsNothing);
+      expect(find.text(l10n.bodyCodeForgeSafeVerified), findsOneWidget);
+      expect(find.text(l10n.actionCodeForgeSafetyCheck), findsNothing);
+      expect(find.text(l10n.actionCodeForgeSafetyCheckAgain), findsNothing);
     });
 
     for (final locale in appTestLocales) {
@@ -253,15 +261,21 @@ void main() {
 
           await tapVisible(
             tester,
-            find.widgetWithText(TextButton, l10n.codeForgeSafetyCheckButton),
+            find.widgetWithText(TextButton, l10n.actionCodeForgeSafetyCheck),
           );
 
-          expect(find.text(l10n.codeForgeSafetyProblems(2)), findsOneWidget);
           expect(
-            find.widgetWithText(TextButton, l10n.codeForgeSafetyCheckAgain),
+            find.text(l10n.bodyCodeForgeSafetyProblems(2)),
             findsOneWidget,
           );
-          expect(find.text(l10n.codeForgeSafetyPrompt), findsNothing);
+          expect(
+            find.widgetWithText(
+              TextButton,
+              l10n.actionCodeForgeSafetyCheckAgain,
+            ),
+            findsOneWidget,
+          );
+          expect(find.text(l10n.bodyCodeForgeSafetyPrompt), findsNothing);
           expect(tester.takeException(), isNull);
         },
       );

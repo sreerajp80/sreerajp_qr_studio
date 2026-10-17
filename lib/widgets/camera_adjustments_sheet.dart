@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/camera_settings.dart';
@@ -71,7 +71,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       Icon(Icons.tune, color: theme.colorScheme.primary),
                       const SizedBox(width: 10),
                       Text(
-                        l10n.cameraTuneTitle,
+                        l10n.titleCameraTune,
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -81,7 +81,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   TextButton.icon(
                     onPressed: () => provider.resetAdjustments(),
                     icon: const Icon(Icons.refresh, size: 18),
-                    label: Text(l10n.cameraResetAdjustments),
+                    label: Text(l10n.actionCameraReset),
                   ),
                 ],
               ),
@@ -96,7 +96,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       const Icon(Icons.brightness_medium, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        l10n.cameraBrightnessLabel,
+                        l10n.labelCameraBrightness,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -130,7 +130,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       const Icon(Icons.contrast, size: 20),
                       const SizedBox(width: 8),
                       Text(
-                        l10n.cameraContrastLabel,
+                        l10n.labelCameraContrast,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -163,13 +163,13 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 secondary: const Icon(Icons.invert_colors),
                 title: Text(
-                  l10n.cameraInvertLabel,
+                  l10n.labelCameraInvert,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 subtitle: Text(
-                  l10n.cameraInvertHint,
+                  l10n.descCameraInvert,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -184,7 +184,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
 
               // Resolution Preset Selector
               Text(
-                l10n.cameraResolutionLabel,
+                l10n.labelCameraResolution,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -198,7 +198,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       '1080p',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    tooltip: l10n.cameraResolutionFullHd,
+                    tooltip: l10n.tooltipCameraResolutionFullHd,
                   ),
                   ButtonSegment(
                     value: CameraResolutionPreset.max,
@@ -206,7 +206,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       '4K Max',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    tooltip: l10n.cameraResolutionMax,
+                    tooltip: l10n.tooltipCameraResolutionMax,
                   ),
                   ButtonSegment(
                     value: CameraResolutionPreset.hd,
@@ -214,7 +214,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                       '720p',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    tooltip: l10n.cameraResolutionHd,
+                    tooltip: l10n.tooltipCameraResolutionHd,
                   ),
                 ],
                 selected: {provider.resolutionPreset},
@@ -232,13 +232,13 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 secondary: const Icon(Icons.center_focus_strong),
                 title: Text(
-                  l10n.cameraDistanceEnhanceLabel,
+                  l10n.labelCameraDistanceEnhance,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 subtitle: Text(
-                  l10n.cameraDistanceEnhanceHint,
+                  l10n.descCameraDistanceEnhance,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -253,7 +253,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      l10n.cameraDistanceZoomLabel,
+                      l10n.labelCameraDistanceZoom,
                       style: theme.textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -280,7 +280,7 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      l10n.cameraUnsharpLabel,
+                      l10n.labelCameraUnsharp,
                       style: theme.textTheme.bodySmall?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -311,13 +311,13 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 secondary: const Icon(Icons.qr_code_scanner),
                 title: Text(
-                  l10n.multiCodeSelectionTitle,
+                  l10n.labelMultiCodeSelection,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 subtitle: Text(
-                  l10n.multiCodeSelectionSubtitle,
+                  l10n.descMultiCodeSelection,
                   style: theme.textTheme.bodySmall?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),

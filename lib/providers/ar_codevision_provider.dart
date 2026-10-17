@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
 import 'package:sreerajp_qr_studio/services/ar_spatial_service.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';

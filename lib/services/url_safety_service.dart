@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
 
@@ -430,10 +430,12 @@ class UrlSafetyService {
               }
             }
           }
-        } catch (e) {
-          if (kDebugMode) {
-            debugPrint('Could not check redirect for shortener detection: $e');
-          }
+        } catch (e, st) {
+          AppLogger.error(
+            'Could not check redirect for shortener detection',
+            error: e,
+            stackTrace: st,
+          );
         }
       }
 
@@ -651,10 +653,12 @@ class UrlSafetyService {
           ),
         );
       }
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Google Safe Browsing check error: ${e.runtimeType}');
-      }
+    } catch (e, st) {
+      AppLogger.error(
+        'Google Safe Browsing check error',
+        error: e,
+        stackTrace: st,
+      );
       return const SafetyCheckResult(
         checkName: AppMessage(AppMessageKey.checkNameMalicious),
         passed: false,
@@ -772,10 +776,8 @@ class UrlSafetyService {
           ),
         );
       }
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('VirusTotal check error: ${e.runtimeType}');
-      }
+    } catch (e, st) {
+      AppLogger.error('VirusTotal check error', error: e, stackTrace: st);
       return const SafetyCheckResult(
         checkName: AppMessage(AppMessageKey.checkNameVirusTotal),
         passed: false,
@@ -869,10 +871,8 @@ class UrlSafetyService {
           ),
         );
       }
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('URLhaus check error: ${e.runtimeType}');
-      }
+    } catch (e, st) {
+      AppLogger.error('URLhaus check error', error: e, stackTrace: st);
       return const SafetyCheckResult(
         checkName: AppMessage(AppMessageKey.checkNameUrlhaus),
         passed: false,
@@ -944,10 +944,8 @@ class UrlSafetyService {
           ),
         );
       }
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('PhishTank check error: ${e.runtimeType}');
-      }
+    } catch (e, st) {
+      AppLogger.error('PhishTank check error', error: e, stackTrace: st);
       return const SafetyCheckResult(
         checkName: AppMessage(AppMessageKey.checkNamePhishTank),
         passed: false,
@@ -1064,10 +1062,8 @@ class UrlSafetyService {
         passed: true,
         message: AppMessage(AppMessageKey.openPhishClean),
       );
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('OpenPhish check error: ${e.runtimeType}');
-      }
+    } catch (e, st) {
+      AppLogger.error('OpenPhish check error', error: e, stackTrace: st);
       return const SafetyCheckResult(
         checkName: AppMessage(AppMessageKey.checkNameOpenPhish),
         passed: false,

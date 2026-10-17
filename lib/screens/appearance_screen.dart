@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/appearance/accent_color_settings_screen.dart';
 import 'package:sreerajp_qr_studio/screens/appearance/scan_overlay_settings_screen.dart';
@@ -14,7 +14,7 @@ class AppearanceScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appearanceHubTitle)),
+      appBar: AppBar(title: Text(l10n.titleAppearanceHub)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -22,29 +22,29 @@ class AppearanceScreen extends StatelessWidget {
           children: [
             _AppearanceCard(
               icon: Icons.brightness_6_outlined,
-              title: l10n.appearanceThemeModeCardTitle,
-              subtitle: l10n.appearanceThemeModeCardSubtitle,
+              title: l10n.labelAppearanceThemeModeCard,
+              subtitle: l10n.descAppearanceThemeModeCard,
               onTap: () => _push(context, const ThemeModeSettingsScreen()),
             ),
             const SizedBox(height: 12),
             _AppearanceCard(
               icon: Icons.layers_outlined,
-              title: l10n.appearanceOverlayCardTitle,
-              subtitle: l10n.appearanceOverlayCardSubtitle,
+              title: l10n.labelAppearanceOverlayCard,
+              subtitle: l10n.descAppearanceOverlayCard,
               onTap: () => _push(context, const ScanOverlaySettingsScreen()),
             ),
             const SizedBox(height: 12),
             _AppearanceCard(
               icon: Icons.color_lens_outlined,
-              title: l10n.appearanceAccentCardTitle,
-              subtitle: l10n.appearanceAccentCardSubtitle,
+              title: l10n.labelAppearanceAccentCard,
+              subtitle: l10n.descAppearanceAccentCard,
               onTap: () => _push(context, const AccentColorSettingsScreen()),
             ),
             const SizedBox(height: 12),
             _AppearanceCard(
               icon: Icons.font_download_outlined,
-              title: l10n.appearanceTypographyCardTitle,
-              subtitle: l10n.appearanceTypographyCardSubtitle,
+              title: l10n.labelAppearanceTypographyCard,
+              subtitle: l10n.descAppearanceTypographyCard,
               onTap: () => _push(context, const TypographySettingsScreen()),
             ),
           ],

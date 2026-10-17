@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:cupertino_ui/cupertino_ui.dart'
+    show GlobalCupertinoLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/scan_bubble_provider.dart';
 import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
+
+import '../helpers/accessibility_checks.dart';
 
 import '../providers/scan_bubble_provider_test.dart' show FakeScanBubbleService;
 
@@ -17,9 +22,9 @@ void main() {
         locale: locale,
         localizationsDelegates: const [
           AppLocalizations.delegate,
-          SaMaterialLocalizationsDelegate(),
-          SaCupertinoLocalizationsDelegate(),
-          SaWidgetsLocalizationsDelegate(),
+          FallbackMaterialLocalizationsDelegate(),
+          FallbackCupertinoLocalizationsDelegate(),
+          FallbackWidgetsLocalizationsDelegate(),
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
@@ -39,7 +44,7 @@ void main() {
     expect(find.text('Display over other apps'), findsOneWidget);
     expect(find.text('Allow'), findsOneWidget);
     expect(find.text('Start after restart'), findsOneWidget);
-    expect(find.text('Add to Quick Settings'), findsOneWidget);
+    expect(find.text('Add Settings tile'), findsOneWidget);
     expect(find.text('How to use it'), findsOneWidget);
   });
 
@@ -76,13 +81,14 @@ void main() {
     expect(tile.value, isTrue);
   });
 
-  for (final code in ['ml', 'sa']) {
+  for (final code in ['en', 'ml', 'sa']) {
     testWidgets('renders in $code without errors', (tester) async {
       await tester.pumpWidget(
         buildScreen(FakeScanBubbleService(), locale: Locale(code)),
       );
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
+      expectAllIconButtonsHaveTooltips(tester);
       expect(find.byType(SwitchListTile), findsNWidgets(2));
     });
   }

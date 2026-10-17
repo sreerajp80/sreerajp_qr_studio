@@ -1,8 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
+import 'package:cupertino_ui/cupertino_ui.dart'
+    show GlobalCupertinoLocalizations;
+import 'package:flutter_localizations/flutter_localizations.dart'
+    show GlobalWidgetsLocalizations;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/help/air_qr_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/ar_codevision_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/barcode_scanning_help_screen.dart';
@@ -11,8 +14,11 @@ import 'package:sreerajp_qr_studio/screens/help/help_home_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/history_privacy_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/quishing_guard_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/safe_browsing_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/scan_bubble_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/smart_payloads_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/url_safety_help_screen.dart';
+
+import '../../helpers/accessibility_checks.dart';
 
 /// A help screen, plus the localized app bar title it must show.
 class _HelpCase {
@@ -24,7 +30,7 @@ class _HelpCase {
 }
 
 final _cases = <_HelpCase>[
-  _HelpCase('hub', const HelpHomeScreen(), (l) => l.settingsHelpTitle),
+  _HelpCase('hub', const HelpHomeScreen(), (l) => l.labelSettingsHelp),
   _HelpCase(
     'barcode',
     const BarcodeScanningHelpScreen(),
@@ -62,6 +68,11 @@ final _cases = <_HelpCase>[
     (l) => l.titleHelpHistory,
   ),
   _HelpCase('faq', const FaqTroubleshootingHelpScreen(), (l) => l.titleHelpFaq),
+  _HelpCase(
+    'scan bubble',
+    const ScanBubbleHelpScreen(),
+    (l) => l.helpGuideScanBubbleName,
+  ),
 ];
 
 const _locales = [Locale('en'), Locale('ml'), Locale('sa')];
@@ -74,9 +85,9 @@ Widget _wrap(Widget screen, Locale locale) {
     locale: locale,
     localizationsDelegates: const [
       AppLocalizations.delegate,
-      SaMaterialLocalizationsDelegate(),
-      SaCupertinoLocalizationsDelegate(),
-      SaWidgetsLocalizationsDelegate(),
+      FallbackMaterialLocalizationsDelegate(),
+      FallbackCupertinoLocalizationsDelegate(),
+      FallbackWidgetsLocalizationsDelegate(),
       GlobalMaterialLocalizations.delegate,
       GlobalCupertinoLocalizations.delegate,
       GlobalWidgetsLocalizations.delegate,
@@ -104,6 +115,7 @@ void main() {
 
           final l10n = await AppLocalizations.delegate.load(locale);
           expect(tester.takeException(), isNull);
+          expectAllIconButtonsHaveTooltips(tester);
           expect(
             find.descendant(
               of: find.byType(AppBar),

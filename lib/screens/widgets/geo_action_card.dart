@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
@@ -97,7 +97,7 @@ class GeoActionCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    l10n.geoLatLng(
+                    l10n.bodyGeoLatLng(
                       geo.latitude.toString(),
                       geo.longitude.toString(),
                     ),
@@ -115,7 +115,7 @@ class GeoActionCard extends StatelessWidget {
             if (geo.query.isNotEmpty && geo.query != geo.label) ...[
               const SizedBox(height: 6),
               Text(
-                l10n.geoQuery(geo.query),
+                l10n.bodyGeoQuery(geo.query),
                 style: TextStyle(
                   fontSize: 13,
                   color: isDark
@@ -132,7 +132,7 @@ class GeoActionCard extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.navigation),
-                label: Text(l10n.geoNavigateButton),
+                label: Text(l10n.actionGeoNavigate),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red[700],
                   foregroundColor: Colors.white,
@@ -147,7 +147,7 @@ class GeoActionCard extends StatelessWidget {
                   );
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.geoLaunchFailed)),
+                      SnackBar(content: Text(l10n.errorGeoLaunchFailed)),
                     );
                   }
                 },

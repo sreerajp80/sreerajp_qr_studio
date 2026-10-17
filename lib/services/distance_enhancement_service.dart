@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/code_format.dart';
 import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
 import 'package:sreerajp_qr_studio/models/scanned_code.dart';
@@ -134,10 +135,12 @@ class DistanceEnhancementService {
         height: image.height,
         rgbaBytes: image.rgba,
       );
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Error decoding image file to pixel buffer: $e');
-      }
+    } catch (e, st) {
+      AppLogger.error(
+        'Error decoding image file to pixel buffer',
+        error: e,
+        stackTrace: st,
+      );
       return null;
     }
   }
@@ -217,8 +220,12 @@ class DistanceEnhancementService {
         corners: corners,
         tapFocus: tapFocus,
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error in distance scan pipeline: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error in distance scan pipeline',
+        error: e,
+        stackTrace: st,
+      );
       return DistanceEnhancedScanResult.failure(
         durationMs: stopwatch.elapsedMilliseconds,
       );
@@ -299,8 +306,12 @@ class DistanceEnhancementService {
         );
         if (result.success) return result;
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error in distance scan pipeline: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error in distance scan pipeline',
+        error: e,
+        stackTrace: st,
+      );
     }
 
     return DistanceEnhancedScanResult.failure(
@@ -391,8 +402,12 @@ class DistanceEnhancementService {
             ],
           ),
       ];
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error in live distance assist: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error in live distance assist',
+        error: e,
+        stackTrace: st,
+      );
       return const [];
     }
   }

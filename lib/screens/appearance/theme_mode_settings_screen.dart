@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
@@ -15,14 +15,14 @@ class ThemeModeSettingsScreen extends StatelessWidget {
     final accent = theme.colorScheme.primary;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appearanceThemeModeCardTitle)),
+      appBar: AppBar(title: Text(l10n.labelAppearanceThemeModeCard)),
       body: SafeArea(
         top: false,
         child: ListView(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
           children: [
             Text(
-              l10n.themeModeHeading.toUpperCase(),
+              l10n.titleThemeMode.toUpperCase(),
               style: theme.textTheme.labelLarge?.copyWith(
                 color: accent,
                 fontWeight: FontWeight.w800,
@@ -34,22 +34,22 @@ class ThemeModeSettingsScreen extends StatelessWidget {
               segments: [
                 ButtonSegment<AppThemeMode>(
                   value: AppThemeMode.system,
-                  label: Text(l10n.themeChipSystem),
+                  label: Text(l10n.labelThemeChipSystem),
                   icon: const Icon(Icons.brightness_auto, size: 18),
                 ),
                 ButtonSegment<AppThemeMode>(
                   value: AppThemeMode.light,
-                  label: Text(l10n.themeChipLight),
+                  label: Text(l10n.labelThemeChipLight),
                   icon: const Icon(Icons.light_mode, size: 18),
                 ),
                 ButtonSegment<AppThemeMode>(
                   value: AppThemeMode.dark,
-                  label: Text(l10n.themeChipDark),
+                  label: Text(l10n.labelThemeChipDark),
                   icon: const Icon(Icons.dark_mode, size: 18),
                 ),
                 ButtonSegment<AppThemeMode>(
                   value: AppThemeMode.oled,
-                  label: Text(l10n.themeChipOled),
+                  label: Text(l10n.labelThemeChipOled),
                   icon: const Icon(Icons.power_settings_new, size: 18),
                 ),
               ],
@@ -96,13 +96,13 @@ class ThemeModeSettingsScreen extends StatelessWidget {
   String _getModeDescription(AppLocalizations l10n, AppThemeMode mode) {
     switch (mode) {
       case AppThemeMode.system:
-        return l10n.themeDescSystem;
+        return l10n.descThemeSystem;
       case AppThemeMode.light:
-        return l10n.themeDescLight;
+        return l10n.descThemeLight;
       case AppThemeMode.dark:
-        return l10n.themeDescDark;
+        return l10n.descThemeDark;
       case AppThemeMode.oled:
-        return l10n.themeDescOled;
+        return l10n.descThemeOled;
     }
   }
 }

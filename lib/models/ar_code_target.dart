@@ -1,5 +1,5 @@
 import 'package:sreerajp_qr_studio/models/app_message.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
 /// Represents the safety status of a detected target in Safety HUD mode.

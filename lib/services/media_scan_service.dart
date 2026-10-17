@@ -1,6 +1,6 @@
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:pdfx/pdfx.dart';
 
@@ -73,8 +73,8 @@ class MediaScanService {
         enableDistanceEnhancement: enableDistanceEnhancement,
         distanceConfig: distanceConfig,
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error picking image: $e');
+    } catch (e, st) {
+      AppLogger.error('Error picking image', error: e, stackTrace: st);
       return MediaScanResult(
         errorMessage: AppMessage(
           AppMessageKey.mediaImagePickFailed,
@@ -118,8 +118,8 @@ class MediaScanService {
       return const MediaScanResult(
         errorMessage: AppMessage(AppMessageKey.mediaNoCodeInImage),
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error scanning image file: $e');
+    } catch (e, st) {
+      AppLogger.error('Error scanning image file', error: e, stackTrace: st);
       return MediaScanResult(
         errorMessage: AppMessage(
           AppMessageKey.mediaImageAnalyzeFailed,
@@ -143,8 +143,8 @@ class MediaScanService {
         return const MediaScanResult(isPdf: true);
       }
       return await scanPdfFile(path, onProgress: onProgress);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error picking PDF: $e');
+    } catch (e, st) {
+      AppLogger.error('Error picking PDF', error: e, stackTrace: st);
       return MediaScanResult(
         isPdf: true,
         errorMessage: AppMessage(
@@ -192,8 +192,12 @@ class MediaScanService {
               }
             }
           }
-        } catch (e) {
-          if (kDebugMode) debugPrint('Error analyzing page $i image: $e');
+        } catch (e, st) {
+          AppLogger.error(
+            'Error analyzing page $i image',
+            error: e,
+            stackTrace: st,
+          );
         } finally {
           await page.close();
         }
@@ -208,8 +212,8 @@ class MediaScanService {
       }
 
       return MediaScanResult(isPdf: true, pdfBarcodes: pdfBarcodes);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error scanning PDF file: $e');
+    } catch (e, st) {
+      AppLogger.error('Error scanning PDF file', error: e, stackTrace: st);
       return MediaScanResult(
         isPdf: true,
         errorMessage: AppMessage(

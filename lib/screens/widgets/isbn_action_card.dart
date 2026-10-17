@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -47,7 +47,7 @@ class IsbnActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.isbnCardTitle,
+                        l10n.titleIsbnCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class IsbnActionCard extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.book),
-                    label: Text(l10n.isbnGoogleBooksButton),
+                    label: Text(l10n.actionIsbnGoogleBooks),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.brown[700],
                       foregroundColor: Colors.white,
@@ -110,7 +110,7 @@ class IsbnActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.isbnLaunchFailed)),
+                          SnackBar(content: Text(l10n.errorIsbnLaunchFailed)),
                         );
                       }
                     },
@@ -120,7 +120,7 @@ class IsbnActionCard extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.public),
-                    label: Text(l10n.isbnOpenLibraryButton),
+                    label: Text(l10n.actionIsbnOpenLibrary),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -134,7 +134,7 @@ class IsbnActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.isbnLaunchFailed)),
+                          SnackBar(content: Text(l10n.errorIsbnLaunchFailed)),
                         );
                       }
                     },
@@ -149,11 +149,11 @@ class IsbnActionCard extends StatelessWidget {
             Center(
               child: TextButton.icon(
                 icon: const Icon(Icons.copy, size: 16),
-                label: Text(l10n.isbnCopyButton),
+                label: Text(l10n.actionIsbnCopy),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: payload.isbn));
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.copiedToClipboard)),
+                    SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                   );
                 },
               ),

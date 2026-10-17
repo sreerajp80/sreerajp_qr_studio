@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 import 'package:sreerajp_qr_studio/services/code_forge_service.dart';
+import 'package:sreerajp_qr_studio/widgets/code_forge_qr_painter.dart';
 
 void main() {
   group('CodeForgeService Tests', () {
@@ -216,7 +217,14 @@ void main() {
       'renderQrToPngBytes returns PNG image bytes with valid magic header',
       () async {
         const config = CodeForgeConfig(rawContent: 'PNG-TEST-DATA');
-        final bytes = await service.renderQrToPngBytes(config, size: 256);
+        final bytes = await service.renderQrToPngBytes(
+          config,
+          size: 256,
+          paintQr: (canvas, size, qrImage) => CodeForgeQrPainter(
+            config: config,
+            qrImage: qrImage,
+          ).paint(canvas, size),
+        );
         expect(bytes, isNotNull);
         expect(bytes!.length, greaterThan(100));
         // Verify PNG magic header: [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]

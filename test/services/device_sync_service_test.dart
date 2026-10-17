@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreerajp_qr_studio/models/backup_exception.dart';
@@ -6,6 +8,9 @@ import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
 import 'package:sreerajp_qr_studio/services/device_sync_service.dart';
 import 'package:sreerajp_qr_studio/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/services/passphrase_cipher.dart';
+
+import 'history_export_service_test.dart' show legacyV1Backup, legacyV1Package;
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +51,7 @@ void main() {
   };
 
   setUp(() {
-    service = DeviceSyncService();
+    service = DeviceSyncService(cipher: PassphraseCipher(iterations: 10000));
   });
 
   group('DeviceSyncData Model', () {
@@ -73,36 +78,39 @@ void main() {
   });
 
   group('DeviceSyncService Encryption & Decryption', () {
-    test('creates encrypted package and inspects header metadata', () {
-      final syncData = DeviceSyncData(
-        exportedAt: now,
-        records: sampleRecords,
-        settings: sampleSettings,
+    DeviceSyncData syncData() => DeviceSyncData(
+      exportedAt: now,
+      records: sampleRecords,
+      settings: sampleSettings,
+    );
+
+    test('creates a v2 package and inspects header metadata', () async {
+      const passphrase = 'MySecureSyncPin123';
+      final package = await service.createEncryptedSyncPackage(
+        syncData(),
+        passphrase,
       );
 
-      const passphrase = 'MySecureSyncPin123';
-      final package = service.createEncryptedSyncPackage(syncData, passphrase);
-
       expect(service.isSyncPackage(package), isTrue);
+      final container = jsonDecode(package) as Map<String, dynamic>;
+      expect(container['kdf'], 'pbkdf2-hmac-sha256');
+      expect(package, isNot(contains('SuperSecret')));
 
       final headerInfo = service.inspectPackageHeader(package);
       expect(headerInfo, isNotNull);
-      expect(headerInfo!['header'], DeviceSyncService.syncHeaderV1);
+      expect(headerInfo!['header'], DeviceSyncService.syncHeaderV2);
       expect(headerInfo['recordsCount'], 2);
       expect(headerInfo['hasSettings'], isTrue);
     });
 
-    test('successfully decrypts package with correct passphrase', () {
-      final syncData = DeviceSyncData(
-        exportedAt: now,
-        records: sampleRecords,
-        settings: sampleSettings,
+    test('successfully decrypts package with correct passphrase', () async {
+      const passphrase = 'CorrectPassphrase!';
+      final package = await service.createEncryptedSyncPackage(
+        syncData(),
+        passphrase,
       );
 
-      const passphrase = 'CorrectPassphrase!';
-      final package = service.createEncryptedSyncPackage(syncData, passphrase);
-
-      final decrypted = service.decryptSyncPackage(package, passphrase);
+      final decrypted = await service.decryptSyncPackage(package, passphrase);
       expect(decrypted.records.length, 2);
       expect(decrypted.records[0].rawContent, 'https://example.com/safe');
       expect(decrypted.records[1].category, 'wifi');
@@ -110,29 +118,24 @@ void main() {
       expect(decrypted.settings[DeviceSyncService.prefLanguageKey], 'ml');
     });
 
-    test('throws BackupException with wrong passphrase', () {
-      final syncData = DeviceSyncData(
-        exportedAt: now,
-        records: sampleRecords,
-        settings: sampleSettings,
+    test('throws BackupException with wrong passphrase', () async {
+      final package = await service.createEncryptedSyncPackage(
+        syncData(),
+        'Pass123',
       );
-
-      final package = service.createEncryptedSyncPackage(syncData, 'Pass123');
-
-      expect(
-        () => service.decryptSyncPackage(package, 'WrongPassphrase'),
+      await expectLater(
+        service.decryptSyncPackage(package, 'WrongPassphrase'),
         throwsA(isA<BackupException>()),
       );
     });
 
-    test('throws BackupException on malformed payload or bad header', () {
-      expect(
-        () => service.decryptSyncPackage('not a json', 'Pass123'),
+    test('throws BackupException on malformed payload or bad header', () async {
+      await expectLater(
+        service.decryptSyncPackage('not a json', 'Pass123'),
         throwsA(isA<BackupException>()),
       );
-
-      expect(
-        () => service.decryptSyncPackage(
+      await expectLater(
+        service.decryptSyncPackage(
           '{"header": "UNKNOWN", "encryptedData": "abc"}',
           'Pass123',
         ),
@@ -140,21 +143,65 @@ void main() {
       );
     });
 
-    test('decrypts legacy SREERAJ_QR_BACKUP_V1 backup format seamlessly', () {
-      final exportService = HistoryExportService();
-      const passphrase = 'LegacyPassword99';
-      final legacyPackage = exportService.createEncryptedBackup(
-        sampleRecords,
+    test('still reads an old v1 sync package', () async {
+      const passphrase = 'OldSyncPin';
+      final v1 = legacyV1Package(
+        DeviceSyncService.syncHeaderV1,
+        jsonEncode(syncData().toJson()),
         passphrase,
       );
-
-      expect(service.isSyncPackage(legacyPackage), isTrue);
-
-      final decrypted = service.decryptSyncPackage(legacyPackage, passphrase);
+      expect(service.isSyncPackage(v1), isTrue);
+      final decrypted = await service.decryptSyncPackage(v1, passphrase);
       expect(decrypted.records.length, 2);
-      expect(decrypted.records[0].id, 'scan-1');
-      expect(decrypted.settings, isEmpty);
+      expect(decrypted.settings[DeviceSyncService.prefThemeModeKey], 'dark');
     });
+
+    test(
+      'decrypts legacy SREERAJ_QR_BACKUP_V1 backup format seamlessly',
+      () async {
+        final exportService = HistoryExportService();
+        const passphrase = 'LegacyPassword99';
+        final legacyPackage = legacyV1Backup(
+          exportService.exportToJson(sampleRecords),
+          passphrase,
+        );
+
+        expect(service.isSyncPackage(legacyPackage), isTrue);
+
+        final decrypted = await service.decryptSyncPackage(
+          legacyPackage,
+          passphrase,
+        );
+        expect(decrypted.records.length, 2);
+        expect(decrypted.records[0].id, 'scan-1');
+        expect(decrypted.settings, isEmpty);
+      },
+    );
+
+    test(
+      'recognises and decrypts a v2 history backup sent over AirQR',
+      () async {
+        final exportService = HistoryExportService(
+          cipher: PassphraseCipher(iterations: 10000),
+        );
+        const passphrase = 'BackupPass';
+        final backup = await exportService.createEncryptedBackup(
+          sampleRecords,
+          passphrase,
+        );
+        expect(service.isSyncPackage(backup), isTrue);
+        expect(
+          service.inspectPackageHeader(backup)!['header'],
+          HistoryExportService.backupHeaderV2,
+        );
+        final fast = DeviceSyncService(
+          cipher: PassphraseCipher(iterations: 10000),
+        );
+        final decrypted = await fast.decryptSyncPackage(backup, passphrase);
+        expect(decrypted.records.map((r) => r.id), ['scan-1', 'scan-2']);
+        expect(decrypted.settings, isEmpty);
+      },
+    );
   });
 
   group('DeviceSyncService Settings Collection & Application', () {

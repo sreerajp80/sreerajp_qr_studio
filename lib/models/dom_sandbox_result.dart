@@ -1,5 +1,5 @@
 import 'package:sreerajp_qr_studio/models/app_message.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Model representing the results of the Zero-Trust Sandboxed HTML Pre-Render Previewer.
 class DomSandboxResult {

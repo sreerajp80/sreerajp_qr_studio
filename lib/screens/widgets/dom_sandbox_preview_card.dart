@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
@@ -26,9 +26,9 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
   String _displayTitle(AppLocalizations l10n, DomSandboxResult result) {
     final title = result.pageTitle;
     if (result.fetchFailed) {
-      return l10n.domFetchFailedTitle(title ?? result.url);
+      return l10n.bodyDomFetchFailed(title ?? result.url);
     }
-    return title ?? l10n.domUntitledPage;
+    return title ?? l10n.labelDomUntitledPage;
   }
 
   @override
@@ -132,7 +132,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                           const SizedBox(width: 4),
                           Flexible(
                             child: Text(
-                              l10n.domSandboxedBadge,
+                              l10n.labelDomSandboxedBadge,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -149,8 +149,8 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                   const SizedBox(width: 4),
                   Tooltip(
                     message: _expanded
-                        ? l10n.sandboxHidePreview
-                        : l10n.sandboxShowPreview,
+                        ? l10n.tooltipSandboxHidePreview
+                        : l10n.tooltipSandboxShowPreview,
                     child: Icon(
                       _expanded ? Icons.expand_less : Icons.expand_more,
                       color: Colors.white70,
@@ -190,7 +190,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                             (result.pageTitle != null &&
                                     result.pageTitle!.isNotEmpty)
                                 ? result.pageTitle![0].toUpperCase()
-                                : l10n.domTitleInitialFallback,
+                                : l10n.labelDomTitleInitialFallback,
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -213,7 +213,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                l10n.domThumbnailCaption,
+                                l10n.bodyDomThumbnailCaption,
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: Colors.grey.shade600,
@@ -293,7 +293,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                     children: [
                       _buildShieldBadge(
                         icon: Icons.shield,
-                        label: l10n.domBlockedBadge(
+                        label: l10n.bodyDomBlockedBadge(
                           result.blockedScriptsCount,
                           result.blockedTrackersCount,
                         ),
@@ -318,8 +318,10 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                               ? Icons.error_outline
                               : Icons.calendar_today,
                           label: result.isNewlyRegisteredDomain
-                              ? l10n.domNewlyRegistered(result.domainAgeDays!)
-                              : l10n.domDomainAge(result.domainAgeDays!),
+                              ? l10n.bodyDomNewlyRegistered(
+                                  result.domainAgeDays!,
+                                )
+                              : l10n.bodyDomDomainAge(result.domainAgeDays!),
                           color: result.isNewlyRegisteredDomain
                               ? Colors.red.shade800
                               : Colors.blue.shade800,
@@ -332,8 +334,8 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                             ? Icons.alt_route
                             : Icons.check_circle_outline,
                         label: result.hasOpenRedirect
-                            ? l10n.domOpenRedirectFound
-                            : l10n.domNoOpenRedirect,
+                            ? l10n.bodyDomOpenRedirectFound
+                            : l10n.bodyDomNoOpenRedirect,
                         color: result.hasOpenRedirect
                             ? Colors.red.shade800
                             : Colors.indigo.shade800,
@@ -396,7 +398,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                     width: double.infinity,
                     child: OutlinedButton.icon(
                       icon: const Icon(Icons.code, size: 18),
-                      label: Text(l10n.domInspectButton),
+                      label: Text(l10n.actionDomInspect),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: theme.primaryColor,
                         side: BorderSide(color: theme.primaryColor),
@@ -486,7 +488,7 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                     const Icon(Icons.terminal, color: Colors.teal),
                     const SizedBox(width: 8),
                     Text(
-                      l10n.domInspectTitle,
+                      l10n.titleDomInspect,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -496,40 +498,44 @@ class _DomSandboxPreviewCardState extends State<DomSandboxPreviewCard> {
                 ),
                 const SizedBox(height: 16),
                 _buildDetailItem(
-                  l10n.domDetailPageTitle,
+                  l10n.labelDomDetailPageTitle,
                   result.fetchFailed
                       ? _displayTitle(l10n, result)
-                      : result.pageTitle ?? l10n.domDetailNotSpecified,
+                      : result.pageTitle ?? l10n.labelDomDetailNotSpecified,
                 ),
                 _buildDetailItem(
-                  l10n.domDetailMetaDescription,
-                  result.metaDescription ?? l10n.domDetailNoneFound,
+                  l10n.labelDomDetailMetaDescription,
+                  result.metaDescription ?? l10n.labelDomDetailNoneFound,
                 ),
                 _buildDetailItem(
-                  l10n.domDetailHeadingsCount,
-                  l10n.domDetailHeadingsValue(result.headings.length),
+                  l10n.labelDomDetailHeadingsCount,
+                  l10n.bodyDomDetailHeadingsValue(result.headings.length),
                 ),
                 _buildDetailItem(
-                  l10n.domDetailLinksFound,
-                  l10n.domDetailLinksValue(result.links.length),
+                  l10n.labelDomDetailLinksFound,
+                  l10n.bodyDomDetailLinksValue(result.links.length),
                 ),
                 _buildDetailItem(
-                  l10n.domDetailBlockedScripts,
-                  l10n.domDetailBlockedScriptsValue(result.blockedScriptsCount),
+                  l10n.labelDomDetailBlockedScripts,
+                  l10n.bodyDomDetailBlockedScriptsValue(
+                    result.blockedScriptsCount,
+                  ),
                 ),
                 _buildDetailItem(
-                  l10n.domDetailBlockedTrackers,
-                  l10n.domDetailBlockedTrackersValue(
+                  l10n.labelDomDetailBlockedTrackers,
+                  l10n.bodyDomDetailBlockedTrackersValue(
                     result.blockedTrackersCount,
                   ),
                 ),
                 _buildDetailItem(
-                  l10n.domDetailBlockedIframes,
-                  l10n.domDetailBlockedIframesValue(result.blockedIframesCount),
+                  l10n.labelDomDetailBlockedIframes,
+                  l10n.bodyDomDetailBlockedIframesValue(
+                    result.blockedIframesCount,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  l10n.domSanitizedSnippetHeading,
+                  l10n.titleDomSanitizedSnippet,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 14,

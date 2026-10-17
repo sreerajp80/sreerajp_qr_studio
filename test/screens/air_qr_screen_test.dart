@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +13,7 @@ import 'package:sreerajp_qr_studio/screens/air_qr_screen.dart';
 import 'package:sreerajp_qr_studio/services/air_qr_service.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 class _MemoryHistoryDatabaseService extends Fake
@@ -84,15 +85,16 @@ void main() {
       final l10n = l10nFor(locale);
       await pumpScreen(tester, locale: locale);
 
-      expect(find.text(l10n.airQrReceiverTitle), findsOneWidget);
-      expect(find.text(l10n.scanCameraPermissionRequired), findsOneWidget);
-      expect(find.text(l10n.grantPermission), findsOneWidget);
+      expect(find.text(l10n.titleAirQrReceiver), findsOneWidget);
+      expect(find.text(l10n.bodyScanCameraPermissionRequired), findsOneWidget);
+      expect(find.text(l10n.actionGrantPermission), findsOneWidget);
       // No endless "initializing" when the camera is blocked.
-      expect(find.text(l10n.airQrInitializing), findsNothing);
+      expect(find.text(l10n.bodyAirQrInitializing), findsNothing);
       // The HUD still works.
-      expect(find.text(l10n.airQrStatusIdle), findsOneWidget);
-      expect(find.byTooltip(l10n.airQrResetStream), findsOneWidget);
+      expect(find.text(l10n.bodyAirQrStatusIdle), findsOneWidget);
+      expect(find.byTooltip(l10n.tooltipAirQrResetStream), findsOneWidget);
       expect(tester.takeException(), isNull);
+      expectAllIconButtonsHaveTooltips(tester);
     });
   }
 
@@ -103,12 +105,12 @@ void main() {
     final (airQr: _, :requests) = await pumpScreen(tester);
     expect(requests.value, 1);
 
-    await tester.tap(find.text(l10n.grantPermission));
+    await tester.tap(find.text(l10n.actionGrantPermission));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(requests.value, 2);
-    expect(find.text(l10n.scanCameraPermissionRequired), findsOneWidget);
+    expect(find.text(l10n.bodyScanCameraPermissionRequired), findsOneWidget);
   });
 
   testWidgets('camera that cannot start shows a message and "Try again"', (
@@ -118,15 +120,15 @@ void main() {
     await pumpScreen(tester, locale: const Locale('ml'), granted: true);
     await letCameraSettle(tester);
 
-    expect(find.text(l10n.scanCameraPermissionRequired), findsNothing);
-    expect(find.text(l10n.cameraStartFailed), findsOneWidget);
-    expect(find.text(l10n.cameraRetryButton), findsOneWidget);
+    expect(find.text(l10n.bodyScanCameraPermissionRequired), findsNothing);
+    expect(find.text(l10n.errorCameraStartFailed), findsOneWidget);
+    expect(find.text(l10n.actionCameraRetry), findsOneWidget);
 
-    await tester.tap(find.text(l10n.cameraRetryButton));
+    await tester.tap(find.text(l10n.actionCameraRetry));
     await letCameraSettle(tester);
 
     // Still no camera, so the same clear message comes back.
-    expect(find.text(l10n.cameraStartFailed), findsOneWidget);
+    expect(find.text(l10n.errorCameraStartFailed), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -141,7 +143,7 @@ void main() {
 
     airQr.processScannedCode(frames.first.toQrString());
     await tester.pump();
-    expect(find.text(l10n.airQrStatusCapturing), findsOneWidget);
+    expect(find.text(l10n.bodyAirQrStatusCapturing), findsOneWidget);
 
     for (final frame in frames.skip(1)) {
       airQr.processScannedCode(frame.toQrString());
@@ -150,7 +152,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
 
     expect(airQr.isCompleted, isTrue);
-    expect(find.text(l10n.airQrStatusReassembled), findsOneWidget);
+    expect(find.text(l10n.bodyAirQrStatusReassembled), findsOneWidget);
     expect(find.textContaining(payload), findsWidgets);
     expect(tester.takeException(), isNull);
   });
@@ -164,10 +166,10 @@ void main() {
     await tester.pump();
     expect(airQr.isReceiving, isTrue);
 
-    await tester.tap(find.byTooltip(l10n.airQrResetStream));
+    await tester.tap(find.byTooltip(l10n.tooltipAirQrResetStream));
     await tester.pump();
 
     expect(airQr.isReceiving, isFalse);
-    expect(find.text(l10n.airQrStatusIdle), findsOneWidget);
+    expect(find.text(l10n.bodyAirQrStatusIdle), findsOneWidget);
   });
 }

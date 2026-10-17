@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/air_qr_frame.dart';
 import 'package:sreerajp_qr_studio/models/air_qr_progress.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
@@ -231,8 +231,8 @@ class AirQrService {
 
       final String result = utf8.decode(fullBytes, allowMalformed: true);
       return result;
-    } catch (e) {
-      if (kDebugMode) debugPrint('Payload reassembly error: $e');
+    } catch (e, st) {
+      AppLogger.error('Payload reassembly error', error: e, stackTrace: st);
       return null;
     }
   }

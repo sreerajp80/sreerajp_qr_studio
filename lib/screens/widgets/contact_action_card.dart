@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -20,7 +20,7 @@ class ContactActionCard extends StatelessWidget {
               .map((e) => e.isNotEmpty ? e[0] : '')
               .take(2)
               .join()
-        : l10n.contactInitialFallback;
+        : l10n.labelContactInitialFallback;
 
     return Card(
       elevation: 4,
@@ -54,7 +54,7 @@ class ContactActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.contactCardTitle,
+                        l10n.titleContactCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -65,7 +65,7 @@ class ContactActionCard extends StatelessWidget {
                       ),
                       Text(
                         contact.name.isEmpty
-                            ? l10n.contactCardTitle
+                            ? l10n.titleContactCard
                             : contact.name,
                         style: const TextStyle(
                           fontSize: 18,
@@ -192,7 +192,7 @@ class ContactActionCard extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.person_add_alt_1),
-                label: Text(l10n.contactSaveButton),
+                label: Text(l10n.actionContactSave),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[700],
                   foregroundColor: Colors.white,
@@ -207,7 +207,7 @@ class ContactActionCard extends StatelessWidget {
                   );
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.contactLaunchFailed)),
+                      SnackBar(content: Text(l10n.errorContactLaunchFailed)),
                     );
                   }
                 },
@@ -232,7 +232,7 @@ class ContactActionCard extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              AppLocalizations.of(context).contactCallFailed(number),
+              AppLocalizations.of(context).errorContactCallFailed(number),
             ),
           ),
         );
@@ -253,7 +253,7 @@ class ContactActionCard extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              AppLocalizations.of(context).contactEmailFailed(email),
+              AppLocalizations.of(context).errorContactEmailFailed(email),
             ),
           ),
         );

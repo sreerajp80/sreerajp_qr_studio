@@ -325,6 +325,13 @@ void main() {
         equals('upi://pay?pa=x@y&tam=1&am=5.00'),
       );
     });
+
+    test('withUpiAmount keeps the link unchanged for a bad amount', () {
+      const raw = 'upi://pay?pa=shop@bank&am=10&cu=INR';
+      for (final amount in ['', 'abc', '1,5', 'NaN', 'Infinity']) {
+        expect(PayloadActionService.withUpiAmount(raw, amount), equals(raw));
+      }
+    });
   });
 
   group('PayloadActionService payViaApp amount', () {

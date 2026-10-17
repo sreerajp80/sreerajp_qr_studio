@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
+
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';

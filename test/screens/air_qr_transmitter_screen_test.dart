@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +7,7 @@ import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/screens/air_qr_transmitter_screen.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 class _EmptyHistoryDatabaseService extends Fake
@@ -60,13 +61,14 @@ void main() {
         final l10n = l10nFor(locale);
         await pumpScreen(tester, locale: locale);
 
-        expect(find.text(l10n.airQrTransmitterTitle), findsOneWidget);
-        expect(find.text(l10n.airQrSamplePayload), findsOneWidget);
+        expect(find.text(l10n.titleAirQrTransmitter), findsOneWidget);
+        expect(find.text(l10n.bodyAirQrSamplePayload), findsOneWidget);
         final start = tester.widget<ElevatedButton>(
-          find.widgetWithText(ElevatedButton, l10n.airQrStartStream),
+          find.widgetWithText(ElevatedButton, l10n.actionAirQrStartStream),
         );
         expect(start.onPressed, isNotNull);
         expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
       },
     );
   }
@@ -76,13 +78,13 @@ void main() {
     await pumpScreen(tester);
 
     await tester.enterText(
-      find.widgetWithText(TextField, l10n.airQrPayloadLabel),
+      find.widgetWithText(TextField, l10n.labelAirQrPayload),
       '',
     );
     await tester.pumpAndSettle();
 
     final start = tester.widget<ElevatedButton>(
-      find.widgetWithText(ElevatedButton, l10n.airQrStartStream),
+      find.widgetWithText(ElevatedButton, l10n.actionAirQrStartStream),
     );
     expect(start.onPressed, isNull);
   });
@@ -95,22 +97,22 @@ void main() {
 
     // Long text so the stream has several frames.
     await tester.enterText(
-      find.widgetWithText(TextField, l10n.airQrPayloadLabel),
+      find.widgetWithText(TextField, l10n.labelAirQrPayload),
       'AirQR test payload. ' * 120,
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text(l10n.airQrStartStream));
+    await tester.tap(find.text(l10n.actionAirQrStartStream));
     await tester.pump();
-    expect(find.text(l10n.airQrStopStream), findsOneWidget);
+    expect(find.text(l10n.actionAirQrStopStream), findsOneWidget);
 
     final before = visibleTexts(tester);
     await tester.pump(const Duration(milliseconds: 500));
     expect(visibleTexts(tester), isNot(equals(before)));
 
-    await tester.tap(find.text(l10n.airQrStopStream));
+    await tester.tap(find.text(l10n.actionAirQrStopStream));
     await tester.pump();
-    expect(find.text(l10n.airQrStartStream), findsOneWidget);
+    expect(find.text(l10n.actionAirQrStartStream), findsOneWidget);
   });
 
   testWidgets('speed slider is limited to 5–25 FPS', (tester) async {

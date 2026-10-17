@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +18,7 @@ import 'package:sreerajp_qr_studio/models/decode_profile.dart';
 import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/scan_camera_view.dart';
+import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
 class AirQrScreen extends StatefulWidget {
   const AirQrScreen({super.key});
@@ -101,8 +102,8 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   Widget _buildPermissionMessage(AppLocalizations l10n) {
     return _buildCameraMessage(
       icon: Icons.camera_alt,
-      message: l10n.scanCameraPermissionRequired,
-      buttonLabel: l10n.grantPermission,
+      message: l10n.bodyScanCameraPermissionRequired,
+      buttonLabel: l10n.actionGrantPermission,
       onPressed: _requestCameraAndStart,
     );
   }
@@ -195,193 +196,195 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
     final airQrProvider = Provider.of<AirQrProvider>(context);
     final progress = airQrProvider.progress;
 
-    return PopScope(
-      onPopInvokedWithResult: (didPop, result) async {
-        try {
-          if (controller != null) {
-            await controller!.stop();
-            controller!.dispose();
-            controller = null;
-          }
-        } catch (_) {}
-      },
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            tooltip: l10n.tooltipBack,
-            onPressed: _handleBack,
+    return SecureScreen(
+      child: PopScope(
+        onPopInvokedWithResult: (didPop, result) async {
+          try {
+            if (controller != null) {
+              await controller!.stop();
+              controller!.dispose();
+              controller = null;
+            }
+          } catch (_) {}
+        },
+        child: Scaffold(
+          backgroundColor: Colors.black,
+          appBar: AppBar(
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              tooltip: l10n.tooltipBack,
+              onPressed: _handleBack,
+            ),
+            title: Text(l10n.titleAirQrReceiver),
+            elevation: 0,
+            backgroundColor: Colors.black87,
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.qr_code_2),
+                onPressed: () async {
+                  try {
+                    if (controller != null &&
+                        controller!.value.isInitialized &&
+                        controller!.value.isRunning) {
+                      await controller!.stop();
+                    }
+                  } catch (_) {}
+                  if (context.mounted) {
+                    await Navigator.pushNamed(context, '/air_qr_transmitter');
+                    if (mounted &&
+                        controller != null &&
+                        controller!.value.isInitialized) {
+                      try {
+                        if (!controller!.value.isRunning) {
+                          await controller!.start();
+                        }
+                      } catch (_) {}
+                    }
+                  }
+                },
+                tooltip: l10n.tooltipAirQrTransmitter,
+              ),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () {
+                  setState(() {
+                    _hasSavedRecord = false;
+                  });
+                  airQrProvider.resetStream();
+                },
+                tooltip: l10n.tooltipAirQrResetStream,
+              ),
+            ],
           ),
-          title: Text(l10n.airQrReceiverTitle),
-          elevation: 0,
-          backgroundColor: Colors.black87,
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.qr_code_2),
-              onPressed: () async {
-                try {
-                  if (controller != null &&
-                      controller!.value.isInitialized &&
-                      controller!.value.isRunning) {
-                    await controller!.stop();
-                  }
-                } catch (_) {}
-                if (context.mounted) {
-                  await Navigator.pushNamed(context, '/air_qr_transmitter');
-                  if (mounted &&
-                      controller != null &&
-                      controller!.value.isInitialized) {
-                    try {
-                      if (!controller!.value.isRunning) {
-                        await controller!.start();
-                      }
-                    } catch (_) {}
-                  }
-                }
-              },
-              tooltip: l10n.airQrTransmitterTooltip,
-            ),
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () {
-                setState(() {
-                  _hasSavedRecord = false;
-                });
-                airQrProvider.resetStream();
-              },
-              tooltip: l10n.airQrResetStream,
-            ),
-          ],
-        ),
-        body: Stack(
-          children: [
-            if (_permissionDenied)
-              _buildPermissionMessage(l10n)
-            else if (controller != null)
-              ScanCameraView(
-                controller: controller!,
-                onDetect: _onDetect,
-                placeholderBuilder: (context) => Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
+          body: Stack(
+            children: [
+              if (_permissionDenied)
+                _buildPermissionMessage(l10n)
+              else if (controller != null)
+                ScanCameraView(
+                  controller: controller!,
+                  onDetect: _onDetect,
+                  placeholderBuilder: (context) => Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.sensors_outlined,
+                          size: 48,
+                          color: Colors.cyanAccent,
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          l10n.bodyAirQrInitializing,
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                      ],
+                    ),
+                  ),
+                  errorBuilder: (context, error) {
+                    switch (error) {
+                      case ScanCameraError.permissionDenied:
+                        return _buildPermissionMessage(l10n);
+                      case ScanCameraError.noCamera:
+                      case ScanCameraError.failed:
+                        return _buildCameraMessage(
+                          icon: Icons.no_photography_outlined,
+                          message: error == ScanCameraError.noCamera
+                              ? l10n.errorCameraNotFound
+                              : l10n.errorCameraStartFailed,
+                          buttonLabel: l10n.actionCameraRetry,
+                          onPressed: () => controller?.start(),
+                        );
+                    }
+                  },
+                ),
+              // HUD Controls Bar (Top)
+              Positioned(
+                top: 16,
+                left: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.75),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.cyanAccent.withValues(alpha: 0.4),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Icon(
-                        Icons.sensors_outlined,
-                        size: 48,
-                        color: Colors.cyanAccent,
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.sensors,
+                            color: Colors.cyanAccent,
+                            size: 20,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            '${progress.fps.toStringAsFixed(1)} FPS',
+                            style: const TextStyle(
+                              color: Colors.cyanAccent,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        l10n.airQrInitializing,
-                        style: const TextStyle(color: Colors.white70),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: Icon(
+                              _isTorchOn ? Icons.flash_on : Icons.flash_off,
+                              color: _isTorchOn ? Colors.amber : Colors.white,
+                            ),
+                            tooltip: l10n.tooltipToggleFlash,
+                            onPressed: () async {
+                              await controller?.toggleTorch();
+                              setState(() => _isTorchOn = !_isTorchOn);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(
+                              Icons.cameraswitch,
+                              color: _isFrontCamera
+                                  ? Colors.cyanAccent
+                                  : Colors.white,
+                            ),
+                            tooltip: l10n.tooltipSwitchCamera,
+                            onPressed: () async {
+                              await controller?.switchCamera();
+                              setState(() => _isFrontCamera = !_isFrontCamera);
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
                 ),
-                errorBuilder: (context, error) {
-                  switch (error) {
-                    case ScanCameraError.permissionDenied:
-                      return _buildPermissionMessage(l10n);
-                    case ScanCameraError.noCamera:
-                    case ScanCameraError.failed:
-                      return _buildCameraMessage(
-                        icon: Icons.no_photography_outlined,
-                        message: error == ScanCameraError.noCamera
-                            ? l10n.cameraNotFound
-                            : l10n.cameraStartFailed,
-                        buttonLabel: l10n.cameraRetryButton,
-                        onPressed: () => controller?.start(),
-                      );
-                  }
-                },
               ),
-            // HUD Controls Bar (Top)
-            Positioned(
-              top: 16,
-              left: 16,
-              right: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.black.withValues(alpha: 0.75),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: Colors.cyanAccent.withValues(alpha: 0.4),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.sensors,
-                          color: Colors.cyanAccent,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${progress.fps.toStringAsFixed(1)} FPS',
-                          style: const TextStyle(
-                            color: Colors.cyanAccent,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            _isTorchOn ? Icons.flash_on : Icons.flash_off,
-                            color: _isTorchOn ? Colors.amber : Colors.white,
-                          ),
-                          tooltip: l10n.tooltipToggleFlash,
-                          onPressed: () async {
-                            await controller?.toggleTorch();
-                            setState(() => _isTorchOn = !_isTorchOn);
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.cameraswitch,
-                            color: _isFrontCamera
-                                ? Colors.cyanAccent
-                                : Colors.white,
-                          ),
-                          tooltip: l10n.tooltipSwitchCamera,
-                          onPressed: () async {
-                            await controller?.switchCamera();
-                            setState(() => _isFrontCamera = !_isFrontCamera);
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              // HUD Matrix & Progress Panel (Bottom)
+              Positioned(
+                bottom: 24,
+                left: 16,
+                right: 16,
+                child: _buildHudPanel(l10n, progress),
               ),
-            ),
-            // HUD Matrix & Progress Panel (Bottom)
-            Positioned(
-              bottom: 24,
-              left: 16,
-              right: 16,
-              child: _buildHudPanel(l10n, progress),
-            ),
-            // Complete Payload Result Dialog Overlay
-            if (progress.status == AirQrStatus.completed &&
-                progress.reassembledContent != null)
-              _buildCompletedOverlay(
-                context,
-                l10n,
-                progress.reassembledContent!,
-              ),
-          ],
+              // Complete Payload Result Dialog Overlay
+              if (progress.status == AirQrStatus.completed &&
+                  progress.reassembledContent != null)
+                _buildCompletedOverlay(
+                  context,
+                  l10n,
+                  progress.reassembledContent!,
+                ),
+            ],
+          ),
         ),
       ),
     );
@@ -404,10 +407,10 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
             children: [
               Text(
                 progress.status == AirQrStatus.completed
-                    ? l10n.airQrStatusReassembled
+                    ? l10n.bodyAirQrStatusReassembled
                     : progress.status == AirQrStatus.receiving
-                    ? l10n.airQrStatusCapturing
-                    : l10n.airQrStatusIdle,
+                    ? l10n.bodyAirQrStatusCapturing
+                    : l10n.bodyAirQrStatusIdle,
                 style: TextStyle(
                   color: progress.status == AirQrStatus.completed
                       ? Colors.greenAccent
@@ -444,14 +447,14 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                l10n.airQrCaptured(
+                l10n.bodyAirQrCaptured(
                   progress.receivedBlockCount,
                   progress.totalBlocks,
                 ),
                 style: const TextStyle(color: Colors.white, fontSize: 13),
               ),
               Text(
-                l10n.airQrMissing(progress.missingBlockCount),
+                l10n.bodyAirQrMissing(progress.missingBlockCount),
                 style: const TextStyle(color: Colors.amberAccent, fontSize: 13),
               ),
             ],
@@ -528,7 +531,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  l10n.airQrSyncPackageDetected,
+                  l10n.titleAirQrSyncPackage,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     fontSize: 20,
@@ -537,7 +540,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  l10n.airQrSyncPackageSummary(recordsCount),
+                  l10n.bodyAirQrSyncPackageSummary(recordsCount),
                   textAlign: TextAlign.center,
                   style: const TextStyle(color: Colors.grey, fontSize: 13),
                 ),
@@ -545,7 +548,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                 CheckboxListTile(
                   value: _syncRestoreHistory,
                   contentPadding: EdgeInsets.zero,
-                  title: Text(l10n.airQrSyncRestoreHistory),
+                  title: Text(l10n.labelAirQrSyncRestoreHistory),
                   onChanged: (val) {
                     setState(() => _syncRestoreHistory = val ?? true);
                   },
@@ -553,7 +556,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                 CheckboxListTile(
                   value: _syncApplySettings,
                   contentPadding: EdgeInsets.zero,
-                  title: Text(l10n.airQrSyncApplySettings),
+                  title: Text(l10n.labelAirQrSyncApplySettings),
                   onChanged: (val) {
                     setState(() => _syncApplySettings = val ?? true);
                   },
@@ -563,8 +566,8 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                   controller: _syncPassphraseController,
                   obscureText: true,
                   decoration: InputDecoration(
-                    labelText: l10n.airQrSyncEnterPassphrase,
-                    hintText: l10n.airQrSyncPassphraseHint,
+                    labelText: l10n.labelAirQrSyncEnterPassphrase,
+                    hintText: l10n.helpAirQrSyncPassphrase,
                     border: const OutlineInputBorder(),
                   ),
                 ),
@@ -592,7 +595,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                           listen: false,
                         ).resetStream();
                       },
-                      child: Text(l10n.cancelButton),
+                      child: Text(l10n.actionCancel),
                     ),
                     ElevatedButton.icon(
                       onPressed: _isSyncing
@@ -605,7 +608,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.check),
-                      label: Text(l10n.airQrSyncDecryptButton),
+                      label: Text(l10n.actionAirQrSyncDecrypt),
                     ),
                   ],
                 ),
@@ -624,7 +627,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
   ) async {
     final passphrase = _syncPassphraseController.text.trim();
     if (passphrase.isEmpty) {
-      setState(() => _syncError = l10n.exportPassphraseRequired);
+      setState(() => _syncError = l10n.errorExportPassphraseRequired);
       return;
     }
 
@@ -634,13 +637,13 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
     });
 
     try {
-      final syncData = _deviceSyncService.decryptSyncPackage(
-        content,
-        passphrase,
-      );
       final historyProvider = Provider.of<HistoryProvider>(
         context,
         listen: false,
+      );
+      final syncData = await _deviceSyncService.decryptSyncPackage(
+        content,
+        passphrase,
       );
       int restoredCount = 0;
 
@@ -716,7 +719,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.airQrSyncSuccess(restoredCount)),
+            content: Text(l10n.bodyAirQrSyncSuccess(restoredCount)),
             backgroundColor: Colors.green,
           ),
         );
@@ -765,7 +768,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
               ),
               const SizedBox(height: 12),
               Text(
-                l10n.airQrTransferComplete,
+                l10n.titleAirQrTransferComplete,
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -773,7 +776,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
               ),
               const SizedBox(height: 8),
               Text(
-                l10n.airQrTransferCompleteDetail,
+                l10n.bodyAirQrTransferComplete,
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: Colors.grey, fontSize: 13),
               ),
@@ -805,18 +808,18 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: content));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.airQrPayloadCopied)),
+                        SnackBar(content: Text(l10n.bodyAirQrPayloadCopied)),
                       );
                     },
                     icon: const Icon(Icons.copy, size: 18),
-                    label: Text(l10n.arCopyButton),
+                    label: Text(l10n.actionArCopy),
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(context);
                     },
                     icon: const Icon(Icons.check),
-                    label: Text(l10n.doneButton),
+                    label: Text(l10n.actionDone),
                   ),
                 ],
               ),

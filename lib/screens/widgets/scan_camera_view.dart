@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
 

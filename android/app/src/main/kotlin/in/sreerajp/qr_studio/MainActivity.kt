@@ -25,6 +25,7 @@ import android.content.pm.ShortcutManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.WindowManager
 
 class MainActivity: FlutterFragmentActivity() {
     private val lightChannel = "in.sreerajp.qr_studio/ambient_light"
@@ -32,6 +33,7 @@ class MainActivity: FlutterFragmentActivity() {
     private val clipboardChannel = "in.sreerajp.qr_studio/clipboard"
     private val ghostScanChannel = "in.sreerajp.qr_studio/ghost_scan"
     private val scanBubbleChannel = "in.sreerajp.qr_studio/scan_bubble"
+    private val windowChannel = "in.sreerajp.qr_studio/window"
     private var pendingGhostScanCapture: Map<String, Any>? = null
     private var ghostScanMethodChannel: MethodChannel? = null
 
@@ -64,6 +66,25 @@ class MainActivity: FlutterFragmentActivity() {
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        // Screenshot / screen-recording protection for sensitive screens
+        // (FLAG_SECURE). Dart turns it on while such a screen is open.
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, windowChannel).setMethodCallHandler { call, result ->
+            when (call.method) {
+                "setSecure" -> {
+                    val secure = call.argument<Boolean>("secure") ?: false
+                    runOnUiThread {
+                        if (secure) {
+                            window.addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                        } else {
+                            window.clearFlags(WindowManager.LayoutParams.FLAG_SECURE)
+                        }
+                        result.success(true)
+                    }
+                }
+                else -> result.notImplemented()
+            }
+        }
+
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
 
@@ -198,6 +219,11 @@ class MainActivity: FlutterFragmentActivity() {
                         result.success(true)
                     }
                     "isBubbleRunning" -> result.success(ScanBubbleService.isRunning)
+                    "clearData" -> {
+                        ScanBubbleService.stop(this)
+                        ScanBubblePrefs.clear(this)
+                        result.success(true)
+                    }
                     "isStartOnBoot" -> result.success(ScanBubblePrefs.isStartOnBoot(this))
                     "setStartOnBoot" -> {
                         ScanBubblePrefs.setStartOnBoot(this, call.argument<Boolean>("value") ?: false)

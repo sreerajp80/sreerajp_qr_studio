@@ -10,564 +10,565 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'SreerajP QR Studio';
+  String get titleApp => 'SreerajP QR Studio';
 
   @override
-  String get wifiCardTitle => 'Wi-Fi Network';
+  String get titleWifiCard => 'Wi-Fi Network';
 
   @override
-  String get wifiShowPassword => 'Show Password';
+  String get tooltipWifiShowPassword => 'Show Password';
 
   @override
-  String get wifiHidePassword => 'Hide Password';
+  String get tooltipWifiHidePassword => 'Hide Password';
 
   @override
-  String get wifiCopyPassword => 'Copy Password';
+  String get tooltipWifiCopyPassword => 'Copy Password';
 
   @override
-  String get wifiConnectButton => 'Connect to Wi-Fi';
+  String get actionWifiConnect => 'Connect to Wi-Fi';
 
   @override
-  String get wifiPasswordCopied => 'Password copied to clipboard';
+  String get bodyWifiPasswordCopied => 'Password copied to clipboard';
 
   @override
-  String get wifiOpenSettingsHint =>
+  String get bodyWifiOpenSettings =>
       'Password copied. Open Wi-Fi Settings on your device to connect.';
 
   @override
-  String wifiConnectSuccess(String ssid) {
+  String bodyWifiConnectSuccess(String ssid) {
     return 'Connection requested for $ssid';
   }
 
   @override
-  String geoLatLng(String latitude, String longitude) {
+  String bodyGeoLatLng(String latitude, String longitude) {
     return 'Lat: $latitude, Lng: $longitude';
   }
 
   @override
-  String geoQuery(String query) {
+  String bodyGeoQuery(String query) {
     return 'Query: $query';
   }
 
   @override
-  String get geoNavigateButton => 'Navigate in Google Maps';
+  String get actionGeoNavigate => 'Open in Maps';
 
   @override
-  String get geoLaunchFailed => 'Could not launch Google Maps app';
+  String get errorGeoLaunchFailed => 'Could not launch Google Maps app';
 
   @override
-  String get calendarCardTitle => 'Calendar Event';
+  String get titleCalendarCard => 'Calendar Event';
 
   @override
-  String get calendarNoDate => 'N/A';
+  String get labelCalendarNoDate => 'N/A';
 
   @override
-  String calendarStart(String dateTime) {
+  String labelCalendarStart(String dateTime) {
     return 'Start: $dateTime';
   }
 
   @override
-  String calendarEnd(String dateTime) {
+  String labelCalendarEnd(String dateTime) {
     return 'End:   $dateTime';
   }
 
   @override
-  String get calendarAddButton => 'Add to Device Calendar';
+  String get actionCalendarAdd => 'Add to calendar';
 
   @override
-  String get calendarLaunchFailed => 'Could not open Calendar app';
+  String get errorCalendarLaunchFailed => 'Could not open Calendar app';
 
   @override
-  String get contactCardTitle => 'Contact Card';
+  String get titleContactCard => 'Contact Card';
 
   @override
-  String get contactInitialFallback => 'C';
+  String get labelContactInitialFallback => 'C';
 
   @override
-  String get contactSaveButton => 'Save to Contacts';
+  String get actionContactSave => 'Save to Contacts';
 
   @override
-  String get contactLaunchFailed => 'Could not open Contacts app';
+  String get errorContactLaunchFailed => 'Could not open Contacts app';
 
   @override
-  String contactCallFailed(String number) {
+  String errorContactCallFailed(String number) {
     return 'Could not place call to $number';
   }
 
   @override
-  String contactEmailFailed(String email) {
+  String errorContactEmailFailed(String email) {
     return 'Could not open email app for $email';
   }
 
   @override
-  String pdfResultsTitle(int count) {
-    return 'PDF Scan Results ($count)';
+  String titlePdfResults(int count) {
+    return 'PDF codes ($count)';
   }
 
   @override
-  String pdfPageBadge(int page) {
+  String labelPdfPageBadge(int page) {
     return 'P$page';
   }
 
   @override
-  String pdfPageLabel(int page) {
+  String labelPdfPage(int page) {
     return 'Page $page';
   }
 
   @override
-  String pdfSaveAllButton(int count) {
-    return 'Save All ($count) to History';
+  String actionPdfSaveAll(int count) {
+    return 'Save all ($count)';
   }
 
   @override
-  String pdfScanNote(int page) {
+  String bodyPdfScanNote(int page) {
     return 'Scanned from PDF (Page $page)';
   }
 
   @override
-  String pdfSavedToHistory(int count) {
+  String bodyPdfSavedToHistory(int count) {
     return 'Saved $count codes to history.';
   }
 
   @override
-  String get totpDefaultIssuer => '2FA Authenticator';
+  String get labelTotpDefaultIssuer => '2FA Authenticator';
 
   @override
-  String totpLivePasscode(int period) {
+  String bodyTotpLivePasscode(int period) {
     return 'Live Passcode (${period}s TOTP)';
   }
 
   @override
-  String totpSecondsLeft(int seconds) {
+  String labelTotpSecondsLeft(int seconds) {
     return '${seconds}s';
   }
 
   @override
-  String get totpCopyToken => 'Copy Token';
+  String get tooltipTotpCopyToken => 'Copy Token';
 
   @override
-  String get totpSecretLabel => 'Secret: ';
+  String get labelTotpSecret => 'Secret: ';
 
   @override
-  String get totpImportButton => 'Import into Authenticator App';
+  String get actionTotpImport => 'Add to authenticator';
 
   @override
-  String get totpLaunchFailed => 'Could not open Authenticator app';
+  String get errorTotpLaunchFailed => 'Could not open Authenticator app';
 
   @override
-  String get totpTokenCopied => 'TOTP token copied to clipboard';
+  String get bodyTotpTokenCopied => 'TOTP token copied to clipboard';
 
   @override
-  String get totpSecretCopied => 'Secret key copied to clipboard';
+  String get bodyTotpSecretCopied => 'Secret key copied to clipboard';
 
   @override
-  String get paymentSchemeUpi => 'UPI Payment';
+  String get labelPaymentSchemeUpi => 'UPI Payment';
 
   @override
-  String get paymentSchemeSepa => 'SEPA Transfer';
+  String get labelPaymentSchemeSepa => 'SEPA Transfer';
 
   @override
-  String get paymentSchemeCrypto => 'Crypto Payment';
+  String get labelPaymentSchemeCrypto => 'Crypto Payment';
 
   @override
-  String get paymentPayeeFallback => 'Merchant / Payee';
+  String get labelPaymentPayeeFallback => 'Merchant / Payee';
 
   @override
-  String get paymentAddressLabelUpi => 'VPA / UPI ID:';
+  String get labelPaymentAddressUpi => 'VPA / UPI ID:';
 
   @override
-  String get paymentAddressLabelSepa => 'IBAN:';
+  String get labelPaymentAddressSepa => 'IBAN:';
 
   @override
-  String get paymentAddressLabelCrypto => 'Wallet Address:';
+  String get labelPaymentAddressCrypto => 'Wallet Address:';
 
   @override
-  String get paymentCopyAction => 'Copy';
+  String get actionPaymentCopy => 'Copy';
 
   @override
-  String get paymentUpiIdCopied => 'UPI ID copied to clipboard';
+  String get bodyPaymentUpiIdCopied => 'UPI ID copied to clipboard';
 
   @override
-  String get paymentAddressCopied => 'Address copied to clipboard';
+  String get bodyPaymentAddressCopied => 'Address copied to clipboard';
 
   @override
-  String paymentNote(String note) {
+  String bodyPaymentNote(String note) {
     return 'Note: $note';
   }
 
   @override
-  String get paymentPayButtonUpi => 'Pay via App (GPay / PhonePe / Paytm)';
+  String get actionPaymentPayUpi => 'Pay with UPI app';
 
   @override
-  String get paymentPayButton => 'Pay via App';
+  String get actionPaymentPay => 'Pay via App';
 
   @override
-  String get paymentUpiLaunchFailed =>
+  String get errorPaymentUpiLaunchFailed =>
       'Could not open UPI app. Make sure GPay, PhonePe, or Paytm is installed.';
 
   @override
-  String get paymentLaunchFailed =>
+  String get errorPaymentLaunchFailed =>
       'Could not open payment app for this scheme.';
 
   @override
-  String get paymentCopyIdAction => 'Copy ID';
+  String get actionPaymentCopyId => 'Copy ID';
 
   @override
-  String get paymentAmountDialogTitle => 'Enter amount';
+  String get titlePaymentAmountDialog => 'Enter amount';
 
   @override
-  String paymentAmountDialogBody(String payee) {
+  String bodyPaymentAmountDialog(String payee) {
     return 'This QR has no amount. Enter the amount to pay to $payee.';
   }
 
   @override
-  String get paymentAmountFieldLabel => 'Amount';
+  String get labelPaymentAmountField => 'Amount';
 
   @override
-  String get paymentAmountInvalid => 'Enter ₹1 or more';
+  String get errorPaymentAmountInvalid => 'Enter ₹1 or more';
 
   @override
-  String get paymentAmountPayButton => 'Pay';
+  String get actionPaymentAmountPay => 'Pay';
 
   @override
-  String percentValue(String value) {
+  String labelPercentValue(String value) {
     return '$value%';
   }
 
   @override
-  String get quishingGuardTitle => 'QuishingGuard™';
+  String get titleQuishingGuard => 'QuishingGuard™';
 
   @override
-  String get quishingTamperBadge => 'Physical Tamper CV';
+  String get labelQuishingTamperBadge => 'Physical Tamper CV';
 
   @override
-  String get quishingRiskScoreLabel => 'Tamper Risk Score:';
+  String get labelQuishingRiskScore => 'Tamper Risk Score:';
 
   @override
-  String get quishingViewSignals => 'View Forensic Analysis';
+  String get actionQuishingViewSignals => 'Show signals';
 
   @override
-  String get quishingHideSignals => 'Hide Forensic Signals';
+  String get actionQuishingHideSignals => 'Hide signals';
 
   @override
-  String get quishingMetricEdgeLabel => 'Edge Discontinuity';
+  String get labelQuishingMetricEdge => 'Edge Discontinuity';
 
   @override
-  String get quishingMetricEdgeDescription => 'Double edges & shadow lines';
+  String get descQuishingMetricEdge => 'Double edges & shadow lines';
 
   @override
-  String get quishingMetricGrainLabel => 'Print Grain & DPI';
+  String get labelQuishingMetricGrain => 'Print Grain & DPI';
 
   @override
-  String get quishingMetricGrainDescription => 'Halftone dot & chromatic noise';
+  String get descQuishingMetricGrain => 'Halftone dot & chromatic noise';
 
   @override
-  String get quishingSignalsHeading => 'Detected Computer Vision Signals:';
+  String get titleQuishingSignals => 'Detected signals:';
 
   @override
-  String get arCloseSheet => 'Close Sheet';
+  String get tooltipArCloseSheet => 'Close Sheet';
 
   @override
-  String arItemPriceTag(String price) {
+  String bodyArItemPriceTag(String price) {
     return 'Item Price Tag: $price';
   }
 
   @override
-  String get arContentCopied => 'Copied content to clipboard';
+  String get bodyArContentCopied => 'Copied content to clipboard';
 
   @override
-  String get arCopyButton => 'Copy';
+  String get actionArCopy => 'Copy';
 
   @override
-  String get arOpenUrlButton => 'Open URL';
+  String get actionArOpenUrl => 'Open URL';
 
   @override
-  String get arSelectButton => 'Select Item';
+  String get actionArSelect => 'Select Item';
 
   @override
-  String get arDeselectButton => 'Deselect';
+  String get actionArDeselect => 'Deselect';
 
   @override
-  String get arSafetyStatusSafe => 'Safety Status: Verified Safe';
+  String get bodyArSafetyStatusSafe => 'Safety Status: Verified Safe';
 
   @override
-  String get arSafetyStatusWarning =>
+  String get bodyArSafetyStatusWarning =>
       'Safety Status: Warning / Phishing Suspicion';
 
   @override
-  String get arSafetyStatusUnknown => 'Safety Status: Analyzing link safety...';
+  String get bodyArSafetyStatusUnknown =>
+      'Safety Status: Analyzing link safety...';
 
   @override
-  String get copiedToClipboard => 'Copied to clipboard';
+  String get bodyCopiedToClipboard => 'Copied to clipboard';
 
   @override
-  String historyTimestamp(String date, String time) {
+  String bodyHistoryTimestamp(String date, String time) {
     return '$date • $time';
   }
 
   @override
-  String get historyStar => 'Star favorite';
+  String get tooltipHistoryStar => 'Star favorite';
 
   @override
-  String get historyUnstar => 'Unstar';
+  String get tooltipHistoryUnstar => 'Unstar';
 
   @override
-  String get historyEditNotes => 'Edit Notes';
+  String get actionHistoryEditNotes => 'Edit Notes';
 
   @override
-  String get historyCopyString => 'Copy String';
+  String get tooltipHistoryCopyString => 'Copy String';
 
   @override
-  String get historyShare => 'Share';
+  String get actionHistoryShare => 'Share';
 
   @override
-  String get historyDelete => 'Delete';
+  String get actionHistoryDelete => 'Delete';
 
   @override
-  String get historyDetailTitle => 'Scan Record Details';
+  String get titleHistoryDetail => 'Scan Record Details';
 
   @override
-  String historySafetyBadge(int score) {
+  String labelHistorySafetyBadge(int score) {
     return '🛡️ $score% Safe';
   }
 
   @override
-  String historyScoreBadge(int score) {
+  String labelHistoryScoreBadge(int score) {
     return '🛡️ $score%';
   }
 
   @override
-  String get historyScannedContent => 'Scanned Content:';
+  String get labelHistoryScannedContent => 'Scanned Content:';
 
   @override
-  String get historyCopyButton => 'Copy';
+  String get actionHistoryCopy => 'Copy';
 
   @override
-  String get historyNotesLabel => 'Custom User Notes';
+  String get labelHistoryNotes => 'Custom User Notes';
 
   @override
-  String get historyNotesHint =>
+  String get helpHistoryNotes =>
       'Add personal notes or remarks about this scan...';
 
   @override
-  String get historyLocationLabel => 'Location Tag (Optional)';
+  String get labelHistoryLocation => 'Location (optional)';
 
   @override
-  String get historyLocationHint =>
+  String get helpHistoryLocation =>
       'e.g. Office Desk, Grocery Store, Conference';
 
   @override
-  String get historySaveChanges => 'Save Metadata Changes';
+  String get actionHistorySaveChanges => 'Save changes';
 
   @override
-  String get closeButton => 'Close';
+  String get actionClose => 'Close';
 
   @override
-  String get exportDialogTitle => 'Export & Cloud Backup';
+  String get titleExportDialog => 'Export & backup';
 
   @override
-  String get restoreDialogTitle => 'Restore Encrypted Backup';
+  String get titleRestoreDialog => 'Restore backup';
 
   @override
-  String get exportRecordsTab => 'Export Records';
+  String get tabExportRecords => 'Export Records';
 
   @override
-  String get restoreBackupTab => 'Restore Backup';
+  String get tabRestoreBackup => 'Restore Backup';
 
   @override
-  String get exportFormatHeading => 'Select Export Format:';
+  String get titleExportFormat => 'Export format:';
 
   @override
-  String get exportCsvTitle => 'CSV Format (.csv)';
+  String get labelExportCsv => 'CSV Format (.csv)';
 
   @override
-  String get exportCsvSubtitle => 'Compatible with Excel and Sheets';
+  String get descExportCsv => 'Compatible with Excel and Sheets';
 
   @override
-  String get exportJsonTitle => 'JSON Dataset (.json)';
+  String get labelExportJson => 'JSON Dataset (.json)';
 
   @override
-  String get exportJsonSubtitle => 'Structured developer format';
+  String get descExportJson => 'Structured developer format';
 
   @override
-  String get exportTxtTitle => 'Formatted TXT Report (.txt)';
+  String get labelExportTxt => 'Text report (.txt)';
 
   @override
-  String get exportTxtSubtitle => 'Human readable summary document';
+  String get descExportTxt => 'Human readable summary document';
 
   @override
-  String get exportPdfTitle => 'PDF Document Report (.pdf)';
+  String get labelExportPdf => 'PDF report (.pdf)';
 
   @override
-  String get exportPdfSubtitle => 'Formatted printable report table';
+  String get descExportPdf => 'Formatted printable report table';
 
   @override
-  String get exportBackupHeading => 'Encrypted Local Backup File (.sreerajqr)';
+  String get titleExportBackup => 'Encrypted backup';
 
   @override
-  String get exportPassphraseLabel => 'Backup Encryption Passphrase';
+  String get labelExportPassphrase => 'Backup passphrase';
 
   @override
-  String get exportPassphraseHint => 'Enter secret passphrase...';
+  String get helpExportPassphrase => 'Enter secret passphrase...';
 
   @override
-  String get exportPassphraseRequired =>
+  String get errorExportPassphraseRequired =>
       'Please enter a password to encrypt your backup file.';
 
   @override
-  String get exportCreateBackupButton => 'Create Encrypted Backup File';
+  String get actionExportCreateBackup => 'Create backup';
 
   @override
-  String get exportShareText => 'SreerajP QR Studio Scan History Export';
+  String get bodyExportShare => 'SreerajP QR Studio Scan History Export';
 
   @override
-  String get exportSharePdfText =>
+  String get bodyExportSharePdf =>
       'SreerajP QR Studio Scan History Report (PDF)';
 
   @override
-  String get exportShareBackupText =>
+  String get bodyExportShareBackup =>
       'SreerajP QR Studio Encrypted Backup File';
 
   @override
-  String get restoreHeading => 'Restore History from Encrypted Backup File:';
+  String get titleRestore => 'Restore from backup:';
 
   @override
-  String get restorePassphraseLabel => 'Backup Decryption Passphrase';
+  String get labelRestorePassphrase => 'Backup passphrase';
 
   @override
-  String get restorePayloadLabel => 'Encrypted Backup Payload (.sreerajqr)';
+  String get labelRestorePayload => 'Backup data';
 
   @override
-  String get restorePayloadHint => 'Paste backup JSON payload string here...';
+  String get helpRestorePayload => 'Paste backup JSON payload string here...';
 
   @override
-  String get restoreFieldsRequired =>
+  String get errorRestoreFieldsRequired =>
       'Please provide both the password and backup content.';
 
   @override
-  String get restoreButton => 'Decrypt & Restore History';
+  String get actionRestore => 'Restore history';
 
   @override
-  String restoreSuccess(int count) {
+  String bodyRestoreSuccess(int count) {
     return 'Successfully restored $count scan records!';
   }
 
   @override
-  String restoreFailed(String reason) {
+  String errorRestoreFailed(String reason) {
     return 'Restore failed: $reason';
   }
 
   @override
-  String get domSandboxedBadge => 'SANDBOXED';
+  String get labelDomSandboxedBadge => 'SANDBOXED';
 
   @override
-  String get domTitleInitialFallback => 'W';
+  String get labelDomTitleInitialFallback => 'W';
 
   @override
-  String get domUntitledPage => 'Untitled Web Page';
+  String get labelDomUntitledPage => 'Untitled Web Page';
 
   @override
-  String get domThumbnailCaption =>
+  String get bodyDomThumbnailCaption =>
       'Visual Thumbnail Pre-Render (Script Execution Blocked)';
 
   @override
-  String domBlockedBadge(int scripts, int trackers) {
+  String bodyDomBlockedBadge(int scripts, int trackers) {
     return 'Blocked: $scripts Scripts, $trackers Trackers';
   }
 
   @override
-  String domNewlyRegistered(int days) {
+  String bodyDomNewlyRegistered(int days) {
     return 'Newly Registered (${days}d)';
   }
 
   @override
-  String domDomainAge(int days) {
+  String bodyDomDomainAge(int days) {
     return 'Domain Age: $days days';
   }
 
   @override
-  String get domOpenRedirectFound => 'Open Redirect Trap!';
+  String get bodyDomOpenRedirectFound => 'Open Redirect Trap!';
 
   @override
-  String get domNoOpenRedirect => 'No Open Redirects';
+  String get bodyDomNoOpenRedirect => 'No Open Redirects';
 
   @override
-  String get domInspectButton => 'Inspect DOM Sandbox Structure';
+  String get actionDomInspect => 'Inspect page';
 
   @override
-  String get domInspectTitle => 'Zero-Trust DOM Sandbox Hierarchy';
+  String get titleDomInspect => 'Page structure';
 
   @override
-  String get domDetailPageTitle => 'Page Title';
+  String get labelDomDetailPageTitle => 'Page Title';
 
   @override
-  String get domDetailNotSpecified => 'Not specified';
+  String get labelDomDetailNotSpecified => 'Not specified';
 
   @override
-  String get domDetailMetaDescription => 'Meta Description';
+  String get labelDomDetailMetaDescription => 'Meta Description';
 
   @override
-  String get domDetailNoneFound => 'None found';
+  String get labelDomDetailNoneFound => 'None found';
 
   @override
-  String get domDetailHeadingsCount => 'Headings Count';
+  String get labelDomDetailHeadingsCount => 'Headings Count';
 
   @override
-  String domDetailHeadingsValue(int count) {
+  String bodyDomDetailHeadingsValue(int count) {
     return '$count headings extracted';
   }
 
   @override
-  String get domDetailLinksFound => 'Links Found';
+  String get labelDomDetailLinksFound => 'Links Found';
 
   @override
-  String domDetailLinksValue(int count) {
+  String bodyDomDetailLinksValue(int count) {
     return '$count URLs extracted';
   }
 
   @override
-  String get domDetailBlockedScripts => 'Blocked Scripts';
+  String get labelDomDetailBlockedScripts => 'Blocked Scripts';
 
   @override
-  String domDetailBlockedScriptsValue(int count) {
+  String bodyDomDetailBlockedScriptsValue(int count) {
     return '$count executable script tags/events stripped';
   }
 
   @override
-  String get domDetailBlockedTrackers => 'Blocked Trackers';
+  String get labelDomDetailBlockedTrackers => 'Blocked Trackers';
 
   @override
-  String domDetailBlockedTrackersValue(int count) {
+  String bodyDomDetailBlockedTrackersValue(int count) {
     return '$count tracking pixels stripped';
   }
 
   @override
-  String get domDetailBlockedIframes => 'Blocked Iframes';
+  String get labelDomDetailBlockedIframes => 'Blocked Iframes';
 
   @override
-  String domDetailBlockedIframesValue(int count) {
+  String bodyDomDetailBlockedIframesValue(int count) {
     return '$count iframe/embed elements removed';
   }
 
   @override
-  String get domSanitizedSnippetHeading => 'Sanitized HTML Preview Snippet:';
+  String get titleDomSanitizedSnippet => 'Clean HTML preview:';
 
   @override
-  String get aboutTitle => 'About';
+  String get titleAbout => 'About';
 
   @override
-  String aboutVersion(String version, String build) {
+  String bodyAboutVersion(String version, String build) {
     return 'Version $version+$build';
   }
 
   @override
-  String get aboutBuildDate => 'Build Date';
+  String get labelAboutBuildDate => 'Build Date';
 
   @override
-  String get aboutOpenSourceLicenses => 'Open-source licences';
+  String get labelAboutOpenSourceLicenses => 'Open-source licences';
 
   @override
-  String get aboutOpenSourceLicensesDetail =>
+  String get descAboutOpenSourceLicenses =>
       'Includes zxing-cpp (Apache-2.0) as the barcode decoder. Tap to view all licences.';
 
   @override
@@ -594,335 +595,329 @@ class AppLocalizationsEn extends AppLocalizations {
   String get madeWithLoveA11y => 'Made with love from India';
 
   @override
-  String get aboutMadeWithLove => 'Made with ❤️ from India';
+  String get titleAirQrTransmitter => 'AirQR transmitter';
 
   @override
-  String get airQrTransmitterTitle => 'AirQR Stream Transmitter';
-
-  @override
-  String get airQrSamplePayload =>
+  String get bodyAirQrSamplePayload =>
       'AirQR High-Speed Optical Air-Gap Transfer Test Payload. This payload is split into small chunks with Fountain FEC error correction.';
 
   @override
-  String get airQrPayloadLabel => 'Payload Data to Broadcast';
+  String get labelAirQrPayload => 'Data to send';
 
   @override
-  String get airQrPayloadHint => 'Enter text, contact, or file payload...';
+  String get helpAirQrPayload => 'Enter text, contact, or file payload...';
 
   @override
-  String get airQrStreamSpeed => 'Stream Speed:';
+  String get labelAirQrStreamSpeed => 'Stream Speed:';
 
   @override
-  String airQrFps(int fps) {
+  String labelAirQrFps(int fps) {
     return '$fps FPS';
   }
 
   @override
-  String get airQrStartStream => 'Broadcast Optical Stream';
+  String get actionAirQrStartStream => 'Start stream';
 
   @override
-  String get airQrStopStream => 'Stop Optical Stream';
+  String get actionAirQrStopStream => 'Stop stream';
 
   @override
-  String airQrFrameParity(int current, int total) {
+  String bodyAirQrFrameParity(int current, int total) {
     return 'Frame $current/$total [Fountain PARITY]';
   }
 
   @override
-  String airQrFrameBlock(int current, int total, int block) {
+  String bodyAirQrFrameBlock(int current, int total, int block) {
     return 'Frame $current/$total [Block $block]';
   }
 
   @override
-  String airQrTotalFrames(int total, int source, int parity) {
+  String bodyAirQrTotalFrames(int total, int source, int parity) {
     return 'Total Stream Frames: $total ($source Source + $parity Fountain FEC)';
   }
 
   @override
-  String get toggleFlashlight => 'Toggle Flashlight';
+  String get tooltipToggleFlashlight => 'Toggle Flashlight';
 
   @override
-  String get grantCameraPermission => 'Grant Camera Permission';
+  String get actionGrantCameraPermission => 'Allow camera';
 
   @override
-  String get arScreenTitle => 'AR CodeVision HUD';
+  String get titleArScreen => 'AR CodeVision HUD';
 
   @override
-  String get arInitializing => 'Initializing AR HUD Viewport...';
+  String get bodyArInitializing => 'Initializing AR HUD Viewport...';
 
   @override
-  String get arClearSelection => 'Clear';
+  String get actionArClearSelection => 'Clear';
 
   @override
-  String get arBatchCopy => 'Batch Copy';
+  String get actionArBatchCopy => 'Batch Copy';
 
   @override
-  String arBatchCopied(int count) {
+  String bodyArBatchCopied(int count) {
     return 'Copied $count barcodes to clipboard';
   }
 
   @override
-  String get arCameraPermissionMessage =>
+  String get bodyArCameraPermission =>
       'Camera permission is required for AR CodeVision';
 
   @override
-  String get doneButton => 'Done';
+  String get actionDone => 'Done';
 
   @override
-  String get airQrReceiverTitle => 'AirQR Stream Receiver';
+  String get titleAirQrReceiver => 'AirQR receiver';
 
   @override
-  String get airQrTransmitterTooltip => 'AirQR Transmitter';
+  String get tooltipAirQrTransmitter => 'AirQR Transmitter';
 
   @override
-  String get airQrResetStream => 'Reset Stream';
+  String get tooltipAirQrResetStream => 'Reset Stream';
 
   @override
-  String get airQrInitializing => 'Initializing AirQR Stream Receiver...';
+  String get bodyAirQrInitializing => 'Initializing AirQR Stream Receiver...';
 
   @override
-  String get airQrStatusReassembled => 'STREAM REASSEMBLED';
+  String get bodyAirQrStatusReassembled => 'STREAM REASSEMBLED';
 
   @override
-  String get airQrStatusCapturing => 'CAPTURING OPTICAL STREAM...';
+  String get bodyAirQrStatusCapturing => 'CAPTURING OPTICAL STREAM...';
 
   @override
-  String get airQrStatusIdle => 'POINT AT ANIMATED QR STREAM';
+  String get bodyAirQrStatusIdle => 'POINT AT ANIMATED QR STREAM';
 
   @override
-  String airQrCaptured(int received, int total) {
+  String bodyAirQrCaptured(int received, int total) {
     return 'Captured: $received / $total Blocks';
   }
 
   @override
-  String airQrMissing(int count) {
+  String bodyAirQrMissing(int count) {
     return 'Missing: $count';
   }
 
   @override
-  String get airQrTransferComplete => 'Air-Gap Transfer Complete!';
+  String get titleAirQrTransferComplete => 'Transfer complete!';
 
   @override
-  String get airQrTransferCompleteDetail =>
+  String get bodyAirQrTransferComplete =>
       'Payload reassembled and verified offline via Fountain error correction.';
 
   @override
-  String get airQrPayloadCopied => 'Copied payload to clipboard';
+  String get bodyAirQrPayloadCopied => 'Copied payload to clipboard';
 
   @override
-  String get cancelButton => 'Cancel';
+  String get actionCancel => 'Cancel';
 
   @override
-  String get historyScreenTitle => 'Scan History';
+  String get titleHistoryScreen => 'Scan History';
 
   @override
-  String get historyExportTooltip => 'Export / Backup';
+  String get tooltipHistoryExport => 'Export / Backup';
 
   @override
-  String get historyClearAll => 'Clear All';
+  String get actionHistoryClearAll => 'Clear All';
 
   @override
-  String get historyClearTitle => 'Clear Scan History?';
+  String get titleHistoryClear => 'Clear Scan History?';
 
   @override
-  String get historyClearMessage =>
+  String get bodyHistoryClear =>
       'Are you sure you want to delete all persistent scan history? This action cannot be undone unless you have created a backup.';
 
   @override
-  String get historySearchHint => 'Search history (content, format, notes)...';
+  String get helpHistorySearch => 'Search history (content, format, notes)...';
 
   @override
-  String get historyFilterAll => 'All';
+  String get labelHistoryFilterAll => 'All';
 
   @override
-  String get historyFilterStarred => 'Starred';
+  String get labelHistoryFilterStarred => 'Starred';
 
   @override
-  String get historyFilterUrls => 'URLs';
+  String get labelHistoryFilterUrls => 'URLs';
 
   @override
-  String get historyFilterWifi => 'Wi-Fi';
+  String get labelHistoryFilterWifi => 'Wi-Fi';
 
   @override
-  String get historyFilterContacts => 'Contacts';
+  String get labelHistoryFilterContacts => 'Contacts';
 
   @override
-  String get historyFilterText => 'Text';
+  String get labelHistoryFilterText => 'Text';
 
   @override
-  String get historyFilterBarcodes => 'Barcodes';
+  String get labelHistoryFilterBarcodes => 'Barcodes';
 
   @override
-  String get historyEmptyTitle => 'No Scan Records Found';
+  String get emptyHistoryTitle => 'No Scan Records Found';
 
   @override
-  String get historyEmptyMessage =>
+  String get emptyHistoryMessage =>
       'Scanned barcodes will automatically appear here.';
 
   @override
-  String historyNoMatches(String query) {
+  String emptyHistoryNoMatches(String query) {
     return 'No matches for \"$query\"';
   }
 
   @override
-  String get moreOptions => 'More options';
+  String get tooltipMoreOptions => 'More options';
 
   @override
-  String get menuHistory => 'History';
+  String get actionMenuHistory => 'History';
 
   @override
-  String get menuSettings => 'Settings';
+  String get actionMenuSettings => 'Settings';
 
   @override
-  String get grantPermission => 'Grant Permission';
+  String get actionGrantPermission => 'Grant Permission';
 
   @override
-  String get scanFromGallery => 'Scan Image from Gallery';
+  String get tooltipScanFromGallery => 'Scan from gallery';
 
   @override
-  String get scanPdfDocument => 'Scan PDF Document';
+  String get tooltipScanPdfDocument => 'Scan PDF Document';
 
   @override
-  String get scanPdfProgress => 'Extracting & scanning PDF pages...';
+  String get bodyScanPdfProgress => 'Extracting & scanning PDF pages...';
 
   @override
-  String get scanSharedPdfProgress => 'Scanning shared PDF document...';
+  String get bodyScanSharedPdfProgress => 'Scanning shared PDF document...';
 
   @override
-  String get scanInitializingCamera => 'Initializing camera...';
+  String get bodyScanInitializingCamera => 'Initializing camera...';
 
   @override
-  String get scanInitializingFeed => 'Initializing camera feed...';
+  String get bodyScanInitializingFeed => 'Initializing camera feed...';
 
   @override
-  String get scanTorchTooltip => 'Flashlight / Torch';
+  String get tooltipScanZoom => 'Zoom slider';
 
   @override
-  String get scanZoomTooltip => 'Zoom slider';
+  String get tooltipScanFlipCamera => 'Switch camera';
 
   @override
-  String get scanFlipCameraTooltip => 'Flip Camera (Front/Back)';
-
-  @override
-  String scanZoomValue(String value) {
+  String labelScanZoomValue(String value) {
     return '${value}x';
   }
 
   @override
-  String get scanViewfinderHint =>
+  String get helpScanViewfinder =>
       'Position QR code or barcode within the frame';
 
   @override
-  String get scanCameraPermissionRequired => 'Camera permission required';
+  String get bodyScanCameraPermissionRequired => 'Camera permission required';
 
   @override
-  String get copiedLabel => 'Copied!';
+  String get labelCopied => 'Copied!';
 
   @override
-  String get hideAction => 'Hide';
+  String get actionHide => 'Hide';
 
   @override
-  String get revealAction => 'Reveal';
+  String get actionReveal => 'Reveal';
 
   @override
-  String get openAnywayButton => 'Open Anyway';
+  String get actionOpenAnyway => 'Open Anyway';
 
   @override
-  String get resultScreenTitle => 'Scan Result';
+  String get titleResultScreen => 'Scan Result';
 
   @override
-  String get resultNoResult => 'No result';
+  String get bodyResultNoResult => 'No result';
 
   @override
-  String get resultContentLabel => 'Content:';
+  String get labelResultContent => 'Content:';
 
   @override
-  String get resultDecoyContentLabel => 'Public Decoy Content:';
+  String get labelResultDecoyContent => 'Decoy content:';
 
   @override
-  String get resultDetectedType => 'Detected Type:';
+  String get labelResultDetectedType => 'Detected Type:';
 
   @override
-  String get resultTypeStego => 'STEGO-QR (Encrypted Dual-Layer)';
+  String get labelResultTypeStego => 'StegoQR (encrypted)';
 
   @override
-  String get resultRecheckButton => 'Re-check';
+  String get actionResultRecheck => 'Re-check';
 
   @override
-  String get resultOpenInBrowser => 'Open in Browser';
+  String get actionResultOpenInBrowser => 'Open in Browser';
 
   @override
-  String get resultCopyText => 'Copy Text';
+  String get actionResultCopyText => 'Copy Text';
 
   @override
-  String get resultCopyDecoyText => 'Copy Decoy Text';
+  String get actionResultCopyDecoyText => 'Copy Decoy Text';
 
   @override
-  String get resultShareText => 'Share Text';
+  String get actionResultShareText => 'Share Text';
 
   @override
-  String get resultShareDecoyText => 'Share Decoy Text';
+  String get actionResultShareDecoyText => 'Share Decoy Text';
 
   @override
-  String get resultScanAnother => 'Scan Another Code';
+  String get actionResultScanAnother => 'Scan Another Code';
 
   @override
-  String get resultLaunchFailed => 'Could not launch URL';
+  String get errorResultLaunchFailed => 'Could not launch URL';
 
   @override
-  String get stegoUnlockedMessage =>
+  String get bodyStegoUnlocked =>
       'The hidden AES-256 encrypted payload has been decrypted successfully.';
 
   @override
-  String get stegoLockedMessage =>
+  String get bodyStegoLocked =>
       'This QR code contains a hidden, encrypted secret layer. Authenticate to view the hidden payload.';
 
   @override
-  String get stegoBiometricUnlock => 'Biometric Unlock';
+  String get actionStegoBiometricUnlock => 'Biometric Unlock';
 
   @override
-  String get stegoPassphrase => 'Passphrase';
+  String get labelStegoPassphrase => 'Passphrase';
 
   @override
-  String get stegoSecretPayload => 'Secret Payload:';
+  String get labelStegoSecretPayload => 'Secret Payload:';
 
   @override
-  String get stegoCopySecret => 'Copy Secret';
+  String get actionStegoCopySecret => 'Copy Secret';
 
   @override
-  String get stegoShareSecret => 'Share Secret';
+  String get actionStegoShareSecret => 'Share Secret';
 
   @override
-  String get stegoSecretCopied => 'Secret copied to clipboard';
+  String get bodyStegoSecretCopied => 'Secret copied to clipboard';
 
   @override
-  String get stegoDialogTitleBiometric => 'Biometric + Passphrase';
+  String get titleStegoDialogBiometric => 'Biometric unlock';
 
   @override
-  String get stegoDialogTitlePassphrase => 'Enter Passphrase';
+  String get titleStegoDialogPassphrase => 'Enter Passphrase';
 
   @override
-  String get stegoDialogMessageBiometric =>
+  String get bodyStegoDialogBiometric =>
       'Confirm passphrase to authenticate with biometrics and decrypt payload.';
 
   @override
-  String get stegoDialogMessagePassphrase =>
+  String get bodyStegoDialogPassphrase =>
       'Enter the passphrase used to encrypt the secret payload.';
 
   @override
-  String get stegoUnlockButton => 'Unlock';
+  String get actionStegoUnlock => 'Unlock';
 
   @override
-  String get safetyCheckInProgress => 'Security Check In Progress';
+  String get titleSafetyCheckInProgress => 'Checking security';
 
   @override
-  String get safetyAnalysisTitle => 'URL Security Analysis';
+  String get titleSafetyAnalysis => 'Link security';
 
   @override
-  String get safetyAnalyzing => 'Analyzing URL security...';
+  String get bodySafetyAnalyzing => 'Analyzing URL security...';
 
   @override
-  String safetyIssuesDetected(int count) {
+  String bodySafetyIssuesDetected(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -933,1506 +928,1401 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get safetyNoIssues => 'No issues detected';
+  String get bodySafetyNoIssues => 'No issues detected';
 
   @override
-  String get safetyTrustSourceHint =>
+  String get helpSafetyTrustSource =>
       'Only open this URL if you trust the source';
 
   @override
-  String get safetyResultsHeading => 'Security Analysis Results:';
+  String get titleSafetyResults => 'Check results:';
 
   @override
-  String get probingBannerActive =>
+  String get bodyProbingBannerActive =>
       'Active online checks are ON: SSL, redirect and shortener checks contacted this site directly, exposing your IP address to it. Turn off \"Active online checks\" in Settings to check links privately.';
 
   @override
-  String get probingBannerPrivate =>
-      'Private mode: this link was analysed using local rules and Google Safe Browsing only — the site itself was never contacted, so your IP and device were not exposed. Enable \"Active online checks\" in Settings for live SSL/redirect verification.';
+  String get bodyProbingBannerPrivate =>
+      'Private mode: the site itself was never contacted, so it did not see your IP address or device. Only local rules and the safety services you turned on were used. Turn on \"Active online checks\" in Settings for live SSL and redirect checks.';
 
   @override
-  String get warningDialogTitle => 'Security Warning';
+  String get titleWarningDialog => 'Security Warning';
 
   @override
-  String get warningDialogMessage =>
+  String get bodyWarningDialog =>
       'This URL has security issues. Opening it may put your device or data at risk.\n\nAre you sure you want to proceed?';
 
   @override
-  String get cautionDialogTitle => 'Caution';
+  String get titleCautionDialog => 'Caution';
 
   @override
-  String get cautionDialogMessage =>
+  String get bodyCautionDialog =>
       'Always verify the source before opening URLs from QR codes.\n\nDo you want to open this URL?';
 
   @override
-  String get overlayLaserLine => 'Laser Line';
+  String get labelOverlayLaserLine => 'Laser Line';
 
   @override
-  String get overlayPulsingCorners => 'Pulsing Corners';
+  String get labelOverlayPulsingCorners => 'Pulsing Corners';
 
   @override
-  String get overlayCyberneticGrid => 'Cybernetic Grid';
+  String get labelOverlayCyberneticGrid => 'Cybernetic Grid';
 
   @override
-  String get overlaySubtleDotMatrix => 'Subtle Dot Matrix';
+  String get labelOverlaySubtleDotMatrix => 'Subtle Dot Matrix';
 
   @override
-  String get overlayLaserLineDesc =>
+  String get descOverlayLaserLine =>
       'Scanning box with an animated vertical laser beam and glow line';
 
   @override
-  String get overlayPulsingCornersDesc =>
+  String get descOverlayPulsingCorners =>
       'Breathing corner reticles with color glow and scale animation';
 
   @override
-  String get overlayCyberneticGridDesc =>
+  String get descOverlayCyberneticGrid =>
       'Sci-fi grid overlay pattern with target crosshair reticle';
 
   @override
-  String get overlaySubtleDotMatrixDesc =>
+  String get descOverlaySubtleDotMatrix =>
       'Minimalist corner dot matrix pattern with pulsing accents';
 
   @override
-  String get themeSystemDefault => 'System Default';
+  String get labelThemeSystemDefault => 'System Default';
 
   @override
-  String get themeLight => 'Light Theme';
+  String get labelThemeLight => 'Light Theme';
 
   @override
-  String get themeDark => 'Dark Theme';
+  String get labelThemeDark => 'Dark Theme';
 
   @override
-  String get themeOled => 'OLED Pure Black';
+  String get labelThemeOled => 'OLED Pure Black';
 
   @override
-  String get themeModeHeading => 'Theme Mode';
+  String get titleThemeMode => 'Theme Mode';
 
   @override
-  String get themeChipSystem => 'System';
+  String get labelThemeChipSystem => 'System';
 
   @override
-  String get themeChipLight => 'Light';
+  String get labelThemeChipLight => 'Light';
 
   @override
-  String get themeChipDark => 'Dark';
+  String get labelThemeChipDark => 'Dark';
 
   @override
-  String get themeChipOled => 'OLED';
+  String get labelThemeChipOled => 'OLED';
 
   @override
-  String get themeDynamicColorsTitle => 'Material You Dynamic Colors';
+  String get labelThemeDynamicColors => 'Dynamic colors';
 
   @override
-  String get themeDynamicColorsSubtitle =>
+  String get descThemeDynamicColors =>
       'Sample system wallpaper colors on Android 12+ (Monet engine)';
 
   @override
-  String get themeDescSystem => 'Follow System Settings';
+  String get descThemeSystem => 'Follow System Settings';
 
   @override
-  String get themeDescLight => 'Standard Light Mode';
+  String get descThemeLight => 'Standard Light Mode';
 
   @override
-  String get themeDescDark => 'Standard Dark Mode';
+  String get descThemeDark => 'Standard Dark Mode';
 
   @override
-  String get themeDescOled => 'True OLED Pure Black (Battery Saving)';
+  String get descThemeOled => 'True OLED Pure Black (Battery Saving)';
 
   @override
-  String get settingsTitle => 'Settings';
+  String get titleSettings => 'Settings';
 
   @override
-  String get settingsFeedbackTitle => 'Scan Feedback & Alerts';
+  String get labelSettingsFeedback => 'Scan feedback';
 
   @override
-  String get settingsPrivacyTitle => 'Privacy & Online Probing';
+  String get labelSettingsPrivacy => 'Privacy & probing';
 
   @override
-  String get settingsSafeBrowsingTitle => 'Google Safe Browsing API';
+  String get labelSettingsPermissions => 'Permissions';
 
   @override
-  String get settingsPermissionsTitle => 'Permissions';
-
-  @override
-  String get settingsPermissionsSubtitle =>
+  String get descSettingsPermissions =>
       'Explicit, implicit & setting-dependent details';
 
   @override
-  String get settingsHelpTitle => 'Help & Feature Guides';
+  String get labelSettingsHelp => 'Help & guides';
 
   @override
-  String get settingsHelpSubtitle =>
+  String get descSettingsHelp =>
       'AR CodeVision, AirQR, Quishing Guard & URL Safety';
 
   @override
-  String get settingsAboutSubtitle =>
-      'App version, developer & license details';
+  String get descSettingsAbout => 'App version, developer & license details';
 
   @override
-  String get feedbackVibrationTitle => 'Vibration Feedback';
+  String get labelFeedbackVibration => 'Vibration Feedback';
 
   @override
-  String get feedbackVibrationSubtitle =>
+  String get descFeedbackVibration =>
       'Vibrate phone upon successful barcode recognition';
 
   @override
-  String get feedbackSoundTitle => 'Audible Beep Sound';
+  String get labelFeedbackSound => 'Audible Beep Sound';
 
   @override
-  String get feedbackSoundSubtitle =>
+  String get descFeedbackSound =>
       'Play audio beep signal upon successful code recognition';
 
   @override
-  String get feedbackAnimationTitle => 'Confirmation Animation';
+  String get labelFeedbackAnimation => 'Success animation';
 
   @override
-  String get feedbackAnimationSubtitle =>
+  String get descFeedbackAnimation =>
       'Play reticle pulse and checkmark morph upon successful scan';
 
   @override
-  String get privacyScreenTitle => 'Privacy & Network Probing';
+  String get titlePrivacyScreen => 'Privacy & probing';
 
   @override
-  String get privacyActiveChecksTitle => 'Active online checks';
+  String get labelPrivacyActiveChecks => 'Active online checks';
 
   @override
-  String get privacySummaryOn => 'Active online checks enabled';
+  String get descPrivacySummaryOn => 'Active online checks enabled';
 
   @override
-  String get privacySummaryOff => 'Private offline checks only';
+  String get descPrivacySummaryOff => 'Private offline checks only';
 
   @override
-  String get apiKeyConfigured => 'Configured';
+  String get labelApiKeyConfigured => 'Configured';
 
   @override
-  String get apiKeyNotConfigured => 'Not configured';
+  String get labelApiKeyNotConfigured => 'Not configured';
 
   @override
-  String get apiKeySaved => 'API key saved securely';
+  String get titleApiKeyDelete => 'Delete API Key';
 
   @override
-  String get apiKeyDeleted => 'API key deleted';
+  String get actionDelete => 'Delete';
 
   @override
-  String get apiKeyDeleteTitle => 'Delete API Key';
+  String get actionApiKeySave => 'Save API Key';
 
   @override
-  String get deleteButton => 'Delete';
+  String get titlePermissionsScreen => 'Permissions Overview';
 
   @override
-  String get apiAboutHeading => 'About Safe Browsing API';
-
-  @override
-  String get apiKeyConfiguredTitle => 'API Key Configured';
-
-  @override
-  String get apiKeyConfiguredSubtitle => 'Malicious URL checking is enabled';
-
-  @override
-  String get apiLimitReached => 'Daily limit reached. Resets tomorrow.';
-
-  @override
-  String get apiLimitApproaching => 'Approaching daily limit';
-
-  @override
-  String get apiKeyFieldLabel => 'API Key';
-
-  @override
-  String get apiKeyFieldHint => 'Enter your Google Safe Browsing API key';
-
-  @override
-  String get apiKeyRequired => 'Please enter an API key';
-
-  @override
-  String get apiKeyTooShort => 'API key appears to be too short';
-
-  @override
-  String get apiKeySaveButton => 'Save API Key';
-
-  @override
-  String get apiHowToHeading => 'How to get an API key';
-
-  @override
-  String get apiStep1Title => 'Go to Google Cloud Console';
-
-  @override
-  String get apiStep1Desc => 'Visit console.cloud.google.com';
-
-  @override
-  String get apiStep2Title => 'Create or select a project';
-
-  @override
-  String get apiStep2Desc => 'Choose an existing project or create a new one';
-
-  @override
-  String get apiStep3Title => 'Enable Safe Browsing API';
-
-  @override
-  String get apiStep4Title => 'Create credentials';
-
-  @override
-  String get apiStep4Desc => 'Go to Credentials → Create Credentials → API Key';
-
-  @override
-  String get apiStep5Title => 'Copy and paste';
-
-  @override
-  String get apiStep5Desc => 'Copy the generated API key and paste it above';
-
-  @override
-  String get apiFreeTierNote => 'Free tier includes 10,000 requests per day';
-
-  @override
-  String get permissionsScreenTitle => 'Permissions Overview';
-
-  @override
-  String get permissionsExplicitHeading =>
+  String get helpPermissionsExplicitHeading =>
       'Explicit Permissions (Runtime / Manifest)';
 
   @override
-  String get permissionCameraTitle =>
+  String get helpPermissionCameraTitle =>
       'Camera Access (android.permission.CAMERA)';
 
   @override
-  String get permissionCameraDesc =>
+  String get helpPermissionCameraDesc =>
       'Requested on-demand at point of use. Required for live scanning, AR CodeVision HUD overlay, and AirQR optical stream decoding.';
 
   @override
-  String get permissionBiometricTitle =>
+  String get helpPermissionBiometricTitle =>
       'Biometric Authentication (android.permission.USE_BIOMETRIC)';
 
   @override
-  String get permissionBiometricDesc =>
+  String get helpPermissionBiometricDesc =>
       'Requested when unlocking biometric secure vaults or encrypted QR code payloads.';
 
   @override
-  String get permissionsImplicitHeading => 'Implicit & System Permissions';
+  String get helpPermissionsImplicitHeading => 'Implicit & System Permissions';
 
   @override
-  String get permissionInternetTitle =>
+  String get helpPermissionInternetTitle =>
       'Internet Access (android.permission.INTERNET)';
 
   @override
-  String get permissionInternetDesc =>
+  String get helpPermissionInternetDesc =>
       'Declared in Android Manifest. Used only when Active Online Probing or Google Safe Browsing API lookup is enabled.';
 
   @override
-  String get permissionVibrateTitle =>
+  String get helpPermissionVibrateTitle =>
       'Vibration & Haptics (android.permission.VIBRATE)';
 
   @override
-  String get permissionVibrateDesc =>
+  String get helpPermissionVibrateDesc =>
       'System permission. Triggers haptic vibration feedback during scan alerts and button taps.';
 
   @override
-  String get permissionPhotoPickerTitle => 'Scoped Media Photo Picker';
+  String get helpPermissionPhotoPickerTitle => 'Scoped Media Photo Picker';
 
   @override
-  String get permissionPhotoPickerDesc =>
+  String get helpPermissionPhotoPickerDesc =>
       'System photo picker access. Allows selecting QR images or videos from gallery without requesting full storage access.';
 
   @override
-  String get permissionsSettingHeading => 'Setting-Dependent Permissions';
+  String get helpPermissionsSettingHeading => 'Setting-Dependent Permissions';
 
   @override
-  String get permissionProbingTitle =>
+  String get helpPermissionProbingTitle =>
       'Active Online Probing (Privacy Setting)';
 
   @override
-  String get permissionProbingDesc =>
+  String get helpPermissionProbingDesc =>
       'Active only when enabled. Performs outbound HTTP HEAD requests to follow URL redirects and check SSL certificates. When disabled, checks are 100% offline.';
 
   @override
-  String get permissionSafeBrowsingTitle =>
+  String get helpPermissionSafeBrowsingTitle =>
       'Google Safe Browsing API (API Key Setting)';
 
   @override
-  String get permissionSafeBrowsingDesc =>
+  String get helpPermissionSafeBrowsingDesc =>
       'Active only when API key is configured. Queries Google Threat API for malware & phishing checks.';
 
   @override
-  String get permissionFeedbackTitle =>
+  String get helpPermissionFeedbackTitle =>
       'Scan Feedback Vibrations (Alert Setting)';
 
   @override
-  String get permissionFeedbackDesc =>
+  String get helpPermissionFeedbackDesc =>
       'Active only when Vibration is enabled in Scan Feedback & Alerts settings.';
 
   @override
-  String get onLabel => 'On';
+  String get labelOn => 'On';
 
   @override
-  String get offLabel => 'Off';
+  String get labelOff => 'Off';
 
   @override
-  String get unknownLabel => 'Unknown';
-
-  @override
-  String get privacyActiveChecksSubtitle =>
+  String get descPrivacyActiveChecks =>
       'Off: scanned links are checked privately — the destination server is never contacted.';
 
   @override
-  String get privacyExplainerOn =>
+  String get bodyPrivacyExplainerOn =>
       'When on, the SSL, redirect and shortener checks connect directly to the scanned site. This exposes your IP address (and therefore your approximate location and mobile carrier) to that server before you open the link.';
 
   @override
-  String get privacyExplainerOff =>
+  String get bodyPrivacyExplainerOff =>
       'SSL, redirect and shortener checks run from local rules only. Malicious-content lookup still uses Google Safe Browsing (the link is sent only to Google, never to the scanned site).';
 
   @override
-  String get apiKeyDeleteMessage =>
+  String get bodyApiKeyDelete =>
       'Are you sure you want to delete your Google Safe Browsing API key? URL malicious content checking will be disabled.';
 
   @override
-  String get apiAboutBody =>
-      'The Google Safe Browsing API helps detect malicious URLs including phishing, malware, and unwanted software. Your API key is stored securely and encrypted on your device.';
-
-  @override
-  String get apiTodaysUsage => 'Today\'s Usage';
-
-  @override
-  String get apiStep3Desc => 'Search for \"Safe Browsing API\" and enable it';
-
-  @override
-  String feedbackSummary(String vibration, String sound) {
+  String descFeedbackSummary(String vibration, String sound) {
     return 'Vibration: $vibration • Sound: $sound';
   }
 
   @override
-  String settingsApiKeySubtitle(String status) {
-    return 'API Key: $status';
-  }
+  String get labelResultTypeTextFallback => 'TEXT';
 
   @override
-  String apiKeySaveFailed(String error) {
-    return 'Error saving API key: $error';
-  }
+  String get labelCheckNameHttps => 'HTTPS Connection';
 
   @override
-  String apiKeyDeleteFailed(String error) {
-    return 'Error deleting API key: $error';
-  }
+  String get labelCheckNameSsl => 'SSL/TLS Certificate';
 
   @override
-  String apiDailyLimit(int count) {
-    return 'Daily Limit: $count requests per day';
-  }
+  String get labelCheckNameRedirect => 'Redirect Analysis';
 
   @override
-  String apiResets(String date) {
-    return 'Resets: $date';
-  }
+  String get labelCheckNamePattern => 'Pattern Detection';
 
   @override
-  String get resultTypeTextFallback => 'TEXT';
+  String get labelCheckNameShortener => 'URL Shortener Check';
 
   @override
-  String get checkNameHttps => 'HTTPS Connection';
+  String get labelCheckNameHomograph => 'Homograph check';
 
   @override
-  String get checkNameSsl => 'SSL/TLS Certificate';
+  String get labelCheckNameMalicious => 'Malicious content';
 
   @override
-  String get checkNameRedirect => 'Redirect Analysis';
+  String get bodyHttpsNotUsed => 'URL uses unencrypted HTTP connection';
 
   @override
-  String get checkNamePattern => 'Pattern Detection';
-
-  @override
-  String get checkNameShortener => 'URL Shortener Check';
-
-  @override
-  String get checkNameHomograph => 'Homograph Attack Check';
-
-  @override
-  String get checkNameMalicious => 'Malicious Content Check';
-
-  @override
-  String get httpsNotUsed => 'URL uses unencrypted HTTP connection';
-
-  @override
-  String get sslPrivateModeOk =>
+  String get bodySslPrivateModeOk =>
       'Uses HTTPS (live certificate not checked in private mode)';
 
   @override
-  String get sslValid => 'Valid SSL certificate';
+  String get bodySslValid => 'Valid SSL certificate';
 
   @override
-  String get sslExpired => 'SSL certificate has expired';
+  String get bodySslExpired => 'SSL certificate has expired';
 
   @override
-  String get sslNotYetValid => 'SSL certificate not yet valid';
+  String get bodySslNotYetValid => 'SSL certificate not yet valid';
 
   @override
-  String get sslUnverifiable => 'Unable to verify certificate';
+  String get bodySslUnverifiable => 'Unable to verify certificate';
 
   @override
-  String get sslCheckFailed => 'Certificate check failed';
+  String get bodySslCheckFailed => 'Certificate check failed';
 
   @override
-  String get redirectSkippedPrivate =>
+  String get bodyRedirectSkippedPrivate =>
       'Skipped in private mode (destination server not contacted)';
 
   @override
-  String get redirectLoop => 'Redirect loop detected';
+  String get bodyRedirectLoop => 'Redirect loop detected';
 
   @override
-  String get redirectNone => 'No redirects detected';
+  String get bodyRedirectNone => 'No redirects detected';
 
   @override
-  String get redirectUnavailable => 'Unable to check redirects';
+  String get bodyRedirectUnavailable => 'Unable to check redirects';
 
   @override
-  String get patternNone => 'No suspicious patterns found';
+  String get bodyPatternNone => 'No suspicious patterns found';
 
   @override
-  String get patternUnavailable => 'Unable to analyze patterns';
+  String get bodyPatternUnavailable => 'Unable to analyze patterns';
 
   @override
-  String get shortenerOfflineHeuristics =>
+  String get bodyShortenerOfflineHeuristics =>
       'Unable to perform full check (offline) - heuristics only';
 
   @override
-  String get shortenerNone => 'No URL shortener detected';
+  String get bodyShortenerNone => 'No URL shortener detected';
 
   @override
-  String get shortenerUnavailable => 'Unable to check for shorteners';
+  String get bodyShortenerUnavailable => 'Unable to check for shorteners';
 
   @override
-  String get homographMixedScripts => 'Mixed character scripts detected';
+  String get bodyHomographMixedScripts => 'Mixed character scripts detected';
 
   @override
-  String get homographNone => 'No lookalike characters detected';
+  String get bodyHomographNone => 'No lookalike characters detected';
 
   @override
-  String get homographUnavailable => 'Unable to check for homographs';
+  String get bodyHomographUnavailable => 'Unable to check for homographs';
 
   @override
-  String get maliciousSkippedNoKey => 'Skipped (API key not configured)';
+  String get bodyMaliciousSkippedNoKey => 'Skipped (API key not configured)';
 
   @override
-  String get maliciousDailyLimit => 'Daily API limit reached (resets tomorrow)';
+  String get bodyMaliciousDailyLimit =>
+      'Daily API limit reached (resets tomorrow)';
 
   @override
-  String get maliciousNone => 'No known threats detected';
+  String get bodyMaliciousNone => 'No known threats detected';
 
   @override
-  String get maliciousInvalidKey => 'Invalid API key or request';
+  String get bodyMaliciousInvalidKey => 'Invalid API key or request';
 
   @override
-  String get maliciousRateLimited => 'Rate limit exceeded';
+  String get bodyMaliciousRateLimited => 'Rate limit exceeded';
 
   @override
-  String get maliciousUnavailable => 'Unable to check for malicious content';
+  String get bodyMaliciousUnavailable =>
+      'Unable to check for malicious content';
 
   @override
-  String get stegoWrongPassphrase =>
+  String get errorStegoWrongPassphrase =>
       'Decryption failed. Invalid passphrase or corrupted data.';
 
   @override
-  String get airQrChecksumFailed =>
+  String get errorAirQrChecksumFailed =>
       'Checksum verification failed during reassembly.';
 
   @override
-  String redirectSuspiciousChain(String count) {
+  String bodyRedirectSuspiciousChain(String count) {
     return 'Suspicious redirect chain ($count redirects)';
   }
 
   @override
-  String redirectWithinRange(String count) {
+  String bodyRedirectWithinRange(String count) {
     return '$count redirect(s) - within normal range';
   }
 
   @override
-  String patternDetected(String patterns) {
+  String bodyPatternDetected(String patterns) {
     return 'Detected: $patterns';
   }
 
   @override
-  String shortenerKnown(String shortener) {
+  String bodyShortenerKnown(String shortener) {
     return 'Known URL shortener detected ($shortener)';
   }
 
   @override
-  String shortenerRedirect(String host) {
+  String bodyShortenerRedirect(String host) {
     return 'Detected URL shortener (redirects to $host)';
   }
 
   @override
-  String homographLookalikes(String characters) {
+  String bodyHomographLookalikes(String characters) {
     return 'Lookalike characters detected: $characters';
   }
 
   @override
-  String maliciousThreats(String threats) {
+  String bodyMaliciousThreats(String threats) {
     return 'Threats detected: $threats';
   }
 
   @override
-  String maliciousApiError(String status) {
+  String bodyMaliciousApiError(String status) {
     return 'API error (status: $status)';
   }
 
   @override
-  String get checkNameVirusTotal => 'VirusTotal';
+  String get labelCheckNameVirusTotal => 'VirusTotal';
 
   @override
-  String get virusTotalSkippedNoKey => 'Skipped (API key not configured)';
+  String get bodyVirusTotalSkippedNoKey => 'Skipped (API key not configured)';
 
   @override
-  String get virusTotalDailyLimit =>
+  String get bodyVirusTotalDailyLimit =>
       'Daily limit reached (500/day — resets tomorrow)';
 
   @override
-  String virusTotalThreats(String engines) {
+  String bodyVirusTotalThreats(String engines) {
     return 'Threats detected by $engines engine(s)';
   }
 
   @override
-  String get virusTotalNone => 'No threats detected (VirusTotal)';
+  String get bodyVirusTotalNone => 'No threats detected (VirusTotal)';
 
   @override
-  String get virusTotalInvalidKey => 'Invalid API key or request (VirusTotal)';
+  String get bodyVirusTotalInvalidKey =>
+      'Invalid API key or request (VirusTotal)';
 
   @override
-  String get virusTotalRateLimited => 'Rate limit exceeded (VirusTotal)';
+  String get bodyVirusTotalRateLimited => 'Rate limit exceeded (VirusTotal)';
 
   @override
-  String virusTotalApiError(String status) {
+  String bodyVirusTotalApiError(String status) {
     return 'API error (status: $status)';
   }
 
   @override
-  String get virusTotalUnavailable => 'Unable to check (VirusTotal)';
+  String get bodyVirusTotalUnavailable => 'Unable to check (VirusTotal)';
 
   @override
-  String get checkNameUrlhaus => 'URLhaus';
+  String get labelCheckNameUrlhaus => 'URLhaus';
 
   @override
-  String get urlhausSkippedNoKey => 'Skipped (API key not configured)';
+  String get bodyUrlhausSkippedNoKey => 'Skipped (API key not configured)';
 
   @override
-  String urlhausMalware(String tags) {
+  String bodyUrlhausMalware(String tags) {
     return 'Malware URL detected: $tags';
   }
 
   @override
-  String get urlhausClean => 'No known malware hosting (URLhaus)';
+  String get bodyUrlhausClean => 'No known malware hosting (URLhaus)';
 
   @override
-  String get urlhausNotFound => 'Not in URLhaus database';
+  String get bodyUrlhausNotFound => 'Not in URLhaus database';
 
   @override
-  String get urlhausInvalidKey => 'Invalid API key (URLhaus)';
+  String get bodyUrlhausInvalidKey => 'Invalid API key (URLhaus)';
 
   @override
-  String urlhausApiError(String status) {
+  String bodyUrlhausApiError(String status) {
     return 'API error (status: $status)';
   }
 
   @override
-  String get urlhausUnavailable => 'Unable to check (URLhaus)';
+  String get bodyUrlhausUnavailable => 'Unable to check (URLhaus)';
 
   @override
-  String get checkNamePhishTank => 'PhishTank';
+  String get labelCheckNamePhishTank => 'PhishTank';
 
   @override
-  String get phishTankSkippedDisabled => 'Skipped (PhishTank disabled)';
+  String get bodyPhishTankSkippedDisabled => 'Skipped (PhishTank disabled)';
 
   @override
-  String get phishTankPhishing => 'Known phishing site (PhishTank)';
+  String get bodyPhishTankPhishing => 'Known phishing site (PhishTank)';
 
   @override
-  String get phishTankClean => 'Not a known phishing site (PhishTank)';
+  String get bodyPhishTankClean => 'Not a known phishing site (PhishTank)';
 
   @override
-  String get phishTankNotInDatabase => 'Not in PhishTank database';
+  String get bodyPhishTankNotInDatabase => 'Not in PhishTank database';
 
   @override
-  String phishTankApiError(String status) {
+  String bodyPhishTankApiError(String status) {
     return 'API error (status: $status)';
   }
 
   @override
-  String get phishTankUnavailable => 'Unable to check (PhishTank)';
+  String get bodyPhishTankUnavailable => 'Unable to check (PhishTank)';
 
   @override
-  String get checkNameOpenPhish => 'OpenPhish';
+  String get labelCheckNameOpenPhish => 'OpenPhish';
 
   @override
-  String get openPhishSkippedDisabled => 'Skipped (OpenPhish disabled)';
+  String get bodyOpenPhishSkippedDisabled => 'Skipped (OpenPhish disabled)';
 
   @override
-  String get openPhishPhishing => 'Known phishing site (OpenPhish)';
+  String get bodyOpenPhishPhishing => 'Known phishing site (OpenPhish)';
 
   @override
-  String get openPhishClean => 'Not in phishing feed (OpenPhish)';
+  String get bodyOpenPhishClean => 'Not in phishing feed (OpenPhish)';
 
   @override
-  String get openPhishFeedStale => 'Feed unavailable — offline check skipped';
+  String get bodyOpenPhishFeedStale =>
+      'Feed unavailable — offline check skipped';
 
   @override
-  String get openPhishUnavailable => 'Unable to check (OpenPhish)';
+  String get bodyOpenPhishUnavailable => 'Unable to check (OpenPhish)';
 
   @override
-  String get settingsUrlSafetyProvidersTitle => 'URL Safety Providers';
+  String get labelSettingsUrlSafetyProviders => 'URL Safety Providers';
 
   @override
-  String settingsUrlSafetyProvidersSubtitle(String count) {
+  String descSettingsUrlSafetyProviders(String count) {
     return '$count provider(s) active';
   }
 
   @override
-  String get urlSafetyProvidersHelpText =>
+  String get helpUrlSafetyProviders =>
       'Configure optional online URL safety checks. Each provider is independent. Non-commercial providers require your own free account and API key.';
 
   @override
-  String get urlSafetyUserSuppliedHeader => 'Your API Keys';
+  String get titleUrlSafetyUserSupplied => 'Your API Keys';
 
   @override
-  String get urlSafetyUserSuppliedNote => 'Non-commercial use only';
+  String get descUrlSafetyUserSupplied => 'Non-commercial use only';
 
   @override
-  String get urlSafetyBuiltInHeader => 'Built-In Providers';
+  String get titleUrlSafetyBuiltIn => 'Built-In Providers';
 
   @override
-  String get urlSafetyBuiltInNote => 'No account needed — just toggle on';
+  String get descUrlSafetyBuiltIn => 'No account needed — just toggle on';
 
   @override
-  String get providerEndpointLabel => 'API Endpoint URL';
+  String get labelProviderEndpoint => 'API Endpoint URL';
 
   @override
-  String get providerApiKeyHint => 'Paste your API key';
+  String get labelProviderApiKey => 'Paste your API key';
 
   @override
-  String get providerGetKeyAt => 'Get a free key at:';
+  String get bodyProviderGetKeyAt => 'Get a free key at:';
 
   @override
-  String providerDailyUsage(String used, String max) {
+  String bodyProviderDailyUsage(String used, String max) {
     return '$used / $max requests today';
   }
 
   @override
-  String openPhishLastUpdated(String datetime) {
+  String bodyOpenPhishLastUpdated(String datetime) {
     return 'Last updated: $datetime';
   }
 
   @override
-  String get openPhishRefreshNow => 'Refresh feed now';
+  String get actionOpenPhishRefresh => 'Refresh feed now';
 
   @override
-  String openPhishFeedRefreshed(String count) {
+  String bodyOpenPhishFeedRefreshed(String count) {
     return 'Feed updated ($count URLs)';
   }
 
   @override
-  String get openPhishFeedFailed => 'Feed refresh failed';
+  String get errorOpenPhishFeedFailed => 'Feed refresh failed';
 
   @override
-  String get phishTankToggleLabel => 'Enable PhishTank';
+  String get labelPhishTankToggle => 'Enable PhishTank';
 
   @override
-  String get openPhishToggleLabel => 'Enable OpenPhish feed';
+  String get labelOpenPhishToggle => 'Use OpenPhish feed';
 
   @override
-  String get quishingSummaryAuthentic =>
+  String get bodyQuishingSummaryAuthentic =>
       'Authentic Printed Code. No physical tampering detected.';
 
   @override
-  String get quishingSummaryWearAndTear =>
+  String get bodyQuishingSummaryWearAndTear =>
       'Wear & Tear Detected. Slight physical surface noise observed.';
 
   @override
-  String get quishingSummaryHighWarning =>
+  String get bodyQuishingSummaryHighWarning =>
       'High Warning: Physical Overlay Sticker Detected! Verify Before Tapping Links.';
 
   @override
-  String get quishingStatusAuthentic => '🟢 Authentic Printed Code';
+  String get bodyQuishingStatusAuthentic => '🟢 Authentic Printed Code';
 
   @override
-  String get quishingStatusWearAndTear => '🟡 Wear & Tear Detected';
+  String get bodyQuishingStatusWearAndTear => '🟡 Wear & Tear Detected';
 
   @override
-  String get quishingStatusHighWarning =>
+  String get bodyQuishingStatusHighWarning =>
       '🔴 High Warning: Physical Overlay Sticker Detected!';
 
   @override
-  String get quishingSignalMicroShadowPerimeter =>
+  String get bodyQuishingSignalMicroShadowPerimeter =>
       'Micro-shadow depth step line detected along matrix perimeter';
 
   @override
-  String get quishingSignalGrainAberration =>
+  String get bodyQuishingSignalGrainAberration =>
       'Mismatching inkjet/thermal grain chromatic aberration detected';
 
   @override
-  String get quishingSignalUniformReflection =>
+  String get bodyQuishingSignalUniformReflection =>
       'Uniform substrate reflection profile verified';
 
   @override
-  String get quishingSignalConsistentDotsQrMatrix =>
+  String get bodyQuishingSignalConsistentDotsQrMatrix =>
       'Consistent halftone dot density across QR matrix perimeter';
 
   @override
-  String get quishingSignalReflectionVerified =>
+  String get bodyQuishingSignalReflectionVerified =>
       'Substrate reflection profile verified';
 
   @override
-  String get quishingSignalHalftoneConsistentQrMatrix =>
+  String get bodyQuishingSignalHalftoneConsistentQrMatrix =>
       'Halftone dot density consistent across QR matrix perimeter';
 
   @override
-  String get quishingSignalHalftoneConsistentMatrix =>
+  String get bodyQuishingSignalHalftoneConsistentMatrix =>
       'Halftone dot density consistent across matrix';
 
   @override
-  String get quishingSignalDoubleEdgeAroundMatrix =>
+  String get bodyQuishingSignalDoubleEdgeAroundMatrix =>
       'Perimeter double-edge reflection detected around QR matrix';
 
   @override
-  String get quishingSignalMicroShadowStickerBorder =>
+  String get bodyQuishingSignalMicroShadowStickerBorder =>
       'Micro-shadow depth step line detected along sticker border';
 
   @override
-  String get quishingSignalGrainMismatchBase =>
+  String get bodyQuishingSignalGrainMismatchBase =>
       'Inkjet/thermal print grain mismatching base substrate';
 
   @override
-  String get quishingSignalMinorScratch =>
+  String get bodyQuishingSignalMinorScratch =>
       'Minor surface scratch or wear pattern observed';
 
   @override
-  String get quishingSignalSlightDotIrregularity =>
+  String get bodyQuishingSignalSlightDotIrregularity =>
       'Slight dot density irregularity along edges';
 
   @override
-  String get quishingSignalConsistentDotsMatrixPerimeter =>
+  String get bodyQuishingSignalConsistentDotsMatrixPerimeter =>
       'Consistent halftone dot density across matrix perimeter';
 
   @override
-  String quishingSignalPerimeterDoubleEdge(String zones) {
+  String bodyQuishingSignalPerimeterDoubleEdge(String zones) {
     return 'Perimeter double-edge reflection detected ($zones boundary zones)';
   }
 
   @override
-  String quishingSignalDotDensityVariance(String variance) {
+  String bodyQuishingSignalDotDensityVariance(String variance) {
     return 'Substrate halftone dot density inconsistency detected ($variance% variance)';
   }
 
   @override
-  String get domSslInvalidScheme => 'Invalid URL scheme';
+  String get bodyDomSslInvalidScheme => 'Invalid URL scheme';
 
   @override
-  String get domSslHttps => 'Uses encrypted HTTPS protocol';
+  String get bodyDomSslHttps => 'Uses encrypted HTTPS protocol';
 
   @override
-  String get domSslHttp => 'Unencrypted HTTP connection (High Risk)';
+  String get bodyDomSslHttp => 'Unencrypted HTTP connection (High Risk)';
 
   @override
-  String get domStatusInvalidUrl => 'Invalid or unsupported web URL format.';
+  String get bodyDomStatusInvalidUrl =>
+      'Invalid or unsupported web URL format.';
 
   @override
-  String get domStatusHttpCaution => '⚠️ Caution: Unencrypted HTTP site';
+  String get bodyDomStatusHttpCaution => '⚠️ Caution: Unencrypted HTTP site';
 
   @override
-  String get domStatusSafe =>
+  String get bodyDomStatusSafe =>
       '✅ Zero-Trust DOM Sandbox: HTML preview sanitized safely.';
 
   @override
-  String domStatusOpenRedirect(String target) {
+  String bodyDomStatusOpenRedirect(String target) {
     return '⚠️ Warning: Open Redirect Trap detected pointing to $target';
   }
 
   @override
-  String domStatusNewDomain(String days) {
+  String bodyDomStatusNewDomain(String days) {
     return '⚠️ Warning: Newly registered domain ($days days old)';
   }
 
   @override
-  String get stegoPassphraseEmpty => 'Passphrase cannot be empty';
+  String get errorStegoPassphraseEmpty => 'Passphrase cannot be empty';
 
   @override
-  String get stegoBiometricReason =>
+  String get bodyStegoBiometricReason =>
       'Authenticate to view StegoQR secret payload';
 
   @override
-  String get mediaNoCodeInImage => 'No barcodes or QR codes detected in image.';
+  String get errorMediaNoCodeInImage =>
+      'No barcodes or QR codes detected in image.';
 
   @override
-  String get mediaNoCodeInPdf =>
+  String get errorMediaNoCodeInPdf =>
       'No barcodes or QR codes found in PDF document.';
 
   @override
-  String mediaImagePickFailed(String error) {
+  String errorMediaImagePickFailed(String error) {
     return 'Failed to pick or scan image: $error';
   }
 
   @override
-  String mediaImageAnalyzeFailed(String error) {
+  String errorMediaImageAnalyzeFailed(String error) {
     return 'Error analyzing image: $error';
   }
 
   @override
-  String mediaPdfPickFailed(String error) {
+  String errorMediaPdfPickFailed(String error) {
     return 'Failed to pick or parse PDF: $error';
   }
 
   @override
-  String mediaPdfScanFailed(String error) {
+  String errorMediaPdfScanFailed(String error) {
     return 'Failed to scan PDF document: $error';
   }
 
   @override
-  String get stegoBiometricCanceled =>
+  String get errorStegoBiometricCanceled =>
       'Biometric authentication canceled or failed.';
 
   @override
-  String get formatQrUrl => 'QR (URL)';
+  String get labelFormatQrUrl => 'QR (URL)';
 
   @override
-  String get formatQrEmail => 'QR (Email)';
+  String get labelFormatQrEmail => 'QR (Email)';
 
   @override
-  String get formatQrPhone => 'QR (Phone)';
+  String get labelFormatQrPhone => 'QR (Phone)';
 
   @override
-  String get formatQrSms => 'QR (SMS)';
+  String get labelFormatQrSms => 'QR (SMS)';
 
   @override
-  String get formatQrWifi => 'QR (Wi-Fi)';
+  String get labelFormatQrWifi => 'QR (Wi-Fi)';
 
   @override
-  String get formatQrLocation => 'QR (Location)';
+  String get labelFormatQrLocation => 'QR (Location)';
 
   @override
-  String get formatQrContact => 'QR (Contact)';
+  String get labelFormatQrContact => 'QR (Contact)';
 
   @override
-  String get formatIsbn => 'ISBN';
+  String get labelFormatIsbn => 'ISBN';
 
   @override
-  String get formatEanUpc => 'EAN/UPC';
+  String get labelFormatEanUpc => 'EAN/UPC';
 
   @override
-  String get formatQrCode => 'QR Code';
+  String get labelFormatQrCode => 'QR Code';
 
   @override
-  String get formatEanUpcProduct => 'EAN/UPC Product';
+  String get labelFormatEanUpcProduct => 'EAN/UPC Product';
 
   @override
-  String get formatBarcode => 'Barcode';
+  String get labelFormatBarcode => 'Barcode';
 
   @override
-  String get wifiHiddenNetwork => 'Hidden Network';
+  String get labelWifiHiddenNetwork => 'Hidden Network';
 
   @override
-  String get totpDefaultAccount => 'Account';
+  String get labelTotpDefaultAccount => 'Account';
 
   @override
-  String get backupInvalidFormat => 'Invalid backup file format.';
+  String get errorBackupInvalidFormat => 'Invalid backup file format.';
 
   @override
-  String get backupBadHeader => 'Unrecognized or corrupted backup file header.';
+  String get errorBackupBadHeader =>
+      'Unrecognized or corrupted backup file header.';
 
   @override
-  String get backupWrongPassphrase =>
+  String get errorBackupWrongPassphrase =>
       'Incorrect passphrase or corrupted backup payload.';
 
   @override
-  String get reportHeading => 'SREERAJP QR STUDIO - SCAN HISTORY';
+  String get bodyReportHeading => 'SREERAJP QR STUDIO - SCAN HISTORY';
 
   @override
-  String get reportTitle => 'Scan History Export';
+  String get bodyReportTitle => 'Scan History Export';
 
   @override
-  String get reportExportDate => 'Export Date';
+  String get labelReportExportDate => 'Export Date';
 
   @override
-  String get reportTotalScans => 'Total Scans';
+  String get labelReportTotalScans => 'Total Scans';
 
   @override
-  String get reportScanNumber => 'Scan #';
+  String get labelReportScanNumber => 'Scan #';
 
   @override
-  String get reportId => 'ID           ';
+  String get labelReportId => 'ID           ';
 
   @override
-  String get reportTimestamp => 'Timestamp    ';
+  String get labelReportTimestamp => 'Timestamp    ';
 
   @override
-  String get reportFormat => 'Format       ';
+  String get labelReportFormat => 'Format       ';
 
   @override
-  String get reportCategory => 'Category     ';
+  String get labelReportCategory => 'Category     ';
 
   @override
-  String get reportSafetyScore => 'Safety Score ';
+  String get labelReportSafetyScore => 'Safety Score ';
 
   @override
-  String get reportStarred => 'Starred      ';
+  String get labelReportStarred => 'Starred      ';
 
   @override
-  String get reportStarredYes => '⭐ Yes';
+  String get labelReportStarredYes => '⭐ Yes';
 
   @override
-  String get reportStarredNo => 'No';
+  String get labelReportStarredNo => 'No';
 
   @override
-  String get reportLocation => 'Location     ';
+  String get labelReportLocation => 'Location     ';
 
   @override
-  String get reportNotes => 'Notes        ';
+  String get labelReportNotes => 'Notes        ';
 
   @override
-  String get reportContent => 'Content      ';
+  String get labelReportContent => 'Content      ';
 
   @override
-  String get reportColumnDateTime => 'Date & Time';
+  String get labelReportColumnDateTime => 'Date & Time';
 
   @override
-  String get reportColumnFormat => 'Format';
+  String get labelReportColumnFormat => 'Format';
 
   @override
-  String get reportColumnCategory => 'Category';
+  String get labelReportColumnCategory => 'Category';
 
   @override
-  String get reportColumnSafety => 'Safety';
+  String get labelReportColumnSafety => 'Safety';
 
   @override
-  String get reportColumnContent => 'Content Snippet';
+  String get labelReportColumnContent => 'Content Snippet';
 
   @override
-  String get reportColumnNotes => 'Notes';
+  String get labelReportColumnNotes => 'Notes';
 
   @override
-  String get patternIpAddress => 'IP Address';
+  String get labelPatternIpAddress => 'IP Address';
 
   @override
-  String get patternLongNumbers => 'Long Number Sequence';
+  String get labelPatternLongNumbers => 'Long Number Sequence';
 
   @override
-  String get patternManyDashes => 'Multiple Dashes/Underscores';
+  String get labelPatternManyDashes => 'Many dashes';
 
   @override
-  String get patternPhishingKeywords => 'Phishing Keywords';
+  String get labelPatternPhishingKeywords => 'Phishing Keywords';
 
   @override
-  String get patternDataUri => 'Data URI';
+  String get labelPatternDataUri => 'Data URI';
 
   @override
-  String get patternManySubdomains => 'Multiple Subdomains';
+  String get labelPatternManySubdomains => 'Multiple Subdomains';
 
   @override
-  String get shortenerPossibleShortDomain =>
+  String get bodyShortenerPossibleShortDomain =>
       'Possible URL shortener: short domain with minimal path';
 
   @override
-  String get shortenerPossibleRandomPath =>
+  String get bodyShortenerPossibleRandomPath =>
       'Possible URL shortener: random character pattern in short path';
 
   @override
-  String shortenerPossibleTld(String tld) {
+  String bodyShortenerPossibleTld(String tld) {
     return 'Possible URL shortener: short domain with common shortener ending ($tld)';
   }
 
   @override
-  String get settingsFeaturesTitle => 'Features';
+  String get titleSettingsFeatures => 'Features';
 
   @override
-  String get settingsFeaturesSubtitle =>
+  String get descSettingsFeatures =>
       'Explore all features of SreerajP QR Studio';
 
   @override
-  String get appearanceHubTitle => 'Appearance';
+  String get titleAppearanceHub => 'Appearance';
 
   @override
-  String get appearanceThemeModeCardTitle => 'Theme Mode';
+  String get labelAppearanceThemeModeCard => 'Theme Mode';
 
   @override
-  String get appearanceThemeModeCardSubtitle =>
+  String get descAppearanceThemeModeCard =>
       'Choose between System, Light, Dark, or OLED mode';
 
   @override
-  String get appearanceOverlayCardTitle => 'Scan Overlay Style';
+  String get labelAppearanceOverlayCard => 'Scan Overlay Style';
 
   @override
-  String get appearanceOverlayCardSubtitle =>
+  String get descAppearanceOverlayCard =>
       'Laser line, pulsing corners, cybernetic grid, or dot matrix';
 
   @override
-  String get appearanceAccentCardTitle => 'Accent Color & Dynamic Colors';
+  String get labelAppearanceAccentCard => 'Accent & colors';
 
   @override
-  String get appearanceAccentCardSubtitle =>
+  String get descAppearanceAccentCard =>
       'Material You dynamic color and custom accent palettes';
 
   @override
-  String get appearanceTypographyCardTitle => 'Typography & Text Size';
+  String get labelAppearanceTypographyCard => 'Text size & font';
 
   @override
-  String get appearanceTypographyCardSubtitle =>
+  String get descAppearanceTypographyCard =>
       'App font family and text scale preferences';
 
   @override
-  String get featuresHeaderTitle => 'SreerajP QR Studio Features';
+  String get titleFeaturesHeader => 'All features';
 
   @override
-  String get featuresHeaderSubtitle =>
+  String get descFeaturesHeader =>
       'Explore every intelligent scanning tool, 6-layer URL safety engine, AR CodeVision, and offline feature designed for you.';
 
   @override
-  String get featuresCatScanningName => 'Core Scanning & Ingestion';
+  String get titleFeaturesCatScanning => 'Scanning';
 
   @override
-  String get featuresCatScanningSubtitle =>
+  String get descFeaturesCatScanning =>
       'Lightning-fast 1D/2D barcode engine with multi-source media support';
 
   @override
-  String get featuresCatSafetyName => '6-Layer URL Safety & Forensic Engine';
+  String get titleFeaturesCatSafety => '6-layer link safety';
 
   @override
-  String get featuresCatSafetySubtitle =>
+  String get descFeaturesCatSafety =>
       'Zero-trust forensic analysis defending you against malicious QR phishing & scams';
 
   @override
-  String get featuresCatVisionName => 'QuishingGuard™ & Advanced AI Vision';
+  String get titleFeaturesCatVision => 'Vision tools';
 
   @override
-  String get featuresCatVisionSubtitle =>
+  String get descFeaturesCatVision =>
       'Cutting-edge on-device computer vision and optical air-gap data streaming';
 
   @override
-  String get featuresCatPayloadsName => 'Smart Payloads & 1-Tap Integrations';
+  String get titleFeaturesCatPayloads => 'Smart actions';
 
   @override
-  String get featuresCatPayloadsSubtitle =>
+  String get descFeaturesCatPayloads =>
       'Instant parsing and contextual native actions for everyday barcodes';
 
   @override
-  String get featuresCatHistoryName => 'History, Backup & Privacy Vault';
+  String get titleFeaturesCatHistory => 'History & privacy';
 
   @override
-  String get featuresCatHistorySubtitle =>
+  String get descFeaturesCatHistory =>
       'Your personal scan history protected by biometric security and offline storage';
 
   @override
-  String get featureBarcodeEngineTitle => 'Multi-Format Barcode Engine';
+  String get titleFeatureBarcodeEngine => 'Barcode engine';
 
   @override
-  String get featureBarcodeEngineDesc =>
+  String get descFeatureBarcodeEngine =>
       'Instantly decodes 1D barcodes (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) and 2D codes (QR, Data Matrix, Aztec, PDF417) in milliseconds.';
 
   @override
-  String get featureBarcodeEngineChip1 => 'QR & Data Matrix';
+  String get labelFeatureBarcodeEngineChip1 => 'QR & Data Matrix';
 
   @override
-  String get featureBarcodeEngineChip2 => 'Aztec & PDF417';
+  String get labelFeatureBarcodeEngineChip2 => 'Aztec & PDF417';
 
   @override
-  String get featureBarcodeEngineChip3 => 'EAN & Code 128';
+  String get labelFeatureBarcodeEngineChip3 => 'EAN & Code 128';
 
   @override
-  String get featureMediaSourcesTitle => 'Multi-Source Media & PDF Ingestion';
+  String get titleFeatureMediaSources => 'Images & PDF';
 
   @override
-  String get featureMediaSourcesDesc =>
+  String get descFeatureMediaSources =>
       'Scan barcodes from live camera feed, select existing images from your gallery, or extract and parse barcodes across multi-page PDF documents.';
 
   @override
-  String get featureMediaSourcesChip1 => 'Gallery Photos';
+  String get labelFeatureMediaSourcesChip1 => 'Gallery Photos';
 
   @override
-  String get featureMediaSourcesChip2 => 'Multi-Page PDF';
+  String get labelFeatureMediaSourcesChip2 => 'Multi-Page PDF';
 
   @override
-  String get featureMediaSourcesChip3 => 'Live Viewport';
+  String get labelFeatureMediaSourcesChip3 => 'Live Viewport';
 
   @override
-  String get featureGhostScanTitle => 'GhostScan Screen Content Detector';
+  String get titleFeatureGhostScan => 'GhostScan';
 
   @override
-  String get featureGhostScanDesc =>
+  String get descFeatureGhostScan =>
       'Detects and decodes QR codes visible on your screen inside messaging apps, social feeds, and web browsers via Quick Settings tile, the floating Scan bubble, or on-demand trigger without saving screenshots.';
 
   @override
-  String get featureGhostScanChip1 => 'Quick Settings Tile';
+  String get labelFeatureGhostScanChip1 => 'Quick Settings Tile';
 
   @override
-  String get featureGhostScanChip2 => 'Floating Scan Bubble';
+  String get labelFeatureGhostScanChip2 => 'Floating Scan Bubble';
 
   @override
-  String get featureGhostScanChip3 => 'No Screenshots Saved';
+  String get labelFeatureGhostScanChip3 => 'No Screenshots Saved';
 
   @override
-  String get featureCameraControlsTitle => 'Precision Camera Controls';
+  String get titleFeatureCameraControls => 'Camera controls';
 
   @override
-  String get featureCameraControlsDesc =>
+  String get descFeatureCameraControls =>
       'Smooth zoom slider, torch flashlight toggle, front and rear camera switching, and continuous autofocus for low-light scanning.';
 
   @override
-  String get featureCameraControlsChip1 => 'Flashlight Torch';
+  String get labelFeatureCameraControlsChip1 => 'Flashlight Torch';
 
   @override
-  String get featureCameraControlsChip2 => 'Zoom Control';
+  String get labelFeatureCameraControlsChip2 => 'Zoom Control';
 
   @override
-  String get featureCameraControlsChip3 => 'Front/Back Flip';
+  String get labelFeatureCameraControlsChip3 => 'Front/Back Flip';
 
   @override
-  String get featureScanOverlaysTitle => 'Customizable Scan Overlays';
+  String get titleFeatureScanOverlays => 'Scan overlays';
 
   @override
-  String get featureScanOverlaysDesc =>
+  String get descFeatureScanOverlays =>
       'Choose between Laser Line, Pulsing Corners, Cybernetic Grid, or Subtle Dot Matrix viewfinder overlays with live feedback.';
 
   @override
-  String get featureScanOverlaysChip1 => '4 Overlay Styles';
+  String get labelFeatureScanOverlaysChip1 => '4 Overlay Styles';
 
   @override
-  String get featureScanOverlaysChip2 => 'Live Animation';
+  String get labelFeatureScanOverlaysChip2 => 'Live Animation';
 
   @override
-  String get featureScanOverlaysChip3 => 'OLED Compatible';
+  String get labelFeatureScanOverlaysChip3 => 'OLED Compatible';
 
   @override
-  String get featureFeedbackTitle => 'Tactile Haptic & Audio Feedback';
+  String get titleFeatureFeedback => 'Haptic & sound';
 
   @override
-  String get featureFeedbackDesc =>
+  String get descFeatureFeedback =>
       'Customizable vibration pulses and audible beep tones confirm successful recognition even in noisy environments.';
 
   @override
-  String get featureFeedbackChip1 => 'Haptic Pulse';
+  String get labelFeatureFeedbackChip1 => 'Haptic Pulse';
 
   @override
-  String get featureFeedbackChip2 => 'Audio Beep';
+  String get labelFeatureFeedbackChip2 => 'Audio Beep';
 
   @override
-  String get featureFeedbackChip3 => 'Independent Toggles';
+  String get labelFeatureFeedbackChip3 => 'Independent Toggles';
 
   @override
-  String get featureProtocolGuardTitle => 'Protocol & Syntax Guard (Layer 1)';
+  String get titleFeatureProtocolGuard => '1. Protocol guard';
 
   @override
-  String get featureProtocolGuardDesc =>
+  String get descFeatureProtocolGuard =>
       'Validates scheme authenticity, checks for encrypted HTTPS connections, and flags plain HTTP or unsupported schemes.';
 
   @override
-  String get featureProtocolGuardChip1 => 'HTTPS Validation';
+  String get labelFeatureProtocolGuardChip1 => 'HTTPS Validation';
 
   @override
-  String get featureProtocolGuardChip2 => 'Scheme Checking';
+  String get labelFeatureProtocolGuardChip2 => 'Scheme Checking';
 
   @override
-  String get featureProtocolGuardChip3 => 'Zero-Width Char Trap';
+  String get labelFeatureProtocolGuardChip3 => 'Zero-Width Char Trap';
 
   @override
-  String get featureHomographShieldTitle =>
-      'Homograph & Unicode Shield (Layer 2)';
+  String get titleFeatureHomographShield => '2. Homograph shield';
 
   @override
-  String get featureHomographShieldDesc =>
+  String get descFeatureHomographShield =>
       'Detects lookalike Cyrillic, Greek, and Unicode spoofing characters used to disguise fraudulent domain names (IDN punycode defense).';
 
   @override
-  String get featureHomographShieldChip1 => 'Punycode Defense';
+  String get labelFeatureHomographShieldChip1 => 'Punycode Defense';
 
   @override
-  String get featureHomographShieldChip2 => 'Cyrillic Lookalikes';
+  String get labelFeatureHomographShieldChip2 => 'Cyrillic Lookalikes';
 
   @override
-  String get featureHomographShieldChip3 => 'Mixed-Script Trap';
+  String get labelFeatureHomographShieldChip3 => 'Mixed-Script Trap';
 
   @override
-  String get featureTldEntropyTitle =>
-      'Suspicious TLD & Entropy Analysis (Layer 3)';
+  String get titleFeatureTldEntropy => '3. TLD & entropy';
 
   @override
-  String get featureTldEntropyDesc =>
+  String get descFeatureTldEntropy =>
       'Flags high-risk top-level domains, excessive subdomains, and evaluates domain name character entropy to catch algorithmic domains.';
 
   @override
-  String get featureTldEntropyChip1 => 'High-Risk TLDs';
+  String get labelFeatureTldEntropyChip1 => 'High-Risk TLDs';
 
   @override
-  String get featureTldEntropyChip2 => 'Entropy Scoring';
+  String get labelFeatureTldEntropyChip2 => 'Entropy Scoring';
 
   @override
-  String get featureTldEntropyChip3 => 'Subdomain Depth';
+  String get labelFeatureTldEntropyChip3 => 'Subdomain Depth';
 
   @override
-  String get featureIpPortTitle => 'Heuristic IP & Port Flagging (Layer 4)';
+  String get titleFeatureIpPort => '4. IP & port check';
 
   @override
-  String get featureIpPortDesc =>
+  String get descFeatureIpPort =>
       'Flags links pointing directly to raw IP addresses or non-standard HTTP/HTTPS network ports designed to bypass firewalls.';
 
   @override
-  String get featureIpPortChip1 => 'Raw IP Traps';
+  String get labelFeatureIpPortChip1 => 'Raw IP Traps';
 
   @override
-  String get featureIpPortChip2 => 'Non-Standard Ports';
+  String get labelFeatureIpPortChip2 => 'Non-Standard Ports';
 
   @override
-  String get featureIpPortChip3 => 'Embedded Userinfo';
+  String get labelFeatureIpPortChip3 => 'Embedded Userinfo';
 
   @override
-  String get featureHeadProbeTitle =>
-      'Privacy-Safe Online Head Probing (Layer 5)';
+  String get titleFeatureHeadProbe => '5. Online probe';
 
   @override
-  String get featureHeadProbeDesc =>
+  String get descFeatureHeadProbe =>
       'Optional opt-in lightweight HTTP HEAD probing to resolve URL shorteners, uncover hidden redirect chains, and verify TLS certificates.';
 
   @override
-  String get featureHeadProbeChip1 => 'Redirect Chains';
+  String get labelFeatureHeadProbeChip1 => 'Redirect Chains';
 
   @override
-  String get featureHeadProbeChip2 => 'Shortener Unrolling';
+  String get labelFeatureHeadProbeChip2 => 'Shortener Unrolling';
 
   @override
-  String get featureHeadProbeChip3 => 'Opt-In Privacy';
+  String get labelFeatureHeadProbeChip3 => 'Opt-In Privacy';
 
   @override
-  String get featureSafeBrowsingTitle => 'Google Safe Browsing API (Layer 6)';
+  String get titleFeatureSafeBrowsing => '6. Safe Browsing';
 
   @override
-  String get featureSafeBrowsingDesc =>
+  String get descFeatureSafeBrowsing =>
       'Optional cloud threat intelligence against millions of known malicious URLs, malware distribution hubs, and social engineering sites.';
 
   @override
-  String get featureSafeBrowsingChip1 => 'Google Threat DB';
+  String get labelFeatureSafeBrowsingChip1 => 'Google Threat DB';
 
   @override
-  String get featureSafeBrowsingChip2 => 'Local Key Storage';
+  String get labelFeatureSafeBrowsingChip2 => 'Local Key Storage';
 
   @override
-  String get featureSafeBrowsingChip3 => 'Daily Quota Meter';
+  String get labelFeatureSafeBrowsingChip3 => 'Daily Quota Meter';
 
   @override
-  String get featureQuishingGuardTitle =>
-      'QuishingGuard™ Physical Tamper Detection';
+  String get titleFeatureQuishingGuard => 'QuishingGuard™';
 
   @override
-  String get featureQuishingGuardDesc =>
+  String get descFeatureQuishingGuard =>
       'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.';
 
   @override
-  String get featureQuishingGuardChip1 => 'Sticker Overlays';
+  String get labelFeatureQuishingGuardChip1 => 'Sticker Overlays';
 
   @override
-  String get featureQuishingGuardChip2 => 'Edge Discontinuity';
+  String get labelFeatureQuishingGuardChip2 => 'Edge Discontinuity';
 
   @override
-  String get featureQuishingGuardChip3 => 'Print Grain Analysis';
+  String get labelFeatureQuishingGuardChip3 => 'Print Grain Analysis';
 
   @override
-  String get featureArCodeVisionTitle => 'AR CodeVision™ Spatial HUD';
+  String get titleFeatureArCodeVision => 'AR CodeVision™';
 
   @override
-  String get featureArCodeVisionDesc =>
+  String get descFeatureArCodeVision =>
       'Augmented Reality multi-barcode scanner displaying floating interactive chips over all detected codes with live safety badges and batch selection.';
 
   @override
-  String get featureArCodeVisionChip1 => 'Spatial Tracking';
+  String get labelFeatureArCodeVisionChip1 => 'Spatial Tracking';
 
   @override
-  String get featureArCodeVisionChip2 => 'Multi-Code HUD';
+  String get labelFeatureArCodeVisionChip2 => 'Multi-Code HUD';
 
   @override
-  String get featureArCodeVisionChip3 => 'Batch Select';
+  String get labelFeatureArCodeVisionChip3 => 'Batch Select';
 
   @override
-  String get featureAirQrTitle => 'AirQR™ Optical Air-Gap Data Stream';
+  String get titleFeatureAirQr => 'AirQR™ transfer';
 
   @override
-  String get featureAirQrDesc =>
+  String get descFeatureAirQr =>
       'High-speed animated strobe QR transmitter & receiver pipeline transferring encrypted text, files, and keys completely offline without Wi-Fi or Bluetooth.';
 
   @override
-  String get featureAirQrChip1 => 'Animated Strobe QR';
+  String get labelFeatureAirQrChip1 => 'Animated Strobe QR';
 
   @override
-  String get featureAirQrChip2 => 'Reed-Solomon FEC';
+  String get labelFeatureAirQrChip2 => 'Reed-Solomon FEC';
 
   @override
-  String get featureAirQrChip3 => '100% Offline Air-Gap';
+  String get labelFeatureAirQrChip3 => '100% Offline Air-Gap';
 
   @override
-  String get featureStegoQrTitle => 'StegoQR™ Steganographic Scanner';
+  String get titleFeatureStegoQr => 'StegoQR™ scanner';
 
   @override
-  String get featureStegoQrDesc =>
+  String get descFeatureStegoQr =>
       'Discovers and extracts hidden encrypted payloads and watermarked data layers invisibly embedded within custom QR codes.';
 
   @override
-  String get featureStegoQrChip1 => 'Decoy QR Parsing';
+  String get labelFeatureStegoQrChip1 => 'Decoy QR Parsing';
 
   @override
-  String get featureStegoQrChip2 => 'AES Decryption';
+  String get labelFeatureStegoQrChip2 => 'AES Decryption';
 
   @override
-  String get featureStegoQrChip3 => 'Biometric Auth';
+  String get labelFeatureStegoQrChip3 => 'Biometric Auth';
 
   @override
-  String get featureWifiTitle => 'Wi-Fi Instant Auto Connect';
+  String get titleFeatureWifi => 'Wi-Fi auto connect';
 
   @override
-  String get featureWifiDesc =>
+  String get descFeatureWifi =>
       'Parses WPA/WPA2/WPA3 network credentials, displays network info, copies passwords, and opens Wi-Fi settings in 1 tap.';
 
   @override
-  String get featureWifiChip1 => 'WPA3 & WPA2';
+  String get labelFeatureWifiChip1 => 'WPA3 & WPA2';
 
   @override
-  String get featureWifiChip2 => '1-Tap Connect';
+  String get labelFeatureWifiChip2 => '1-Tap Connect';
 
   @override
-  String get featureWifiChip3 => 'Password Reveal/Copy';
+  String get labelFeatureWifiChip3 => 'Password Reveal/Copy';
 
   @override
-  String get featurePaymentsTitle => 'UPI & Global Crypto Payments';
+  String get titleFeaturePayments => 'UPI & crypto pay';
 
   @override
-  String get featurePaymentsDesc =>
+  String get descFeaturePayments =>
       'Parses Indian UPI QR codes (dispatching to GPay, PhonePe, Paytm) and Bitcoin/Ethereum/Solana crypto payment addresses with amount detection.';
 
   @override
-  String get featurePaymentsChip1 => 'UPI App Dispatch';
+  String get labelFeaturePaymentsChip1 => 'UPI App Dispatch';
 
   @override
-  String get featurePaymentsChip2 => 'Crypto Wallets';
+  String get labelFeaturePaymentsChip2 => 'Crypto Wallets';
 
   @override
-  String get featurePaymentsChip3 => 'SEPA Transfer';
+  String get labelFeaturePaymentsChip3 => 'SEPA Transfer';
 
   @override
-  String get featureTotpTitle => 'TOTP 2FA Authenticator & Token Generator';
+  String get titleFeatureTotp => 'TOTP authenticator';
 
   @override
-  String get featureTotpDesc =>
+  String get descFeatureTotp =>
       'Scans 2FA setup codes, renders live rolling 6-digit OTP passcodes with circular countdown timers, and imports into authenticator apps.';
 
   @override
-  String get featureTotpChip1 => 'Live Passcodes';
+  String get labelFeatureTotpChip1 => 'Live Passcodes';
 
   @override
-  String get featureTotpChip2 => 'Visual Countdown';
+  String get labelFeatureTotpChip2 => 'Visual Countdown';
 
   @override
-  String get featureTotpChip3 => 'App Importer';
+  String get labelFeatureTotpChip3 => 'App Importer';
 
   @override
-  String get featureContactsTitle => 'Contacts & vCard Importer';
+  String get titleFeatureContacts => 'Contacts & vCard';
 
   @override
-  String get featureContactsDesc =>
+  String get descFeatureContacts =>
       'Parses vCard 2.1/3.0/4.0 and MeCard contact barcodes with 1-tap phone dialing, email composition, and saving to your address book.';
 
   @override
-  String get featureContactsChip1 => 'vCard 4.0';
+  String get labelFeatureContactsChip1 => 'vCard 4.0';
 
   @override
-  String get featureContactsChip2 => '1-Tap Save';
+  String get labelFeatureContactsChip2 => '1-Tap Save';
 
   @override
-  String get featureContactsChip3 => 'Direct Call & Email';
+  String get labelFeatureContactsChip3 => 'Direct Call & Email';
 
   @override
-  String get featureCalendarTitle => 'Calendar Events & Scheduling';
+  String get titleFeatureCalendar => 'Calendar events';
 
   @override
-  String get featureCalendarDesc =>
+  String get descFeatureCalendar =>
       'Reads iCalendar VEVENT formats with start/end time ranges, locations, and descriptions, adding them directly to your device calendar.';
 
   @override
-  String get featureCalendarChip1 => 'iCal Parsing';
+  String get labelFeatureCalendarChip1 => 'iCal Parsing';
 
   @override
-  String get featureCalendarChip2 => 'Start/End Time';
+  String get labelFeatureCalendarChip2 => 'Start/End Time';
 
   @override
-  String get featureCalendarChip3 => 'Device Calendar Add';
+  String get labelFeatureCalendarChip3 => 'Device Calendar Add';
 
   @override
-  String get featureGeoTitle => 'Geographic Location & Navigation';
+  String get titleFeatureGeo => 'Location & maps';
 
   @override
-  String get featureGeoDesc =>
+  String get descFeatureGeo =>
       'Parses geo: coordinates and search queries, offering instant navigation directions via Google Maps.';
 
   @override
-  String get featureGeoChip1 => 'Lat/Long Parsing';
+  String get labelFeatureGeoChip1 => 'Lat/Long Parsing';
 
   @override
-  String get featureGeoChip2 => 'Google Maps Link';
+  String get labelFeatureGeoChip2 => 'Google Maps Link';
 
   @override
-  String get featureGeoChip3 => 'Search Queries';
+  String get labelFeatureGeoChip3 => 'Search Queries';
 
   @override
-  String get featureScanHistoryTitle => 'Comprehensive Offline Scan History';
+  String get titleFeatureScanHistory => 'Offline scan history';
 
   @override
-  String get featureScanHistoryDesc =>
+  String get descFeatureScanHistory =>
       'Stores every scan locally with payload categorization, safety scores, timestamp tracking, favorite stars, and real-time full-text search.';
 
   @override
-  String get featureScanHistoryChip1 => 'Full-Text Search';
+  String get labelFeatureScanHistoryChip1 => 'Full-Text Search';
 
   @override
-  String get featureScanHistoryChip2 => 'Category Filtering';
+  String get labelFeatureScanHistoryChip2 => 'Category Filtering';
 
   @override
-  String get featureScanHistoryChip3 => 'Favorite Stars';
+  String get labelFeatureScanHistoryChip3 => 'Favorite Stars';
 
   @override
-  String get featureBackupsTitle => 'Flexible JSON & CSV Backups';
+  String get titleFeatureBackups => 'JSON & CSV backups';
 
   @override
-  String get featureBackupsDesc =>
+  String get descFeatureBackups =>
       'Export your complete scan history to standard CSV spreadsheets or encrypted JSON backup files with one-click restore.';
 
   @override
-  String get featureBackupsChip1 => 'CSV Spreadsheet';
+  String get labelFeatureBackupsChip1 => 'CSV Spreadsheet';
 
   @override
-  String get featureBackupsChip2 => 'JSON Backup';
+  String get labelFeatureBackupsChip2 => 'JSON Backup';
 
   @override
-  String get featureBackupsChip3 => 'One-Click Restore';
+  String get labelFeatureBackupsChip3 => 'One-Click Restore';
 
   @override
-  String get featureBiometricGuardTitle => 'Biometric & Screen Security Guard';
+  String get titleFeatureBiometricGuard => 'App & screen lock';
 
   @override
-  String get featureBiometricGuardDesc =>
-      'Protects sensitive hidden StegoQR payloads and history with fingerprint/face authentication and blocks screen captures (FLAG_SECURE).';
+  String get descFeatureBiometricGuard =>
+      'Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). Hidden StegoQR messages can also ask for biometrics.';
 
   @override
-  String get featureBiometricGuardChip1 => 'Biometric Prompt';
+  String get labelFeatureBiometricGuardChip1 => 'Biometric Prompt';
 
   @override
-  String get featureBiometricGuardChip2 => 'Screenshot Guard';
+  String get labelFeatureBiometricGuardChip2 => 'Screenshot Guard';
 
   @override
-  String get featureBiometricGuardChip3 => 'Encrypted Storage';
+  String get labelFeatureBiometricGuardChip3 => 'Encrypted Storage';
 
   @override
-  String get featureOfflinePrivacyTitle => '100% Offline-First Privacy';
+  String get titleFeatureOfflinePrivacy => '100% offline privacy';
 
   @override
-  String get featureOfflinePrivacyDesc =>
+  String get descFeatureOfflinePrivacy =>
       'Scans, decodes, and analyzes barcodes completely on your phone without sending any data to external servers by default.';
 
   @override
-  String get featureOfflinePrivacyChip1 => 'No Telemetry';
+  String get labelFeatureOfflinePrivacyChip1 => 'No Telemetry';
 
   @override
-  String get featureOfflinePrivacyChip2 => 'Zero Ads';
+  String get labelFeatureOfflinePrivacyChip2 => 'Zero Ads';
 
   @override
-  String get featureOfflinePrivacyChip3 => 'Open-Source Safety';
+  String get labelFeatureOfflinePrivacyChip3 => 'Open-Source Safety';
 
   @override
   String get helpCenterHeaderTitle => 'Help Center & User Guides';
@@ -2442,243 +2332,228 @@ class AppLocalizationsEn extends AppLocalizations {
       'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.';
 
   @override
-  String get decryptPayloadAction => 'Decrypt Payload';
+  String get actionDecryptPayload => 'Decrypt Payload';
 
   @override
-  String get decryptPayloadTitle => 'Decrypt Scanned Content';
+  String get titleDecryptPayload => 'Decrypt content';
 
   @override
-  String get decryptPayloadDescription =>
+  String get descDecryptPayload =>
       'Enter the passphrase or session code to decrypt this ciphertext payload.';
 
   @override
-  String get cipherModeLabel => 'Cipher Mode';
+  String get labelCipherMode => 'Cipher Mode';
 
   @override
-  String get cipherModeAuto => 'Auto-detect / Standard';
+  String get labelCipherModeAuto => 'Auto / Standard';
 
   @override
-  String get cipherModeAesGcm => 'AES-256-GCM (PBKDF2 SHA-256)';
+  String get labelCipherModeAesGcm => 'AES-256-GCM (PBKDF2)';
 
   @override
-  String get cipherModeAesCbc => 'AES-256-CBC';
+  String get labelCipherModeAesCbc => 'AES-256-CBC';
 
   @override
-  String get airQrCodeLabel => 'Session Code / Key';
+  String get labelAirQrCode => 'Session Code / Key';
 
   @override
-  String get airQrCodeHint => 'e.g. ABC-DEF';
+  String get helpAirQrCode => 'e.g. ABC-DEF';
 
   @override
-  String get airQrDetectedTitle => 'AirQR Encrypted Transfer';
+  String get titleAirQrDetected => 'AirQR transfer';
 
   @override
-  String get airQrDetectedSubtitle =>
+  String get bodyAirQrDetected =>
       'This QR code carries an encrypted optical transfer. Enter the session code shown on the sending device to unlock.';
 
   @override
-  String get jsonEnvelopeDetectedTitle => 'Encrypted JSON Container';
+  String get titleJsonEnvelopeDetected => 'Encrypted JSON';
 
   @override
-  String get jsonEnvelopeDetectedSubtitle =>
+  String get bodyJsonEnvelopeDetected =>
       'This QR code contains an encrypted JSON container. Enter the passphrase to decrypt.';
 
   @override
-  String get decryptedContentLabel => 'Decrypted Content:';
+  String get labelDecryptedContent => 'Decrypted Content:';
 
   @override
-  String get manualDecryptionFailed =>
+  String get errorManualDecryptionFailed =>
       'Decryption failed. Please verify the passphrase or cipher settings.';
 
   @override
-  String get emailCardTitle => 'Email Address';
+  String get titleEmailCard => 'Email Address';
 
   @override
-  String get emailSendButton => 'Send Email';
+  String get actionEmailSend => 'Send Email';
 
   @override
-  String get emailCopyButton => 'Copy';
+  String get actionEmailCopy => 'Copy';
 
   @override
-  String get emailLaunchFailed =>
+  String get errorEmailLaunchFailed =>
       'Could not open email app. Copy the address and open your email app manually.';
 
   @override
-  String get emailSubjectLabel => 'Subject';
+  String get labelEmailSubject => 'Subject';
 
   @override
-  String get emailBodyLabel => 'Message';
+  String get labelEmailBody => 'Message';
 
   @override
-  String get phoneCardTitle => 'Phone Number';
+  String get titlePhoneCard => 'Phone Number';
 
   @override
-  String get phoneCallButton => 'Call';
+  String get actionPhoneCall => 'Call';
 
   @override
-  String get phoneCopyButton => 'Copy';
+  String get actionPhoneCopy => 'Copy';
 
   @override
-  String get phoneLaunchFailed =>
+  String get errorPhoneLaunchFailed =>
       'Could not open the phone dialer. Copy the number and dial manually.';
 
   @override
-  String get smsCardTitle => 'Text Message';
+  String get titleSmsCard => 'Text Message';
 
   @override
-  String get smsSendButton => 'Send Message';
+  String get actionSmsSend => 'Send Message';
 
   @override
-  String get smsCopyButton => 'Copy';
+  String get actionSmsCopy => 'Copy';
 
   @override
-  String get smsLaunchFailed =>
+  String get errorSmsLaunchFailed =>
       'Could not open the messaging app. Copy the number and message manually.';
 
   @override
-  String get smsBodyLabel => 'Message';
+  String get labelSmsBody => 'Message';
 
   @override
-  String get appLinkCardTitle => 'App Link';
+  String get titleAppLinkCard => 'App Link';
 
   @override
-  String get appLinkOpenButton => 'Open in App';
+  String get actionAppLinkOpen => 'Open in App';
 
   @override
-  String get appLinkLaunchFailed =>
+  String get errorAppLinkLaunchFailed =>
       'Could not open this app link. The app may not be installed.';
 
   @override
-  String get productBarcodeCardTitle => 'Product Barcode';
+  String get titleProductBarcodeCard => 'Product Barcode';
 
   @override
-  String get productSearchFoodButton => 'Food Info';
+  String get actionProductSearchFood => 'Food Info';
 
   @override
-  String get productSearchWebButton => 'Search Web';
+  String get actionProductSearchWeb => 'Search Web';
 
   @override
-  String get productCopyButton => 'Copy Barcode';
+  String get actionProductCopy => 'Copy Barcode';
 
   @override
-  String get productLaunchFailed =>
+  String get errorProductLaunchFailed =>
       'Could not open product search. Try copying the barcode and searching manually.';
 
   @override
-  String get isbnCardTitle => 'Book (ISBN)';
+  String get titleIsbnCard => 'Book (ISBN)';
 
   @override
-  String get isbnGoogleBooksButton => 'Google Books';
+  String get actionIsbnGoogleBooks => 'Google Books';
 
   @override
-  String get isbnOpenLibraryButton => 'Open Library';
+  String get actionIsbnOpenLibrary => 'Open Library';
 
   @override
-  String get isbnCopyButton => 'Copy ISBN';
+  String get actionIsbnCopy => 'Copy ISBN';
 
   @override
-  String get isbnLaunchFailed =>
+  String get errorIsbnLaunchFailed =>
       'Could not open book lookup. Try copying the ISBN and searching manually.';
 
   @override
-  String get historyFilterEmail => 'Email';
+  String get labelHistoryFilterEmail => 'Email';
 
   @override
-  String get historyFilterPhone => 'Phone';
+  String get labelHistoryFilterPhone => 'Phone';
 
   @override
-  String get historyFilterSms => 'SMS';
+  String get labelHistoryFilterSms => 'SMS';
 
   @override
-  String get historyFilterAppLink => 'App Link';
+  String get labelHistoryFilterAppLink => 'App Link';
 
   @override
-  String get historyFilterProductBarcode => 'Product';
+  String get labelHistoryFilterProductBarcode => 'Product';
 
   @override
-  String get historyFilterIsbn => 'Book';
+  String get labelHistoryFilterIsbn => 'Book';
 
   @override
-  String get scanFlashOff => 'Flash: Off';
+  String get tooltipScanFlashOff => 'Flash: Off';
 
   @override
-  String get scanFlashOn => 'Flash: On';
+  String get tooltipScanFlashOn => 'Flash: On';
 
   @override
-  String get scanFlashAuto => 'Flash: Auto';
+  String get tooltipScanFlashAuto => 'Flash: Auto';
 
   @override
-  String scanFlashAutoActive(String lux) {
+  String bodyScanFlashAutoActive(String lux) {
     return 'Auto Flash Active ($lux lux)';
   }
 
   @override
-  String get scanFlashAutoSensorUnavailable =>
-      'Light sensor unavailable on this device';
+  String get tooltipCameraTune => 'Camera adjustments';
 
   @override
-  String get cameraTuneTooltip => 'Camera adjustments';
+  String get titleCameraTune => 'Camera Adjustments';
 
   @override
-  String get cameraTuneTitle => 'Camera Adjustments';
+  String get labelCameraBrightness => 'Brightness';
 
   @override
-  String get cameraBrightnessLabel => 'Brightness';
+  String get labelCameraContrast => 'Contrast';
 
   @override
-  String get cameraContrastLabel => 'Contrast';
+  String get labelCameraInvert => 'Invert colors';
 
   @override
-  String get cameraInvertLabel => 'Invert Colors (Negative Scan)';
-
-  @override
-  String get cameraInvertHint =>
+  String get descCameraInvert =>
       'Optimized for white QR codes on dark screens or metal';
 
   @override
-  String get cameraResolutionLabel => 'Camera Resolution';
+  String get labelCameraResolution => 'Camera Resolution';
 
   @override
-  String get cameraResolutionFullHd => 'Full HD (1080p - Recommended)';
+  String get tooltipCameraResolutionFullHd => '1080p, recommended';
 
   @override
-  String get cameraResolutionMax => 'Maximum (4K UHD)';
+  String get tooltipCameraResolutionMax => 'Maximum (4K UHD)';
 
   @override
-  String get cameraResolutionHd => 'HD (720p - Battery Saver)';
+  String get tooltipCameraResolutionHd => '720p, saves battery';
 
   @override
-  String get cameraResetAdjustments => 'Reset Adjustments';
+  String get actionCameraReset => 'Reset Adjustments';
 
   @override
-  String get cameraFocusTapHint => 'Tap to focus & meter light';
+  String get labelSettingsLanguage => 'Language';
 
   @override
-  String get settingsLanguageTitle => 'Language';
+  String get labelLanguageSystemDefault => 'System default';
 
   @override
-  String get settingsLanguageSubtitle => 'Select application display language';
+  String get labelLanguageEnglish => 'English';
 
   @override
-  String get languageSystemDefault => 'System default';
+  String get labelLanguageMalayalam => 'മലയാളം';
 
   @override
-  String get languageEnglish => 'English';
+  String get labelLanguageSanskrit => 'संस्कृतम्';
 
   @override
-  String get languageMalayalam => 'മലയാളം';
-
-  @override
-  String get languageSanskrit => 'संस्कृतम्';
-
-  @override
-  String aboutCopyright(String year) {
+  String bodyAboutCopyright(String year) {
     return '© $year Sreeraj P. All rights reserved.';
-  }
-
-  @override
-  String apiQuotaPercentageUsed(String percentage) {
-    return '$percentage% used';
   }
 
   @override
@@ -2697,77 +2572,71 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipBack => 'Back';
 
   @override
-  String get tooltipToggleSecretVisibility => 'Toggle secret visibility';
+  String get tooltipToggleSecretVisibility => 'Show or hide secret';
 
   @override
   String get tooltipResetStream => 'Reset stream';
 
   @override
-  String get tooltipAirQrTransmitter => 'Switch to AirQR Transmitter';
+  String get labelAirQrModeText => 'Custom Text';
 
   @override
-  String get airQrModeText => 'Custom Text';
+  String get labelAirQrModeSync => 'Device Sync';
 
   @override
-  String get airQrModeSync => 'Device Sync';
-
-  @override
-  String airQrSyncIncludeHistory(int count) {
-    return 'Include scan history ($count)';
+  String labelAirQrSyncIncludeHistory(int count) {
+    return 'History ($count)';
   }
 
   @override
-  String get airQrSyncIncludeSettings => 'Include app settings';
+  String get labelAirQrSyncIncludeSettings => 'Include app settings';
 
   @override
-  String get airQrSyncPassphraseLabel => 'Sync Passphrase / PIN';
+  String get labelAirQrSyncPassphrase => 'Passphrase / PIN';
 
   @override
-  String get airQrSyncPassphraseHint => 'Enter PIN or passphrase to encrypt';
+  String get helpAirQrSyncPassphrase => 'Enter PIN or passphrase to encrypt';
 
   @override
-  String get airQrSyncGeneratePin => 'Generate PIN';
+  String get tooltipAirQrSyncGeneratePin => 'Generate PIN';
 
   @override
-  String get airQrSyncBeamButton => 'Beam History & Settings';
-
-  @override
-  String get airQrSyncNoDataWarning =>
+  String get errorAirQrSyncNoData =>
       'Select at least history or settings to sync.';
 
   @override
-  String get airQrSyncPackageDetected => 'AirQR Encrypted Sync Package';
+  String get titleAirQrSyncPackage => 'AirQR sync package';
 
   @override
-  String airQrSyncPackageSummary(int records) {
+  String bodyAirQrSyncPackageSummary(int records) {
     return 'Contains $records scan records and app configuration';
   }
 
   @override
-  String get airQrSyncEnterPassphrase => 'Enter Passphrase to Decrypt';
+  String get labelAirQrSyncEnterPassphrase => 'Sync passphrase';
 
   @override
-  String get airQrSyncRestoreHistory => 'Restore scan history';
+  String get labelAirQrSyncRestoreHistory => 'Restore scan history';
 
   @override
-  String get airQrSyncApplySettings => 'Apply app settings';
+  String get labelAirQrSyncApplySettings => 'Apply app settings';
 
   @override
-  String get airQrSyncDecryptButton => 'Decrypt & Sync';
+  String get actionAirQrSyncDecrypt => 'Decrypt & Sync';
 
   @override
-  String airQrSyncSuccess(int count) {
+  String bodyAirQrSyncSuccess(int count) {
     return 'Successfully synced $count records and updated settings!';
   }
 
   @override
-  String get airQrSyncBeamAction => 'Beam via AirQR';
+  String get actionAirQrSyncBeam => 'Beam via AirQR';
 
   @override
-  String get airQrSyncSettingsTitle => 'AirQR Optical Sync';
+  String get titleAirQrSyncSettings => 'AirQR Optical Sync';
 
   @override
-  String get airQrSyncSettingsSubtitle =>
+  String get descAirQrSyncSettings =>
       'Beam history & settings air-gapped to another phone';
 
   @override
@@ -2780,504 +2649,458 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabHistory => 'History';
 
   @override
-  String get codeForgeTitle => 'CodeForge';
+  String get titleCodeForge => 'CodeForge';
 
   @override
-  String get codeForgeSubtitle => 'Barcode & QR Studio';
+  String get labelCodeForgeSubtitle => 'Barcode & QR Studio';
 
   @override
-  String get codeForgeBarcodeType => 'Barcode Type';
+  String get labelCodeForgePresetText => 'Text';
 
   @override
-  String get codeForgePayloadType => 'Content Type';
-
-  @override
-  String get codeForgePresetText => 'Text';
-
-  @override
-  String get codeForgeTextHint =>
+  String get helpCodeForgeText =>
       'Keep text concise for clear and reliable scanning (up to 500 characters)';
 
   @override
-  String get codeForgeLoadFromFile => 'Read from file';
+  String get actionCodeForgeLoadFromFile => 'Read from file';
 
   @override
-  String get codeForgeLoadFromFileTooltip =>
-      'Read text from a file into the QR code generator';
+  String get tooltipCodeForgeLoadFromFile => 'Read text from file';
 
   @override
-  String get codeForgeFileEmpty => 'The selected file is empty.';
+  String get errorCodeForgeFileEmpty => 'The selected file is empty.';
 
   @override
-  String get codeForgeFileTruncated =>
+  String get bodyCodeForgeFileTruncated =>
       'Text was trimmed to 500 characters to fit in a single, fast-scanning QR code.';
 
   @override
-  String get codeForgeFileLoaded => 'Text loaded from file successfully.';
+  String get bodyCodeForgeFileLoaded => 'Text loaded from file successfully.';
 
   @override
-  String get codeForgeFileReadError => 'Unable to read the selected file.';
+  String get errorCodeForgeFileReadError => 'Unable to read the selected file.';
 
   @override
-  String get codeForgePresetUrl => 'URL / Link';
+  String get labelCodeForgePresetUrl => 'URL / Link';
 
   @override
-  String get codeForgePresetWifi => 'Wi-Fi';
+  String get labelCodeForgePresetWifi => 'Wi-Fi';
 
   @override
-  String get codeForgePresetContact => 'Contact';
+  String get labelCodeForgePresetContact => 'Contact';
 
   @override
-  String get codeForgePresetUpi => 'UPI Pay';
+  String get labelCodeForgePresetUpi => 'UPI Pay';
 
   @override
-  String get codeForgePresetSms => 'SMS';
+  String get labelCodeForgePresetSms => 'SMS';
 
   @override
-  String get codeForgePresetEmail => 'Email';
+  String get labelCodeForgePresetEmail => 'Email';
 
   @override
-  String get codeForgePresetGeo => 'Location';
+  String get labelCodeForgePresetGeo => 'Location';
 
   @override
-  String get codeForgeWifiSsid => 'Network Name (SSID)';
+  String get labelCodeForgeWifiSsid => 'Network Name (SSID)';
 
   @override
-  String get codeForgeWifiPassword => 'Password';
+  String get labelCodeForgeWifiPassword => 'Password';
 
   @override
-  String get codeForgeWifiSecurity => 'Security';
+  String get labelCodeForgeWifiSecurity => 'Security';
 
   @override
-  String get codeForgeWifiHidden => 'Hidden Network';
+  String get labelCodeForgeWifiHidden => 'Hidden Network';
 
   @override
-  String get codeForgeContactName => 'Full Name';
+  String get labelCodeForgeContactName => 'Full Name';
 
   @override
-  String get codeForgeContactPhone => 'Phone Number';
+  String get labelCodeForgeContactPhone => 'Phone Number';
 
   @override
-  String get codeForgeContactEmail => 'Email Address';
+  String get labelCodeForgeContactEmail => 'Email Address';
 
   @override
-  String get codeForgeContactOrg => 'Company / Org';
+  String get labelCodeForgeContactOrg => 'Company / Org';
 
   @override
-  String get codeForgeContactTitle => 'Job Title';
+  String get labelCodeForgeUpiVpa => 'UPI ID / VPA';
 
   @override
-  String get codeForgeContactUrl => 'Website';
+  String get labelCodeForgeUpiName => 'Payee Name';
 
   @override
-  String get codeForgeUpiVpa => 'UPI ID / VPA';
+  String get labelCodeForgeUpiAmount => 'Amount (INR)';
 
   @override
-  String get codeForgeUpiName => 'Payee Name';
+  String get labelCodeForgeUpiNote => 'Transaction Note';
 
   @override
-  String get codeForgeUpiAmount => 'Amount (INR)';
+  String get labelCodeForgeSmsPhone => 'Recipient Phone';
 
   @override
-  String get codeForgeUpiNote => 'Transaction Note';
+  String get labelCodeForgeSmsMessage => 'Message Body';
 
   @override
-  String get codeForgeSmsPhone => 'Recipient Phone';
+  String get labelCodeForgeEmailTo => 'Recipient Email';
 
   @override
-  String get codeForgeSmsMessage => 'Message Body';
+  String get labelCodeForgeEmailSubject => 'Subject';
 
   @override
-  String get codeForgeEmailTo => 'Recipient Email';
+  String get labelCodeForgeEmailBody => 'Email Body';
 
   @override
-  String get codeForgeEmailSubject => 'Subject';
+  String get labelCodeForgeGeoLat => 'Latitude';
 
   @override
-  String get codeForgeEmailBody => 'Email Body';
+  String get labelCodeForgeGeoLng => 'Longitude';
 
   @override
-  String get codeForgeGeoLat => 'Latitude';
+  String get actionCodeForgeGeoUseMyLocation => 'Use My Location';
 
   @override
-  String get codeForgeGeoLng => 'Longitude';
+  String get labelCodeForgeGeoFetching => 'Getting location…';
 
   @override
-  String get codeForgeGeoUseMyLocation => 'Use My Location';
+  String get errorCodeForgeGeoFailed => 'Could not get location';
 
   @override
-  String get codeForgeGeoFetching => 'Getting location…';
+  String get errorCodeForgeGeoPermissionDenied => 'Location permission denied';
 
   @override
-  String get codeForgeGeoFailed => 'Could not get location';
+  String get titleCodeForgeDesignStudio => 'Design & Structure';
 
   @override
-  String get codeForgeGeoPermissionDenied => 'Location permission denied';
+  String get titleCodeForgeEyeShape => 'Corner Eye Shape';
 
   @override
-  String get codeForgeDesignStudio => 'Design & Structure';
+  String get titleCodeForgeEyeBallShape => 'Inner Eye Pupil';
 
   @override
-  String get codeForgeEyeShape => 'Corner Eye Shape';
+  String get titleCodeForgePatternShape => 'Data Module Pattern';
 
   @override
-  String get codeForgeEyeBallShape => 'Inner Eye Pupil';
+  String get labelCodeForgeShapeSquare => 'Square';
 
   @override
-  String get codeForgePatternShape => 'Data Module Pattern';
+  String get labelCodeForgeShapeDots => 'Dots';
 
   @override
-  String get codeForgeShapeSquare => 'Square';
+  String get labelCodeForgeShapeRounded => 'Rounded';
 
   @override
-  String get codeForgeShapeDots => 'Dots';
+  String get labelCodeForgeShapeClassy => 'Classy';
 
   @override
-  String get codeForgeShapeRounded => 'Rounded';
+  String get labelCodeForgeShapeDiamond => 'Diamond';
 
   @override
-  String get codeForgeShapeClassy => 'Classy';
+  String get labelCodeForgeShapeLeaf => 'Leaf';
 
   @override
-  String get codeForgeShapeDiamond => 'Diamond';
+  String get labelCodeForgeShapeCircle => 'Circle';
 
   @override
-  String get codeForgeShapeLeaf => 'Leaf';
+  String get titleCodeForgeColorStudio => 'Colors & Gradients';
 
   @override
-  String get codeForgeShapeCircle => 'Circle';
+  String get titleCodeForgeFgColor => 'Foreground';
 
   @override
-  String get codeForgeColorStudio => 'Colors & Gradients';
+  String get titleCodeForgeBgColor => 'Background';
 
   @override
-  String get codeForgeFgColor => 'Foreground';
+  String get labelCodeForgeGradientNone => 'Solid Color';
 
   @override
-  String get codeForgeBgColor => 'Background';
+  String get labelCodeForgeGradientSunset => 'Sunset';
 
   @override
-  String get codeForgeEyeOuterColor => 'Eye Outer Ring';
+  String get labelCodeForgeGradientOcean => 'Ocean';
 
   @override
-  String get codeForgeEyeInnerColor => 'Eye Center Ball';
+  String get labelCodeForgeGradientNeon => 'Neon';
 
   @override
-  String get codeForgeGradientNone => 'Solid Color';
+  String get labelCodeForgeGradientGold => 'Royal Gold';
 
   @override
-  String get codeForgeGradientSunset => 'Sunset';
+  String get titleCodeForgeErrorCorrection => 'Error Correction';
 
   @override
-  String get codeForgeGradientOcean => 'Ocean';
+  String get titleCodeForgeCenterBadge => 'Center Badge';
 
   @override
-  String get codeForgeGradientNeon => 'Neon';
+  String get labelCodeForgeBadgeNone => 'None';
 
   @override
-  String get codeForgeGradientGold => 'Royal Gold';
+  String get labelCodeForgeBadgeIcon => 'Content Icon';
 
   @override
-  String get codeForgeErrorCorrection => 'Error Correction';
+  String get labelCodeForgeBadgeShield => 'Verified Shield';
 
   @override
-  String get codeForgeCenterBadge => 'Center Badge';
+  String get actionCodeForgeExportPng => 'Share PNG';
 
   @override
-  String get codeForgeBadgeNone => 'None';
+  String get actionCodeForgeExportSvg => 'Share SVG';
 
   @override
-  String get codeForgeBadgeIcon => 'Content Icon';
+  String get tooltipCodeForgeCopyPayload => 'Copy Content';
 
   @override
-  String get codeForgeBadgeShield => 'Verified Shield';
+  String get bodyCodeForgeCopied => 'Barcode content copied to clipboard';
 
   @override
-  String get codeForgeExportPng => 'Share PNG';
-
-  @override
-  String get codeForgeExportSvg => 'Share SVG';
-
-  @override
-  String get codeForgeCopyPayload => 'Copy Content';
-
-  @override
-  String get codeForgeCopied => 'Barcode content copied to clipboard';
-
-  @override
-  String get codeForgeSafeVerified =>
+  String get bodyCodeForgeSafeVerified =>
       'Verified Safe by 6-Layer Security Engine';
 
   @override
-  String get codeForgeResetStyle => 'Reset Styling';
+  String get tooltipCodeForgeResetStyle => 'Reset Styling';
 
   @override
-  String get codeForgeIncludeText => 'Show Text Label';
+  String get labelCodeForgeIncludeText => 'Show Text Label';
 
   @override
-  String get codeForgePreview => 'Live Preview';
+  String get titleCodeForgePreview => 'Live Preview';
 
   @override
-  String get onboardingSkip => 'Skip';
+  String get actionOnboardingSkip => 'Skip';
 
   @override
-  String get onboardingNext => 'Next';
+  String get actionOnboardingNext => 'Next';
 
   @override
-  String get onboardingGetStarted => 'Start Scanning';
+  String get actionOnboardingGetStarted => 'Start Scanning';
 
   @override
-  String get onboardingSlide1Badge => '6-Layer Security';
+  String get labelOnboardingSlide1Badge => '6-Layer Security';
 
   @override
-  String get onboardingSlide1Title => '6-Layer URL Safety Engine';
+  String get titleOnboardingSlide1 => '6-layer link safety';
 
   @override
-  String get onboardingSlide1Description =>
+  String get bodyOnboardingSlide1 =>
       'Every link is inspected across six offline and online defense layers before you open it, protecting you against phishing, malicious redirects, and homograph traps.';
 
   @override
-  String get onboardingSlide1Bullet1 => 'Protocol & Homograph Shield';
+  String get bodyOnboardingSlide1Bullet1 => 'Protocol & Homograph Shield';
 
   @override
-  String get onboardingSlide1Bullet2 => 'TLD Entropy & Port Trap Analysis';
+  String get bodyOnboardingSlide1Bullet2 => 'TLD Entropy & Port Trap Analysis';
 
   @override
-  String get onboardingSlide1Bullet3 => 'Private Probing & Safe Browsing';
+  String get bodyOnboardingSlide1Bullet3 => 'Private Probing & Safe Browsing';
 
   @override
-  String get onboardingSlide2Badge => 'Computer Vision';
+  String get labelOnboardingSlide2Badge => 'Computer Vision';
 
   @override
-  String get onboardingSlide2Title => 'QuishingGuard™ Tamper Detection';
+  String get titleOnboardingSlide2 => 'Tamper detection';
 
   @override
-  String get onboardingSlide2Description =>
+  String get bodyOnboardingSlide2 =>
       'Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.';
 
   @override
-  String get onboardingSlide2Bullet1 => 'Physical sticker overlay detection';
+  String get bodyOnboardingSlide2Bullet1 =>
+      'Physical sticker overlay detection';
 
   @override
-  String get onboardingSlide2Bullet2 => 'Cut edge & shadow boundary analysis';
+  String get bodyOnboardingSlide2Bullet2 =>
+      'Cut edge & shadow boundary analysis';
 
   @override
-  String get onboardingSlide2Bullet3 => 'Real-time camera frame inspection';
+  String get bodyOnboardingSlide2Bullet3 => 'Real-time camera frame inspection';
 
   @override
-  String get onboardingSlide3Badge => 'Zero Cloud • Zero Tracking';
+  String get labelOnboardingSlide3Badge => 'Zero tracking';
 
   @override
-  String get onboardingSlide3Title => '100% Offline Privacy Model';
+  String get titleOnboardingSlide3 => '100% offline privacy';
 
   @override
-  String get onboardingSlide3Description =>
+  String get bodyOnboardingSlide3 =>
       'Your scans and personal data never leave your phone. There are no analytics SDKs, no trackers, and no remote servers watching your habits.';
 
   @override
-  String get onboardingSlide3Bullet1 => 'Encrypted on-device SQLite database';
+  String get bodyOnboardingSlide3Bullet1 =>
+      'Encrypted on-device SQLite database';
 
   @override
-  String get onboardingSlide3Bullet2 => 'AirQR optical air-gap transfers';
+  String get bodyOnboardingSlide3Bullet2 => 'AirQR optical air-gap transfers';
 
   @override
-  String get onboardingSlide3Bullet3 =>
+  String get bodyOnboardingSlide3Bullet3 =>
       'Zero analytics or crash reporting SDKs';
 
   @override
-  String get settingsOnboardingTourTitle => 'Welcome Tour';
+  String get labelSettingsOnboardingTour => 'Welcome Tour';
 
   @override
-  String get settingsOnboardingTourSubtitle =>
+  String get descSettingsOnboardingTour =>
       'Revisit the 3-slide introduction to safety and privacy features';
 
   @override
-  String get batchScanMode => 'Batch Scan Mode';
+  String get tooltipBatchMode => 'Batch scan mode';
 
   @override
-  String get batchModeTooltip => 'Toggle Continuous Batch Scan';
+  String get bodyBatchModeEnabled => 'Continuous Batch Scan enabled';
 
   @override
-  String get batchModeEnabledToast => 'Continuous Batch Scan enabled';
+  String get bodyBatchModeDisabled => 'Continuous Batch Scan disabled';
 
   @override
-  String get batchModeDisabledToast => 'Continuous Batch Scan disabled';
-
-  @override
-  String batchCounterBadge(int count) {
+  String labelBatchCounter(int count) {
     return '$count Scanned';
   }
 
   @override
-  String get batchReviewTitle => 'Batch Scans';
+  String get labelBatchReview => 'Batch Scans';
 
   @override
-  String get batchReviewSubtitle => 'Continuous scanning queue';
+  String get descBatchReview => 'Continuous scanning queue';
 
   @override
-  String get batchEmptyTitle => 'No codes in batch';
+  String get emptyBatchTitle => 'No codes in batch';
 
   @override
-  String get batchEmptySubtitle =>
+  String get emptyBatchBody =>
       'Point your camera at barcodes to scan them continuously without leaving the camera.';
 
   @override
-  String get batchExport => 'Export Batch';
+  String get titleBatchExport => 'Export Batch';
 
   @override
-  String get batchClear => 'Clear Batch';
+  String get actionBatchClear => 'Clear Batch';
 
   @override
-  String get batchClearConfirmTitle => 'Clear Batch?';
+  String get titleBatchClearConfirm => 'Clear Batch?';
 
   @override
-  String get batchClearConfirmContent =>
+  String get bodyBatchClearConfirm =>
       'Are you sure you want to remove all scanned codes from this batch?';
 
   @override
-  String get batchPreventDuplicates => 'Prevent Duplicates';
+  String get labelBatchPreventDuplicates => 'Prevent Duplicates';
 
   @override
-  String batchScannedToast(int count, String content) {
+  String bodyBatchScanned(int count, String content) {
     return 'Scanned #$count: $content';
   }
 
   @override
-  String get batchSafeUrl => 'Safe Link';
+  String get bodyBatchAnalyzingUrl => 'Analyzing link...';
 
   @override
-  String get batchSuspiciousUrl => 'Suspicious Link';
-
-  @override
-  String get batchAnalyzingUrl => 'Analyzing link...';
-
-  @override
-  String batchUrlSafetySummary(int safeCount, int warningCount, int totalUrls) {
+  String bodyBatchUrlSafetySummary(
+    int safeCount,
+    int warningCount,
+    int totalUrls,
+  ) {
     return '$safeCount safe, $warningCount suspicious of $totalUrls links';
   }
 
   @override
-  String get batchItemDetailsTitle => 'Scanned Code Details';
+  String get titleBatchItemDetails => 'Scanned Code Details';
 
   @override
-  String batchFormatLabel(String format) {
-    return 'Format: $format';
-  }
+  String get labelCameraDistanceEnhance => 'Distance Scan Assist';
 
   @override
-  String batchTimeLabel(String time) {
-    return 'Scanned at $time';
-  }
-
-  @override
-  String get cameraDistanceEnhanceLabel => 'Distance Scan Assist';
-
-  @override
-  String get cameraDistanceEnhanceHint =>
+  String get descCameraDistanceEnhance =>
       'Zoom-crop & unsharp mask for distant posters & signs';
 
   @override
-  String get cameraUnsharpLabel => 'Edge Sharpness';
+  String get labelCameraUnsharp => 'Edge Sharpness';
 
   @override
-  String get cameraDistanceZoomLabel => 'Distance Zoom';
+  String get labelCameraDistanceZoom => 'Distance Zoom';
 
   @override
-  String get scanDistanceModeTooltip => 'Distance Scan Assist';
+  String get tooltipScanFromClipboard => 'Scan from Clipboard';
 
   @override
-  String get scanDistanceModeActive => 'Distance Mode Active';
+  String get bodyClipboardBanner => 'Clipboard content detected';
 
   @override
-  String get scanFromClipboard => 'Scan from Clipboard';
+  String get actionClipboardScan => 'Scan Now';
 
   @override
-  String get clipboardBannerTitle => 'Clipboard content detected';
+  String get tooltipClipboardDismiss => 'Dismiss';
 
   @override
-  String get clipboardActionScan => 'Scan Now';
-
-  @override
-  String get clipboardDismiss => 'Dismiss';
-
-  @override
-  String get clipboardEmptyMessage => 'Clipboard is empty';
-
-  @override
-  String get clipboardNoValidContent =>
+  String get errorClipboardNoValidContent =>
       'No scannable link, code, or image found in clipboard';
 
   @override
-  String get clipboardTypeUrl => 'URL';
+  String get labelClipboardTypeUrl => 'URL';
 
   @override
-  String get clipboardTypeBarcode => 'Barcode Payload';
+  String get labelClipboardTypeBarcode => 'Barcode Payload';
 
   @override
-  String get clipboardTypeImage => 'Image';
+  String get labelClipboardTypeImage => 'Image';
 
   @override
-  String get clipboardTypeText => 'Text';
+  String get labelClipboardTypeText => 'Text';
 
   @override
-  String get multiCodeDetectedBanner =>
+  String get bodyMultiCodeDetected =>
       'Multiple codes detected. Tap a code to scan.';
 
   @override
-  String get multiCodeTapToScan => 'Tap to scan';
+  String get tooltipMultiCodeTapToScan => 'Tap to scan';
 
   @override
-  String get multiCodeSelectionTitle => 'Multi-Code Selection';
+  String get labelMultiCodeSelection => 'Multi-Code Selection';
 
   @override
-  String get multiCodeSelectionSubtitle =>
+  String get descMultiCodeSelection =>
       'Outline visible codes and tap to choose when multiple are present';
 
   @override
-  String get multiCodeDismissTooltip => 'Dismiss selection';
+  String get tooltipMultiCodeDismiss => 'Dismiss selection';
 
   @override
-  String get ghostScanTitle => 'GhostScan';
+  String get labelGhostScan => 'GhostScan';
 
   @override
-  String get ghostScanSubtitle => 'Screen Content QR Detector';
+  String get descGhostScan => 'Screen Content QR Detector';
 
   @override
-  String get ghostScanDescription =>
+  String get bodyGhostScan =>
       'Detect and decode QR codes visible on your screen inside any app without taking manual screenshots.';
 
   @override
-  String get ghostScanTileLabel => 'GhostScan';
+  String get actionGhostScanNow => 'Scan Screen Now';
 
   @override
-  String get ghostScanActionScanNow => 'Scan Screen Now';
+  String get actionGhostScanAddTile => 'Add Settings tile';
 
   @override
-  String get ghostScanActionAddTile => 'Add Quick Settings Tile';
+  String get bodyGhostScanTileAdded => 'Quick Settings tile request sent';
 
   @override
-  String get ghostScanTileAdded => 'Quick Settings tile request sent';
+  String get titleGhostScanHowItWorks => 'How to use GhostScan';
 
   @override
-  String get ghostScanHowItWorksTitle => 'How to use GhostScan';
-
-  @override
-  String get ghostScanStep1 =>
+  String get helpGhostScanStep1 =>
       'Pull down your Quick Settings notification shade from any app.';
 
   @override
-  String get ghostScanStep2 =>
+  String get helpGhostScanStep2 =>
       'Tap the GhostScan tile to capture and decode the screen.';
 
   @override
-  String get ghostScanStep3 =>
+  String get helpGhostScanStep3 =>
       'The code is decoded instantly without saving screenshots to your gallery.';
 
   @override
-  String get ghostScanAnalyzing => 'Analyzing screen content...';
-
-  @override
-  String get ghostScanNoCodeFound => 'No QR code or barcode detected on screen';
+  String get bodyGhostScanAnalyzing => 'Analyzing screen content...';
 
   @override
   String get helpGuideGroupScanning => 'Scanning & Ingestion Guides';
@@ -3754,11 +3577,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpGuideHistoryBiometricsBullet1 =>
-      'Biometric Authentication: Protects sensitive StegoQR hidden records using your device fingerprint or facial recognition.';
+      'App lock and biometrics: an optional app lock asks for your fingerprint, face or screen lock when the app opens. Hidden StegoQR messages can also ask for biometrics.';
 
   @override
   String get helpGuideHistoryBiometricsBullet2 =>
-      'Screenshot Guard: Prevents malicious background apps or unauthorized shoulder-surfers from capturing screen content (FLAG_SECURE).';
+      'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE).';
 
   @override
   String get helpGuideHistoryTip =>
@@ -3813,16 +3636,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.';
 
   @override
-  String get resultMoreActions => 'More actions';
+  String get tooltipResultMoreActions => 'More actions';
 
   @override
-  String get verdictChecking => 'Checking link safety…';
+  String get bodyVerdictChecking => 'Checking link safety…';
 
   @override
-  String get verdictNoIssues => 'No issues found';
+  String get bodyVerdictNoIssues => 'No issues found';
 
   @override
-  String verdictIssuesFound(int count) {
+  String bodyVerdictIssuesFound(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3833,49 +3656,49 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String verdictChecksPassed(int passed, int total) {
+  String bodyVerdictChecksPassed(int passed, int total) {
     return '$passed of $total checks passed';
   }
 
   @override
-  String get verdictSeeDetails => 'See details';
+  String get actionVerdictSeeDetails => 'See details';
 
   @override
-  String get verdictModePrivate => 'Private mode';
+  String get labelVerdictModePrivate => 'Private mode';
 
   @override
-  String get verdictModeActive => 'Active probing';
+  String get labelVerdictModeActive => 'Active probing';
 
   @override
-  String safetyShowPassed(int count) {
+  String actionSafetyShowPassed(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: 'Show $count passed checks',
-      one: 'Show 1 passed check',
+      other: 'Show $count passed',
+      one: 'Show 1 passed',
     );
     return '$_temp0';
   }
 
   @override
-  String get safetyHidePassed => 'Hide passed checks';
+  String get actionSafetyHidePassed => 'Hide passed checks';
 
   @override
-  String safetySkippedGroup(int count) {
+  String actionSafetySkippedGroup(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count checks skipped',
+      other: '$count skipped',
       one: '1 check skipped',
     );
     return '$_temp0';
   }
 
   @override
-  String get safetySkippedSetup => 'Set up in Settings';
+  String get actionSafetySkippedSetup => 'Set up in Settings';
 
   @override
-  String openRiskDialogIssues(int count) {
+  String bodyOpenRiskDialogIssues(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3886,89 +3709,89 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sandboxShowPreview => 'Show preview';
+  String get tooltipSandboxShowPreview => 'Show preview';
 
   @override
-  String get sandboxHidePreview => 'Hide preview';
+  String get tooltipSandboxHidePreview => 'Hide preview';
 
   @override
-  String quishingCompactGenuine(String percent) {
-    return 'Genuine print · $percent%';
+  String labelQuishingCompactGenuine(String percent) {
+    return 'Genuine · $percent%';
   }
 
   @override
-  String get scanBubbleTitle => 'Scan bubble';
+  String get labelScanBubble => 'Scan bubble';
 
   @override
-  String get scanBubbleSettingsSubtitle => 'Scan codes shown in other apps';
+  String get descScanBubbleSettings => 'Scan codes shown in other apps';
 
   @override
-  String get scanBubbleSwitchTitle => 'Show scan bubble';
+  String get labelScanBubbleSwitch => 'Show scan bubble';
 
   @override
-  String get scanBubbleSwitchSubtitle =>
+  String get descScanBubbleSwitch =>
       'A small button that floats over other apps. Tap it to scan a code on the screen.';
 
   @override
-  String get scanBubblePermissionGranted => 'Allowed';
+  String get descScanBubblePermissionGranted => 'Allowed';
 
   @override
-  String get scanBubblePermissionMissing =>
+  String get descScanBubblePermissionMissing =>
       'Not allowed yet. Needed for the bubble.';
 
   @override
-  String get scanBubbleAllowButton => 'Allow';
+  String get actionScanBubbleAllow => 'Allow';
 
   @override
-  String get scanBubbleStartOnBootTitle => 'Start after restart';
+  String get labelScanBubbleStartOnBoot => 'Start after restart';
 
   @override
-  String get scanBubbleStartOnBootSubtitle =>
+  String get descScanBubbleStartOnBoot =>
       'If the bubble was on, show it again after the phone restarts. Some phones may block this.';
 
   @override
-  String get scanBubbleAddTileButton => 'Add to Quick Settings';
+  String get actionScanBubbleAddTile => 'Add Settings tile';
 
   @override
-  String get scanBubbleTileAdded => 'Quick Settings tile request sent';
+  String get bodyScanBubbleTileAdded => 'Quick Settings tile request sent';
 
   @override
-  String get scanBubbleTileManual =>
+  String get bodyScanBubbleTileManual =>
       'Pull down Quick Settings, tap the edit (pencil) button, and drag the Scan bubble tile in.';
 
   @override
-  String get scanBubblePermissionDialogTitle => 'Allow the bubble';
+  String get titleScanBubblePermissionDialog => 'Allow the bubble';
 
   @override
-  String get scanBubblePermissionDialogBody =>
+  String get bodyScanBubblePermissionDialog =>
       'To float over other apps, the bubble needs the \"Display over other apps\" permission. On the next page, turn it on for this app, then come back.';
 
   @override
-  String get scanBubbleOpenSettings => 'Open settings';
+  String get actionScanBubbleOpenSettings => 'Open settings';
 
   @override
-  String get scanBubbleStartFailed =>
+  String get errorScanBubbleStartFailed =>
       'Could not start the bubble. Please try again.';
 
   @override
-  String get scanBubbleBlockedCapture =>
+  String get errorScanBubbleBlockedCapture =>
       'This app blocks screen capture, so its codes cannot be read.';
 
   @override
-  String get historySourceScreen => 'From screen';
+  String get labelHistorySourceScreen => 'From screen';
 
   @override
-  String get permissionOverlayTitle => 'Display over other apps';
+  String get helpPermissionOverlayTitle => 'Display over other apps';
 
   @override
-  String get permissionOverlayDesc =>
+  String get helpPermissionOverlayDesc =>
       'Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.';
 
   @override
-  String get permissionNotificationTitle => 'Notifications';
+  String get helpPermissionNotificationTitle => 'Notifications';
 
   @override
-  String get permissionNotificationDesc =>
+  String get helpPermissionNotificationDesc =>
       'Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.';
 
   @override
@@ -4036,66 +3859,66 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.';
 
   @override
-  String get codeForgeBarcodeContent => 'Barcode content';
+  String get labelCodeForgeBarcodeContent => 'Barcode content';
 
   @override
-  String get codeForgeBarcodeContentHint => 'Enter the barcode number or code';
+  String get helpCodeForgeBarcodeContent => 'Enter the barcode number or code';
 
   @override
-  String get codeForgeWifiSecurityNone => 'None (open)';
+  String get labelCodeForgeWifiSecurityNone => 'None (open)';
 
   @override
-  String get codeForgeUpiVpaHint => 'e.g. merchant@upi';
+  String get helpCodeForgeUpiVpa => 'e.g. merchant@upi';
 
   @override
-  String get optionalFieldHint => 'Optional';
+  String get labelOptionalField => 'Optional';
 
   @override
-  String get codeForgeContentEmpty => 'Content cannot be empty';
+  String get errorCodeForgeContentEmpty => 'Content cannot be empty';
 
   @override
-  String codeForgeTextTooLong(String max) {
+  String errorCodeForgeTextTooLong(String max) {
     return 'Text must not be longer than $max characters';
   }
 
   @override
-  String get codeForgeWifiSsidRequired =>
+  String get errorCodeForgeWifiSsidRequired =>
       'Wi-Fi network name (SSID) is required';
 
   @override
-  String get codeForgeUpiVpaRequired => 'UPI ID is required';
+  String get errorCodeForgeUpiVpaRequired => 'UPI ID is required';
 
   @override
-  String codeForgeBarcodeInvalid(String detail) {
+  String errorCodeForgeBarcodeInvalid(String detail) {
     return 'Not valid for this barcode type ($detail)';
   }
 
   @override
-  String get airQrUnlockedTitle => 'AirQR payload unlocked';
+  String get titleAirQrUnlocked => 'AirQR unlocked';
 
   @override
-  String get jsonEnvelopeUnlockedTitle => 'JSON payload unlocked';
+  String get titleJsonEnvelopeUnlocked => 'JSON unlocked';
 
   @override
-  String get stegoUnlockedTitle => 'StegoQR payload unlocked';
+  String get titleStegoUnlocked => 'StegoQR unlocked';
 
   @override
-  String get stegoDetectedTitle => 'StegoQR encrypted payload found';
+  String get titleStegoDetected => 'StegoQR found';
 
   @override
-  String get decryptShowAdvanced => 'Advanced (Salt / IV)';
+  String get actionDecryptShowAdvanced => 'Advanced (Salt / IV)';
 
   @override
-  String get decryptHideAdvanced => 'Hide advanced';
+  String get actionDecryptHideAdvanced => 'Hide advanced';
 
   @override
-  String get decryptSaltLabel => 'Salt (Base64, optional)';
+  String get labelDecryptSalt => 'Salt (Base64)';
 
   @override
-  String get decryptIvLabel => 'IV / Nonce (Base64, optional)';
+  String get labelDecryptIv => 'IV / Nonce (Base64)';
 
   @override
-  String historyRecordCount(int count) {
+  String bodyHistoryRecordCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4106,7 +3929,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String arItemsSelected(int count) {
+  String bodyArItemsSelected(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4117,68 +3940,68 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String settingsAppearanceSummary(String themeMode) {
+  String descSettingsAppearanceSummary(String themeMode) {
     return '$themeMode • Dynamic colors';
   }
 
   @override
-  String get openPhishFeedNotDownloaded => 'Feed not downloaded yet';
+  String get bodyOpenPhishFeedNotDownloaded => 'Feed not downloaded yet';
 
   @override
-  String get accentDynamicColorInfo =>
+  String get helpAccentDynamicColor =>
       'Dynamic Color builds a matching palette from your Android wallpaper (Android 12+). When it is off, the standard high-contrast security palette is used.';
 
   @override
-  String get typographySampleLine =>
+  String get bodyTypographySample =>
       '6-Layer URL Safety Check • 100% Offline QuishingGuard™ CV Engine';
 
   @override
-  String get typographyScaleTitle => 'Text size';
+  String get labelTypographyScale => 'Text size';
 
   @override
-  String get typographyScaleInfo =>
+  String get helpTypographyScale =>
       'The app follows your Android accessibility text size, while keeping the scan frame and on-screen labels easy to read.';
 
   @override
-  String domFetchFailedTitle(String host) {
+  String bodyDomFetchFailed(String host) {
     return '$host (offline or network blocked)';
   }
 
   @override
-  String get scanPauseTooltip => 'Pause scanning';
+  String get tooltipScanPause => 'Pause scanning';
 
   @override
-  String get scanResumeTooltip => 'Resume scanning';
+  String get tooltipScanResume => 'Resume scanning';
 
   @override
-  String get arModeWarehouse => 'Warehouse';
+  String get labelArModeWarehouse => 'Warehouse';
 
   @override
-  String get arModeSafety => 'Safety';
+  String get labelArModeSafety => 'Safety';
 
   @override
-  String get arModeWarehouseTooltip => 'Show item info and select codes';
+  String get tooltipArModeWarehouse => 'Item info & select';
 
   @override
-  String get arModeSafetyTooltip => 'Show a safety badge on each link';
+  String get tooltipArModeSafety => 'Link safety badges';
 
   @override
-  String get cameraStartFailed => 'Camera could not start';
+  String get errorCameraStartFailed => 'Camera could not start';
 
   @override
-  String get cameraNotFound => 'No camera found on this phone';
+  String get errorCameraNotFound => 'No camera found on this phone';
 
   @override
-  String get cameraRetryButton => 'Try again';
+  String get actionCameraRetry => 'Try again';
 
   @override
-  String get codeForgeSafetyPrompt => 'Check this link before you share it';
+  String get bodyCodeForgeSafetyPrompt => 'Check this link before you share it';
 
   @override
-  String get codeForgeSafetyCheckButton => 'Check';
+  String get actionCodeForgeSafetyCheck => 'Check';
 
   @override
-  String codeForgeSafetyProblems(int count) {
+  String bodyCodeForgeSafetyProblems(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4189,5 +4012,87 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get codeForgeSafetyCheckAgain => 'Check again';
+  String get actionCodeForgeSafetyCheckAgain => 'Check again';
+
+  @override
+  String get labelDeleteAllData => 'Delete all data';
+
+  @override
+  String get descDeleteAllData =>
+      'Remove scan history, saved API keys and all settings from this phone.';
+
+  @override
+  String get titleDeleteAllDataConfirm => 'Delete all data?';
+
+  @override
+  String get bodyDeleteAllDataConfirm =>
+      'This deletes your scan history, saved API keys, all settings, Scan bubble settings and temporary files. This cannot be undone.';
+
+  @override
+  String get actionDeleteAll => 'Delete all';
+
+  @override
+  String get bodyDeletingAllData => 'Deleting all data…';
+
+  @override
+  String get errorDeleteAllDataPartial => 'Some data could not be deleted.';
+
+  @override
+  String get errorHistoryLoadFailed => 'History could not be loaded.';
+
+  @override
+  String get actionTryAgain => 'Try again';
+
+  @override
+  String get aboutDetailPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get bodyEncryptingBackup => 'Protecting your backup…';
+
+  @override
+  String get bodyOpeningBackup => 'Opening the backup…';
+
+  @override
+  String get bodyEncryptingSync => 'Protecting the sync package…';
+
+  @override
+  String get titlePlainExport => 'Export unencrypted?';
+
+  @override
+  String get bodyPlainExport =>
+      'This file is not encrypted. Anyone who gets it can read your scans.';
+
+  @override
+  String get bodyPlainExportBackupHint =>
+      'To keep it private, use the encrypted backup instead.';
+
+  @override
+  String get actionExportAnyway => 'Export anyway';
+
+  @override
+  String get labelAppLock => 'App lock';
+
+  @override
+  String get descAppLock =>
+      'Ask for fingerprint, face or screen lock when the app opens, and after 30 seconds away.';
+
+  @override
+  String get titleAppLocked => 'App locked';
+
+  @override
+  String get bodyAppLocked =>
+      'Unlock with your fingerprint, face or screen lock to continue.';
+
+  @override
+  String get actionUnlock => 'Unlock';
+
+  @override
+  String get bodyAppLockReason => 'Unlock SreerajP QR Studio';
+
+  @override
+  String get errorAppLockUnavailable =>
+      'Set up a screen lock or fingerprint on this phone first.';
+
+  @override
+  String get errorAppLockFailed => 'Could not confirm it is you. Try again.';
 }

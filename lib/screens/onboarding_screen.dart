@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/onboarding_slide.dart';
@@ -72,7 +72,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context);
-    final slides = OnboardingSlide.buildSlides(l10n);
+    final slides = _buildOnboardingSlides(l10n);
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
@@ -101,7 +101,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       foregroundColor: theme.colorScheme.onSurfaceVariant,
                     ),
                     child: Text(
-                      l10n.onboardingSkip,
+                      l10n.actionOnboardingSkip,
                       style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -159,8 +159,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     label: Text(
                       _currentPage == slides.length - 1
-                          ? l10n.onboardingGetStarted
-                          : l10n.onboardingNext,
+                          ? l10n.actionOnboardingGetStarted
+                          : l10n.actionOnboardingNext,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: FilledButton.styleFrom(
@@ -307,4 +307,43 @@ class _SlideView extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Builds the three onboarding slides from localized strings.
+List<OnboardingSlide> _buildOnboardingSlides(AppLocalizations l10n) {
+  return [
+    OnboardingSlide(
+      icon: Icons.shield_outlined,
+      badge: l10n.labelOnboardingSlide1Badge,
+      title: l10n.titleOnboardingSlide1,
+      description: l10n.bodyOnboardingSlide1,
+      bullets: [
+        l10n.bodyOnboardingSlide1Bullet1,
+        l10n.bodyOnboardingSlide1Bullet2,
+        l10n.bodyOnboardingSlide1Bullet3,
+      ],
+    ),
+    OnboardingSlide(
+      icon: Icons.document_scanner_outlined,
+      badge: l10n.labelOnboardingSlide2Badge,
+      title: l10n.titleOnboardingSlide2,
+      description: l10n.bodyOnboardingSlide2,
+      bullets: [
+        l10n.bodyOnboardingSlide2Bullet1,
+        l10n.bodyOnboardingSlide2Bullet2,
+        l10n.bodyOnboardingSlide2Bullet3,
+      ],
+    ),
+    OnboardingSlide(
+      icon: Icons.lock_outline,
+      badge: l10n.labelOnboardingSlide3Badge,
+      title: l10n.titleOnboardingSlide3,
+      description: l10n.bodyOnboardingSlide3,
+      bullets: [
+        l10n.bodyOnboardingSlide3Bullet1,
+        l10n.bodyOnboardingSlide3Bullet2,
+        l10n.bodyOnboardingSlide3Bullet3,
+      ],
+    ),
+  ];
 }

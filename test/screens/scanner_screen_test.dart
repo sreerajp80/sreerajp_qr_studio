@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +16,7 @@ import 'package:sreerajp_qr_studio/screens/scanner_screen.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 import 'package:sreerajp_qr_studio/services/light_sensor_service.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 class _EmptyHistoryDatabaseService extends Fake
@@ -81,11 +82,12 @@ void main() {
 
       // Permission is asked at point of use, when the scanner opens.
       expect(requests.value, greaterThanOrEqualTo(1));
-      expect(find.text(l10n.scanCameraPermissionRequired), findsOneWidget);
-      expect(find.text(l10n.grantPermission), findsOneWidget);
+      expect(find.text(l10n.bodyScanCameraPermissionRequired), findsOneWidget);
+      expect(find.text(l10n.actionGrantPermission), findsOneWidget);
       // No camera, so no pause/resume button.
       expect(find.byType(FloatingActionButton), findsNothing);
       expect(tester.takeException(), isNull);
+      expectAllIconButtonsHaveTooltips(tester);
     });
   }
 
@@ -96,11 +98,11 @@ void main() {
     final requests = await pumpScreen(tester);
     final before = requests.value;
 
-    await tester.tap(find.text(l10n.grantPermission));
+    await tester.tap(find.text(l10n.actionGrantPermission));
     await tester.pumpAndSettle();
 
     expect(requests.value, before + 1);
-    expect(find.text(l10n.scanCameraPermissionRequired), findsOneWidget);
+    expect(find.text(l10n.bodyScanCameraPermissionRequired), findsOneWidget);
   });
 
   testWidgets('every icon button in the app bar has a tooltip', (tester) async {

@@ -89,7 +89,7 @@ void main() {
 
       expect(text, contains('IP Address'));
       expect(text, contains('Data URI'));
-      expect(text, isNot(contains('patternIpAddress')));
+      expect(text, isNot(contains('labelPatternIpAddress')));
     });
 
     test('a missing argument does not throw', () {

@@ -149,9 +149,14 @@ android {
 
     buildTypes {
         release {
+            // With android/key.properties: the release key. Without it, only
+            // dev release builds (never shipped) fall back to the debug key;
+            // prod release tasks are stopped by the check below.
             signingConfig = keyPropertiesFile.exists()
                 ? signingConfigs.release
                 : signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
         }
     }
 
@@ -175,4 +180,18 @@ kotlin {
 
 flutter {
     source = '../..'
+}
+
+// A prod release must be signed with the release key, never the debug key
+// (docs/release_process.md §7). Fail early when android/key.properties is missing.
+gradle.taskGraph.whenReady { graph ->
+    def prodRelease = graph.allTasks.any { task ->
+        task.project == project && task.name ==~ /(assemble|bundle|package)ProdRelease/
+    }
+    if (prodRelease && !keyPropertiesFile.exists()) {
+        throw new GradleException(
+            "android/key.properties is missing - prod release builds must be signed " +
+            "with the release key (docs/release_process.md section 7)."
+        )
+    }
 }

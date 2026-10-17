@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/scan_bubble_provider.dart';
@@ -77,7 +77,7 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
       case ScanBubbleStartResult.failed:
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.scanBubbleStartFailed),
+            content: Text(l10n.errorScanBubbleStartFailed),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -91,16 +91,16 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(Icons.layers_outlined),
-        title: Text(l10n.scanBubblePermissionDialogTitle),
-        content: Text(l10n.scanBubblePermissionDialogBody),
+        title: Text(l10n.titleScanBubblePermissionDialog),
+        content: Text(l10n.bodyScanBubblePermissionDialog),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.cancelButton),
+            child: Text(l10n.actionCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.scanBubbleOpenSettings),
+            child: Text(l10n.actionScanBubbleOpenSettings),
           ),
         ],
       ),
@@ -118,7 +118,7 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
-          added ? l10n.scanBubbleTileAdded : l10n.scanBubbleTileManual,
+          added ? l10n.bodyScanBubbleTileAdded : l10n.bodyScanBubbleTileManual,
         ),
         behavior: SnackBarBehavior.floating,
       ),
@@ -132,7 +132,7 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
     final provider = context.watch<ScanBubbleProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.scanBubbleTitle)),
+      appBar: AppBar(title: Text(l10n.labelScanBubble)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -145,10 +145,10 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
                   SwitchListTile(
                     secondary: const Icon(Icons.bubble_chart_outlined),
                     title: Text(
-                      l10n.scanBubbleSwitchTitle,
+                      l10n.labelScanBubbleSwitch,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    subtitle: Text(l10n.scanBubbleSwitchSubtitle),
+                    subtitle: Text(l10n.descScanBubbleSwitch),
                     value: provider.isRunning,
                     onChanged: provider.isLoaded ? _onSwitchChanged : null,
                   ),
@@ -162,25 +162,25 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
                           ? Colors.green
                           : theme.colorScheme.error,
                     ),
-                    title: Text(l10n.permissionOverlayTitle),
+                    title: Text(l10n.helpPermissionOverlayTitle),
                     subtitle: Text(
                       provider.hasOverlayPermission
-                          ? l10n.scanBubblePermissionGranted
-                          : l10n.scanBubblePermissionMissing,
+                          ? l10n.descScanBubblePermissionGranted
+                          : l10n.descScanBubblePermissionMissing,
                     ),
                     trailing: provider.hasOverlayPermission
                         ? null
                         : TextButton(
                             onPressed: () =>
                                 _showPermissionDialog(startAfter: false),
-                            child: Text(l10n.scanBubbleAllowButton),
+                            child: Text(l10n.actionScanBubbleAllow),
                           ),
                   ),
                   const Divider(height: 1),
                   SwitchListTile(
                     secondary: const Icon(Icons.restart_alt),
-                    title: Text(l10n.scanBubbleStartOnBootTitle),
-                    subtitle: Text(l10n.scanBubbleStartOnBootSubtitle),
+                    title: Text(l10n.labelScanBubbleStartOnBoot),
+                    subtitle: Text(l10n.descScanBubbleStartOnBoot),
                     value: provider.startOnBoot,
                     onChanged: provider.isLoaded
                         ? (value) => provider.setStartOnBoot(value)
@@ -195,7 +195,7 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
                 child: OutlinedButton.icon(
                   onPressed: _addTile,
                   icon: const Icon(Icons.add_to_home_screen),
-                  label: Text(l10n.scanBubbleAddTileButton),
+                  label: Text(l10n.actionScanBubbleAddTile),
                 ),
               ),
             _InfoCard(

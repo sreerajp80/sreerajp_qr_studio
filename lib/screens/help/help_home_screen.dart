@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/help/air_qr_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/ar_codevision_help_screen.dart';
@@ -21,7 +21,7 @@ class HelpHomeScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsHelpTitle)),
+      appBar: AppBar(title: Text(l10n.labelSettingsHelp)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -31,8 +31,8 @@ class HelpHomeScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _HelpTopicCard(
               icon: Icons.auto_stories_outlined,
-              title: l10n.settingsOnboardingTourTitle,
-              subtitle: l10n.settingsOnboardingTourSubtitle,
+              title: l10n.labelSettingsOnboardingTour,
+              subtitle: l10n.descSettingsOnboardingTour,
               onTap: () =>
                   _push(context, const OnboardingScreen(isReplay: true)),
             ),

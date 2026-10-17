@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:qr/qr.dart';
 import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
@@ -11,6 +11,9 @@ import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 import 'package:sreerajp_qr_studio/screens/code_forge_screen.dart';
 import 'package:sreerajp_qr_studio/screens/main_shell_screen.dart';
+
+import '../helpers/accessibility_checks.dart';
+import '../helpers/test_app.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +33,10 @@ void main() {
             ChangeNotifierProvider(create: (_) => BatchScanProvider()),
           ],
           child: const MaterialApp(
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
+            ],
             supportedLocales: AppLocalizations.supportedLocales,
             home: MainShellScreen(initialTabIndex: 1),
           ),
@@ -51,4 +57,32 @@ void main() {
       expect(find.text('Barcode & QR Studio'), findsOneWidget);
     },
   );
+
+  for (final locale in appTestLocales) {
+    testWidgets(
+      'renders in ${locale.languageCode} without overflow; icon buttons have '
+      'tooltips',
+      (tester) async {
+        await tester.pumpWidget(
+          buildTestApp(
+            locale: locale,
+            home: const MainShellScreen(initialTabIndex: 1),
+            providers: [
+              ChangeNotifierProvider(create: (_) => ThemeProvider()),
+              ChangeNotifierProvider(create: (_) => LocaleProvider()),
+              ChangeNotifierProvider(create: (_) => ScanProvider()),
+              ChangeNotifierProvider(create: (_) => HistoryProvider()),
+              ChangeNotifierProvider(create: (_) => CameraSettingsProvider()),
+              ChangeNotifierProvider(create: (_) => CodeForgeProvider()),
+              ChangeNotifierProvider(create: (_) => BatchScanProvider()),
+            ],
+          ),
+        );
+        await tester.pump();
+        await tester.pump(const Duration(milliseconds: 200));
+        expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
+      },
+    );
+  }
 }

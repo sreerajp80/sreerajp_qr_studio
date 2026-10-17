@@ -1,7 +1,14 @@
+import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:encrypt/encrypt.dart' as enc;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sreerajp_qr_studio/models/app_exception.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/services/history_database_schema.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
 class FakeFlutterSecureStorage extends Fake implements FlutterSecureStorage {
@@ -39,6 +46,71 @@ class FakeFlutterSecureStorage extends Fake implements FlutterSecureStorage {
   }
 }
 
+class _ThrowingReadStorage extends FakeFlutterSecureStorage {
+  int writes = 0;
+
+  @override
+  Future<String?> read({
+    required String key,
+    AndroidOptions? aOptions,
+    AppleOptions? iOptions,
+    LinuxOptions? lOptions,
+    AppleOptions? mOptions,
+    WindowsOptions? wOptions,
+    WebOptions? webOptions,
+  }) async => throw Exception('keystore unavailable');
+
+  @override
+  Future<void> write({
+    required String key,
+    required String? value,
+    AndroidOptions? aOptions,
+    AppleOptions? iOptions,
+    LinuxOptions? lOptions,
+    AppleOptions? mOptions,
+    WindowsOptions? wOptions,
+    WebOptions? webOptions,
+  }) async {
+    writes++;
+  }
+}
+
+class _ThrowingWriteStorage extends FakeFlutterSecureStorage {
+  @override
+  Future<void> write({
+    required String key,
+    required String? value,
+    AndroidOptions? aOptions,
+    AppleOptions? iOptions,
+    LinuxOptions? lOptions,
+    AppleOptions? mOptions,
+    WindowsOptions? wOptions,
+    WebOptions? webOptions,
+  }) async => throw Exception('keystore write failed');
+}
+
+/// The exact pre-v2 scheme: AES-CBC, PKCS7, IV = first 16 key bytes.
+String _legacyEncrypt(List<int> keyBytes, String plain) {
+  final key = enc.Key(Uint8List.fromList(keyBytes.take(32).toList()));
+  final iv = enc.IV(
+    Uint8List.fromList(
+      List<int>.generate(16, (i) => keyBytes[i % keyBytes.length]),
+    ),
+  );
+  return enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc))
+      .encrypt(plain, iv: iv)
+      .base64;
+}
+
+Future<Database> _freshDb() => openDatabase(
+  inMemoryDatabasePath,
+  version: HistoryDatabaseSchema.version,
+  singleInstance: false,
+  onConfigure: HistoryDatabaseSchema.onConfigure,
+  onCreate: HistoryDatabaseSchema.onCreate,
+  onUpgrade: HistoryDatabaseSchema.onUpgrade,
+);
+
 void main() {
   setUpAll(() {
     sqfliteFfiInit();
@@ -53,24 +125,10 @@ void main() {
       fakeStorage = FakeFlutterSecureStorage();
       final inMemoryDb = await openDatabase(
         inMemoryDatabasePath,
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
-            CREATE TABLE scan_records (
-              id TEXT PRIMARY KEY,
-              timestamp INTEGER NOT NULL,
-              rawContent TEXT NOT NULL,
-              barcodeFormat TEXT NOT NULL,
-              category TEXT NOT NULL,
-              imageThumbnail TEXT,
-              locationTag TEXT,
-              safetyScore INTEGER NOT NULL,
-              notes TEXT,
-              isFavorite INTEGER NOT NULL DEFAULT 0,
-              metadata TEXT
-            )
-          ''');
-        },
+        version: HistoryDatabaseSchema.version,
+        onConfigure: HistoryDatabaseSchema.onConfigure,
+        onCreate: HistoryDatabaseSchema.onCreate,
+        onUpgrade: HistoryDatabaseSchema.onUpgrade,
       );
 
       dbService = HistoryDatabaseService(
@@ -208,4 +266,189 @@ void main() {
       expect(list.isEmpty, true);
     });
   });
+
+  group('History encryption (format v2)', () {
+    final keyBytes = List<int>.generate(32, (i) => i);
+    final keyB64 = base64Url.encode(keyBytes);
+
+    Future<FakeFlutterSecureStorage> storageWithKey() async {
+      final storage = FakeFlutterSecureStorage();
+      await storage.write(key: 'db_encryption_key_v1', value: keyB64);
+      return storage;
+    }
+
+    test('fields are stored in h2: format, never as plain text', () async {
+      final db = await _freshDb();
+      final service = HistoryDatabaseService(
+        secureStorage: await storageWithKey(),
+        database: db,
+      );
+      await service.insertRecord(
+        ScanRecord(
+          id: 'v2-1',
+          timestamp: DateTime(2026, 10, 12),
+          rawContent: 'https://plain.example',
+          barcodeFormat: 'qrCode',
+          category: 'url',
+          notes: 'note text',
+        ),
+      );
+      final row = (await db.query(HistoryDatabaseSchema.tableName)).single;
+      expect(row['rawContent'], startsWith('h2:'));
+      expect(row['notes'], startsWith('h2:'));
+      expect(row['rawContent'], isNot(contains('plain.example')));
+      final list = await service.getRecords();
+      expect(list.single.rawContent, 'https://plain.example');
+      expect(list.single.notes, 'note text');
+      await db.close();
+    });
+
+    test(
+      'old-format rows are upgraded on open and read back the same',
+      () async {
+        final db = await _freshDb();
+        await db.insert(HistoryDatabaseSchema.tableName, {
+          'id': 'old-1',
+          'timestamp': 1,
+          'rawContent': _legacyEncrypt(keyBytes, 'legacy content'),
+          'barcodeFormat': 'qrCode',
+          'category': 'text',
+          'safetyScore': 100,
+          'isFavorite': 0,
+          'notes': 'plain fallback note',
+          'metadata': _legacyEncrypt(keyBytes, '{"k":"v"}'),
+        });
+
+        final service = HistoryDatabaseService(
+          secureStorage: await storageWithKey(),
+          database: db,
+        );
+        final list = await service.getRecords();
+        expect(list.single.rawContent, 'legacy content');
+        expect(list.single.notes, 'plain fallback note');
+        expect(list.single.metadata, {'k': 'v'});
+
+        final row = (await db.query(HistoryDatabaseSchema.tableName)).single;
+        for (final column in ['rawContent', 'notes', 'metadata']) {
+          expect(row[column], startsWith('h2:'), reason: column);
+        }
+        await db.close();
+      },
+    );
+
+    test('a key read error throws and never writes a new key', () async {
+      final db = await _freshDb();
+      final storage = _ThrowingReadStorage();
+      final service = HistoryDatabaseService(
+        secureStorage: storage,
+        database: db,
+      );
+      await expectLater(service.getRecords(), throwsA(isA<StorageException>()));
+      expect(storage.writes, 0);
+      await db.close();
+    });
+
+    test('a key write error stops the insert; nothing is stored', () async {
+      final db = await _freshDb();
+      final service = HistoryDatabaseService(
+        secureStorage: _ThrowingWriteStorage(),
+        database: db,
+      );
+      await expectLater(
+        service.insertRecord(
+          ScanRecord(
+            id: 'w-1',
+            timestamp: DateTime.now(),
+            rawContent: 'secret',
+            barcodeFormat: 'qrCode',
+            category: 'text',
+          ),
+        ),
+        throwsA(isA<StorageException>()),
+      );
+      expect(await db.query(HistoryDatabaseSchema.tableName), isEmpty);
+      await db.close();
+    });
+
+    test('a changed row is skipped and the others still load', () async {
+      final db = await _freshDb();
+      final service = HistoryDatabaseService(
+        secureStorage: await storageWithKey(),
+        database: db,
+      );
+      for (final id in ['good', 'bad']) {
+        await service.insertRecord(
+          ScanRecord(
+            id: id,
+            timestamp: DateTime.now(),
+            rawContent: 'content $id',
+            barcodeFormat: 'qrCode',
+            category: 'text',
+          ),
+        );
+      }
+      final bad = (await db.query(
+        HistoryDatabaseSchema.tableName,
+        where: 'id = ?',
+        whereArgs: ['bad'],
+      )).single;
+      final bytes = base64Url.decode(
+        (bad['rawContent']! as String).substring(3),
+      );
+      bytes[bytes.length - 1] ^= 0x01;
+      await db.update(
+        HistoryDatabaseSchema.tableName,
+        {'rawContent': 'h2:${base64Url.encode(bytes)}'},
+        where: 'id = ?',
+        whereArgs: ['bad'],
+      );
+
+      final list = await service.getRecords();
+      expect(list.map((r) => r.id), ['good']);
+      expect(
+        await db.query(HistoryDatabaseSchema.tableName),
+        hasLength(2),
+        reason: 'the changed row is kept on disk',
+      );
+      await db.close();
+    });
+  });
+
+  test(
+    'closeAndDeleteDatabase closes and removes the file and WAL files',
+    () async {
+      final dir = await Directory.systemTemp.createTemp('history_delete');
+      final path = '${dir.path}/history.db';
+      final db = await openDatabase(
+        path,
+        version: HistoryDatabaseSchema.version,
+        onConfigure: HistoryDatabaseSchema.onConfigure,
+        onCreate: HistoryDatabaseSchema.onCreate,
+        onUpgrade: HistoryDatabaseSchema.onUpgrade,
+      );
+      final storage = FakeFlutterSecureStorage();
+      final service = HistoryDatabaseService(
+        secureStorage: storage,
+        database: db,
+      );
+      await service.insertRecord(
+        ScanRecord(
+          id: 'del-1',
+          timestamp: DateTime.now(),
+          rawContent: 'to be deleted',
+          barcodeFormat: 'qrCode',
+          category: 'text',
+        ),
+      );
+      expect(File(path).existsSync(), isTrue);
+
+      await service.closeAndDeleteDatabase();
+
+      expect(db.isOpen, isFalse);
+      for (final suffix in ['', '-wal', '-shm', '-journal']) {
+        expect(File('$path$suffix').existsSync(), isFalse, reason: suffix);
+      }
+      await dir.delete(recursive: true);
+    },
+  );
 }

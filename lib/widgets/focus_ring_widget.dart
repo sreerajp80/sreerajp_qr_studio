@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Animated visual reticle that appears at user-selected tap coordinates for focus and metering.
 class FocusRingWidget extends StatefulWidget {

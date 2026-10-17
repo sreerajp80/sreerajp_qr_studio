@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -95,7 +95,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       Text(
                         totp.issuer.isNotEmpty
                             ? totp.issuer
-                            : l10n.totpDefaultIssuer,
+                            : l10n.labelTotpDefaultIssuer,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       ),
                       Text(
                         totp.accountName.isEmpty
-                            ? l10n.totpDefaultAccount
+                            ? l10n.labelTotpDefaultAccount
                             : totp.accountName,
                         style: const TextStyle(
                           fontSize: 18,
@@ -138,7 +138,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.totpLivePasscode(totp.period),
+                          l10n.bodyTotpLivePasscode(totp.period),
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
@@ -164,7 +164,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                                 size: 20,
                               ),
                               onPressed: () => _copyToken(_currentTotp),
-                              tooltip: l10n.totpCopyToken,
+                              tooltip: l10n.tooltipTotpCopyToken,
                             ),
                           ],
                         ),
@@ -190,7 +190,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                         ),
                       ),
                       Text(
-                        l10n.totpSecondsLeft(_remainingSeconds),
+                        l10n.labelTotpSecondsLeft(_remainingSeconds),
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -225,7 +225,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
               child: Row(
                 children: [
                   Text(
-                    l10n.totpSecretLabel,
+                    l10n.labelTotpSecret,
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
@@ -246,7 +246,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       _showSecret ? Icons.visibility_off : Icons.visibility,
                       size: 18,
                     ),
-                    tooltip: _showSecret ? l10n.hideAction : l10n.revealAction,
+                    tooltip: _showSecret ? l10n.actionHide : l10n.actionReveal,
                     onPressed: () {
                       setState(() {
                         _showSecret = !_showSecret;
@@ -258,7 +258,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       _isCopiedSecret ? Icons.check : Icons.copy,
                       size: 18,
                     ),
-                    tooltip: l10n.stegoCopySecret,
+                    tooltip: l10n.actionStegoCopySecret,
                     onPressed: () => _copySecret(totp.secret),
                   ),
                 ],
@@ -272,7 +272,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.download_for_offline),
-                label: Text(l10n.totpImportButton),
+                label: Text(l10n.actionTotpImport),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple[700],
                   foregroundColor: Colors.white,
@@ -286,7 +286,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
                       await PayloadActionService.importToAuthenticator(totp);
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.totpLaunchFailed)),
+                      SnackBar(content: Text(l10n.errorTotpLaunchFailed)),
                     );
                   }
                 },
@@ -314,7 +314,7 @@ class _TotpActionCardState extends State<TotpActionCard> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context).totpTokenCopied)),
+      SnackBar(content: Text(AppLocalizations.of(context).bodyTotpTokenCopied)),
     );
 
     Future.delayed(const Duration(seconds: 2), () {
@@ -335,7 +335,9 @@ class _TotpActionCardState extends State<TotpActionCard> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context).totpSecretCopied)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context).bodyTotpSecretCopied),
+      ),
     );
 
     Future.delayed(const Duration(seconds: 2), () {

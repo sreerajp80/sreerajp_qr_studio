@@ -1,23 +1,35 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:encrypt/encrypt.dart' as enc;
-import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
+import 'package:sreerajp_qr_studio/models/app_exception.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/services/history_database_schema.dart';
+import 'package:sreerajp_qr_studio/services/history_field_cipher.dart';
 
-/// Database service handling AES-256 field-encrypted persistent storage of scan history in SQLite.
+/// Scan history in SQLite, with the content fields encrypted by
+/// [HistoryFieldCipher] (AES-256-GCM, see docs/security.md §6).
 class HistoryDatabaseService {
-  static const String _tableName = 'scan_records';
+  static const String _tableName = HistoryDatabaseSchema.tableName;
   static const String _storageKeyName = 'db_encryption_key_v1';
+
+  /// Columns whose values are encrypted.
+  static const List<String> encryptedColumns = [
+    'rawContent',
+    'imageThumbnail',
+    'locationTag',
+    'notes',
+    'metadata',
+  ];
 
   final FlutterSecureStorage _secureStorage;
   Database? _db;
-  enc.Encrypter? _encrypter;
-  enc.IV? _iv;
+  HistoryFieldCipher? _cipher;
+  bool _legacyUpgradeDone = false;
 
   HistoryDatabaseService({
     FlutterSecureStorage? secureStorage,
@@ -25,96 +37,163 @@ class HistoryDatabaseService {
   }) : _secureStorage = secureStorage ?? const FlutterSecureStorage(),
        _db = database;
 
-  /// Initializes secure encryption key and opens SQLite database connection.
+  /// Loads the key, opens the database, and upgrades any rows still in the
+  /// old encryption format. Throws [StorageException] if the key cannot be
+  /// read or saved.
   Future<Database> get database async {
-    if (_db != null) return _db!;
-    _db = await _initDatabase();
+    await _initEncryption();
+    _db ??= await _initDatabase();
+    if (!_legacyUpgradeDone) {
+      await _upgradeLegacyRows(_db!);
+      _legacyUpgradeDone = true;
+    }
     return _db!;
   }
 
   Future<void> _initEncryption() async {
-    if (_encrypter != null && _iv != null) return;
+    if (_cipher != null) return;
 
     String? keyB64;
     try {
       keyB64 = await _secureStorage.read(key: _storageKeyName);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error reading secure storage key: $e');
+    } catch (e, st) {
+      // Never make a new key here: that would overwrite the stored one and
+      // make every saved row unreadable.
+      AppLogger.error('Reading history key failed', error: e, stackTrace: st);
+      throw StorageException('history key unavailable', cause: e);
     }
 
     if (keyB64 == null || keyB64.isEmpty) {
-      final random = Random.secure();
-      final keyBytes = List<int>.generate(32, (_) => random.nextInt(256));
-      keyB64 = base64Url.encode(keyBytes);
-      try {
-        await _secureStorage.write(key: _storageKeyName, value: keyB64);
-      } catch (e) {
-        if (kDebugMode) debugPrint('Error writing secure storage key: $e');
-      }
+      keyB64 = await _createAndSaveKey();
     }
 
-    final keyBytes = base64Url.decode(keyB64);
-    final key = enc.Key(Uint8List.fromList(keyBytes.take(32).toList()));
-    // Fixed initial vector derived deterministically for AES-CBC field encryption
-    final ivBytes = List<int>.generate(
-      16,
-      (i) => keyBytes[i % keyBytes.length],
+    final List<int> keyBytes;
+    try {
+      keyBytes = base64Url.decode(keyB64);
+      _cipher = HistoryFieldCipher(keyBytes);
+    } catch (e, st) {
+      AppLogger.error('History key is not valid', error: e, stackTrace: st);
+      throw StorageException('history key invalid', cause: e);
+    }
+  }
+
+  /// Makes a new key, saves it, and reads it back. The key is used only if
+  /// the read-back matches, so nothing is encrypted with an unsaved key.
+  Future<String> _createAndSaveKey() async {
+    final random = Random.secure();
+    final keyB64 = base64Url.encode(
+      List<int>.generate(32, (_) => random.nextInt(256)),
     );
-    _iv = enc.IV(Uint8List.fromList(ivBytes));
-    _encrypter = enc.Encrypter(enc.AES(key, mode: enc.AESMode.cbc));
+    try {
+      await _secureStorage.write(key: _storageKeyName, value: keyB64);
+      final readBack = await _secureStorage.read(key: _storageKeyName);
+      if (readBack != keyB64) {
+        throw StateError('history key read-back mismatch');
+      }
+    } catch (e, st) {
+      AppLogger.error('Saving history key failed', error: e, stackTrace: st);
+      throw StorageException('history key not saved', cause: e);
+    }
+    return keyB64;
   }
 
   String _encryptString(String plainText) {
-    if (plainText.isEmpty) return plainText;
-    if (_encrypter == null || _iv == null) return plainText;
     try {
-      return _encrypter!.encrypt(plainText, iv: _iv).base64;
-    } catch (_) {
-      return plainText;
+      return _cipher!.encrypt(plainText);
+    } catch (e) {
+      throw StorageException('history field encryption failed', cause: e);
     }
   }
 
-  String _decryptString(String cipherText) {
-    if (cipherText.isEmpty) return cipherText;
-    if (_encrypter == null || _iv == null) return cipherText;
+  String _decryptString(String stored) => _cipher!.decrypt(stored);
+
+  /// Re-encrypts rows written before format v2. Runs in one transaction and
+  /// is idempotent, so an interrupted run simply repeats on the next open.
+  Future<void> _upgradeLegacyRows(Database db) async {
+    final notCurrent = encryptedColumns
+        .map(
+          (c) =>
+              "($c IS NOT NULL AND $c != '' "
+              "AND $c NOT LIKE '${HistoryFieldCipher.formatPrefix}%')",
+        )
+        .join(' OR ');
+    final rows = await db.query(
+      _tableName,
+      columns: ['id', ...encryptedColumns],
+      where: notCurrent,
+    );
+    if (rows.isEmpty) return;
+
+    final cipher = _cipher!;
+    await db.transaction((txn) async {
+      for (final row in rows) {
+        final values = <String, Object?>{};
+        for (final column in encryptedColumns) {
+          final stored = row[column] as String?;
+          if (stored == null || HistoryFieldCipher.isCurrentFormat(stored)) {
+            continue;
+          }
+          values[column] = cipher.encrypt(cipher.decryptLegacy(stored));
+        }
+        if (values.isNotEmpty) {
+          await txn.update(
+            _tableName,
+            values,
+            where: 'id = ?',
+            whereArgs: [row['id']],
+          );
+        }
+      }
+    });
+    AppLogger.info('Upgraded ${rows.length} history rows to format v2');
+  }
+
+  static const String _fileName = 'sreeraj_scan_history.db';
+
+  Future<String> _databasePath() async {
     try {
-      return _encrypter!.decrypt64(cipherText, iv: _iv);
+      final dbDir = await getApplicationDocumentsDirectory();
+      return p.join(dbDir.path, _fileName);
     } catch (_) {
-      return cipherText;
+      return p.join(await getDatabasesPath(), _fileName);
+    }
+  }
+
+  /// Closes the connection and deletes the database file together with its
+  /// `-wal`, `-shm` and `-journal` files ("Delete all data", §15.4). The
+  /// next call to [database] creates a fresh, empty database. The key itself
+  /// lives in secure storage and is removed there by the caller.
+  Future<void> closeAndDeleteDatabase() async {
+    final open = _db;
+    final paths = <String>{
+      if (open != null && open.path != inMemoryDatabasePath) open.path,
+    };
+    try {
+      paths.add(await _databasePath());
+    } catch (_) {
+      // No file path available (for example in tests); nothing to delete.
+    }
+    _db = null;
+    _cipher = null;
+    _legacyUpgradeDone = false;
+    if (open != null && open.isOpen) {
+      await open.close();
+    }
+    for (final path in paths) {
+      await deleteDatabase(path);
     }
   }
 
   Future<Database> _initDatabase() async {
     await _initEncryption();
-    String dbPath = '';
-    try {
-      final dbDir = await getApplicationDocumentsDirectory();
-      dbPath = p.join(dbDir.path, 'sreeraj_scan_history.db');
-    } catch (_) {
-      dbPath = await getDatabasesPath();
-      dbPath = p.join(dbPath, 'sreeraj_scan_history.db');
-    }
+    final dbPath = await _databasePath();
 
     return await openDatabase(
       dbPath,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE $_tableName (
-            id TEXT PRIMARY KEY,
-            timestamp INTEGER NOT NULL,
-            rawContent TEXT NOT NULL,
-            barcodeFormat TEXT NOT NULL,
-            category TEXT NOT NULL,
-            imageThumbnail TEXT,
-            locationTag TEXT,
-            safetyScore INTEGER NOT NULL,
-            notes TEXT,
-            isFavorite INTEGER NOT NULL DEFAULT 0,
-            metadata TEXT
-          )
-        ''');
-      },
+      version: HistoryDatabaseSchema.version,
+      onConfigure: HistoryDatabaseSchema.onConfigure,
+      onCreate: HistoryDatabaseSchema.onCreate,
+      onUpgrade: HistoryDatabaseSchema.onUpgrade,
     );
   }
 
@@ -151,8 +230,10 @@ class HistoryDatabaseService {
 
     Map<String, dynamic>? parsedMetadata;
     if (metadataCipher != null && metadataCipher.isNotEmpty) {
+      // A failed tag check throws here, so a changed row is skipped (below);
+      // only bad JSON inside a readable value is treated as "no metadata".
+      final decryptedMeta = _decryptString(metadataCipher);
       try {
-        final decryptedMeta = _decryptString(metadataCipher);
         parsedMetadata = jsonDecode(decryptedMeta) as Map<String, dynamic>;
       } catch (_) {
         parsedMetadata = null;
@@ -225,7 +306,19 @@ class HistoryDatabaseService {
       orderBy: 'timestamp DESC',
     );
 
-    final records = maps.map(_fromEncryptedMap).toList();
+    final records = <ScanRecord>[];
+    var unreadable = 0;
+    for (final map in maps) {
+      try {
+        records.add(_fromEncryptedMap(map));
+      } catch (_) {
+        // Changed or damaged row: skip it, keep it on disk.
+        unreadable++;
+      }
+    }
+    if (unreadable > 0) {
+      AppLogger.warning('Skipped $unreadable unreadable history rows');
+    }
 
     if (searchQuery != null && searchQuery.trim().isNotEmpty) {
       final query = searchQuery.trim().toLowerCase();

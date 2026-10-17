@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/code_format.dart';
 import 'package:sreerajp_qr_studio/models/decode_profile.dart';
 import 'package:sreerajp_qr_studio/models/scanned_code.dart';
@@ -68,9 +69,7 @@ class BarcodeDecoderService implements BarcodeDecoder {
     return _worker ??= _DecoderWorker.spawn()
         .then<_DecoderWorker?>((worker) => worker)
         .catchError((Object e) {
-          if (kDebugMode) {
-            debugPrint('Barcode decoder worker failed to start: $e');
-          }
+          AppLogger.error('Barcode decoder worker failed to start', error: e);
           _worker = null;
           return null;
         });
@@ -88,8 +87,8 @@ class BarcodeDecoderService implements BarcodeDecoder {
       final worker = await _getWorker();
       if (worker == null) return const [];
       return await worker.decode(request);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Barcode decode failed: $e');
+    } catch (e, st) {
+      AppLogger.error('Barcode decode failed', error: e, stackTrace: st);
       return const [];
     }
   }
@@ -155,8 +154,8 @@ class BarcodeDecoderService implements BarcodeDecoder {
         profile: profile,
         maxSymbols: maxSymbols,
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Could not read image file: $e');
+    } catch (e, st) {
+      AppLogger.error('Could not read image file', error: e, stackTrace: st);
       return const [];
     }
   }
@@ -193,8 +192,8 @@ class BarcodeDecoderService implements BarcodeDecoder {
         width: image.width,
         height: image.height,
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Could not decode image: $e');
+    } catch (e, st) {
+      AppLogger.error('Could not decode image', error: e, stackTrace: st);
       return null;
     } finally {
       image?.dispose();

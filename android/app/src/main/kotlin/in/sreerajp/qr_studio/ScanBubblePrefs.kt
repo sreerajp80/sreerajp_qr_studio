@@ -39,4 +39,9 @@ object ScanBubblePrefs {
     fun setPosition(context: Context, x: Int, y: Int) {
         prefs(context).edit().putInt(KEY_X, x).putInt(KEY_Y, y).apply()
     }
+
+    /** Removes every saved value (used by "Delete all data"). */
+    fun clear(context: Context) {
+        prefs(context).edit().clear().commit()
+    }
 }

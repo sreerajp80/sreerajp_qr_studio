@@ -11,328 +11,330 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
   switch (message.key) {
     // names of the link safety checks
     case AppMessageKey.checkNameHttps:
-      return l10n.checkNameHttps;
+      return l10n.labelCheckNameHttps;
     case AppMessageKey.checkNameSsl:
-      return l10n.checkNameSsl;
+      return l10n.labelCheckNameSsl;
     case AppMessageKey.checkNameRedirect:
-      return l10n.checkNameRedirect;
+      return l10n.labelCheckNameRedirect;
     case AppMessageKey.checkNamePattern:
-      return l10n.checkNamePattern;
+      return l10n.labelCheckNamePattern;
     case AppMessageKey.checkNameShortener:
-      return l10n.checkNameShortener;
+      return l10n.labelCheckNameShortener;
     case AppMessageKey.checkNameHomograph:
-      return l10n.checkNameHomograph;
+      return l10n.labelCheckNameHomograph;
     case AppMessageKey.checkNameMalicious:
-      return l10n.checkNameMalicious;
+      return l10n.labelCheckNameMalicious;
 
     // HTTPS and certificate
     case AppMessageKey.httpsNotUsed:
-      return l10n.httpsNotUsed;
+      return l10n.bodyHttpsNotUsed;
     case AppMessageKey.sslPrivateModeOk:
-      return l10n.sslPrivateModeOk;
+      return l10n.bodySslPrivateModeOk;
     case AppMessageKey.sslValid:
-      return l10n.sslValid;
+      return l10n.bodySslValid;
     case AppMessageKey.sslExpired:
-      return l10n.sslExpired;
+      return l10n.bodySslExpired;
     case AppMessageKey.sslNotYetValid:
-      return l10n.sslNotYetValid;
+      return l10n.bodySslNotYetValid;
     case AppMessageKey.sslUnverifiable:
-      return l10n.sslUnverifiable;
+      return l10n.bodySslUnverifiable;
     case AppMessageKey.sslCheckFailed:
-      return l10n.sslCheckFailed;
+      return l10n.bodySslCheckFailed;
 
     // redirects
     case AppMessageKey.redirectSkippedPrivate:
-      return l10n.redirectSkippedPrivate;
+      return l10n.bodyRedirectSkippedPrivate;
     case AppMessageKey.redirectLoop:
-      return l10n.redirectLoop;
+      return l10n.bodyRedirectLoop;
     case AppMessageKey.redirectNone:
-      return l10n.redirectNone;
+      return l10n.bodyRedirectNone;
     case AppMessageKey.redirectSuspiciousChain:
-      return l10n.redirectSuspiciousChain(args['count'] ?? '');
+      return l10n.bodyRedirectSuspiciousChain(args['count'] ?? '');
     case AppMessageKey.redirectWithinRange:
-      return l10n.redirectWithinRange(args['count'] ?? '');
+      return l10n.bodyRedirectWithinRange(args['count'] ?? '');
     case AppMessageKey.redirectUnavailable:
-      return l10n.redirectUnavailable;
+      return l10n.bodyRedirectUnavailable;
 
     // suspicious patterns
     case AppMessageKey.patternNone:
-      return l10n.patternNone;
+      return l10n.bodyPatternNone;
     case AppMessageKey.patternDetected:
-      return l10n.patternDetected(_patternList(l10n, args['patterns'] ?? ''));
+      return l10n.bodyPatternDetected(
+        _patternList(l10n, args['patterns'] ?? ''),
+      );
     case AppMessageKey.patternIpAddress:
-      return l10n.patternIpAddress;
+      return l10n.labelPatternIpAddress;
     case AppMessageKey.patternLongNumbers:
-      return l10n.patternLongNumbers;
+      return l10n.labelPatternLongNumbers;
     case AppMessageKey.patternManyDashes:
-      return l10n.patternManyDashes;
+      return l10n.labelPatternManyDashes;
     case AppMessageKey.patternPhishingKeywords:
-      return l10n.patternPhishingKeywords;
+      return l10n.labelPatternPhishingKeywords;
     case AppMessageKey.patternDataUri:
-      return l10n.patternDataUri;
+      return l10n.labelPatternDataUri;
     case AppMessageKey.patternManySubdomains:
-      return l10n.patternManySubdomains;
+      return l10n.labelPatternManySubdomains;
     case AppMessageKey.patternUnavailable:
-      return l10n.patternUnavailable;
+      return l10n.bodyPatternUnavailable;
 
     // URL shorteners
     case AppMessageKey.shortenerKnown:
-      return l10n.shortenerKnown(args['shortener'] ?? '');
+      return l10n.bodyShortenerKnown(args['shortener'] ?? '');
     case AppMessageKey.shortenerRedirect:
-      return l10n.shortenerRedirect(args['host'] ?? '');
+      return l10n.bodyShortenerRedirect(args['host'] ?? '');
     case AppMessageKey.shortenerPossibleShortDomain:
-      return l10n.shortenerPossibleShortDomain;
+      return l10n.bodyShortenerPossibleShortDomain;
     case AppMessageKey.shortenerPossibleTld:
-      return l10n.shortenerPossibleTld(args['tld'] ?? '');
+      return l10n.bodyShortenerPossibleTld(args['tld'] ?? '');
     case AppMessageKey.shortenerPossibleRandomPath:
-      return l10n.shortenerPossibleRandomPath;
+      return l10n.bodyShortenerPossibleRandomPath;
     case AppMessageKey.shortenerOfflineHeuristics:
-      return l10n.shortenerOfflineHeuristics;
+      return l10n.bodyShortenerOfflineHeuristics;
     case AppMessageKey.shortenerNone:
-      return l10n.shortenerNone;
+      return l10n.bodyShortenerNone;
     case AppMessageKey.shortenerUnavailable:
-      return l10n.shortenerUnavailable;
+      return l10n.bodyShortenerUnavailable;
 
     // lookalike characters
     case AppMessageKey.homographLookalikes:
-      return l10n.homographLookalikes(args['characters'] ?? '');
+      return l10n.bodyHomographLookalikes(args['characters'] ?? '');
     case AppMessageKey.homographMixedScripts:
-      return l10n.homographMixedScripts;
+      return l10n.bodyHomographMixedScripts;
     case AppMessageKey.homographNone:
-      return l10n.homographNone;
+      return l10n.bodyHomographNone;
     case AppMessageKey.homographUnavailable:
-      return l10n.homographUnavailable;
+      return l10n.bodyHomographUnavailable;
 
     // Google Safe Browsing
     case AppMessageKey.maliciousSkippedNoKey:
-      return l10n.maliciousSkippedNoKey;
+      return l10n.bodyMaliciousSkippedNoKey;
     case AppMessageKey.maliciousDailyLimit:
-      return l10n.maliciousDailyLimit;
+      return l10n.bodyMaliciousDailyLimit;
     case AppMessageKey.maliciousThreats:
-      return l10n.maliciousThreats(args['threats'] ?? '');
+      return l10n.bodyMaliciousThreats(args['threats'] ?? '');
     case AppMessageKey.maliciousNone:
-      return l10n.maliciousNone;
+      return l10n.bodyMaliciousNone;
     case AppMessageKey.maliciousInvalidKey:
-      return l10n.maliciousInvalidKey;
+      return l10n.bodyMaliciousInvalidKey;
     case AppMessageKey.maliciousRateLimited:
-      return l10n.maliciousRateLimited;
+      return l10n.bodyMaliciousRateLimited;
     case AppMessageKey.maliciousApiError:
-      return l10n.maliciousApiError(args['status'] ?? '');
+      return l10n.bodyMaliciousApiError(args['status'] ?? '');
     case AppMessageKey.maliciousUnavailable:
-      return l10n.maliciousUnavailable;
+      return l10n.bodyMaliciousUnavailable;
 
     // VirusTotal
     case AppMessageKey.checkNameVirusTotal:
-      return l10n.checkNameVirusTotal;
+      return l10n.labelCheckNameVirusTotal;
     case AppMessageKey.virusTotalSkippedNoKey:
-      return l10n.virusTotalSkippedNoKey;
+      return l10n.bodyVirusTotalSkippedNoKey;
     case AppMessageKey.virusTotalDailyLimit:
-      return l10n.virusTotalDailyLimit;
+      return l10n.bodyVirusTotalDailyLimit;
     case AppMessageKey.virusTotalThreats:
-      return l10n.virusTotalThreats(args['engines'] ?? '');
+      return l10n.bodyVirusTotalThreats(args['engines'] ?? '');
     case AppMessageKey.virusTotalNone:
-      return l10n.virusTotalNone;
+      return l10n.bodyVirusTotalNone;
     case AppMessageKey.virusTotalInvalidKey:
-      return l10n.virusTotalInvalidKey;
+      return l10n.bodyVirusTotalInvalidKey;
     case AppMessageKey.virusTotalRateLimited:
-      return l10n.virusTotalRateLimited;
+      return l10n.bodyVirusTotalRateLimited;
     case AppMessageKey.virusTotalApiError:
-      return l10n.virusTotalApiError(args['status'] ?? '');
+      return l10n.bodyVirusTotalApiError(args['status'] ?? '');
     case AppMessageKey.virusTotalUnavailable:
-      return l10n.virusTotalUnavailable;
+      return l10n.bodyVirusTotalUnavailable;
 
     // URLhaus
     case AppMessageKey.checkNameUrlhaus:
-      return l10n.checkNameUrlhaus;
+      return l10n.labelCheckNameUrlhaus;
     case AppMessageKey.urlhausSkippedNoKey:
-      return l10n.urlhausSkippedNoKey;
+      return l10n.bodyUrlhausSkippedNoKey;
     case AppMessageKey.urlhausMalware:
-      return l10n.urlhausMalware(args['tags'] ?? '');
+      return l10n.bodyUrlhausMalware(args['tags'] ?? '');
     case AppMessageKey.urlhausClean:
-      return l10n.urlhausClean;
+      return l10n.bodyUrlhausClean;
     case AppMessageKey.urlhausNotFound:
-      return l10n.urlhausNotFound;
+      return l10n.bodyUrlhausNotFound;
     case AppMessageKey.urlhausInvalidKey:
-      return l10n.urlhausInvalidKey;
+      return l10n.bodyUrlhausInvalidKey;
     case AppMessageKey.urlhausApiError:
-      return l10n.urlhausApiError(args['status'] ?? '');
+      return l10n.bodyUrlhausApiError(args['status'] ?? '');
     case AppMessageKey.urlhausUnavailable:
-      return l10n.urlhausUnavailable;
+      return l10n.bodyUrlhausUnavailable;
 
     // PhishTank
     case AppMessageKey.checkNamePhishTank:
-      return l10n.checkNamePhishTank;
+      return l10n.labelCheckNamePhishTank;
     case AppMessageKey.phishTankSkippedDisabled:
-      return l10n.phishTankSkippedDisabled;
+      return l10n.bodyPhishTankSkippedDisabled;
     case AppMessageKey.phishTankPhishing:
-      return l10n.phishTankPhishing;
+      return l10n.bodyPhishTankPhishing;
     case AppMessageKey.phishTankClean:
-      return l10n.phishTankClean;
+      return l10n.bodyPhishTankClean;
     case AppMessageKey.phishTankNotInDatabase:
-      return l10n.phishTankNotInDatabase;
+      return l10n.bodyPhishTankNotInDatabase;
     case AppMessageKey.phishTankApiError:
-      return l10n.phishTankApiError(args['status'] ?? '');
+      return l10n.bodyPhishTankApiError(args['status'] ?? '');
     case AppMessageKey.phishTankUnavailable:
-      return l10n.phishTankUnavailable;
+      return l10n.bodyPhishTankUnavailable;
 
     // OpenPhish
     case AppMessageKey.checkNameOpenPhish:
-      return l10n.checkNameOpenPhish;
+      return l10n.labelCheckNameOpenPhish;
     case AppMessageKey.openPhishSkippedDisabled:
-      return l10n.openPhishSkippedDisabled;
+      return l10n.bodyOpenPhishSkippedDisabled;
     case AppMessageKey.openPhishPhishing:
-      return l10n.openPhishPhishing;
+      return l10n.bodyOpenPhishPhishing;
     case AppMessageKey.openPhishClean:
-      return l10n.openPhishClean;
+      return l10n.bodyOpenPhishClean;
     case AppMessageKey.openPhishFeedStale:
-      return l10n.openPhishFeedStale;
+      return l10n.bodyOpenPhishFeedStale;
     case AppMessageKey.openPhishUnavailable:
-      return l10n.openPhishUnavailable;
+      return l10n.bodyOpenPhishUnavailable;
 
     // printed-code tamper check
 
     case AppMessageKey.quishingSummaryAuthentic:
-      return l10n.quishingSummaryAuthentic;
+      return l10n.bodyQuishingSummaryAuthentic;
     case AppMessageKey.quishingSummaryWearAndTear:
-      return l10n.quishingSummaryWearAndTear;
+      return l10n.bodyQuishingSummaryWearAndTear;
     case AppMessageKey.quishingSummaryHighWarning:
-      return l10n.quishingSummaryHighWarning;
+      return l10n.bodyQuishingSummaryHighWarning;
     case AppMessageKey.quishingStatusAuthentic:
-      return l10n.quishingStatusAuthentic;
+      return l10n.bodyQuishingStatusAuthentic;
     case AppMessageKey.quishingStatusWearAndTear:
-      return l10n.quishingStatusWearAndTear;
+      return l10n.bodyQuishingStatusWearAndTear;
     case AppMessageKey.quishingStatusHighWarning:
-      return l10n.quishingStatusHighWarning;
+      return l10n.bodyQuishingStatusHighWarning;
     case AppMessageKey.quishingSignalPerimeterDoubleEdge:
-      return l10n.quishingSignalPerimeterDoubleEdge(args['zones'] ?? '');
+      return l10n.bodyQuishingSignalPerimeterDoubleEdge(args['zones'] ?? '');
     case AppMessageKey.quishingSignalMicroShadowPerimeter:
-      return l10n.quishingSignalMicroShadowPerimeter;
+      return l10n.bodyQuishingSignalMicroShadowPerimeter;
     case AppMessageKey.quishingSignalDotDensityVariance:
-      return l10n.quishingSignalDotDensityVariance(args['variance'] ?? '');
+      return l10n.bodyQuishingSignalDotDensityVariance(args['variance'] ?? '');
     case AppMessageKey.quishingSignalGrainAberration:
-      return l10n.quishingSignalGrainAberration;
+      return l10n.bodyQuishingSignalGrainAberration;
     case AppMessageKey.quishingSignalUniformReflection:
-      return l10n.quishingSignalUniformReflection;
+      return l10n.bodyQuishingSignalUniformReflection;
     case AppMessageKey.quishingSignalConsistentDotsQrMatrix:
-      return l10n.quishingSignalConsistentDotsQrMatrix;
+      return l10n.bodyQuishingSignalConsistentDotsQrMatrix;
     case AppMessageKey.quishingSignalReflectionVerified:
-      return l10n.quishingSignalReflectionVerified;
+      return l10n.bodyQuishingSignalReflectionVerified;
     case AppMessageKey.quishingSignalHalftoneConsistentQrMatrix:
-      return l10n.quishingSignalHalftoneConsistentQrMatrix;
+      return l10n.bodyQuishingSignalHalftoneConsistentQrMatrix;
     case AppMessageKey.quishingSignalHalftoneConsistentMatrix:
-      return l10n.quishingSignalHalftoneConsistentMatrix;
+      return l10n.bodyQuishingSignalHalftoneConsistentMatrix;
     case AppMessageKey.quishingSignalDoubleEdgeAroundMatrix:
-      return l10n.quishingSignalDoubleEdgeAroundMatrix;
+      return l10n.bodyQuishingSignalDoubleEdgeAroundMatrix;
     case AppMessageKey.quishingSignalMicroShadowStickerBorder:
-      return l10n.quishingSignalMicroShadowStickerBorder;
+      return l10n.bodyQuishingSignalMicroShadowStickerBorder;
     case AppMessageKey.quishingSignalGrainMismatchBase:
-      return l10n.quishingSignalGrainMismatchBase;
+      return l10n.bodyQuishingSignalGrainMismatchBase;
     case AppMessageKey.quishingSignalMinorScratch:
-      return l10n.quishingSignalMinorScratch;
+      return l10n.bodyQuishingSignalMinorScratch;
     case AppMessageKey.quishingSignalSlightDotIrregularity:
-      return l10n.quishingSignalSlightDotIrregularity;
+      return l10n.bodyQuishingSignalSlightDotIrregularity;
     case AppMessageKey.quishingSignalConsistentDotsMatrixPerimeter:
-      return l10n.quishingSignalConsistentDotsMatrixPerimeter;
+      return l10n.bodyQuishingSignalConsistentDotsMatrixPerimeter;
 
     // sandboxed page preview
     case AppMessageKey.domSslInvalidScheme:
-      return l10n.domSslInvalidScheme;
+      return l10n.bodyDomSslInvalidScheme;
     case AppMessageKey.domSslHttps:
-      return l10n.domSslHttps;
+      return l10n.bodyDomSslHttps;
     case AppMessageKey.domSslHttp:
-      return l10n.domSslHttp;
+      return l10n.bodyDomSslHttp;
     case AppMessageKey.domStatusInvalidUrl:
-      return l10n.domStatusInvalidUrl;
+      return l10n.bodyDomStatusInvalidUrl;
     case AppMessageKey.domStatusOpenRedirect:
-      return l10n.domStatusOpenRedirect(args['target'] ?? '');
+      return l10n.bodyDomStatusOpenRedirect(args['target'] ?? '');
     case AppMessageKey.domStatusHttpCaution:
-      return l10n.domStatusHttpCaution;
+      return l10n.bodyDomStatusHttpCaution;
     case AppMessageKey.domStatusNewDomain:
-      return l10n.domStatusNewDomain(args['days'] ?? '');
+      return l10n.bodyDomStatusNewDomain(args['days'] ?? '');
     case AppMessageKey.domStatusSafe:
-      return l10n.domStatusSafe;
+      return l10n.bodyDomStatusSafe;
 
     // hidden encrypted payload
     case AppMessageKey.stegoPassphraseEmpty:
-      return l10n.stegoPassphraseEmpty;
+      return l10n.errorStegoPassphraseEmpty;
     case AppMessageKey.stegoWrongPassphrase:
-      return l10n.stegoWrongPassphrase;
+      return l10n.errorStegoWrongPassphrase;
     case AppMessageKey.stegoBiometricCanceled:
-      return l10n.stegoBiometricCanceled;
+      return l10n.errorStegoBiometricCanceled;
 
     // optical stream transfer
     case AppMessageKey.airQrChecksumFailed:
-      return l10n.airQrChecksumFailed;
+      return l10n.errorAirQrChecksumFailed;
 
     // encrypted backup files
     case AppMessageKey.backupInvalidFormat:
-      return l10n.backupInvalidFormat;
+      return l10n.errorBackupInvalidFormat;
     case AppMessageKey.backupBadHeader:
-      return l10n.backupBadHeader;
+      return l10n.errorBackupBadHeader;
     case AppMessageKey.backupWrongPassphrase:
-      return l10n.backupWrongPassphrase;
+      return l10n.errorBackupWrongPassphrase;
 
     // names for the kind of code seen in the AR view
     case AppMessageKey.formatQrUrl:
-      return l10n.formatQrUrl;
+      return l10n.labelFormatQrUrl;
     case AppMessageKey.formatQrEmail:
-      return l10n.formatQrEmail;
+      return l10n.labelFormatQrEmail;
     case AppMessageKey.formatQrPhone:
-      return l10n.formatQrPhone;
+      return l10n.labelFormatQrPhone;
     case AppMessageKey.formatQrSms:
-      return l10n.formatQrSms;
+      return l10n.labelFormatQrSms;
     case AppMessageKey.formatQrWifi:
-      return l10n.formatQrWifi;
+      return l10n.labelFormatQrWifi;
     case AppMessageKey.formatQrLocation:
-      return l10n.formatQrLocation;
+      return l10n.labelFormatQrLocation;
     case AppMessageKey.formatQrContact:
-      return l10n.formatQrContact;
+      return l10n.labelFormatQrContact;
     case AppMessageKey.formatIsbn:
-      return l10n.formatIsbn;
+      return l10n.labelFormatIsbn;
     case AppMessageKey.formatEanUpc:
-      return l10n.formatEanUpc;
+      return l10n.labelFormatEanUpc;
     case AppMessageKey.formatQrCode:
-      return l10n.formatQrCode;
+      return l10n.labelFormatQrCode;
     case AppMessageKey.formatEanUpcProduct:
-      return l10n.formatEanUpcProduct;
+      return l10n.labelFormatEanUpcProduct;
     case AppMessageKey.formatBarcode:
-      return l10n.formatBarcode;
+      return l10n.labelFormatBarcode;
 
     // reading codes from pictures and PDFs
     case AppMessageKey.mediaImagePickFailed:
-      return l10n.mediaImagePickFailed(args['error'] ?? '');
+      return l10n.errorMediaImagePickFailed(args['error'] ?? '');
     case AppMessageKey.mediaNoCodeInImage:
-      return l10n.mediaNoCodeInImage;
+      return l10n.errorMediaNoCodeInImage;
     case AppMessageKey.mediaImageAnalyzeFailed:
-      return l10n.mediaImageAnalyzeFailed(args['error'] ?? '');
+      return l10n.errorMediaImageAnalyzeFailed(args['error'] ?? '');
     case AppMessageKey.mediaPdfPickFailed:
-      return l10n.mediaPdfPickFailed(args['error'] ?? '');
+      return l10n.errorMediaPdfPickFailed(args['error'] ?? '');
     case AppMessageKey.mediaNoCodeInPdf:
-      return l10n.mediaNoCodeInPdf;
+      return l10n.errorMediaNoCodeInPdf;
     case AppMessageKey.mediaPdfScanFailed:
-      return l10n.mediaPdfScanFailed(args['error'] ?? '');
+      return l10n.errorMediaPdfScanFailed(args['error'] ?? '');
 
     // CodeForge file reading
     case AppMessageKey.codeForgeFileEmpty:
-      return l10n.codeForgeFileEmpty;
+      return l10n.errorCodeForgeFileEmpty;
     case AppMessageKey.codeForgeFileTruncated:
-      return l10n.codeForgeFileTruncated;
+      return l10n.bodyCodeForgeFileTruncated;
     case AppMessageKey.codeForgeFileLoaded:
-      return l10n.codeForgeFileLoaded;
+      return l10n.bodyCodeForgeFileLoaded;
     case AppMessageKey.codeForgeFileReadError:
-      return l10n.codeForgeFileReadError;
+      return l10n.errorCodeForgeFileReadError;
 
     // CodeForge input checks
     case AppMessageKey.codeForgeContentEmpty:
-      return l10n.codeForgeContentEmpty;
+      return l10n.errorCodeForgeContentEmpty;
     case AppMessageKey.codeForgeTextTooLong:
-      return l10n.codeForgeTextTooLong(args['max'] ?? '');
+      return l10n.errorCodeForgeTextTooLong(args['max'] ?? '');
     case AppMessageKey.codeForgeWifiSsidRequired:
-      return l10n.codeForgeWifiSsidRequired;
+      return l10n.errorCodeForgeWifiSsidRequired;
     case AppMessageKey.codeForgeUpiVpaRequired:
-      return l10n.codeForgeUpiVpaRequired;
+      return l10n.errorCodeForgeUpiVpaRequired;
     case AppMessageKey.codeForgeBarcodeInvalid:
-      return l10n.codeForgeBarcodeInvalid(args['detail'] ?? '');
+      return l10n.errorCodeForgeBarcodeInvalid(args['detail'] ?? '');
   }
 }
 

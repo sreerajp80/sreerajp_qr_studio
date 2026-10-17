@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
@@ -45,7 +45,7 @@ class AppLinkActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.appLinkCardTitle,
+                        l10n.titleAppLinkCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -107,7 +107,7 @@ class AppLinkActionCard extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.open_in_new),
-                label: Text(l10n.appLinkOpenButton),
+                label: Text(l10n.actionAppLinkOpen),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: accentColor,
                   foregroundColor: Colors.white,
@@ -122,7 +122,7 @@ class AppLinkActionCard extends StatelessWidget {
                   );
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.appLinkLaunchFailed)),
+                      SnackBar(content: Text(l10n.errorAppLinkLaunchFailed)),
                     );
                   }
                 },
@@ -175,7 +175,7 @@ class AppLinkActionCard extends StatelessWidget {
       case AppStoreName.youTube:
         return 'YOUTUBE';
       case AppStoreName.generic:
-        return l10n.appLinkCardTitle.toUpperCase();
+        return l10n.titleAppLinkCard.toUpperCase();
     }
   }
 }

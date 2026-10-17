@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/location_result.dart';
 
 /// Asks for location permission; returns true when it is granted.
@@ -46,8 +46,12 @@ class LocationService {
     try {
       final granted = await _requestPermission();
       if (!granted) return const LocationResult.permissionDenied();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Location permission request failed: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Location permission request failed',
+        error: e,
+        stackTrace: st,
+      );
       return const LocationResult.failed();
     }
 
@@ -57,8 +61,12 @@ class LocationService {
         latitude: position.latitude,
         longitude: position.longitude,
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Reading current position failed: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Reading current position failed',
+        error: e,
+        stackTrace: st,
+      );
       return const LocationResult.failed();
     }
   }

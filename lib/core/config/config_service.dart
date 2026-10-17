@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/core/config/app_config.dart';
 
 class ConfigService {
@@ -30,8 +30,8 @@ class ConfigService {
       final info = packageInfo ?? await PackageInfo.fromPlatform();
       final mismatch =
           info.version != config.version || info.buildNumber != config.build;
-      if (mismatch && kDebugMode) {
-        debugPrint(
+      if (mismatch) {
+        AppLogger.debug(
           'ConfigService: version/build in app_config.json '
           '(${config.version}+${config.build}) does not match the build '
           '(${info.version}+${info.buildNumber}).',

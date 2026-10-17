@@ -41,8 +41,8 @@ class DistanceScanConfig {
   /// 1.45 contrast boost. From the defaults this gives 3.5x / 2.0.
   DistanceScanConfig stronger() {
     return copyWith(
-      zoomFactor: (zoomFactor + 1.0).clamp(1.0, 4.0).toDouble(),
-      unsharpAmount: (unsharpAmount + 0.5).clamp(0.0, 2.5).toDouble(),
+      zoomFactor: (zoomFactor + 1.0).clamp(1.0, 4.0),
+      unsharpAmount: (unsharpAmount + 0.5).clamp(0.0, 2.5),
       contrastBoost: 1.45,
     );
   }

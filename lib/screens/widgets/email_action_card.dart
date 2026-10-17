@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -47,7 +47,7 @@ class EmailActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.emailCardTitle,
+                        l10n.titleEmailCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class EmailActionCard extends StatelessWidget {
               _buildInfoRow(
                 context,
                 Icons.subject,
-                l10n.emailSubjectLabel,
+                l10n.labelEmailSubject,
                 payload.subject,
                 isDark,
               ),
@@ -90,7 +90,7 @@ class EmailActionCard extends StatelessWidget {
               _buildInfoRow(
                 context,
                 Icons.notes,
-                l10n.emailBodyLabel,
+                l10n.labelEmailBody,
                 payload.body,
                 isDark,
               ),
@@ -105,7 +105,7 @@ class EmailActionCard extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.send),
-                    label: Text(l10n.emailSendButton),
+                    label: Text(l10n.actionEmailSend),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange[700],
                       foregroundColor: Colors.white,
@@ -120,7 +120,7 @@ class EmailActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.emailLaunchFailed)),
+                          SnackBar(content: Text(l10n.errorEmailLaunchFailed)),
                         );
                       }
                     },
@@ -129,7 +129,7 @@ class EmailActionCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 OutlinedButton.icon(
                   icon: const Icon(Icons.copy),
-                  label: Text(l10n.emailCopyButton),
+                  label: Text(l10n.actionEmailCopy),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -139,7 +139,7 @@ class EmailActionCard extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: payload.toAddress));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.copiedToClipboard)),
+                      SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                     );
                   },
                 ),

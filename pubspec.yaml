@@ -1,6 +1,6 @@
 name: sreerajp_qr_studio
 description: A privacy-first QR/barcode scanner with link safety checks, tamper detection, StegoQR, AR CodeVision, and offline smart tools
-version: 4.1.0+34
+version: 4.1.2+36
 
 environment:
   sdk: '>=3.13.5 <4.0.0'
@@ -38,8 +38,12 @@ dependencies:
   # State management
   provider: ^6.1.5
 
+  # Material and Cupertino widgets + localization delegates (Flutter >= 3.47)
+  material_ui: ^1.6.0
+  cupertino_ui: ^1.1.2
+
   # Theme and Material You
-  dynamic_color: ^1.9.0
+  dynamic_color: ^2.1.0
 
   # Package info for version reading
   package_info_plus: ^10.2.2

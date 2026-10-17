@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
@@ -39,7 +39,10 @@ void main() {
     VoidCallback? onScanTriggered,
   }) {
     return MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        ...GlobalMaterialLocalizations.delegates,
+      ],
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: GhostScanSheet(
@@ -63,7 +66,7 @@ void main() {
     expect(find.text('How to use GhostScan'), findsOneWidget);
     expect(find.byIcon(Icons.screenshot_monitor), findsOneWidget);
     expect(find.text('Scan Screen Now'), findsOneWidget);
-    expect(find.text('Add Quick Settings Tile'), findsOneWidget);
+    expect(find.text('Add Settings tile'), findsOneWidget);
 
     service.dispose();
   });
@@ -103,7 +106,7 @@ void main() {
     await tester.pumpWidget(buildTestWidget(service: service));
     await tester.pumpAndSettle();
 
-    final addTileButton = find.text('Add Quick Settings Tile');
+    final addTileButton = find.text('Add Settings tile');
     expect(addTileButton, findsOneWidget);
     await tester.tap(addTileButton);
     await tester.pumpAndSettle();

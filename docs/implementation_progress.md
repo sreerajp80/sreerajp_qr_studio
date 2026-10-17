@@ -7,7 +7,7 @@ This document tracks the live implementation status of application features and 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)
 - [implementation_plan.md](implementation_plan.md)
-- [features.md](features.md) — full list of what the app does today
+- [README.md](../README.md) "Detailed Feature Reference" — full list of what the app does today
 
 ---
 

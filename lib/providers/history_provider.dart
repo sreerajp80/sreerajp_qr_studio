@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
@@ -16,7 +17,7 @@ class HistoryProvider extends ChangeNotifier {
   String _searchQuery = '';
   bool _showFavoritesOnly = false;
   bool _isLoading = false;
-  String? _errorMessage;
+  bool _hasLoadError = false;
 
   HistoryProvider({
     HistoryDatabaseService? dbService,
@@ -29,15 +30,27 @@ class HistoryProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   bool get showFavoritesOnly => _showFavoritesOnly;
   bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+
+  /// True when the last load failed (for example the history key could not
+  /// be read). The screen shows its own localized message.
+  bool get hasLoadError => _hasLoadError;
 
   int get totalCount => _records.length;
   int get favoritesCount => _records.where((r) => r.isFavorite).length;
 
+  /// Closes and deletes the history database and clears the list in memory
+  /// ("Delete all data").
+  Future<void> closeAndDeleteDatabase() async {
+    _records = [];
+    _hasLoadError = false;
+    await _dbService.closeAndDeleteDatabase();
+    notifyListeners();
+  }
+
   /// Loads scan history records from encrypted SQLite database based on filters and search query.
   Future<void> loadRecords() async {
     _isLoading = true;
-    _errorMessage = null;
+    _hasLoadError = false;
     notifyListeners();
 
     try {
@@ -46,9 +59,13 @@ class HistoryProvider extends ChangeNotifier {
         onlyFavorites: _showFavoritesOnly,
         searchQuery: _searchQuery,
       );
-    } catch (e) {
-      _errorMessage = 'Failed to load history records: $e';
-      if (kDebugMode) debugPrint(_errorMessage);
+    } catch (e, st) {
+      _hasLoadError = true;
+      AppLogger.error(
+        'Loading history records failed',
+        error: e,
+        stackTrace: st,
+      );
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -80,8 +97,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.insertRecord(record);
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error inserting scan record: $e');
+    } catch (e, st) {
+      AppLogger.error('Error inserting scan record', error: e, stackTrace: st);
     }
   }
 
@@ -94,8 +111,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.toggleFavorite(id, currentStatus);
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error toggling favorite: $e');
+    } catch (e, st) {
+      AppLogger.error('Error toggling favorite', error: e, stackTrace: st);
     }
   }
 
@@ -104,8 +121,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.updateNotes(id, notes);
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error updating notes: $e');
+    } catch (e, st) {
+      AppLogger.error('Error updating notes', error: e, stackTrace: st);
     }
   }
 
@@ -114,8 +131,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.updateLocationTag(id, locationTag);
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error updating location tag: $e');
+    } catch (e, st) {
+      AppLogger.error('Error updating location tag', error: e, stackTrace: st);
     }
   }
 
@@ -124,8 +141,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.deleteRecord(id);
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error deleting record: $e');
+    } catch (e, st) {
+      AppLogger.error('Error deleting record', error: e, stackTrace: st);
     }
   }
 
@@ -134,8 +151,8 @@ class HistoryProvider extends ChangeNotifier {
     try {
       await _dbService.clearAll();
       await loadRecords();
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error clearing history: $e');
+    } catch (e, st) {
+      AppLogger.error('Error clearing history', error: e, stackTrace: st);
     }
   }
 
@@ -158,7 +175,8 @@ class HistoryProvider extends ChangeNotifier {
   }
 
   /// Generates password-encrypted local backup string (`.sreerajqr`).
-  String createEncryptedBackup(String passphrase) {
+  /// The slow key derivation runs in a background isolate.
+  Future<String> createEncryptedBackup(String passphrase) {
     return _exportService.createEncryptedBackup(_records, passphrase);
   }
 
@@ -167,7 +185,7 @@ class HistoryProvider extends ChangeNotifier {
     String backupContent,
     String passphrase,
   ) async {
-    final restoredRecords = _exportService.restoreEncryptedBackup(
+    final restoredRecords = await _exportService.restoreEncryptedBackup(
       backupContent,
       passphrase,
     );

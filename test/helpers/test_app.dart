@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 
 /// The three app languages, for tests that run a screen in each one.
 const List<Locale> appTestLocales = [Locale('en'), Locale('ml'), Locale('sa')];
@@ -21,12 +20,10 @@ Widget buildTestApp({
     locale: locale,
     localizationsDelegates: const [
       AppLocalizations.delegate,
-      SaMaterialLocalizationsDelegate(),
-      SaCupertinoLocalizationsDelegate(),
-      SaWidgetsLocalizationsDelegate(),
-      GlobalMaterialLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
+      FallbackMaterialLocalizationsDelegate(),
+      FallbackCupertinoLocalizationsDelegate(),
+      FallbackWidgetsLocalizationsDelegate(),
+      ...GlobalMaterialLocalizations.delegates,
     ],
     supportedLocales: AppLocalizations.supportedLocales,
     home: home,

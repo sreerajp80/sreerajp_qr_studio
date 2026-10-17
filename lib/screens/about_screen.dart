@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:sreerajp_qr_studio/core/config/app_config.dart';
 import 'package:sreerajp_qr_studio/core/config/config_service.dart';
@@ -19,6 +19,8 @@ String aboutDetailLabel(AppLocalizations l10n, String key) {
       return l10n.aboutDetailAiUsed;
     case 'ideUsed':
       return l10n.aboutDetailIdeUsed;
+    case 'privacyPolicy':
+      return l10n.aboutDetailPrivacyPolicy;
     default:
       return key;
   }
@@ -62,8 +64,31 @@ class _AboutScreenState extends State<AboutScreen> {
     }
   }
 
+  /// Opens a web link (for example the privacy policy) in the browser.
+  Future<void> _openLink(String url) async {
+    final uri = Uri.tryParse(url);
+    if (uri == null || !(uri.isScheme('https') || uri.isScheme('http'))) {
+      return;
+    }
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  VoidCallback? _detailTap(String key, String value) {
+    final lowerKey = key.trim().toLowerCase();
+    if (lowerKey == 'email') return () => _openMail(value);
+    if (value.startsWith('https://') || value.startsWith('http://')) {
+      return () => _openLink(value);
+    }
+    return null;
+  }
+
   IconData _getIconForKey(String key) {
     final lowerKey = key.trim().toLowerCase();
+    if (lowerKey.contains('privacy')) {
+      return Icons.privacy_tip_outlined;
+    }
     if (lowerKey.contains('author') || lowerKey.contains('developer')) {
       return Icons.person;
     }
@@ -90,7 +115,7 @@ class _AboutScreenState extends State<AboutScreen> {
     final l10n = AppLocalizations.of(context);
     final lang = Localizations.localeOf(context).languageCode;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.aboutTitle)),
+      appBar: AppBar(title: Text(l10n.titleAbout)),
       body: SafeArea(
         top: false,
         child: _isLoading
@@ -149,7 +174,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
                     // Version Info
                     Text(
-                      l10n.aboutVersion(_config.version, _config.build),
+                      l10n.bodyAboutVersion(_config.version, _config.build),
                       style: Theme.of(context).textTheme.bodyMedium
                           ?.copyWith(color: Colors.grey[600]),
                     ),
@@ -165,7 +190,7 @@ class _AboutScreenState extends State<AboutScreen> {
                             _buildInfoCard(
                               context,
                               icon: Icons.calendar_today,
-                              title: l10n.aboutBuildDate,
+                              title: l10n.labelAboutBuildDate,
                               content: kBuildDate,
                             ),
                             const SizedBox(height: 12),
@@ -181,21 +206,22 @@ class _AboutScreenState extends State<AboutScreen> {
                                 icon: _getIconForKey(entry.key),
                                 title: aboutDetailLabel(l10n, entry.key),
                                 content: entry.value.resolve(lang),
-                                onTap: entry.key.trim().toLowerCase() == 'email'
-                                    ? () => _openMail(entry.value.resolve(lang))
-                                    : null,
+                                onTap: _detailTap(
+                                  entry.key,
+                                  entry.value.resolve(lang),
+                                ),
                               ),
                               const SizedBox(height: 12),
                             ],
                           _buildInfoCard(
                             context,
                             icon: Icons.gavel_outlined,
-                            title: l10n.aboutOpenSourceLicenses,
-                            content: l10n.aboutOpenSourceLicensesDetail,
+                            title: l10n.labelAboutOpenSourceLicenses,
+                            content: l10n.descAboutOpenSourceLicenses,
                             onTap: () => showLicensePage(
                               context: context,
                               applicationName: _config.appName.resolve(lang),
-                              applicationVersion: l10n.aboutVersion(
+                              applicationVersion: l10n.bodyAboutVersion(
                                 _config.version,
                                 _config.build,
                               ),
@@ -211,7 +237,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        l10n.aboutCopyright(DateTime.now().year.toString()),
+                        l10n.bodyAboutCopyright(DateTime.now().year.toString()),
                         style: Theme.of(context).textTheme.bodySmall
                             ?.copyWith(color: Colors.grey[600]),
                         textAlign: TextAlign.center,

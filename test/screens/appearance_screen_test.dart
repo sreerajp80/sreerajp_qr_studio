@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,6 +9,7 @@ import 'package:sreerajp_qr_studio/screens/appearance/theme_mode_settings_screen
 import 'package:sreerajp_qr_studio/screens/appearance/typography_settings_screen.dart';
 import 'package:sreerajp_qr_studio/screens/appearance_screen.dart';
 
+import '../helpers/accessibility_checks.dart';
 import '../helpers/test_app.dart';
 
 void main() {
@@ -32,12 +33,13 @@ void main() {
       await tester.pumpWidget(app(locale: locale));
       await tester.pumpAndSettle();
 
-      expect(find.text(l10n.appearanceHubTitle), findsOneWidget);
-      expect(find.text(l10n.appearanceThemeModeCardTitle), findsOneWidget);
-      expect(find.text(l10n.appearanceOverlayCardTitle), findsOneWidget);
-      expect(find.text(l10n.appearanceAccentCardTitle), findsOneWidget);
-      expect(find.text(l10n.appearanceTypographyCardTitle), findsOneWidget);
+      expect(find.text(l10n.titleAppearanceHub), findsOneWidget);
+      expect(find.text(l10n.labelAppearanceThemeModeCard), findsOneWidget);
+      expect(find.text(l10n.labelAppearanceOverlayCard), findsOneWidget);
+      expect(find.text(l10n.labelAppearanceAccentCard), findsOneWidget);
+      expect(find.text(l10n.labelAppearanceTypographyCard), findsOneWidget);
       expect(tester.takeException(), isNull);
+      expectAllIconButtonsHaveTooltips(tester);
     });
   }
 
@@ -54,10 +56,10 @@ void main() {
     ) async {
       final l10n = l10nFor(const Locale('en'));
       final titles = {
-        'theme': l10n.appearanceThemeModeCardTitle,
-        'overlay': l10n.appearanceOverlayCardTitle,
-        'accent': l10n.appearanceAccentCardTitle,
-        'typography': l10n.appearanceTypographyCardTitle,
+        'theme': l10n.labelAppearanceThemeModeCard,
+        'overlay': l10n.labelAppearanceOverlayCard,
+        'accent': l10n.labelAppearanceAccentCard,
+        'typography': l10n.labelAppearanceTypographyCard,
       };
       await tester.pumpWidget(app());
       await tester.pumpAndSettle();

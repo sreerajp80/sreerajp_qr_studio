@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/main.dart';
@@ -143,8 +143,8 @@ class _ScannerScreenState extends State<ScannerScreen>
         if (!controller!.value.isRunning) {
           await controller!.start();
         }
-      } catch (e) {
-        if (kDebugMode) debugPrint('Resume camera error: $e');
+      } catch (e, st) {
+        AppLogger.error('Resume camera error', error: e, stackTrace: st);
       }
     }
   }
@@ -176,8 +176,8 @@ class _ScannerScreenState extends State<ScannerScreen>
     if (shouldBeOn != currentTorch) {
       try {
         await controller!.toggleTorch();
-      } catch (e) {
-        if (kDebugMode) debugPrint('Error syncing torch state: $e');
+      } catch (e, st) {
+        AppLogger.error('Error syncing torch state', error: e, stackTrace: st);
       }
     }
   }
@@ -207,8 +207,12 @@ class _ScannerScreenState extends State<ScannerScreen>
       try {
         await controller!.stop();
         controller!.dispose();
-      } catch (e) {
-        if (kDebugMode) debugPrint('Error disposing controller on restart: $e');
+      } catch (e, st) {
+        AppLogger.error(
+          'Error disposing controller on restart',
+          error: e,
+          stackTrace: st,
+        );
       }
       controller = null;
     }
@@ -232,7 +236,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     _intentSubscription = ReceiveSharingIntent.instance.getMediaStream().listen(
       _handleSharedFiles,
       onError: (err) {
-        if (kDebugMode) debugPrint('Error receiving share intent stream: $err');
+        AppLogger.error('Error receiving share intent stream', error: err);
       },
     );
 
@@ -277,7 +281,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         _handleGhostScanCapture(capture);
       },
       onError: (err) {
-        if (kDebugMode) debugPrint('Error in GhostScan stream: $err');
+        AppLogger.error('Error in GhostScan stream', error: err);
       },
     );
 
@@ -302,7 +306,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.scanBubbleBlockedCapture),
+          content: Text(l10n.errorScanBubbleBlockedCapture),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -319,7 +323,7 @@ class _ScannerScreenState extends State<ScannerScreen>
               child: CircularProgressIndicator(strokeWidth: 2),
             ),
             const SizedBox(width: 12),
-            Text(l10n.ghostScanAnalyzing),
+            Text(l10n.bodyGhostScanAnalyzing),
           ],
         ),
         duration: const Duration(seconds: 2),
@@ -375,9 +379,10 @@ class _ScannerScreenState extends State<ScannerScreen>
             await controller!.start();
           }
         } catch (e) {
-          if (kDebugMode) {
-            debugPrint('didPopNext camera start failed, retrying: $e');
-          }
+          AppLogger.warning(
+            'didPopNext camera start failed; retrying',
+            error: e,
+          );
           await Future.delayed(const Duration(milliseconds: 400));
           if (mounted &&
               _isScanning &&
@@ -437,8 +442,12 @@ class _ScannerScreenState extends State<ScannerScreen>
           controller!.value.isRunning) {
         await controller!.stop();
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error stopping camera before navigation: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error stopping camera before navigation',
+        error: e,
+        stackTrace: st,
+      );
     }
 
     if (!mounted) return;
@@ -455,9 +464,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             await controller!.start();
           }
         } catch (e) {
-          if (kDebugMode) {
-            debugPrint('Initial camera start failed, retrying: $e');
-          }
+          AppLogger.warning('Initial camera start failed; retrying', error: e);
           await Future.delayed(const Duration(milliseconds: 400));
           if (mounted &&
               _isScanning &&
@@ -619,9 +626,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       final shortContent = rawValue.length > 25
           ? '${rawValue.substring(0, 22)}...'
           : rawValue;
-      _showBatchToast(
-        l10n.batchScannedToast(batchProvider.count, shortContent),
-      );
+      _showBatchToast(l10n.bodyBatchScanned(batchProvider.count, shortContent));
     }
   }
 
@@ -680,18 +685,23 @@ class _ScannerScreenState extends State<ScannerScreen>
       scanProvider.checkUrlSafety(rawValue);
     }
 
-    // Micro-interaction animation duration before navigation (if enabled)
-    if (scanProvider.isAnimationEnabled) {
-      await Future.delayed(const Duration(milliseconds: 380));
+    // Stop the camera while the success animation (if enabled) plays, so the
+    // result screen opens as soon as both are done.
+    Future<void> stopCamera() async {
+      try {
+        if (controller != null &&
+            controller!.value.isInitialized &&
+            controller!.value.isRunning) {
+          await controller!.stop();
+        }
+      } catch (_) {}
     }
 
-    try {
-      if (controller != null &&
-          controller!.value.isInitialized &&
-          controller!.value.isRunning) {
-        await controller!.stop();
-      }
-    } catch (_) {}
+    await Future.wait([
+      stopCamera(),
+      if (scanProvider.isAnimationEnabled)
+        Future<void>.delayed(const Duration(milliseconds: 380)),
+    ]);
     if (!mounted) return;
 
     Navigator.pushNamed(context, '/result').then((_) async {
@@ -737,7 +747,9 @@ class _ScannerScreenState extends State<ScannerScreen>
           children: [
             const CircularProgressIndicator(),
             const SizedBox(width: 20),
-            Expanded(child: Text(AppLocalizations.of(context).scanPdfProgress)),
+            Expanded(
+              child: Text(AppLocalizations.of(context).bodyScanPdfProgress),
+            ),
           ],
         ),
       ),
@@ -761,7 +773,9 @@ class _ScannerScreenState extends State<ScannerScreen>
             const CircularProgressIndicator(),
             const SizedBox(width: 20),
             Expanded(
-              child: Text(AppLocalizations.of(context).scanSharedPdfProgress),
+              child: Text(
+                AppLocalizations.of(context).bodyScanSharedPdfProgress,
+              ),
             ),
           ],
         ),
@@ -804,7 +818,9 @@ class _ScannerScreenState extends State<ScannerScreen>
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context).clipboardNoValidContent),
+          content: Text(
+            AppLocalizations.of(context).errorClipboardNoValidContent,
+          ),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -894,8 +910,8 @@ class _ScannerScreenState extends State<ScannerScreen>
       setState(() {
         _isFrontCamera = !_isFrontCamera;
       });
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error switching camera: $e');
+    } catch (e, st) {
+      AppLogger.error('Error switching camera', error: e, stackTrace: st);
     }
   }
 
@@ -906,8 +922,8 @@ class _ScannerScreenState extends State<ScannerScreen>
     try {
       final zoomFactor = ((zoom - 1.0) / 7.0).clamp(0.0, 1.0);
       await controller?.setZoomScale(zoomFactor);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error setting zoom: $e');
+    } catch (e, st) {
+      AppLogger.error('Error setting zoom', error: e, stackTrace: st);
     }
   }
 
@@ -928,7 +944,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          l10n.appTitle,
+          l10n.titleApp,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
@@ -941,7 +957,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.photo_library),
             onPressed: _scanGalleryImage,
-            tooltip: l10n.scanFromGallery,
+            tooltip: l10n.tooltipScanFromGallery,
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
@@ -949,7 +965,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.picture_as_pdf),
             onPressed: _scanPdfDocument,
-            tooltip: l10n.scanPdfDocument,
+            tooltip: l10n.tooltipScanPdfDocument,
           ),
           IconButton(
             visualDensity: VisualDensity.compact,
@@ -957,7 +973,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.content_paste_go),
             onPressed: () => _scanFromClipboard(),
-            tooltip: l10n.scanFromClipboard,
+            tooltip: l10n.tooltipScanFromClipboard,
           ),
           Consumer<BatchScanProvider>(
             builder: (context, batchProvider, _) {
@@ -970,7 +986,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   isBatch ? Icons.inventory_2 : Icons.inventory_2_outlined,
                   color: isBatch ? Theme.of(context).colorScheme.primary : null,
                 ),
-                tooltip: l10n.batchModeTooltip,
+                tooltip: l10n.tooltipBatchMode,
                 onPressed: () {
                   batchProvider.toggleBatchMode();
                   ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -978,8 +994,8 @@ class _ScannerScreenState extends State<ScannerScreen>
                     SnackBar(
                       content: Text(
                         batchProvider.isBatchMode
-                            ? l10n.batchModeEnabledToast
-                            : l10n.batchModeDisabledToast,
+                            ? l10n.bodyBatchModeEnabled
+                            : l10n.bodyBatchModeDisabled,
                       ),
                       duration: const Duration(seconds: 1),
                       behavior: SnackBarBehavior.floating,
@@ -993,7 +1009,7 @@ class _ScannerScreenState extends State<ScannerScreen>
             padding: const EdgeInsets.symmetric(horizontal: 4),
             constraints: const BoxConstraints(minWidth: 36, minHeight: 36),
             icon: const Icon(Icons.more_vert),
-            tooltip: l10n.moreOptions,
+            tooltip: l10n.tooltipMoreOptions,
             onSelected: _navigateToRoute,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               PopupMenuItem<String>(
@@ -1002,7 +1018,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.screenshot_monitor),
                     const SizedBox(width: 12),
-                    Text(l10n.ghostScanTitle),
+                    Text(l10n.labelGhostScan),
                   ],
                 ),
               ),
@@ -1012,7 +1028,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.bubble_chart_outlined),
                     const SizedBox(width: 12),
-                    Text(l10n.scanBubbleTitle),
+                    Text(l10n.labelScanBubble),
                   ],
                 ),
               ),
@@ -1032,7 +1048,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.view_in_ar),
                     const SizedBox(width: 12),
-                    Text(l10n.arScreenTitle),
+                    Text(l10n.titleArScreen),
                   ],
                 ),
               ),
@@ -1042,7 +1058,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.sensors),
                     const SizedBox(width: 12),
-                    Text(l10n.airQrReceiverTitle),
+                    Text(l10n.titleAirQrReceiver),
                   ],
                 ),
               ),
@@ -1052,7 +1068,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.history),
                     const SizedBox(width: 12),
-                    Text(l10n.menuHistory),
+                    Text(l10n.actionMenuHistory),
                   ],
                 ),
               ),
@@ -1062,7 +1078,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   children: [
                     const Icon(Icons.settings),
                     const SizedBox(width: 12),
-                    Text(l10n.menuSettings),
+                    Text(l10n.actionMenuSettings),
                   ],
                 ),
               ),
@@ -1081,7 +1097,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         const CircularProgressIndicator(),
                         const SizedBox(height: 16),
                         Text(
-                          l10n.scanInitializingCamera,
+                          l10n.bodyScanInitializingCamera,
                           style: const TextStyle(color: Colors.white70),
                         ),
                       ],
@@ -1091,8 +1107,8 @@ class _ScannerScreenState extends State<ScannerScreen>
           ? FloatingActionButton(
               onPressed: _toggleScanning,
               tooltip: _isScanning
-                  ? l10n.scanPauseTooltip
-                  : l10n.scanResumeTooltip,
+                  ? l10n.tooltipScanPause
+                  : l10n.tooltipScanResume,
               child: Icon(_isScanning ? Icons.pause : Icons.play_arrow),
             )
           : null,
@@ -1149,7 +1165,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        l10n.scanInitializingFeed,
+                        l10n.bodyScanInitializingFeed,
                         style: const TextStyle(color: Colors.white70),
                       ),
                     ],
@@ -1229,9 +1245,9 @@ class _ScannerScreenState extends State<ScannerScreen>
                     ),
                     onPressed: () => cameraSettings.cycleFlashMode(),
                     tooltip: switch (cameraSettings.flashMode) {
-                      CameraFlashMode.off => l10n.scanFlashOff,
-                      CameraFlashMode.on => l10n.scanFlashOn,
-                      CameraFlashMode.auto => l10n.scanFlashAuto,
+                      CameraFlashMode.off => l10n.tooltipScanFlashOff,
+                      CameraFlashMode.on => l10n.tooltipScanFlashOn,
+                      CameraFlashMode.auto => l10n.tooltipScanFlashAuto,
                     },
                   ),
                   // Camera tuning / adjustments button
@@ -1249,7 +1265,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                       context,
                       onResolutionChanged: () => _restartScanner(),
                     ),
-                    tooltip: l10n.cameraTuneTooltip,
+                    tooltip: l10n.tooltipCameraTune,
                   ),
                   IconButton(
                     icon: Icon(
@@ -1261,7 +1277,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                     onPressed: () {
                       setState(() => _showZoomBar = !_showZoomBar);
                     },
-                    tooltip: l10n.scanZoomTooltip,
+                    tooltip: l10n.tooltipScanZoom,
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
@@ -1287,7 +1303,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                       color: _isFrontCamera ? Colors.cyanAccent : Colors.white,
                     ),
                     onPressed: _switchCamera,
-                    tooltip: l10n.scanFlipCameraTooltip,
+                    tooltip: l10n.tooltipScanFlipCamera,
                   ),
                 ],
               ),
@@ -1329,7 +1345,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                       ),
                       const SizedBox(width: 5),
                       Text(
-                        l10n.scanFlashAutoActive(
+                        l10n.bodyScanFlashAutoActive(
                           cameraSettings.currentLux!.toStringAsFixed(0),
                         ),
                         style: TextStyle(
@@ -1367,7 +1383,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 child: Row(
                   children: [
                     Text(
-                      l10n.scanZoomValue('1.0'),
+                      l10n.labelScanZoomValue('1.0'),
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 12,
@@ -1379,7 +1395,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         min: 1.0,
                         max: 8.0,
                         divisions: 28,
-                        label: l10n.scanZoomValue(
+                        label: l10n.labelScanZoomValue(
                           _zoomScale.toStringAsFixed(1),
                         ),
                         onChanged: (val) {
@@ -1388,7 +1404,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                       ),
                     ),
                     Text(
-                      l10n.scanZoomValue('8.0'),
+                      l10n.labelScanZoomValue('8.0'),
                       style: const TextStyle(
                         color: Colors.white70,
                         fontSize: 12,
@@ -1449,7 +1465,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  l10n.clipboardBannerTitle,
+                                  l10n.bodyClipboardBanner,
                                   style: TextStyle(
                                     color: Theme.of(context)
                                         .colorScheme
@@ -1474,13 +1490,13 @@ class _ScannerScreenState extends State<ScannerScreen>
                                   child: Text(
                                     switch (_detectedClipboardData!.type) {
                                       ClipboardContentType.url =>
-                                        l10n.clipboardTypeUrl,
+                                        l10n.labelClipboardTypeUrl,
                                       ClipboardContentType.barcodePayload =>
-                                        l10n.clipboardTypeBarcode,
+                                        l10n.labelClipboardTypeBarcode,
                                       ClipboardContentType.image =>
-                                        l10n.clipboardTypeImage,
+                                        l10n.labelClipboardTypeImage,
                                       ClipboardContentType.text =>
-                                        l10n.clipboardTypeText,
+                                        l10n.labelClipboardTypeText,
                                     },
                                     style: TextStyle(
                                       color: Theme.of(context)
@@ -1517,7 +1533,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         onPressed: () =>
                             _scanFromClipboard(data: _detectedClipboardData),
                         child: Text(
-                          l10n.clipboardActionScan,
+                          l10n.actionClipboardScan,
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
@@ -1531,7 +1547,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                           size: 18,
                           color: Colors.white70,
                         ),
-                        tooltip: l10n.clipboardDismiss,
+                        tooltip: l10n.tooltipClipboardDismiss,
                         visualDensity: VisualDensity.compact,
                         padding: EdgeInsets.zero,
                         constraints: const BoxConstraints(),
@@ -1564,7 +1580,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  l10n.scanViewfinderHint,
+                  l10n.helpScanViewfinder,
                   style: const TextStyle(color: Colors.white, fontSize: 16),
                   textAlign: TextAlign.center,
                 ),
@@ -1679,7 +1695,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      l10n.batchCounterBadge(
+                                      l10n.labelBatchCounter(
                                         batchProvider.count,
                                       ),
                                       style: const TextStyle(
@@ -1690,8 +1706,8 @@ class _ScannerScreenState extends State<ScannerScreen>
                                     ),
                                     Text(
                                       batchProvider.isBatchMode
-                                          ? l10n.batchReviewTitle
-                                          : l10n.batchReviewSubtitle,
+                                          ? l10n.labelBatchReview
+                                          : l10n.descBatchReview,
                                       style: TextStyle(
                                         color: Colors.white.withValues(
                                           alpha: 0.7,
@@ -1718,7 +1734,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      l10n.batchReviewTitle,
+                                      l10n.labelBatchReview,
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme
@@ -1761,7 +1777,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           const Icon(Icons.camera_alt, size: 64, color: Colors.grey),
           const SizedBox(height: 16),
           Text(
-            l10n.scanCameraPermissionRequired,
+            l10n.bodyScanCameraPermissionRequired,
             style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 8),
@@ -1772,7 +1788,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                 _initializeScanner();
               }
             },
-            child: Text(l10n.grantPermission),
+            child: Text(l10n.actionGrantPermission),
           ),
         ],
       ),

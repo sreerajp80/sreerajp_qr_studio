@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:qr/qr.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
@@ -317,13 +317,18 @@ class CodeForgeProvider extends ChangeNotifier {
   }
 
   /// Exports high-res PNG and opens system share sheet.
-  Future<void> exportPngAndShare() async {
+  ///
+  /// [paintQr] draws the QR matrix; the screen passes `CodeForgeQrPainter`.
+  Future<void> exportPngAndShare({required QrCanvasPainter paintQr}) async {
     if (!isValid) return;
     _isExporting = true;
     notifyListeners();
 
     try {
-      final bytes = await _service.renderQrToPngBytes(_config);
+      final bytes = await _service.renderQrToPngBytes(
+        _config,
+        paintQr: paintQr,
+      );
       if (bytes != null) {
         final timestamp = DateTime.now().millisecondsSinceEpoch;
         await _service.shareImage(

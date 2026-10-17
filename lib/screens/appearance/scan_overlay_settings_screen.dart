@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
@@ -13,7 +13,7 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
     final themeProvider = context.watch<ThemeProvider>();
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appearanceOverlayCardTitle)),
+      appBar: AppBar(title: Text(l10n.labelAppearanceOverlayCard)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -28,8 +28,8 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
                     themeProvider: themeProvider,
                     style: ScanOverlayStyle.laserLine,
                     icon: Icons.linear_scale,
-                    title: l10n.overlayLaserLine,
-                    subtitle: l10n.overlayLaserLineDesc,
+                    title: l10n.labelOverlayLaserLine,
+                    subtitle: l10n.descOverlayLaserLine,
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   _buildOverlayTile(
@@ -37,8 +37,8 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
                     themeProvider: themeProvider,
                     style: ScanOverlayStyle.pulsingCorners,
                     icon: Icons.crop_free,
-                    title: l10n.overlayPulsingCorners,
-                    subtitle: l10n.overlayPulsingCornersDesc,
+                    title: l10n.labelOverlayPulsingCorners,
+                    subtitle: l10n.descOverlayPulsingCorners,
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   _buildOverlayTile(
@@ -46,8 +46,8 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
                     themeProvider: themeProvider,
                     style: ScanOverlayStyle.cyberneticGrid,
                     icon: Icons.grid_4x4,
-                    title: l10n.overlayCyberneticGrid,
-                    subtitle: l10n.overlayCyberneticGridDesc,
+                    title: l10n.labelOverlayCyberneticGrid,
+                    subtitle: l10n.descOverlayCyberneticGrid,
                   ),
                   const Divider(height: 1, indent: 16, endIndent: 16),
                   _buildOverlayTile(
@@ -55,8 +55,8 @@ class ScanOverlaySettingsScreen extends StatelessWidget {
                     themeProvider: themeProvider,
                     style: ScanOverlayStyle.subtleDotMatrix,
                     icon: Icons.grain,
-                    title: l10n.overlaySubtleDotMatrix,
-                    subtitle: l10n.overlaySubtleDotMatrixDesc,
+                    title: l10n.labelOverlaySubtleDotMatrix,
+                    subtitle: l10n.descOverlaySubtleDotMatrix,
                   ),
                 ],
               ),

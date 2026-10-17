@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
@@ -45,12 +45,12 @@ class _UpiAmountDialogState extends State<UpiAmountDialog> {
     final showError = _controller.text.trim().isNotEmpty && !_isValid;
 
     return AlertDialog(
-      title: Text(l10n.paymentAmountDialogTitle),
+      title: Text(l10n.titlePaymentAmountDialog),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(l10n.paymentAmountDialogBody(widget.payeeName)),
+          Text(l10n.bodyPaymentAmountDialog(widget.payeeName)),
           const SizedBox(height: 16),
           TextField(
             controller: _controller,
@@ -60,9 +60,9 @@ class _UpiAmountDialogState extends State<UpiAmountDialog> {
               FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
             ],
             decoration: InputDecoration(
-              labelText: l10n.paymentAmountFieldLabel,
+              labelText: l10n.labelPaymentAmountField,
               prefixText: '₹ ',
-              errorText: showError ? l10n.paymentAmountInvalid : null,
+              errorText: showError ? l10n.errorPaymentAmountInvalid : null,
               border: const OutlineInputBorder(),
             ),
             onChanged: (_) => setState(() {}),
@@ -73,11 +73,11 @@ class _UpiAmountDialogState extends State<UpiAmountDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.cancelButton),
+          child: Text(l10n.actionCancel),
         ),
         FilledButton(
           onPressed: _isValid ? _submit : null,
-          child: Text(l10n.paymentAmountPayButton),
+          child: Text(l10n.actionPaymentAmountPay),
         ),
       ],
     );

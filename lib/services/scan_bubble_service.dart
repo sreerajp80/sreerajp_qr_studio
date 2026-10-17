@@ -37,6 +37,10 @@ class ScanBubbleService {
   /// Removes the bubble.
   Future<bool> stopBubble() => _invokeBool('stopBubble');
 
+  /// Stops the bubble and removes its native settings (on/off, start on
+  /// boot, position). Used by "Delete all data".
+  Future<bool> clearNativeData() => _invokeBool('clearData');
+
   /// True while the bubble is on screen.
   Future<bool> isBubbleRunning() => _invokeBool('isBubbleRunning');
 

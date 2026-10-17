@@ -23,6 +23,27 @@ android/replay_pid*.log
 *.jks
 *.keystore
 
+# Build artifacts (engineering standard §20.4)
+*.apk
+*.aab
+*.ipa
+*.msix
+*.msixbundle
+*.dmg
+*.pkg
+*.snap
+*.AppImage
+*.deb
+*.rpm
+*.flatpak
+
+# Signing material (guideline.md §2, engineering standard §20.4)
+*.p12
+*.pfx
+*.p8
+*.mobileprovision
+*.provisionprofile
+
 # Logs
 *.log
 

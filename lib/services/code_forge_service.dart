@@ -4,16 +4,22 @@ import 'dart:ui' as ui;
 import 'package:barcode/barcode.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr/qr.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
-import 'package:sreerajp_qr_studio/widgets/code_forge_qr_painter.dart';
+
+/// Draws a QR matrix onto [canvas] at [size]. Used for PNG export.
+typedef QrCanvasPainter = void Function(
+  ui.Canvas canvas,
+  ui.Size size,
+  QrImage qrImage,
+);
 
 /// Result of reading a text file for CodeForge QR generation.
 class CodeForgeFileReadResult {
@@ -202,8 +208,8 @@ class CodeForgeService {
         errorCorrectLevel: errorCorrectionLevel,
       );
       return QrImage(qrCode);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error generating QR matrix: $e');
+    } catch (e, st) {
+      AppLogger.error('Error generating QR matrix', error: e, stackTrace: st);
       return null;
     }
   }
@@ -276,8 +282,13 @@ class CodeForgeService {
   }
 
   /// Renders a high-resolution PNG image byte array directly in memory.
+  ///
+  /// [paintQr] draws the QR matrix onto the canvas. The caller supplies it
+  /// (the screen uses `CodeForgeQrPainter`), so this service does not
+  /// depend on the widget layer.
   Future<Uint8List?> renderQrToPngBytes(
     CodeForgeConfig config, {
+    required QrCanvasPainter paintQr,
     double size = 1024,
   }) async {
     final payload = buildPayloadString(config);
@@ -285,11 +296,9 @@ class CodeForgeService {
     if (qrImage == null) return null;
 
     final recorder = ui.PictureRecorder();
-    final canvas = Canvas(recorder, Rect.fromLTWH(0, 0, size, size));
+    final canvas = ui.Canvas(recorder, ui.Rect.fromLTWH(0, 0, size, size));
 
-    final painter = CodeForgeQrPainter(config: config, qrImage: qrImage);
-
-    painter.paint(canvas, Size(size, size));
+    paintQr(canvas, ui.Size(size, size), qrImage);
 
     final picture = recorder.endRecording();
     final img = await picture.toImage(size.toInt(), size.toInt());
@@ -370,8 +379,8 @@ class CodeForgeService {
         content: rawText,
         message: const AppMessage(AppMessageKey.codeForgeFileLoaded),
       );
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error reading text file: $e');
+    } catch (e, st) {
+      AppLogger.error('Error reading text file', error: e, stackTrace: st);
       return const CodeForgeFileReadResult(
         isSuccess: false,
         message: AppMessage(AppMessageKey.codeForgeFileReadError),
@@ -402,8 +411,8 @@ class CodeForgeService {
         return const CodeForgeFileReadResult(isSuccess: false);
       }
       return await readTextFromFile(path, maxLength: maxLength);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error picking text file: $e');
+    } catch (e, st) {
+      AppLogger.error('Error picking text file', error: e, stackTrace: st);
       return const CodeForgeFileReadResult(
         isSuccess: false,
         message: AppMessage(AppMessageKey.codeForgeFileReadError),

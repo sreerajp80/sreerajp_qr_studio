@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/clipboard_scan_data.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
@@ -112,8 +112,8 @@ class ClipboardScanService {
       }
 
       return null;
-    } catch (e) {
-      if (kDebugMode) debugPrint('ClipboardScanService error: $e');
+    } catch (e, st) {
+      AppLogger.error('ClipboardScanService error', error: e, stackTrace: st);
       return null;
     }
   }

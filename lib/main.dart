@@ -1,10 +1,11 @@
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/air_qr_provider.dart';
+import 'package:sreerajp_qr_studio/providers/app_lock_provider.dart';
 import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
 import 'package:sreerajp_qr_studio/providers/batch_scan_provider.dart';
 import 'package:sreerajp_qr_studio/providers/camera_settings_provider.dart';
@@ -28,32 +29,40 @@ import 'package:sreerajp_qr_studio/screens/result_screen.dart';
 import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
 import 'package:sreerajp_qr_studio/screens/scanner_screen.dart';
 import 'package:sreerajp_qr_studio/screens/settings_screen.dart';
-import 'package:sreerajp_qr_studio/services/open_source_licenses.dart';
+import 'package:sreerajp_qr_studio/services/app_startup_service.dart';
+import 'package:sreerajp_qr_studio/widgets/app_lock_gate.dart';
+import 'package:sreerajp_qr_studio/widgets/app_restart_scope.dart';
 
 final RouteObserver<ModalRoute<void>> routeObserver =
     RouteObserver<ModalRoute<void>>();
 
-void main() {
-  OpenSourceLicenses.register();
-  runApp(const SreerajQRReaderApp());
+Future<void> main() async {
+  final startup = await AppStartupService.run();
+  runApp(
+    AppRestartScope(builder: (_) => SreerajQRReaderApp(prefs: startup.prefs)),
+  );
 }
 
 class SreerajQRReaderApp extends StatelessWidget {
-  const SreerajQRReaderApp({super.key});
+  const SreerajQRReaderApp({super.key, this.prefs});
+
+  /// Preferences loaded before the first frame (saved language, onboarding).
+  final SharedPreferences? prefs;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => AppLockProvider(prefs: prefs)),
+        ChangeNotifierProvider(create: (_) => LocaleProvider(prefs: prefs)),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
         ChangeNotifierProvider(create: (_) => AirQrProvider()),
         ChangeNotifierProvider(create: (_) => ArCodevisionProvider()),
         ChangeNotifierProvider(create: (_) => CameraSettingsProvider()),
         ChangeNotifierProvider(create: (_) => CodeForgeProvider()),
-        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+        ChangeNotifierProvider(create: (_) => OnboardingProvider(prefs: prefs)),
         ChangeNotifierProvider(create: (_) => BatchScanProvider()),
         ChangeNotifierProvider(create: (_) => MultiCodeSelectionProvider()),
         ChangeNotifierProvider(create: (_) => ScanBubbleProvider()),
@@ -90,22 +99,16 @@ class SreerajQRReaderApp extends StatelessWidget {
 
                   return MaterialApp(
                     onGenerateTitle: (context) =>
-                        AppLocalizations.of(context).appTitle,
+                        AppLocalizations.of(context).titleApp,
                     locale: localeProvider.locale,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,
-                      SaMaterialLocalizationsDelegate(),
-                      SaCupertinoLocalizationsDelegate(),
-                      SaWidgetsLocalizationsDelegate(),
-                      GlobalMaterialLocalizations.delegate,
-                      GlobalWidgetsLocalizations.delegate,
-                      GlobalCupertinoLocalizations.delegate,
+                      FallbackMaterialLocalizationsDelegate(),
+                      FallbackCupertinoLocalizationsDelegate(),
+                      FallbackWidgetsLocalizationsDelegate(),
+                      ...GlobalMaterialLocalizations.delegates,
                     ],
-                    supportedLocales: const [
-                      Locale('en'),
-                      Locale('ml'),
-                      Locale('sa'),
-                    ],
+                    supportedLocales: AppLocalizations.supportedLocales,
                     localeResolutionCallback: (deviceLocale, supportedLocales) {
                       if (deviceLocale != null) {
                         for (final locale in supportedLocales) {
@@ -115,7 +118,7 @@ class SreerajQRReaderApp extends StatelessWidget {
                           }
                         }
                       }
-                      return const Locale('en');
+                      return supportedLocales.first; // the template language
                     },
                     theme: lightTheme,
                     darkTheme: darkTheme,
@@ -147,6 +150,8 @@ class SreerajQRReaderApp extends StatelessWidget {
                           const OnboardingScreen(isReplay: true),
                     },
                     debugShowCheckedModeBanner: false,
+                    builder: (context, child) =>
+                        AppLockGate(child: child ?? const SizedBox.shrink()),
                   );
                 },
               );

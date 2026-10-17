@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
@@ -103,7 +103,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
     final l10n = AppLocalizations.of(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(l10n.codeForgeCopied),
+        content: Text(l10n.bodyCodeForgeCopied),
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
       ),
@@ -147,8 +147,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
       SnackBar(
         content: Text(
           result.status == LocationStatus.permissionDenied
-              ? l10n.codeForgeGeoPermissionDenied
-              : l10n.codeForgeGeoFailed,
+              ? l10n.errorCodeForgeGeoPermissionDenied
+              : l10n.errorCodeForgeGeoFailed,
         ),
         behavior: SnackBarBehavior.floating,
       ),
@@ -168,9 +168,9 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.codeForgeTitle),
+            Text(l10n.titleCodeForge),
             Text(
-              l10n.codeForgeSubtitle,
+              l10n.labelCodeForgeSubtitle,
               style: theme.textTheme.labelSmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -180,12 +180,12 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            tooltip: l10n.codeForgeResetStyle,
+            tooltip: l10n.tooltipCodeForgeResetStyle,
             onPressed: () => provider.resetStylingToDefault(),
           ),
           IconButton(
             icon: const Icon(Icons.copy),
-            tooltip: l10n.codeForgeCopyPayload,
+            tooltip: l10n.tooltipCodeForgeCopyPayload,
             onPressed: () {
               provider.copyPayloadToClipboard();
               _showCopiedSnackBar(context);
@@ -242,7 +242,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
   ) {
     final l10n = AppLocalizations.of(context);
     final formats = [
-      {'type': CodeForgeBarcodeType.qrCode, 'label': l10n.formatQrCode},
+      {'type': CodeForgeBarcodeType.qrCode, 'label': l10n.labelFormatQrCode},
       {'type': CodeForgeBarcodeType.code128, 'label': 'Code 128'},
       {'type': CodeForgeBarcodeType.ean13, 'label': 'EAN-13'},
       {'type': CodeForgeBarcodeType.ean8, 'label': 'EAN-8'},
@@ -361,7 +361,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               )
             else
               Text(
-                l10n.codeForgePreview,
+                l10n.titleCodeForgePreview,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -430,15 +430,15 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
     if (isSafe) {
       accent = Colors.green;
       icon = Icons.verified;
-      message = l10n.codeForgeSafeVerified;
+      message = l10n.bodyCodeForgeSafeVerified;
     } else if (hasProblems) {
       accent = Colors.orange.shade800;
       icon = Icons.warning_amber_rounded;
-      message = l10n.codeForgeSafetyProblems(provider.safetyIssueCount);
+      message = l10n.bodyCodeForgeSafetyProblems(provider.safetyIssueCount);
     } else {
       accent = colorScheme.primary;
       icon = Icons.shield_outlined;
-      message = l10n.codeForgeSafetyPrompt;
+      message = l10n.bodyCodeForgeSafetyPrompt;
     }
 
     return Container(
@@ -482,8 +482,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                 onPressed: () => provider.runUrlSafetyCheck(),
                 child: Text(
                   hasProblems
-                      ? l10n.codeForgeSafetyCheckAgain
-                      : l10n.codeForgeSafetyCheckButton,
+                      ? l10n.actionCodeForgeSafetyCheckAgain
+                      : l10n.actionCodeForgeSafetyCheck,
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -509,14 +509,14 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                l10n.codeForgeBarcodeContent,
+                l10n.labelCodeForgeBarcodeContent,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
               const SizedBox(height: 8),
               TextField(
                 controller: _rawContentController,
                 decoration: InputDecoration(
-                  hintText: l10n.codeForgeBarcodeContentHint,
+                  hintText: l10n.helpCodeForgeBarcodeContent,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -526,7 +526,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               ),
               const SizedBox(height: 8),
               SwitchListTile(
-                title: Text(l10n.codeForgeIncludeText),
+                title: Text(l10n.labelCodeForgeIncludeText),
                 value: config.includeTextLabel,
                 onChanged: (val) => provider.setIncludeTextLabel(val),
                 contentPadding: EdgeInsets.zero,
@@ -541,42 +541,42 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
     final presets = [
       {
         'type': CodeForgePayloadType.text,
-        'label': l10n.codeForgePresetText,
+        'label': l10n.labelCodeForgePresetText,
         'icon': Icons.text_fields,
       },
       {
         'type': CodeForgePayloadType.url,
-        'label': l10n.codeForgePresetUrl,
+        'label': l10n.labelCodeForgePresetUrl,
         'icon': Icons.link,
       },
       {
         'type': CodeForgePayloadType.wifi,
-        'label': l10n.codeForgePresetWifi,
+        'label': l10n.labelCodeForgePresetWifi,
         'icon': Icons.wifi,
       },
       {
         'type': CodeForgePayloadType.contactVCard,
-        'label': l10n.codeForgePresetContact,
+        'label': l10n.labelCodeForgePresetContact,
         'icon': Icons.person,
       },
       {
         'type': CodeForgePayloadType.upiPayment,
-        'label': l10n.codeForgePresetUpi,
+        'label': l10n.labelCodeForgePresetUpi,
         'icon': Icons.currency_rupee,
       },
       {
         'type': CodeForgePayloadType.sms,
-        'label': l10n.codeForgePresetSms,
+        'label': l10n.labelCodeForgePresetSms,
         'icon': Icons.sms,
       },
       {
         'type': CodeForgePayloadType.email,
-        'label': l10n.codeForgePresetEmail,
+        'label': l10n.labelCodeForgePresetEmail,
         'icon': Icons.email,
       },
       {
         'type': CodeForgePayloadType.geo,
-        'label': l10n.codeForgePresetGeo,
+        'label': l10n.labelCodeForgePresetGeo,
         'icon': Icons.location_on,
       },
     ];
@@ -639,8 +639,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               maxLength: AppConstants.maxCodeForgeTextLength,
               maxLengthEnforcement: MaxLengthEnforcement.enforced,
               decoration: InputDecoration(
-                labelText: l10n.codeForgePresetText,
-                helperText: l10n.codeForgeTextHint,
+                labelText: l10n.labelCodeForgePresetText,
+                helperText: l10n.helpCodeForgeText,
                 helperMaxLines: 2,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -653,10 +653,10 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             Align(
               alignment: Alignment.centerRight,
               child: Tooltip(
-                message: l10n.codeForgeLoadFromFileTooltip,
+                message: l10n.tooltipCodeForgeLoadFromFile,
                 child: OutlinedButton.icon(
                   icon: const Icon(Icons.file_open_outlined, size: 18),
-                  label: Text(l10n.codeForgeLoadFromFile),
+                  label: Text(l10n.actionCodeForgeLoadFromFile),
                   style: OutlinedButton.styleFrom(
                     visualDensity: VisualDensity.compact,
                     shape: RoundedRectangleBorder(
@@ -674,7 +674,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         return TextField(
           controller: _rawContentController,
           decoration: InputDecoration(
-            labelText: l10n.codeForgePresetUrl,
+            labelText: l10n.labelCodeForgePresetUrl,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             prefixIcon: const Icon(Icons.link),
           ),
@@ -687,7 +687,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _wifiSsidController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeWifiSsid,
+                labelText: l10n.labelCodeForgeWifiSsid,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -700,15 +700,15 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _wifiPassController,
               obscureText: _obscureWifiPassword,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeWifiPassword,
+                labelText: l10n.labelCodeForgeWifiPassword,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 prefixIcon: const Icon(Icons.lock_outline),
                 suffixIcon: IconButton(
                   tooltip: _obscureWifiPassword
-                      ? l10n.wifiShowPassword
-                      : l10n.wifiHidePassword,
+                      ? l10n.tooltipWifiShowPassword
+                      : l10n.tooltipWifiHidePassword,
                   icon: Icon(
                     _obscureWifiPassword
                         ? Icons.visibility
@@ -730,7 +730,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                   child: DropdownButtonFormField<String>(
                     initialValue: config.wifiSecurity,
                     decoration: InputDecoration(
-                      labelText: l10n.codeForgeWifiSecurity,
+                      labelText: l10n.labelCodeForgeWifiSecurity,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -743,7 +743,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                       const DropdownMenuItem(value: 'WEP', child: Text('WEP')),
                       DropdownMenuItem(
                         value: 'nopass',
-                        child: Text(l10n.codeForgeWifiSecurityNone),
+                        child: Text(l10n.labelCodeForgeWifiSecurityNone),
                       ),
                     ],
                     onChanged: (val) {
@@ -755,7 +755,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             ),
             const SizedBox(height: 8),
             CheckboxListTile(
-              title: Text(l10n.codeForgeWifiHidden),
+              title: Text(l10n.labelCodeForgeWifiHidden),
               value: config.wifiHidden,
               onChanged: (val) => provider.updateWifi(hidden: val ?? false),
               contentPadding: EdgeInsets.zero,
@@ -769,7 +769,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _contactNameController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeContactName,
+                labelText: l10n.labelCodeForgeContactName,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -782,7 +782,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _contactPhoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeContactPhone,
+                labelText: l10n.labelCodeForgeContactPhone,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -795,7 +795,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _contactEmailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeContactEmail,
+                labelText: l10n.labelCodeForgeContactEmail,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -807,7 +807,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _contactOrgController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeContactOrg,
+                labelText: l10n.labelCodeForgeContactOrg,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -824,8 +824,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _upiVpaController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeUpiVpa,
-                hintText: l10n.codeForgeUpiVpaHint,
+                labelText: l10n.labelCodeForgeUpiVpa,
+                hintText: l10n.helpCodeForgeUpiVpa,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -837,7 +837,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _upiNameController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeUpiName,
+                labelText: l10n.labelCodeForgeUpiName,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -852,8 +852,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                 decimal: true,
               ),
               decoration: InputDecoration(
-                labelText: l10n.codeForgeUpiAmount,
-                hintText: l10n.optionalFieldHint,
+                labelText: l10n.labelCodeForgeUpiAmount,
+                hintText: l10n.labelOptionalField,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -865,8 +865,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _upiNoteController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeUpiNote,
-                hintText: l10n.optionalFieldHint,
+                labelText: l10n.labelCodeForgeUpiNote,
+                hintText: l10n.labelOptionalField,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -884,7 +884,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _smsPhoneController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeSmsPhone,
+                labelText: l10n.labelCodeForgeSmsPhone,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -897,7 +897,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _smsMsgController,
               maxLines: 2,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeSmsMessage,
+                labelText: l10n.labelCodeForgeSmsMessage,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -915,7 +915,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _emailToController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeEmailTo,
+                labelText: l10n.labelCodeForgeEmailTo,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -927,7 +927,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
             TextField(
               controller: _emailSubController,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeEmailSubject,
+                labelText: l10n.labelCodeForgeEmailSubject,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -940,7 +940,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               controller: _emailBodyController,
               maxLines: 3,
               decoration: InputDecoration(
-                labelText: l10n.codeForgeEmailBody,
+                labelText: l10n.labelCodeForgeEmailBody,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -964,7 +964,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                       signed: true,
                     ),
                     decoration: InputDecoration(
-                      labelText: l10n.codeForgeGeoLat,
+                      labelText: l10n.labelCodeForgeGeoLat,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -981,7 +981,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                       signed: true,
                     ),
                     decoration: InputDecoration(
-                      labelText: l10n.codeForgeGeoLng,
+                      labelText: l10n.labelCodeForgeGeoLng,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -1007,8 +1007,8 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                     : const Icon(Icons.my_location),
                 label: Text(
                   provider.isFetchingLocation
-                      ? l10n.codeForgeGeoFetching
-                      : l10n.codeForgeGeoUseMyLocation,
+                      ? l10n.labelCodeForgeGeoFetching
+                      : l10n.actionCodeForgeGeoUseMyLocation,
                 ),
               ),
             ),
@@ -1032,35 +1032,35 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
         initiallyExpanded: true,
         leading: Icon(Icons.palette_outlined, color: theme.colorScheme.primary),
         title: Text(
-          l10n.codeForgeDesignStudio,
+          l10n.titleCodeForgeDesignStudio,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
         children: [
           // A. Eye Outer Design
-          _buildSectionHeader(l10n.codeForgeEyeShape),
+          _buildSectionHeader(l10n.titleCodeForgeEyeShape),
           const SizedBox(height: 6),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: [
               _buildChoiceChip(
-                label: l10n.codeForgeShapeSquare,
+                label: l10n.labelCodeForgeShapeSquare,
                 selected: config.eyeShape == QrEyeShape.square,
                 onSelect: () => provider.setEyeShape(QrEyeShape.square),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeRounded,
+                label: l10n.labelCodeForgeShapeRounded,
                 selected: config.eyeShape == QrEyeShape.rounded,
                 onSelect: () => provider.setEyeShape(QrEyeShape.rounded),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeCircle,
+                label: l10n.labelCodeForgeShapeCircle,
                 selected: config.eyeShape == QrEyeShape.circle,
                 onSelect: () => provider.setEyeShape(QrEyeShape.circle),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeLeaf,
+                label: l10n.labelCodeForgeShapeLeaf,
                 selected: config.eyeShape == QrEyeShape.leaf,
                 onSelect: () => provider.setEyeShape(QrEyeShape.leaf),
               ),
@@ -1069,30 +1069,30 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // B. Eye Inner Ball (Pupil) Design
-          _buildSectionHeader(l10n.codeForgeEyeBallShape),
+          _buildSectionHeader(l10n.titleCodeForgeEyeBallShape),
           const SizedBox(height: 6),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: [
               _buildChoiceChip(
-                label: l10n.codeForgeShapeSquare,
+                label: l10n.labelCodeForgeShapeSquare,
                 selected: config.eyeBallShape == QrEyeBallShape.square,
                 onSelect: () => provider.setEyeBallShape(QrEyeBallShape.square),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeRounded,
+                label: l10n.labelCodeForgeShapeRounded,
                 selected: config.eyeBallShape == QrEyeBallShape.rounded,
                 onSelect: () =>
                     provider.setEyeBallShape(QrEyeBallShape.rounded),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeCircle,
+                label: l10n.labelCodeForgeShapeCircle,
                 selected: config.eyeBallShape == QrEyeBallShape.circle,
                 onSelect: () => provider.setEyeBallShape(QrEyeBallShape.circle),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeShapeDiamond,
+                label: l10n.labelCodeForgeShapeDiamond,
                 selected: config.eyeBallShape == QrEyeBallShape.diamond,
                 onSelect: () =>
                     provider.setEyeBallShape(QrEyeBallShape.diamond),
@@ -1102,41 +1102,41 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // C. Data Pattern Shapes
-          _buildSectionHeader(l10n.codeForgePatternShape),
+          _buildSectionHeader(l10n.titleCodeForgePatternShape),
           const SizedBox(height: 6),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 _buildChoiceChip(
-                  label: l10n.codeForgeShapeSquare,
+                  label: l10n.labelCodeForgeShapeSquare,
                   selected: config.patternShape == QrPatternShape.square,
                   onSelect: () =>
                       provider.setPatternShape(QrPatternShape.square),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeShapeDots,
+                  label: l10n.labelCodeForgeShapeDots,
                   selected: config.patternShape == QrPatternShape.dots,
                   onSelect: () => provider.setPatternShape(QrPatternShape.dots),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeShapeRounded,
+                  label: l10n.labelCodeForgeShapeRounded,
                   selected: config.patternShape == QrPatternShape.rounded,
                   onSelect: () =>
                       provider.setPatternShape(QrPatternShape.rounded),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeShapeClassy,
+                  label: l10n.labelCodeForgeShapeClassy,
                   selected: config.patternShape == QrPatternShape.classy,
                   onSelect: () =>
                       provider.setPatternShape(QrPatternShape.classy),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeShapeDiamond,
+                  label: l10n.labelCodeForgeShapeDiamond,
                   selected: config.patternShape == QrPatternShape.diamond,
                   onSelect: () =>
                       provider.setPatternShape(QrPatternShape.diamond),
@@ -1147,7 +1147,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // D. Foreground Color Palette
-          _buildSectionHeader(l10n.codeForgeFgColor),
+          _buildSectionHeader(l10n.titleCodeForgeFgColor),
           const SizedBox(height: 6),
           _buildColorPalette(
             selectedColor: config.foregroundColorValue,
@@ -1166,7 +1166,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // E. Background Color Palette
-          _buildSectionHeader(l10n.codeForgeBgColor),
+          _buildSectionHeader(l10n.titleCodeForgeBgColor),
           const SizedBox(height: 6),
           _buildColorPalette(
             selectedColor: config.backgroundColorValue,
@@ -1183,42 +1183,42 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // F. Linear Gradient Themes
-          _buildSectionHeader(l10n.codeForgeColorStudio),
+          _buildSectionHeader(l10n.titleCodeForgeColorStudio),
           const SizedBox(height: 6),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
                 _buildChoiceChip(
-                  label: l10n.codeForgeGradientNone,
+                  label: l10n.labelCodeForgeGradientNone,
                   selected: config.gradientTheme == QrGradientTheme.none,
                   onSelect: () =>
                       provider.setGradientTheme(QrGradientTheme.none),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeGradientSunset,
+                  label: l10n.labelCodeForgeGradientSunset,
                   selected: config.gradientTheme == QrGradientTheme.sunset,
                   onSelect: () =>
                       provider.setGradientTheme(QrGradientTheme.sunset),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeGradientOcean,
+                  label: l10n.labelCodeForgeGradientOcean,
                   selected: config.gradientTheme == QrGradientTheme.ocean,
                   onSelect: () =>
                       provider.setGradientTheme(QrGradientTheme.ocean),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeGradientNeon,
+                  label: l10n.labelCodeForgeGradientNeon,
                   selected: config.gradientTheme == QrGradientTheme.neon,
                   onSelect: () =>
                       provider.setGradientTheme(QrGradientTheme.neon),
                 ),
                 const SizedBox(width: 6),
                 _buildChoiceChip(
-                  label: l10n.codeForgeGradientGold,
+                  label: l10n.labelCodeForgeGradientGold,
                   selected: config.gradientTheme == QrGradientTheme.royalGold,
                   onSelect: () =>
                       provider.setGradientTheme(QrGradientTheme.royalGold),
@@ -1229,7 +1229,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // G. Error Correction
-          _buildSectionHeader(l10n.codeForgeErrorCorrection),
+          _buildSectionHeader(l10n.titleCodeForgeErrorCorrection),
           const SizedBox(height: 6),
           Wrap(
             spacing: 6,
@@ -1260,25 +1260,25 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           const SizedBox(height: 14),
 
           // H. Center Badge
-          _buildSectionHeader(l10n.codeForgeCenterBadge),
+          _buildSectionHeader(l10n.titleCodeForgeCenterBadge),
           const SizedBox(height: 6),
           Wrap(
             spacing: 6,
             runSpacing: 6,
             children: [
               _buildChoiceChip(
-                label: l10n.codeForgeBadgeNone,
+                label: l10n.labelCodeForgeBadgeNone,
                 selected: config.centerBadge == QrCenterBadge.none,
                 onSelect: () => provider.setCenterBadge(QrCenterBadge.none),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeBadgeIcon,
+                label: l10n.labelCodeForgeBadgeIcon,
                 selected: config.centerBadge == QrCenterBadge.payloadIcon,
                 onSelect: () =>
                     provider.setCenterBadge(QrCenterBadge.payloadIcon),
               ),
               _buildChoiceChip(
-                label: l10n.codeForgeBadgeShield,
+                label: l10n.labelCodeForgeBadgeShield,
                 selected: config.centerBadge == QrCenterBadge.shieldVerified,
                 onSelect: () =>
                     provider.setCenterBadge(QrCenterBadge.shieldVerified),
@@ -1368,7 +1368,12 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           child: ElevatedButton.icon(
             onPressed: !provider.isValid || isBusy
                 ? null
-                : () => provider.exportPngAndShare(),
+                : () => provider.exportPngAndShare(
+                    paintQr: (canvas, size, qrImage) => CodeForgeQrPainter(
+                      config: provider.config,
+                      qrImage: qrImage,
+                    ).paint(canvas, size),
+                  ),
             icon: isBusy
                 ? const SizedBox(
                     width: 18,
@@ -1376,7 +1381,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.image),
-            label: Text(l10n.codeForgeExportPng),
+            label: Text(l10n.actionCodeForgeExportPng),
             style: ElevatedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(
@@ -1392,7 +1397,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
                 ? null
                 : () => provider.exportSvgAndShare(),
             icon: const Icon(Icons.code),
-            label: Text(l10n.codeForgeExportSvg),
+            label: Text(l10n.actionCodeForgeExportSvg),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
               shape: RoundedRectangleBorder(

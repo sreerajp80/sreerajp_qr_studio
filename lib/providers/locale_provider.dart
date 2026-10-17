@@ -1,12 +1,18 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// Single source of truth for the app language.
 /// A `null` locale means "follow the system", resolved by MaterialApp against supportedLocales.
 class LocaleProvider extends ChangeNotifier {
   static const String prefKey = 'app_language';
   static const String systemValue = 'system';
-  static const List<String> supportedLanguages = ['en', 'ml', 'sa'];
+
+  /// The declared language codes (docs/PROJECT_PROFILE.md), template first.
+  static final List<String> supportedLanguages = AppLocalizations
+      .supportedLocales
+      .map((l) => l.languageCode)
+      .toList(growable: false);
 
   SharedPreferences? _prefs;
   Locale? _locale;

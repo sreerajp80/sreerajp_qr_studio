@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -47,7 +47,7 @@ class PhoneActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.phoneCardTitle,
+                        l10n.titlePhoneCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -89,7 +89,7 @@ class PhoneActionCard extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.call),
-                    label: Text(l10n.phoneCallButton),
+                    label: Text(l10n.actionPhoneCall),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.teal[700],
                       foregroundColor: Colors.white,
@@ -104,7 +104,7 @@ class PhoneActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.phoneLaunchFailed)),
+                          SnackBar(content: Text(l10n.errorPhoneLaunchFailed)),
                         );
                       }
                     },
@@ -113,7 +113,7 @@ class PhoneActionCard extends StatelessWidget {
                 const SizedBox(width: 12),
                 OutlinedButton.icon(
                   icon: const Icon(Icons.copy),
-                  label: Text(l10n.phoneCopyButton),
+                  label: Text(l10n.actionPhoneCopy),
                   style: OutlinedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     shape: RoundedRectangleBorder(
@@ -123,7 +123,7 @@ class PhoneActionCard extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: payload.number));
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.copiedToClipboard)),
+                      SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                     );
                   },
                 ),

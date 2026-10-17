@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_action_service.dart';
@@ -14,7 +14,7 @@ class CalendarActionCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     String formatDate(DateTime? dt) {
-      if (dt == null) return l10n.calendarNoDate;
+      if (dt == null) return l10n.labelCalendarNoDate;
       final year = dt.year;
       final month = dt.month.toString().padLeft(2, '0');
       final day = dt.day.toString().padLeft(2, '0');
@@ -62,7 +62,7 @@ class CalendarActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.calendarCardTitle,
+                        l10n.titleCalendarCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -73,7 +73,7 @@ class CalendarActionCard extends StatelessWidget {
                       ),
                       Text(
                         event.summary.isEmpty
-                            ? l10n.calendarCardTitle
+                            ? l10n.titleCalendarCard
                             : event.summary,
                         style: const TextStyle(
                           fontSize: 18,
@@ -111,7 +111,7 @@ class CalendarActionCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        l10n.calendarStart(formatDate(event.dtStart)),
+                        l10n.labelCalendarStart(formatDate(event.dtStart)),
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
@@ -135,7 +135,7 @@ class CalendarActionCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          l10n.calendarEnd(formatDate(event.dtEnd)),
+                          l10n.labelCalendarEnd(formatDate(event.dtEnd)),
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w600,
@@ -199,7 +199,7 @@ class CalendarActionCard extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.calendar_today),
-                label: Text(l10n.calendarAddButton),
+                label: Text(l10n.actionCalendarAdd),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange[800],
                   foregroundColor: Colors.white,
@@ -214,7 +214,7 @@ class CalendarActionCard extends StatelessWidget {
                   );
                   if (!launched && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(l10n.calendarLaunchFailed)),
+                      SnackBar(content: Text(l10n.errorCalendarLaunchFailed)),
                     );
                   }
                 },

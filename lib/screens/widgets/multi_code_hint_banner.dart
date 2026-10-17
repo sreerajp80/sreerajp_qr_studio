@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// Floating instruction banner informing the user that multiple codes were detected
@@ -39,7 +39,7 @@ class MultiCodeHintBanner extends StatelessWidget {
               const SizedBox(width: 8),
               Flexible(
                 child: Text(
-                  l10n.multiCodeDetectedBanner,
+                  l10n.bodyMultiCodeDetected,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -53,7 +53,7 @@ class MultiCodeHintBanner extends StatelessWidget {
               const SizedBox(width: 8),
               IconButton(
                 icon: const Icon(Icons.close, size: 18, color: Colors.white70),
-                tooltip: l10n.multiCodeDismissTooltip,
+                tooltip: l10n.tooltipMultiCodeDismiss,
                 visualDensity: VisualDensity.compact,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),

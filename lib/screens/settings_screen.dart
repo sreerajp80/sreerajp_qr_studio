@@ -1,9 +1,13 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'dart:async';
+
+import 'package:flutter/services.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
+import 'package:sreerajp_qr_studio/providers/app_lock_provider.dart';
+import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
@@ -12,7 +16,11 @@ import 'package:sreerajp_qr_studio/screens/appearance_screen.dart';
 import 'package:sreerajp_qr_studio/screens/features_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/help_home_screen.dart';
 import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
+import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
+import 'package:sreerajp_qr_studio/services/data_wipe_service.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+import 'package:sreerajp_qr_studio/widgets/app_restart_scope.dart';
+import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -47,8 +55,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _isLoading = false;
         });
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error loading settings summary: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error loading settings summary',
+        error: e,
+        stackTrace: st,
+      );
       if (mounted) setState(() => _isLoading = false);
     }
   }
@@ -61,34 +73,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final localeProvider = Provider.of<LocaleProvider>(context);
 
     final themeModeName = switch (themeProvider.themeMode) {
-      AppThemeMode.system => l10n.themeSystemDefault,
-      AppThemeMode.light => l10n.themeLight,
-      AppThemeMode.dark => l10n.themeDark,
-      AppThemeMode.oled => l10n.themeOled,
+      AppThemeMode.system => l10n.labelThemeSystemDefault,
+      AppThemeMode.light => l10n.labelThemeLight,
+      AppThemeMode.dark => l10n.labelThemeDark,
+      AppThemeMode.oled => l10n.labelThemeOled,
     };
 
     final currentLanguageName = switch (localeProvider.languageCode) {
-      'en' => l10n.languageEnglish,
-      'ml' => l10n.languageMalayalam,
-      'sa' => l10n.languageSanskrit,
-      _ => l10n.languageSystemDefault,
+      'en' => l10n.labelLanguageEnglish,
+      'ml' => l10n.labelLanguageMalayalam,
+      'sa' => l10n.labelLanguageSanskrit,
+      _ => l10n.labelLanguageSystemDefault,
     };
 
-    final feedbackStatus = l10n.feedbackSummary(
-      scanProvider.isVibrationEnabled ? l10n.onLabel : l10n.offLabel,
-      scanProvider.isSoundEnabled ? l10n.onLabel : l10n.offLabel,
+    final feedbackStatus = l10n.descFeedbackSummary(
+      scanProvider.isVibrationEnabled ? l10n.labelOn : l10n.labelOff,
+      scanProvider.isSoundEnabled ? l10n.labelOn : l10n.labelOff,
     );
 
     final privacyStatus = _activeProbing
-        ? l10n.privacySummaryOn
-        : l10n.privacySummaryOff;
+        ? l10n.descPrivacySummaryOn
+        : l10n.descPrivacySummaryOff;
 
     // Count how many providers are active for the subtitle.
     // _hasApiKey is true if at least one provider is configured.
     final activeCount = _hasApiKey ? '1+' : '0';
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsTitle)),
+      appBar: AppBar(title: Text(l10n.titleSettings)),
       body: SafeArea(
         top: false,
         child: _isLoading
@@ -100,8 +112,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.palette_outlined,
-                      title: l10n.appearanceHubTitle,
-                      subtitle: l10n.settingsAppearanceSummary(themeModeName),
+                      title: l10n.titleAppearanceHub,
+                      subtitle: l10n.descSettingsAppearanceSummary(
+                        themeModeName,
+                      ),
                       onTap: () async {
                         await Navigator.push(
                           context,
@@ -115,15 +129,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.language,
-                      title: l10n.settingsLanguageTitle,
+                      title: l10n.labelSettingsLanguage,
                       subtitle: currentLanguageName,
                       onTap: () => _showLanguageDialog(context, localeProvider),
                     ),
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.stars_outlined,
-                      title: l10n.settingsFeaturesTitle,
-                      subtitle: l10n.settingsFeaturesSubtitle,
+                      title: l10n.titleSettingsFeatures,
+                      subtitle: l10n.descSettingsFeatures,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -136,7 +150,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.vibration,
-                      title: l10n.settingsFeedbackTitle,
+                      title: l10n.labelSettingsFeedback,
                       subtitle: feedbackStatus,
                       onTap: () async {
                         await Navigator.push(
@@ -152,7 +166,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.security,
-                      title: l10n.settingsPrivacyTitle,
+                      title: l10n.labelSettingsPrivacy,
                       subtitle: privacyStatus,
                       onTap: () async {
                         await Navigator.push(
@@ -167,8 +181,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.hub_outlined,
-                      title: l10n.settingsUrlSafetyProvidersTitle,
-                      subtitle: l10n.settingsUrlSafetyProvidersSubtitle(
+                      title: l10n.labelSettingsUrlSafetyProviders,
+                      subtitle: l10n.descSettingsUrlSafetyProviders(
                         _hasApiKey ? activeCount : '0',
                       ),
                       onTap: () async {
@@ -185,8 +199,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.sync_lock,
-                      title: l10n.airQrSyncSettingsTitle,
-                      subtitle: l10n.airQrSyncSettingsSubtitle,
+                      title: l10n.titleAirQrSyncSettings,
+                      subtitle: l10n.descAirQrSyncSettings,
                       onTap: () async {
                         await Navigator.pushNamed(
                           context,
@@ -199,8 +213,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.bubble_chart_outlined,
-                      title: l10n.scanBubbleTitle,
-                      subtitle: l10n.scanBubbleSettingsSubtitle,
+                      title: l10n.labelScanBubble,
+                      subtitle: l10n.descScanBubbleSettings,
                       onTap: () => Navigator.pushNamed(
                         context,
                         ScanBubbleSettingsScreen.routeName,
@@ -209,8 +223,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.admin_panel_settings_outlined,
-                      title: l10n.settingsPermissionsTitle,
-                      subtitle: l10n.settingsPermissionsSubtitle,
+                      title: l10n.labelSettingsPermissions,
+                      subtitle: l10n.descSettingsPermissions,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -224,8 +238,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.help_outline,
-                      title: l10n.settingsHelpTitle,
-                      subtitle: l10n.settingsHelpSubtitle,
+                      title: l10n.labelSettingsHelp,
+                      subtitle: l10n.descSettingsHelp,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -238,8 +252,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.auto_stories_outlined,
-                      title: l10n.settingsOnboardingTourTitle,
-                      subtitle: l10n.settingsOnboardingTourSubtitle,
+                      title: l10n.labelSettingsOnboardingTour,
+                      subtitle: l10n.descSettingsOnboardingTour,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -253,8 +267,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     _buildSettingsCard(
                       context: context,
                       icon: Icons.info_outline,
-                      title: l10n.aboutTitle,
-                      subtitle: l10n.settingsAboutSubtitle,
+                      title: l10n.titleAbout,
+                      subtitle: l10n.descSettingsAbout,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -343,7 +357,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: Text(l10n.settingsLanguageTitle),
+          title: Text(l10n.labelSettingsLanguage),
           content: RadioGroup<String>(
             groupValue: localeProvider.languageCode,
             onChanged: (val) {
@@ -356,19 +370,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 RadioListTile<String>(
-                  title: Text(l10n.languageSystemDefault),
+                  title: Text(l10n.labelLanguageSystemDefault),
                   value: LocaleProvider.systemValue,
                 ),
                 RadioListTile<String>(
-                  title: Text(l10n.languageEnglish),
+                  title: Text(l10n.labelLanguageEnglish),
                   value: 'en',
                 ),
                 RadioListTile<String>(
-                  title: Text(l10n.languageMalayalam),
+                  title: Text(l10n.labelLanguageMalayalam),
                   value: 'ml',
                 ),
                 RadioListTile<String>(
-                  title: Text(l10n.languageSanskrit),
+                  title: Text(l10n.labelLanguageSanskrit),
                   value: 'sa',
                 ),
               ],
@@ -377,7 +391,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(dialogContext),
-              child: Text(l10n.cancelButton),
+              child: Text(l10n.actionCancel),
             ),
           ],
         );
@@ -395,7 +409,7 @@ class ScanFeedbackSettingsScreen extends StatelessWidget {
     final scanProvider = Provider.of<ScanProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsFeedbackTitle)),
+      appBar: AppBar(title: Text(l10n.labelSettingsFeedback)),
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
@@ -405,24 +419,24 @@ class ScanFeedbackSettingsScreen extends StatelessWidget {
               children: [
                 SwitchListTile(
                   secondary: const Icon(Icons.vibration),
-                  title: Text(l10n.feedbackVibrationTitle),
-                  subtitle: Text(l10n.feedbackVibrationSubtitle),
+                  title: Text(l10n.labelFeedbackVibration),
+                  subtitle: Text(l10n.descFeedbackVibration),
                   value: scanProvider.isVibrationEnabled,
                   onChanged: (val) => scanProvider.setVibrationEnabled(val),
                 ),
                 const Divider(height: 1, indent: 16, endIndent: 16),
                 SwitchListTile(
                   secondary: const Icon(Icons.volume_up_outlined),
-                  title: Text(l10n.feedbackSoundTitle),
-                  subtitle: Text(l10n.feedbackSoundSubtitle),
+                  title: Text(l10n.labelFeedbackSound),
+                  subtitle: Text(l10n.descFeedbackSound),
                   value: scanProvider.isSoundEnabled,
                   onChanged: (val) => scanProvider.setSoundEnabled(val),
                 ),
                 const Divider(height: 1, indent: 16, endIndent: 16),
                 SwitchListTile(
                   secondary: const Icon(Icons.check_circle_outline_rounded),
-                  title: Text(l10n.feedbackAnimationTitle),
-                  subtitle: Text(l10n.feedbackAnimationSubtitle),
+                  title: Text(l10n.labelFeedbackAnimation),
+                  subtitle: Text(l10n.descFeedbackAnimation),
                   value: scanProvider.isAnimationEnabled,
                   onChanged: (val) => scanProvider.setAnimationEnabled(val),
                 ),
@@ -436,7 +450,11 @@ class ScanFeedbackSettingsScreen extends StatelessWidget {
 }
 
 class PrivacySettingsScreen extends StatefulWidget {
-  const PrivacySettingsScreen({super.key});
+  const PrivacySettingsScreen({super.key, this.dataWipeServiceBuilder});
+
+  /// Builds the service used by "Delete all data". Tests pass a fake; the app
+  /// uses the default, which closes the history database first.
+  final DataWipeService Function(BuildContext context)? dataWipeServiceBuilder;
 
   @override
   State<PrivacySettingsScreen> createState() => _PrivacySettingsScreenState();
@@ -462,8 +480,12 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
           _isLoading = false;
         });
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error loading privacy setting: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error loading privacy setting',
+        error: e,
+        stackTrace: st,
+      );
       if (mounted) setState(() => _isLoading = false);
     }
   }
@@ -473,8 +495,12 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(UrlSafetyService.activeProbingPrefKey, value);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error saving active probing setting: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error saving active probing setting',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -482,75 +508,215 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.privacyScreenTitle)),
+      appBar: AppBar(title: Text(l10n.titlePrivacyScreen)),
       body: SafeArea(
         top: false,
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 padding: const EdgeInsets.all(16),
-                child: Card(
-                  color: _activeProbing ? Colors.orange[50] : Colors.blue[50],
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        SwitchListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                          ),
-                          value: _activeProbing,
-                          onChanged: _setActiveProbing,
-                          title: Text(
-                            l10n.privacyActiveChecksTitle,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          subtitle: Text(l10n.privacyActiveChecksSubtitle),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                _activeProbing
-                                    ? Icons.warning_amber
-                                    : Icons.lock_outline,
-                                size: 20,
-                                color: _activeProbing
-                                    ? Colors.orange[700]
-                                    : Colors.blue[700],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Card(
+                      color: _activeProbing
+                          ? Colors.orange[50]
+                          : Colors.blue[50],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Column(
+                          children: [
+                            SwitchListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8,
                               ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: Text(
-                                  _activeProbing
-                                      ? l10n.privacyExplainerOn
-                                      : l10n.privacyExplainerOff,
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color:
-                                        Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? (_activeProbing
-                                              ? Colors.orange[200]
-                                              : Colors.blue[200])
-                                        : (_activeProbing
-                                              ? Colors.orange[900]
-                                              : Colors.blue[900]),
-                                  ),
+                              value: _activeProbing,
+                              onChanged: _setActiveProbing,
+                              title: Text(
+                                l10n.labelPrivacyActiveChecks,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ],
+                              subtitle: Text(l10n.descPrivacyActiveChecks),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    _activeProbing
+                                        ? Icons.warning_amber
+                                        : Icons.lock_outline,
+                                    size: 20,
+                                    color: _activeProbing
+                                        ? Colors.orange[700]
+                                        : Colors.blue[700],
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      _activeProbing
+                                          ? l10n.bodyPrivacyExplainerOn
+                                          : l10n.bodyPrivacyExplainerOff,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color:
+                                            Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? (_activeProbing
+                                                  ? Colors.orange[200]
+                                                  : Colors.blue[200])
+                                            : (_activeProbing
+                                                  ? Colors.orange[900]
+                                                  : Colors.blue[900]),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      child: SwitchListTile(
+                        secondary: const Icon(Icons.lock_outline),
+                        value: context.watch<AppLockProvider>().enabled,
+                        onChanged:
+                            context.watch<AppLockProvider>().authInProgress
+                            ? null
+                            : _setAppLock,
+                        title: Text(
+                          l10n.labelAppLock,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(l10n.descAppLock),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.delete_forever_outlined,
+                          color: Theme.of(context).colorScheme.error,
+                        ),
+                        title: Text(
+                          l10n.labelDeleteAllData,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ],
+                        subtitle: Text(l10n.descDeleteAllData),
+                        onTap: _deleteAllData,
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
       ),
     );
+  }
+
+  /// Turns the optional app lock on or off; both need one authentication.
+  Future<void> _setAppLock(bool value) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final lock = context.read<AppLockProvider>();
+    final result = value
+        ? await lock.enable(l10n.bodyAppLockReason)
+        : await lock.disable(l10n.bodyAppLockReason);
+    if (!mounted) return;
+    final message = switch (result) {
+      AppLockChange.done => null,
+      AppLockChange.unavailable => l10n.errorAppLockUnavailable,
+      AppLockChange.failed => l10n.errorAppLockFailed,
+    };
+    if (message != null) {
+      messenger.showSnackBar(SnackBar(content: Text(message)));
+    }
+  }
+
+  DataWipeService _defaultWipeService(BuildContext context) => DataWipeService(
+    closeAndDeleteHistoryDatabase: context
+        .read<HistoryProvider>()
+        .closeAndDeleteDatabase,
+  );
+
+  /// Confirms, deletes every local store, then restarts the app so it opens
+  /// like a fresh install (engineering standard §15.4).
+  Future<void> _deleteAllData() async {
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.titleDeleteAllDataConfirm),
+        content: Text(l10n.bodyDeleteAllDataConfirm),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.actionCancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+              foregroundColor: Theme.of(context).colorScheme.onError,
+            ),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.actionDeleteAll),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
+    final service = (widget.dataWipeServiceBuilder ?? _defaultWipeService)(
+      context,
+    );
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            content: Row(
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 16),
+                Expanded(child: Text(l10n.bodyDeletingAllData)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final failed = await service.deleteAll();
+    if (!mounted) return;
+    Navigator.of(context, rootNavigator: true).pop();
+    unawaited(HapticFeedback.heavyImpact());
+
+    if (failed.isNotEmpty && mounted) {
+      // Shown before the restart, which would remove a snackbar.
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Text(l10n.errorDeleteAllDataPartial),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(MaterialLocalizations.of(context).okButtonLabel),
+            ),
+          ],
+        ),
+      );
+    }
+    if (mounted) AppRestartScope.restart(context);
   }
 }
 
@@ -694,12 +860,12 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(l10n.apiKeyDeleteTitle),
-        content: Text(l10n.apiKeyDeleteMessage),
+        title: Text(l10n.titleApiKeyDelete),
+        content: Text(l10n.bodyApiKeyDelete),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(l10n.cancelButton),
+            child: Text(l10n.actionCancel),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -707,7 +873,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
               foregroundColor: Colors.white,
             ),
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(l10n.deleteButton),
+            child: Text(l10n.actionDelete),
           ),
         ],
       ),
@@ -740,8 +906,8 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
       SnackBar(
         content: Text(
           count >= 0
-              ? l10n.openPhishFeedRefreshed('$count')
-              : l10n.openPhishFeedFailed,
+              ? l10n.bodyOpenPhishFeedRefreshed('$count')
+              : l10n.errorOpenPhishFeedFailed,
         ),
         backgroundColor: count >= 0 ? Colors.green : Colors.red,
       ),
@@ -755,349 +921,358 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.settingsUrlSafetyProvidersTitle)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-          children: [
-            // Help card
-            Card(
-              color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.info_outline,
-                      color: theme.colorScheme.primary,
-                      size: 20,
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        l10n.urlSafetyProvidersHelpText,
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: theme.colorScheme.onSurface,
+    return SecureScreen(
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.labelSettingsUrlSafetyProviders)),
+        body: SafeArea(
+          top: false,
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            children: [
+              // Help card
+              Card(
+                color: theme.colorScheme.primaryContainer.withValues(
+                  alpha: 0.3,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.info_outline,
+                        color: theme.colorScheme.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          l10n.helpUrlSafetyProviders,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: theme.colorScheme.onSurface,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // ── USER-SUPPLIED PROVIDERS ──────────────────────────────────────
-            _buildSectionHeader(
-              context,
-              icon: Icons.key,
-              title: l10n.urlSafetyUserSuppliedHeader,
-              note: l10n.urlSafetyUserSuppliedNote,
-              iconColor: theme.colorScheme.tertiary,
-            ),
-            const SizedBox(height: 8),
-
-            // Google Safe Browsing
-            _buildKeyProviderCard(
-              context: context,
-              icon: Icons.shield_outlined,
-              iconColor: Colors.green,
-              title: 'Google Safe Browsing',
-              regUrl: 'console.cloud.google.com',
-              isLoading: _loadingGsb,
-              hasKey: _hasGsbKey,
-              obscured: _gsbObscured,
-              keyCtrl: _gsbKeyCtrl,
-              onToggleObscure: () =>
-                  setState(() => _gsbObscured = !_gsbObscured),
-              usageText: _hasGsbKey
-                  ? l10n.providerDailyUsage(
-                      '$_gsbRequestsToday',
-                      '$_gsbMaxPerDay',
-                    )
-                  : null,
-              onSave: () => _saveKey(
-                UrlSafetyService.safeBrowsingApiKeyStorageKey,
-                _gsbKeyCtrl,
-                () => setState(() => _hasGsbKey = true),
+              // ── USER-SUPPLIED PROVIDERS ──────────────────────────────────────
+              _buildSectionHeader(
+                context,
+                icon: Icons.key,
+                title: l10n.titleUrlSafetyUserSupplied,
+                note: l10n.descUrlSafetyUserSupplied,
+                iconColor: theme.colorScheme.tertiary,
               ),
-              onDelete: () => _deleteKey(
-                UrlSafetyService.safeBrowsingApiKeyStorageKey,
-                () => setState(() {
-                  _hasGsbKey = false;
-                  _gsbRequestsToday = 0;
-                }),
-              ),
-            ),
-            const SizedBox(height: 12),
+              const SizedBox(height: 8),
 
-            // VirusTotal
-            _buildKeyProviderCard(
-              context: context,
-              icon: Icons.biotech_outlined,
-              iconColor: Colors.blue,
-              title: 'VirusTotal',
-              regUrl: 'virustotal.com',
-              isLoading: _loadingVt,
-              hasKey: _hasVtKey,
-              obscured: _vtObscured,
-              keyCtrl: _vtKeyCtrl,
-              endpointCtrl: _vtEndpointCtrl,
-              onToggleObscure: () => setState(() => _vtObscured = !_vtObscured),
-              usageText: _hasVtKey
-                  ? l10n.providerDailyUsage(
-                      '$_vtRequestsToday',
-                      '$_vtMaxPerDay',
-                    )
-                  : null,
-              onSave: () async {
-                await _saveKey(
-                  UrlSafetyService.virusTotalApiKeyStorageKey,
-                  _vtKeyCtrl,
-                  () => setState(() => _hasVtKey = true),
-                );
-                final ep = _vtEndpointCtrl.text.trim();
-                if (ep.isNotEmpty) {
-                  await _savePrefString(UrlSafetyService.vtEndpointPrefKey, ep);
-                }
-              },
-              onDelete: () => _deleteKey(
-                UrlSafetyService.virusTotalApiKeyStorageKey,
-                () => setState(() {
-                  _hasVtKey = false;
-                  _vtRequestsToday = 0;
-                }),
+              // Google Safe Browsing
+              _buildKeyProviderCard(
+                context: context,
+                icon: Icons.shield_outlined,
+                iconColor: Colors.green,
+                title: 'Google Safe Browsing',
+                regUrl: 'console.cloud.google.com',
+                isLoading: _loadingGsb,
+                hasKey: _hasGsbKey,
+                obscured: _gsbObscured,
+                keyCtrl: _gsbKeyCtrl,
+                onToggleObscure: () =>
+                    setState(() => _gsbObscured = !_gsbObscured),
+                usageText: _hasGsbKey
+                    ? l10n.bodyProviderDailyUsage(
+                        '$_gsbRequestsToday',
+                        '$_gsbMaxPerDay',
+                      )
+                    : null,
+                onSave: () => _saveKey(
+                  UrlSafetyService.safeBrowsingApiKeyStorageKey,
+                  _gsbKeyCtrl,
+                  () => setState(() => _hasGsbKey = true),
+                ),
+                onDelete: () => _deleteKey(
+                  UrlSafetyService.safeBrowsingApiKeyStorageKey,
+                  () => setState(() {
+                    _hasGsbKey = false;
+                    _gsbRequestsToday = 0;
+                  }),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-            // URLhaus
-            _buildKeyProviderCard(
-              context: context,
-              icon: Icons.bug_report_outlined,
-              iconColor: Colors.orange,
-              title: 'URLhaus (abuse.ch)',
-              regUrl: 'auth.abuse.ch',
-              isLoading: _loadingUh,
-              hasKey: _hasUhKey,
-              obscured: _uhObscured,
-              keyCtrl: _uhKeyCtrl,
-              endpointCtrl: _uhEndpointCtrl,
-              onToggleObscure: () => setState(() => _uhObscured = !_uhObscured),
-              onSave: () async {
-                await _saveKey(
-                  UrlSafetyService.urlhausApiKeyStorageKey,
-                  _uhKeyCtrl,
-                  () => setState(() => _hasUhKey = true),
-                );
-                final ep = _uhEndpointCtrl.text.trim();
-                if (ep.isNotEmpty) {
-                  await _savePrefString(
-                    UrlSafetyService.urlhausEndpointPrefKey,
-                    ep,
+              // VirusTotal
+              _buildKeyProviderCard(
+                context: context,
+                icon: Icons.biotech_outlined,
+                iconColor: Colors.blue,
+                title: 'VirusTotal',
+                regUrl: 'virustotal.com',
+                isLoading: _loadingVt,
+                hasKey: _hasVtKey,
+                obscured: _vtObscured,
+                keyCtrl: _vtKeyCtrl,
+                endpointCtrl: _vtEndpointCtrl,
+                onToggleObscure: () =>
+                    setState(() => _vtObscured = !_vtObscured),
+                usageText: _hasVtKey
+                    ? l10n.bodyProviderDailyUsage(
+                        '$_vtRequestsToday',
+                        '$_vtMaxPerDay',
+                      )
+                    : null,
+                onSave: () async {
+                  await _saveKey(
+                    UrlSafetyService.virusTotalApiKeyStorageKey,
+                    _vtKeyCtrl,
+                    () => setState(() => _hasVtKey = true),
                   );
-                }
-              },
-              onDelete: () => _deleteKey(
-                UrlSafetyService.urlhausApiKeyStorageKey,
-                () => setState(() => _hasUhKey = false),
-              ),
-            ),
-            const SizedBox(height: 28),
-
-            // ── BUILT-IN PROVIDERS ───────────────────────────────────────────
-            _buildSectionHeader(
-              context,
-              icon: Icons.lock_open_outlined,
-              title: l10n.urlSafetyBuiltInHeader,
-              note: l10n.urlSafetyBuiltInNote,
-              iconColor: theme.colorScheme.primary,
-            ),
-            const SizedBox(height: 8),
-
-            // PhishTank
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.deepOrange.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.phishing_outlined,
-                            color: Colors.deepOrange,
-                            size: 22,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'PhishTank',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Text(
-                                l10n.phishTankToggleLabel,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Switch(
-                          value: _phishTankEnabled,
-                          onChanged: (val) {
-                            setState(() => _phishTankEnabled = val);
-                            _savePrefBool(
-                              UrlSafetyService.phishTankEnabledPrefKey,
-                              val,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    if (_phishTankEnabled) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        'checkurl.phishtank.com',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
-                  ],
+                  final ep = _vtEndpointCtrl.text.trim();
+                  if (ep.isNotEmpty) {
+                    await _savePrefString(
+                      UrlSafetyService.vtEndpointPrefKey,
+                      ep,
+                    );
+                  }
+                },
+                onDelete: () => _deleteKey(
+                  UrlSafetyService.virusTotalApiKeyStorageKey,
+                  () => setState(() {
+                    _hasVtKey = false;
+                    _vtRequestsToday = 0;
+                  }),
                 ),
               ),
-            ),
-            const SizedBox(height: 12),
+              const SizedBox(height: 12),
 
-            // OpenPhish
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+              // URLhaus
+              _buildKeyProviderCard(
+                context: context,
+                icon: Icons.bug_report_outlined,
+                iconColor: Colors.orange,
+                title: 'URLhaus (abuse.ch)',
+                regUrl: 'auth.abuse.ch',
+                isLoading: _loadingUh,
+                hasKey: _hasUhKey,
+                obscured: _uhObscured,
+                keyCtrl: _uhKeyCtrl,
+                endpointCtrl: _uhEndpointCtrl,
+                onToggleObscure: () =>
+                    setState(() => _uhObscured = !_uhObscured),
+                onSave: () async {
+                  await _saveKey(
+                    UrlSafetyService.urlhausApiKeyStorageKey,
+                    _uhKeyCtrl,
+                    () => setState(() => _hasUhKey = true),
+                  );
+                  final ep = _uhEndpointCtrl.text.trim();
+                  if (ep.isNotEmpty) {
+                    await _savePrefString(
+                      UrlSafetyService.urlhausEndpointPrefKey,
+                      ep,
+                    );
+                  }
+                },
+                onDelete: () => _deleteKey(
+                  UrlSafetyService.urlhausApiKeyStorageKey,
+                  () => setState(() => _hasUhKey = false),
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.teal.withValues(alpha: 0.12),
-                            borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 28),
+
+              // ── BUILT-IN PROVIDERS ───────────────────────────────────────────
+              _buildSectionHeader(
+                context,
+                icon: Icons.lock_open_outlined,
+                title: l10n.titleUrlSafetyBuiltIn,
+                note: l10n.descUrlSafetyBuiltIn,
+                iconColor: theme.colorScheme.primary,
+              ),
+              const SizedBox(height: 8),
+
+              // PhishTank
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.deepOrange.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.phishing_outlined,
+                              color: Colors.deepOrange,
+                              size: 22,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.downloading_outlined,
-                            color: Colors.teal,
-                            size: 22,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'OpenPhish',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 15,
-                                ),
-                              ),
-                              Text(
-                                l10n.openPhishToggleLabel,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Switch(
-                          value: _openPhishEnabled,
-                          onChanged: (val) {
-                            setState(() => _openPhishEnabled = val);
-                            _savePrefBool(
-                              UrlSafetyService.openPhishEnabledPrefKey,
-                              val,
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                    if (_openPhishEnabled) ...[
-                      const SizedBox(height: 10),
-                      if (_openPhishLastUpdated != null)
-                        Text(
-                          l10n.openPhishLastUpdated(
-                            _openPhishLastUpdated!.split('T').first,
-                          ),
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        )
-                      else
-                        Text(
-                          l10n.openPhishFeedNotDownloaded,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                      const SizedBox(height: 8),
-                      SizedBox(
-                        width: double.infinity,
-                        child: OutlinedButton.icon(
-                          icon: _refreshingFeed
-                              ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'PhishTank',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
                                   ),
-                                )
-                              : const Icon(Icons.refresh, size: 18),
-                          label: Text(l10n.openPhishRefreshNow),
-                          onPressed: _refreshingFeed
-                              ? null
-                              : _refreshOpenPhishFeed,
-                        ),
+                                ),
+                                Text(
+                                  l10n.labelPhishTankToggle,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                            value: _phishTankEnabled,
+                            onChanged: (val) {
+                              setState(() => _phishTankEnabled = val);
+                              _savePrefBool(
+                                UrlSafetyService.phishTankEnabledPrefKey,
+                                val,
+                              );
+                            },
+                          ),
+                        ],
                       ),
+                      if (_phishTankEnabled) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          'checkurl.phishtank.com',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+
+              // OpenPhish
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.teal.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Icon(
+                              Icons.downloading_outlined,
+                              color: Colors.teal,
+                              size: 22,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'OpenPhish',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Text(
+                                  l10n.labelOpenPhishToggle,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Switch(
+                            value: _openPhishEnabled,
+                            onChanged: (val) {
+                              setState(() => _openPhishEnabled = val);
+                              _savePrefBool(
+                                UrlSafetyService.openPhishEnabledPrefKey,
+                                val,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      if (_openPhishEnabled) ...[
+                        const SizedBox(height: 10),
+                        if (_openPhishLastUpdated != null)
+                          Text(
+                            l10n.bodyOpenPhishLastUpdated(
+                              _openPhishLastUpdated!.split('T').first,
+                            ),
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          )
+                        else
+                          Text(
+                            l10n.bodyOpenPhishFeedNotDownloaded,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            icon: _refreshingFeed
+                                ? const SizedBox(
+                                    width: 16,
+                                    height: 16,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.refresh, size: 18),
+                            label: Text(l10n.actionOpenPhishRefresh),
+                            onPressed: _refreshingFeed
+                                ? null
+                                : _refreshOpenPhishFeed,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1212,8 +1387,8 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                         ),
                         child: Text(
                           hasKey
-                              ? l10n.apiKeyConfigured
-                              : l10n.apiKeyNotConfigured,
+                              ? l10n.labelApiKeyConfigured
+                              : l10n.labelApiKeyNotConfigured,
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
@@ -1234,7 +1409,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                       controller: keyCtrl,
                       obscureText: obscured,
                       decoration: InputDecoration(
-                        labelText: l10n.providerApiKeyHint,
+                        labelText: l10n.labelProviderApiKey,
                         border: const OutlineInputBorder(),
                         isDense: true,
                         suffixIcon: IconButton(
@@ -1244,8 +1419,8 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                                 : Icons.visibility_off_outlined,
                           ),
                           tooltip: obscured
-                              ? l10n.revealAction
-                              : l10n.hideAction,
+                              ? l10n.actionReveal
+                              : l10n.actionHide,
                           onPressed: onToggleObscure,
                         ),
                       ),
@@ -1258,7 +1433,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                     TextField(
                       controller: endpointCtrl,
                       decoration: InputDecoration(
-                        labelText: l10n.providerEndpointLabel,
+                        labelText: l10n.labelProviderEndpoint,
                         border: const OutlineInputBorder(),
                         isDense: true,
                       ),
@@ -1272,7 +1447,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                       width: double.infinity,
                       child: FilledButton(
                         onPressed: onSave,
-                        child: Text(l10n.apiKeySaveButton),
+                        child: Text(l10n.actionApiKeySave),
                       ),
                     )
                   else
@@ -1285,7 +1460,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                           size: 18,
                         ),
                         label: Text(
-                          l10n.deleteButton,
+                          l10n.actionDelete,
                           style: const TextStyle(color: Colors.red),
                         ),
                         onPressed: onDelete,
@@ -1313,7 +1488,7 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
                       ),
                       const SizedBox(width: 4),
                       Text(
-                        '${l10n.providerGetKeyAt} $regUrl',
+                        '${l10n.bodyProviderGetKeyAt} $regUrl',
                         style: TextStyle(
                           fontSize: 12,
                           color: theme.colorScheme.primary,
@@ -1335,7 +1510,7 @@ class PermissionsSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.permissionsScreenTitle)),
+      appBar: AppBar(title: Text(l10n.titlePermissionsScreen)),
       body: SafeArea(
         top: false,
         child: SingleChildScrollView(
@@ -1345,7 +1520,7 @@ class PermissionsSettingsScreen extends StatelessWidget {
             children: [
               _buildSectionHeader(
                 context,
-                title: l10n.permissionsExplicitHeading,
+                title: l10n.helpPermissionsExplicitHeading,
                 icon: Icons.security_outlined,
               ),
               Card(
@@ -1358,10 +1533,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.blue,
                       ),
                       title: Text(
-                        l10n.permissionCameraTitle,
+                        l10n.helpPermissionCameraTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionCameraDesc),
+                      subtitle: Text(l10n.helpPermissionCameraDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1370,17 +1545,17 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.purple,
                       ),
                       title: Text(
-                        l10n.permissionBiometricTitle,
+                        l10n.helpPermissionBiometricTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionBiometricDesc),
+                      subtitle: Text(l10n.helpPermissionBiometricDesc),
                     ),
                   ],
                 ),
               ),
               _buildSectionHeader(
                 context,
-                title: l10n.permissionsImplicitHeading,
+                title: l10n.helpPermissionsImplicitHeading,
                 icon: Icons.settings_suggest_outlined,
               ),
               Card(
@@ -1390,10 +1565,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                     ListTile(
                       leading: const Icon(Icons.wifi, color: Colors.teal),
                       title: Text(
-                        l10n.permissionInternetTitle,
+                        l10n.helpPermissionInternetTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionInternetDesc),
+                      subtitle: Text(l10n.helpPermissionInternetDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1402,10 +1577,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.orange,
                       ),
                       title: Text(
-                        l10n.permissionVibrateTitle,
+                        l10n.helpPermissionVibrateTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionVibrateDesc),
+                      subtitle: Text(l10n.helpPermissionVibrateDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1414,17 +1589,17 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.indigo,
                       ),
                       title: Text(
-                        l10n.permissionPhotoPickerTitle,
+                        l10n.helpPermissionPhotoPickerTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionPhotoPickerDesc),
+                      subtitle: Text(l10n.helpPermissionPhotoPickerDesc),
                     ),
                   ],
                 ),
               ),
               _buildSectionHeader(
                 context,
-                title: l10n.permissionsSettingHeading,
+                title: l10n.helpPermissionsSettingHeading,
                 icon: Icons.toggle_on_outlined,
               ),
               Card(
@@ -1437,10 +1612,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.amber,
                       ),
                       title: Text(
-                        l10n.permissionProbingTitle,
+                        l10n.helpPermissionProbingTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionProbingDesc),
+                      subtitle: Text(l10n.helpPermissionProbingDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1449,10 +1624,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.lightBlue,
                       ),
                       title: Text(
-                        l10n.permissionSafeBrowsingTitle,
+                        l10n.helpPermissionSafeBrowsingTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionSafeBrowsingDesc),
+                      subtitle: Text(l10n.helpPermissionSafeBrowsingDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1461,10 +1636,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.deepOrange,
                       ),
                       title: Text(
-                        l10n.permissionFeedbackTitle,
+                        l10n.helpPermissionFeedbackTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionFeedbackDesc),
+                      subtitle: Text(l10n.helpPermissionFeedbackDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1473,10 +1648,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.blueGrey,
                       ),
                       title: Text(
-                        l10n.permissionOverlayTitle,
+                        l10n.helpPermissionOverlayTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionOverlayDesc),
+                      subtitle: Text(l10n.helpPermissionOverlayDesc),
                     ),
                     const Divider(height: 1),
                     ListTile(
@@ -1485,10 +1660,10 @@ class PermissionsSettingsScreen extends StatelessWidget {
                         color: Colors.pink,
                       ),
                       title: Text(
-                        l10n.permissionNotificationTitle,
+                        l10n.helpPermissionNotificationTitle,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      subtitle: Text(l10n.permissionNotificationDesc),
+                      subtitle: Text(l10n.helpPermissionNotificationDesc),
                     ),
                   ],
                 ),

@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
-import 'package:sreerajp_qr_studio/l10n/sa_material_localizations.dart';
+import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
@@ -13,6 +13,8 @@ import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 import 'package:sreerajp_qr_studio/screens/result_screen.dart';
 import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
+
+import '../helpers/accessibility_checks.dart';
 
 /// Returns a fixed mix of checks: 1 failed, 2 passed, 2 skipped.
 class _FakeUrlSafetyService extends UrlSafetyService {
@@ -104,10 +106,11 @@ void main() {
         child: MaterialApp(
           locale: locale,
           localizationsDelegates: const [
-            ...AppLocalizations.localizationsDelegates,
-            SaMaterialLocalizationsDelegate(),
-            SaCupertinoLocalizationsDelegate(),
-            SaWidgetsLocalizationsDelegate(),
+            AppLocalizations.delegate,
+            FallbackMaterialLocalizationsDelegate(),
+            FallbackCupertinoLocalizationsDelegate(),
+            FallbackWidgetsLocalizationsDelegate(),
+            ...GlobalMaterialLocalizations.delegates,
           ],
           supportedLocales: AppLocalizations.supportedLocales,
           home: const ResultScreen(),
@@ -153,12 +156,12 @@ void main() {
     ) async {
       await pumpResult(tester);
 
-      expect(find.text('Show 2 passed checks'), findsOneWidget);
-      expect(find.text('2 checks skipped'), findsOneWidget);
+      expect(find.text('Show 2 passed'), findsOneWidget);
+      expect(find.text('2 skipped'), findsOneWidget);
       expect(find.text('VirusTotal'), findsNothing);
 
-      await tester.ensureVisible(find.text('2 checks skipped'));
-      await tester.tap(find.text('2 checks skipped'));
+      await tester.ensureVisible(find.text('2 skipped'));
+      await tester.tap(find.text('2 skipped'));
       await tester.pump();
 
       expect(find.text('VirusTotal'), findsOneWidget);
@@ -194,12 +197,14 @@ void main() {
       expect(find.textContaining('3 of 3 checks passed'), findsOneWidget);
     });
 
-    for (final code in ['ml', 'sa']) {
+    for (final code in ['en', 'ml', 'sa']) {
       testWidgets('Lays out without overflow in $code', (tester) async {
         await pumpResult(tester, locale: Locale(code));
+        expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
         await tester.tap(
           find.byTooltip(
-            lookupAppLocalizations(Locale(code)).resultMoreActions,
+            lookupAppLocalizations(Locale(code)).tooltipResultMoreActions,
           ),
         );
         // Any overflow is reported by the framework and fails the test.

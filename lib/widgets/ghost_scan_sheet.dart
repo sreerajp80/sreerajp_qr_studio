@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/services/ghost_scan_service.dart';
 
@@ -51,7 +51,7 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            success ? l10n.ghostScanTileAdded : l10n.ghostScanStep1,
+            success ? l10n.bodyGhostScanTileAdded : l10n.helpGhostScanStep1,
           ),
           behavior: SnackBarBehavior.floating,
         ),
@@ -106,14 +106,14 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.ghostScanTitle,
+                        l10n.labelGhostScan,
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
-                        l10n.ghostScanSubtitle,
+                        l10n.descGhostScan,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
@@ -127,7 +127,7 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
 
             // Description
             Text(
-              l10n.ghostScanDescription,
+              l10n.bodyGhostScan,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onSurfaceVariant,
               ),
@@ -150,7 +150,7 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.ghostScanHowItWorksTitle,
+                      l10n.titleGhostScanHowItWorks,
                       style: theme.textTheme.titleSmall?.copyWith(
                         fontWeight: FontWeight.bold,
                         color: colorScheme.primary,
@@ -159,21 +159,21 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
                     const SizedBox(height: 12),
                     _buildStepRow(
                       number: '1',
-                      text: l10n.ghostScanStep1,
+                      text: l10n.helpGhostScanStep1,
                       colorScheme: colorScheme,
                       theme: theme,
                     ),
                     const SizedBox(height: 10),
                     _buildStepRow(
                       number: '2',
-                      text: l10n.ghostScanStep2,
+                      text: l10n.helpGhostScanStep2,
                       colorScheme: colorScheme,
                       theme: theme,
                     ),
                     const SizedBox(height: 10),
                     _buildStepRow(
                       number: '3',
-                      text: l10n.ghostScanStep3,
+                      text: l10n.helpGhostScanStep3,
                       colorScheme: colorScheme,
                       theme: theme,
                     ),
@@ -187,7 +187,7 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
             FilledButton.icon(
               onPressed: _handleScanNow,
               icon: const Icon(Icons.fullscreen),
-              label: Text(l10n.ghostScanActionScanNow),
+              label: Text(l10n.actionGhostScanNow),
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 14),
                 shape: RoundedRectangleBorder(
@@ -202,7 +202,7 @@ class _GhostScanSheetState extends State<GhostScanSheet> {
               OutlinedButton.icon(
                 onPressed: _handleAddTile,
                 icon: const Icon(Icons.add_to_home_screen),
-                label: Text(l10n.ghostScanActionAddTile),
+                label: Text(l10n.actionGhostScanAddTile),
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(

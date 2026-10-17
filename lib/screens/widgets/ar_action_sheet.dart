@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
@@ -59,7 +59,7 @@ class ArActionSheet extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.close),
                     onPressed: onClose,
-                    tooltip: l10n.arCloseSheet,
+                    tooltip: l10n.tooltipArCloseSheet,
                   ),
                 ],
               ),
@@ -91,7 +91,7 @@ class ArActionSheet extends StatelessWidget {
               const SizedBox(height: 8),
               if (provider.hudMode == ArHudMode.warehouse)
                 Text(
-                  l10n.arItemPriceTag(target.priceTag),
+                  l10n.bodyArItemPriceTag(target.priceTag),
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -107,13 +107,13 @@ class ArActionSheet extends StatelessWidget {
                       Clipboard.setData(ClipboardData(text: target.rawValue));
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(l10n.arContentCopied),
+                          content: Text(l10n.bodyArContentCopied),
                           duration: const Duration(seconds: 2),
                         ),
                       );
                     },
                     icon: const Icon(Icons.copy, size: 18),
-                    label: Text(l10n.arCopyButton),
+                    label: Text(l10n.actionArCopy),
                   ),
                   const SizedBox(width: 8),
                   if (target.isUrl)
@@ -125,7 +125,7 @@ class ArActionSheet extends StatelessWidget {
                         }
                       },
                       icon: const Icon(Icons.open_in_browser, size: 18),
-                      label: Text(l10n.arOpenUrlButton),
+                      label: Text(l10n.actionArOpenUrl),
                     )
                   else
                     FilledButton.icon(
@@ -141,8 +141,8 @@ class ArActionSheet extends StatelessWidget {
                       ),
                       label: Text(
                         target.isSelected
-                            ? l10n.arDeselectButton
-                            : l10n.arSelectButton,
+                            ? l10n.actionArDeselect
+                            : l10n.actionArSelect,
                       ),
                     ),
                 ],
@@ -168,11 +168,11 @@ class ArActionSheet extends StatelessWidget {
   String _getSafetyText(AppLocalizations l10n, TargetSafetyStatus status) {
     switch (status) {
       case TargetSafetyStatus.safe:
-        return l10n.arSafetyStatusSafe;
+        return l10n.bodyArSafetyStatusSafe;
       case TargetSafetyStatus.warning:
-        return l10n.arSafetyStatusWarning;
+        return l10n.bodyArSafetyStatusWarning;
       case TargetSafetyStatus.unknown:
-        return l10n.arSafetyStatusUnknown;
+        return l10n.bodyArSafetyStatusUnknown;
     }
   }
 

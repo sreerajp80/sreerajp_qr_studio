@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 
 /// Represents a single frame captured in an optical AirQR stream.
 @immutable
@@ -76,8 +77,8 @@ class AirQrFrame {
           payloadBytes: payloadBytes,
         );
       }
-    } catch (e) {
-      if (kDebugMode) debugPrint('AirQrFrame parse error: $e');
+    } catch (e, st) {
+      AppLogger.error('AirQrFrame parse error', error: e, stackTrace: st);
     }
     return null;
   }

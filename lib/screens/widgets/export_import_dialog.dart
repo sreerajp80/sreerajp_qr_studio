@@ -1,14 +1,18 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sreerajp_qr_studio/l10n/app_message_text.dart';
 import 'package:sreerajp_qr_studio/models/backup_exception.dart';
 import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/widgets/plain_text_export_confirm.dart';
+import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
 /// Modal dialog for choosing export format (CSV, JSON, TXT, PDF) or performing password-encrypted local backup/restore.
 class ExportImportDialog extends StatefulWidget {
@@ -31,6 +35,8 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
   }
 
   Future<void> _handleExport(BuildContext context, ExportFormat format) async {
+    if (!await confirmPlainTextExport(context, suggestBackup: true)) return;
+    if (!context.mounted) return;
     final l10n = AppLocalizations.of(context);
     final provider = Provider.of<HistoryProvider>(context, listen: false);
     final result = await provider.exportData(format, _reportLabels(l10n));
@@ -46,7 +52,7 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
           mimeType: 'application/pdf',
           name: 'Sreeraj_QR_History.pdf',
         ),
-      ], text: l10n.exportSharePdfText);
+      ], text: l10n.bodyExportSharePdf);
     } else {
       final textResult = result as String;
       final mimeType = format == ExportFormat.csv
@@ -67,7 +73,40 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
           mimeType: mimeType,
           name: fileName,
         ),
-      ], text: l10n.exportShareText);
+      ], text: l10n.bodyExportShare);
+    }
+  }
+
+  /// Shows a non-dismissable progress dialog while [work] runs (the backup
+  /// key derivation takes a few seconds on a phone).
+  Future<T> _withProgress<T>(
+    BuildContext context,
+    String message,
+    Future<T> Function() work,
+  ) async {
+    final navigator = Navigator.of(context, rootNavigator: true);
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            content: Row(
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 16),
+                Expanded(child: Text(message)),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    try {
+      return await work();
+    } finally {
+      navigator.pop();
     }
   }
 
@@ -75,14 +114,19 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
     final l10n = AppLocalizations.of(context);
     final passphrase = _passphraseController.text.trim();
     if (passphrase.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(l10n.exportPassphraseRequired)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.errorExportPassphraseRequired)),
+      );
       return;
     }
 
     final provider = Provider.of<HistoryProvider>(context, listen: false);
-    final backupContainer = provider.createEncryptedBackup(passphrase);
     final navigator = Navigator.of(context);
+    final backupContainer = await _withProgress(
+      context,
+      l10n.bodyEncryptingBackup,
+      () => provider.createEncryptedBackup(passphrase),
+    );
 
     // ignore: deprecated_member_use
     await Share.shareXFiles([
@@ -91,7 +135,7 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
         mimeType: 'application/json',
         name: 'sreeraj_qr_backup.sreerajqr',
       ),
-    ], text: l10n.exportShareBackupText);
+    ], text: l10n.bodyExportShareBackup);
 
     if (mounted) navigator.pop();
   }
@@ -105,20 +149,21 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
 
     if (passphrase.isEmpty || backupData.isEmpty) {
       messenger.showSnackBar(
-        SnackBar(content: Text(l10n.restoreFieldsRequired)),
+        SnackBar(content: Text(l10n.errorRestoreFieldsRequired)),
       );
       return;
     }
 
     final provider = Provider.of<HistoryProvider>(context, listen: false);
     try {
-      final count = await provider.restoreEncryptedBackup(
-        backupData,
-        passphrase,
+      final count = await _withProgress(
+        context,
+        l10n.bodyOpeningBackup,
+        () => provider.restoreEncryptedBackup(backupData, passphrase),
       );
       if (mounted) {
         messenger.showSnackBar(
-          SnackBar(content: Text(l10n.restoreSuccess(count))),
+          SnackBar(content: Text(l10n.bodyRestoreSuccess(count))),
         );
         navigator.pop();
       }
@@ -126,14 +171,25 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
       if (mounted) {
         messenger.showSnackBar(
           SnackBar(
-            content: Text(l10n.restoreFailed(appMessageText(l10n, e.message))),
+            content: Text(
+              l10n.errorRestoreFailed(appMessageText(l10n, e.message)),
+            ),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
         messenger.showSnackBar(
-          SnackBar(content: Text(l10n.restoreFailed(e.toString()))),
+          SnackBar(
+            content: Text(
+              l10n.errorRestoreFailed(
+                appMessageText(
+                  l10n,
+                  const AppMessage(AppMessageKey.backupInvalidFormat),
+                ),
+              ),
+            ),
+          ),
         );
       }
     }
@@ -142,28 +198,28 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
   /// Collects the localized wording the report builders need.
   HistoryReportLabels _reportLabels(AppLocalizations l10n) {
     return HistoryReportLabels(
-      reportHeading: l10n.reportHeading,
-      reportTitle: l10n.reportTitle,
-      exportDateLabel: l10n.reportExportDate,
-      totalScansLabel: l10n.reportTotalScans,
-      scanNumberLabel: l10n.reportScanNumber,
-      idLabel: l10n.reportId,
-      timestampLabel: l10n.reportTimestamp,
-      formatLabel: l10n.reportFormat,
-      categoryLabel: l10n.reportCategory,
-      safetyScoreLabel: l10n.reportSafetyScore,
-      starredLabel: l10n.reportStarred,
-      starredYes: l10n.reportStarredYes,
-      starredNo: l10n.reportStarredNo,
-      locationLabel: l10n.reportLocation,
-      notesLabel: l10n.reportNotes,
-      contentLabel: l10n.reportContent,
-      columnDateTime: l10n.reportColumnDateTime,
-      columnFormat: l10n.reportColumnFormat,
-      columnCategory: l10n.reportColumnCategory,
-      columnSafety: l10n.reportColumnSafety,
-      columnContent: l10n.reportColumnContent,
-      columnNotes: l10n.reportColumnNotes,
+      reportHeading: l10n.bodyReportHeading,
+      reportTitle: l10n.bodyReportTitle,
+      exportDateLabel: l10n.labelReportExportDate,
+      totalScansLabel: l10n.labelReportTotalScans,
+      scanNumberLabel: l10n.labelReportScanNumber,
+      idLabel: l10n.labelReportId,
+      timestampLabel: l10n.labelReportTimestamp,
+      formatLabel: l10n.labelReportFormat,
+      categoryLabel: l10n.labelReportCategory,
+      safetyScoreLabel: l10n.labelReportSafetyScore,
+      starredLabel: l10n.labelReportStarred,
+      starredYes: l10n.labelReportStarredYes,
+      starredNo: l10n.labelReportStarredNo,
+      locationLabel: l10n.labelReportLocation,
+      notesLabel: l10n.labelReportNotes,
+      contentLabel: l10n.labelReportContent,
+      columnDateTime: l10n.labelReportColumnDateTime,
+      columnFormat: l10n.labelReportColumnFormat,
+      columnCategory: l10n.labelReportColumnCategory,
+      columnSafety: l10n.labelReportColumnSafety,
+      columnContent: l10n.labelReportColumnContent,
+      columnNotes: l10n.labelReportColumnNotes,
     );
   }
 
@@ -172,198 +228,202 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return AlertDialog(
-      title: Row(
-        children: [
-          Icon(
-            _isRestoreMode ? Icons.settings_backup_restore : Icons.ios_share,
-            color: theme.colorScheme.primary,
-          ),
-          const SizedBox(width: 8),
-          Text(
-            _isRestoreMode ? l10n.restoreDialogTitle : l10n.exportDialogTitle,
-          ),
-        ],
-      ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return SecureScreen(
+      child: AlertDialog(
+        title: Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: FilterChip(
-                    label: Text(l10n.exportRecordsTab),
-                    selected: !_isRestoreMode,
-                    onSelected: (val) => setState(() => _isRestoreMode = false),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: FilterChip(
-                    label: Text(l10n.restoreBackupTab),
-                    selected: _isRestoreMode,
-                    onSelected: (val) => setState(() => _isRestoreMode = true),
-                  ),
-                ),
-              ],
+            Icon(
+              _isRestoreMode ? Icons.settings_backup_restore : Icons.ios_share,
+              color: theme.colorScheme.primary,
             ),
-            const SizedBox(height: 16),
-            if (!_isRestoreMode) ...[
-              Text(
-                l10n.exportFormatHeading,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              ListTile(
-                leading: const Icon(Icons.table_chart, color: Colors.green),
-                title: Text(l10n.exportCsvTitle),
-                subtitle: Text(l10n.exportCsvSubtitle),
-                onTap: () => _handleExport(context, ExportFormat.csv),
-              ),
-              ListTile(
-                leading: const Icon(Icons.code, color: Colors.blue),
-                title: Text(l10n.exportJsonTitle),
-                subtitle: Text(l10n.exportJsonSubtitle),
-                onTap: () => _handleExport(context, ExportFormat.json),
-              ),
-              ListTile(
-                leading: const Icon(Icons.description, color: Colors.orange),
-                title: Text(l10n.exportTxtTitle),
-                subtitle: Text(l10n.exportTxtSubtitle),
-                onTap: () => _handleExport(context, ExportFormat.txt),
-              ),
-              ListTile(
-                leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
-                title: Text(l10n.exportPdfTitle),
-                subtitle: Text(l10n.exportPdfSubtitle),
-                onTap: () => _handleExport(context, ExportFormat.pdf),
-              ),
-              const Divider(height: 24),
-              Text(
-                l10n.exportBackupHeading,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                controller: _passphraseController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: l10n.exportPassphraseLabel,
-                  hintText: l10n.exportPassphraseHint,
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.security),
-                  label: Text(l10n.exportCreateBackupButton),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primaryContainer,
-                    foregroundColor: theme.colorScheme.onPrimaryContainer,
+            const SizedBox(width: 8),
+            Text(
+              _isRestoreMode ? l10n.titleRestoreDialog : l10n.titleExportDialog,
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: FilterChip(
+                      label: Text(l10n.tabExportRecords),
+                      selected: !_isRestoreMode,
+                      onSelected: (val) =>
+                          setState(() => _isRestoreMode = false),
+                    ),
                   ),
-                  onPressed: () => _handleEncryptedBackup(context),
-                ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: FilterChip(
+                      label: Text(l10n.tabRestoreBackup),
+                      selected: _isRestoreMode,
+                      onSelected: (val) =>
+                          setState(() => _isRestoreMode = true),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.stream),
-                  label: Text(l10n.airQrSyncBeamAction),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(
-                      context,
-                      '/air_qr_transmitter',
-                      arguments: {'syncMode': true},
-                    );
-                  },
+              const SizedBox(height: 16),
+              if (!_isRestoreMode) ...[
+                Text(
+                  l10n.titleExportFormat,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-            ] else ...[
-              Text(
-                l10n.restoreHeading,
-                style: theme.textTheme.titleSmall?.copyWith(
-                  fontWeight: FontWeight.bold,
+                const SizedBox(height: 8),
+                ListTile(
+                  leading: const Icon(Icons.table_chart, color: Colors.green),
+                  title: Text(l10n.labelExportCsv),
+                  subtitle: Text(l10n.descExportCsv),
+                  onTap: () => _handleExport(context, ExportFormat.csv),
                 ),
-              ),
-              const SizedBox(height: 12),
-              TextField(
-                controller: _passphraseController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: l10n.restorePassphraseLabel,
-                  prefixIcon: const Icon(Icons.lock_outline),
-                  border: const OutlineInputBorder(),
+                ListTile(
+                  leading: const Icon(Icons.code, color: Colors.blue),
+                  title: Text(l10n.labelExportJson),
+                  subtitle: Text(l10n.descExportJson),
+                  onTap: () => _handleExport(context, ExportFormat.json),
                 ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _backupPayloadController,
-                maxLines: 4,
-                decoration: InputDecoration(
-                  labelText: l10n.restorePayloadLabel,
-                  hintText: l10n.restorePayloadHint,
-                  prefixIcon: const Icon(Icons.paste),
-                  border: const OutlineInputBorder(),
-                  suffixIcon: IconButton(
-                    icon: const Icon(Icons.content_paste),
-                    tooltip: l10n.restorePayloadHint,
-                    onPressed: () async {
-                      final data = await Clipboard.getData(
-                        Clipboard.kTextPlain,
+                ListTile(
+                  leading: const Icon(Icons.description, color: Colors.orange),
+                  title: Text(l10n.labelExportTxt),
+                  subtitle: Text(l10n.descExportTxt),
+                  onTap: () => _handleExport(context, ExportFormat.txt),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.picture_as_pdf, color: Colors.red),
+                  title: Text(l10n.labelExportPdf),
+                  subtitle: Text(l10n.descExportPdf),
+                  onTap: () => _handleExport(context, ExportFormat.pdf),
+                ),
+                const Divider(height: 24),
+                Text(
+                  l10n.titleExportBackup,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                TextField(
+                  controller: _passphraseController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: l10n.labelExportPassphrase,
+                    hintText: l10n.helpExportPassphrase,
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    border: const OutlineInputBorder(),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.security),
+                    label: Text(l10n.actionExportCreateBackup),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primaryContainer,
+                      foregroundColor: theme.colorScheme.onPrimaryContainer,
+                    ),
+                    onPressed: () => _handleEncryptedBackup(context),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.stream),
+                    label: Text(l10n.actionAirQrSyncBeam),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(
+                        context,
+                        '/air_qr_transmitter',
+                        arguments: {'syncMode': true},
                       );
-                      if (data?.text != null) {
-                        _backupPayloadController.text = data!.text!;
-                      }
                     },
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.restore),
-                  label: Text(l10n.restoreButton),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: theme.colorScheme.primary,
-                    foregroundColor: theme.colorScheme.onPrimary,
+              ] else ...[
+                Text(
+                  l10n.titleRestore,
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
                   ),
-                  onPressed: () => _handleRestore(context),
                 ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton.icon(
-                  icon: const Icon(Icons.qr_code_scanner),
-                  label: Text(l10n.airQrReceiverTitle),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, '/air_qr');
-                  },
+                const SizedBox(height: 12),
+                TextField(
+                  controller: _passphraseController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: l10n.labelRestorePassphrase,
+                    prefixIcon: const Icon(Icons.lock_outline),
+                    border: const OutlineInputBorder(),
+                  ),
                 ),
-              ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _backupPayloadController,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    labelText: l10n.labelRestorePayload,
+                    hintText: l10n.helpRestorePayload,
+                    prefixIcon: const Icon(Icons.paste),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.content_paste),
+                      tooltip: l10n.helpRestorePayload,
+                      onPressed: () async {
+                        final data = await Clipboard.getData(
+                          Clipboard.kTextPlain,
+                        );
+                        if (data?.text != null) {
+                          _backupPayloadController.text = data!.text!;
+                        }
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.restore),
+                    label: Text(l10n.actionRestore),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
+                    ),
+                    onPressed: () => _handleRestore(context),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.qr_code_scanner),
+                    label: Text(l10n.titleAirQrReceiver),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/air_qr');
+                    },
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.actionClose),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.closeButton),
-        ),
-      ],
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
 /// Short safety verdict for a scanned link, shown near the top of the result
@@ -54,10 +54,10 @@ class UrlVerdictCard extends StatelessWidget {
     final Color soft = isDark ? tone[300]! : tone[700]!;
 
     final headline = isLoading
-        ? l10n.verdictChecking
+        ? l10n.bodyVerdictChecking
         : hasIssues
-        ? l10n.verdictIssuesFound(failedCount)
-        : l10n.verdictNoIssues;
+        ? l10n.bodyVerdictIssuesFound(failedCount)
+        : l10n.bodyVerdictNoIssues;
 
     return Container(
       width: double.infinity,
@@ -108,9 +108,9 @@ class UrlVerdictCard extends StatelessWidget {
                 if (!isLoading) ...[
                   const SizedBox(height: 4),
                   Text(
-                    '${l10n.verdictChecksPassed(passedCount, ranCount)}'
+                    '${l10n.bodyVerdictChecksPassed(passedCount, ranCount)}'
                     ' · '
-                    '${activeProbing ? l10n.verdictModeActive : l10n.verdictModePrivate}',
+                    '${activeProbing ? l10n.labelVerdictModeActive : l10n.labelVerdictModePrivate}',
                     style: TextStyle(fontSize: 12, color: soft),
                   ),
                 ],
@@ -124,7 +124,7 @@ class UrlVerdictCard extends StatelessWidget {
                         minimumSize: const Size(0, 36),
                         foregroundColor: strong,
                       ),
-                      child: Text(l10n.verdictSeeDetails),
+                      child: Text(l10n.actionVerdictSeeDetails),
                     ),
                   ),
               ],

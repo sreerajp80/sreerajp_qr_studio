@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
 import 'package:sreerajp_qr_studio/models/code_format.dart';
@@ -35,7 +35,7 @@ class MultiCodeBoundingBoxWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child: Tooltip(
-          message: l10n.multiCodeTapToScan,
+          message: l10n.tooltipMultiCodeTapToScan,
           child: InkWell(
             onTap: onTap,
             borderRadius: BorderRadius.circular(10),

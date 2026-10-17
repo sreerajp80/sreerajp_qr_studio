@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
+import 'package:sreerajp_qr_studio/services/history_database_schema.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
 class FakeFlutterSecureStorage extends Fake implements FlutterSecureStorage {
@@ -53,24 +54,10 @@ void main() {
       final fakeStorage = FakeFlutterSecureStorage();
       final inMemoryDb = await openDatabase(
         inMemoryDatabasePath,
-        version: 1,
-        onCreate: (db, version) async {
-          await db.execute('''
-            CREATE TABLE scan_records (
-              id TEXT PRIMARY KEY,
-              timestamp INTEGER NOT NULL,
-              rawContent TEXT NOT NULL,
-              barcodeFormat TEXT NOT NULL,
-              category TEXT NOT NULL,
-              imageThumbnail TEXT,
-              locationTag TEXT,
-              safetyScore INTEGER NOT NULL,
-              notes TEXT,
-              isFavorite INTEGER NOT NULL DEFAULT 0,
-              metadata TEXT
-            )
-          ''');
-        },
+        version: HistoryDatabaseSchema.version,
+        onConfigure: HistoryDatabaseSchema.onConfigure,
+        onCreate: HistoryDatabaseSchema.onCreate,
+        onUpgrade: HistoryDatabaseSchema.onUpgrade,
       );
 
       final dbService = HistoryDatabaseService(

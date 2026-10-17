@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -18,10 +18,10 @@ class PaymentActionCard extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     final schemeName = payment.scheme == PaymentScheme.upi
-        ? l10n.paymentSchemeUpi
+        ? l10n.labelPaymentSchemeUpi
         : payment.scheme == PaymentScheme.sepa
-        ? l10n.paymentSchemeSepa
-        : l10n.paymentSchemeCrypto;
+        ? l10n.labelPaymentSchemeSepa
+        : l10n.labelPaymentSchemeCrypto;
 
     final schemeColor = payment.scheme == PaymentScheme.upi
         ? Colors.teal
@@ -87,7 +87,7 @@ class PaymentActionCard extends StatelessWidget {
                       Text(
                         payment.payeeName.isNotEmpty
                             ? payment.payeeName
-                            : l10n.paymentPayeeFallback,
+                            : l10n.labelPaymentPayeeFallback,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -140,10 +140,10 @@ class PaymentActionCard extends StatelessWidget {
                       children: [
                         Text(
                           payment.scheme == PaymentScheme.upi
-                              ? l10n.paymentAddressLabelUpi
+                              ? l10n.labelPaymentAddressUpi
                               : payment.scheme == PaymentScheme.sepa
-                              ? l10n.paymentAddressLabelSepa
-                              : l10n.paymentAddressLabelCrypto,
+                              ? l10n.labelPaymentAddressSepa
+                              : l10n.labelPaymentAddressCrypto,
                           style: TextStyle(fontSize: 11, color: labelColor),
                         ),
                         InkWell(
@@ -155,8 +155,8 @@ class PaymentActionCard extends StatelessWidget {
                               SnackBar(
                                 content: Text(
                                   payment.scheme == PaymentScheme.upi
-                                      ? l10n.paymentUpiIdCopied
-                                      : l10n.paymentAddressCopied,
+                                      ? l10n.bodyPaymentUpiIdCopied
+                                      : l10n.bodyPaymentAddressCopied,
                                 ),
                               ),
                             );
@@ -166,7 +166,7 @@ class PaymentActionCard extends StatelessWidget {
                               Icon(Icons.copy, size: 14, color: schemeColor),
                               const SizedBox(width: 4),
                               Text(
-                                l10n.paymentCopyAction,
+                                l10n.actionPaymentCopy,
                                 style: TextStyle(
                                   fontSize: 11,
                                   fontWeight: FontWeight.bold,
@@ -202,7 +202,7 @@ class PaymentActionCard extends StatelessWidget {
                   const SizedBox(width: 6),
                   Expanded(
                     child: Text(
-                      l10n.paymentNote(payment.transactionNote),
+                      l10n.bodyPaymentNote(payment.transactionNote),
                       style: TextStyle(fontSize: 12, color: labelColor),
                     ),
                   ),
@@ -220,8 +220,8 @@ class PaymentActionCard extends StatelessWidget {
                 icon: const Icon(Icons.payment),
                 label: Text(
                   payment.scheme == PaymentScheme.upi
-                      ? l10n.paymentPayButtonUpi
-                      : l10n.paymentPayButton,
+                      ? l10n.actionPaymentPayUpi
+                      : l10n.actionPaymentPay,
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: schemeColor,
@@ -238,7 +238,7 @@ class PaymentActionCard extends StatelessWidget {
                       context,
                       payeeName: payment.payeeName.isNotEmpty
                           ? payment.payeeName
-                          : l10n.paymentPayeeFallback,
+                          : l10n.labelPaymentPayeeFallback,
                     );
                     if (amount == null || !context.mounted) return;
                   }
@@ -251,12 +251,12 @@ class PaymentActionCard extends StatelessWidget {
                       SnackBar(
                         content: Text(
                           payment.scheme == PaymentScheme.upi
-                              ? l10n.paymentUpiLaunchFailed
-                              : l10n.paymentLaunchFailed,
+                              ? l10n.errorPaymentUpiLaunchFailed
+                              : l10n.errorPaymentLaunchFailed,
                         ),
                         action: payment.payeeAddress.isNotEmpty
                             ? SnackBarAction(
-                                label: l10n.paymentCopyIdAction,
+                                label: l10n.actionPaymentCopyId,
                                 onPressed: () {
                                   Clipboard.setData(
                                     ClipboardData(text: payment.payeeAddress),

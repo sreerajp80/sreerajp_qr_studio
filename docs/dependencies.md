@@ -29,14 +29,16 @@ This document records approved packages, dependency categories, and prohibited p
 | `qr_flutter` | `^4.1.0` | Offline optical QR code matrix rendering for AirQR | Pure Dart; zero network; offline rendering |
 | `qr` | `^3.0.2` | Core QR matrix and error correction computation | Pure Dart; zero network; offline generation |
 | `barcode` | `^2.2.9` | 1D and 2D barcode generation for CodeForge | Pure Dart; zero network; offline generation |
-| `flutter_localizations` | `sdk: flutter` | Core localization delegates | Framework package |
+| `material_ui` | `^1.6.0` | Material widgets and `GlobalMaterialLocalizations` (Flutter team, BSD-3; engineering standard §6.1) | Pure Dart UI package; zero network; no build hooks |
+| `cupertino_ui` | `^1.1.2` | `GlobalCupertinoLocalizations` and the Cupertino base for the Sanskrit fallback delegate (Flutter team, BSD-3) | Pure Dart UI package; zero network; no build hooks |
+| `flutter_localizations` | `sdk: flutter` | Widgets localization delegate (`GlobalWidgetsLocalizations`) and the generated `AppLocalizations` | Framework package |
 | `intl` | `any` | Date, number, and locale formatting | Formats dates and numbers; Sanskrit falls back to English patterns |
 | `http` | `^1.6.0` | HTTP client for URL safety & redirect checks | Gated within `UrlSafetyService`; offline-safe fallback |
 | `url_launcher` | `^6.3.2` | Open URLs in system browser or intent apps | System intent launcher; user-confirmed |
 | `share_plus` | `^13.3.1` | Share scanned text/URLs via system share sheet | System share sheet; zero external network |
 | `permission_handler` | `^12.0.1` | Runtime Android permissions | Camera and biometrics requested on demand |
 | `provider` | `^6.1.5` | App state management (`ChangeNotifier`) | Zero network; sole approved state framework |
-| `dynamic_color` | `^1.9.0` | Material You Android 12+ dynamic color extraction | Reads device wallpaper palette locally |
+| `dynamic_color` | `^2.1.0` | Material You Android 12+ dynamic color extraction (2.x uses `material_ui`; Apache-2.0) | Reads device wallpaper palette locally |
 | `package_info_plus` | `^10.2.2` | Retrieve app version and build number | Local platform channel read |
 | `flutter_secure_storage` | `^10.0.0` | Encrypted storage for API keys | Uses Android KeyStore |
 | `shared_preferences` | `^2.5.6` | Non-sensitive preferences (theme, language, counters) | Plaintext local key-value store |

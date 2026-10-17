@@ -1,5 +1,5 @@
 import 'package:barcode/barcode.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 
 /// Canvas painter for rendering 1D and 2D barcodes (Code 128, EAN-13, UPC-A, etc.)

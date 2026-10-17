@@ -125,8 +125,11 @@ class PayloadActionService {
   /// Returns [raw] with its `am` parameter set to [amount] (formatted to 2
   /// decimal places). An existing `am` value is replaced; otherwise `am` is
   /// appended. The rest of the link is kept byte-for-byte as scanned.
+  /// If [amount] is not a number, [raw] is returned unchanged.
   static String withUpiAmount(String raw, String amount) {
-    final formatted = double.parse(amount.trim()).toStringAsFixed(2);
+    final value = double.tryParse(amount.trim());
+    if (value == null || !value.isFinite) return raw;
+    final formatted = value.toStringAsFixed(2);
     if (_upiAmParam.hasMatch(raw)) {
       return raw.replaceFirstMapped(
         _upiAmParam,

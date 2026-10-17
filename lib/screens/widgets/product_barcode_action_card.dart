@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -47,7 +47,7 @@ class ProductBarcodeActionCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.productBarcodeCardTitle,
+                        l10n.titleProductBarcodeCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -95,7 +95,7 @@ class ProductBarcodeActionCard extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: const Icon(Icons.fastfood),
-                    label: Text(l10n.productSearchFoodButton),
+                    label: Text(l10n.actionProductSearchFood),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.amber[700],
                       foregroundColor: Colors.white,
@@ -110,7 +110,9 @@ class ProductBarcodeActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.productLaunchFailed)),
+                          SnackBar(
+                            content: Text(l10n.errorProductLaunchFailed),
+                          ),
                         );
                       }
                     },
@@ -120,7 +122,7 @@ class ProductBarcodeActionCard extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton.icon(
                     icon: const Icon(Icons.search),
-                    label: Text(l10n.productSearchWebButton),
+                    label: Text(l10n.actionProductSearchWeb),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 14),
                       shape: RoundedRectangleBorder(
@@ -134,7 +136,9 @@ class ProductBarcodeActionCard extends StatelessWidget {
                       );
                       if (!launched && context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(l10n.productLaunchFailed)),
+                          SnackBar(
+                            content: Text(l10n.errorProductLaunchFailed),
+                          ),
                         );
                       }
                     },
@@ -149,11 +153,11 @@ class ProductBarcodeActionCard extends StatelessWidget {
             Center(
               child: TextButton.icon(
                 icon: const Icon(Icons.copy, size: 16),
-                label: Text(l10n.productCopyButton),
+                label: Text(l10n.actionProductCopy),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: payload.code));
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(l10n.copiedToClipboard)),
+                    SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                   );
                 },
               ),

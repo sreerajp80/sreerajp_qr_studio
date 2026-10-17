@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
+import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
 /// Modal bottom sheet displaying detailed scan record metadata with note editing and location tagging.
 class HistoryDetailSheet extends StatefulWidget {
@@ -44,175 +45,177 @@ class _HistoryDetailSheetState extends State<HistoryDetailSheet> {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
 
-    return Container(
-      padding: EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-      ),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade400,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  l10n.historyDetailTitle,
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
+    return SecureScreen(
+      child: Container(
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        ),
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade400,
+                    borderRadius: BorderRadius.circular(2),
                   ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  tooltip: l10n.closeButton,
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ],
-            ),
-            const Divider(),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                Chip(
-                  label: Text(widget.record.category.toUpperCase()),
-                  backgroundColor: theme.colorScheme.primaryContainer,
-                ),
-                const SizedBox(width: 8),
-                Chip(
-                  label: Text(widget.record.barcodeFormat),
-                  backgroundColor: theme.colorScheme.secondaryContainer,
-                ),
-                if (widget.record.isFromScreen) ...[
-                  const SizedBox(width: 8),
-                  Chip(
-                    avatar: const Icon(Icons.screenshot_monitor, size: 16),
-                    label: Text(l10n.historySourceScreen),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    l10n.titleHistoryDetail,
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    tooltip: l10n.actionClose,
+                    onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
-                const Spacer(),
-                Text(
-                  l10n.historySafetyBadge(widget.record.safetyScore),
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: widget.record.safetyScore < 70
-                        ? Colors.orange.shade800
-                        : Colors.green.shade800,
+              ),
+              const Divider(),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Chip(
+                    label: Text(widget.record.category.toUpperCase()),
+                    backgroundColor: theme.colorScheme.primaryContainer,
                   ),
+                  const SizedBox(width: 8),
+                  Chip(
+                    label: Text(widget.record.barcodeFormat),
+                    backgroundColor: theme.colorScheme.secondaryContainer,
+                  ),
+                  if (widget.record.isFromScreen) ...[
+                    const SizedBox(width: 8),
+                    Chip(
+                      avatar: const Icon(Icons.screenshot_monitor, size: 16),
+                      label: Text(l10n.labelHistorySourceScreen),
+                    ),
+                  ],
+                  const Spacer(),
+                  Text(
+                    l10n.labelHistorySafetyBadge(widget.record.safetyScore),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: widget.record.safetyScore < 70
+                          ? Colors.orange.shade800
+                          : Colors.green.shade800,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              Text(
+                l10n.labelHistoryScannedContent,
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: Colors.grey.shade700,
                 ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            Text(
-              l10n.historyScannedContent,
-              style: theme.textTheme.labelMedium?.copyWith(
-                color: Colors.grey.shade700,
               ),
-            ),
-            const SizedBox(height: 4),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 4),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: SelectableText(
+                  widget.record.rawContent,
+                  style: theme.textTheme.bodyMedium,
+                ),
               ),
-              child: SelectableText(
-                widget.record.rawContent,
-                style: theme.textTheme.bodyMedium,
-              ),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.copy, size: 16),
-                  label: Text(l10n.historyCopyButton),
-                  onPressed: () async {
-                    await Clipboard.setData(
-                      ClipboardData(text: widget.record.rawContent),
-                    );
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.copiedToClipboard)),
+              const SizedBox(height: 8),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.copy, size: 16),
+                    label: Text(l10n.actionHistoryCopy),
+                    onPressed: () async {
+                      await Clipboard.setData(
+                        ClipboardData(text: widget.record.rawContent),
                       );
-                    }
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
+                        );
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  OutlinedButton.icon(
+                    icon: const Icon(Icons.share, size: 16),
+                    label: Text(l10n.actionHistoryShare),
+                    // ignore: deprecated_member_use
+                    onPressed: () => Share.share(widget.record.rawContent),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _notesController,
+                decoration: InputDecoration(
+                  labelText: l10n.labelHistoryNotes,
+                  hintText: l10n.helpHistoryNotes,
+                  prefixIcon: const Icon(Icons.note_alt_outlined),
+                  border: const OutlineInputBorder(),
+                ),
+                maxLines: 2,
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _locationController,
+                decoration: InputDecoration(
+                  labelText: l10n.labelHistoryLocation,
+                  hintText: l10n.helpHistoryLocation,
+                  prefixIcon: const Icon(Icons.location_on_outlined),
+                  border: const OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton.icon(
+                  icon: const Icon(Icons.save),
+                  label: Text(l10n.actionHistorySaveChanges),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.primary,
+                    foregroundColor: theme.colorScheme.onPrimary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  onPressed: () {
+                    final notes = _notesController.text.trim();
+                    final loc = _locationController.text.trim();
+                    widget.onSave(
+                      notes.isEmpty ? null : notes,
+                      loc.isEmpty ? null : loc,
+                    );
+                    Navigator.of(context).pop();
                   },
                 ),
-                const SizedBox(width: 8),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.share, size: 16),
-                  label: Text(l10n.historyShare),
-                  // ignore: deprecated_member_use
-                  onPressed: () => Share.share(widget.record.rawContent),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _notesController,
-              decoration: InputDecoration(
-                labelText: l10n.historyNotesLabel,
-                hintText: l10n.historyNotesHint,
-                prefixIcon: const Icon(Icons.note_alt_outlined),
-                border: const OutlineInputBorder(),
               ),
-              maxLines: 2,
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _locationController,
-              decoration: InputDecoration(
-                labelText: l10n.historyLocationLabel,
-                hintText: l10n.historyLocationHint,
-                prefixIcon: const Icon(Icons.location_on_outlined),
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.save),
-                label: Text(l10n.historySaveChanges),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.primary,
-                  foregroundColor: theme.colorScheme.onPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                onPressed: () {
-                  final notes = _notesController.text.trim();
-                  final loc = _locationController.text.trim();
-                  widget.onSave(
-                    notes.isEmpty ? null : notes,
-                    loc.isEmpty ? null : loc,
-                  );
-                  Navigator.of(context).pop();
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

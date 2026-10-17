@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +12,7 @@ import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/services/air_qr_service.dart';
 import 'package:sreerajp_qr_studio/services/device_sync_service.dart';
+import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
 enum AirQrTransmitMode { customText, deviceSync }
 
@@ -87,7 +88,8 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
 
     if (!_sampleTextApplied && _mode == AirQrTransmitMode.customText) {
       _sampleTextApplied = true;
-      _textController.text = AppLocalizations.of(context).airQrSamplePayload;
+      _textController.text = AppLocalizations.of(context)
+          .bodyAirQrSamplePayload;
       _prepareFrames();
     } else if (_mode == AirQrTransmitMode.deviceSync &&
         _encodedFrames.isEmpty) {
@@ -125,7 +127,7 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
     final l10n = AppLocalizations.of(context);
     if (!_includeHistory && !_includeSettings) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(l10n.airQrSyncNoDataWarning)));
+          .showSnackBar(SnackBar(content: Text(l10n.errorAirQrSyncNoData)));
       setState(() {
         _encodedFrames = [];
         _currentFrameIndex = 0;
@@ -135,8 +137,9 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
 
     final passphrase = _passphraseController.text.trim();
     if (passphrase.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(l10n.exportPassphraseRequired)));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(l10n.errorExportPassphraseRequired)),
+      );
       return;
     }
 
@@ -163,10 +166,37 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
       settings: settingsToSync,
     );
 
-    final encryptedPackage = _deviceSyncService.createEncryptedSyncPackage(
-      syncData,
-      passphrase,
+    if (!mounted) return;
+    final l10nNow = AppLocalizations.of(context);
+    final navigator = Navigator.of(context, rootNavigator: true);
+    // Key derivation takes a few seconds; show progress meanwhile.
+    unawaited(
+      showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => PopScope(
+          canPop: false,
+          child: AlertDialog(
+            content: Row(
+              children: [
+                const CircularProgressIndicator(),
+                const SizedBox(width: 16),
+                Expanded(child: Text(l10nNow.bodyEncryptingSync)),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
+    final String encryptedPackage;
+    try {
+      encryptedPackage = await _deviceSyncService.createEncryptedSyncPackage(
+        syncData,
+        passphrase,
+      );
+    } finally {
+      navigator.pop();
+    }
 
     final frames = AirQrService.encodePayload(encryptedPackage);
 
@@ -244,288 +274,294 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
     final l10n = AppLocalizations.of(context);
     final historyProvider = Provider.of<HistoryProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.airQrTransmitterTitle), elevation: 2),
-      body: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Mode Selector
-              SegmentedButton<AirQrTransmitMode>(
-                segments: [
-                  ButtonSegment(
-                    value: AirQrTransmitMode.customText,
-                    label: Text(l10n.airQrModeText),
-                    icon: const Icon(Icons.short_text),
-                  ),
-                  ButtonSegment(
-                    value: AirQrTransmitMode.deviceSync,
-                    label: Text(l10n.airQrModeSync),
-                    icon: const Icon(Icons.sync_lock),
-                  ),
-                ],
-                selected: {_mode},
-                onSelectionChanged: (selected) {
-                  _stopBroadcasting();
-                  setState(() {
-                    _mode = selected.first;
-                  });
-                  if (_mode == AirQrTransmitMode.customText) {
-                    _prepareFrames();
-                  } else {
-                    _prepareSyncFrames();
-                  }
-                },
-              ),
-              const SizedBox(height: 16),
-
-              // Mode-specific Configuration
-              if (_mode == AirQrTransmitMode.customText) ...[
-                TextField(
-                  controller: _textController,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    labelText: l10n.airQrPayloadLabel,
-                    hintText: l10n.airQrPayloadHint,
-                    border: const OutlineInputBorder(),
-                  ),
-                  onChanged: (_) {
-                    if (_isBroadcasting) _stopBroadcasting();
-                    _prepareFrames();
+    return SecureScreen(
+      child: Scaffold(
+        appBar: AppBar(title: Text(l10n.titleAirQrTransmitter), elevation: 2),
+        body: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Mode Selector
+                SegmentedButton<AirQrTransmitMode>(
+                  segments: [
+                    ButtonSegment(
+                      value: AirQrTransmitMode.customText,
+                      label: Text(l10n.labelAirQrModeText),
+                      icon: const Icon(Icons.short_text),
+                    ),
+                    ButtonSegment(
+                      value: AirQrTransmitMode.deviceSync,
+                      label: Text(l10n.labelAirQrModeSync),
+                      icon: const Icon(Icons.sync_lock),
+                    ),
+                  ],
+                  selected: {_mode},
+                  onSelectionChanged: (selected) {
+                    _stopBroadcasting();
+                    setState(() {
+                      _mode = selected.first;
+                    });
+                    if (_mode == AirQrTransmitMode.customText) {
+                      _prepareFrames();
+                    } else {
+                      _prepareSyncFrames();
+                    }
                   },
                 ),
-              ] else ...[
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                const SizedBox(height: 16),
+
+                // Mode-specific Configuration
+                if (_mode == AirQrTransmitMode.customText) ...[
+                  TextField(
+                    controller: _textController,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      labelText: l10n.labelAirQrPayload,
+                      hintText: l10n.helpAirQrPayload,
+                      border: const OutlineInputBorder(),
+                    ),
+                    onChanged: (_) {
+                      if (_isBroadcasting) _stopBroadcasting();
+                      _prepareFrames();
+                    },
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.lock,
-                              size: 20,
-                              color: Colors.cyan,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              l10n.airQrSyncPackageDetected,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                ] else ...[
+                  Card(
+                    elevation: 0,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.lock,
+                                size: 20,
+                                color: Colors.cyan,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                l10n.titleAirQrSyncPackage,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 12),
+                          CheckboxListTile(
+                            value: _includeHistory,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              l10n.labelAirQrSyncIncludeHistory(
+                                historyProvider.totalCount,
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        CheckboxListTile(
-                          value: _includeHistory,
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(
-                            l10n.airQrSyncIncludeHistory(
-                              historyProvider.totalCount,
-                            ),
+                            onChanged: (val) {
+                              if (_isBroadcasting) _stopBroadcasting();
+                              setState(() => _includeHistory = val ?? true);
+                              _prepareSyncFrames();
+                            },
                           ),
-                          onChanged: (val) {
-                            if (_isBroadcasting) _stopBroadcasting();
-                            setState(() => _includeHistory = val ?? true);
-                            _prepareSyncFrames();
-                          },
-                        ),
-                        CheckboxListTile(
-                          value: _includeSettings,
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(l10n.airQrSyncIncludeSettings),
-                          onChanged: (val) {
-                            if (_isBroadcasting) _stopBroadcasting();
-                            setState(() => _includeSettings = val ?? true);
-                            _prepareSyncFrames();
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        TextField(
-                          controller: _passphraseController,
-                          obscureText: !_isPassphraseVisible,
-                          decoration: InputDecoration(
-                            labelText: l10n.airQrSyncPassphraseLabel,
-                            hintText: l10n.airQrSyncPassphraseHint,
-                            border: const OutlineInputBorder(),
-                            suffixIcon: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    _isPassphraseVisible
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
+                          CheckboxListTile(
+                            value: _includeSettings,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(l10n.labelAirQrSyncIncludeSettings),
+                            onChanged: (val) {
+                              if (_isBroadcasting) _stopBroadcasting();
+                              setState(() => _includeSettings = val ?? true);
+                              _prepareSyncFrames();
+                            },
+                          ),
+                          const SizedBox(height: 8),
+                          TextField(
+                            controller: _passphraseController,
+                            obscureText: !_isPassphraseVisible,
+                            decoration: InputDecoration(
+                              labelText: l10n.labelAirQrSyncPassphrase,
+                              hintText: l10n.helpAirQrSyncPassphrase,
+                              border: const OutlineInputBorder(),
+                              suffixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      _isPassphraseVisible
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                    tooltip: l10n.tooltipToggleSecretVisibility,
+                                    onPressed: () {
+                                      setState(() {
+                                        _isPassphraseVisible =
+                                            !_isPassphraseVisible;
+                                      });
+                                    },
                                   ),
-                                  tooltip: l10n.tooltipToggleSecretVisibility,
-                                  onPressed: () {
-                                    setState(() {
-                                      _isPassphraseVisible =
-                                          !_isPassphraseVisible;
-                                    });
-                                  },
-                                ),
-                                IconButton(
-                                  icon: const Icon(Icons.refresh),
-                                  tooltip: l10n.airQrSyncGeneratePin,
-                                  onPressed: () {
-                                    if (_isBroadcasting) _stopBroadcasting();
-                                    _generateRandomPin();
-                                    _prepareSyncFrames();
-                                  },
-                                ),
-                              ],
+                                  IconButton(
+                                    icon: const Icon(Icons.refresh),
+                                    tooltip: l10n.tooltipAirQrSyncGeneratePin,
+                                    onPressed: () {
+                                      if (_isBroadcasting) _stopBroadcasting();
+                                      _generateRandomPin();
+                                      _prepareSyncFrames();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            onChanged: (_) {
+                              if (_isBroadcasting) _stopBroadcasting();
+                              _prepareSyncFrames();
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Text(
+                      l10n.labelAirQrStreamSpeed,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Expanded(
+                      child: Slider(
+                        value: _fps.toDouble(),
+                        min: 5,
+                        max: 25,
+                        divisions: 20,
+                        label: l10n.labelAirQrFps(_fps),
+                        onChanged: (val) {
+                          setState(() {
+                            _fps = val.toInt();
+                          });
+                          if (_isBroadcasting) {
+                            _stopBroadcasting();
+                            _startBroadcasting();
+                          }
+                        },
+                      ),
+                    ),
+                    Text(
+                      l10n.labelAirQrFps(_fps),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                ElevatedButton.icon(
+                  onPressed: _encodedFrames.isEmpty
+                      ? null
+                      : _toggleBroadcasting,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    backgroundColor: _isBroadcasting
+                        ? Colors.redAccent
+                        : Theme.of(context).colorScheme.primary,
+                    foregroundColor: _isBroadcasting
+                        ? Colors.white
+                        : Theme.of(context).colorScheme.onPrimary,
+                  ),
+                  icon: Icon(_isBroadcasting ? Icons.stop : Icons.play_arrow),
+                  label: Text(
+                    _isBroadcasting
+                        ? l10n.actionAirQrStopStream
+                        : l10n.actionAirQrStartStream,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Real High-Speed QR Visual Display Box
+                Center(
+                  child: Container(
+                    width: 290,
+                    height: 290,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Center(
+                            child: qrString.isNotEmpty
+                                ? QrImageView(
+                                    data: qrString,
+                                    size: 240,
+                                    backgroundColor: Colors.white,
+                                  )
+                                : const Center(
+                                    child: Icon(
+                                      Icons.qr_code,
+                                      size: 100,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        if (currentFrame != null)
+                          Text(
+                            currentFrame.isParity
+                                ? l10n.bodyAirQrFrameParity(
+                                    _currentFrameIndex + 1,
+                                    _encodedFrames.length,
+                                  )
+                                : l10n.bodyAirQrFrameBlock(
+                                    _currentFrameIndex + 1,
+                                    _encodedFrames.length,
+                                    currentFrame.sequenceIndex,
+                                  ),
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
                             ),
                           ),
-                          onChanged: (_) {
-                            if (_isBroadcasting) _stopBroadcasting();
-                            _prepareSyncFrames();
-                          },
-                        ),
                       ],
                     ),
                   ),
                 ),
-              ],
-
-              const SizedBox(height: 16),
-              Row(
-                children: [
+                const SizedBox(height: 16),
+                if (_encodedFrames.isNotEmpty)
                   Text(
-                    l10n.airQrStreamSpeed,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Expanded(
-                    child: Slider(
-                      value: _fps.toDouble(),
-                      min: 5,
-                      max: 25,
-                      divisions: 20,
-                      label: l10n.airQrFps(_fps),
-                      onChanged: (val) {
-                        setState(() {
-                          _fps = val.toInt();
-                        });
-                        if (_isBroadcasting) {
-                          _stopBroadcasting();
-                          _startBroadcasting();
-                        }
-                      },
+                    l10n.bodyAirQrTotalFrames(
+                      _encodedFrames.length,
+                      _encodedFrames.where((f) => !f.isParity).length,
+                      _encodedFrames.where((f) => f.isParity).length,
                     ),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
                   ),
-                  Text(
-                    l10n.airQrFps(_fps),
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton.icon(
-                onPressed: _encodedFrames.isEmpty ? null : _toggleBroadcasting,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  backgroundColor: _isBroadcasting
-                      ? Colors.redAccent
-                      : Theme.of(context).colorScheme.primary,
-                  foregroundColor: _isBroadcasting
-                      ? Colors.white
-                      : Theme.of(context).colorScheme.onPrimary,
-                ),
-                icon: Icon(_isBroadcasting ? Icons.stop : Icons.play_arrow),
-                label: Text(
-                  _isBroadcasting
-                      ? l10n.airQrStopStream
-                      : l10n.airQrStartStream,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Real High-Speed QR Visual Display Box
-              Center(
-                child: Container(
-                  width: 290,
-                  height: 290,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 10,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Center(
-                          child: qrString.isNotEmpty
-                              ? QrImageView(
-                                  data: qrString,
-                                  size: 240,
-                                  backgroundColor: Colors.white,
-                                )
-                              : const Center(
-                                  child: Icon(
-                                    Icons.qr_code,
-                                    size: 100,
-                                    color: Colors.grey,
-                                  ),
-                                ),
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      if (currentFrame != null)
-                        Text(
-                          currentFrame.isParity
-                              ? l10n.airQrFrameParity(
-                                  _currentFrameIndex + 1,
-                                  _encodedFrames.length,
-                                )
-                              : l10n.airQrFrameBlock(
-                                  _currentFrameIndex + 1,
-                                  _encodedFrames.length,
-                                  currentFrame.sequenceIndex,
-                                ),
-                          style: const TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              if (_encodedFrames.isNotEmpty)
-                Text(
-                  l10n.airQrTotalFrames(
-                    _encodedFrames.length,
-                    _encodedFrames.where((f) => !f.isParity).length,
-                    _encodedFrames.where((f) => f.isParity).length,
-                  ),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

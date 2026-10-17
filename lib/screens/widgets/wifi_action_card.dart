@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
@@ -57,7 +57,7 @@ class _WifiActionCardState extends State<WifiActionCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        l10n.wifiCardTitle,
+                        l10n.titleWifiCard,
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
@@ -65,7 +65,9 @@ class _WifiActionCardState extends State<WifiActionCard> {
                         ),
                       ),
                       Text(
-                        wifi.ssid.isEmpty ? l10n.wifiHiddenNetwork : wifi.ssid,
+                        wifi.ssid.isEmpty
+                            ? l10n.labelWifiHiddenNetwork
+                            : wifi.ssid,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -151,8 +153,8 @@ class _WifiActionCardState extends State<WifiActionCard> {
                         });
                       },
                       tooltip: _showPassword
-                          ? l10n.wifiHidePassword
-                          : l10n.wifiShowPassword,
+                          ? l10n.tooltipWifiHidePassword
+                          : l10n.tooltipWifiShowPassword,
                     ),
                     IconButton(
                       icon: Icon(
@@ -160,7 +162,7 @@ class _WifiActionCardState extends State<WifiActionCard> {
                         size: 20,
                       ),
                       onPressed: () => _copyPassword(wifi.password),
-                      tooltip: l10n.wifiCopyPassword,
+                      tooltip: l10n.tooltipWifiCopyPassword,
                     ),
                   ],
                 ),
@@ -173,7 +175,7 @@ class _WifiActionCardState extends State<WifiActionCard> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.wifi_find),
-                label: Text(l10n.wifiConnectButton),
+                label: Text(l10n.actionWifiConnect),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue[700],
                   foregroundColor: Colors.white,
@@ -189,11 +191,11 @@ class _WifiActionCardState extends State<WifiActionCard> {
                   if (!context.mounted) return;
                   if (launched) {
                     final networkName = wifi.ssid.isEmpty
-                        ? l10n.wifiHiddenNetwork
+                        ? l10n.labelWifiHiddenNetwork
                         : wifi.ssid;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(l10n.wifiConnectSuccess(networkName)),
+                        content: Text(l10n.bodyWifiConnectSuccess(networkName)),
                       ),
                     );
                   } else {
@@ -202,7 +204,7 @@ class _WifiActionCardState extends State<WifiActionCard> {
                     }
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.wifiOpenSettingsHint)),
+                        SnackBar(content: Text(l10n.bodyWifiOpenSettings)),
                       );
                     }
                   }
@@ -224,7 +226,9 @@ class _WifiActionCardState extends State<WifiActionCard> {
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(AppLocalizations.of(context).wifiPasswordCopied)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context).bodyWifiPasswordCopied),
+      ),
     );
 
     Future.delayed(const Duration(seconds: 2), () {

@@ -10,558 +10,559 @@ class AppLocalizationsSa extends AppLocalizations {
   AppLocalizationsSa([String locale = 'sa']) : super(locale);
 
   @override
-  String get appTitle => 'श्रीराज् पि क्यू-आर-कार्यशाला';
+  String get titleApp => 'श्रीराज् पि क्यू-आर-कार्यशाला';
 
   @override
-  String get wifiCardTitle => 'वै-फाई संजालम्';
+  String get titleWifiCard => 'वै-फाई संजालम्';
 
   @override
-  String get wifiShowPassword => 'कूटशब्दः दृश्यताम्';
+  String get tooltipWifiShowPassword => 'कूटशब्दः दृश्यताम्';
 
   @override
-  String get wifiHidePassword => 'कूटशब्दः गोप्यताम्';
+  String get tooltipWifiHidePassword => 'कूटशब्दः गोप्यताम्';
 
   @override
-  String get wifiCopyPassword => 'कूटशब्दः प्रतिलिख्यताम्';
+  String get tooltipWifiCopyPassword => 'कूटशब्दः प्रतिलिख्यताम्';
 
   @override
-  String get wifiConnectButton => 'संयोज्यताम्';
+  String get actionWifiConnect => 'संयोज्यताम्';
 
   @override
-  String get wifiPasswordCopied => 'कूटशब्दः फलके प्रतिलेखितः';
+  String get bodyWifiPasswordCopied => 'कूटशब्दः फलके प्रतिलेखितः';
 
   @override
-  String get wifiOpenSettingsHint =>
+  String get bodyWifiOpenSettings =>
       'कूटशब्दः प्रतिलेखितः। संयोजनाय विन्यासः उद्घाट्यताम्।';
 
   @override
-  String wifiConnectSuccess(String ssid) {
+  String bodyWifiConnectSuccess(String ssid) {
     return '$ssid संजालाय संयोजनानुरोधः प्रेषितः।';
   }
 
   @override
-  String geoLatLng(String latitude, String longitude) {
+  String bodyGeoLatLng(String latitude, String longitude) {
     return 'अक्षांशः: $latitude, रेखांशः: $longitude';
   }
 
   @override
-  String geoQuery(String query) {
+  String bodyGeoQuery(String query) {
     return 'अन्वेषणम्: $query';
   }
 
   @override
-  String get geoNavigateButton => 'मानचित्रे पश्यतु';
+  String get actionGeoNavigate => 'मानचित्रे पश्यतु';
 
   @override
-  String get geoLaunchFailed => 'मानचित्र-अनुप्रयोगः न उद्घाटितः';
+  String get errorGeoLaunchFailed => 'मानचित्र-अनुप्रयोगः न उद्घाटितः';
 
   @override
-  String get calendarCardTitle => 'दिनदर्शिका-घटना';
+  String get titleCalendarCard => 'दिनदर्शिका-घटना';
 
   @override
-  String get calendarNoDate => 'अनुपलब्धम्';
+  String get labelCalendarNoDate => 'अनुपलब्धम्';
 
   @override
-  String calendarStart(String dateTime) {
+  String labelCalendarStart(String dateTime) {
     return 'प्रारम्भः: $dateTime';
   }
 
   @override
-  String calendarEnd(String dateTime) {
+  String labelCalendarEnd(String dateTime) {
     return 'समाप्तिः: $dateTime';
   }
 
   @override
-  String get calendarAddButton => 'दिनदर्शिकायां योज्यताम्';
+  String get actionCalendarAdd => 'दिनदर्शिकायां योज्यताम्';
 
   @override
-  String get calendarLaunchFailed => 'दिनदर्शिका-अनुप्रयोगः न उद्घाटितः';
+  String get errorCalendarLaunchFailed => 'दिनदर्शिका-अनुप्रयोगः न उद्घाटितः';
 
   @override
-  String get contactCardTitle => 'सम्पर्कपत्रम्';
+  String get titleContactCard => 'सम्पर्कपत्रम्';
 
   @override
-  String get contactInitialFallback => 'स';
+  String get labelContactInitialFallback => 'स';
 
   @override
-  String get contactSaveButton => 'सम्पर्केषु रक्ष्यताम्';
+  String get actionContactSave => 'सम्पर्केषु रक्ष्यताम्';
 
   @override
-  String get contactLaunchFailed => 'सम्पर्क-अनुप्रयोगः न उद्घाटितः';
+  String get errorContactLaunchFailed => 'सम्पर्क-अनुप्रयोगः न उद्घाटितः';
 
   @override
-  String contactCallFailed(String number) {
+  String errorContactCallFailed(String number) {
     return '$number अङ्के आह्वानं न जातम्';
   }
 
   @override
-  String contactEmailFailed(String email) {
+  String errorContactEmailFailed(String email) {
     return '$email सङ्केताय विद्युत्पत्रं न उद्घाटितम्';
   }
 
   @override
-  String pdfResultsTitle(int count) {
-    return 'पि-डि-एफ् संवीक्षा-फलानि ($count)';
+  String titlePdfResults(int count) {
+    return 'पि-डि-एफ्-सङ्केताः ($count)';
   }
 
   @override
-  String pdfPageBadge(int page) {
+  String labelPdfPageBadge(int page) {
     return 'पृ $page';
   }
 
   @override
-  String pdfPageLabel(int page) {
+  String labelPdfPage(int page) {
     return 'पृष्ठम् $page';
   }
 
   @override
-  String pdfSaveAllButton(int count) {
-    return 'सर्वाणि इतिहासे रक्ष्यताम् ($count)';
+  String actionPdfSaveAll(int count) {
+    return 'सर्वं रक्ष्यताम् ($count)';
   }
 
   @override
-  String pdfScanNote(int page) {
+  String bodyPdfScanNote(int page) {
     return 'पि-डि-एफ् सञ्चिकातः संवीक्षितम् (पृष्ठम् $page)';
   }
 
   @override
-  String pdfSavedToHistory(int count) {
-    return '$count सङ्केताः इतिहासे रक्षिताः।';
+  String bodyPdfSavedToHistory(int count) {
+    return '$count सङ्केताः इतिवृत्ते रक्षिताः।';
   }
 
   @override
-  String get totpDefaultIssuer => 'द्विघटक-प्रमाणीकरणम्';
+  String get labelTotpDefaultIssuer => 'द्विघटक-प्रमाणीकरणम्';
 
   @override
-  String totpLivePasscode(int period) {
+  String bodyTotpLivePasscode(int period) {
     return 'प्रत्यक्ष-सङ्केतः ($periodपलं TOTP)';
   }
 
   @override
-  String totpSecondsLeft(int seconds) {
+  String labelTotpSecondsLeft(int seconds) {
     return '$secondsपलानि';
   }
 
   @override
-  String get totpCopyToken => 'टोकनं प्रतिलिख्यताम्';
+  String get tooltipTotpCopyToken => 'टोकनं प्रतिलिख्यताम्';
 
   @override
-  String get totpSecretLabel => 'गूढ-कुञ्चिका: ';
+  String get labelTotpSecret => 'गूढ-कुञ्चिका: ';
 
   @override
-  String get totpImportButton => 'प्रमाणीकरणे योज्यताम्';
+  String get actionTotpImport => 'प्रमाणीकरणे योज्यताम्';
 
   @override
-  String get totpLaunchFailed => 'प्रमाणीकरण-अनुप्रयोगः न उद्घाटितः';
+  String get errorTotpLaunchFailed => 'प्रमाणीकरण-अनुप्रयोगः न उद्घाटितः';
 
   @override
-  String get totpTokenCopied => 'टोकनं फलके प्रतिलेखितम्';
+  String get bodyTotpTokenCopied => 'टोकनं फलके प्रतिलेखितम्';
 
   @override
-  String get totpSecretCopied => 'गूढ-कुञ्चिका फलके प्रतिलेखिता';
+  String get bodyTotpSecretCopied => 'गूढ-कुञ्चिका फलके प्रतिलेखिता';
 
   @override
-  String get paymentSchemeUpi => 'यु-पि-आई धनप्रेषणम्';
+  String get labelPaymentSchemeUpi => 'यु-पि-आई धनप्रेषणम्';
 
   @override
-  String get paymentSchemeSepa => 'सेपा प्रेषणम्';
+  String get labelPaymentSchemeSepa => 'सेपा प्रेषणम्';
 
   @override
-  String get paymentSchemeCrypto => 'क्रिप्टो धनप्रेषणम्';
+  String get labelPaymentSchemeCrypto => 'क्रिप्टो धनप्रेषणम्';
 
   @override
-  String get paymentPayeeFallback => 'प्राप्तिकर्ता';
+  String get labelPaymentPayeeFallback => 'प्राप्तिकर्ता';
 
   @override
-  String get paymentAddressLabelUpi => 'यु-पि-आई अभिज्ञानम्:';
+  String get labelPaymentAddressUpi => 'यु-पि-आई अभिज्ञानम्:';
 
   @override
-  String get paymentAddressLabelSepa => 'आई-बान् (IBAN):';
+  String get labelPaymentAddressSepa => 'आई-बान् (IBAN):';
 
   @override
-  String get paymentAddressLabelCrypto => 'कोश-सङ्केतः:';
+  String get labelPaymentAddressCrypto => 'कोश-सङ्केतः:';
 
   @override
-  String get paymentCopyAction => 'प्रतिलिख्यताम्';
+  String get actionPaymentCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get paymentUpiIdCopied => 'यु-पि-आई अभिज्ञानं फलके प्रतिलेखितम्';
+  String get bodyPaymentUpiIdCopied => 'यु-पि-आई अभिज्ञानं फलके प्रतिलेखितम्';
 
   @override
-  String get paymentAddressCopied => 'सङ्केतः फलके प्रतिलेखितः';
+  String get bodyPaymentAddressCopied => 'सङ्केतः फलके प्रतिलेखितः';
 
   @override
-  String paymentNote(String note) {
+  String bodyPaymentNote(String note) {
     return 'सूचना: $note';
   }
 
   @override
-  String get paymentPayButtonUpi =>
-      'अनुप्रयोगेन दीयताम् (GPay / PhonePe / Paytm)';
+  String get actionPaymentPayUpi => 'UPI-अनुप्रयोगेन दीयताम्';
 
   @override
-  String get paymentPayButton => 'अनुप्रयोगेन दीयताम्';
+  String get actionPaymentPay => 'अनुप्रयोगेन दीयताम्';
 
   @override
-  String get paymentUpiLaunchFailed => 'यु-पि-आई अनुप्रयोगः न उद्घाटितः।';
+  String get errorPaymentUpiLaunchFailed => 'यु-पि-आई अनुप्रयोगः न उद्घाटितः।';
 
   @override
-  String get paymentLaunchFailed => 'धनप्रेषण-अनुप्रयोगः न उद्घाटितः।';
+  String get errorPaymentLaunchFailed => 'धनप्रेषण-अनुप्रयोगः न उद्घाटितः।';
 
   @override
-  String get paymentCopyIdAction => 'अभिज्ञानं प्रतिलिख्यताम्';
+  String get actionPaymentCopyId => 'अभिज्ञानं प्रतिलिख्यताम्';
 
   @override
-  String get paymentAmountDialogTitle => 'धनराशिः लिख्यताम्';
+  String get titlePaymentAmountDialog => 'धनराशिः लिख्यताम्';
 
   @override
-  String paymentAmountDialogBody(String payee) {
+  String bodyPaymentAmountDialog(String payee) {
     return 'अस्मिन् QR-सङ्केते धनराशिः नास्ति। $payee इत्यस्मै देया धनराशिः लिख्यताम्।';
   }
 
   @override
-  String get paymentAmountFieldLabel => 'धनराशिः';
+  String get labelPaymentAmountField => 'धनराशिः';
 
   @override
-  String get paymentAmountInvalid => '₹1 अथवा अधिकं लिख्यताम्';
+  String get errorPaymentAmountInvalid => '₹1 अथवा अधिकं लिख्यताम्';
 
   @override
-  String get paymentAmountPayButton => 'दीयताम्';
+  String get actionPaymentAmountPay => 'दीयताम्';
 
   @override
-  String percentValue(String value) {
+  String labelPercentValue(String value) {
     return '$value%';
   }
 
   @override
-  String get quishingGuardTitle => 'क्विशिंग-रक्षकः™';
+  String get titleQuishingGuard => 'क्विशिंग-रक्षकः™';
 
   @override
-  String get quishingTamperBadge => 'भौतिक-विकृति-ज्ञानम्';
+  String get labelQuishingTamperBadge => 'भौतिक-विकृति-ज्ञानम्';
 
   @override
-  String get quishingRiskScoreLabel => 'विकृति-सम्भावना-मानाङ्कः:';
+  String get labelQuishingRiskScore => 'विकृति-सम्भावना-मानाङ्कः:';
 
   @override
-  String get quishingViewSignals => 'सूक्ष्म-विश्लेषणं दृश्यताम्';
+  String get actionQuishingViewSignals => 'संकेताः दृश्यन्ताम्';
 
   @override
-  String get quishingHideSignals => 'संकेताः गोप्यन्ताम्';
+  String get actionQuishingHideSignals => 'संकेताः गोप्यन्ताम्';
 
   @override
-  String get quishingMetricEdgeLabel => 'धार-विच्छेदः';
+  String get labelQuishingMetricEdge => 'धार-विच्छेदः';
 
   @override
-  String get quishingMetricEdgeDescription => 'द्विगुण-धाराः छाया-रेखाः च';
+  String get descQuishingMetricEdge => 'द्विगुण-धाराः छाया-रेखाः च';
 
   @override
-  String get quishingMetricGrainLabel => 'मुद्रण-कणाः DPI च';
+  String get labelQuishingMetricGrain => 'मुद्रण-कणाः DPI च';
 
   @override
-  String get quishingMetricGrainDescription => 'बिन्दु-घनत्वं वर्ण-ध्वनिः च';
+  String get descQuishingMetricGrain => 'बिन्दु-घनत्वं वर्ण-ध्वनिः च';
 
   @override
-  String get quishingSignalsHeading => 'दृष्टाः सङ्गणक-दृष्टि-संकेताः:';
+  String get titleQuishingSignals => 'दृष्टाः संकेताः:';
 
   @override
-  String get arCloseSheet => 'पिधीयताम्';
+  String get tooltipArCloseSheet => 'पिधीयताम्';
 
   @override
-  String arItemPriceTag(String price) {
+  String bodyArItemPriceTag(String price) {
     return 'मूल्य-पत्रम्: $price';
   }
 
   @override
-  String get arContentCopied => 'विषयः फलके प्रतिलेखितः';
+  String get bodyArContentCopied => 'विषयः फलके प्रतिलेखितः';
 
   @override
-  String get arCopyButton => 'प्रतिलिख्यताम्';
+  String get actionArCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get arOpenUrlButton => 'सङ्केतः उद्घाट्यताम्';
+  String get actionArOpenUrl => 'सङ्केतः उद्घाट्यताम्';
 
   @override
-  String get arSelectButton => 'चीयताम्';
+  String get actionArSelect => 'चीयताम्';
 
   @override
-  String get arDeselectButton => 'त्यज्यताम्';
+  String get actionArDeselect => 'त्यज्यताम्';
 
   @override
-  String get arSafetyStatusSafe => 'सुरक्षा-स्थितिः: सुरक्षिता';
+  String get bodyArSafetyStatusSafe => 'सुरक्षा-स्थितिः: सुरक्षिता';
 
   @override
-  String get arSafetyStatusWarning =>
+  String get bodyArSafetyStatusWarning =>
       'सुरक्षा-स्थितिः: पूर्वसूचना / कपट-सम्भावना';
 
   @override
-  String get arSafetyStatusUnknown => 'सुरक्षा-स्थितिः: परीक्षणं क्रियते...';
+  String get bodyArSafetyStatusUnknown =>
+      'सुरक्षा-स्थितिः: परीक्षणं क्रियते...';
 
   @override
-  String get copiedToClipboard => 'फलके प्रतिलिखितम्';
+  String get bodyCopiedToClipboard => 'फलके प्रतिलिखितम्';
 
   @override
-  String historyTimestamp(String date, String time) {
+  String bodyHistoryTimestamp(String date, String time) {
     return '$date • $time';
   }
 
   @override
-  String get historyStar => 'तारकम् योज्यताम्';
+  String get tooltipHistoryStar => 'तारकम् योज्यताम्';
 
   @override
-  String get historyUnstar => 'तारकम् अपनीयताम्';
+  String get tooltipHistoryUnstar => 'तारकम् अपनीयताम्';
 
   @override
-  String get historyEditNotes => 'टिप्पणी संशोध्यताम्';
+  String get actionHistoryEditNotes => 'टिप्पणी संशोध्यताम्';
 
   @override
-  String get historyCopyString => 'वाक्यं प्रतिलिख्यताम्';
+  String get tooltipHistoryCopyString => 'वाक्यं प्रतिलिख्यताम्';
 
   @override
-  String get historyShare => 'विभज्यताम्';
+  String get actionHistoryShare => 'विभज्यताम्';
 
   @override
-  String get historyDelete => 'लुप्यताम्';
+  String get actionHistoryDelete => 'लुप्यताम्';
 
   @override
-  String get historyDetailTitle => 'संवीक्षा-विवरणम्';
+  String get titleHistoryDetail => 'संवीक्षा-विवरणम्';
 
   @override
-  String historySafetyBadge(int score) {
+  String labelHistorySafetyBadge(int score) {
     return '🛡️ $score% सुरक्षितम्';
   }
 
   @override
-  String historyScoreBadge(int score) {
+  String labelHistoryScoreBadge(int score) {
     return '🛡️ $score%';
   }
 
   @override
-  String get historyScannedContent => 'संवीक्षित-विषयः:';
+  String get labelHistoryScannedContent => 'संवीक्षित-विषयः:';
 
   @override
-  String get historyCopyButton => 'प्रतिलिख्यताम्';
+  String get actionHistoryCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get historyNotesLabel => 'स्वनिर्मिता टिप्पणी';
+  String get labelHistoryNotes => 'स्वनिर्मिता टिप्पणी';
 
   @override
-  String get historyNotesHint => 'अत्र स्वटिप्पणीं लिखन्तु...';
+  String get helpHistoryNotes => 'अत्र स्वटिप्पणीं लिखन्तु...';
 
   @override
-  String get historyLocationLabel => 'स्थान-चिह्नम् (ऐच्छिकम्)';
+  String get labelHistoryLocation => 'स्थानम् (ऐच्छिकम्)';
 
   @override
-  String get historyLocationHint => 'यथा कार्यक्षेत्रम्, आपणम्';
+  String get helpHistoryLocation => 'यथा कार्यक्षेत्रम्, आपणम्';
 
   @override
-  String get historySaveChanges => 'परिवर्तनानि रक्ष्यन्ताम्';
+  String get actionHistorySaveChanges => 'परिवर्तनानि रक्ष्यन्ताम्';
 
   @override
-  String get closeButton => 'पिदधातु';
+  String get actionClose => 'पिदधातु';
 
   @override
-  String get exportDialogTitle => 'निर्यातः सञ्चयश्च';
+  String get titleExportDialog => 'निर्यातः सञ्चयश्च';
 
   @override
-  String get restoreDialogTitle => 'गूढ-सञ्चयः पुनःस्थाप्यताम्';
+  String get titleRestoreDialog => 'सञ्चय-पुनःस्थापनम्';
 
   @override
-  String get exportRecordsTab => 'अभिलेखान् निर्यापयतु';
+  String get tabExportRecords => 'अभिलेखान् निर्यापयतु';
 
   @override
-  String get restoreBackupTab => 'सञ्चयं पुनःस्थापयतु';
+  String get tabRestoreBackup => 'सञ्चयं पुनःस्थापयतु';
 
   @override
-  String get exportFormatHeading => 'निर्यात-प्रकारं वृणुताम्:';
+  String get titleExportFormat => 'निर्यात-प्रकारः:';
 
   @override
-  String get exportCsvTitle => 'CSV प्रकारः (.csv)';
+  String get labelExportCsv => 'CSV प्रकारः (.csv)';
 
   @override
-  String get exportCsvSubtitle => 'Excel, Sheets अनुगुणम्';
+  String get descExportCsv => 'Excel, Sheets अनुगुणम्';
 
   @override
-  String get exportJsonTitle => 'JSON दत्तांशः (.json)';
+  String get labelExportJson => 'JSON दत्तांशः (.json)';
 
   @override
-  String get exportJsonSubtitle => 'सङ्गणक-प्रकारः';
+  String get descExportJson => 'सङ्गणक-प्रकारः';
 
   @override
-  String get exportTxtTitle => 'TXT विवरणम् (.txt)';
+  String get labelExportTxt => 'TXT विवरणम् (.txt)';
 
   @override
-  String get exportTxtSubtitle => 'सरल-वाच्य-पत्रम्';
+  String get descExportTxt => 'सरल-वाच्य-पत्रम्';
 
   @override
-  String get exportPdfTitle => 'PDF विवरणम् (.pdf)';
+  String get labelExportPdf => 'PDF विवरणम् (.pdf)';
 
   @override
-  String get exportPdfSubtitle => 'मुद्रण-योग्यं पत्रम्';
+  String get descExportPdf => 'मुद्रण-योग्यं पत्रम्';
 
   @override
-  String get exportBackupHeading => 'गूढ-सञ्चय-सञ्चिका (.sreerajqr)';
+  String get titleExportBackup => 'गूढ-सञ्चयः';
 
   @override
-  String get exportPassphraseLabel => 'सञ्चयस्य कूटवाक्यम्';
+  String get labelExportPassphrase => 'सञ्चयस्य कूटवाक्यम्';
 
   @override
-  String get exportPassphraseHint => 'कूटवाक्यं लिखन्तु...';
+  String get helpExportPassphrase => 'कूटवाक्यं लिखन्तु...';
 
   @override
-  String get exportPassphraseRequired =>
+  String get errorExportPassphraseRequired =>
       'सञ्चय-रक्षणाय कूटवाक्यम् आवश्यकमस्ति।';
 
   @override
-  String get exportCreateBackupButton => 'गूढ-सञ्चय-सञ्चिका निर्मीयताम्';
+  String get actionExportCreateBackup => 'सञ्चयः निर्मीयताम्';
 
   @override
-  String get exportShareText => 'श्रीराज्-क्यू-आर-संवीक्षा-इतिहास-निर्यातः';
+  String get bodyExportShare => 'श्रीराज्-क्यू-आर-संवीक्षा-इतिवृत्त-निर्यातः';
 
   @override
-  String get exportSharePdfText =>
-      'श्रीराज्-क्यू-आर-संवीक्षा-इतिहास-पत्रम् (PDF)';
+  String get bodyExportSharePdf =>
+      'श्रीराज्-क्यू-आर-संवीक्षा-इतिवृत्त-पत्रम् (PDF)';
 
   @override
-  String get exportShareBackupText => 'श्रीराज्-क्यू-आर-गूढ-सञ्चय-सञ्चिका';
+  String get bodyExportShareBackup => 'श्रीराज्-क्यू-आर-गूढ-सञ्चय-सञ्चिका';
 
   @override
-  String get restoreHeading => 'गूढ-सञ्चयात् इतिहासः पुनःस्थाप्यताम्:';
+  String get titleRestore => 'सञ्चयात् पुनःस्थापनम्:';
 
   @override
-  String get restorePassphraseLabel => 'सञ्चय-कूटवाक्यम्';
+  String get labelRestorePassphrase => 'सञ्चयस्य कूटवाक्यम्';
 
   @override
-  String get restorePayloadLabel => 'सञ्चय-विषयः (.sreerajqr)';
+  String get labelRestorePayload => 'सञ्चय-विषयः';
 
   @override
-  String get restorePayloadHint => 'अत्र सञ्चय-JSON लिखन्तु...';
+  String get helpRestorePayload => 'अत्र सञ्चय-JSON लिखन्तु...';
 
   @override
-  String get restoreFieldsRequired => 'कूटवाक्यं सञ्चय-विषयश्च दातव्यौ।';
+  String get errorRestoreFieldsRequired => 'कूटवाक्यं सञ्चय-विषयश्च दातव्यौ।';
 
   @override
-  String get restoreButton => 'उद्घाट्य पुनःस्थाप्यताम्';
+  String get actionRestore => 'इतिवृत्तं पुनःस्थाप्यताम्';
 
   @override
-  String restoreSuccess(int count) {
+  String bodyRestoreSuccess(int count) {
     return '$count संवीक्षा-अभिलेखानि सफलतया पुनःस्थापितानि!';
   }
 
   @override
-  String restoreFailed(String reason) {
+  String errorRestoreFailed(String reason) {
     return 'पुनःस्थापनं विफलम्: $reason';
   }
 
   @override
-  String get domSandboxedBadge => 'सुरक्षित-कक्षे';
+  String get labelDomSandboxedBadge => 'सुरक्षित-कक्षे';
 
   @override
-  String get domTitleInitialFallback => 'जा';
+  String get labelDomTitleInitialFallback => 'जा';
 
   @override
-  String get domUntitledPage => 'अनाम-जालपृष्ठम्';
+  String get labelDomUntitledPage => 'अनाम-जालपृष्ठम्';
 
   @override
-  String get domThumbnailCaption => 'दृश्य-पूर्वदर्शनम् (आज्ञावलिः निरुद्धा)';
+  String get bodyDomThumbnailCaption =>
+      'दृश्य-पूर्वदर्शनम् (आज्ञावलिः निरुद्धा)';
 
   @override
-  String domBlockedBadge(int scripts, int trackers) {
+  String bodyDomBlockedBadge(int scripts, int trackers) {
     return 'निरुद्धाः: $scripts आज्ञावलयः, $trackers अनुवेधकाः';
   }
 
   @override
-  String domNewlyRegistered(int days) {
+  String bodyDomNewlyRegistered(int days) {
     return 'नूतनं पञ्जीकृतम् ($daysदिनानि)';
   }
 
   @override
-  String domDomainAge(int days) {
+  String bodyDomDomainAge(int days) {
     return 'क्षेत्र-आयुः: $days दिनानि';
   }
 
   @override
-  String get domOpenRedirectFound => 'अनावृत-पुनर्निर्देशन-पाशः!';
+  String get bodyDomOpenRedirectFound => 'अनावृत-पुनर्निर्देशन-पाशः!';
 
   @override
-  String get domNoOpenRedirect => 'न कोऽपि पुनर्निर्देशन-दोषः';
+  String get bodyDomNoOpenRedirect => 'न कोऽपि पुनर्निर्देशन-दोषः';
 
   @override
-  String get domInspectButton => 'कक्षा-संरचना परीक्ष्यताम्';
+  String get actionDomInspect => 'पृष्ठं परीक्ष्यताम्';
 
   @override
-  String get domInspectTitle => 'विश्वस्त-कक्षा-संरचना';
+  String get titleDomInspect => 'पृष्ठ-संरचना';
 
   @override
-  String get domDetailPageTitle => 'पृष्ठ-शीर्षकम्';
+  String get labelDomDetailPageTitle => 'पृष्ठ-शीर्षकम्';
 
   @override
-  String get domDetailNotSpecified => 'न निर्दिष्टम्';
+  String get labelDomDetailNotSpecified => 'न निर्दिष्टम्';
 
   @override
-  String get domDetailMetaDescription => 'मूल-विवरणम्';
+  String get labelDomDetailMetaDescription => 'मूल-विवरणम्';
 
   @override
-  String get domDetailNoneFound => 'न किमपि प्राप्तम्';
+  String get labelDomDetailNoneFound => 'न किमपि प्राप्तम्';
 
   @override
-  String get domDetailHeadingsCount => 'शीर्षक-सङ्ख्या';
+  String get labelDomDetailHeadingsCount => 'शीर्षक-सङ्ख्या';
 
   @override
-  String domDetailHeadingsValue(int count) {
+  String bodyDomDetailHeadingsValue(int count) {
     return '$count शीर्षकाणि निष्कासितानि';
   }
 
   @override
-  String get domDetailLinksFound => 'प्राप्ताः सेतवः';
+  String get labelDomDetailLinksFound => 'प्राप्ताः सेतवः';
 
   @override
-  String domDetailLinksValue(int count) {
+  String bodyDomDetailLinksValue(int count) {
     return '$count सङ्केताः निष्कासिताः';
   }
 
   @override
-  String get domDetailBlockedScripts => 'निरुद्धाः आज्ञावलयः';
+  String get labelDomDetailBlockedScripts => 'निरुद्धाः आज्ञावलयः';
 
   @override
-  String domDetailBlockedScriptsValue(int count) {
+  String bodyDomDetailBlockedScriptsValue(int count) {
     return '$count आज्ञावलयः विलोपिताः';
   }
 
   @override
-  String get domDetailBlockedTrackers => 'निरुद्धाः अनुवेधकाः';
+  String get labelDomDetailBlockedTrackers => 'निरुद्धाः अनुवेधकाः';
 
   @override
-  String domDetailBlockedTrackersValue(int count) {
+  String bodyDomDetailBlockedTrackersValue(int count) {
     return '$count अनुवेधकाः विलोपिताः';
   }
 
   @override
-  String get domDetailBlockedIframes => 'निरुद्धाः अन्तःपत्राणि';
+  String get labelDomDetailBlockedIframes => 'निरुद्धाः अन्तःपत्राणि';
 
   @override
-  String domDetailBlockedIframesValue(int count) {
+  String bodyDomDetailBlockedIframesValue(int count) {
     return '$count अन्तःपत्राणि विलोपितानि';
   }
 
   @override
-  String get domSanitizedSnippetHeading => 'शुद्ध-HTML पूर्वदर्शनम्:';
+  String get titleDomSanitizedSnippet => 'शुद्ध-HTML पूर्वदर्शनम्:';
 
   @override
-  String get aboutTitle => 'विषये';
+  String get titleAbout => 'विषये';
 
   @override
-  String aboutVersion(String version, String build) {
+  String bodyAboutVersion(String version, String build) {
     return 'संस्करणम् $version+$build';
   }
 
   @override
-  String get aboutBuildDate => 'निर्माणदिनाङ्कः';
+  String get labelAboutBuildDate => 'निर्माणदिनाङ्कः';
 
   @override
-  String get aboutOpenSourceLicenses => 'मुक्तस्रोत-अनुज्ञाः';
+  String get labelAboutOpenSourceLicenses => 'मुक्तस्रोत-अनुज्ञाः';
 
   @override
-  String get aboutOpenSourceLicensesDetail =>
+  String get descAboutOpenSourceLicenses =>
       'दण्डलेखा-विकोडकः zxing-cpp (Apache-2.0) अत्र अन्तर्भवति। सर्वाः अनुज्ञाः द्रष्टुं स्पृशतु।';
 
   @override
@@ -588,333 +589,326 @@ class AppLocalizationsSa extends AppLocalizations {
   String get madeWithLoveA11y => 'स्नेहेन भारततः निर्मितम्';
 
   @override
-  String get aboutMadeWithLove => 'Made with ❤️ from India';
+  String get titleAirQrTransmitter => 'वायु-क्यूआर प्रसारकः';
 
   @override
-  String get airQrTransmitterTitle => 'वायु-क्यूआर प्रसारकः';
-
-  @override
-  String get airQrSamplePayload =>
+  String get bodyAirQrSamplePayload =>
       'वायु-क्यूआर शीघ्र-प्रकाश-हस्तान्तरण-परीक्षण-विषयः।';
 
   @override
-  String get airQrPayloadLabel => 'प्रसारणीयः विषयः';
+  String get labelAirQrPayload => 'प्रसारणीयः विषयः';
 
   @override
-  String get airQrPayloadHint => 'लेखं सन्देशं वा लिखन्तु...';
+  String get helpAirQrPayload => 'लेखं सन्देशं वा लिखन्तु...';
 
   @override
-  String get airQrStreamSpeed => 'प्रसारण-गतिः:';
+  String get labelAirQrStreamSpeed => 'प्रसारण-गतिः:';
 
   @override
-  String airQrFps(int fps) {
+  String labelAirQrFps(int fps) {
     return '$fps FPS';
   }
 
   @override
-  String get airQrStartStream => 'प्रकाश-प्रसारणं प्रारभ्यताम्';
+  String get actionAirQrStartStream => 'प्रकाश-प्रसारणं प्रारभ्यताम्';
 
   @override
-  String get airQrStopStream => 'प्रकाश-प्रसारणं स्थग्यताम्';
+  String get actionAirQrStopStream => 'प्रकाश-प्रसारणं स्थग्यताम्';
 
   @override
-  String airQrFrameParity(int current, int total) {
+  String bodyAirQrFrameParity(int current, int total) {
     return 'चित्रम् $current/$total [समता]';
   }
 
   @override
-  String airQrFrameBlock(int current, int total, int block) {
+  String bodyAirQrFrameBlock(int current, int total, int block) {
     return 'चित्रम् $current/$total [खण्डः $block]';
   }
 
   @override
-  String airQrTotalFrames(int total, int source, int parity) {
+  String bodyAirQrTotalFrames(int total, int source, int parity) {
     return 'कुल-चित्राणि: $total ($source मूलानि + $parity समता)';
   }
 
   @override
-  String get toggleFlashlight => 'प्रकाशदीपं परिवर्तयतु';
+  String get tooltipToggleFlashlight => 'प्रकाशदीपं परिवर्तयतु';
 
   @override
-  String get grantCameraPermission => 'चित्रग्राह्यनुमतिं ददातु';
+  String get actionGrantCameraPermission => 'चित्रग्राह्यनुमतिं ददातु';
 
   @override
-  String get arScreenTitle => 'AR संवीक्षा-फलकम्';
+  String get titleArScreen => 'AR संवीक्षा-फलकम्';
 
   @override
-  String get arInitializing => 'AR फलकम् आरभ्यते...';
+  String get bodyArInitializing => 'AR फलकम् आरभ्यते...';
 
   @override
-  String get arClearSelection => 'प्रमृज्यताम्';
+  String get actionArClearSelection => 'प्रमृज्यताम्';
 
   @override
-  String get arBatchCopy => 'एकत्र प्रतिलिख्यताम्';
+  String get actionArBatchCopy => 'एकत्र प्रतिलिख्यताम्';
 
   @override
-  String arBatchCopied(int count) {
+  String bodyArBatchCopied(int count) {
     return '$count दण्डलेखाः फलके प्रतिलेखिताः';
   }
 
   @override
-  String get arCameraPermissionMessage =>
+  String get bodyArCameraPermission =>
       'AR संवीक्षणाय छायाचित्रक-अनुमतिः आवश्यकी';
 
   @override
-  String get doneButton => 'कृतम्';
+  String get actionDone => 'कृतम्';
 
   @override
-  String get airQrReceiverTitle => 'वायु-क्यूआर ग्राहकः';
+  String get titleAirQrReceiver => 'वायु-क्यूआर ग्राहकः';
 
   @override
-  String get airQrTransmitterTooltip => 'वायु-क्यूआर प्रसारकः';
+  String get tooltipAirQrTransmitter => 'वायु-क्यूआर प्रसारकः';
 
   @override
-  String get airQrResetStream => 'पुनःस्थाप्यताम्';
+  String get tooltipAirQrResetStream => 'पुनःस्थाप्यताम्';
 
   @override
-  String get airQrInitializing => 'वायु-क्यूआर ग्राहकः आरभ्यते...';
+  String get bodyAirQrInitializing => 'वायु-क्यूआर ग्राहकः आरभ्यते...';
 
   @override
-  String get airQrStatusReassembled => 'विषयः पुनः संयोजितः';
+  String get bodyAirQrStatusReassembled => 'विषयः पुनः संयोजितः';
 
   @override
-  String get airQrStatusCapturing => 'प्रकाश-प्रवाहः गृह्यते...';
+  String get bodyAirQrStatusCapturing => 'प्रकाश-प्रवाहः गृह्यते...';
 
   @override
-  String get airQrStatusIdle => 'चल-क्यूआर प्रति पश्यतु';
+  String get bodyAirQrStatusIdle => 'चल-क्यूआर प्रति पश्यतु';
 
   @override
-  String airQrCaptured(int received, int total) {
+  String bodyAirQrCaptured(int received, int total) {
     return 'सङ्गृहीतम्: $received / $total खण्डाः';
   }
 
   @override
-  String airQrMissing(int count) {
+  String bodyAirQrMissing(int count) {
     return 'अवशिष्टम्: $count';
   }
 
   @override
-  String get airQrTransferComplete => 'हस्तान्तरणं सम्पूर्णम्!';
+  String get titleAirQrTransferComplete => 'हस्तान्तरणं सम्पूर्णम्!';
 
   @override
-  String get airQrTransferCompleteDetail =>
-      'दत्तांशः पुनः संयोजितः प्रमाणितश्च।';
+  String get bodyAirQrTransferComplete => 'दत्तांशः पुनः संयोजितः प्रमाणितश्च।';
 
   @override
-  String get airQrPayloadCopied => 'विषयः फलके प्रतिलेखितः';
+  String get bodyAirQrPayloadCopied => 'विषयः फलके प्रतिलेखितः';
 
   @override
-  String get cancelButton => 'निरस्यतु';
+  String get actionCancel => 'निरस्यतु';
 
   @override
-  String get historyScreenTitle => 'संवीक्षा-इतिहासः';
+  String get titleHistoryScreen => 'संवीक्षा-इतिवृत्तम्';
 
   @override
-  String get historyExportTooltip => 'निर्यातः / सञ्चयः';
+  String get tooltipHistoryExport => 'निर्यातः / सञ्चयः';
 
   @override
-  String get historyClearAll => 'सर्वं प्रमृज्यताम्';
+  String get actionHistoryClearAll => 'सर्वं प्रमृज्यताम्';
 
   @override
-  String get historyClearTitle => 'इतिहासः प्रमृज्यतां वा?';
+  String get titleHistoryClear => 'इतिवृत्तं प्रमृज्यतां वा?';
 
   @override
-  String get historyClearMessage =>
-      'किं सर्वः संवीक्षा-इतिहासः विलोपनीयः? विना सञ्चयं कृत्वा पुनः न लभ्यते।';
+  String get bodyHistoryClear =>
+      'किं सर्वं संवीक्षा-इतिवृत्तं विलोपनीयम्? विना सञ्चयं कृत्वा पुनः न लभ्यते।';
 
   @override
-  String get historySearchHint => 'इतिहासेऽन्विष्यताम्...';
+  String get helpHistorySearch => 'इतिवृत्तेऽन्विष्यताम्...';
 
   @override
-  String get historyFilterAll => 'सर्वम्';
+  String get labelHistoryFilterAll => 'सर्वम्';
 
   @override
-  String get historyFilterStarred => 'तारकाङ्कितानि';
+  String get labelHistoryFilterStarred => 'तारकाङ्कितानि';
 
   @override
-  String get historyFilterUrls => 'सङ्केताः';
+  String get labelHistoryFilterUrls => 'सङ्केताः';
 
   @override
-  String get historyFilterWifi => 'वै-फाई';
+  String get labelHistoryFilterWifi => 'वै-फाई';
 
   @override
-  String get historyFilterContacts => 'सम्पर्काः';
+  String get labelHistoryFilterContacts => 'सम्पर्काः';
 
   @override
-  String get historyFilterText => 'लेखः';
+  String get labelHistoryFilterText => 'लेखः';
 
   @override
-  String get historyFilterBarcodes => 'दण्डलेखाः';
+  String get labelHistoryFilterBarcodes => 'दण्डलेखाः';
 
   @override
-  String get historyEmptyTitle => 'न कोऽपि संवीक्षा-अभिलेखः प्राप्तः';
+  String get emptyHistoryTitle => 'न कोऽपि संवीक्षा-अभिलेखः प्राप्तः';
 
   @override
-  String get historyEmptyMessage =>
+  String get emptyHistoryMessage =>
       'संवीक्षिताः सङ्केताः अत्र स्वयमेव आगमिष्यन्ति।';
 
   @override
-  String historyNoMatches(String query) {
+  String emptyHistoryNoMatches(String query) {
     return '\"$query\" कृते न किमपि प्राप्तम्';
   }
 
   @override
-  String get moreOptions => 'अधिकविकल्पाः';
+  String get tooltipMoreOptions => 'अधिकविकल्पाः';
 
   @override
-  String get menuHistory => 'इतिहासः';
+  String get actionMenuHistory => 'इतिवृत्तम्';
 
   @override
-  String get menuSettings => 'विन्यासाः';
+  String get actionMenuSettings => 'विन्यासाः';
 
   @override
-  String get grantPermission => 'अनुज्ञां ददातु';
+  String get actionGrantPermission => 'अनुज्ञां ददातु';
 
   @override
-  String get scanFromGallery => 'वीथिकायाः चित्रपरीक्षणम्';
+  String get tooltipScanFromGallery => 'वीथिकायाः चित्रपरीक्षणम्';
 
   @override
-  String get scanPdfDocument => 'PDF-प्रलेखपरीक्षणम्';
+  String get tooltipScanPdfDocument => 'PDF-प्रलेखपरीक्षणम्';
 
   @override
-  String get scanPdfProgress => 'PDF-पृष्ठानि विविच्य परीक्ष्यन्ते...';
+  String get bodyScanPdfProgress => 'PDF-पृष्ठानि विविच्य परीक्ष्यन्ते...';
 
   @override
-  String get scanSharedPdfProgress => 'सम्भक्त-PDF-प्रलेखस्य परीक्षणम्...';
+  String get bodyScanSharedPdfProgress => 'सम्भक्त-PDF-प्रलेखस्य परीक्षणम्...';
 
   @override
-  String get scanInitializingCamera => 'चित्रग्राही सज्जक्रियते...';
+  String get bodyScanInitializingCamera => 'चित्रग्राही सज्जक्रियते...';
 
   @override
-  String get scanInitializingFeed => 'चित्रग्राहीप्रवाहः सज्जक्रियते...';
+  String get bodyScanInitializingFeed => 'चित्रग्राहीप्रवाहः सज्जक्रियते...';
 
   @override
-  String get scanTorchTooltip => 'द्योतकदीपः';
+  String get tooltipScanZoom => 'विस्तारसर्पकम्';
 
   @override
-  String get scanZoomTooltip => 'विस्तारसर्पकम्';
+  String get tooltipScanFlipCamera => 'चित्रग्राहीपरिवर्तनम् (पुरतः/पृष्ठतः)';
 
   @override
-  String get scanFlipCameraTooltip => 'चित्रग्राहीपरिवर्तनम् (पुरतः/पृष्ठतः)';
-
-  @override
-  String scanZoomValue(String value) {
+  String labelScanZoomValue(String value) {
     return '${value}x';
   }
 
   @override
-  String get scanViewfinderHint => 'सङ्केतं कोष्ठे स्थापयतु';
+  String get helpScanViewfinder => 'सङ्केतं कोष्ठे स्थापयतु';
 
   @override
-  String get scanCameraPermissionRequired => 'चित्रग्राह्यनुमतिः आवश्यकी';
+  String get bodyScanCameraPermissionRequired => 'चित्रग्राह्यनुमतिः आवश्यकी';
 
   @override
-  String get copiedLabel => 'प्रतिलिखितम्!';
+  String get labelCopied => 'प्रतिलिखितम्!';
 
   @override
-  String get hideAction => 'गूढयतु';
+  String get actionHide => 'गूढयतु';
 
   @override
-  String get revealAction => 'दर्शयतु';
+  String get actionReveal => 'दर्शयतु';
 
   @override
-  String get openAnywayButton => 'तथापि उद्घाटयतु';
+  String get actionOpenAnyway => 'तथापि उद्घाटयतु';
 
   @override
-  String get resultScreenTitle => 'अन्वीक्षणफलम्';
+  String get titleResultScreen => 'अन्वीक्षणफलम्';
 
   @override
-  String get resultNoResult => 'फलं न लब्धम्';
+  String get bodyResultNoResult => 'फलं न लब्धम्';
 
   @override
-  String get resultContentLabel => 'विषयः:';
+  String get labelResultContent => 'विषयः:';
 
   @override
-  String get resultDecoyContentLabel => 'सार्वजनिकविषयः:';
+  String get labelResultDecoyContent => 'सार्वजनिकविषयः:';
 
   @override
-  String get resultDetectedType => 'लब्धप्रकारः:';
+  String get labelResultDetectedType => 'लब्धप्रकारः:';
 
   @override
-  String get resultTypeStego => 'STEGO-QR (गूढद्विस्तरम्)';
+  String get labelResultTypeStego => 'STEGO-QR (गूढद्विस्तरम्)';
 
   @override
-  String get resultRecheckButton => 'पुनरीक्षताम्';
+  String get actionResultRecheck => 'पुनरीक्षताम्';
 
   @override
-  String get resultOpenInBrowser => 'जालगवेषके उद्घाटयतु';
+  String get actionResultOpenInBrowser => 'जालगवेषके उद्घाटयतु';
 
   @override
-  String get resultCopyText => 'पाठं प्रतिलिखतु';
+  String get actionResultCopyText => 'पाठं प्रतिलिखतु';
 
   @override
-  String get resultCopyDecoyText => 'सार्वजनिकपाठं प्रतिलिखतु';
+  String get actionResultCopyDecoyText => 'सार्वजनिकपाठं प्रतिलिखतु';
 
   @override
-  String get resultShareText => 'पाठं विभजतु';
+  String get actionResultShareText => 'पाठं विभजतु';
 
   @override
-  String get resultShareDecoyText => 'सार्वजनिकपाठं विभजतु';
+  String get actionResultShareDecoyText => 'सार्वजनिकपाठं विभजतु';
 
   @override
-  String get resultScanAnother => 'अन्यसङ्केतं परीक्षताम्';
+  String get actionResultScanAnother => 'अन्यसङ्केतं परीक्षताम्';
 
   @override
-  String get resultLaunchFailed => 'जालसङ्केतं उद्घाटयितुं न शक्तम्';
+  String get errorResultLaunchFailed => 'जालसङ्केतं उद्घाटयितुं न शक्तम्';
 
   @override
-  String get stegoUnlockedMessage => 'गूढ-AES-256-विषयः सफलतया उद्घाटितः।';
+  String get bodyStegoUnlocked => 'गूढ-AES-256-विषयः सफलतया उद्घाटितः।';
 
   @override
-  String get stegoLockedMessage =>
+  String get bodyStegoLocked =>
       'अस्मिन् सङ्केते गूढं विषयमस्ति। दर्शनाय प्रमाणीकरणं कुरुत।';
 
   @override
-  String get stegoBiometricUnlock => 'जैविक-प्रवेशः';
+  String get actionStegoBiometricUnlock => 'जैविक-प्रवेशः';
 
   @override
-  String get stegoPassphrase => 'कूटवाक्यम्';
+  String get labelStegoPassphrase => 'कूटवाक्यम्';
 
   @override
-  String get stegoSecretPayload => 'गूढ-विषयः:';
+  String get labelStegoSecretPayload => 'गूढ-विषयः:';
 
   @override
-  String get stegoCopySecret => 'गूढं प्रतिलिख्यताम्';
+  String get actionStegoCopySecret => 'गूढं प्रतिलिख्यताम्';
 
   @override
-  String get stegoShareSecret => 'गूढं विभज्यताम्';
+  String get actionStegoShareSecret => 'गूढं विभज्यताम्';
 
   @override
-  String get stegoSecretCopied => 'गूढं फलके प्रतिलेखितम्';
+  String get bodyStegoSecretCopied => 'गूढं फलके प्रतिलेखितम्';
 
   @override
-  String get stegoDialogTitleBiometric => 'जैविकम् + कूटवाक्यम्';
+  String get titleStegoDialogBiometric => 'जैविक-उद्घाटनम्';
 
   @override
-  String get stegoDialogTitlePassphrase => 'कूटवाक्यं दीयताम्';
+  String get titleStegoDialogPassphrase => 'कूटवाक्यं दीयताम्';
 
   @override
-  String get stegoDialogMessageBiometric =>
+  String get bodyStegoDialogBiometric =>
       'प्रमाणीकरणाय कूटवाक्यं दृढीक्रियताम्।';
 
   @override
-  String get stegoDialogMessagePassphrase =>
+  String get bodyStegoDialogPassphrase =>
       'गूढ-रक्षणाय प्रयुक्तं कूटवाक्यं लिख्यताम्।';
 
   @override
-  String get stegoUnlockButton => 'उद्घाट्यताम्';
+  String get actionStegoUnlock => 'उद्घाट्यताम्';
 
   @override
-  String get safetyCheckInProgress => 'सुरक्षा-परीक्षणं प्रचलति';
+  String get titleSafetyCheckInProgress => 'सुरक्षा-परीक्षणं प्रचलति';
 
   @override
-  String get safetyAnalysisTitle => 'सङ्केत-सुरक्षा-विश्लेषणम्';
+  String get titleSafetyAnalysis => 'सङ्केत-सुरक्षा-विश्लेषणम्';
 
   @override
-  String get safetyAnalyzing => 'सुरक्षा-विश्लेषणं क्रियते...';
+  String get bodySafetyAnalyzing => 'सुरक्षा-विश्लेषणं क्रियते...';
 
   @override
-  String safetyIssuesDetected(int count) {
+  String bodySafetyIssuesDetected(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -925,1479 +919,1372 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String get safetyNoIssues => 'न कोऽपि दोषः प्राप्तः';
+  String get bodySafetyNoIssues => 'न कोऽपि दोषः प्राप्तः';
 
   @override
-  String get safetyTrustSourceHint =>
+  String get helpSafetyTrustSource =>
       'यदि स्रोतः विश्वस्तः तर्हि एव उद्घाट्यताम्';
 
   @override
-  String get safetyResultsHeading => 'सुरक्षा-विश्लेषण-फलानि:';
+  String get titleSafetyResults => 'सुरक्षा-विश्लेषण-फलानि:';
 
   @override
-  String get probingBannerActive =>
+  String get bodyProbingBannerActive =>
       'सक्रिय-परीक्षणं प्रवृत्तम्: अनेन जालेन सह साक्षात् सम्पर्कः जातः।';
 
   @override
-  String get probingBannerPrivate =>
-      'एकान्त-विधिः: स्थानीय-नियमाः एव प्रयुक्ताः। साक्षात् सम्पर्कः न जातः।';
+  String get bodyProbingBannerPrivate =>
+      'एकान्त-विधिः: जालस्थानेन सह साक्षात् सम्पर्कः न जातः, अतः भवतः IP-सङ्केतः तेन न ज्ञातः। स्थानीय-नियमाः भवता सक्रियीकृताः सुरक्षा-सेवाः च एव प्रयुक्ताः।';
 
   @override
-  String get warningDialogTitle => 'सुरक्षाचेतावनी';
+  String get titleWarningDialog => 'सुरक्षाचेतावनी';
 
   @override
-  String get warningDialogMessage =>
+  String get bodyWarningDialog =>
       'अस्मिन् जाले सुरक्षादोषाः सन्ति। अस्योद्घाटनेन यन्त्रस्य हानिः सम्भवेत्।\n\nकिं भवन्तः अग्रे गन्तुम् इच्छन्ति?';
 
   @override
-  String get cautionDialogTitle => 'सावधानता';
+  String get titleCautionDialog => 'सावधानता';
 
   @override
-  String get cautionDialogMessage =>
+  String get bodyCautionDialog =>
       'क्यूआर्-सङ्केतोद्घाटनात् पूर्वं मूलं सत्यापयतु।\n\nकिम् इदम् उद्घाटनीयम्?';
 
   @override
-  String get overlayLaserLine => 'दीप्तिरेखा';
+  String get labelOverlayLaserLine => 'दीप्तिरेखा';
 
   @override
-  String get overlayPulsingCorners => 'स्फुरन्तौ कोणाः';
+  String get labelOverlayPulsingCorners => 'स्फुरन्तौ कोणाः';
 
   @override
-  String get overlayCyberneticGrid => 'तन्त्रजालिका';
+  String get labelOverlayCyberneticGrid => 'तन्त्रजालिका';
 
   @override
-  String get overlaySubtleDotMatrix => 'बिन्दुमात्रिका';
+  String get labelOverlaySubtleDotMatrix => 'बिन्दुमात्रिका';
 
   @override
-  String get overlayLaserLineDesc =>
+  String get descOverlayLaserLine =>
       'उज्ज्वलदीप्तिरेखायुक्तम् अन्वीक्षणकोष्ठम्';
 
   @override
-  String get overlayPulsingCornersDesc => 'दीप्तियुक्ताः चलन्तश्च कोणाः';
+  String get descOverlayPulsingCorners => 'दीप्तियुक्ताः चलन्तश्च कोणाः';
 
   @override
-  String get overlayCyberneticGridDesc => 'वैज्ञानिकजालिकायुक्तः संस्तरः';
+  String get descOverlayCyberneticGrid => 'वैज्ञानिकजालिकायुक्तः संस्तरः';
 
   @override
-  String get overlaySubtleDotMatrixDesc => 'सूक्ष्मबिन्दुमात्रिकायुक्ता शैली';
+  String get descOverlaySubtleDotMatrix => 'सूक्ष्मबिन्दुमात्रिकायुक्ता शैली';
 
   @override
-  String get themeSystemDefault => 'तन्त्रमानकम्';
+  String get labelThemeSystemDefault => 'तन्त्रमानकम्';
 
   @override
-  String get themeLight => 'प्रकाशरूपम्';
+  String get labelThemeLight => 'प्रकाशरूपम्';
 
   @override
-  String get themeDark => 'तिमिररूपम्';
+  String get labelThemeDark => 'तिमिररूपम्';
 
   @override
-  String get themeOled => 'शुद्धकृष्णम्';
+  String get labelThemeOled => 'शुद्धकृष्णम्';
 
   @override
-  String get themeModeHeading => 'रूपविधा';
+  String get titleThemeMode => 'रूपविधा';
 
   @override
-  String get themeChipSystem => 'तन्त्रम्';
+  String get labelThemeChipSystem => 'तन्त्रम्';
 
   @override
-  String get themeChipLight => 'प्रकाशः';
+  String get labelThemeChipLight => 'प्रकाशः';
 
   @override
-  String get themeChipDark => 'तिमिरम्';
+  String get labelThemeChipDark => 'तिमिरम्';
 
   @override
-  String get themeChipOled => 'कृष्णम्';
+  String get labelThemeChipOled => 'कृष्णम्';
 
   @override
-  String get themeDynamicColorsTitle => 'मटीरियलयू गतिकवर्णाः';
+  String get labelThemeDynamicColors => 'मटीरियलयू गतिकवर्णाः';
 
   @override
-  String get themeDynamicColorsSubtitle =>
+  String get descThemeDynamicColors =>
       'एण्ड्रायड् १२+ भित्तिचित्रवर्णानाम् उपयोगः';
 
   @override
-  String get themeDescSystem => 'तन्त्रविन्यासम् अनुसरतु';
+  String get descThemeSystem => 'तन्त्रविन्यासम् अनुसरतु';
 
   @override
-  String get themeDescLight => 'मानकप्रकाशविधा';
+  String get descThemeLight => 'मानकप्रकाशविधा';
 
   @override
-  String get themeDescDark => 'मानकतिमिरविधा';
+  String get descThemeDark => 'मानकतिमिरविधा';
 
   @override
-  String get themeDescOled => 'शुद्धकृष्णम् (ऊर्जासंरक्षणम्)';
+  String get descThemeOled => 'शुद्धकृष्णम् (ऊर्जासंरक्षणम्)';
 
   @override
-  String get settingsTitle => 'विन्यासाः';
+  String get titleSettings => 'विन्यासाः';
 
   @override
-  String get settingsFeedbackTitle => 'प्रतिसादः सूचनाश्च';
+  String get labelSettingsFeedback => 'प्रतिसादः सूचनाश्च';
 
   @override
-  String get settingsPrivacyTitle => 'गोपनीयता जालपरीक्षणं च';
+  String get labelSettingsPrivacy => 'गोपनीयता जालपरीक्षणं च';
 
   @override
-  String get settingsSafeBrowsingTitle => 'गूगल-सुरक्षितसञ्चार-API';
+  String get labelSettingsPermissions => 'अनुमतयः';
 
   @override
-  String get settingsPermissionsTitle => 'अनुमतयः';
+  String get descSettingsPermissions => 'प्रत्यक्षाः अन्तर्निहिताश्च अनुमतयः';
 
   @override
-  String get settingsPermissionsSubtitle =>
-      'प्रत्यक्षाः अन्तर्निहिताश्च अनुमतयः';
+  String get labelSettingsHelp => 'साहाय्यं वैशिष्ट्यानि च';
 
   @override
-  String get settingsHelpTitle => 'साहाय्यं वैशिष्ट्यानि च';
+  String get descSettingsHelp => 'ए-आर् दृष्टिः, वायु-क्यूआर्, जालसुरक्षा च';
 
   @override
-  String get settingsHelpSubtitle =>
-      'ए-आर् दृष्टिः, वायु-क्यूआर्, जालसुरक्षा च';
+  String get descSettingsAbout => 'संस्करणं, विधाता, अनुज्ञापत्रविवरणं च';
 
   @override
-  String get settingsAboutSubtitle => 'संस्करणं, विधाता, अनुज्ञापत्रविवरणं च';
+  String get labelFeedbackVibration => 'कम्पनप्रतिसादः';
 
   @override
-  String get feedbackVibrationTitle => 'कम्पनप्रतिसादः';
+  String get descFeedbackVibration => 'सङ्केतान्वीक्षणे दूरवाणीं कम्पयतु';
 
   @override
-  String get feedbackVibrationSubtitle => 'सङ्केतान्वीक्षणे दूरवाणीं कम्पयतु';
+  String get labelFeedbackSound => 'ध्वनिप्रतिसादः';
 
   @override
-  String get feedbackSoundTitle => 'ध्वनिप्रतिसादः';
+  String get descFeedbackSound => 'सङ्केतान्वीक्षणे ध्वनिं जनयतु';
 
   @override
-  String get feedbackSoundSubtitle => 'सङ्केतान्वीक्षणे ध्वनिं जनयतु';
+  String get labelFeedbackAnimation => 'पुष्टीकरणसञ्चलनम्';
 
   @override
-  String get feedbackAnimationTitle => 'पुष्टीकरणसञ्चलनम्';
-
-  @override
-  String get feedbackAnimationSubtitle =>
+  String get descFeedbackAnimation =>
       'सङ्केतान्वीक्षणे जालकस्पन्दनं सम्यक्-चिह्नं च दर्शयतु';
 
   @override
-  String get privacyScreenTitle => 'गोपनीयता जालपरीक्षणं च';
+  String get titlePrivacyScreen => 'गोपनीयता जालपरीक्षणं च';
 
   @override
-  String get privacyActiveChecksTitle => 'सक्रियजालपरीक्षणम्';
+  String get labelPrivacyActiveChecks => 'सक्रियजालपरीक्षणम्';
 
   @override
-  String get privacySummaryOn => 'सक्रियजालपरीक्षणं प्रवर्तितम्';
+  String get descPrivacySummaryOn => 'सक्रियजालपरीक्षणं प्रवर्तितम्';
 
   @override
-  String get privacySummaryOff => 'केवलम् अन्तस्थगोप्यपरीक्षणम्';
+  String get descPrivacySummaryOff => 'केवलम् अन्तस्थगोप्यपरीक्षणम्';
 
   @override
-  String get apiKeyConfigured => 'विन्यस्तम्';
+  String get labelApiKeyConfigured => 'विन्यस्तम्';
 
   @override
-  String get apiKeyNotConfigured => 'न विन्यस्तम्';
+  String get labelApiKeyNotConfigured => 'न विन्यस्तम्';
 
   @override
-  String get apiKeySaved => 'API-कुञ्चिका सुरक्षिता';
+  String get titleApiKeyDelete => 'API-कुञ्चिकां विलोपयतु';
 
   @override
-  String get apiKeyDeleted => 'API-कुञ्चिका अपाकृता';
+  String get actionDelete => 'विलोपयतु';
 
   @override
-  String get apiKeyDeleteTitle => 'API-कुञ्चिकां विलोपयतु';
+  String get actionApiKeySave => 'कुञ्चिकां रक्षतु';
 
   @override
-  String get deleteButton => 'विलोपयतु';
+  String get titlePermissionsScreen => 'अनुमतिविवरणम्';
 
   @override
-  String get apiAboutHeading => 'सुरक्षितसञ्चार-API विषयम्';
+  String get helpPermissionsExplicitHeading => 'प्रत्यक्षसञ्चालनानुमतयः';
 
   @override
-  String get apiKeyConfiguredTitle => 'API-कुञ्चिका विन्यस्ता';
-
-  @override
-  String get apiKeyConfiguredSubtitle => 'दुष्टसङ्केतपरीक्षणं सक्रियम्';
-
-  @override
-  String get apiLimitReached => 'दैनिकसीमा समाप्ता। श्वः पुनरारम्भः।';
-
-  @override
-  String get apiLimitApproaching => 'दैनिकसीमा समीपे वर्तते';
-
-  @override
-  String get apiKeyFieldLabel => 'API-कुञ्चिका';
-
-  @override
-  String get apiKeyFieldHint => 'गूगल-सुरक्षितसञ्चार-API कुञ्चिकां निवेशयतु';
-
-  @override
-  String get apiKeyRequired => 'API-कुञ्चिका आवश्यकी';
-
-  @override
-  String get apiKeyTooShort => 'कुञ्चिकायाः दैर्घ्यम् अपर्याप्तम्';
-
-  @override
-  String get apiKeySaveButton => 'कुञ्चिकां रक्षतु';
-
-  @override
-  String get apiHowToHeading => 'API-कुञ्चिकां कथं प्राप्नुयात्';
-
-  @override
-  String get apiStep1Title => 'गूगल-क्लाउड-मञ्चं गच्छतु';
-
-  @override
-  String get apiStep1Desc => 'console.cloud.google.com पश्यतु';
-
-  @override
-  String get apiStep2Title => 'प्रकल्पं चिनोतु रचयतु वा';
-
-  @override
-  String get apiStep2Desc => 'विद्यमानं प्रकल्पं चिनोतु नूतनं वा रचयतु';
-
-  @override
-  String get apiStep3Title => 'सुरक्षितसञ्चार-API प्रवर्तयतु';
-
-  @override
-  String get apiStep4Title => 'प्रमाणपत्राणि सृजतु';
-
-  @override
-  String get apiStep4Desc =>
-      'Credentials → Create Credentials → API Key गच्छतु';
-
-  @override
-  String get apiStep5Title => 'प्रतिलिख्य संयोजयतु';
-
-  @override
-  String get apiStep5Desc => 'लब्धां कुञ्चिकां प्रतिलिख्य अत्र स्थापयतु';
-
-  @override
-  String get apiFreeTierNote =>
-      'निःशुल्कस्तरे प्रतिदिनं १०,००० अभ्यर्थनाः लभ्यन्ते';
-
-  @override
-  String get permissionsScreenTitle => 'अनुमतिविवरणम्';
-
-  @override
-  String get permissionsExplicitHeading => 'प्रत्यक्षसञ्चालनानुमतयः';
-
-  @override
-  String get permissionCameraTitle =>
+  String get helpPermissionCameraTitle =>
       'चित्रग्राही अनुमतिः (android.permission.CAMERA)';
 
   @override
-  String get permissionCameraDesc =>
+  String get helpPermissionCameraDesc =>
       'अन्वीक्षणकाले एव प्रार्थ्यते। सजीवपरीक्षणाय ए-आर् पटलाय च आवश्यकी।';
 
   @override
-  String get permissionBiometricTitle =>
+  String get helpPermissionBiometricTitle =>
       'जैविकप्रमाणीकरणम् (android.permission.USE_BIOMETRIC)';
 
   @override
-  String get permissionBiometricDesc =>
+  String get helpPermissionBiometricDesc =>
       'गूढभाण्डाराणां गूढसङ्केतानां च उद्घाटनाय प्रयुज्यते।';
 
   @override
-  String get permissionsImplicitHeading => 'अन्तर्निहिततन्त्रानुमतयः';
+  String get helpPermissionsImplicitHeading => 'अन्तर्निहिततन्त्रानुमतयः';
 
   @override
-  String get permissionInternetTitle =>
+  String get helpPermissionInternetTitle =>
       'अन्तर्जालप्रवेशः (android.permission.INTERNET)';
 
   @override
-  String get permissionInternetDesc =>
+  String get helpPermissionInternetDesc =>
       'सक्रियपरीक्षणे गूगल-सुरक्षापरीक्षणे वा प्रयुज्यते।';
 
   @override
-  String get permissionVibrateTitle =>
+  String get helpPermissionVibrateTitle =>
       'कम्पननियन्त्रणम् (android.permission.VIBRATE)';
 
   @override
-  String get permissionVibrateDesc =>
+  String get helpPermissionVibrateDesc =>
       'अन्वीक्षणसूचनासु कुञ्चकस्पर्शनेषु च कम्पनं जनयति।';
 
   @override
-  String get permissionPhotoPickerTitle => 'चित्रचयनकम्';
+  String get helpPermissionPhotoPickerTitle => 'चित्रचयनकम्';
 
   @override
-  String get permissionPhotoPickerDesc =>
+  String get helpPermissionPhotoPickerDesc =>
       'सञ्चयप्रवेशं विना वीथिकायाः चित्राणि चिनोतु।';
 
   @override
-  String get permissionsSettingHeading => 'विन्यासाधारितानुमतयः';
+  String get helpPermissionsSettingHeading => 'विन्यासाधारितानुमतयः';
 
   @override
-  String get permissionProbingTitle => 'सक्रियजालपरीक्षणम्';
+  String get helpPermissionProbingTitle => 'सक्रियजालपरीक्षणम्';
 
   @override
-  String get permissionProbingDesc =>
+  String get helpPermissionProbingDesc =>
       'प्रवर्तिते सति जालरूपान्तरणं परीक्षते। अन्यदा पूर्णतया अन्तस्थम्।';
 
   @override
-  String get permissionSafeBrowsingTitle => 'गूगल-सुरक्षितसञ्चार-API';
+  String get helpPermissionSafeBrowsingTitle => 'गूगल-सुरक्षितसञ्चार-API';
 
   @override
-  String get permissionSafeBrowsingDesc =>
+  String get helpPermissionSafeBrowsingDesc =>
       'कुञ्चिकाविन्यासे गूगल-सुरक्षाकोषे दुष्टसङ्केतान् परीक्षते।';
 
   @override
-  String get permissionFeedbackTitle => 'अन्वीक्षणकम्पनम्';
+  String get helpPermissionFeedbackTitle => 'अन्वीक्षणकम्पनम्';
 
   @override
-  String get permissionFeedbackDesc => 'विन्यासे कम्पनप्रवर्तने एव प्रयुज्यते।';
+  String get helpPermissionFeedbackDesc =>
+      'विन्यासे कम्पनप्रवर्तने एव प्रयुज्यते।';
 
   @override
-  String get onLabel => 'सक्रियम्';
+  String get labelOn => 'सक्रियम्';
 
   @override
-  String get offLabel => 'निष्क्रियम्';
+  String get labelOff => 'निष्क्रियम्';
 
   @override
-  String get unknownLabel => 'अज्ञातम्';
-
-  @override
-  String get privacyActiveChecksSubtitle =>
+  String get descPrivacyActiveChecks =>
       'निष्क्रियम्: सङ्केताः गोप्यतया परीक्ष्यन्ते — गन्तव्यजालकं न सम्पृच्यते।';
 
   @override
-  String get privacyExplainerOn =>
+  String get bodyPrivacyExplainerOn =>
       'प्रवर्तिते सति जालस्थानं साक्षात् सम्पृच्यते। अनेन भवतः IP-सङ्केतः तत्र दृश्यते।';
 
   @override
-  String get privacyExplainerOff =>
+  String get bodyPrivacyExplainerOff =>
       'अन्तस्थनियमैः एव सुरक्षितपरीक्षणं भवति। सङ्केताः कुत्रचिदपि न प्रेष्यन्ते।';
 
   @override
-  String get apiKeyDeleteMessage =>
+  String get bodyApiKeyDelete =>
       'किं भवन्तः Google Safe Browsing API-कुञ्चिकां विलोपयितुम् इच्छन्ति? अनेन जालसुरक्षापरीक्षणं निष्क्रिये भविष्यति।';
 
   @override
-  String get apiAboutBody =>
-      'गूगल-सुरक्षा-API कपटसङ्केतान् विज्ञापयति। भवतः कुञ्चिका यन्त्रे गूढतया सुरक्षिता वर्तते।';
-
-  @override
-  String get apiTodaysUsage => 'अद्यतनउपयोगः';
-
-  @override
-  String get apiStep3Desc => '\"Safe Browsing API\" अन्विष्य प्रवर्तयतु';
-
-  @override
-  String feedbackSummary(String vibration, String sound) {
+  String descFeedbackSummary(String vibration, String sound) {
     return 'कम्पनम्: $vibration • ध्वनिः: $sound';
   }
 
   @override
-  String settingsApiKeySubtitle(String status) {
-    return 'API-कुञ्चिका: $status';
-  }
+  String get labelResultTypeTextFallback => 'पाठः';
 
   @override
-  String apiKeySaveFailed(String error) {
-    return 'कुञ्चिकारक्षणे दोषः: $error';
-  }
+  String get labelCheckNameHttps => 'HTTPS संयोजनम्';
 
   @override
-  String apiKeyDeleteFailed(String error) {
-    return 'कुञ्चिकाविलोपने दोषः: $error';
-  }
+  String get labelCheckNameSsl => 'SSL/TLS प्रमाणत्रम्';
 
   @override
-  String apiDailyLimit(int count) {
-    return 'दैनिकसीमा: प्रतिदिनं $count अभ्यर्थनाः';
-  }
+  String get labelCheckNameRedirect => 'पुनर्निर्देशन-विश्लेषणम्';
 
   @override
-  String apiResets(String date) {
-    return 'पुनर्नवीकरणम्: $date';
-  }
+  String get labelCheckNamePattern => 'स्वरूप-ज्ञानम्';
 
   @override
-  String get resultTypeTextFallback => 'पाठः';
+  String get labelCheckNameShortener => 'ह्रस्व-सङ्केत-परीक्षणम्';
 
   @override
-  String get checkNameHttps => 'HTTPS संयोजनम्';
+  String get labelCheckNameHomograph => 'समरूप-कपट-परीक्षणम्';
 
   @override
-  String get checkNameSsl => 'SSL/TLS प्रमाणत्रम्';
+  String get labelCheckNameMalicious => 'अनिष्ट-विषय-परीक्षणम्';
 
   @override
-  String get checkNameRedirect => 'पुनर्निर्देशन-विश्लेषणम्';
+  String get bodyHttpsNotUsed => 'अरक्षितं HTTP संयोजनं प्रयुक्तम्';
 
   @override
-  String get checkNamePattern => 'स्वरूप-ज्ञानम्';
+  String get bodySslPrivateModeOk =>
+      'HTTPS प्रयुक्तम् (एकान्त-विधौ न परीक्षितम्)';
 
   @override
-  String get checkNameShortener => 'ह्रस्व-सङ्केत-परीक्षणम्';
+  String get bodySslValid => 'प्रमाणपत्रं प्रामाणिकम्';
 
   @override
-  String get checkNameHomograph => 'समरूप-कपट-परीक्षणम्';
+  String get bodySslExpired => 'प्रमाणपत्रस्य कालः समाप्तः';
 
   @override
-  String get checkNameMalicious => 'अनिष्ट-विषय-परीक्षणम्';
+  String get bodySslNotYetValid => 'प्रमाणपत्रं न अद्यापि वैधम्';
 
   @override
-  String get httpsNotUsed => 'अरक्षितं HTTP संयोजनं प्रयुक्तम्';
+  String get bodySslUnverifiable => 'प्रमाणपत्र-सत्यापनं न जातम्';
 
   @override
-  String get sslPrivateModeOk => 'HTTPS प्रयुक्तम् (एकान्त-विधौ न परीक्षितम्)';
+  String get bodySslCheckFailed => 'प्रमाणपत्र-परीक्षणं विफलम्';
 
   @override
-  String get sslValid => 'प्रमाणपत्रं प्रामाणिकम्';
+  String get bodyRedirectSkippedPrivate => 'एकान्त-विधौ त्यक्तम्';
 
   @override
-  String get sslExpired => 'प्रमाणपत्रस्य कालः समाप्तः';
+  String get bodyRedirectLoop => 'पुनर्निर्देशन-चक्रं प्राप्तम्';
 
   @override
-  String get sslNotYetValid => 'प्रमाणपत्रं न अद्यापि वैधम्';
+  String get bodyRedirectNone => 'न कोऽपि पुनर्निर्देशः';
 
   @override
-  String get sslUnverifiable => 'प्रमाणपत्र-सत्यापनं न जातम्';
+  String get bodyRedirectUnavailable => 'परीक्षणम् अशक्यम्';
 
   @override
-  String get sslCheckFailed => 'प्रमाणपत्र-परीक्षणं विफलम्';
+  String get bodyPatternNone => 'न कोऽपि सन्दिग्ध-दोषः';
 
   @override
-  String get redirectSkippedPrivate => 'एकान्त-विधौ त्यक्तम्';
+  String get bodyPatternUnavailable => 'विश्लेषणम् अशक्यम्';
 
   @override
-  String get redirectLoop => 'पुनर्निर्देशन-चक्रं प्राप्तम्';
-
-  @override
-  String get redirectNone => 'न कोऽपि पुनर्निर्देशः';
-
-  @override
-  String get redirectUnavailable => 'परीक्षणम् अशक्यम्';
-
-  @override
-  String get patternNone => 'न कोऽपि सन्दिग्ध-दोषः';
-
-  @override
-  String get patternUnavailable => 'विश्लेषणम् अशक्यम्';
-
-  @override
-  String get shortenerOfflineHeuristics =>
+  String get bodyShortenerOfflineHeuristics =>
       'पूर्ण-परीक्षणं न जातम् (अनुपलब्ध-जालम्)';
 
   @override
-  String get shortenerNone => 'न ह्रस्व-सङ्केतः';
+  String get bodyShortenerNone => 'न ह्रस्व-सङ्केतः';
 
   @override
-  String get shortenerUnavailable => 'परीक्षणम् अशक्यम्';
+  String get bodyShortenerUnavailable => 'परीक्षणम् अशक्यम्';
 
   @override
-  String get homographMixedScripts => 'मिश्रित-लिपयः प्राप्ताः';
+  String get bodyHomographMixedScripts => 'मिश्रित-लिपयः प्राप्ताः';
 
   @override
-  String get homographNone => 'न कोऽपि समरूप-कपट-वर्णः';
+  String get bodyHomographNone => 'न कोऽपि समरूप-कपट-वर्णः';
 
   @override
-  String get homographUnavailable => 'परीक्षणम् अशक्यम्';
+  String get bodyHomographUnavailable => 'परीक्षणम् अशक्यम्';
 
   @override
-  String get maliciousSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
+  String get bodyMaliciousSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
 
   @override
-  String get maliciousDailyLimit => 'दैनिक-सीमा समाप्ता';
+  String get bodyMaliciousDailyLimit => 'दैनिक-सीमा समाप्ता';
 
   @override
-  String get maliciousNone => 'न कोऽपि ज्ञात-दोषः';
+  String get bodyMaliciousNone => 'न कोऽपि ज्ञात-दोषः';
 
   @override
-  String get maliciousInvalidKey => 'दोषयुक्ता API कुञ्चिका';
+  String get bodyMaliciousInvalidKey => 'दोषयुक्ता API कुञ्चिका';
 
   @override
-  String get maliciousRateLimited => 'गति-सीमा अतीता';
+  String get bodyMaliciousRateLimited => 'गति-सीमा अतीता';
 
   @override
-  String get maliciousUnavailable => 'परीक्षणम् अशक्यम्';
+  String get bodyMaliciousUnavailable => 'परीक्षणम् अशक्यम्';
 
   @override
-  String get stegoWrongPassphrase => 'उद्घाटनं विफलम्। अशुद्धं कूटवाक्यम्।';
+  String get errorStegoWrongPassphrase =>
+      'उद्घाटनं विफलम्। अशुद्धं कूटवाक्यम्।';
 
   @override
-  String get airQrChecksumFailed => 'सङ्ख्या-परीक्षणं विफलम्।';
+  String get errorAirQrChecksumFailed => 'सङ्ख्या-परीक्षणं विफलम्।';
 
   @override
-  String redirectSuspiciousChain(String count) {
+  String bodyRedirectSuspiciousChain(String count) {
     return 'सन्दिग्धा पुनर्निर्देशन-शृङ्खला ($count पुनर्निर्देशाः)';
   }
 
   @override
-  String redirectWithinRange(String count) {
+  String bodyRedirectWithinRange(String count) {
     return '$count पुनर्निर्देशाः - सामान्य-सीमायाम्';
   }
 
   @override
-  String patternDetected(String patterns) {
+  String bodyPatternDetected(String patterns) {
     return 'प्राप्तम्: $patterns';
   }
 
   @override
-  String shortenerKnown(String shortener) {
+  String bodyShortenerKnown(String shortener) {
     return 'ज्ञातः ह्रस्व-सङ्केतः प्राप्तः ($shortener)';
   }
 
   @override
-  String shortenerRedirect(String host) {
+  String bodyShortenerRedirect(String host) {
     return 'ह्रस्व-सङ्केतः ($host प्रति गच्छति)';
   }
 
   @override
-  String homographLookalikes(String characters) {
+  String bodyHomographLookalikes(String characters) {
     return 'समरूप-वर्णाः प्राप्ताः: $characters';
   }
 
   @override
-  String maliciousThreats(String threats) {
+  String bodyMaliciousThreats(String threats) {
     return 'दोषाः प्राप्ताः: $threats';
   }
 
   @override
-  String maliciousApiError(String status) {
+  String bodyMaliciousApiError(String status) {
     return 'API दोषः (स्थितिः: $status)';
   }
 
   @override
-  String get checkNameVirusTotal => 'वायरसटोटल';
+  String get labelCheckNameVirusTotal => 'वायरसटोटल';
 
   @override
-  String get virusTotalSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
+  String get bodyVirusTotalSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
 
   @override
-  String get virusTotalDailyLimit => 'दैनिक-सीमा समाप्ता (५००/दिनम्)';
+  String get bodyVirusTotalDailyLimit => 'दैनिक-सीमा समाप्ता (५००/दिनम्)';
 
   @override
-  String virusTotalThreats(String engines) {
+  String bodyVirusTotalThreats(String engines) {
     return '$engines यन्त्रेण दोषाः प्राप्ताः';
   }
 
   @override
-  String get virusTotalNone => 'न कोऽपि दोषः (वायरसटोटल)';
+  String get bodyVirusTotalNone => 'न कोऽपि दोषः (वायरसटोटल)';
 
   @override
-  String get virusTotalInvalidKey => 'दोषयुक्ता API कुञ्चिका (वायरसटोटल)';
+  String get bodyVirusTotalInvalidKey => 'दोषयुक्ता API कुञ्चिका (वायरसटोटल)';
 
   @override
-  String get virusTotalRateLimited => 'गति-सीमा अतीता (वायरसटोटल)';
+  String get bodyVirusTotalRateLimited => 'गति-सीमा अतीता (वायरसटोटल)';
 
   @override
-  String virusTotalApiError(String status) {
+  String bodyVirusTotalApiError(String status) {
     return 'API दोषः (स्थितिः: $status)';
   }
 
   @override
-  String get virusTotalUnavailable => 'परीक्षणम् अशक्यम् (वायरसटोटल)';
+  String get bodyVirusTotalUnavailable => 'परीक्षणम् अशक्यम् (वायरसटोटल)';
 
   @override
-  String get checkNameUrlhaus => 'URLhaus';
+  String get labelCheckNameUrlhaus => 'URLhaus';
 
   @override
-  String get urlhausSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
+  String get bodyUrlhausSkippedNoKey => 'त्यक्तम् (API कुञ्चिका न न्यस्ता)';
 
   @override
-  String urlhausMalware(String tags) {
+  String bodyUrlhausMalware(String tags) {
     return 'दुष्टसङ्केतस्थानं प्राप्तम्: $tags';
   }
 
   @override
-  String get urlhausClean => 'न कोऽपि दुष्ट-आतिथ्यम् (URLhaus)';
+  String get bodyUrlhausClean => 'न कोऽपि दुष्ट-आतिथ्यम् (URLhaus)';
 
   @override
-  String get urlhausNotFound => 'URLhaus-कोषे न विद्यते';
+  String get bodyUrlhausNotFound => 'URLhaus-कोषे न विद्यते';
 
   @override
-  String get urlhausInvalidKey => 'दोषयुक्ता API कुञ्चिका (URLhaus)';
+  String get bodyUrlhausInvalidKey => 'दोषयुक्ता API कुञ्चिका (URLhaus)';
 
   @override
-  String urlhausApiError(String status) {
+  String bodyUrlhausApiError(String status) {
     return 'API दोषः (स्थितिः: $status)';
   }
 
   @override
-  String get urlhausUnavailable => 'परीक्षणम् अशक्यम् (URLhaus)';
+  String get bodyUrlhausUnavailable => 'परीक्षणम् अशक्यम् (URLhaus)';
 
   @override
-  String get checkNamePhishTank => 'PhishTank';
+  String get labelCheckNamePhishTank => 'PhishTank';
 
   @override
-  String get phishTankSkippedDisabled => 'त्यक्तम् (PhishTank निष्क्रियम्)';
+  String get bodyPhishTankSkippedDisabled => 'त्यक्तम् (PhishTank निष्क्रियम्)';
 
   @override
-  String get phishTankPhishing => 'ज्ञात-प्रलोभन-स्थानम् (PhishTank)';
+  String get bodyPhishTankPhishing => 'ज्ञात-प्रलोभन-स्थानम् (PhishTank)';
 
   @override
-  String get phishTankClean => 'प्रलोभन-स्थानं नास्ति (PhishTank)';
+  String get bodyPhishTankClean => 'प्रलोभन-स्थानं नास्ति (PhishTank)';
 
   @override
-  String get phishTankNotInDatabase => 'PhishTank-कोषे न विद्यते';
+  String get bodyPhishTankNotInDatabase => 'PhishTank-कोषे न विद्यते';
 
   @override
-  String phishTankApiError(String status) {
+  String bodyPhishTankApiError(String status) {
     return 'API दोषः (स्थितिः: $status)';
   }
 
   @override
-  String get phishTankUnavailable => 'परीक्षणम् अशक्यम् (PhishTank)';
+  String get bodyPhishTankUnavailable => 'परीक्षणम् अशक्यम् (PhishTank)';
 
   @override
-  String get checkNameOpenPhish => 'OpenPhish';
+  String get labelCheckNameOpenPhish => 'OpenPhish';
 
   @override
-  String get openPhishSkippedDisabled => 'त्यक्तम् (OpenPhish निष्क्रियम्)';
+  String get bodyOpenPhishSkippedDisabled => 'त्यक्तम् (OpenPhish निष्क्रियम्)';
 
   @override
-  String get openPhishPhishing => 'ज्ञात-प्रलोभन-स्थानम् (OpenPhish)';
+  String get bodyOpenPhishPhishing => 'ज्ञात-प्रलोभन-स्थानम् (OpenPhish)';
 
   @override
-  String get openPhishClean => 'प्रलोभन-सूचौ न विद्यते (OpenPhish)';
+  String get bodyOpenPhishClean => 'प्रलोभन-सूचौ न विद्यते (OpenPhish)';
 
   @override
-  String get openPhishFeedStale =>
+  String get bodyOpenPhishFeedStale =>
       'सूचिः अनुपलब्धा — स्वस्थानीय-परीक्षणं त्यक्तम्';
 
   @override
-  String get openPhishUnavailable => 'परीक्षणम् अशक्यम् (OpenPhish)';
+  String get bodyOpenPhishUnavailable => 'परीक्षणम् अशक्यम् (OpenPhish)';
 
   @override
-  String get settingsUrlSafetyProvidersTitle => 'URL-सुरक्षा-दाताः';
+  String get labelSettingsUrlSafetyProviders => 'URL-सुरक्षा-दाताः';
 
   @override
-  String settingsUrlSafetyProvidersSubtitle(String count) {
+  String descSettingsUrlSafetyProviders(String count) {
     return '$count दाता सक्रियाः';
   }
 
   @override
-  String get urlSafetyProvidersHelpText =>
+  String get helpUrlSafetyProviders =>
       'ऐच्छिकान् URL-सुरक्षा-परीक्षणान् संयोजयतु। प्रतिदाता स्वतन्त्रः। अव्यावसायिक-उपयोगिनः स्वकीयां कुञ्चिकां नयन्तु।';
 
   @override
-  String get urlSafetyUserSuppliedHeader => 'भवतः API कुञ्चिकाः';
+  String get titleUrlSafetyUserSupplied => 'भवतः API कुञ्चिकाः';
 
   @override
-  String get urlSafetyUserSuppliedNote => 'केवलम् अव्यावसायिक-उपयोगः';
+  String get descUrlSafetyUserSupplied => 'केवलम् अव्यावसायिक-उपयोगः';
 
   @override
-  String get urlSafetyBuiltInHeader => 'अन्तर्निहित-दाताः';
+  String get titleUrlSafetyBuiltIn => 'अन्तर्निहित-दाताः';
 
   @override
-  String get urlSafetyBuiltInNote => 'खाता-रहितम् — केवलं सक्रियीकरणम्';
+  String get descUrlSafetyBuiltIn => 'खाता-रहितम् — केवलं सक्रियीकरणम्';
 
   @override
-  String get providerEndpointLabel => 'API-समाप्ति-सङ्केतः';
+  String get labelProviderEndpoint => 'API-समाप्ति-सङ्केतः';
 
   @override
-  String get providerApiKeyHint => 'API कुञ्चिकां योजयतु';
+  String get labelProviderApiKey => 'API कुञ्चिकां योजयतु';
 
   @override
-  String get providerGetKeyAt => 'निःशुल्क-कुञ्चिकार्थम्:';
+  String get bodyProviderGetKeyAt => 'निःशुल्क-कुञ्चिकार्थम्:';
 
   @override
-  String providerDailyUsage(String used, String max) {
+  String bodyProviderDailyUsage(String used, String max) {
     return 'अद्य $used / $max अनुरोधाः';
   }
 
   @override
-  String openPhishLastUpdated(String datetime) {
+  String bodyOpenPhishLastUpdated(String datetime) {
     return 'अन्तिम-नवीकरणम्: $datetime';
   }
 
   @override
-  String get openPhishRefreshNow => 'सूचिं नवीकरोतु';
+  String get actionOpenPhishRefresh => 'सूचिं नवीकरोतु';
 
   @override
-  String openPhishFeedRefreshed(String count) {
+  String bodyOpenPhishFeedRefreshed(String count) {
     return 'सूचिः नवीकृता ($count सङ्केताः)';
   }
 
   @override
-  String get openPhishFeedFailed => 'सूचि-नवीकरणं विफलम्';
+  String get errorOpenPhishFeedFailed => 'सूचि-नवीकरणं विफलम्';
 
   @override
-  String get phishTankToggleLabel => 'PhishTank सक्रियीकरणम्';
+  String get labelPhishTankToggle => 'PhishTank सक्रियीकरणम्';
 
   @override
-  String get openPhishToggleLabel => 'OpenPhish-सूचिः सक्रियीकरणम्';
+  String get labelOpenPhishToggle => 'OpenPhish-सूचिः उपयुज्यताम्';
 
   @override
-  String get quishingSummaryAuthentic =>
+  String get bodyQuishingSummaryAuthentic =>
       'प्रामाणिकः मुद्रित-सङ्केतः। न काऽपि विकृतिः।';
 
   @override
-  String get quishingSummaryWearAndTear => 'घर्षण-विकृतिः प्राप्ता।';
+  String get bodyQuishingSummaryWearAndTear => 'घर्षण-विकृतिः प्राप्ता।';
 
   @override
-  String get quishingSummaryHighWarning =>
+  String get bodyQuishingSummaryHighWarning =>
       'उच्च-सावधानता: उपरि लेपित-पत्रं दृष्टम्!';
 
   @override
-  String get quishingStatusAuthentic => '🟢 प्रामाणिकः मुद्रित-सङ्केतः';
+  String get bodyQuishingStatusAuthentic => '🟢 प्रामाणिकः मुद्रित-सङ्केतः';
 
   @override
-  String get quishingStatusWearAndTear => '🟡 घर्षण-विकृतिः दृष्टा';
+  String get bodyQuishingStatusWearAndTear => '🟡 घर्षण-विकृतिः दृष्टा';
 
   @override
-  String get quishingStatusHighWarning =>
+  String get bodyQuishingStatusHighWarning =>
       '🔴 उच्च-सावधानता: लेपित-पत्रं दृष्टम्!';
 
   @override
-  String get quishingSignalMicroShadowPerimeter =>
+  String get bodyQuishingSignalMicroShadowPerimeter =>
       'सीमायां सूक्ष्म-छाया-रेखा दृष्टा';
 
   @override
-  String get quishingSignalGrainAberration => 'मुद्रण-कण-विषमता प्राप्ता';
+  String get bodyQuishingSignalGrainAberration => 'मुद्रण-कण-विषमता प्राप्ता';
 
   @override
-  String get quishingSignalUniformReflection => 'समान-प्रतिफलनं सत्यापितम्';
+  String get bodyQuishingSignalUniformReflection => 'समान-प्रतिफलनं सत्यापितम्';
 
   @override
-  String get quishingSignalConsistentDotsQrMatrix =>
+  String get bodyQuishingSignalConsistentDotsQrMatrix =>
       'सङ्केते बिन्दु-घनत्वं समानम्';
 
   @override
-  String get quishingSignalReflectionVerified => 'प्रतिफलनं सत्यापितम्';
+  String get bodyQuishingSignalReflectionVerified => 'प्रतिफलनं सत्यापितम्';
 
   @override
-  String get quishingSignalHalftoneConsistentQrMatrix =>
+  String get bodyQuishingSignalHalftoneConsistentQrMatrix =>
       'सीमायां बिन्दु-घनत्वं समानम्';
 
   @override
-  String get quishingSignalHalftoneConsistentMatrix =>
+  String get bodyQuishingSignalHalftoneConsistentMatrix =>
       'सर्वत्र बिन्दु-घनत्वं समानम्';
 
   @override
-  String get quishingSignalDoubleEdgeAroundMatrix => 'द्विगुण-धारा दृष्टा';
+  String get bodyQuishingSignalDoubleEdgeAroundMatrix => 'द्विगुण-धारा दृष्टा';
 
   @override
-  String get quishingSignalMicroShadowStickerBorder =>
+  String get bodyQuishingSignalMicroShadowStickerBorder =>
       'पत्र-सीमायां सूक्ष्म-छाया दृष्टा';
 
   @override
-  String get quishingSignalGrainMismatchBase => 'मुद्रण-कणानां विषमता प्राप्ता';
+  String get bodyQuishingSignalGrainMismatchBase =>
+      'मुद्रण-कणानां विषमता प्राप्ता';
 
   @override
-  String get quishingSignalMinorScratch => 'अल्पं घर्षणं दृष्टम्';
+  String get bodyQuishingSignalMinorScratch => 'अल्पं घर्षणं दृष्टम्';
 
   @override
-  String get quishingSignalSlightDotIrregularity => 'धारासु अल्प-विषमता';
+  String get bodyQuishingSignalSlightDotIrregularity => 'धारासु अल्प-विषमता';
 
   @override
-  String get quishingSignalConsistentDotsMatrixPerimeter =>
+  String get bodyQuishingSignalConsistentDotsMatrixPerimeter =>
       'सीमायां समान-घनत्वम्';
 
   @override
-  String quishingSignalPerimeterDoubleEdge(String zones) {
+  String bodyQuishingSignalPerimeterDoubleEdge(String zones) {
     return 'द्विगुण-धारा-प्रतिफलनं दृष्टम् ($zones मण्डलानि)';
   }
 
   @override
-  String quishingSignalDotDensityVariance(String variance) {
+  String bodyQuishingSignalDotDensityVariance(String variance) {
     return 'घनत्व-विषमता दृष्टा ($variance% भेदः)';
   }
 
   @override
-  String get domSslInvalidScheme => 'अमान्य-विधिः';
+  String get bodyDomSslInvalidScheme => 'अमान्य-विधिः';
 
   @override
-  String get domSslHttps => 'सुरक्षितं HTTPS प्रयुक्तम्';
+  String get bodyDomSslHttps => 'सुरक्षितं HTTPS प्रयुक्तम्';
 
   @override
-  String get domSslHttp => 'असुरक्षितं HTTP संयोजनम् (उच्च-सङ्कटम्)';
+  String get bodyDomSslHttp => 'असुरक्षितं HTTP संयोजनम् (उच्च-सङ्कटम्)';
 
   @override
-  String get domStatusInvalidUrl => 'अमान्यः सङ्केत-प्रकारः।';
+  String get bodyDomStatusInvalidUrl => 'अमान्यः सङ्केत-प्रकारः।';
 
   @override
-  String get domStatusHttpCaution => '⚠️ सावधानता: अरक्षितं HTTP जालस्थानम्';
+  String get bodyDomStatusHttpCaution =>
+      '⚠️ सावधानता: अरक्षितं HTTP जालस्थानम्';
 
   @override
-  String get domStatusSafe => '✅ सुरक्षित-कक्षा: HTML पूर्वदर्शनं शुद्धीकृतम्।';
+  String get bodyDomStatusSafe =>
+      '✅ सुरक्षित-कक्षा: HTML पूर्वदर्शनं शुद्धीकृतम्।';
 
   @override
-  String domStatusOpenRedirect(String target) {
+  String bodyDomStatusOpenRedirect(String target) {
     return '⚠️ पूर्वसूचना: $target प्रति गच्छन् अनावृत-पुनर्निर्देशः प्राप्तः';
   }
 
   @override
-  String domStatusNewDomain(String days) {
+  String bodyDomStatusNewDomain(String days) {
     return '⚠️ पूर्वसूचना: नूतन-पञ्जीकृतं क्षेत्रम् ($days दिनानि)';
   }
 
   @override
-  String get stegoPassphraseEmpty => 'कूटवाक्यं रिक्तं न भवेत्';
+  String get errorStegoPassphraseEmpty => 'कूटवाक्यं रिक्तं न भवेत्';
 
   @override
-  String get stegoBiometricReason => 'गूढ-विषय-दर्शनाय प्रमाणीकरणं क्रियताम्';
+  String get bodyStegoBiometricReason =>
+      'गूढ-विषय-दर्शनाय प्रमाणीकरणं क्रियताम्';
 
   @override
-  String get mediaNoCodeInImage => 'चित्रे सङ्केताः न दृष्टाः।';
+  String get errorMediaNoCodeInImage => 'चित्रे सङ्केताः न दृष्टाः।';
 
   @override
-  String get mediaNoCodeInPdf => 'PDF-प्रलेखे सङ्केताः न लब्धाः।';
+  String get errorMediaNoCodeInPdf => 'PDF-प्रलेखे सङ्केताः न लब्धाः।';
 
   @override
-  String mediaImagePickFailed(String error) {
+  String errorMediaImagePickFailed(String error) {
     return 'चित्रपरीक्षणे दोषः: $error';
   }
 
   @override
-  String mediaImageAnalyzeFailed(String error) {
+  String errorMediaImageAnalyzeFailed(String error) {
     return 'चित्रविश्लेषणे दोषः: $error';
   }
 
   @override
-  String mediaPdfPickFailed(String error) {
+  String errorMediaPdfPickFailed(String error) {
     return 'PDF-उद्घाटने दोषः: $error';
   }
 
   @override
-  String mediaPdfScanFailed(String error) {
+  String errorMediaPdfScanFailed(String error) {
     return 'PDF-परीक्षणे दोषः: $error';
   }
 
   @override
-  String get stegoBiometricCanceled => 'जैविक-प्रमाणीकरणं निरस्तं विफलम् वा।';
+  String get errorStegoBiometricCanceled =>
+      'जैविक-प्रमाणीकरणं निरस्तं विफलम् वा।';
 
   @override
-  String get formatQrUrl => 'क्यूआर् (जालसङ्केतः)';
+  String get labelFormatQrUrl => 'क्यूआर् (जालसङ्केतः)';
 
   @override
-  String get formatQrEmail => 'क्यूआर् (विद्युत्पत्रम्)';
+  String get labelFormatQrEmail => 'क्यूआर् (विद्युत्पत्रम्)';
 
   @override
-  String get formatQrPhone => 'क्यूआर् (दूरवाणी)';
+  String get labelFormatQrPhone => 'क्यूआर् (दूरवाणी)';
 
   @override
-  String get formatQrSms => 'क्यूआर् (SMS)';
+  String get labelFormatQrSms => 'क्यूआर् (SMS)';
 
   @override
-  String get formatQrWifi => 'क्यूआर् (वै-फै)';
+  String get labelFormatQrWifi => 'क्यूआर् (वै-फै)';
 
   @override
-  String get formatQrLocation => 'क्यूआर् (स्थानम्)';
+  String get labelFormatQrLocation => 'क्यूआर् (स्थानम्)';
 
   @override
-  String get formatQrContact => 'क्यूआर् (सम्पर्कः)';
+  String get labelFormatQrContact => 'क्यूआर् (सम्पर्कः)';
 
   @override
-  String get formatIsbn => 'ISBN';
+  String get labelFormatIsbn => 'ISBN';
 
   @override
-  String get formatEanUpc => 'EAN/UPC';
+  String get labelFormatEanUpc => 'EAN/UPC';
 
   @override
-  String get formatQrCode => 'क्यूआर् सङ्केतः';
+  String get labelFormatQrCode => 'क्यूआर् सङ्केतः';
 
   @override
-  String get formatEanUpcProduct => 'EAN/UPC उत्पादः';
+  String get labelFormatEanUpcProduct => 'EAN/UPC उत्पादः';
 
   @override
-  String get formatBarcode => 'दण्डसङ्केतः';
+  String get labelFormatBarcode => 'दण्डसङ्केतः';
 
   @override
-  String get wifiHiddenNetwork => 'गूढ-जालम्';
+  String get labelWifiHiddenNetwork => 'गूढ-जालम्';
 
   @override
-  String get totpDefaultAccount => 'विवरणम्';
+  String get labelTotpDefaultAccount => 'विवरणम्';
 
   @override
-  String get backupInvalidFormat => 'अमान्य-सञ्चिका-प्रकारः।';
+  String get errorBackupInvalidFormat => 'अमान्य-सञ्चिका-प्रकारः।';
 
   @override
-  String get backupBadHeader => 'दोषयुक्तः सञ्चिका-शीर्षभागः।';
+  String get errorBackupBadHeader => 'दोषयुक्तः सञ्चिका-शीर्षभागः।';
 
   @override
-  String get backupWrongPassphrase => 'अशुद्धं कूटवाक्यं दोषयुक्तो विषयो वा।';
+  String get errorBackupWrongPassphrase =>
+      'अशुद्धं कूटवाक्यं दोषयुक्तो विषयो वा।';
 
   @override
-  String get reportHeading =>
-      'श्रीराज् पि क्यू-आर-कार्यशाला - संवीक्षा-इतिहासः';
+  String get bodyReportHeading =>
+      'श्रीराज् पि क्यू-आर-कार्यशाला - संवीक्षा-इतिवृत्तम्';
 
   @override
-  String get reportTitle => 'इतिहास-निर्यातः';
+  String get bodyReportTitle => 'इतिवृत्त-निर्यातः';
 
   @override
-  String get reportExportDate => 'निर्यात-दिनाङ्कः';
+  String get labelReportExportDate => 'निर्यात-दिनाङ्कः';
 
   @override
-  String get reportTotalScans => 'कुल-संवीक्षाः';
+  String get labelReportTotalScans => 'कुल-संवीक्षाः';
 
   @override
-  String get reportScanNumber => 'सङ्ख्या #';
+  String get labelReportScanNumber => 'सङ्ख्या #';
 
   @override
-  String get reportId => 'अभिज्ञानम्     ';
+  String get labelReportId => 'अभिज्ञानम्     ';
 
   @override
-  String get reportTimestamp => 'दिनाङ्कः समयश्च ';
+  String get labelReportTimestamp => 'दिनाङ्कः समयश्च ';
 
   @override
-  String get reportFormat => 'प्रकारः        ';
+  String get labelReportFormat => 'प्रकारः        ';
 
   @override
-  String get reportCategory => 'वर्गः          ';
+  String get labelReportCategory => 'वर्गः          ';
 
   @override
-  String get reportSafetyScore => 'सुरक्षा-मानाङ्कः';
+  String get labelReportSafetyScore => 'सुरक्षा-मानाङ्कः';
 
   @override
-  String get reportStarred => 'तारकाङ्कितम्   ';
+  String get labelReportStarred => 'तारकाङ्कितम्   ';
 
   @override
-  String get reportStarredYes => '⭐ आम्';
+  String get labelReportStarredYes => '⭐ आम्';
 
   @override
-  String get reportStarredNo => 'न';
+  String get labelReportStarredNo => 'न';
 
   @override
-  String get reportLocation => 'स्थानम्        ';
+  String get labelReportLocation => 'स्थानम्        ';
 
   @override
-  String get reportNotes => 'टिप्पणी        ';
+  String get labelReportNotes => 'टिप्पणी        ';
 
   @override
-  String get reportContent => 'विषयः          ';
+  String get labelReportContent => 'विषयः          ';
 
   @override
-  String get reportColumnDateTime => 'दिनाङ्कः समयश्च';
+  String get labelReportColumnDateTime => 'दिनाङ्कः समयश्च';
 
   @override
-  String get reportColumnFormat => 'प्रकारः';
+  String get labelReportColumnFormat => 'प्रकारः';
 
   @override
-  String get reportColumnCategory => 'वर्गः';
+  String get labelReportColumnCategory => 'वर्गः';
 
   @override
-  String get reportColumnSafety => 'सुरक्षा';
+  String get labelReportColumnSafety => 'सुरक्षा';
 
   @override
-  String get reportColumnContent => 'विषय-भागः';
+  String get labelReportColumnContent => 'विषय-भागः';
 
   @override
-  String get reportColumnNotes => 'टिप्पणी';
+  String get labelReportColumnNotes => 'टिप्पणी';
 
   @override
-  String get patternIpAddress => 'IP सङ्केतः';
+  String get labelPatternIpAddress => 'IP सङ्केतः';
 
   @override
-  String get patternLongNumbers => 'दीर्घा सङ्ख्या-शृङ्खला';
+  String get labelPatternLongNumbers => 'दीर्घा सङ्ख्या-शृङ्खला';
 
   @override
-  String get patternManyDashes => 'बहवः रेखाः';
+  String get labelPatternManyDashes => 'बहवः रेखाः';
 
   @override
-  String get patternPhishingKeywords => 'कपट-पदानि';
+  String get labelPatternPhishingKeywords => 'कपट-पदानि';
 
   @override
-  String get patternDataUri => 'दत्तांश-URI';
+  String get labelPatternDataUri => 'दत्तांश-URI';
 
   @override
-  String get patternManySubdomains => 'बहूनि उपक्षेत्राणि';
+  String get labelPatternManySubdomains => 'बहूनि उपक्षेत्राणि';
 
   @override
-  String get shortenerPossibleShortDomain =>
+  String get bodyShortenerPossibleShortDomain =>
       'ह्रस्व-सङ्केत-सम्भावना: लघु-क्षेत्रम्';
 
   @override
-  String get shortenerPossibleRandomPath =>
+  String get bodyShortenerPossibleRandomPath =>
       'ह्रस्व-सङ्केत-सम्भावना: अनियता वर्णाः';
 
   @override
-  String shortenerPossibleTld(String tld) {
+  String bodyShortenerPossibleTld(String tld) {
     return 'ह्रस्व-सङ्केत-सम्भावना ($tld)';
   }
 
   @override
-  String get settingsFeaturesTitle => 'वैशिष्ट्यानि';
+  String get titleSettingsFeatures => 'वैशिष्ट्यानि';
 
   @override
-  String get settingsFeaturesSubtitle =>
-      'अनुप्रयोगस्य सर्वाणि वैशिष्ट्यानि पश्यतु';
+  String get descSettingsFeatures => 'अनुप्रयोगस्य सर्वाणि वैशिष्ट्यानि पश्यतु';
 
   @override
-  String get appearanceHubTitle => 'दृश्यरूपम्';
+  String get titleAppearanceHub => 'दृश्यरूपम्';
 
   @override
-  String get appearanceThemeModeCardTitle => 'रूपविधा';
+  String get labelAppearanceThemeModeCard => 'रूपविधा';
 
   @override
-  String get appearanceThemeModeCardSubtitle =>
+  String get descAppearanceThemeModeCard =>
       'तन्त्रं, प्रकाशः, तिमिरं, शुद्धकृष्णं वा चिनोतु';
 
   @override
-  String get appearanceOverlayCardTitle => 'अन्वीक्षणसंस्तरशैली';
+  String get labelAppearanceOverlayCard => 'अन्वीक्षणसंस्तरशैली';
 
   @override
-  String get appearanceOverlayCardSubtitle =>
+  String get descAppearanceOverlayCard =>
       'दीप्तिरेखा, कोणाः, जालिका, बिन्दुमात्रिका वा';
 
   @override
-  String get appearanceAccentCardTitle => 'प्रधानवर्णाः गतिकवर्णाश्च';
+  String get labelAppearanceAccentCard => 'प्रधानवर्णाः गतिकवर्णाश्च';
 
   @override
-  String get appearanceAccentCardSubtitle => 'मटीरियलयू वर्णाः रुचिरवर्णाश्च';
+  String get descAppearanceAccentCard => 'मटीरियलयू वर्णाः रुचिरवर्णाश्च';
 
   @override
-  String get appearanceTypographyCardTitle => 'अक्षरशैली परिमाणं च';
+  String get labelAppearanceTypographyCard => 'अक्षरशैली परिमाणं च';
 
   @override
-  String get appearanceTypographyCardSubtitle =>
-      'वर्णलिपिः अक्षरपरिमाणविन्यासाश्च';
+  String get descAppearanceTypographyCard => 'वर्णलिपिः अक्षरपरिमाणविन्यासाश्च';
 
   @override
-  String get featuresHeaderTitle => 'अनुप्रयोगस्य वैशिष्ट्यानि';
+  String get titleFeaturesHeader => 'सर्वाणि वैशिष्ट्यानि';
 
   @override
-  String get featuresHeaderSubtitle =>
+  String get descFeaturesHeader =>
       'बुद्धिमदन्वीक्षणसाधनानि, षट्स्तरीयां जालसुरक्षां, ए-आर् दृष्टिं च पश्यतु।';
 
   @override
-  String get featuresCatScanningName => 'मूल-अन्वीक्षणं ग्रहणं च';
+  String get titleFeaturesCatScanning => 'अन्वीक्षणम्';
 
   @override
-  String get featuresCatScanningSubtitle =>
+  String get descFeaturesCatScanning =>
       'बहुस्रोत-माध्यम-समर्थम् अतिशीघ्रं 1D/2D दण्डलेखा-यन्त्रम्';
 
   @override
-  String get featuresCatSafetyName => 'षट्स्तरीयं URL-सुरक्षा-परीक्षायन्त्रम्';
+  String get titleFeaturesCatSafety => 'षट्स्तरीया सुरक्षा';
 
   @override
-  String get featuresCatSafetySubtitle =>
+  String get descFeaturesCatSafety =>
       'दुष्ट-QR-प्रलोभनात् वञ्चनाभ्यः च भवन्तं रक्षति शून्यविश्वास-परीक्षणम्';
 
   @override
-  String get featuresCatVisionName => 'क्विशिंग-रक्षकः™ उन्नत-AI-दृष्टिः च';
+  String get titleFeaturesCatVision => 'दृष्टि-साधनानि';
 
   @override
-  String get featuresCatVisionSubtitle =>
+  String get descFeaturesCatVision =>
       'यन्त्रे एव सङ्गणक-दृष्टिः प्रकाशमार्गेण विच्छिन्न-दत्तांश-प्रवाहः च';
 
   @override
-  String get featuresCatPayloadsName => 'चतुर-विषयाः एकस्पर्श-क्रियाः च';
+  String get titleFeaturesCatPayloads => 'चतुर-क्रियाः';
 
   @override
-  String get featuresCatPayloadsSubtitle =>
+  String get descFeaturesCatPayloads =>
       'दैनिक-दण्डलेखानां सद्यः विश्लेषणं सन्दर्भोचिताः क्रियाः च';
 
   @override
-  String get featuresCatHistoryName => 'इतिहासः, सञ्चयः, गोपनीयता-कोशः च';
+  String get titleFeaturesCatHistory => 'इतिवृत्तं गोपनीयता च';
 
   @override
-  String get featuresCatHistorySubtitle =>
-      'जैविक-सुरक्षया स्थानीय-सञ्चयेन च रक्षितः भवतः अन्वीक्षण-इतिहासः';
+  String get descFeaturesCatHistory =>
+      'जैविक-सुरक्षया स्थानीय-सञ्चयेन च रक्षितं भवतः अन्वीक्षण-इतिवृत्तम्';
 
   @override
-  String get featureBarcodeEngineTitle => 'बहुरूप-दण्डलेखा-यन्त्रम्';
+  String get titleFeatureBarcodeEngine => 'दण्डलेखा-यन्त्रम्';
 
   @override
-  String get featureBarcodeEngineDesc =>
+  String get descFeatureBarcodeEngine =>
       '1D-दण्डलेखाः (EAN-13, UPC-A, Code 128, Code 39, Codabar, ITF) 2D-सङ्केतान् (QR, Data Matrix, Aztec, PDF417) च क्षणमात्रेण विकोडयति।';
 
   @override
-  String get featureBarcodeEngineChip1 => 'QR, Data Matrix';
+  String get labelFeatureBarcodeEngineChip1 => 'QR, Data Matrix';
 
   @override
-  String get featureBarcodeEngineChip2 => 'Aztec, PDF417';
+  String get labelFeatureBarcodeEngineChip2 => 'Aztec, PDF417';
 
   @override
-  String get featureBarcodeEngineChip3 => 'EAN, Code 128';
+  String get labelFeatureBarcodeEngineChip3 => 'EAN, Code 128';
 
   @override
-  String get featureMediaSourcesTitle => 'बहुस्रोत-माध्यमं PDF-ग्रहणं च';
+  String get titleFeatureMediaSources => 'चित्राणि PDF च';
 
   @override
-  String get featureMediaSourcesDesc =>
+  String get descFeatureMediaSources =>
       'सजीव-छायाग्राहकात्, चित्रवीथ्याः चित्रेभ्यः, बहुपृष्ठ-PDF-लेखेभ्यः वा दण्डलेखाः अन्वीक्षताम्।';
 
   @override
-  String get featureMediaSourcesChip1 => 'चित्रवीथी';
+  String get labelFeatureMediaSourcesChip1 => 'चित्रवीथी';
 
   @override
-  String get featureMediaSourcesChip2 => 'बहुपृष्ठ-PDF';
+  String get labelFeatureMediaSourcesChip2 => 'बहुपृष्ठ-PDF';
 
   @override
-  String get featureMediaSourcesChip3 => 'सजीव-दृश्यम्';
+  String get labelFeatureMediaSourcesChip3 => 'सजीव-दृश्यम्';
 
   @override
-  String get featureGhostScanTitle => 'छायावीक्षणम्: पटलस्थ-सङ्केत-अन्वेषकः';
+  String get titleFeatureGhostScan => 'छायावीक्षणम्';
 
   @override
-  String get featureGhostScanDesc =>
+  String get descFeatureGhostScan =>
       'सन्देश-अनुप्रयोगेषु, सामाजिक-पटलेषु, जालदर्शकेषु च पटले दृश्यमानान् QR-सङ्केतान् शीघ्रविन्यास-खण्डेन, प्लवमान-वीक्षण-बुद्बुदेन, इच्छया वा अन्विष्य विकोडयति। पटलचित्राणि न रक्ष्यन्ते।';
 
   @override
-  String get featureGhostScanChip1 => 'शीघ्रविन्यास-खण्डः';
+  String get labelFeatureGhostScanChip1 => 'शीघ्रविन्यास-खण्डः';
 
   @override
-  String get featureGhostScanChip2 => 'वीक्षण-बुद्बुदः';
+  String get labelFeatureGhostScanChip2 => 'वीक्षण-बुद्बुदः';
 
   @override
-  String get featureGhostScanChip3 => 'पटलचित्रं न';
+  String get labelFeatureGhostScanChip3 => 'पटलचित्रं न';
 
   @override
-  String get featureCameraControlsTitle => 'सूक्ष्म-छायाग्राहक-नियन्त्रणानि';
+  String get titleFeatureCameraControls => 'छायाग्राहक-नियमनम्';
 
   @override
-  String get featureCameraControlsDesc =>
+  String get descFeatureCameraControls =>
       'सुगमं विस्तारसर्पकम्, प्रकाशदीप-परिवर्तकम्, अग्र-पृष्ठ-छायाग्राहक-परिवर्तनम्, अल्पप्रकाशे अन्वीक्षणाय निरन्तरं स्वनाभीकरणं च।';
 
   @override
-  String get featureCameraControlsChip1 => 'प्रकाशदीपः';
+  String get labelFeatureCameraControlsChip1 => 'प्रकाशदीपः';
 
   @override
-  String get featureCameraControlsChip2 => 'विस्तार-नियन्त्रणम्';
+  String get labelFeatureCameraControlsChip2 => 'विस्तार-नियन्त्रणम्';
 
   @override
-  String get featureCameraControlsChip3 => 'अग्र/पृष्ठ-परिवर्तनम्';
+  String get labelFeatureCameraControlsChip3 => 'अग्र/पृष्ठ-परिवर्तनम्';
 
   @override
-  String get featureScanOverlaysTitle => 'परिवर्तनीयाः अन्वीक्षण-संस्तराः';
+  String get titleFeatureScanOverlays => 'अन्वीक्षण-संस्तराः';
 
   @override
-  String get featureScanOverlaysDesc =>
+  String get descFeatureScanOverlays =>
       'दीप्तिरेखा, स्पन्दमान-कोणाः, सङ्गणक-जालकम्, सूक्ष्म-बिन्दु-जालं वा — एतेषु अन्वीक्षण-संस्तरेषु एकं चिनोतु।';
 
   @override
-  String get featureScanOverlaysChip1 => '4 संस्तर-शैल्यः';
+  String get labelFeatureScanOverlaysChip1 => '4 संस्तर-शैल्यः';
 
   @override
-  String get featureScanOverlaysChip2 => 'सजीव-चलनम्';
+  String get labelFeatureScanOverlaysChip2 => 'सजीव-चलनम्';
 
   @override
-  String get featureScanOverlaysChip3 => 'OLED-अनुकूलम्';
+  String get labelFeatureScanOverlaysChip3 => 'OLED-अनुकूलम्';
 
   @override
-  String get featureFeedbackTitle => 'कम्पन-ध्वनि-प्रतिसादः';
+  String get titleFeatureFeedback => 'कम्पनं ध्वनिः च';
 
   @override
-  String get featureFeedbackDesc =>
+  String get descFeatureFeedback =>
       'परिवर्तनीयं कम्पनं बीप्-ध्वनिः च कोलाहलयुक्ते स्थाने अपि सफलम् अभिज्ञानं सूचयतः।';
 
   @override
-  String get featureFeedbackChip1 => 'कम्पनम्';
+  String get labelFeatureFeedbackChip1 => 'कम्पनम्';
 
   @override
-  String get featureFeedbackChip2 => 'बीप्-ध्वनिः';
+  String get labelFeatureFeedbackChip2 => 'बीप्-ध्वनिः';
 
   @override
-  String get featureFeedbackChip3 => 'पृथक्-नियन्त्रणानि';
+  String get labelFeatureFeedbackChip3 => 'पृथक्-नियन्त्रणानि';
 
   @override
-  String get featureProtocolGuardTitle => 'नियमाचार-रचना-रक्षकः (स्तरः 1)';
+  String get titleFeatureProtocolGuard => '1. नियमाचार-रक्षकः';
 
   @override
-  String get featureProtocolGuardDesc =>
+  String get descFeatureProtocolGuard =>
       'योजना-प्रामाण्यं गूढ-HTTPS-सम्बन्धं च परीक्षते। साधारण-HTTP अथवा असमर्थित-योजनाः सूचयति।';
 
   @override
-  String get featureProtocolGuardChip1 => 'HTTPS-परीक्षा';
+  String get labelFeatureProtocolGuardChip1 => 'HTTPS-परीक्षा';
 
   @override
-  String get featureProtocolGuardChip2 => 'योजना-परीक्षा';
+  String get labelFeatureProtocolGuardChip2 => 'योजना-परीक्षा';
 
   @override
-  String get featureProtocolGuardChip3 => 'अदृश्याक्षर-पाशः';
+  String get labelFeatureProtocolGuardChip3 => 'अदृश्याक्षर-पाशः';
 
   @override
-  String get featureHomographShieldTitle => 'समरूप-यूनिकोड-कवचम् (स्तरः 2)';
+  String get titleFeatureHomographShield => '2. समरूप-कवचम्';
 
   @override
-  String get featureHomographShieldDesc =>
+  String get descFeatureHomographShield =>
       'कपट-क्षेत्रनामानि आच्छादयितुं प्रयुक्तानि सिरिलिक्-ग्रीक्-यूनिकोड-समरूपाक्षराणि अभिजानाति (IDN punycode-रक्षा)।';
 
   @override
-  String get featureHomographShieldChip1 => 'Punycode-रक्षा';
+  String get labelFeatureHomographShieldChip1 => 'Punycode-रक्षा';
 
   @override
-  String get featureHomographShieldChip2 => 'सिरिलिक्-समरूपाणि';
+  String get labelFeatureHomographShieldChip2 => 'सिरिलिक्-समरूपाणि';
 
   @override
-  String get featureHomographShieldChip3 => 'मिश्रलिपि-पाशः';
+  String get labelFeatureHomographShieldChip3 => 'मिश्रलिपि-पाशः';
 
   @override
-  String get featureTldEntropyTitle =>
-      'शङ्कास्पद-TLD-अव्यवस्था-विश्लेषणम् (स्तरः 3)';
+  String get titleFeatureTldEntropy => '3. TLD-अव्यवस्था';
 
   @override
-  String get featureTldEntropyDesc =>
+  String get descFeatureTldEntropy =>
       'उच्चसङ्कट-TLD-नामानि अतिमात्र-उपक्षेत्राणि च सूचयति। यन्त्रनिर्मित-क्षेत्राणि ज्ञातुं नाम्नः अक्षर-अव्यवस्थां मिनोति।';
 
   @override
-  String get featureTldEntropyChip1 => 'सङ्कट-TLD';
+  String get labelFeatureTldEntropyChip1 => 'सङ्कट-TLD';
 
   @override
-  String get featureTldEntropyChip2 => 'अव्यवस्था-अङ्कः';
+  String get labelFeatureTldEntropyChip2 => 'अव्यवस्था-अङ्कः';
 
   @override
-  String get featureTldEntropyChip3 => 'उपक्षेत्र-गभीरता';
+  String get labelFeatureTldEntropyChip3 => 'उपक्षेत्र-गभीरता';
 
   @override
-  String get featureIpPortTitle => 'IP-द्वार-परीक्षा (स्तरः 4)';
+  String get titleFeatureIpPort => '4. IP-द्वार-परीक्षा';
 
   @override
-  String get featureIpPortDesc =>
+  String get descFeatureIpPort =>
       'साक्षात् IP-सङ्केतं प्रति अथवा अग्निभित्ति-लङ्घनाय असामान्य-HTTP/HTTPS-द्वाराणि प्रति गच्छन्तः सम्बन्धाः सूच्यन्ते।';
 
   @override
-  String get featureIpPortChip1 => 'IP-पाशः';
+  String get labelFeatureIpPortChip1 => 'IP-पाशः';
 
   @override
-  String get featureIpPortChip2 => 'असामान्य-द्वाराणि';
+  String get labelFeatureIpPortChip2 => 'असामान्य-द्वाराणि';
 
   @override
-  String get featureIpPortChip3 => 'उपयोक्तृ-सूचना';
+  String get labelFeatureIpPortChip3 => 'उपयोक्तृ-सूचना';
 
   @override
-  String get featureHeadProbeTitle =>
-      'गोपनीयता-सुरक्षितं जाल-परीक्षणम् (स्तरः 5)';
+  String get titleFeatureHeadProbe => '5. जाल-परीक्षणम्';
 
   @override
-  String get featureHeadProbeDesc =>
+  String get descFeatureHeadProbe =>
       'भवता अनुमते एव: लघु-HTTP-HEAD-परीक्षणेन लघु-URL-विस्तारणं, गुप्त-पुनर्निर्देशन-शृङ्खला-प्रकाशनं, TLS-प्रमाणपत्र-सत्यापनं च।';
 
   @override
-  String get featureHeadProbeChip1 => 'पुनर्निर्देशन-शृङ्खला';
+  String get labelFeatureHeadProbeChip1 => 'पुनर्निर्देशन-शृङ्खला';
 
   @override
-  String get featureHeadProbeChip2 => 'लघु-URL-विस्तारः';
+  String get labelFeatureHeadProbeChip2 => 'लघु-URL-विस्तारः';
 
   @override
-  String get featureHeadProbeChip3 => 'ऐच्छिक-गोपनीयता';
+  String get labelFeatureHeadProbeChip3 => 'ऐच्छिक-गोपनीयता';
 
   @override
-  String get featureSafeBrowsingTitle => 'Google Safe Browsing API (स्तरः 6)';
+  String get titleFeatureSafeBrowsing => '6. सुरक्षित-विचरणम्';
 
   @override
-  String get featureSafeBrowsingDesc =>
+  String get descFeatureSafeBrowsing =>
       'कोटिशः ज्ञातानां दुष्ट-URL-नाम्नां, दुष्टतन्त्रांश-केन्द्राणां, सामाजिक-वञ्चना-स्थानानां च विरुद्धम् ऐच्छिकं मेघ-सङ्कट-ज्ञानम्।';
 
   @override
-  String get featureSafeBrowsingChip1 => 'Google-सङ्कट-कोशः';
+  String get labelFeatureSafeBrowsingChip1 => 'Google-सङ्कट-कोशः';
 
   @override
-  String get featureSafeBrowsingChip2 => 'स्थानीय-कुञ्चिका';
+  String get labelFeatureSafeBrowsingChip2 => 'स्थानीय-कुञ्चिका';
 
   @override
-  String get featureSafeBrowsingChip3 => 'दैनिक-सीमा-मापकः';
+  String get labelFeatureSafeBrowsingChip3 => 'दैनिक-सीमा-मापकः';
 
   @override
-  String get featureQuishingGuardTitle =>
-      'क्विशिंग-रक्षकः™: भौतिक-विकृति-ज्ञानम्';
+  String get titleFeatureQuishingGuard => 'क्विशिंग-रक्षकः™';
 
   @override
-  String get featureQuishingGuardDesc =>
+  String get descFeatureQuishingGuard =>
       'QR-उपरि लग्नानि आवरण-पत्राणि, प्रान्त-विच्छेदान्, सूक्ष्म-छायाः, मुद्रण-कणान् च अभिजानाति सङ्गणक-दृष्टिः।';
 
   @override
-  String get featureQuishingGuardChip1 => 'लग्न-पत्राणि';
+  String get labelFeatureQuishingGuardChip1 => 'लग्न-पत्राणि';
 
   @override
-  String get featureQuishingGuardChip2 => 'प्रान्त-विच्छेदः';
+  String get labelFeatureQuishingGuardChip2 => 'प्रान्त-विच्छेदः';
 
   @override
-  String get featureQuishingGuardChip3 => 'मुद्रणकण-विश्लेषणम्';
+  String get labelFeatureQuishingGuardChip3 => 'मुद्रणकण-विश्लेषणम्';
 
   @override
-  String get featureArCodeVisionTitle => 'AR-सङ्केतदृष्टिः™ स्थानिक-HUD';
+  String get titleFeatureArCodeVision => 'AR-सङ्केतदृष्टिः™';
 
   @override
-  String get featureArCodeVisionDesc =>
+  String get descFeatureArCodeVision =>
       'AR-बहुदण्डलेखा-अन्वीक्षकः — सर्वेषां लब्ध-सङ्केतानाम् उपरि सजीव-सुरक्षा-चिह्नैः युक्तानि चिप्-पत्राणि दर्शयति। समूहचयनम् अपि शक्यम्।';
 
   @override
-  String get featureArCodeVisionChip1 => 'स्थानिकानुसरणम्';
+  String get labelFeatureArCodeVisionChip1 => 'स्थानिकानुसरणम्';
 
   @override
-  String get featureArCodeVisionChip2 => 'बहुसङ्केत-HUD';
+  String get labelFeatureArCodeVisionChip2 => 'बहुसङ्केत-HUD';
 
   @override
-  String get featureArCodeVisionChip3 => 'समूहचयनम्';
+  String get labelFeatureArCodeVisionChip3 => 'समूहचयनम्';
 
   @override
-  String get featureAirQrTitle => 'वायु-क्यूआर™ प्रकाश-दत्तांश-प्रवाहः';
+  String get titleFeatureAirQr => 'वायु-क्यूआर™ प्रवाहः';
 
   @override
-  String get featureAirQrDesc =>
+  String get descFeatureAirQr =>
       'Wi-Fi Bluetooth वा विना, पूर्णतया जालरहितं, गूढ-पाठं सञ्चिकाः कुञ्चिकाः च चलत्-QR-द्वारा शीघ्रं प्रेषयति गृह्णाति च।';
 
   @override
-  String get featureAirQrChip1 => 'चलत्-QR';
+  String get labelFeatureAirQrChip1 => 'चलत्-QR';
 
   @override
-  String get featureAirQrChip2 => 'Reed-Solomon FEC';
+  String get labelFeatureAirQrChip2 => 'Reed-Solomon FEC';
 
   @override
-  String get featureAirQrChip3 => '100% जालरहितम्';
+  String get labelFeatureAirQrChip3 => '100% जालरहितम्';
 
   @override
-  String get featureStegoQrTitle => 'स्टेगो-क्यूआर™ गुप्तलेख-अन्वीक्षकः';
+  String get titleFeatureStegoQr => 'स्टेगो-क्यूआर™';
 
   @override
-  String get featureStegoQrDesc =>
+  String get descFeatureStegoQr =>
       'विशिष्ट-QR-सङ्केतेषु अदृश्यरूपेण निहितं गूढ-विषयं जलचिह्नित-दत्तांशं च अन्विष्य बहिः आनयति।';
 
   @override
-  String get featureStegoQrChip1 => 'छद्म-QR-पठनम्';
+  String get labelFeatureStegoQrChip1 => 'छद्म-QR-पठनम्';
 
   @override
-  String get featureStegoQrChip2 => 'AES-विगूहनम्';
+  String get labelFeatureStegoQrChip2 => 'AES-विगूहनम्';
 
   @override
-  String get featureStegoQrChip3 => 'जैविक-प्रवेशः';
+  String get labelFeatureStegoQrChip3 => 'जैविक-प्रवेशः';
 
   @override
-  String get featureWifiTitle => 'Wi-Fi सद्यः सम्बन्धः';
+  String get titleFeatureWifi => 'Wi-Fi सद्यः सम्बन्धः';
 
   @override
-  String get featureWifiDesc =>
+  String get descFeatureWifi =>
       'WPA/WPA2/WPA3 जाल-प्रमाणानि पठित्वा जाल-सूचनां दर्शयति, कूटशब्दं प्रतिलिखति, एकस्पर्शेन Wi-Fi-विन्यासम् उद्घाटयति।';
 
   @override
-  String get featureWifiChip1 => 'WPA3, WPA2';
+  String get labelFeatureWifiChip1 => 'WPA3, WPA2';
 
   @override
-  String get featureWifiChip2 => 'एकस्पर्श-सम्बन्धः';
+  String get labelFeatureWifiChip2 => 'एकस्पर्श-सम्बन्धः';
 
   @override
-  String get featureWifiChip3 => 'कूटशब्द-दर्शनम्';
+  String get labelFeatureWifiChip3 => 'कूटशब्द-दर्शनम्';
 
   @override
-  String get featurePaymentsTitle => 'UPI-गूढमुद्रा-धनप्रेषणम्';
+  String get titleFeaturePayments => 'UPI-गूढमुद्रा-प्रेषणम्';
 
   @override
-  String get featurePaymentsDesc =>
+  String get descFeaturePayments =>
       'भारतीय-UPI-QR-सङ्केतान् (GPay, PhonePe, Paytm प्रति प्रेषयति) Bitcoin/Ethereum/Solana-गूढमुद्रा-सङ्केतान् च धनराशिना सह पठति।';
 
   @override
-  String get featurePaymentsChip1 => 'UPI-अनुप्रयोगः';
+  String get labelFeaturePaymentsChip1 => 'UPI-अनुप्रयोगः';
 
   @override
-  String get featurePaymentsChip2 => 'गूढमुद्रा-कोशाः';
+  String get labelFeaturePaymentsChip2 => 'गूढमुद्रा-कोशाः';
 
   @override
-  String get featurePaymentsChip3 => 'SEPA-प्रेषणम्';
+  String get labelFeaturePaymentsChip3 => 'SEPA-प्रेषणम्';
 
   @override
-  String get featureTotpTitle => 'TOTP द्विघटक-प्रमाणीकरणम्';
+  String get titleFeatureTotp => 'TOTP-प्रमाणीकरणम्';
 
   @override
-  String get featureTotpDesc =>
+  String get descFeatureTotp =>
       '2FA-सज्जीकरण-सङ्केतान् अन्वीक्ष्य वृत्ताकार-गणनया सह सजीव-षडङ्क-OTP दर्शयति। प्रमाणीकरण-अनुप्रयोगेषु योजयितुं शक्यते।';
 
   @override
-  String get featureTotpChip1 => 'सजीव-सङ्केताः';
+  String get labelFeatureTotpChip1 => 'सजीव-सङ्केताः';
 
   @override
-  String get featureTotpChip2 => 'दृश्य-गणना';
+  String get labelFeatureTotpChip2 => 'दृश्य-गणना';
 
   @override
-  String get featureTotpChip3 => 'अनुप्रयोगे योजनम्';
+  String get labelFeatureTotpChip3 => 'अनुप्रयोगे योजनम्';
 
   @override
-  String get featureContactsTitle => 'सम्पर्क-vCard-आयातः';
+  String get titleFeatureContacts => 'सम्पर्क-vCard-आयातः';
 
   @override
-  String get featureContactsDesc =>
+  String get descFeatureContacts =>
       'vCard 2.1/3.0/4.0 MeCard-सम्पर्क-सङ्केतान् च पठति। एकस्पर्शेन दूरवाणी-आह्वानं, विद्युत्पत्र-लेखनं, सम्पर्कसूच्यां रक्षणं च।';
 
   @override
-  String get featureContactsChip1 => 'vCard 4.0';
+  String get labelFeatureContactsChip1 => 'vCard 4.0';
 
   @override
-  String get featureContactsChip2 => 'एकस्पर्श-रक्षणम्';
+  String get labelFeatureContactsChip2 => 'एकस्पर्श-रक्षणम्';
 
   @override
-  String get featureContactsChip3 => 'आह्वानं विद्युत्पत्रम्';
+  String get labelFeatureContactsChip3 => 'आह्वानं विद्युत्पत्रम्';
 
   @override
-  String get featureCalendarTitle => 'दिनदर्शिका-घटनाः';
+  String get titleFeatureCalendar => 'दिनदर्शिका-घटनाः';
 
   @override
-  String get featureCalendarDesc =>
+  String get descFeatureCalendar =>
       'आरम्भ-अन्त-समयैः, स्थानैः, विवरणैः च युक्तान् iCalendar VEVENT पठित्वा साक्षात् यन्त्रस्य दिनदर्शिकायां योजयति।';
 
   @override
-  String get featureCalendarChip1 => 'iCal-पठनम्';
+  String get labelFeatureCalendarChip1 => 'iCal-पठनम्';
 
   @override
-  String get featureCalendarChip2 => 'आरम्भ/अन्त-समयः';
+  String get labelFeatureCalendarChip2 => 'आरम्भ/अन्त-समयः';
 
   @override
-  String get featureCalendarChip3 => 'दिनदर्शिकायां योजनम्';
+  String get labelFeatureCalendarChip3 => 'दिनदर्शिकायां योजनम्';
 
   @override
-  String get featureGeoTitle => 'भौगोलिक-स्थानं मार्गदर्शनं च';
+  String get titleFeatureGeo => 'स्थानं मानचित्रं च';
 
   @override
-  String get featureGeoDesc =>
+  String get descFeatureGeo =>
       'geo: निर्देशाङ्कान् अन्वेषण-पदानि च पठित्वा Google Maps द्वारा सद्यः मार्गं दर्शयति।';
 
   @override
-  String get featureGeoChip1 => 'अक्षांश/रेखांशौ';
+  String get labelFeatureGeoChip1 => 'अक्षांश/रेखांशौ';
 
   @override
-  String get featureGeoChip2 => 'Google Maps-सम्बन्धः';
+  String get labelFeatureGeoChip2 => 'Google Maps-सम्बन्धः';
 
   @override
-  String get featureGeoChip3 => 'अन्वेषण-पदानि';
+  String get labelFeatureGeoChip3 => 'अन्वेषण-पदानि';
 
   @override
-  String get featureScanHistoryTitle => 'सम्पूर्णः स्थानीय-अन्वीक्षण-इतिहासः';
+  String get titleFeatureScanHistory => 'स्थानीय-इतिवृत्तम्';
 
   @override
-  String get featureScanHistoryDesc =>
+  String get descFeatureScanHistory =>
       'प्रत्येकम् अन्वीक्षणं वर्गेण, सुरक्षा-अङ्केन, समयेन, तारकेण च सह यन्त्रे एव रक्षति। सजीव-पूर्णपाठ-अन्वेषणम् अपि।';
 
   @override
-  String get featureScanHistoryChip1 => 'पूर्णपाठ-अन्वेषणम्';
+  String get labelFeatureScanHistoryChip1 => 'पूर्णपाठ-अन्वेषणम्';
 
   @override
-  String get featureScanHistoryChip2 => 'वर्ग-छालनी';
+  String get labelFeatureScanHistoryChip2 => 'वर्ग-छालनी';
 
   @override
-  String get featureScanHistoryChip3 => 'प्रिय-तारकाः';
+  String get labelFeatureScanHistoryChip3 => 'प्रिय-तारकाः';
 
   @override
-  String get featureBackupsTitle => 'JSON-CSV-सञ्चयाः';
+  String get titleFeatureBackups => 'JSON-CSV-सञ्चयाः';
 
   @override
-  String get featureBackupsDesc =>
-      'सम्पूर्णम् अन्वीक्षण-इतिहासं CSV-सारणीरूपेण गूढ-JSON-सञ्चयरूपेण वा निर्यातयतु। एकस्पर्शेन पुनःस्थापनम्।';
+  String get descFeatureBackups =>
+      'सम्पूर्णम् अन्वीक्षण-इतिवृत्तं CSV-सारणीरूपेण गूढ-JSON-सञ्चयरूपेण वा निर्यातयतु। एकस्पर्शेन पुनःस्थापनम्।';
 
   @override
-  String get featureBackupsChip1 => 'CSV-सारणी';
+  String get labelFeatureBackupsChip1 => 'CSV-सारणी';
 
   @override
-  String get featureBackupsChip2 => 'JSON-सञ्चयः';
+  String get labelFeatureBackupsChip2 => 'JSON-सञ्चयः';
 
   @override
-  String get featureBackupsChip3 => 'एकस्पर्श-पुनःस्थापनम्';
+  String get labelFeatureBackupsChip3 => 'एकस्पर्श-पुनःस्थापनम्';
 
   @override
-  String get featureBiometricGuardTitle => 'जैविक-पटल-सुरक्षा';
+  String get titleFeatureBiometricGuard => 'जैविक-पटल-सुरक्षा';
 
   @override
-  String get featureBiometricGuardDesc =>
-      'गुप्त-StegoQR-विषयम् इतिहासं च अङ्गुलिमुद्रा-मुख-प्रमाणीकरणेन रक्षति। पटलचित्र-ग्रहणं निवारयति (FLAG_SECURE)।';
+  String get descFeatureBiometricGuard =>
+      'अङ्गुलिमुद्रया मुखेन दूरवाणी-पटल-तालकेन वा ऐच्छिकम् अनुप्रयोग-तालकम्। संवीक्षाः, इतिवृत्तम्, गुप्तविषयाः, API-कुञ्चिकाः च यत्र दृश्यन्ते, तानि पटलानि पटलचित्रं पटल-अभिलेखनं च निवारयन्ति (FLAG_SECURE)। गुप्त-StegoQR-सन्देशाः अपि जैवमापनं याचितुं शक्नुवन्ति।';
 
   @override
-  String get featureBiometricGuardChip1 => 'जैविक-प्रमाणम्';
+  String get labelFeatureBiometricGuardChip1 => 'जैविक-प्रमाणम्';
 
   @override
-  String get featureBiometricGuardChip2 => 'पटलचित्र-निरोधः';
+  String get labelFeatureBiometricGuardChip2 => 'पटलचित्र-निरोधः';
 
   @override
-  String get featureBiometricGuardChip3 => 'गूढ-सङ्ग्रहः';
+  String get labelFeatureBiometricGuardChip3 => 'गूढ-सङ्ग्रहः';
 
   @override
-  String get featureOfflinePrivacyTitle => '100% स्थानीय-गोपनीयता';
+  String get titleFeatureOfflinePrivacy => '100% स्थानीय-गोपनीयता';
 
   @override
-  String get featureOfflinePrivacyDesc =>
+  String get descFeatureOfflinePrivacy =>
       'दण्डलेखानाम् अन्वीक्षणं विकोडनं विश्लेषणं च पूर्णतया भवतः दूरवाण्याम् एव। स्वतः कोऽपि दत्तांशः बहिः न प्रेष्यते।';
 
   @override
-  String get featureOfflinePrivacyChip1 => 'दूरमापनं नास्ति';
+  String get labelFeatureOfflinePrivacyChip1 => 'दूरमापनं नास्ति';
 
   @override
-  String get featureOfflinePrivacyChip2 => 'विज्ञापनानि न';
+  String get labelFeatureOfflinePrivacyChip2 => 'विज्ञापनानि न';
 
   @override
-  String get featureOfflinePrivacyChip3 => 'मुक्त-स्रोतः';
+  String get labelFeatureOfflinePrivacyChip3 => 'मुक्त-स्रोतः';
 
   @override
   String get helpCenterHeaderTitle => 'साहाय्यकेन्द्रं मार्गदर्शिका च';
@@ -2407,236 +2294,221 @@ class AppLocalizationsSa extends AppLocalizations {
       'अनुप्रयोगस्य सर्वेषां वैशिष्ट्यानां विवरणात्मकानि सूत्राणि पठतु।';
 
   @override
-  String get decryptPayloadAction => 'उद्घाट्यताम्';
+  String get actionDecryptPayload => 'उद्घाट्यताम्';
 
   @override
-  String get decryptPayloadTitle => 'विषयः उद्घाट्यताम्';
+  String get titleDecryptPayload => 'विषयः उद्घाट्यताम्';
 
   @override
-  String get decryptPayloadDescription =>
-      'गूढ-विषयस्य उद्घाटनाय कूटवाक्यं लिख्यताम्।';
+  String get descDecryptPayload => 'गूढ-विषयस्य उद्घाटनाय कूटवाक्यं लिख्यताम्।';
 
   @override
-  String get cipherModeLabel => 'गूढ-प्रकारः';
+  String get labelCipherMode => 'गूढ-प्रकारः';
 
   @override
-  String get cipherModeAuto => 'स्वचालितम् / सामान्यम्';
+  String get labelCipherModeAuto => 'स्वचालितम् / सामान्यम्';
 
   @override
-  String get cipherModeAesGcm => 'AES-256-GCM (PBKDF2 SHA-256)';
+  String get labelCipherModeAesGcm => 'AES-256-GCM (PBKDF2)';
 
   @override
-  String get cipherModeAesCbc => 'AES-256-CBC';
+  String get labelCipherModeAesCbc => 'AES-256-CBC';
 
   @override
-  String get airQrCodeLabel => 'सत्र-सङ्केतः';
+  String get labelAirQrCode => 'सत्र-सङ्केतः';
 
   @override
-  String get airQrCodeHint => 'यथा ABC-DEF';
+  String get helpAirQrCode => 'यथा ABC-DEF';
 
   @override
-  String get airQrDetectedTitle => 'वायु-क्यूआर गूढ-हस्तान्तरणम्';
+  String get titleAirQrDetected => 'वायु-क्यूआर हस्तान्तरणम्';
 
   @override
-  String get airQrDetectedSubtitle =>
+  String get bodyAirQrDetected =>
       'अत्र गूढ-प्रकाश-हस्तान्तरणमस्ति। उद्घाटनाय प्रेषक-यन्त्रे दृष्टं सत्र-सङ्केतं लिखन्तु।';
 
   @override
-  String get jsonEnvelopeDetectedTitle => 'गूढसञ्चिकाभाण्डारम्';
+  String get titleJsonEnvelopeDetected => 'गूढसञ्चिकाभाण्डारम्';
 
   @override
-  String get jsonEnvelopeDetectedSubtitle =>
+  String get bodyJsonEnvelopeDetected =>
       'अस्मिन् सङ्केते गूढदत्तांशः वर्तते। उद्घाटनाय कूटशब्दं ददातु।';
 
   @override
-  String get decryptedContentLabel => 'उद्घाटित-विषयः:';
+  String get labelDecryptedContent => 'उद्घाटित-विषयः:';
 
   @override
-  String get manualDecryptionFailed => 'गूढोद्घाटने दोषः। कूटशब्दं सत्यापयतु।';
+  String get errorManualDecryptionFailed =>
+      'गूढोद्घाटने दोषः। कूटशब्दं सत्यापयतु।';
 
   @override
-  String get emailCardTitle => 'विद्युत्पत्र-सङ्केतः';
+  String get titleEmailCard => 'विद्युत्पत्र-सङ्केतः';
 
   @override
-  String get emailSendButton => 'विद्युत्पत्रं प्रेष्यताम्';
+  String get actionEmailSend => 'विद्युत्पत्रं प्रेष्यताम्';
 
   @override
-  String get emailCopyButton => 'प्रतिलिख्यताम्';
+  String get actionEmailCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get emailLaunchFailed => 'विद्युत्पत्र-अनुप्रयोगः न उद्घाटितः।';
+  String get errorEmailLaunchFailed => 'विद्युत्पत्र-अनुप्रयोगः न उद्घाटितः।';
 
   @override
-  String get emailSubjectLabel => 'विषयः';
+  String get labelEmailSubject => 'विषयः';
 
   @override
-  String get emailBodyLabel => 'सन्देशः';
+  String get labelEmailBody => 'सन्देशः';
 
   @override
-  String get phoneCardTitle => 'दूरवाणी-सङ्ख्या';
+  String get titlePhoneCard => 'दूरवाणी-सङ्ख्या';
 
   @override
-  String get phoneCallButton => 'आहूयताम्';
+  String get actionPhoneCall => 'आहूयताम्';
 
   @override
-  String get phoneCopyButton => 'प्रतिलिख्यताम्';
+  String get actionPhoneCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get phoneLaunchFailed => 'दूरवाणी न उद्घाटिता।';
+  String get errorPhoneLaunchFailed => 'दूरवाणी न उद्घाटिता।';
 
   @override
-  String get smsCardTitle => 'लघुसन्देशः';
+  String get titleSmsCard => 'लघुसन्देशः';
 
   @override
-  String get smsSendButton => 'सन्देशः प्रेष्यताम्';
+  String get actionSmsSend => 'सन्देशः प्रेष्यताम्';
 
   @override
-  String get smsCopyButton => 'प्रतिलिख्यताम्';
+  String get actionSmsCopy => 'प्रतिलिख्यताम्';
 
   @override
-  String get smsLaunchFailed => 'सन्देश-अनुप्रयोगः न उद्घाटितः।';
+  String get errorSmsLaunchFailed => 'सन्देश-अनुप्रयोगः न उद्घाटितः।';
 
   @override
-  String get smsBodyLabel => 'सन्देशः';
+  String get labelSmsBody => 'सन्देशः';
 
   @override
-  String get appLinkCardTitle => 'अनुप्रयोगसम्पर्कः';
+  String get titleAppLinkCard => 'अनुप्रयोगसम्पर्कः';
 
   @override
-  String get appLinkOpenButton => 'अनुप्रयोगाभ्यन्तरे उद्घाटयतु';
+  String get actionAppLinkOpen => 'अनुप्रयोगाभ्यन्तरे उद्घाटयतु';
 
   @override
-  String get appLinkLaunchFailed =>
+  String get errorAppLinkLaunchFailed =>
       'इदम् उद्घाटयितुं न शक्तम्। अनुप्रयोगः स्थापितः वा इति परीक्षताम्।';
 
   @override
-  String get productBarcodeCardTitle => 'उत्पाद-दण्डलेखा';
+  String get titleProductBarcodeCard => 'उत्पाद-दण्डलेखा';
 
   @override
-  String get productSearchFoodButton => 'खाद्यविवरणम्';
+  String get actionProductSearchFood => 'खाद्यविवरणम्';
 
   @override
-  String get productSearchWebButton => 'जालेऽन्विष्यताम्';
+  String get actionProductSearchWeb => 'जालेऽन्विष्यताम्';
 
   @override
-  String get productCopyButton => 'दण्डलेखा प्रतिलिख्यताम्';
+  String get actionProductCopy => 'दण्डलेखा प्रतिलिख्यताम्';
 
   @override
-  String get productLaunchFailed => 'उत्पाद-अन्वेषणं न उद्घाटितम्।';
+  String get errorProductLaunchFailed => 'उत्पाद-अन्वेषणं न उद्घाटितम्।';
 
   @override
-  String get isbnCardTitle => 'पुस्तकम् (ISBN)';
+  String get titleIsbnCard => 'पुस्तकम् (ISBN)';
 
   @override
-  String get isbnGoogleBooksButton => 'गूगल-पुस्तकानि';
+  String get actionIsbnGoogleBooks => 'गूगल-पुस्तकानि';
 
   @override
-  String get isbnOpenLibraryButton => 'मुक्त-ग्रन्थालयः';
+  String get actionIsbnOpenLibrary => 'मुक्त-ग्रन्थालयः';
 
   @override
-  String get isbnCopyButton => 'ISBN प्रतिलिख्यताम्';
+  String get actionIsbnCopy => 'ISBN प्रतिलिख्यताम्';
 
   @override
-  String get isbnLaunchFailed => 'पुस्तक-अन्वेषणं न उद्घाटितम्।';
+  String get errorIsbnLaunchFailed => 'पुस्तक-अन्वेषणं न उद्घाटितम्।';
 
   @override
-  String get historyFilterEmail => 'विद्युत्पत्रम्';
+  String get labelHistoryFilterEmail => 'विद्युत्पत्रम्';
 
   @override
-  String get historyFilterPhone => 'दूरवाणी';
+  String get labelHistoryFilterPhone => 'दूरवाणी';
 
   @override
-  String get historyFilterSms => 'सन्देशः';
+  String get labelHistoryFilterSms => 'सन्देशः';
 
   @override
-  String get historyFilterAppLink => 'सेतुः';
+  String get labelHistoryFilterAppLink => 'सेतुः';
 
   @override
-  String get historyFilterProductBarcode => 'उत्पादः';
+  String get labelHistoryFilterProductBarcode => 'उत्पादः';
 
   @override
-  String get historyFilterIsbn => 'पुस्तकम्';
+  String get labelHistoryFilterIsbn => 'पुस्तकम्';
 
   @override
-  String get scanFlashOff => 'दीपः: निष्क्रियः';
+  String get tooltipScanFlashOff => 'दीपः: निष्क्रियः';
 
   @override
-  String get scanFlashOn => 'दीपः: सक्रियः';
+  String get tooltipScanFlashOn => 'दीपः: सक्रियः';
 
   @override
-  String get scanFlashAuto => 'दीपः: स्वयञ्चालितः';
+  String get tooltipScanFlashAuto => 'दीपः: स्वयञ्चालितः';
 
   @override
-  String scanFlashAutoActive(String lux) {
+  String bodyScanFlashAutoActive(String lux) {
     return 'स्वयञ्चालितदीपः सक्रियः ($lux lux)';
   }
 
   @override
-  String get scanFlashAutoSensorUnavailable =>
-      'अस्मिन् यन्त्रे प्रकाशसंवेदकः नास्ति';
+  String get tooltipCameraTune => 'चित्रग्राहीसंस्काराः';
 
   @override
-  String get cameraTuneTooltip => 'चित्रग्राहीसंस्काराः';
+  String get titleCameraTune => 'चित्रग्राहीसंस्काराः';
 
   @override
-  String get cameraTuneTitle => 'चित्रग्राहीसंस्काराः';
+  String get labelCameraBrightness => 'द्युतिः';
 
   @override
-  String get cameraBrightnessLabel => 'द्युतिः';
+  String get labelCameraContrast => 'वैषम्यम्';
 
   @override
-  String get cameraContrastLabel => 'वैषम्यम्';
+  String get labelCameraInvert => 'वर्णव्युत्क्रमः (प्रतिलोमान्वीक्षणम्)';
 
   @override
-  String get cameraInvertLabel => 'वर्णव्युत्क्रमः (प्रतिलोमान्वीक्षणम्)';
+  String get descCameraInvert => 'कृष्णपृष्ठे श्वेतसङ्केतानाम् अन्वीक्षणाय';
 
   @override
-  String get cameraInvertHint => 'कृष्णपृष्ठे श्वेतसङ्केतानाम् अन्वीक्षणाय';
+  String get labelCameraResolution => 'चित्रग्राहिसङ्कल्पना';
 
   @override
-  String get cameraResolutionLabel => 'चित्रग्राहिसङ्कल्पना';
+  String get tooltipCameraResolutionFullHd => '१०८०p, संस्तुतम्';
 
   @override
-  String get cameraResolutionFullHd => 'पूर्ण-HD (१०८०p - संस्तुतम्)';
+  String get tooltipCameraResolutionMax => 'महत्तमम् (४K UHD)';
 
   @override
-  String get cameraResolutionMax => 'महत्तमम् (४K UHD)';
+  String get tooltipCameraResolutionHd => '७२०p, मन्दशक्तिः';
 
   @override
-  String get cameraResolutionHd => 'HD (७२०p - मन्दशक्तिः)';
+  String get actionCameraReset => 'संस्कारान् पुनरनुकूलयतु';
 
   @override
-  String get cameraResetAdjustments => 'संस्कारान् पुनरनुकूलयतु';
+  String get labelSettingsLanguage => 'भाषा';
 
   @override
-  String get cameraFocusTapHint => 'संकेन्द्रणाय प्रकाशाय च स्पृशतु';
+  String get labelLanguageSystemDefault => 'तन्त्रमानकम्';
 
   @override
-  String get settingsLanguageTitle => 'भाषा';
+  String get labelLanguageEnglish => 'English';
 
   @override
-  String get settingsLanguageSubtitle => 'अनुप्रयोगप्रदर्शनभाषां चिनोतु';
+  String get labelLanguageMalayalam => 'മലയാളം';
 
   @override
-  String get languageSystemDefault => 'तन्त्रमानकम्';
+  String get labelLanguageSanskrit => 'संस्कृतम्';
 
   @override
-  String get languageEnglish => 'English';
-
-  @override
-  String get languageMalayalam => 'മലയാളം';
-
-  @override
-  String get languageSanskrit => 'संस्कृतम्';
-
-  @override
-  String aboutCopyright(String year) {
-    return '© $year Sreeraj P. All rights reserved.';
-  }
-
-  @override
-  String apiQuotaPercentageUsed(String percentage) {
-    return '$percentage% उपभुक्तम्';
+  String bodyAboutCopyright(String year) {
+    return '© $year Sreeraj P. सर्वे अधिकाराः सुरक्षिताः।';
   }
 
   @override
@@ -2661,70 +2533,64 @@ class AppLocalizationsSa extends AppLocalizations {
   String get tooltipResetStream => 'प्रवाहं पुनरारभताम्';
 
   @override
-  String get tooltipAirQrTransmitter => 'वायु-क्यूआर् प्रेषकं प्रति गच्छतु';
+  String get labelAirQrModeText => 'स्वेच्छापाठः';
 
   @override
-  String get airQrModeText => 'स्वेच्छापाठः';
+  String get labelAirQrModeSync => 'उपकरणतुल्यकालिकता';
 
   @override
-  String get airQrModeSync => 'उपकरणतुल्यकालिकता';
-
-  @override
-  String airQrSyncIncludeHistory(int count) {
-    return 'अवलोकनवृत्तं योजयतु ($count)';
+  String labelAirQrSyncIncludeHistory(int count) {
+    return 'इतिवृत्तम् ($count)';
   }
 
   @override
-  String get airQrSyncIncludeSettings => 'अनुप्रयोगसंविधानानि योजयतु';
+  String get labelAirQrSyncIncludeSettings => 'अनुप्रयोगसंविधानानि योजयतु';
 
   @override
-  String get airQrSyncPassphraseLabel => 'तुल्यकालनगुप्तपदम् / पिन्';
+  String get labelAirQrSyncPassphrase => 'तुल्यकालनगुप्तपदम् / पिन्';
 
   @override
-  String get airQrSyncPassphraseHint => 'गूढपदं लिखतु';
+  String get helpAirQrSyncPassphrase => 'गूढपदं लिखतु';
 
   @override
-  String get airQrSyncGeneratePin => 'पिन्-सङ्ख्यां रचयतु';
+  String get tooltipAirQrSyncGeneratePin => 'पिन्-सङ्ख्यां रचयतु';
 
   @override
-  String get airQrSyncBeamButton => 'वृत्तं संविधानानि च प्रेषयतु';
+  String get errorAirQrSyncNoData => 'वृत्तं संविधानानि वा चिनोतु।';
 
   @override
-  String get airQrSyncNoDataWarning => 'वृत्तं संविधानानि वा चिनोतु।';
+  String get titleAirQrSyncPackage => 'एयर्-क्यु-आर् संवृतसञ्चिका';
 
   @override
-  String get airQrSyncPackageDetected => 'एयर्-क्यु-आर् संवृतसञ्चिका';
-
-  @override
-  String airQrSyncPackageSummary(int records) {
+  String bodyAirQrSyncPackageSummary(int records) {
     return '$records अवलोकनवृत्तानि संविधानानि च सन्ति';
   }
 
   @override
-  String get airQrSyncEnterPassphrase => 'उद्घाटयितुं गुप्तपदं लिखतु';
+  String get labelAirQrSyncEnterPassphrase => 'समन्वय-गुप्तपदम्';
 
   @override
-  String get airQrSyncRestoreHistory => 'अवलोकनवृत्तं पुनस्स्थापयतु';
+  String get labelAirQrSyncRestoreHistory => 'इतिवृत्तं पुनःस्थापयतु';
 
   @override
-  String get airQrSyncApplySettings => 'संविधानानि प्रयोजयतु';
+  String get labelAirQrSyncApplySettings => 'संविधानानि प्रयोजयतु';
 
   @override
-  String get airQrSyncDecryptButton => 'उद्घाट्य तुल्यकालीकरोतु';
+  String get actionAirQrSyncDecrypt => 'उद्घाट्य तुल्यकालीकरोतु';
 
   @override
-  String airQrSyncSuccess(int count) {
+  String bodyAirQrSyncSuccess(int count) {
     return '$count वृत्तानि संविधानानि च तुल्यकालीकृतानि!';
   }
 
   @override
-  String get airQrSyncBeamAction => 'एयर्-क्यु-आर् द्वारा प्रेषयतु';
+  String get actionAirQrSyncBeam => 'एयर्-क्यु-आर् द्वारा प्रेषयतु';
 
   @override
-  String get airQrSyncSettingsTitle => 'एयर्-क्यु-आर् तुल्यकालनम्';
+  String get titleAirQrSyncSettings => 'एयर्-क्यु-आर् तुल्यकालनम्';
 
   @override
-  String get airQrSyncSettingsSubtitle =>
+  String get descAirQrSyncSettings =>
       'सञ्जालं विना अन्योपकरणाय वृत्तं प्रेषयतु';
 
   @override
@@ -2734,506 +2600,458 @@ class AppLocalizationsSa extends AppLocalizations {
   String get tabCodeForge => 'कोड-सृजनम्';
 
   @override
-  String get tabHistory => 'इतिहासः';
+  String get tabHistory => 'इतिवृत्तम्';
 
   @override
-  String get codeForgeTitle => 'कोड-सृजनम्';
+  String get titleCodeForge => 'कोड-सृजनम्';
 
   @override
-  String get codeForgeSubtitle => 'सङ्केत-सृजन-शाला';
+  String get labelCodeForgeSubtitle => 'सङ्केत-सृजन-शाला';
 
   @override
-  String get codeForgeBarcodeType => 'सङ्केतप्रकारः';
+  String get labelCodeForgePresetText => 'पाठ्यम्';
 
   @override
-  String get codeForgePayloadType => 'विषयप्रकारः';
-
-  @override
-  String get codeForgePresetText => 'पाठ्यम्';
-
-  @override
-  String get codeForgeTextHint =>
+  String get helpCodeForgeText =>
       'स्पष्टाय सुकराय च क्रमवीक्षणाय पाठ्यं ५०० वर्णेभ्यः न्यूनं स्थापयतु';
 
   @override
-  String get codeForgeLoadFromFile => 'सञ्चिकातः पठतु';
+  String get actionCodeForgeLoadFromFile => 'सञ्चिकातः पठतु';
 
   @override
-  String get codeForgeLoadFromFileTooltip =>
-      'QR-संकेत-निर्माणाय सञ्चिकातः पाठं स्वीकरोतु';
+  String get tooltipCodeForgeLoadFromFile => 'सञ्चिकातः पठ्यताम्';
 
   @override
-  String get codeForgeFileEmpty => 'चितसञ्चिका रिक्ता अस्ति।';
+  String get errorCodeForgeFileEmpty => 'चितसञ्चिका रिक्ता अस्ति।';
 
   @override
-  String get codeForgeFileTruncated =>
+  String get bodyCodeForgeFileTruncated =>
       'एकस्मिन् त्वरित-स्कैन-QR-संकेते समावेशनाय पाठः ५०० वर्णेभ्यः सीमितः कृतः।';
 
   @override
-  String get codeForgeFileLoaded => 'सञ्चिकायाः पाठः सफलतया स्वीकृतः।';
+  String get bodyCodeForgeFileLoaded => 'सञ्चिकायाः पाठः सफलतया स्वीकृतः।';
 
   @override
-  String get codeForgeFileReadError => 'चितसञ्चिकायाः पठने असमर्थः।';
+  String get errorCodeForgeFileReadError => 'चितसञ्चिकायाः पठने असमर्थः।';
 
   @override
-  String get codeForgePresetUrl => 'जालसङ्केतः';
+  String get labelCodeForgePresetUrl => 'जालसङ्केतः';
 
   @override
-  String get codeForgePresetWifi => 'वै-फाई';
+  String get labelCodeForgePresetWifi => 'वै-फाई';
 
   @override
-  String get codeForgePresetContact => 'सम्पर्कः';
+  String get labelCodeForgePresetContact => 'सम्पर्कः';
 
   @override
-  String get codeForgePresetUpi => 'युपीआई';
+  String get labelCodeForgePresetUpi => 'युपीआई';
 
   @override
-  String get codeForgePresetSms => 'सन्देशः';
+  String get labelCodeForgePresetSms => 'सन्देशः';
 
   @override
-  String get codeForgePresetEmail => 'विद्युत्पत्रम्';
+  String get labelCodeForgePresetEmail => 'विद्युत्पत्रम्';
 
   @override
-  String get codeForgePresetGeo => 'स्थानम्';
+  String get labelCodeForgePresetGeo => 'स्थानम्';
 
   @override
-  String get codeForgeWifiSsid => 'संजालनाम (SSID)';
+  String get labelCodeForgeWifiSsid => 'संजालनाम (SSID)';
 
   @override
-  String get codeForgeWifiPassword => 'कूटशब्दः';
+  String get labelCodeForgeWifiPassword => 'कूटशब्दः';
 
   @override
-  String get codeForgeWifiSecurity => 'सुरक्षा';
+  String get labelCodeForgeWifiSecurity => 'सुरक्षा';
 
   @override
-  String get codeForgeWifiHidden => 'गूढसंजालम्';
+  String get labelCodeForgeWifiHidden => 'गूढसंजालम्';
 
   @override
-  String get codeForgeContactName => 'पूर्णनाम';
+  String get labelCodeForgeContactName => 'पूर्णनाम';
 
   @override
-  String get codeForgeContactPhone => 'दूरवाणी-सङ्ख्या';
+  String get labelCodeForgeContactPhone => 'दूरवाणी-सङ्ख्या';
 
   @override
-  String get codeForgeContactEmail => 'विद्युत्पत्र-सङ्केतः';
+  String get labelCodeForgeContactEmail => 'विद्युत्पत्र-सङ्केतः';
 
   @override
-  String get codeForgeContactOrg => 'संस्था';
+  String get labelCodeForgeContactOrg => 'संस्था';
 
   @override
-  String get codeForgeContactTitle => 'पदम्';
+  String get labelCodeForgeUpiVpa => 'युपीआई-सङ्केतः';
 
   @override
-  String get codeForgeContactUrl => 'जालस्थानम्';
+  String get labelCodeForgeUpiName => 'प्राप्तुर्नाम';
 
   @override
-  String get codeForgeUpiVpa => 'युपीआई-सङ्केतः';
+  String get labelCodeForgeUpiAmount => 'राशिः (रूप्यकम्)';
 
   @override
-  String get codeForgeUpiName => 'प्राप्तुर्नाम';
+  String get labelCodeForgeUpiNote => 'टिप्पणी';
 
   @override
-  String get codeForgeUpiAmount => 'राशिः (रूप्यकम्)';
+  String get labelCodeForgeSmsPhone => 'दूरवाणी-सङ्ख्या';
 
   @override
-  String get codeForgeUpiNote => 'टिप्पणी';
+  String get labelCodeForgeSmsMessage => 'सन्देशः';
 
   @override
-  String get codeForgeSmsPhone => 'दूरवाणी-सङ्ख्या';
+  String get labelCodeForgeEmailTo => 'विद्युत्पत्र-सङ्केतः';
 
   @override
-  String get codeForgeSmsMessage => 'सन्देशः';
+  String get labelCodeForgeEmailSubject => 'विषयः';
 
   @override
-  String get codeForgeEmailTo => 'विद्युत्पत्र-सङ्केतः';
+  String get labelCodeForgeEmailBody => 'सन्देशः';
 
   @override
-  String get codeForgeEmailSubject => 'विषयः';
+  String get labelCodeForgeGeoLat => 'अक्षांशः';
 
   @override
-  String get codeForgeEmailBody => 'सन्देशः';
+  String get labelCodeForgeGeoLng => 'रेखांशः';
 
   @override
-  String get codeForgeGeoLat => 'अक्षांशः';
+  String get actionCodeForgeGeoUseMyLocation => 'मम स्थानम्';
 
   @override
-  String get codeForgeGeoLng => 'रेखांशः';
+  String get labelCodeForgeGeoFetching => 'स्थानं प्राप्यते…';
 
   @override
-  String get codeForgeGeoUseMyLocation => 'मम स्थानम्';
+  String get errorCodeForgeGeoFailed => 'स्थानं न प्राप्तम्';
 
   @override
-  String get codeForgeGeoFetching => 'स्थानं प्राप्यते…';
+  String get errorCodeForgeGeoPermissionDenied => 'स्थान-अनुज्ञा निराकृता';
 
   @override
-  String get codeForgeGeoFailed => 'स्थानं न प्राप्तम्';
+  String get titleCodeForgeDesignStudio => 'संरचना-विन्यासः';
 
   @override
-  String get codeForgeGeoPermissionDenied => 'स्थान-अनुज्ञा निराकृता';
+  String get titleCodeForgeEyeShape => 'नेत्राकारः';
 
   @override
-  String get codeForgeDesignStudio => 'संरचना-विन्यासः';
+  String get titleCodeForgeEyeBallShape => 'तारकाकारः';
 
   @override
-  String get codeForgeEyeShape => 'नेत्राकारः';
+  String get titleCodeForgePatternShape => 'बिन्दुरुपाणि';
 
   @override
-  String get codeForgeEyeBallShape => 'तारकाकारः';
+  String get labelCodeForgeShapeSquare => 'चतुरस्रम्';
 
   @override
-  String get codeForgePatternShape => 'बिन्दुरुपाणि';
+  String get labelCodeForgeShapeDots => 'बिन्दवः';
 
   @override
-  String get codeForgeShapeSquare => 'चतुरस्रम्';
+  String get labelCodeForgeShapeRounded => 'वर्तुलाकारम्';
 
   @override
-  String get codeForgeShapeDots => 'बिन्दवः';
+  String get labelCodeForgeShapeClassy => 'चारुरुपम्';
 
   @override
-  String get codeForgeShapeRounded => 'वर्तुलाकारम्';
+  String get labelCodeForgeShapeDiamond => 'वज्राकारम्';
 
   @override
-  String get codeForgeShapeClassy => 'चारुरुपम्';
+  String get labelCodeForgeShapeLeaf => 'पर्णाकारम्';
 
   @override
-  String get codeForgeShapeDiamond => 'वज्राकारम्';
+  String get labelCodeForgeShapeCircle => 'मण्डलाकारम्';
 
   @override
-  String get codeForgeShapeLeaf => 'पर्णाकारम्';
+  String get titleCodeForgeColorStudio => 'वर्णसंयोजनम्';
 
   @override
-  String get codeForgeShapeCircle => 'मण्डलाकारम्';
+  String get titleCodeForgeFgColor => 'अग्रवर्णः';
 
   @override
-  String get codeForgeColorStudio => 'वर्णसंयोजनम्';
+  String get titleCodeForgeBgColor => 'पृष्ठवर्णः';
 
   @override
-  String get codeForgeFgColor => 'अग्रवर्णः';
+  String get labelCodeForgeGradientNone => 'एकवर्णः';
 
   @override
-  String get codeForgeBgColor => 'पृष्ठवर्णः';
+  String get labelCodeForgeGradientSunset => 'सूर्यास्तः';
 
   @override
-  String get codeForgeEyeOuterColor => 'नेत्र-परिवेषः';
+  String get labelCodeForgeGradientOcean => 'सागरः';
 
   @override
-  String get codeForgeEyeInnerColor => 'नेत्र-तारका';
+  String get labelCodeForgeGradientNeon => 'प्रभा';
 
   @override
-  String get codeForgeGradientNone => 'एकवर्णः';
+  String get labelCodeForgeGradientGold => 'राजस्वर्णम्';
 
   @override
-  String get codeForgeGradientSunset => 'सूर्यास्तः';
+  String get titleCodeForgeErrorCorrection => 'त्रुटि-शोधनम्';
 
   @override
-  String get codeForgeGradientOcean => 'सागरः';
+  String get titleCodeForgeCenterBadge => 'केन्द्र-चिह्नम्';
 
   @override
-  String get codeForgeGradientNeon => 'प्रभा';
+  String get labelCodeForgeBadgeNone => 'किमपि न';
 
   @override
-  String get codeForgeGradientGold => 'राजस्वर्णम्';
+  String get labelCodeForgeBadgeIcon => 'विषय-चिह्नम्';
 
   @override
-  String get codeForgeErrorCorrection => 'त्रुटि-शोधनम्';
+  String get labelCodeForgeBadgeShield => 'सुरक्षा-फलकम्';
 
   @override
-  String get codeForgeCenterBadge => 'केन्द्र-चिह्नम्';
+  String get actionCodeForgeExportPng => 'चित्रांश-भाजनम्';
 
   @override
-  String get codeForgeBadgeNone => 'किमपि न';
+  String get actionCodeForgeExportSvg => 'सदिश-भाजनम्';
 
   @override
-  String get codeForgeBadgeIcon => 'विषय-चिह्नम्';
+  String get tooltipCodeForgeCopyPayload => 'प्रतिलिख्यताम्';
 
   @override
-  String get codeForgeBadgeShield => 'सुरक्षा-फलकम्';
+  String get bodyCodeForgeCopied => 'विषयः फलके प्रतिलेखितः';
 
   @override
-  String get codeForgeExportPng => 'चित्रांश-भाजनम्';
+  String get bodyCodeForgeSafeVerified =>
+      'षड्विध-सुरक्षा-तन्त्रेण प्रमाणीकृतम्';
 
   @override
-  String get codeForgeExportSvg => 'सदिश-भाजनम्';
+  String get tooltipCodeForgeResetStyle => 'विन्यासः प्रत्यानयताम्';
 
   @override
-  String get codeForgeCopyPayload => 'प्रतिलिख्यताम्';
+  String get labelCodeForgeIncludeText => 'सङ्ख्या दृश्यताम्';
 
   @override
-  String get codeForgeCopied => 'विषयः फलके प्रतिलेखितः';
+  String get titleCodeForgePreview => 'प्रत्यक्ष-प्रदर्शनम्';
 
   @override
-  String get codeForgeSafeVerified => 'षड्विध-सुरक्षा-तन्त्रेण प्रमाणीकृतम्';
+  String get actionOnboardingSkip => 'त्यजतु';
 
   @override
-  String get codeForgeResetStyle => 'विन्यासः प्रत्यानयताम्';
+  String get actionOnboardingNext => 'अग्रिमम्';
 
   @override
-  String get codeForgeIncludeText => 'सङ्ख्या दृश्यताम्';
+  String get actionOnboardingGetStarted => 'स्कैन आरभताम्';
 
   @override
-  String get codeForgePreview => 'प्रत्यक्ष-प्रदर्शनम्';
+  String get labelOnboardingSlide1Badge => 'षट्स्तरीयरक्षा';
 
   @override
-  String get onboardingSkip => 'त्यजतु';
+  String get titleOnboardingSlide1 => 'षट्स्तरीया सुरक्षा';
 
   @override
-  String get onboardingNext => 'अग्रिमम्';
-
-  @override
-  String get onboardingGetStarted => 'स्कैन आरभताम्';
-
-  @override
-  String get onboardingSlide1Badge => 'षट्स्तरीयरक्षा';
-
-  @override
-  String get onboardingSlide1Title => 'षट्स्तरीय-यूआरएल-सुरक्षा-यन्त्रम्';
-
-  @override
-  String get onboardingSlide1Description =>
+  String get bodyOnboardingSlide1 =>
       'उद्घाटनात् पूर्वं प्रत्येकः सम्पर्कतन्तुः षण्णां रक्षास्तराणां द्वारा परीक्ष्यते। एतत् कपटजालात्, वञ्चकपुनर्निर्देशनात्, कूटडोमेनात् च रक्षति।';
 
   @override
-  String get onboardingSlide1Bullet1 => 'प्रोटोकॉल-कूटडोमेन-कवचम्';
+  String get bodyOnboardingSlide1Bullet1 => 'प्रोटोकॉल-कूटडोमेन-कवचम्';
 
   @override
-  String get onboardingSlide1Bullet2 => 'टीएलडी-एन्ट्रोपी-पोर्ट-परीक्षणम्';
+  String get bodyOnboardingSlide1Bullet2 => 'टीएलडी-एन्ट्रोपी-पोर्ट-परीक्षणम्';
 
   @override
-  String get onboardingSlide1Bullet3 => 'गोप्यपरीक्षणं सुरक्षितअन्वेषणं च';
+  String get bodyOnboardingSlide1Bullet3 => 'गोप्यपरीक्षणं सुरक्षितअन्वेषणं च';
 
   @override
-  String get onboardingSlide2Badge => 'सङ्गणकदृष्टिः';
+  String get labelOnboardingSlide2Badge => 'सङ्गणकदृष्टिः';
 
   @override
-  String get onboardingSlide2Title => 'क्विशिङ्गगार्ड-विकृति-शोधनम्';
+  String get titleOnboardingSlide2 => 'विकृति-शोधनम्';
 
   @override
-  String get onboardingSlide2Description =>
+  String get bodyOnboardingSlide2 =>
       'वास्तविकसङ्केतानाम् उपरि आरोपितान् कपट-क्यूआर-पत्रकान् क्विशिङ्गगार्ड-यन्त्रं परीक्षते। स्कैनकरणात् पूर्वं भित्तीः, छायाः, पत्राकारांश्च अवलोकयति।';
 
   @override
-  String get onboardingSlide2Bullet1 => 'आरोपितपत्रकस्य शोधनम्';
+  String get bodyOnboardingSlide2Bullet1 => 'आरोपितपत्रकस्य शोधनम्';
 
   @override
-  String get onboardingSlide2Bullet2 => 'छिन्नधाराणां छायासीम्नां च परीक्षणम्';
+  String get bodyOnboardingSlide2Bullet2 =>
+      'छिन्नधाराणां छायासीम्नां च परीक्षणम्';
 
   @override
-  String get onboardingSlide2Bullet3 => 'प्रत्यक्ष-दृश्यचक्र-परीक्षणम्';
+  String get bodyOnboardingSlide2Bullet3 => 'प्रत्यक्ष-दृश्यचक्र-परीक्षणम्';
 
   @override
-  String get onboardingSlide3Badge => 'क्लाउड-रहितम् • अनुवर्तन-शून्यम्';
+  String get labelOnboardingSlide3Badge => 'अनुवर्तन-शून्यम्';
 
   @override
-  String get onboardingSlide3Title => 'शतप्रतिशतम् अफलाइन-गोपनीयता';
+  String get titleOnboardingSlide3 => '100% स्थानीय-गोपनीयता';
 
   @override
-  String get onboardingSlide3Description =>
+  String get bodyOnboardingSlide3 =>
       'भवतः सङ्केतलेखाः वैयक्तिकविवरणानि च कदापि दूरभाषं न त्यजन्ति। अत्र न विश्लेषणानि, न विज्ञापनं, न च अनुवर्तकाः।';
 
   @override
-  String get onboardingSlide3Bullet1 => 'गूढलिखितं स्थानिक-दत्तांशस्थानम्';
+  String get bodyOnboardingSlide3Bullet1 => 'गूढलिखितं स्थानिक-दत्तांशस्थानम्';
 
   @override
-  String get onboardingSlide3Bullet2 => 'एयर्-क्यूआर-दृश्यक-स्थानान्तरणम्';
+  String get bodyOnboardingSlide3Bullet2 => 'एयर्-क्यूआर-दृश्यक-स्थानान्तरणम्';
 
   @override
-  String get onboardingSlide3Bullet3 => 'विश्लेषण-रहितं सुरक्षित-रचना';
+  String get bodyOnboardingSlide3Bullet3 => 'विश्लेषण-रहितं सुरक्षित-रचना';
 
   @override
-  String get settingsOnboardingTourTitle => 'स्वागत-परिचय-प्रवासः';
+  String get labelSettingsOnboardingTour => 'स्वागत-परिचय-प्रवासः';
 
   @override
-  String get settingsOnboardingTourSubtitle =>
+  String get descSettingsOnboardingTour =>
       'सुरक्षा-गोपनीयता-वैशिष्ट्यानां त्रिफलक-परिचयं पुनः पश्यतु';
 
   @override
-  String get batchScanMode => 'गणस्कैनिङ्ग्-रीतिः';
+  String get tooltipBatchMode => 'संतत-गणस्कैनिङ्ग्';
 
   @override
-  String get batchModeTooltip => 'संतत-गणस्कैनिङ्ग्';
+  String get bodyBatchModeEnabled => 'संतत-गणस्कैनिङ्ग् सक्रियम्';
 
   @override
-  String get batchModeEnabledToast => 'संतत-गणस्कैनिङ्ग् सक्रियम्';
+  String get bodyBatchModeDisabled => 'संतत-गणस्कैनिङ्ग् निष्क्रियम्';
 
   @override
-  String get batchModeDisabledToast => 'संतत-गणस्कैनिङ्ग् निष्क्रियम्';
-
-  @override
-  String batchCounterBadge(int count) {
+  String labelBatchCounter(int count) {
     return '$count स्कानिनानि';
   }
 
   @override
-  String get batchReviewTitle => 'गणस्कैन्-सूची';
+  String get labelBatchReview => 'गणस्कैन्-सूची';
 
   @override
-  String get batchReviewSubtitle => 'संततस्कैनिङ्ग्-पङ्क्तिः';
+  String get descBatchReview => 'संततस्कैनिङ्ग्-पङ्क्तिः';
 
   @override
-  String get batchEmptyTitle => 'गणे कोडाः अविद्यमानाः';
+  String get emptyBatchTitle => 'गणे कोडाः अविद्यमानाः';
 
   @override
-  String get batchEmptySubtitle =>
+  String get emptyBatchBody =>
       'कॅमरां विना त्यक्त्वा संतततया कोडान् स्कैन् कुरु।';
 
   @override
-  String get batchExport => 'गणनिर्यातयतु';
+  String get titleBatchExport => 'गणनिर्यातयतु';
 
   @override
-  String get batchClear => 'गणं रिक्तीकुरु';
+  String get actionBatchClear => 'गणं रिक्तीकुरु';
 
   @override
-  String get batchClearConfirmTitle => 'गणं रिक्तीकरोतु वा?';
+  String get titleBatchClearConfirm => 'गणं रिक्तीकरोतु वा?';
 
   @override
-  String get batchClearConfirmContent =>
+  String get bodyBatchClearConfirm =>
       'किं भवान् अस्य गणस्य सर्वान् कोडान् निष्कासयितुम् इच्छति?';
 
   @override
-  String get batchPreventDuplicates => 'पुनरावृत्तिनिवारणम्';
+  String get labelBatchPreventDuplicates => 'पुनरावृत्तिनिवारणम्';
 
   @override
-  String batchScannedToast(int count, String content) {
+  String bodyBatchScanned(int count, String content) {
     return 'स्कानितम् #$count: $content';
   }
 
   @override
-  String get batchSafeUrl => 'सुरक्षितसम्पर्कः';
+  String get bodyBatchAnalyzingUrl => 'सम्पर्कविश्लेषणं प्रचलति...';
 
   @override
-  String get batchSuspiciousUrl => 'संदिग्धसम्पर्कः';
-
-  @override
-  String get batchAnalyzingUrl => 'सम्पर्कविश्लेषणं प्रचलति...';
-
-  @override
-  String batchUrlSafetySummary(int safeCount, int warningCount, int totalUrls) {
+  String bodyBatchUrlSafetySummary(
+    int safeCount,
+    int warningCount,
+    int totalUrls,
+  ) {
     return '$totalUrls सम्पर्कैः $safeCount सुरक्षिताः, $warningCount संदिग्धाः';
   }
 
   @override
-  String get batchItemDetailsTitle => 'स्कानितकोडविवरणम्';
+  String get titleBatchItemDetails => 'स्कानितकोडविवरणम्';
 
   @override
-  String batchFormatLabel(String format) {
-    return 'प्ररूपः: $format';
-  }
+  String get labelCameraDistanceEnhance => 'दूरस्थवीक्षणसहायः';
 
   @override
-  String batchTimeLabel(String time) {
-    return 'स्कानितसमयः: $time';
-  }
-
-  @override
-  String get cameraDistanceEnhanceLabel => 'दूरस्थवीक्षणसहायः';
-
-  @override
-  String get cameraDistanceEnhanceHint =>
+  String get descCameraDistanceEnhance =>
       'दूरस्थचित्रपट्टानां कृते विस्तारकर्तनं तीक्ष्णीकरणं च';
 
   @override
-  String get cameraUnsharpLabel => 'धारातीक्ष्णीकरणम्';
+  String get labelCameraUnsharp => 'धारातीक्ष्णीकरणम्';
 
   @override
-  String get cameraDistanceZoomLabel => 'दूरविस्तारः';
+  String get labelCameraDistanceZoom => 'दूरविस्तारः';
 
   @override
-  String get scanDistanceModeTooltip => 'दूरस्थवीक्षणसहायः';
+  String get tooltipScanFromClipboard => 'फलकात् स्कैन् कुर्वन्तु';
 
   @override
-  String get scanDistanceModeActive => 'दूरस्थविधिः सक्रियः';
+  String get bodyClipboardBanner => 'फलके सामग्री प्राप्ता';
 
   @override
-  String get scanFromClipboard => 'फलकात् स्कैन् कुर्वन्तु';
+  String get actionClipboardScan => 'स्कैन् क्रियताम्';
 
   @override
-  String get clipboardBannerTitle => 'फलके सामग्री प्राप्ता';
+  String get tooltipClipboardDismiss => 'निरस्यतु';
 
   @override
-  String get clipboardActionScan => 'स्कैन् क्रियताम्';
-
-  @override
-  String get clipboardDismiss => 'निरस्यतु';
-
-  @override
-  String get clipboardEmptyMessage => 'फलकं रिक्तम्';
-
-  @override
-  String get clipboardNoValidContent =>
+  String get errorClipboardNoValidContent =>
       'फलके कोऽपि स्कैन्-योग्यः सङ्केतः न प्राप्तः';
 
   @override
-  String get clipboardTypeUrl => 'सम्पर्कतन्तुः';
+  String get labelClipboardTypeUrl => 'सम्पर्कतन्तुः';
 
   @override
-  String get clipboardTypeBarcode => 'बारकोड-दत्तांशः';
+  String get labelClipboardTypeBarcode => 'बारकोड-दत्तांशः';
 
   @override
-  String get clipboardTypeImage => 'चित्रम्';
+  String get labelClipboardTypeImage => 'चित्रम्';
 
   @override
-  String get clipboardTypeText => 'पाठः';
+  String get labelClipboardTypeText => 'पाठः';
 
   @override
-  String get multiCodeDetectedBanner =>
+  String get bodyMultiCodeDetected =>
       'बहवः सङ्केताः दृष्टाः। स्कैनाय सङ्केतं स्पृशतु।';
 
   @override
-  String get multiCodeTapToScan => 'स्कैनाय स्पृशतु';
+  String get tooltipMultiCodeTapToScan => 'स्कैनाय स्पृशतु';
 
   @override
-  String get multiCodeSelectionTitle => 'बहु-सङ्केत-चयनम्';
+  String get labelMultiCodeSelection => 'बहु-सङ्केत-चयनम्';
 
   @override
-  String get multiCodeSelectionSubtitle =>
+  String get descMultiCodeSelection =>
       'यदा बहवः स्युः तदा दृश्यसङ्केतान् रूपरेखयित्वा चयनार्थं स्पृशतु';
 
   @override
-  String get multiCodeDismissTooltip => 'चयनं निराकरोतु';
+  String get tooltipMultiCodeDismiss => 'चयनं निराकरोतु';
 
   @override
-  String get ghostScanTitle => 'छायावीक्षणम्';
+  String get labelGhostScan => 'छायावीक्षणम्';
 
   @override
-  String get ghostScanSubtitle => 'पटपुटस्थ-क्यु-आर्-अन्वेषकम्';
+  String get descGhostScan => 'पटपुटस्थ-क्यु-आर्-अन्वेषकम्';
 
   @override
-  String get ghostScanDescription =>
+  String get bodyGhostScan =>
       'कस्यामपि प्रयुक्तौ पटपुटे दृश्यमानान् क्यु-आर्-सङ्केतान् छायाचित्रणं विना अभिजानातु।';
 
   @override
-  String get ghostScanTileLabel => 'छायावीक्षणम्';
+  String get actionGhostScanNow => 'अधुना पटपुटं वीक्षताम्';
 
   @override
-  String get ghostScanActionScanNow => 'अधुना पटपुटं वीक्षताम्';
+  String get actionGhostScanAddTile => 'शीघ्रसंयोजन-पट्टिका योज्यताम्';
 
   @override
-  String get ghostScanActionAddTile => 'शीघ्रसंयोजन-पट्टिका योज्यताम्';
+  String get bodyGhostScanTileAdded => 'शीघ्रसंयोजन-पट्टिकानुरोधः प्रेषितः';
 
   @override
-  String get ghostScanTileAdded => 'शीघ्रसंयोजन-पट्टिकानुरोधः प्रेषितः';
+  String get titleGhostScanHowItWorks => 'छायावीक्षणस्य उपयोगविधिः';
 
   @override
-  String get ghostScanHowItWorksTitle => 'छायावीक्षणस्य उपयोगविधिः';
-
-  @override
-  String get ghostScanStep1 =>
+  String get helpGhostScanStep1 =>
       'कस्यामपि प्रयुक्तौ शीघ्रसंयोजन-छादनम् अधः आकर्षतु।';
 
   @override
-  String get ghostScanStep2 =>
+  String get helpGhostScanStep2 =>
       'पटपुटस्य क्यु-आर्-सङ्केतं पठितुं छायावीक्षण-पट्टिकां स्पृशतु।';
 
   @override
-  String get ghostScanStep3 =>
+  String get helpGhostScanStep3 =>
       'चित्रागारे रक्षणं विना एव सङ्केतः सद्यः पठ्यते।';
 
   @override
-  String get ghostScanAnalyzing => 'पटपुटविषयस्य विश्लेषणं क्रियते...';
-
-  @override
-  String get ghostScanNoCodeFound =>
-      'पटपुटे कश्चिदपि क्यु-आर्-सङ्केतः न दृष्टः';
+  String get bodyGhostScanAnalyzing => 'पटपुटविषयस्य विश्लेषणं क्रियते...';
 
   @override
   String get helpGuideGroupScanning => 'संवीक्षा-मार्गदर्शिकाः';
@@ -3302,7 +3120,7 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideBarcodePdfBullet3 =>
-      'लब्धान् सर्वान् सङ्केतान् विशिष्टे अधःपत्रे परीक्ष्य एकेन स्पर्शेन संवीक्षा-इतिहासे रक्षतु।';
+      'लब्धान् सर्वान् सङ्केतान् विशिष्टे अधःपत्रे परीक्ष्य एकेन स्पर्शेन संवीक्षा-इतिवृत्ते रक्षतु।';
 
   @override
   String get helpGuideBarcodeTip =>
@@ -3351,7 +3169,7 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideArCodeVisionBatchBullet3 =>
-      'चितानां सर्वेषां विषयम् एकेन स्पर्शेन प्रतिलिखतु, इतिहासे वा निर्यातयतु।';
+      'चितानां सर्वेषां विषयम् एकेन स्पर्शेन प्रतिलिखतु, इतिवृत्ते वा निर्यातयतु।';
 
   @override
   String get helpGuideArCodeVisionHudTitle => 'HUD-नियन्त्रणानि कार्यक्षमता च';
@@ -3662,10 +3480,10 @@ class AppLocalizationsSa extends AppLocalizations {
       'सूचना: UPI-QR-सङ्केतेन देयं ददन्, पत्रे दर्शितं वणिङ्नाम आपण-पटले लिखितेन नाम्ना सह सङ्गच्छते इति सर्वदा निश्चिनोतु।';
 
   @override
-  String get titleHelpHistory => 'इतिहासः गोपनीयता च';
+  String get titleHelpHistory => 'इतिवृत्तं गोपनीयता च';
 
   @override
-  String get helpGuideHistoryName => 'इतिहासः, प्रतिलिपिः, गोपनीयता च';
+  String get helpGuideHistoryName => 'इतिवृत्तम्, प्रतिलिपिः, गोपनीयता च';
 
   @override
   String get helpGuideHistorySummary =>
@@ -3673,14 +3491,14 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideHistoryIntro =>
-      'भवतः संवीक्षा-अभिलेखाः केवलं भवतः एव। श्रीराज् पि क्यू-आर-कार्यशाला सर्वान् इतिहास-अभिलेखान् भवतः यन्त्रे स्थानीये SQLite-दत्तांशकोशे रक्षति, जैवमापन-प्रमाणीकरण-रक्षया सुव्यवस्थित-निर्यात-प्रारूपैः च सह।';
+      'भवतः संवीक्षा-अभिलेखाः केवलं भवतः एव। श्रीराज् पि क्यू-आर-कार्यशाला सर्वान् इतिवृत्त-अभिलेखान् भवतः यन्त्रे स्थानीये SQLite-दत्तांशकोशे रक्षति, जैवमापन-प्रमाणीकरण-रक्षया सुव्यवस्थित-निर्यात-प्रारूपैः च सह।';
 
   @override
-  String get helpGuideHistoryManageTitle => 'संवीक्षा-इतिहास-प्रबन्धनम्';
+  String get helpGuideHistoryManageTitle => 'संवीक्षा-इतिवृत्त-प्रबन्धनम्';
 
   @override
   String get helpGuideHistoryManageBullet1 =>
-      'अन्वेषणं पृथक्करणं च: पाठेन संवीक्षा-इतिहासं तत्क्षणम् अन्विष्यतु, विषय-प्रकारानुसारं (URL, Wi-Fi, सम्पर्काः, देयानि, TOTP) वा पृथक् करोतु।';
+      'अन्वेषणं पृथक्करणं च: पाठेन संवीक्षा-इतिवृत्तं तत्क्षणम् अन्विष्यतु, विषय-प्रकारानुसारं (URL, Wi-Fi, सम्पर्काः, देयानि, TOTP) वा पृथक् करोतु।';
 
   @override
   String get helpGuideHistoryManageBullet2 =>
@@ -3696,7 +3514,7 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideHistoryBackupBullet1 =>
-      'JSON-पूर्णप्रतिलिपिः: स्वकीय-अङ्कनानि, प्रियाः, सुरक्षा-परिणामाः च इत्येतैः सहितं सम्पूर्णम् इतिहासं सुवहनीयायां .json-सञ्चिकायां निर्यातयति।';
+      'JSON-पूर्णप्रतिलिपिः: स्वकीय-अङ्कनानि, प्रियाः, सुरक्षा-परिणामाः च इत्येतैः सहितं सम्पूर्णम् इतिवृत्तं सुवहनीयायां .json-सञ्चिकायां निर्यातयति।';
 
   @override
   String get helpGuideHistoryBackupBullet2 =>
@@ -3711,15 +3529,15 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideHistoryBiometricsBullet1 =>
-      'जैवमापन-प्रमाणीकरणम्: संवेदनशीलान् गुप्त-StegoQR-अभिलेखान् यन्त्रस्य अङ्गुलिमुद्रया मुखाभिज्ञानेन वा रक्षति।';
+      'अनुप्रयोग-तालकं जैवमापनं च: ऐच्छिकम् अनुप्रयोग-तालकम् अनुप्रयोगस्य उद्घाटने भवतः अङ्गुलिमुद्रां मुखं पटल-तालकं वा याचते। गुप्त-StegoQR-सन्देशाः अपि जैवमापनं याचितुं शक्नुवन्ति।';
 
   @override
   String get helpGuideHistoryBiometricsBullet2 =>
-      'पटलचित्र-रक्षणम्: पृष्ठभूमौ स्थितानि दुष्ट-अनुप्रयोगाणि अनधिकृत-दर्शकाः वा पटल-विषयम् आदातुं न शक्नुवन्ति (FLAG_SECURE)।';
+      'पटलचित्र-रक्षणम्: संवीक्षाः, इतिवृत्तम्, गुप्तविषयाः, API-कुञ्चिकाः च यत्र दृश्यन्ते, तेषां पटलानां चित्रम् अभिलेखनं वा कर्तुं न शक्यते (FLAG_SECURE)।';
 
   @override
   String get helpGuideHistoryTip =>
-      'सूचना: दूरवाणी-परिवर्तनात् पुनःस्थापनात् वा पूर्वं रक्षितानां संवीक्षाणां रक्षणाय इतिहासस्य JSON-प्रतिलिपिं रचयतु।';
+      'सूचना: दूरवाणी-परिवर्तनात् पुनःस्थापनात् वा पूर्वं रक्षितानां संवीक्षाणां रक्षणाय इतिवृत्तस्य JSON-प्रतिलिपिं रचयतु।';
 
   @override
   String get titleHelpFaq => 'प्रायिकप्रश्नाः';
@@ -3770,16 +3588,16 @@ class AppLocalizationsSa extends AppLocalizations {
       'सूचना: असामान्यः सङ्केत-प्रकारः दृश्यते चेत्, तस्य चित्रं गृहीत्वा चित्रसङ्ग्रह-संवीक्षया पूर्ण-विभेदने संसाधयतु।';
 
   @override
-  String get resultMoreActions => 'अधिकाः क्रियाः';
+  String get tooltipResultMoreActions => 'अधिकाः क्रियाः';
 
   @override
-  String get verdictChecking => 'सम्पर्कसूत्र-सुरक्षा परीक्ष्यते…';
+  String get bodyVerdictChecking => 'सम्पर्कसूत्र-सुरक्षा परीक्ष्यते…';
 
   @override
-  String get verdictNoIssues => 'न कोऽपि दोषः';
+  String get bodyVerdictNoIssues => 'न कोऽपि दोषः';
 
   @override
-  String verdictIssuesFound(int count) {
+  String bodyVerdictIssuesFound(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3790,21 +3608,21 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String verdictChecksPassed(int passed, int total) {
+  String bodyVerdictChecksPassed(int passed, int total) {
     return '$total परीक्षासु $passed सफलाः';
   }
 
   @override
-  String get verdictSeeDetails => 'विवरणं दृश्यताम्';
+  String get actionVerdictSeeDetails => 'विवरणं दृश्यताम्';
 
   @override
-  String get verdictModePrivate => 'एकान्त-विधिः';
+  String get labelVerdictModePrivate => 'एकान्त-विधिः';
 
   @override
-  String get verdictModeActive => 'सक्रिय-परीक्षणम्';
+  String get labelVerdictModeActive => 'सक्रिय-परीक्षणम्';
 
   @override
-  String safetyShowPassed(int count) {
+  String actionSafetyShowPassed(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3815,10 +3633,10 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String get safetyHidePassed => 'सफल-परीक्षाः गोपयतु';
+  String get actionSafetyHidePassed => 'सफल-परीक्षाः गोपयतु';
 
   @override
-  String safetySkippedGroup(int count) {
+  String actionSafetySkippedGroup(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3829,10 +3647,10 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String get safetySkippedSetup => 'विन्यासेषु सज्जीकरोतु';
+  String get actionSafetySkippedSetup => 'विन्यासेषु सज्जीकरोतु';
 
   @override
-  String openRiskDialogIssues(int count) {
+  String bodyOpenRiskDialogIssues(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -3843,90 +3661,90 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String get sandboxShowPreview => 'पूर्वावलोकनं दर्शयतु';
+  String get tooltipSandboxShowPreview => 'पूर्वावलोकनं दर्शयतु';
 
   @override
-  String get sandboxHidePreview => 'पूर्वावलोकनं गोपयतु';
+  String get tooltipSandboxHidePreview => 'पूर्वावलोकनं गोपयतु';
 
   @override
-  String quishingCompactGenuine(String percent) {
-    return 'यथार्थ-मुद्रणम् · $percent%';
+  String labelQuishingCompactGenuine(String percent) {
+    return 'यथार्थम् · $percent%';
   }
 
   @override
-  String get scanBubbleTitle => 'वीक्षण-बुद्बुदः';
+  String get labelScanBubble => 'वीक्षण-बुद्बुदः';
 
   @override
-  String get scanBubbleSettingsSubtitle =>
+  String get descScanBubbleSettings =>
       'अन्यानुप्रयोगेषु दृश्यमानानां सङ्केतानां वीक्षणम्';
 
   @override
-  String get scanBubbleSwitchTitle => 'बुद्बुद-प्रदर्शनम्';
+  String get labelScanBubbleSwitch => 'बुद्बुद-प्रदर्शनम्';
 
   @override
-  String get scanBubbleSwitchSubtitle =>
+  String get descScanBubbleSwitch =>
       'अन्यानुप्रयोगाणाम् उपरि प्लवमानः लघुः बुद्बुदः। पटपुटस्थं सङ्केतं वीक्षितुं तं स्पृशतु।';
 
   @override
-  String get scanBubblePermissionGranted => 'अनुमतम्';
+  String get descScanBubblePermissionGranted => 'अनुमतम्';
 
   @override
-  String get scanBubblePermissionMissing =>
+  String get descScanBubblePermissionMissing =>
       'अद्यापि न अनुमतम्। बुद्बुदाय आवश्यकम्।';
 
   @override
-  String get scanBubbleAllowButton => 'अनुमन्यताम्';
+  String get actionScanBubbleAllow => 'अनुमन्यताम्';
 
   @override
-  String get scanBubbleStartOnBootTitle => 'पुनरारम्भोत्तर-आरम्भः';
+  String get labelScanBubbleStartOnBoot => 'पुनरारम्भोत्तर-आरम्भः';
 
   @override
-  String get scanBubbleStartOnBootSubtitle =>
+  String get descScanBubbleStartOnBoot =>
       'यदि बुद्बुदः सक्रियः आसीत्, दूरवाण्याः पुनरारम्भानन्तरं सः पुनः दृश्यते। केचन दूरवाण्यः एतत् निरुन्धन्ति।';
 
   @override
-  String get scanBubbleAddTileButton => 'शीघ्रसंयोजने योज्यताम्';
+  String get actionScanBubbleAddTile => 'शीघ्रसंयोजने योज्यताम्';
 
   @override
-  String get scanBubbleTileAdded => 'शीघ्रसंयोजन-पट्टिकानुरोधः प्रेषितः';
+  String get bodyScanBubbleTileAdded => 'शीघ्रसंयोजन-पट्टिकानुरोधः प्रेषितः';
 
   @override
-  String get scanBubbleTileManual =>
+  String get bodyScanBubbleTileManual =>
       'शीघ्रसंयोजन-छादनम् अधः आकर्षतु, सम्पादन-चिह्नं स्पृशतु, ततः वीक्षण-बुद्बुद-पट्टिकां तत्र आनयतु।';
 
   @override
-  String get scanBubblePermissionDialogTitle => 'बुद्बुदस्य अनुमतिः';
+  String get titleScanBubblePermissionDialog => 'बुद्बुदस्य अनुमतिः';
 
   @override
-  String get scanBubblePermissionDialogBody =>
+  String get bodyScanBubblePermissionDialog =>
       'अन्यानुप्रयोगाणाम् उपरि प्लवितुं बुद्बुदाय \"अन्यानुप्रयोगाणाम् उपरि प्रदर्शनम्\" इति अनुमतिः आवश्यकी। अग्रिमे पृष्ठे अस्मै अनुप्रयोगाय तां सक्रियां कृत्वा प्रत्यागच्छतु।';
 
   @override
-  String get scanBubbleOpenSettings => 'विन्यासः उद्घाट्यताम्';
+  String get actionScanBubbleOpenSettings => 'विन्यासः उद्घाट्यताम्';
 
   @override
-  String get scanBubbleStartFailed =>
+  String get errorScanBubbleStartFailed =>
       'बुद्बुदः आरब्धुं न अशक्यत। पुनः प्रयत्यताम्।';
 
   @override
-  String get scanBubbleBlockedCapture =>
+  String get errorScanBubbleBlockedCapture =>
       'अयम् अनुप्रयोगः पटपुट-ग्रहणं निरुणद्धि, अतः तस्य सङ्केताः पठितुं न शक्यन्ते।';
 
   @override
-  String get historySourceScreen => 'पटपुटात्';
+  String get labelHistorySourceScreen => 'पटपुटात्';
 
   @override
-  String get permissionOverlayTitle => 'अन्यानुप्रयोगाणाम् उपरि प्रदर्शनम्';
+  String get helpPermissionOverlayTitle => 'अन्यानुप्रयोगाणाम् उपरि प्रदर्शनम्';
 
   @override
-  String get permissionOverlayDesc =>
+  String get helpPermissionOverlayDesc =>
       'केवलं वीक्षण-बुद्बुदेन, तस्य सक्रियीकरणानन्तरम् एव प्रयुज्यते। बुद्बुदम् अन्यानुप्रयोगाणाम् उपरि स्थापयति।';
 
   @override
-  String get permissionNotificationTitle => 'सूचनाः';
+  String get helpPermissionNotificationTitle => 'सूचनाः';
 
   @override
-  String get permissionNotificationDesc =>
+  String get helpPermissionNotificationDesc =>
       'बुद्बुदे सक्रिये \"वीक्षण-बुद्बुदः सक्रियः\" इति सूचनां निष्क्रियीकरण-विकल्पेन सह दर्शयति।';
 
   @override
@@ -3994,66 +3812,67 @@ class AppLocalizationsSa extends AppLocalizations {
       'सूचना: वीक्षण-बुद्बुद-पट्टिकां शीघ्रसंयोजने योजयतु। ततः कस्मात् अपि अनुप्रयोगात् एकेन स्पर्शेन बुद्बुदः सक्रियः निष्क्रियः वा भवति।';
 
   @override
-  String get codeForgeBarcodeContent => 'दण्डलेखा-विषयः';
+  String get labelCodeForgeBarcodeContent => 'दण्डलेखा-विषयः';
 
   @override
-  String get codeForgeBarcodeContentHint =>
+  String get helpCodeForgeBarcodeContent =>
       'दण्डलेखा-सङ्ख्यां सङ्केतं वा लिखतु';
 
   @override
-  String get codeForgeWifiSecurityNone => 'न किमपि (मुक्तम्)';
+  String get labelCodeForgeWifiSecurityNone => 'न किमपि (मुक्तम्)';
 
   @override
-  String get codeForgeUpiVpaHint => 'यथा merchant@upi';
+  String get helpCodeForgeUpiVpa => 'यथा merchant@upi';
 
   @override
-  String get optionalFieldHint => 'ऐच्छिकम्';
+  String get labelOptionalField => 'ऐच्छिकम्';
 
   @override
-  String get codeForgeContentEmpty => 'विषयः रिक्तः न भवेत्';
+  String get errorCodeForgeContentEmpty => 'विषयः रिक्तः न भवेत्';
 
   @override
-  String codeForgeTextTooLong(String max) {
+  String errorCodeForgeTextTooLong(String max) {
     return 'पाठः $max वर्णेभ्यः अधिकः न भवेत्';
   }
 
   @override
-  String get codeForgeWifiSsidRequired => 'वाइ-फाइ संजालनाम (SSID) आवश्यकम्';
+  String get errorCodeForgeWifiSsidRequired =>
+      'वाइ-फाइ संजालनाम (SSID) आवश्यकम्';
 
   @override
-  String get codeForgeUpiVpaRequired => 'युपीआई-सङ्केतः आवश्यकः';
+  String get errorCodeForgeUpiVpaRequired => 'युपीआई-सङ्केतः आवश्यकः';
 
   @override
-  String codeForgeBarcodeInvalid(String detail) {
+  String errorCodeForgeBarcodeInvalid(String detail) {
     return 'अस्य दण्डलेखा-प्रकारस्य कृते अयोग्यम् ($detail)';
   }
 
   @override
-  String get airQrUnlockedTitle => 'वायु-क्यूआर विषयः उद्घाटितः';
+  String get titleAirQrUnlocked => 'वायु-क्यूआर विषयः उद्घाटितः';
 
   @override
-  String get jsonEnvelopeUnlockedTitle => 'JSON-विषयः उद्घाटितः';
+  String get titleJsonEnvelopeUnlocked => 'JSON-विषयः उद्घाटितः';
 
   @override
-  String get stegoUnlockedTitle => 'StegoQR-विषयः उद्घाटितः';
+  String get titleStegoUnlocked => 'StegoQR-विषयः उद्घाटितः';
 
   @override
-  String get stegoDetectedTitle => 'गूढः StegoQR-विषयः प्राप्तः';
+  String get titleStegoDetected => 'StegoQR-विषयः प्राप्तः';
 
   @override
-  String get decryptShowAdvanced => 'विस्तृतम् (Salt / IV)';
+  String get actionDecryptShowAdvanced => 'विस्तृतम् (Salt / IV)';
 
   @override
-  String get decryptHideAdvanced => 'विस्तृतं गोप्यताम्';
+  String get actionDecryptHideAdvanced => 'विस्तृतं गोप्यताम्';
 
   @override
-  String get decryptSaltLabel => 'Salt (Base64, ऐच्छिकम्)';
+  String get labelDecryptSalt => 'साल्ट् (Base64)';
 
   @override
-  String get decryptIvLabel => 'IV / Nonce (Base64, ऐच्छिकम्)';
+  String get labelDecryptIv => 'IV / नोन्स् (Base64)';
 
   @override
-  String historyRecordCount(int count) {
+  String bodyHistoryRecordCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4064,7 +3883,7 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String arItemsSelected(int count) {
+  String bodyArItemsSelected(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4075,69 +3894,69 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String settingsAppearanceSummary(String themeMode) {
+  String descSettingsAppearanceSummary(String themeMode) {
     return '$themeMode • गतिकवर्णाः';
   }
 
   @override
-  String get openPhishFeedNotDownloaded => 'सूचिः अद्यापि न अवतारिता';
+  String get bodyOpenPhishFeedNotDownloaded => 'सूचिः अद्यापि न अवतारिता';
 
   @override
-  String get accentDynamicColorInfo =>
+  String get helpAccentDynamicColor =>
       'गतिकवर्णाः भवतः एण्ड्रायड्-भित्तिचित्रात् अनुरूपां वर्णावलीं रचयन्ति (एण्ड्रायड् १२+)। निष्क्रिये सति मानक-उच्चविरोध-सुरक्षावर्णावली प्रयुज्यते।';
 
   @override
-  String get typographySampleLine =>
+  String get bodyTypographySample =>
       '6-स्तरीय URL-सुरक्षापरीक्षा • 100% अन्तस्थ QuishingGuard™ CV यन्त्रम्';
 
   @override
-  String get typographyScaleTitle => 'अक्षरपरिमाणम्';
+  String get labelTypographyScale => 'अक्षरपरिमाणम्';
 
   @override
-  String get typographyScaleInfo =>
+  String get helpTypographyScale =>
       'अनुप्रयोगः भवतः एण्ड्रायड्-सुगम्यता-अक्षरपरिमाणम् अनुसरति, संवीक्षाचौकटं पटल-नामपत्राणि च सुपाठ्यानि रक्षति।';
 
   @override
-  String domFetchFailedTitle(String host) {
+  String bodyDomFetchFailed(String host) {
     return '$host (असंयुक्तम् अथवा संजालम् अवरुद्धम्)';
   }
 
   @override
-  String get scanPauseTooltip => 'संवीक्षा विरम्यताम्';
+  String get tooltipScanPause => 'संवीक्षा विरम्यताम्';
 
   @override
-  String get scanResumeTooltip => 'संवीक्षा पुनरारभ्यताम्';
+  String get tooltipScanResume => 'संवीक्षा पुनरारभ्यताम्';
 
   @override
-  String get arModeWarehouse => 'भाण्डागारम्';
+  String get labelArModeWarehouse => 'भाण्डागारम्';
 
   @override
-  String get arModeSafety => 'सुरक्षा';
+  String get labelArModeSafety => 'सुरक्षा';
 
   @override
-  String get arModeWarehouseTooltip =>
-      'वस्तु-विवरणं दृश्यताम्, सङ्केताः चीयन्ताम्';
+  String get tooltipArModeWarehouse => 'वस्तु-विवरणं चयनं च';
 
   @override
-  String get arModeSafetyTooltip => 'प्रतिसम्पर्के सुरक्षाचिह्नं दृश्यताम्';
+  String get tooltipArModeSafety => 'सेतु-सुरक्षा-चिह्नानि';
 
   @override
-  String get cameraStartFailed => 'चित्रग्राही आरब्धुं न शक्तः';
+  String get errorCameraStartFailed => 'चित्रग्राही आरब्धुं न शक्तः';
 
   @override
-  String get cameraNotFound => 'अस्मिन् दूरवाणौ चित्रग्राही न प्राप्तः';
+  String get errorCameraNotFound => 'अस्मिन् दूरवाणौ चित्रग्राही न प्राप्तः';
 
   @override
-  String get cameraRetryButton => 'पुनः प्रयत्यताम्';
+  String get actionCameraRetry => 'पुनः प्रयत्यताम्';
 
   @override
-  String get codeForgeSafetyPrompt => 'वितरणात् पूर्वं सम्बन्धः परीक्ष्यताम्';
+  String get bodyCodeForgeSafetyPrompt =>
+      'वितरणात् पूर्वं सम्बन्धः परीक्ष्यताम्';
 
   @override
-  String get codeForgeSafetyCheckButton => 'परीक्ष्यताम्';
+  String get actionCodeForgeSafetyCheck => 'परीक्ष्यताम्';
 
   @override
-  String codeForgeSafetyProblems(int count) {
+  String bodyCodeForgeSafetyProblems(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -4148,5 +3967,88 @@ class AppLocalizationsSa extends AppLocalizations {
   }
 
   @override
-  String get codeForgeSafetyCheckAgain => 'पुनः परीक्ष्यताम्';
+  String get actionCodeForgeSafetyCheckAgain => 'पुनः परीक्ष्यताम्';
+
+  @override
+  String get labelDeleteAllData => 'सर्वदत्तांशलोपः';
+
+  @override
+  String get descDeleteAllData =>
+      'संवीक्षा-इतिवृत्तम्, रक्षिताः API-कुञ्चिकाः, सर्वे विन्यासाः च अस्मात् दूरवाणीतः लुप्यन्ते।';
+
+  @override
+  String get titleDeleteAllDataConfirm => 'किं सर्वं लुप्यताम्?';
+
+  @override
+  String get bodyDeleteAllDataConfirm =>
+      'अनेन भवतः संवीक्षा-इतिवृत्तम्, रक्षिताः API-कुञ्चिकाः, सर्वे विन्यासाः, वीक्षण-बुद्बुदस्य विन्यासाः, तात्कालिकसञ्चिकाः च लुप्यन्ते। एतत् पुनः प्रत्यानेतुं न शक्यते।';
+
+  @override
+  String get actionDeleteAll => 'सर्वं लुप्यताम्';
+
+  @override
+  String get bodyDeletingAllData => 'सर्वदत्तांशः लुप्यते…';
+
+  @override
+  String get errorDeleteAllDataPartial => 'केचन दत्तांशाः लोप्तुं न शक्ताः।';
+
+  @override
+  String get errorHistoryLoadFailed => 'इतिवृत्तम् उद्घाटयितुं न शक्तम्।';
+
+  @override
+  String get actionTryAgain => 'पुनः प्रयत्यताम्';
+
+  @override
+  String get aboutDetailPrivacyPolicy => 'गोपनीयतानीतिः';
+
+  @override
+  String get bodyEncryptingBackup => 'भवतः प्रतिलिपिः रक्ष्यते…';
+
+  @override
+  String get bodyOpeningBackup => 'प्रतिलिपिः उद्घाट्यते…';
+
+  @override
+  String get bodyEncryptingSync => 'समन्वय-सङ्ग्रहः रक्ष्यते…';
+
+  @override
+  String get titlePlainExport => 'अगुप्तं निर्यातयतु?';
+
+  @override
+  String get bodyPlainExport =>
+      'इयं सञ्चिका गुप्ता न कृता। यः कश्चित् एतां प्राप्नोति सः भवतः संवीक्षाः पठितुं शक्नोति।';
+
+  @override
+  String get bodyPlainExportBackupHint =>
+      'गोपनीयतायै तस्य स्थाने गुप्तां प्रतिलिपिम् उपयुङ्क्ताम्।';
+
+  @override
+  String get actionExportAnyway => 'तथापि निर्यातयतु';
+
+  @override
+  String get labelAppLock => 'अनुप्रयोग-तालकम्';
+
+  @override
+  String get descAppLock =>
+      'अनुप्रयोगस्य उद्घाटने, त्रिंशत्-क्षणेभ्यः अधिकं बहिः स्थित्वा च अङ्गुलिमुद्रां मुखं पटल-तालकं वा याचताम्।';
+
+  @override
+  String get titleAppLocked => 'अनुप्रयोगः तालितः';
+
+  @override
+  String get bodyAppLocked =>
+      'अग्रे गन्तुम् अङ्गुलिमुद्रया मुखेन पटल-तालकेन वा उद्घाटयतु।';
+
+  @override
+  String get actionUnlock => 'उद्घाटयतु';
+
+  @override
+  String get bodyAppLockReason => 'SreerajP QR Studio उद्घाटयतु';
+
+  @override
+  String get errorAppLockUnavailable =>
+      'प्रथमम् अस्मिन् दूरवाणीयन्त्रे पटल-तालकम् अङ्गुलिमुद्रां वा सज्जीकरोतु।';
+
+  @override
+  String get errorAppLockFailed =>
+      'भवान् एव इति निश्चेतुं न शक्यम्। पुनः प्रयत्यताम्।';
 }

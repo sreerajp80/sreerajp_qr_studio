@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/code_format.dart';
 import 'package:sreerajp_qr_studio/models/decode_profile.dart';
 import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
@@ -67,7 +68,8 @@ class ScanCameraState {
 /// Only the luminance (Y) plane of each YUV frame is used, so no colour
 /// conversion or copy is needed. While one frame is being decoded, newer
 /// frames are dropped, so the decoder always works on a recent frame and
-/// never builds a queue.
+/// never builds a queue. With the live profile, most frames get a quick pass
+/// and every few frames a full pass (see [profileForFrame]).
 ///
 /// When [distanceAssist] is set and a frame has no code, an enlarged and
 /// sharpened centre crop of that frame is also tried, at most once per
@@ -90,6 +92,26 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
 
   /// Shortest gap between two distance assist tries.
   static const Duration distanceAssistInterval = Duration(milliseconds: 600);
+
+  /// With the [DecodeProfile.live] profile, every this-many-th frame gets the
+  /// full live pass; the frames in between get a quick pass.
+  static const int heavyFrameInterval = 3;
+
+  /// The profile to use for frame number [frameIndex] (0-based).
+  ///
+  /// A [DecodeProfile.live] controller decodes most frames with the quick
+  /// [DecodeProfile.fast] pass, which reads clean codes much sooner, and
+  /// every [heavyFrameInterval]-th frame with the full live pass, so small,
+  /// damaged or turned codes are still found. Other profiles are used as is.
+  static DecodeProfile profileForFrame(int frameIndex, DecodeProfile base) {
+    if (base != DecodeProfile.live) return base;
+    return frameIndex % heavyFrameInterval == heavyFrameInterval - 1
+        ? DecodeProfile.live
+        : DecodeProfile.fast;
+  }
+
+  /// Frames per debug timing log line.
+  static const int _timingLogFrames = 30;
 
   ScanCameraController({
     this.cameraResolution,
@@ -115,6 +137,9 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   CameraController? _camera;
   Future<void> _queue = Future.value();
   bool _decoding = false;
+  int _frameIndex = 0;
+  int _timedFrames = 0;
+  int _timedMicros = 0;
   bool _assisting = false;
   DateTime? _lastAssistEnd;
   bool _disposed = false;
@@ -130,7 +155,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   /// Runs [operation] after every earlier start/stop/switch has finished.
   Future<void> _serial(Future<void> Function() operation) {
     final next = _queue.then((_) => operation()).catchError((Object e) {
-      if (kDebugMode) debugPrint('Scan camera operation failed: $e');
+      AppLogger.error('Scan camera operation failed', error: e);
     });
     _queue = next;
     return next;
@@ -205,9 +230,9 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
               : ScanCameraError.failed,
         ),
       );
-    } catch (e) {
+    } catch (e, st) {
       await _releaseCamera();
-      if (kDebugMode) debugPrint('Scan camera start failed: $e');
+      AppLogger.error('Scan camera start failed', error: e, stackTrace: st);
       _setValue(
         value.copyWith(isRunning: false, error: ScanCameraError.failed),
       );
@@ -265,7 +290,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
 
   /// Sets zoom as a 0–1 fraction between minimum and maximum zoom.
   Future<void> setZoomScale(double scale) async {
-    final clamped = scale.clamp(0.0, 1.0).toDouble();
+    final clamped = scale.clamp(0.0, 1.0);
     _setValue(value.copyWith(zoomScale: clamped));
     await _applyZoom(clamped);
   }
@@ -284,8 +309,8 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
     final camera = _camera;
     if (camera == null || !camera.value.isInitialized) return;
     final point = Offset(
-      normalized.dx.clamp(0.0, 1.0).toDouble(),
-      normalized.dy.clamp(0.0, 1.0).toDouble(),
+      normalized.dx.clamp(0.0, 1.0),
+      normalized.dy.clamp(0.0, 1.0),
     );
     try {
       if (camera.value.focusPointSupported) {
@@ -307,6 +332,8 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
       final luminance = image.planes.first;
       final rotation = description.sensorOrientation % 360;
       final mirror = description.lensDirection == CameraLensDirection.front;
+      final frameProfile = profileForFrame(_frameIndex++, profile);
+      final stopwatch = kDebugMode ? (Stopwatch()..start()) : null;
 
       final codes = await _decoder.decodePixels(
         DecodeRequest(
@@ -317,11 +344,12 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
           imageFormat: SrbImageFormat.lum,
           rotationDegrees: rotation,
           formatMask: CodeFormat.maskOf(formats),
-          profile: profile,
+          profile: frameProfile,
           tryInvert: invertImage,
           maxSymbols: maxSymbols,
         ),
       );
+      if (stopwatch != null) _logTiming(stopwatch.elapsedMicroseconds);
       if (_disposed || _camera == null) return;
 
       final upright = rotation == 90 || rotation == 270
@@ -339,11 +367,24 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
         return;
       }
       _emit(codes, upright, mirror);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Frame decode failed: $e');
+    } catch (e, st) {
+      AppLogger.error('Frame decode failed', error: e, stackTrace: st);
     } finally {
       _decoding = false;
     }
+  }
+
+  /// Debug builds only: logs the average decode time every few frames.
+  void _logTiming(int micros) {
+    _timedMicros += micros;
+    if (++_timedFrames < _timingLogFrames) return;
+    final averageMs = _timedMicros / _timedFrames / 1000;
+    AppLogger.debug(
+      'Live decode: ${averageMs.toStringAsFixed(1)} ms average '
+      'over $_timedFrames frames',
+    );
+    _timedFrames = 0;
+    _timedMicros = 0;
   }
 
   void _emit(List<ScannedCode> codes, Size upright, bool mirror) {
@@ -392,7 +433,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
             _emit(codes, upright, mirror);
           })
           .catchError((Object e) {
-            if (kDebugMode) debugPrint('Distance assist failed: $e');
+            AppLogger.error('Distance assist failed', error: e);
           })
           .whenComplete(() {
             _assisting = false;

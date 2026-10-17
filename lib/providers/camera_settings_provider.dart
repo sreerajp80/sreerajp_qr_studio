@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/camera_settings.dart';
 import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
 import 'package:sreerajp_qr_studio/services/color_matrix_service.dart';
@@ -132,16 +132,22 @@ class CameraSettingsProvider extends ChangeNotifier {
           prefs.getBool(_prefMultiCodeSelectionKey) ?? true;
 
       // Clamp saved values so a bad stored number cannot break the preview.
-      _brightness = (_readDouble(prefs, prefBrightnessKey) ?? 0.0)
-          .clamp(_minBrightness, _maxBrightness)
-          .toDouble();
-      _contrast = (_readDouble(prefs, prefContrastKey) ?? 1.0)
-          .clamp(_minContrast, _maxContrast)
-          .toDouble();
+      _brightness = (_readDouble(prefs, prefBrightnessKey) ?? 0.0).clamp(
+        _minBrightness,
+        _maxBrightness,
+      );
+      _contrast = (_readDouble(prefs, prefContrastKey) ?? 1.0).clamp(
+        _minContrast,
+        _maxContrast,
+      );
       final savedInvert = prefs.get(prefInvertColorsKey);
-      _invertColors = savedInvert is bool ? savedInvert : false;
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error loading camera settings: $e');
+      _invertColors = savedInvert is bool && savedInvert;
+    } catch (e, st) {
+      AppLogger.error(
+        'Error loading camera settings',
+        error: e,
+        stackTrace: st,
+      );
     } finally {
       notifyListeners();
     }
@@ -236,8 +242,12 @@ class CameraSettingsProvider extends ChangeNotifier {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setDouble(prefBrightnessKey, _brightness);
       await prefs.setDouble(prefContrastKey, _contrast);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error saving image adjustments: $e');
+    } catch (e, st) {
+      AppLogger.error(
+        'Error saving image adjustments',
+        error: e,
+        stackTrace: st,
+      );
     }
   }
 
@@ -245,8 +255,8 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(key, value);
-    } catch (e) {
-      if (kDebugMode) debugPrint('Error saving camera setting: $e');
+    } catch (e, st) {
+      AppLogger.error('Error saving camera setting', error: e, stackTrace: st);
     }
   }
 

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
@@ -15,7 +15,7 @@ class AccentColorSettingsScreen extends StatelessWidget {
     final accent = theme.colorScheme.primary;
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appearanceAccentCardTitle)),
+      appBar: AppBar(title: Text(l10n.labelAppearanceAccentCard)),
       body: SafeArea(
         top: false,
         child: ListView(
@@ -50,7 +50,7 @@ class AccentColorSettingsScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      l10n.appTitle,
+                      l10n.titleApp,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,
@@ -83,14 +83,14 @@ class AccentColorSettingsScreen extends StatelessWidget {
                     ),
                   ),
                   title: Text(
-                    l10n.themeDynamicColorsTitle,
+                    l10n.labelThemeDynamicColors,
                     style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),
                   ),
                   subtitle: Text(
-                    l10n.themeDynamicColorsSubtitle,
+                    l10n.descThemeDynamicColors,
                     style: TextStyle(
                       fontSize: 13,
                       color: theme.colorScheme.onSurfaceVariant,
@@ -113,7 +113,7 @@ class AccentColorSettingsScreen extends StatelessWidget {
                     const SizedBox(width: 14),
                     Expanded(
                       child: Text(
-                        l10n.accentDynamicColorInfo,
+                        l10n.helpAccentDynamicColor,
                         style: TextStyle(
                           fontSize: 13,
                           color: theme.colorScheme.onSurfaceVariant,

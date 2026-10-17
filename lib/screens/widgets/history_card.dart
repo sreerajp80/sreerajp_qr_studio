@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sreerajp_qr_studio/l10n/date_format_locale.dart';
+import 'package:sreerajp_qr_studio/l10n/formatting_locale.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 
@@ -98,8 +98,8 @@ class HistoryCard extends StatelessWidget {
   /// the 12- or 24-hour clock follow the device language.
   String _formatTimestamp(AppLocalizations l10n, DateTime dt) {
     // intl has no Sanskrit date data; fall back so the card never throws.
-    final locale = dateFormatLocale(l10n.localeName);
-    return l10n.historyTimestamp(
+    final locale = formattingLocale(Locale(l10n.localeName));
+    return l10n.bodyHistoryTimestamp(
       DateFormat.yMMMd(locale).format(dt),
       DateFormat.jm(locale).format(dt),
     );
@@ -172,7 +172,9 @@ class HistoryCard extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
-                                  l10n.historyScoreBadge(record.safetyScore),
+                                  l10n.labelHistoryScoreBadge(
+                                    record.safetyScore,
+                                  ),
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
@@ -203,11 +205,12 @@ class HistoryCard extends StatelessWidget {
                     ),
                     onPressed: onToggleFavorite,
                     tooltip: record.isFavorite
-                        ? l10n.historyUnstar
-                        : l10n.historyStar,
+                        ? l10n.tooltipHistoryUnstar
+                        : l10n.tooltipHistoryStar,
                   ),
                   PopupMenuButton<String>(
                     icon: const Icon(Icons.more_vert),
+                    tooltip: l10n.tooltipMoreOptions,
                     onSelected: (value) async {
                       if (value == 'edit') {
                         onEditNotes();
@@ -217,7 +220,7 @@ class HistoryCard extends StatelessWidget {
                         );
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text(l10n.copiedToClipboard)),
+                            SnackBar(content: Text(l10n.bodyCopiedToClipboard)),
                           );
                         }
                       } else if (value == 'share') {
@@ -234,7 +237,7 @@ class HistoryCard extends StatelessWidget {
                           children: [
                             const Icon(Icons.edit, size: 18),
                             const SizedBox(width: 8),
-                            Text(l10n.historyEditNotes),
+                            Text(l10n.actionHistoryEditNotes),
                           ],
                         ),
                       ),
@@ -244,7 +247,7 @@ class HistoryCard extends StatelessWidget {
                           children: [
                             const Icon(Icons.copy, size: 18),
                             const SizedBox(width: 8),
-                            Text(l10n.historyCopyString),
+                            Text(l10n.tooltipHistoryCopyString),
                           ],
                         ),
                       ),
@@ -254,7 +257,7 @@ class HistoryCard extends StatelessWidget {
                           children: [
                             const Icon(Icons.share, size: 18),
                             const SizedBox(width: 8),
-                            Text(l10n.historyShare),
+                            Text(l10n.actionHistoryShare),
                           ],
                         ),
                       ),
@@ -269,7 +272,7 @@ class HistoryCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              l10n.historyDelete,
+                              l10n.actionHistoryDelete,
                               style: const TextStyle(color: Colors.red),
                             ),
                           ],
@@ -299,7 +302,7 @@ class HistoryCard extends StatelessWidget {
                     if (record.isFromScreen)
                       Chip(
                         avatar: const Icon(Icons.screenshot_monitor, size: 14),
-                        label: Text(l10n.historySourceScreen),
+                        label: Text(l10n.labelHistorySourceScreen),
                         visualDensity: VisualDensity.compact,
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         padding: const EdgeInsets.symmetric(horizontal: 4),

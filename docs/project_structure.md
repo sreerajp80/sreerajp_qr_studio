@@ -37,17 +37,24 @@ sreerajp_qr_studio/
 |   |-- guidelines/                  # Shared Flutter Guidelines (Git Submodule)
 |   |-- architecture.md              # Technical design and architecture
 |   |-- dependencies.md              # Approved baseline packages and constraints
+|   |-- implementation_plan.md       # Build roadmap + dated roadmap records (point-in-time)
+|   |-- implementation_progress.md   # Status checklist (point-in-time)
 |   |-- GUIDELINES_MANIFEST.md       # Shared guidelines manifest
+|   |-- PROJECT_PROFILE.md           # Platforms, stores, languages, identity, About options
 |   |-- project_structure.md         # File tree layout and responsibilities
 |   |-- release_process.md           # Keystore signing and release runbook
 |   |-- security.md                  # Threat model, permissions, and security
-|   |-- features.md                  # Implemented features catalog
 |   `-- workflow_rules.md            # Plan, approval, and log workflow rules
 |-- lib/                             # Application Dart source (Tier 1 layer-first)
 |   |-- core/
 |   |   |-- config/
 |   |   |   |-- app_config.dart      # AppConfig model & fallback
+|   |   |   |-- app_flavor_config.dart # Build flavor (APP_FLAVOR / FLUTTER_APP_FLAVOR)
 |   |   |   `-- config_service.dart  # Config asset loader & version verification
+|   |   |-- errors/
+|   |   |   `-- global_error_handlers.dart # App-wide error handlers
+|   |   |-- logging/
+|   |   |   `-- app_logger.dart      # AppLogger (console only, flavor-gated)
 |   |   `-- constants/
 |   |       |-- app_constants.dart   # Technical constants
 |   |       `-- build_date.g.dart    # Build timestamp metadata
@@ -55,9 +62,11 @@ sreerajp_qr_studio/
 |   |   |-- app_en.arb               # English ARB template
 |   |   |-- app_ml.arb               # Malayalam ARB translation
 |   |   |-- app_sa.arb               # Sanskrit ARB translation
-|   |   |-- sa_material_localizations.dart # Sanskrit framework fallback delegates
+|   |   |-- fallback_localizations.dart # Framework fallback delegates (sa)
+|   |   |-- formatting_locale.dart   # formattingLocale() for intl
 |   |   `-- gen/                     # Generated localization accessors
 |   |-- models/
+|   |   |-- app_exception.dart       # Sealed AppException / StorageException (§11.3)
 |   |   |-- scanned_code.dart        # One decoded code (text, format, type, corners)
 |   |   |-- scan_frame_result.dart   # All codes in one camera frame + frame size
 |   |   |-- code_format.dart         # Barcode symbologies (native bit mapping)
@@ -70,6 +79,7 @@ sreerajp_qr_studio/
 |   |   |-- air_qr_progress.dart     # Receiver progress state
 |   |   `-- smart_action.dart        # Action triggers (Wi-Fi, UPI, contacts)
 |   |-- providers/
+|   |   |-- app_lock_provider.dart   # Optional app lock state (security §7)
 |   |   |-- scan_provider.dart       # Scan state & URL analysis coordination
 |   |   |-- history_provider.dart    # SQLite scan history state
 |   |   |-- theme_provider.dart      # Material 3 theme mode & dynamic color
@@ -91,16 +101,27 @@ sreerajp_qr_studio/
 |   |-- services/
 |   |   |-- barcode_decoder/         # FFI bindings, native reader, decoder isolate service
 |   |   |-- scan_camera/             # ScanCameraController (camera plugin + frame decoding)
+|   |   |-- app_startup_service.dart # Startup steps in order (architecture §4a)
+|   |   |-- data_wipe_service.dart   # "Delete all data": every local store (security §13)
+|   |   |-- passphrase_cipher.dart   # PBKDF2 + AES-GCM for backups and AirQR sync (security §6.3)
+|   |   |-- screen_security_service.dart # FLAG_SECURE counter over the window channel
 |   |   |-- barcode_content_classifier.dart # Offline content-type classification
 |   |   |-- open_source_licenses.dart # Registers native code licences on the licence page
 |   |   |-- url_safety_service.dart  # 6-check URL safety algorithms
 |   |   |-- encrypted_payload_service.dart # AES-GCM decryption & biometrics
-|   |   |-- database_helper.dart     # SQLite database helper & migrations
+|   |   |-- history_database_service.dart # Field-encrypted scan history queries
+|   |   |-- history_database_schema.dart # Schema version, pragmas, append-only migrations
+|   |   |-- history_field_cipher.dart # AES-256-GCM field encryption (format h2:)
 |   |   |-- ghost_scan_service.dart  # GhostScan screen capture channel
 |   |   |-- scan_bubble_service.dart # Scan bubble overlay channel
 |   |   `-- air_qr_service.dart      # Frame packetizing and LT fountain code (XOR parity) assembly
 |   |-- widgets/
-|   |   |-- made_with_love.dart      # Fixed signature footer badge
+|   |   |-- app_lock_gate.dart       # Lock screen above every route (optional app lock)
+|   |   |-- app_restart_scope.dart   # Rebuilds the app tree after "Delete all data"
+|   |   |-- plain_text_export_confirm.dart # Warning before an unencrypted export
+|   |   |-- secure_screen.dart       # FLAG_SECURE while a sensitive screen is open
+|   |   |-- safe_error_fallback.dart # Release fallback for a widget that failed to build
+|   |   |-- made_with_love.dart      # Signature footer badge (on, per the project profile)
 |   |   |-- focus_ring_widget.dart   # Tap-to-focus camera ring animation
 |   |   `-- camera_adjustments_sheet.dart # Viewport controls bottom sheet
 |   `-- main.dart                    # Entry point (Provider tree, theme, routes)
@@ -116,7 +137,12 @@ sreerajp_qr_studio/
 |   |-- services/
 |   `-- widgets/
 |-- tool/                            # Build helper scripts
-|   `-- build_release.sh
+|   |-- build_release.sh             # Hardened prod release build (obfuscate + symbols)
+|   |-- check_sanskrit_hindi_markers.sh # Language-pack Hindi-marker gate (CI)
+|   |-- generate_launcher_icons.py   # Adaptive icon layers + DEV badge from assets/app_icon.png
+|   |-- generate_app_version.dart
+|   `-- generate_build_date.dart
+|-- CHANGELOG.md                     # User-facing release history
 |-- CLAUDE.md                        # Primary Claude Code project instructions
 |-- AGENTS.md                        # Primary Agentic LLM project instructions
 |-- pubspec.yaml                     # Flutter package manifest
