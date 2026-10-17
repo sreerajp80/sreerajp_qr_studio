@@ -2,6 +2,7 @@ import 'package:sreerajp_qr_studio/widgets/app_restart_scope.dart';
 import 'package:sreerajp_qr_studio/services/data_wipe_service.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,12 +10,14 @@ import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/app_lock_provider.dart';
 import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/screen_security_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 import 'package:sreerajp_qr_studio/screens/about_screen.dart';
 import 'package:sreerajp_qr_studio/screens/appearance_screen.dart';
 import 'package:sreerajp_qr_studio/screens/features_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/help_home_screen.dart';
 import 'package:sreerajp_qr_studio/screens/settings_screen.dart';
+import 'package:sreerajp_qr_studio/services/screen_security_service.dart';
 
 import '../helpers/accessibility_checks.dart';
 import '../helpers/fake_biometric_service.dart';
@@ -241,6 +244,13 @@ void main() {
                 create: (_) =>
                     AppLockProvider(biometricService: FakeBiometricService()),
               ),
+              ChangeNotifierProvider(
+                create: (_) => ScreenSecurityProvider(
+                  service: ScreenSecurityService(
+                    channel: const MethodChannel('test/window'),
+                  ),
+                ),
+              ),
             ],
           );
         },
@@ -274,6 +284,33 @@ void main() {
       await tester.tap(tile);
       await tester.pumpAndSettle();
       expect(tester.widget<SwitchListTile>(tile).value, isTrue);
+    });
+
+    testWidgets('the Screenshot guard switch is on and can be turned off', (
+      tester,
+    ) async {
+      final l10n = l10nFor(const Locale('en'));
+      final builds = ValueNotifier<int>(0);
+      await tester.pumpWidget(
+        privacyApp(wipe: _FakeDataWipeService(), builds: builds),
+      );
+      await tester.pumpAndSettle();
+      final tile = find.widgetWithText(
+        SwitchListTile,
+        l10n.labelScreenshotGuard,
+      );
+      expect(tester.widget<SwitchListTile>(tile).value, isTrue);
+
+      await tester.scrollUntilVisible(
+        tile,
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await tester.tap(tile);
+      await tester.pumpAndSettle();
+      expect(tester.widget<SwitchListTile>(tile).value, isFalse);
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool(ScreenSecurityProvider.prefKey), isFalse);
     });
 
     testWidgets('Cancel deletes nothing', (tester) async {

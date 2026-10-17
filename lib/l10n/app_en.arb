@@ -3108,7 +3108,7 @@
   "@titleFeatureBiometricGuard": {
     "description": "Features screen: title of the biometric and screen guard feature"
   },
-  "descFeatureBiometricGuard": "Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). Hidden StegoQR messages can also ask for biometrics.",
+  "descFeatureBiometricGuard": "Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing. Hidden StegoQR messages can also ask for biometrics.",
   "@descFeatureBiometricGuard": {
     "description": "Features screen: description of the biometric and screen guard feature"
   },
@@ -4700,7 +4700,7 @@
   "@helpGuideHistoryBiometricsBullet1": {
     "description": "History help screen: biometrics bullet 1"
   },
-  "helpGuideHistoryBiometricsBullet2": "Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE).",
+  "helpGuideHistoryBiometricsBullet2": "Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.",
   "@helpGuideHistoryBiometricsBullet2": {
     "description": "History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is."
   },
@@ -5290,6 +5290,14 @@
   "descAppLock": "Ask for fingerprint, face or screen lock when the app opens, and after 30 seconds away.",
   "@descAppLock": {
     "description": "Settings switch description for the optional app lock."
+  },
+  "labelScreenshotGuard": "Screenshot guard",
+  "@labelScreenshotGuard": {
+    "description": "Privacy settings switch label: block screenshots and screen recording (FLAG_SECURE) on sensitive screens. Keep short."
+  },
+  "descScreenshotGuard": "Block screenshots and screen recording on screens that show scans, history, secrets or API keys. These screens also stay blank in recent apps.",
+  "@descScreenshotGuard": {
+    "description": "Privacy settings switch description for the screenshot guard."
   },
   "titleAppLocked": "App locked",
   "@titleAppLocked": {

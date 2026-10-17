@@ -9,10 +9,18 @@ import 'package:sreerajp_qr_studio/models/ghost_scan_capture.dart';
 /// Enables on-demand screen content QR code detection via Quick Settings tile,
 /// the floating Scan bubble, or in-app trigger, strictly compliant with
 /// Google Play Store policies.
+///
+/// The app uses the one shared [instance]. A method channel has only one
+/// handler, so a second service would take over captures, and they would be
+/// lost once that service's screen is disposed.
 class GhostScanService {
   static const MethodChannel _defaultChannel = MethodChannel(
     'in.sreerajp.qr_studio/ghost_scan',
   );
+
+  /// Shared instance for the whole app. Never disposed; screens only cancel
+  /// their own [onCapture] subscriptions.
+  static final GhostScanService instance = GhostScanService();
 
   final MethodChannel _channel;
   final StreamController<GhostScanCapture> _captureController =
@@ -111,7 +119,8 @@ class GhostScanService {
     } catch (_) {}
   }
 
-  /// Releases resources.
+  /// Releases resources. Only for services made with a test channel; never
+  /// call it on [instance].
   void dispose() {
     _captureController.close();
   }

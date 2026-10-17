@@ -155,8 +155,8 @@ back to defaults (if preferences fail to load, the providers load them themselve
 
 App lock (when the user turned it on): `AppLockGate` reports `paused`/`hidden` and `resumed`
 to `AppLockProvider`; the app locks when it comes back after 30 seconds or more away, and at
-start ([security.md](security.md) §7). Sensitive screens set `FLAG_SECURE`, so the recent-apps
-preview of those screens is blank.
+start ([security.md](security.md) §7). Sensitive screens set `FLAG_SECURE` (unless the user turned
+the Screenshot guard off), so the recent-apps preview of those screens is blank.
 
 ---
 
@@ -195,6 +195,7 @@ preview of those screens is blank.
 | `OnboardingProvider` | Onboarding seen flag |
 | `ScanBubbleProvider` | Scan bubble on/off, overlay permission, start-after-restart |
 | `AppLockProvider` | Optional app lock: on/off (`app_lock_enabled`), locked state, 30-second background grace |
+| `ScreenSecurityProvider` | Screenshot guard on/off (`screen_security_enabled`, default on); pushes it to `ScreenSecurityService`. Created at start (`lazy: false`) |
 
 - Widgets own: layout, animation and focus state. Services own: logic, storage, network,
   crypto, channels.
@@ -540,7 +541,7 @@ integration_test/
 | History encryption | AES-256-GCM per field, key in KeyStore | Meets §15.2 without a native SQLCipher dependency | Metadata columns (time, category, score) stay readable |
 | Backup / sync crypto | PBKDF2-HMAC-SHA256 600,000 + AES-256-GCM (`PassphraseCipher`) | OWASP-strength key from a passphrase, pure Dart | A few seconds per backup on a phone (background isolate) |
 | App lock grace | Lock after 30 s in the background | Pickers and the share sheet keep working | A short window after leaving the app; sensitive screens are hidden by `FLAG_SECURE` |
-| Screenshot protection | `FLAG_SECURE` on sensitive screens only | Users can still screenshot codes they make and help pages | Each new sensitive screen must be wrapped in `SecureScreen` |
+| Screenshot protection | `FLAG_SECURE` on sensitive screens only; on by default, user can turn it off in Settings → Privacy | Users can still screenshot codes they make and help pages, and can choose to allow all screenshots | Each new sensitive screen must be wrapped in `SecureScreen` |
 | Logging | Console only, errors by type in prod | No user data on disk; nothing to purge | No logs to export for support |
 | Navigation | Navigator 1.0 named routes | Few screens, no URL deep links | No typed routes |
 | Rendering | Impeller default, no opt-out | Flutter default on Android 10+ | — |

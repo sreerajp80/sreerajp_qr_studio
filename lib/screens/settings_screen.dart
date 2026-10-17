@@ -10,6 +10,7 @@ import 'package:sreerajp_qr_studio/providers/app_lock_provider.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/screen_security_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 import 'package:sreerajp_qr_studio/screens/about_screen.dart';
 import 'package:sreerajp_qr_studio/screens/appearance_screen.dart';
@@ -507,6 +508,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       appBar: AppBar(title: Text(l10n.titlePrivacyScreen)),
       body: SafeArea(
@@ -519,9 +521,14 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Card(
-                      color: _activeProbing
-                          ? Colors.orange[50]
-                          : Colors.blue[50],
+                      color: isDark
+                          ? (_activeProbing
+                                    ? Colors.orange[900]!
+                                    : Colors.blue[900]!)
+                                .withValues(alpha: 0.35)
+                          : (_activeProbing
+                                ? Colors.orange[50]
+                                : Colors.blue[50]),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: Column(
@@ -550,9 +557,13 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                                         ? Icons.warning_amber
                                         : Icons.lock_outline,
                                     size: 20,
-                                    color: _activeProbing
-                                        ? Colors.orange[700]
-                                        : Colors.blue[700],
+                                    color: isDark
+                                        ? (_activeProbing
+                                              ? Colors.orange[200]
+                                              : Colors.blue[200])
+                                        : (_activeProbing
+                                              ? Colors.orange[700]
+                                              : Colors.blue[700]),
                                   ),
                                   const SizedBox(width: 8),
                                   Expanded(
@@ -562,9 +573,7 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                                           : l10n.bodyPrivacyExplainerOff,
                                       style: TextStyle(
                                         fontSize: 13,
-                                        color:
-                                            Theme.of(context).brightness ==
-                                                Brightness.dark
+                                        color: isDark
                                             ? (_activeProbing
                                                   ? Colors.orange[200]
                                                   : Colors.blue[200])
@@ -595,6 +604,21 @@ class _PrivacySettingsScreenState extends State<PrivacySettingsScreen> {
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(l10n.descAppLock),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Card(
+                      child: SwitchListTile(
+                        secondary: const Icon(Icons.screenshot_monitor),
+                        value: context.watch<ScreenSecurityProvider>().enabled,
+                        onChanged: context
+                            .read<ScreenSecurityProvider>()
+                            .setEnabled,
+                        title: Text(
+                          l10n.labelScreenshotGuard,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(l10n.descScreenshotGuard),
                       ),
                     ),
                     const SizedBox(height: 16),

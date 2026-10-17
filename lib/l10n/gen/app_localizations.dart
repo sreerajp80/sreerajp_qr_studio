@@ -4117,7 +4117,7 @@ abstract class AppLocalizations {
   /// Features screen: description of the biometric and screen guard feature
   ///
   /// In en, this message translates to:
-  /// **'Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). Hidden StegoQR messages can also ask for biometrics.'**
+  /// **'Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing. Hidden StegoQR messages can also ask for biometrics.'**
   String get descFeatureBiometricGuard;
 
   /// Features screen: highlight chip 1 of the biometric and screen guard feature (max 22 characters)
@@ -6389,7 +6389,7 @@ abstract class AppLocalizations {
   /// History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is.
   ///
   /// In en, this message translates to:
-  /// **'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE).'**
+  /// **'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.'**
   String get helpGuideHistoryBiometricsBullet2;
 
   /// History help screen: tip box at the bottom
@@ -7159,6 +7159,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ask for fingerprint, face or screen lock when the app opens, and after 30 seconds away.'**
   String get descAppLock;
+
+  /// Privacy settings switch label: block screenshots and screen recording (FLAG_SECURE) on sensitive screens. Keep short.
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot guard'**
+  String get labelScreenshotGuard;
+
+  /// Privacy settings switch description for the screenshot guard.
+  ///
+  /// In en, this message translates to:
+  /// **'Block screenshots and screen recording on screens that show scans, history, secrets or API keys. These screens also stay blank in recent apps.'**
+  String get descScreenshotGuard;
 
   /// Title on the lock screen. Keep short.
   ///

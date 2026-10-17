@@ -262,7 +262,7 @@ Complete before every release.
       (Settings, tile, shortcut), GhostScan, language switching, history (including the
       upgrade of history saved by the previous store build), "Delete all data".
 - [ ] Android 13+ themed icon and the launcher icon look right.
-- [ ] Screenshots of History, Result, the API keys screen and AirQR are blocked (`FLAG_SECURE`).
+- [ ] Screenshots of History, Result, the API keys screen and AirQR are blocked (`FLAG_SECURE`); after turning Settings → Privacy → Screenshot guard off they are allowed, and on again blocks them.
 - [ ] App lock: turn on, close the app for 30 s, reopen — it asks to unlock; a quick gallery pick does not lock.
 - [ ] A v2 backup made and restored; an AirQR sync sent and received between two phones.
 - [ ] Version name and build number correct; prod icon has no "DEV" badge.

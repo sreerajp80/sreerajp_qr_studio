@@ -270,6 +270,11 @@ Only the design is written here, never key material.
   `in.sreerajp.qr_studio/window` channel (`ScreenSecurityService`, with a counter for nested
   screens). Screenshots and screen recording of those screens are blocked and the recent-apps
   preview is blank. Scanner, CodeForge, Help, About and the main Settings page stay capturable.
+  The guard is **on by default**. The user can turn it off with the **Screenshot guard** switch
+  in Settings → Privacy (`ScreenSecurityProvider`, preference `screen_security_enabled`). When it
+  is off, the counter keeps running but the flag is never set; turning it back on applies at once
+  to any open sensitive screen. "Delete all data" clears preferences, so the guard is on again
+  after a wipe.
 - Root / integrity detection: none (out of scope, §3).
 
 ### 10.2 Screen capture rules (GhostScan and Scan bubble)
@@ -412,7 +417,7 @@ fresh install (onboarding, system language).
 | Delete all data | Unit / Widget | `data_wipe_service_test.dart`, `settings_screen_test.dart` (every store cleared, partial failure, restart) |
 | Logging | Unit | `app_logger_test.dart` (prod hides error text and stack traces) |
 | Backups and sync packages | Unit | `passphrase_cipher_test.dart`, `history_export_service_test.dart`, `device_sync_service_test.dart` (v2 round trip, random salt/nonce, wrong passphrase, tampering, v1 still read) |
-| Screenshot protection | Unit / Widget | `screen_security_service_test.dart` (counter, `SecureScreen`) |
+| Screenshot protection | Unit / Widget | `screen_security_service_test.dart` (counter, on/off, `SecureScreen`), `screen_security_provider_test.dart` (default on, saved choice), `settings_screen_test.dart` (switch) |
 | App lock | Unit / Widget | `app_lock_provider_test.dart`, `app_lock_gate_test.dart`, `settings_screen_test.dart` |
 | Plain-text export warning | Widget | `plain_text_export_confirm_test.dart` |
 | Native decoder | Integration (device) | `integration_test/barcode_decoder_test.dart` (noise, short buffers, corrupt images) |
@@ -444,7 +449,8 @@ by the exact old scheme; migrations are tested from the frozen v1 SQL.
 | StegoQR payload format uses 10,000 PBKDF2 iterations | A new payload version with a higher count; keep reading the old one | Future |
 | A legacy history value that is really plain text but looks like valid CBC ciphertext would be misread | Very unlikely; disappears once all rows are v2 | Accepted |
 | No certificate pinning for online checks | Pinning would break when providers rotate certificates; online checks are optional | Accepted |
-| App lock waits 30 s before locking after a trip to the background | Needed so pickers and the share sheet keep working; sensitive screens are already hidden from recents by `FLAG_SECURE` | Accepted |
+| App lock waits 30 s before locking after a trip to the background | Needed so pickers and the share sheet keep working; sensitive screens are already hidden from recents by `FLAG_SECURE` (unless the user turned the screenshot guard off) | Accepted |
+| The user can turn the screenshot guard off; then sensitive screens can be captured and show in recents | The user's own choice (for example, to screenshot a result). On by default; no authentication is asked to turn it off | Accepted |
 | `pdfx` plugin applies the Kotlin Gradle Plugin; future Flutter versions will reject this | Update `pdfx` when a built-in-Kotlin release exists, or replace it | Watch |
 | Device checks not yet done: `FLAG_SECURE`, app lock, v2 backup restore, prod R8 build signed with the release key | Do them on a real phone before release ([release_process.md](release_process.md) §8) | Release item |
 
@@ -467,7 +473,7 @@ Complete before every production release.
 - [ ] OWASP Mobile Top 10 table (§12) reviewed; no item left `open`.
 - [ ] Data retention reviewed; "Delete all data" tried on a device (§13).
 - [ ] Backup restore, import, export and migration paths tested (§14).
-- [ ] `FLAG_SECURE` verified on a device: screenshots of the sensitive screens are blocked (§10.1).
+- [ ] `FLAG_SECURE` verified on a device: screenshots of the sensitive screens are blocked, and allowed after turning the Screenshot guard switch off (§10.1).
 - [ ] App lock verified on a device: locks at start and after 30 s away; unlock works (§7).
 - [ ] A v2 backup made and restored on a device; an AirQR sync sent and received (§6.3).
 - [ ] Tests cover the highest-risk failure modes (§15).

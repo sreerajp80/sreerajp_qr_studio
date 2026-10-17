@@ -2297,7 +2297,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get descFeatureBiometricGuard =>
-      'Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). Hidden StegoQR messages can also ask for biometrics.';
+      'Optional app lock with fingerprint, face or your screen lock. Screens that show scans, history, secrets or API keys block screenshots and screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing. Hidden StegoQR messages can also ask for biometrics.';
 
   @override
   String get labelFeatureBiometricGuardChip1 => 'Biometric Prompt';
@@ -3581,7 +3581,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpGuideHistoryBiometricsBullet2 =>
-      'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE).';
+      'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.';
 
   @override
   String get helpGuideHistoryTip =>
@@ -4075,6 +4075,13 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get descAppLock =>
       'Ask for fingerprint, face or screen lock when the app opens, and after 30 seconds away.';
+
+  @override
+  String get labelScreenshotGuard => 'Screenshot guard';
+
+  @override
+  String get descScreenshotGuard =>
+      'Block screenshots and screen recording on screens that show scans, history, secrets or API keys. These screens also stay blank in recent apps.';
 
   @override
   String get titleAppLocked => 'App locked';

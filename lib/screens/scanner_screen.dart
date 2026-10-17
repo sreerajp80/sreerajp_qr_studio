@@ -85,7 +85,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     super.initState();
     _mediaScanService = MediaScanService();
     _clipboardScanService = ClipboardScanService();
-    _ghostScanService = GhostScanService();
+    _ghostScanService = GhostScanService.instance;
     WidgetsBinding.instance.addObserver(this);
     _initializeScanner();
     _listenToShareIntents();
@@ -268,7 +268,6 @@ class _ScannerScreenState extends State<ScannerScreen>
     _cameraSettingsProvider?.removeListener(_onCameraSettingsChanged);
     _intentSubscription?.cancel();
     _ghostScanSubscription?.cancel();
-    _ghostScanService.dispose();
     routeObserver.unsubscribe(this);
     WidgetsBinding.instance.removeObserver(this);
     controller?.dispose();

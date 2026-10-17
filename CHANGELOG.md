@@ -19,7 +19,8 @@ change is in [`change_log/`](change_log/).
 - **App lock** (optional, Settings → Privacy): asks for fingerprint, face or the screen lock when
   the app opens and after 30 seconds away.
 - Screens that show scans, history, secrets or API keys now block screenshots and screen
-  recording.
+  recording. This **Screenshot guard** is on by default; you can turn it off in
+  Settings → Privacy.
 - A warning before exporting history or batch scans as an unencrypted file.
 
 ### Changed
@@ -44,6 +45,11 @@ change is in [`change_log/`](change_log/).
 ### Fixed
 - Unexpected errors no longer show a raw error box in release builds; they are logged without
   any scanned content.
+- Screen scan (Scan bubble and Quick Settings tile) now waits a moment for the
+  "Start recording?" dialog to fade before taking the picture, so smaller QR codes on screen
+  are found.
+- Screen scan no longer stays silent right after first-run onboarding (until the app was
+  restarted, captures were not decoded).
 
 ## [4.1.0+34] — 2026-10-12 (`Release_20261012`)
 

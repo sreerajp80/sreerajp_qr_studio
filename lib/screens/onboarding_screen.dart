@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/onboarding_slide.dart';
 import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
-import 'package:sreerajp_qr_studio/screens/main_shell_screen.dart';
 
 /// Lightweight 3-slide introductory carousel explaining:
 /// 1. 6-Layer URL Safety Engine
@@ -48,13 +47,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       return;
     }
 
-    final provider = context.read<OnboardingProvider>();
-    await provider.completeOnboarding();
-
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const MainShellScreen()),
-    );
+    // MaterialApp.home switches to MainShellScreen when the provider changes.
+    // Pushing another shell here would build two scanner screens.
+    await context.read<OnboardingProvider>().completeOnboarding();
   }
 
   void _nextPage(int totalPages) {

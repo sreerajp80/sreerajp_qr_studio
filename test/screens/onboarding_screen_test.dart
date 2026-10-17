@@ -11,6 +11,7 @@ import 'package:sreerajp_qr_studio/providers/locale_provider.dart';
 import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/screens/main_shell_screen.dart';
 import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
 
 import '../helpers/accessibility_checks.dart';
@@ -88,12 +89,15 @@ void main() {
       expect(find.text('100% offline privacy'), findsOneWidget);
       expect(find.text('Start Scanning'), findsOneWidget);
 
-      // Tap Start Scanning (MainShellScreen has continuous camera animations, so use pump())
+      // Tap Start Scanning
       await tester.tap(find.byKey(const Key('onboarding_action_button')));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(provider.hasSeenOnboarding, isTrue);
+      // The app's home switches to the main shell through the provider; the
+      // screen must not push a second shell (two scanner screens).
+      expect(find.byType(MainShellScreen), findsNothing);
     });
 
     testWidgets('skip button completes onboarding', (tester) async {
@@ -111,6 +115,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(provider.hasSeenOnboarding, isTrue);
+      expect(find.byType(MainShellScreen), findsNothing);
     });
 
     testWidgets('custom onCompleted callback is called', (tester) async {

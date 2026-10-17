@@ -16,6 +16,7 @@ import 'package:sreerajp_qr_studio/providers/multi_code_selection_provider.dart'
 import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_bubble_provider.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
+import 'package:sreerajp_qr_studio/providers/screen_security_provider.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
 import 'package:sreerajp_qr_studio/screens/about_screen.dart';
 import 'package:sreerajp_qr_studio/screens/air_qr_screen.dart';
@@ -55,6 +56,11 @@ class SreerajQRReaderApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AppLockProvider(prefs: prefs)),
+        ChangeNotifierProvider(
+          // Not lazy: the saved setting must reach the service at start.
+          lazy: false,
+          create: (_) => ScreenSecurityProvider(prefs: prefs),
+        ),
         ChangeNotifierProvider(create: (_) => LocaleProvider(prefs: prefs)),
         ChangeNotifierProvider(create: (_) => ScanProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),

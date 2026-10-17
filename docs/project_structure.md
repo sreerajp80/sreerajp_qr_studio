@@ -80,6 +80,7 @@ sreerajp_qr_studio/
 |   |   `-- smart_action.dart        # Action triggers (Wi-Fi, UPI, contacts)
 |   |-- providers/
 |   |   |-- app_lock_provider.dart   # Optional app lock state (security §7)
+|   |   |-- screen_security_provider.dart # Screenshot guard on/off (security §10.1)
 |   |   |-- scan_provider.dart       # Scan state & URL analysis coordination
 |   |   |-- history_provider.dart    # SQLite scan history state
 |   |   |-- theme_provider.dart      # Material 3 theme mode & dynamic color

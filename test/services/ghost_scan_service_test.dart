@@ -142,6 +142,38 @@ void main() {
         await sub.cancel();
       },
     );
+
+    test('instance is one shared service', () {
+      expect(
+        identical(GhostScanService.instance, GhostScanService.instance),
+        isTrue,
+      );
+    });
+
+    test('a capture still arrives after another listener cancels', () async {
+      // Screens come and go; one leaving must not stop captures for the next.
+      final first = service.onCapture.listen((_) {});
+      await first.cancel();
+
+      final completer = Completer<GhostScanCapture>();
+      final second = service.onCapture.listen(completer.complete);
+
+      final message = const StandardMethodCodec().encodeMethodCall(
+        const MethodCall('onGhostScanImage', {
+          'imagePath': '/data/cache/ghost_scan_after.jpg',
+          'fromBubble': true,
+        }),
+      );
+      await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+          .handlePlatformMessage(channelName, message, (data) {});
+
+      final capture = await completer.future.timeout(
+        const Duration(seconds: 2),
+      );
+      expect(capture.imagePath, '/data/cache/ghost_scan_after.jpg');
+      expect(capture.fromBubble, isTrue);
+      await second.cancel();
+    });
   });
 
   group('GhostScanService - Capture details', () {

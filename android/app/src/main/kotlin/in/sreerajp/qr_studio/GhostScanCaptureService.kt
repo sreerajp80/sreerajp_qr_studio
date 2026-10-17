@@ -12,6 +12,7 @@ import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
 import android.hardware.display.VirtualDisplay
+import android.media.Image
 import android.media.ImageReader
 import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
@@ -26,8 +27,11 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * Short-lived foreground service (active for ~200ms) that captures a single screen frame
- * using Android's MediaProjection API and passes it to the QR scanner engine.
+ * Short-lived foreground service (active for under a second) that captures a single screen
+ * frame using Android's MediaProjection API and passes it to the QR scanner engine.
+ *
+ * The frame is taken [SETTLE_DELAY_MS] after capture starts, not the first frame, so the
+ * fading "Start recording?" dialog and its dimmed layer are not in the picture.
  *
  * Adheres strictly to Google Play policies:
  * - Initiated solely on-demand by user action.
@@ -42,6 +46,9 @@ class GhostScanCaptureService : Service() {
 
         /** Set when the captured frame is almost all black (app blocks capture). */
         const val EXTRA_BLOCKED = "blocked"
+
+        /** Wait for the consent dialog to fade out before keeping a frame. */
+        private const val SETTLE_DELAY_MS = 500L
     }
 
     private var mediaProjection: MediaProjection? = null
@@ -49,6 +56,22 @@ class GhostScanCaptureService : Service() {
     private var imageReader: ImageReader? = null
     private val handler = Handler(Looper.getMainLooper())
     private var hasCaptured = false
+    private var settled = false
+
+    /** Newest frame so far; older frames are closed as soon as a newer one arrives. */
+    private var heldImage: Image? = null
+    private val settleRunnable = Runnable {
+        settled = true
+        useHeldImage()
+    }
+    private var captureWidth = 0
+    private var captureHeight = 0
+    private val timeoutRunnable = Runnable {
+        if (!hasCaptured) {
+            cleanup()
+            stopForegroundAndSelf()
+        }
+    }
     private var fromBubble = false
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -141,7 +164,10 @@ class GhostScanCaptureService : Service() {
             densityDpi = metrics.densityDpi
         }
 
-        val maxImages = 2
+        captureWidth = width
+        captureHeight = height
+        // One held frame plus room for acquireLatestImage() to swap in a newer one.
+        val maxImages = 3
         imageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, maxImages)
         virtualDisplay = mediaProjection?.createVirtualDisplay(
             "GhostScanDisplay",
@@ -154,65 +180,77 @@ class GhostScanCaptureService : Service() {
             handler
         )
 
-        val timeoutRunnable = Runnable {
-            if (!hasCaptured) {
+        handler.postDelayed(timeoutRunnable, 3500)
+        handler.postDelayed(settleRunnable, SETTLE_DELAY_MS)
+
+        // Runs on the main handler. Keeps only the newest frame; once the screen has
+        // settled, the held frame (or the next one to arrive) is used.
+        imageReader?.setOnImageAvailableListener({ reader ->
+            if (hasCaptured) return@setOnImageAvailableListener
+            val image = try {
+                reader.acquireLatestImage()
+            } catch (_: IllegalStateException) {
+                null
+            } ?: return@setOnImageAvailableListener
+            heldImage?.close()
+            heldImage = image
+            if (settled) useHeldImage()
+        }, handler)
+    }
+
+    private fun useHeldImage() {
+        if (hasCaptured) return
+        val image = heldImage ?: return
+        heldImage = null
+        hasCaptured = true
+        handler.removeCallbacks(timeoutRunnable)
+        val width = captureWidth
+        val height = captureHeight
+
+        Thread {
+            try {
+                val planes = image.planes
+                val buffer = planes[0].buffer
+                val pixelStride = planes[0].pixelStride
+                val rowStride = planes[0].rowStride
+                val rowPadding = rowStride - pixelStride * width
+
+                val bitmap = Bitmap.createBitmap(
+                    width + rowPadding / pixelStride,
+                    height,
+                    Bitmap.Config.ARGB_8888
+                )
+                bitmap.copyPixelsFromBuffer(buffer)
+                image.close()
+
+                val finalBitmap = if (rowPadding > 0) {
+                    Bitmap.createBitmap(bitmap, 0, 0, width, height)
+                } else {
+                    bitmap
+                }
+
+                val blocked = isAlmostAllBlack(finalBitmap)
+
+                val cacheFile = File(cacheDir, "ghost_scan_${System.currentTimeMillis()}.jpg")
+                FileOutputStream(cacheFile).use { out ->
+                    finalBitmap.compress(Bitmap.CompressFormat.JPEG, 92, out)
+                }
+
+                val launchIntent = Intent(this@GhostScanCaptureService, MainActivity::class.java).apply {
+                    action = "in.sreerajp.qr_studio.ACTION_GHOST_SCAN"
+                    putExtra("image_path", cacheFile.absolutePath)
+                    putExtra(GhostScanActivity.EXTRA_FROM_BUBBLE, fromBubble)
+                    putExtra(EXTRA_BLOCKED, blocked)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+                startActivity(launchIntent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            } finally {
                 cleanup()
                 stopForegroundAndSelf()
             }
-        }
-        handler.postDelayed(timeoutRunnable, 3500)
-
-        imageReader?.setOnImageAvailableListener({ reader ->
-            if (hasCaptured) return@setOnImageAvailableListener
-            val image = reader.acquireLatestImage() ?: return@setOnImageAvailableListener
-            hasCaptured = true
-            handler.removeCallbacks(timeoutRunnable)
-
-            Thread {
-                try {
-                    val planes = image.planes
-                    val buffer = planes[0].buffer
-                    val pixelStride = planes[0].pixelStride
-                    val rowStride = planes[0].rowStride
-                    val rowPadding = rowStride - pixelStride * width
-
-                    val bitmap = Bitmap.createBitmap(
-                        width + rowPadding / pixelStride,
-                        height,
-                        Bitmap.Config.ARGB_8888
-                    )
-                    bitmap.copyPixelsFromBuffer(buffer)
-                    image.close()
-
-                    val finalBitmap = if (rowPadding > 0) {
-                        Bitmap.createBitmap(bitmap, 0, 0, width, height)
-                    } else {
-                        bitmap
-                    }
-
-                    val blocked = isAlmostAllBlack(finalBitmap)
-
-                    val cacheFile = File(cacheDir, "ghost_scan_${System.currentTimeMillis()}.jpg")
-                    FileOutputStream(cacheFile).use { out ->
-                        finalBitmap.compress(Bitmap.CompressFormat.JPEG, 92, out)
-                    }
-
-                    val launchIntent = Intent(this@GhostScanCaptureService, MainActivity::class.java).apply {
-                        action = "in.sreerajp.qr_studio.ACTION_GHOST_SCAN"
-                        putExtra("image_path", cacheFile.absolutePath)
-                        putExtra(GhostScanActivity.EXTRA_FROM_BUBBLE, fromBubble)
-                        putExtra(EXTRA_BLOCKED, blocked)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    }
-                    startActivity(launchIntent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    cleanup()
-                    stopForegroundAndSelf()
-                }
-            }.start()
-        }, handler)
+        }.start()
     }
 
     /**
@@ -239,7 +277,10 @@ class GhostScanCaptureService : Service() {
     }
 
     private fun cleanup() {
+        handler.removeCallbacks(settleRunnable)
         try {
+            heldImage?.close()
+            heldImage = null
             virtualDisplay?.release()
             virtualDisplay = null
             imageReader?.close()

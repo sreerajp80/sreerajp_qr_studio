@@ -45,6 +45,36 @@ void main() {
     expect(service.openSecureScreens, 0);
   });
 
+  test('when turned off, opening a secure screen sets no flag', () async {
+    await service.setEnabled(false);
+    await service.acquire();
+    expect(calls, isEmpty);
+    expect(service.openSecureScreens, 1);
+    await service.release();
+    expect(calls, isEmpty);
+    expect(service.openSecureScreens, 0);
+  });
+
+  test('turning it off and on applies to an open secure screen', () async {
+    await service.acquire();
+    expect(calls, [true]);
+    await service.setEnabled(false);
+    expect(calls, [true, false]);
+    await service.setEnabled(true);
+    expect(calls, [true, false, true]);
+    await service.release();
+    expect(calls, [true, false, true, false]);
+  });
+
+  test(
+    'changing the setting with no secure screen open sets no flag',
+    () async {
+      await service.setEnabled(false);
+      await service.setEnabled(true);
+      expect(calls, isEmpty);
+    },
+  );
+
   test('a platform error is logged, never thrown', () async {
     AppLogger.overrideForTesting(
       verbose: false,

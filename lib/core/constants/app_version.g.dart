@@ -1,4 +1,4 @@
 // GENERATED FILE — DO NOT EDIT.
 // Run: dart run tool/generate_app_version.dart
 
-const String kAppVersion = '4.1.2+36';
+const String kAppVersion = '4.1.5+39';
