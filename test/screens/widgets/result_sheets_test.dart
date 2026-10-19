@@ -9,7 +9,6 @@ import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/ar_code_target.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
-import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/providers/ar_codevision_provider.dart';
 import 'package:sreerajp_qr_studio/providers/history_provider.dart';
@@ -19,11 +18,9 @@ import 'package:sreerajp_qr_studio/screens/widgets/export_import_dialog.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/history_detail_sheet.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/multi_code_hint_banner.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/pdf_scan_results_sheet.dart';
-import 'package:sreerajp_qr_studio/screens/widgets/quishing_risk_bar_widget.dart';
 import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 import 'package:sreerajp_qr_studio/services/media_scan_service.dart';
-import 'package:sreerajp_qr_studio/services/quishing_guard_service.dart';
 
 import '../../helpers/accessibility_checks.dart';
 import '../../helpers/test_app.dart';
@@ -171,30 +168,6 @@ void main() {
         expectAllIconButtonsHaveTooltips(tester);
         await tester.tap(find.byTooltip(l10n.tooltipMultiCodeDismiss));
         expect(dismissed, isTrue);
-      });
-
-      testWidgets('QuishingRiskBarWidget shows a high-risk result', (
-        tester,
-      ) async {
-        final result = const QuishingGuardService().analyzeQrContext(
-          rawContent: 'https://example.com',
-          metadata: {'simulatedRiskLevel': QuishingRiskLevel.highWarning},
-        );
-        await tester.pumpWidget(
-          buildTestApp(
-            locale: locale,
-            home: Scaffold(
-              body: SingleChildScrollView(
-                child: QuishingRiskBarWidget(result: result),
-              ),
-            ),
-          ),
-        );
-        await tester.pump();
-
-        expect(tester.takeException(), isNull);
-        expect(find.text(l10n.titleQuishingGuard), findsWidgets);
-        expectAllIconButtonsHaveTooltips(tester);
       });
 
       testWidgets('DomSandboxPreviewCard shows the page and opens inspect', (

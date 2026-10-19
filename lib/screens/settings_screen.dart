@@ -1527,174 +1527,281 @@ class _UrlSafetyProvidersScreenState extends State<UrlSafetyProvidersScreen> {
   }
 }
 
+/// One row on the Permissions screen.
+///
+/// [androidPermissions] holds the Android manifest names without the
+/// `android.permission.` prefix (protocol tokens, never translated). It is
+/// empty for a row that explains a setting rather than a permission.
+@immutable
+class PermissionInfoEntry {
+  const PermissionInfoEntry({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.description,
+    this.androidPermissions = const [],
+  });
+
+  final IconData icon;
+  final Color color;
+  final String Function(AppLocalizations l10n) title;
+  final String Function(AppLocalizations l10n) description;
+  final List<String> androidPermissions;
+}
+
+/// One group of rows on the Permissions screen.
+///
+/// [requested] is false for the group that lists permissions the app does
+/// not ask for; those must not be requested in the manifest.
+@immutable
+class PermissionInfoGroup {
+  const PermissionInfoGroup({
+    required this.icon,
+    required this.title,
+    required this.note,
+    required this.requested,
+    required this.entries,
+  });
+
+  final IconData icon;
+  final String Function(AppLocalizations l10n) title;
+  final String Function(AppLocalizations l10n) note;
+  final bool requested;
+  final List<PermissionInfoEntry> entries;
+}
+
+/// Everything the Permissions screen shows. A test checks this list against
+/// `android/app/src/main/AndroidManifest.xml`, so a new manifest permission
+/// cannot ship without an explanation here.
+final List<PermissionInfoGroup> kPermissionGroups = [
+  PermissionInfoGroup(
+    icon: Icons.front_hand_outlined,
+    title: (l10n) => l10n.labelPermGroupAsked,
+    note: (l10n) => l10n.helpPermGroupAskedNote,
+    requested: true,
+    entries: [
+      PermissionInfoEntry(
+        icon: Icons.camera_alt_outlined,
+        color: Colors.blue,
+        title: (l10n) => l10n.labelPermCamera,
+        description: (l10n) => l10n.helpPermCameraDesc,
+        androidPermissions: const ['CAMERA'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.location_on_outlined,
+        color: Colors.green,
+        title: (l10n) => l10n.labelPermLocation,
+        description: (l10n) => l10n.helpPermLocationDesc,
+        androidPermissions: const [
+          'ACCESS_FINE_LOCATION',
+          'ACCESS_COARSE_LOCATION',
+        ],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.fingerprint,
+        color: Colors.purple,
+        title: (l10n) => l10n.labelPermBiometric,
+        description: (l10n) => l10n.helpPermBiometricDesc,
+        androidPermissions: const ['USE_BIOMETRIC', 'USE_FINGERPRINT'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.notifications_outlined,
+        color: Colors.pink,
+        title: (l10n) => l10n.labelPermNotifications,
+        description: (l10n) => l10n.helpPermNotificationsDesc,
+        androidPermissions: const ['POST_NOTIFICATIONS'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.bubble_chart_outlined,
+        color: Colors.blueGrey,
+        title: (l10n) => l10n.labelPermOverlay,
+        description: (l10n) => l10n.helpPermOverlayDesc,
+        androidPermissions: const ['SYSTEM_ALERT_WINDOW'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.screenshot_monitor_outlined,
+        color: Colors.indigo,
+        title: (l10n) => l10n.labelPermScreenCapture,
+        description: (l10n) => l10n.helpPermScreenCaptureDesc,
+        androidPermissions: const ['FOREGROUND_SERVICE_MEDIA_PROJECTION'],
+      ),
+    ],
+  ),
+  PermissionInfoGroup(
+    icon: Icons.settings_suggest_outlined,
+    title: (l10n) => l10n.labelPermGroupInstall,
+    note: (l10n) => l10n.helpPermGroupInstallNote,
+    requested: true,
+    entries: [
+      PermissionInfoEntry(
+        icon: Icons.public,
+        color: Colors.teal,
+        title: (l10n) => l10n.labelPermInternet,
+        description: (l10n) => l10n.helpPermInternetDesc,
+        androidPermissions: const ['INTERNET'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.travel_explore,
+        color: Colors.amber,
+        title: (l10n) => l10n.labelPermProbing,
+        description: (l10n) => l10n.helpPermProbingDesc,
+      ),
+      PermissionInfoEntry(
+        icon: Icons.cloud_sync_outlined,
+        color: Colors.lightBlue,
+        title: (l10n) => l10n.labelPermLinkServices,
+        description: (l10n) => l10n.helpPermLinkServicesDesc,
+      ),
+      PermissionInfoEntry(
+        icon: Icons.wifi,
+        color: Colors.cyan,
+        title: (l10n) => l10n.labelPermWifi,
+        description: (l10n) => l10n.helpPermWifiDesc,
+        androidPermissions: const [
+          'ACCESS_WIFI_STATE',
+          'CHANGE_WIFI_STATE',
+          'ACCESS_NETWORK_STATE',
+          'CHANGE_NETWORK_STATE',
+        ],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.play_circle_outline,
+        color: Colors.deepOrange,
+        title: (l10n) => l10n.labelPermBackground,
+        description: (l10n) => l10n.helpPermBackgroundDesc,
+        androidPermissions: const [
+          'FOREGROUND_SERVICE',
+          'FOREGROUND_SERVICE_SPECIAL_USE',
+        ],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.restart_alt,
+        color: Colors.brown,
+        title: (l10n) => l10n.labelPermBoot,
+        description: (l10n) => l10n.helpPermBootDesc,
+        androidPermissions: const ['RECEIVE_BOOT_COMPLETED'],
+      ),
+    ],
+  ),
+  PermissionInfoGroup(
+    icon: Icons.block_outlined,
+    title: (l10n) => l10n.labelPermGroupNotUsed,
+    note: (l10n) => l10n.helpPermGroupNotUsedNote,
+    requested: false,
+    entries: [
+      PermissionInfoEntry(
+        icon: Icons.photo_library_outlined,
+        color: Colors.grey,
+        title: (l10n) => l10n.labelPermStorage,
+        description: (l10n) => l10n.helpPermStorageDesc,
+        androidPermissions: const [
+          'READ_EXTERNAL_STORAGE',
+          'WRITE_EXTERNAL_STORAGE',
+        ],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.mic_off_outlined,
+        color: Colors.grey,
+        title: (l10n) => l10n.labelPermMicrophone,
+        description: (l10n) => l10n.helpPermMicrophoneDesc,
+        androidPermissions: const ['RECORD_AUDIO'],
+      ),
+      PermissionInfoEntry(
+        icon: Icons.vibration,
+        color: Colors.grey,
+        title: (l10n) => l10n.labelPermVibration,
+        description: (l10n) => l10n.helpPermVibrationDesc,
+        androidPermissions: const ['VIBRATE'],
+      ),
+    ],
+  ),
+];
+
 class PermissionsSettingsScreen extends StatelessWidget {
   const PermissionsSettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.titlePermissionsScreen)),
       body: SafeArea(
         top: false,
-        child: SingleChildScrollView(
+        child: ListView(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4, right: 4, bottom: 20),
+              child: Text(
+                l10n.helpPermissionsIntro,
+                style: theme.textTheme.bodyMedium,
+              ),
+            ),
+            for (final group in kPermissionGroups) ...[
               _buildSectionHeader(
                 context,
-                title: l10n.helpPermissionsExplicitHeading,
-                icon: Icons.security_outlined,
+                title: group.title(l10n),
+                icon: group.icon,
               ),
-              Card(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const Icon(
-                        Icons.camera_alt_outlined,
-                        color: Colors.blue,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionCameraTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionCameraDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.fingerprint,
-                        color: Colors.purple,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionBiometricTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionBiometricDesc),
-                    ),
-                  ],
+              Padding(
+                padding: const EdgeInsets.only(left: 4, right: 4, bottom: 8),
+                child: Text(
+                  group.note(l10n),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ),
-              _buildSectionHeader(
-                context,
-                title: l10n.helpPermissionsImplicitHeading,
-                icon: Icons.settings_suggest_outlined,
-              ),
               Card(
                 margin: const EdgeInsets.only(bottom: 20),
                 child: Column(
                   children: [
-                    ListTile(
-                      leading: const Icon(Icons.wifi, color: Colors.teal),
-                      title: Text(
-                        l10n.helpPermissionInternetTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionInternetDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.vibration,
-                        color: Colors.orange,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionVibrateTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionVibrateDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.photo_library_outlined,
-                        color: Colors.indigo,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionPhotoPickerTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionPhotoPickerDesc),
-                    ),
-                  ],
-                ),
-              ),
-              _buildSectionHeader(
-                context,
-                title: l10n.helpPermissionsSettingHeading,
-                icon: Icons.toggle_on_outlined,
-              ),
-              Card(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: const Icon(
-                        Icons.travel_explore,
-                        color: Colors.amber,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionProbingTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionProbingDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.cloud_sync_outlined,
-                        color: Colors.lightBlue,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionSafeBrowsingTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionSafeBrowsingDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.touch_app_outlined,
-                        color: Colors.deepOrange,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionFeedbackTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionFeedbackDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.bubble_chart_outlined,
-                        color: Colors.blueGrey,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionOverlayTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionOverlayDesc),
-                    ),
-                    const Divider(height: 1),
-                    ListTile(
-                      leading: const Icon(
-                        Icons.notifications_outlined,
-                        color: Colors.pink,
-                      ),
-                      title: Text(
-                        l10n.helpPermissionNotificationTitle,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text(l10n.helpPermissionNotificationDesc),
-                    ),
+                    for (final (index, entry) in group.entries.indexed) ...[
+                      if (index > 0) const Divider(height: 1),
+                      _buildEntry(context, l10n, entry),
+                    ],
                   ],
                 ),
               ),
             ],
-          ),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildEntry(
+    BuildContext context,
+    AppLocalizations l10n,
+    PermissionInfoEntry entry,
+  ) {
+    final theme = Theme.of(context);
+    return ListTile(
+      leading: Icon(entry.icon, color: entry.color),
+      title: Text(
+        entry.title(l10n),
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 2),
+          Text(entry.description(l10n)),
+          if (entry.androidPermissions.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            // Android names, for people who want to match them with the
+            // system settings or the store listing. Protocol tokens, not UI
+            // text, so they are not translated.
+            Text(
+              entry.androidPermissions.join(', '),
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+                fontFamily: 'monospace',
+              ),
+            ),
+          ],
+        ],
       ),
     );
   }
@@ -1705,7 +1812,7 @@ class PermissionsSettingsScreen extends StatelessWidget {
     required IconData icon,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      padding: const EdgeInsets.only(left: 4, bottom: 4),
       child: Row(
         children: [
           Icon(icon, size: 20, color: Theme.of(context).primaryColor),

@@ -323,8 +323,20 @@ iOS, Windows, macOS and Linux are not declared platforms; their controls do not 
 | `POST_NOTIFICATIONS` | Shows "Scan bubble is on" with a Turn off button | When the bubble is first turned on (Android 13+) | Bubble still works; the notification is hidden |
 | `RECEIVE_BOOT_COMPLETED` | Brings the Scan bubble back after a phone restart | Only acts if the user turned on "Start after restart" and the bubble was on | Bubble stays off after restart |
 
+| `USE_FINGERPRINT` | Added by the `local_auth` plugin; the older-Android form of `USE_BIOMETRIC` | Same as `USE_BIOMETRIC` | Same as `USE_BIOMETRIC` |
+
 Scan vibration uses Flutter's `HapticFeedback` (system haptics), so the app does not declare
 the `VIBRATE` permission.
+
+The `camera` plugin adds `RECORD_AUDIO` and `WRITE_EXTERNAL_STORAGE` (which also implies
+`READ_EXTERNAL_STORAGE`). The app never records audio (the camera opens with
+`enableAudio: false`) and never saves camera files, so `AndroidManifest.xml` removes all three
+with `tools:node="remove"`.
+
+The in-app Permissions screen (Settings → Permissions, `kPermissionGroups` in
+`lib/screens/settings_screen.dart`) explains every permission in this table in plain words.
+`test/screens/permissions_manifest_parity_test.dart` fails if the manifest gains a permission
+that the screen does not explain.
 
 Permission review rules: request only what is used; ask dangerous permissions at the point of
 use; the app keeps working in a safe, reduced way when a non-critical permission is denied.

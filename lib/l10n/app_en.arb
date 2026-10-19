@@ -332,54 +332,37 @@
   "@actionPaymentAmountPay": {
     "description": "Button in the UPI amount dialog that opens the UPI app with the entered amount"
   },
-  "labelPercentValue": "{value}%",
-  "@labelPercentValue": {
-    "description": "A percentage shown to the user, for example 42%",
-    "placeholders": {
-      "value": {
-        "type": "String"
-      }
-    }
-  },
   "titleQuishingGuard": "QuishingGuard™",
   "@titleQuishingGuard": {
-    "description": "Name of the feature that checks a printed code for physical tampering"
+    "description": "Name of the feature that reminds the user to check a printed QR code for a fake sticker"
   },
-  "labelQuishingTamperBadge": "Physical Tamper CV",
-  "@labelQuishingTamperBadge": {
-    "description": "Small badge saying the check uses computer vision on the printed code"
+  "titleStickerCheck": "Fake sticker check",
+  "@titleStickerCheck": {
+    "description": "QuishingGuard card on the result screen: subtitle line. Short label (fake QR sticker check reminder)"
   },
-  "labelQuishingRiskScore": "Tamper Risk Score:",
-  "@labelQuishingRiskScore": {
-    "description": "Label before the tamper risk percentage"
+  "tooltipStickerCheckExpand": "Show checks",
+  "@tooltipStickerCheckExpand": {
+    "description": "QuishingGuard card: tooltip of the button that opens the list of hand checks"
   },
-  "actionQuishingViewSignals": "Show signals",
-  "@actionQuishingViewSignals": {
-    "description": "Link that opens the detailed tamper findings"
+  "tooltipStickerCheckCollapse": "Hide checks",
+  "@tooltipStickerCheckCollapse": {
+    "description": "QuishingGuard card: tooltip of the button that closes the list of hand checks"
   },
-  "actionQuishingHideSignals": "Hide signals",
-  "@actionQuishingHideSignals": {
-    "description": "Link that closes the detailed tamper findings"
+  "bodyStickerCheckIntro": "Scammers stick their own QR code over the real one. This app cannot spot a sticker in the camera picture, so please check it yourself:",
+  "@bodyStickerCheckIntro": {
+    "description": "QuishingGuard card: explains the sticker scam and that the app cannot see stickers, so the user checks by hand"
   },
-  "labelQuishingMetricEdge": "Edge Discontinuity",
-  "@labelQuishingMetricEdge": {
-    "description": "Name of the tamper metric that looks at the edges of the printed code"
+  "bodyStickerCheckEdges": "Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.",
+  "@bodyStickerCheckEdges": {
+    "description": "QuishingGuard card: hand check 1, look at and feel the code for raised sticker edges"
   },
-  "descQuishingMetricEdge": "Double edges & shadow lines",
-  "@descQuishingMetricEdge": {
-    "description": "Short explanation of the edge discontinuity metric"
+  "bodyStickerCheckPayee": "Before you pay, check that the name on the payment screen matches the shop.",
+  "@bodyStickerCheckPayee": {
+    "description": "QuishingGuard card: hand check 2, check the payee name before paying"
   },
-  "labelQuishingMetricGrain": "Print Grain & DPI",
-  "@labelQuishingMetricGrain": {
-    "description": "Name of the tamper metric that looks at print quality"
-  },
-  "descQuishingMetricGrain": "Halftone dot & chromatic noise",
-  "@descQuishingMetricGrain": {
-    "description": "Short explanation of the print grain metric"
-  },
-  "titleQuishingSignals": "Detected signals:",
-  "@titleQuishingSignals": {
-    "description": "Heading above the list of tamper findings"
+  "bodyStickerCheckAsk": "If in doubt, ask the staff, or type the website address yourself.",
+  "@bodyStickerCheckAsk": {
+    "description": "QuishingGuard card: hand check 3, ask staff or type the address yourself"
   },
   "tooltipArCloseSheet": "Close Sheet",
   "@tooltipArCloseSheet": {
@@ -1462,7 +1445,7 @@
   "@labelSettingsPermissions": {
     "description": "Settings card that opens the permissions overview"
   },
-  "descSettingsPermissions": "Explicit, implicit & setting-dependent details",
+  "descSettingsPermissions": "What the app uses, and why",
   "@descSettingsPermissions": {
     "description": "Explanation under the permissions card"
   },
@@ -1470,9 +1453,9 @@
   "@labelSettingsHelp": {
     "description": "Settings card that opens the feature guides"
   },
-  "descSettingsHelp": "AR CodeVision, AirQR, Quishing Guard & URL Safety",
+  "descSettingsHelp": "Simple guides for every feature",
   "@descSettingsHelp": {
-    "description": "Explanation under the help card"
+    "description": "Subtitle of the Help card in Settings"
   },
   "descSettingsAbout": "App version, developer & license details",
   "@descSettingsAbout": {
@@ -1542,81 +1525,153 @@
   "@titlePermissionsScreen": {
     "description": "Title of the permissions screen"
   },
-  "helpPermissionsExplicitHeading": "Explicit Permissions (Runtime / Manifest)",
-  "@helpPermissionsExplicitHeading": {
-    "description": "Heading for permissions the user is asked for"
+  "helpPermissionsIntro": "Permissions let an app use parts of your phone, such as the camera. This app asks only for what a feature needs, and only when you use that feature. You can see or change them at any time in Android Settings > Apps > this app > Permissions.",
+  "@helpPermissionsIntro": {
+    "description": "Introduction at the top of the Permissions screen"
   },
-  "helpPermissionCameraTitle": "Camera Access (android.permission.CAMERA)",
-  "@helpPermissionCameraTitle": {
-    "description": "Name of the camera permission"
+  "labelPermGroupAsked": "Asked when needed",
+  "@labelPermGroupAsked": {
+    "description": "Permissions screen group heading: permissions Android asks the user for"
   },
-  "helpPermissionCameraDesc": "Requested on-demand at point of use. Required for live scanning, AR CodeVision HUD overlay, and AirQR optical stream decoding.",
-  "@helpPermissionCameraDesc": {
-    "description": "What the camera permission is used for"
+  "helpPermGroupAskedNote": "Android asks you before the app can use these. If you say no, the rest of the app still works.",
+  "@helpPermGroupAskedNote": {
+    "description": "Short note under the \"Asked when needed\" group heading"
   },
-  "helpPermissionBiometricTitle": "Biometric Authentication (android.permission.USE_BIOMETRIC)",
-  "@helpPermissionBiometricTitle": {
-    "description": "Name of the fingerprint and face permission"
+  "labelPermGroupInstall": "Allowed at install",
+  "@labelPermGroupInstall": {
+    "description": "Permissions screen group heading: permissions Android allows at install without asking"
   },
-  "helpPermissionBiometricDesc": "Requested when unlocking biometric secure vaults or encrypted QR code payloads.",
-  "@helpPermissionBiometricDesc": {
-    "description": "What the biometric permission is used for"
+  "helpPermGroupInstallNote": "Android allows these when the app is installed, without asking. Each one is used only for the feature named here.",
+  "@helpPermGroupInstallNote": {
+    "description": "Short note under the \"Allowed at install\" group heading"
   },
-  "helpPermissionsImplicitHeading": "Implicit & System Permissions",
-  "@helpPermissionsImplicitHeading": {
-    "description": "Heading for permissions granted by the system"
+  "labelPermGroupNotUsed": "Not asked for",
+  "@labelPermGroupNotUsed": {
+    "description": "Permissions screen group heading: permissions the app does not ask for"
   },
-  "helpPermissionInternetTitle": "Internet Access (android.permission.INTERNET)",
-  "@helpPermissionInternetTitle": {
-    "description": "Name of the internet permission"
+  "helpPermGroupNotUsedNote": "The app does not ask for these, so it cannot use them.",
+  "@helpPermGroupNotUsedNote": {
+    "description": "Short note under the \"Not asked for\" group heading"
   },
-  "helpPermissionInternetDesc": "Declared in Android Manifest. Used only when Active Online Probing or Google Safe Browsing API lookup is enabled.",
-  "@helpPermissionInternetDesc": {
-    "description": "What the internet permission is used for"
+  "labelPermCamera": "Camera",
+  "@labelPermCamera": {
+    "description": "Permission name: camera"
   },
-  "helpPermissionVibrateTitle": "Vibration & Haptics (android.permission.VIBRATE)",
-  "@helpPermissionVibrateTitle": {
-    "description": "Name of the vibration permission"
+  "helpPermCameraDesc": "Used to scan QR codes and barcodes, and for AR CodeVision and receiving AirQR transfers. Android asks you the first time you open a camera screen. Camera pictures are read on your phone and are never saved or sent. If you say no, you can still scan from pictures and PDFs.",
+  "@helpPermCameraDesc": {
+    "description": "What the camera permission is used for, in plain words"
   },
-  "helpPermissionVibrateDesc": "System permission. Triggers haptic vibration feedback during scan alerts and button taps.",
-  "@helpPermissionVibrateDesc": {
-    "description": "What the vibration permission is used for"
+  "labelPermLocation": "Location",
+  "@labelPermLocation": {
+    "description": "Permission name: location"
   },
-  "helpPermissionPhotoPickerTitle": "Scoped Media Photo Picker",
-  "@helpPermissionPhotoPickerTitle": {
-    "description": "Name of the photo picker access"
+  "helpPermLocationDesc": "Used only when you tap Use My Location in CodeForge, to put your current place into a map QR code. The app reads your position once, does not keep it and never sends it anywhere. It is never used in the background. If you say no, you can type the place yourself.",
+  "@helpPermLocationDesc": {
+    "description": "What the location permission is used for, in plain words"
   },
-  "helpPermissionPhotoPickerDesc": "System photo picker access. Allows selecting QR images or videos from gallery without requesting full storage access.",
-  "@helpPermissionPhotoPickerDesc": {
-    "description": "What the photo picker access is used for"
+  "labelPermBiometric": "Fingerprint or face",
+  "@labelPermBiometric": {
+    "description": "Permission name: fingerprint or face unlock"
   },
-  "helpPermissionsSettingHeading": "Setting-Dependent Permissions",
-  "@helpPermissionsSettingHeading": {
-    "description": "Heading for permissions that depend on a setting"
+  "helpPermBiometricDesc": "Used by App lock, and to open locked StegoQR items with your fingerprint, face or screen lock. Android does the check and only tells the app whether it passed. The app never sees your fingerprint or face.",
+  "@helpPermBiometricDesc": {
+    "description": "What the biometric permission is used for, in plain words"
   },
-  "helpPermissionProbingTitle": "Active Online Probing (Privacy Setting)",
-  "@helpPermissionProbingTitle": {
-    "description": "Name of the active online checks setting"
+  "labelPermNotifications": "Notifications",
+  "@labelPermNotifications": {
+    "description": "Permission name: notifications"
   },
-  "helpPermissionProbingDesc": "Active only when enabled. Performs outbound HTTP HEAD requests to follow URL redirects and check SSL certificates. When disabled, checks are 100% offline.",
-  "@helpPermissionProbingDesc": {
-    "description": "What active online checks do"
+  "helpPermNotificationsDesc": "Used only while the Scan bubble is on, to show that it is on, with a Turn off button. Android asks the first time you turn the bubble on. If you say no, the bubble still works, just without the notice.",
+  "@helpPermNotificationsDesc": {
+    "description": "What the notification permission is used for, in plain words"
   },
-  "helpPermissionSafeBrowsingTitle": "Google Safe Browsing API (API Key Setting)",
-  "@helpPermissionSafeBrowsingTitle": {
-    "description": "Name of the Safe Browsing lookup setting"
+  "labelPermOverlay": "Show over other apps",
+  "@labelPermOverlay": {
+    "description": "Permission name: display over other apps"
   },
-  "helpPermissionSafeBrowsingDesc": "Active only when API key is configured. Queries Google Threat API for malware & phishing checks.",
-  "@helpPermissionSafeBrowsingDesc": {
-    "description": "What the Safe Browsing lookup does"
+  "helpPermOverlayDesc": "Lets the Scan bubble float over other apps, so you can scan a code you see on screen. Used only after you turn the bubble on. The app explains this first, then opens the Android page where you allow it. If you do not allow it, the bubble stays off.",
+  "@helpPermOverlayDesc": {
+    "description": "What the display-over-other-apps permission is used for, in plain words"
   },
-  "helpPermissionFeedbackTitle": "Scan Feedback Vibrations (Alert Setting)",
-  "@helpPermissionFeedbackTitle": {
-    "description": "Name of the scan vibration setting"
+  "labelPermScreenCapture": "Screen capture",
+  "@labelPermScreenCapture": {
+    "description": "Permission name: screen capture (GhostScan)"
   },
-  "helpPermissionFeedbackDesc": "Active only when Vibration is enabled in Scan Feedback & Alerts settings.",
-  "@helpPermissionFeedbackDesc": {
-    "description": "When scan vibration is used"
+  "helpPermScreenCaptureDesc": "Used by GhostScan and the Scan bubble to read a code shown on your screen. Android asks you every time. The app takes one picture of the screen, reads the code on your phone, then throws the picture away. It never records video and never sends the picture anywhere.",
+  "@helpPermScreenCaptureDesc": {
+    "description": "What the screen capture permission is used for, in plain words"
+  },
+  "labelPermInternet": "Internet",
+  "@labelPermInternet": {
+    "description": "Permission name: internet"
+  },
+  "helpPermInternetDesc": "Scanning works fully offline. The internet is used only by the two optional link checks below. Both are off until you turn them on. While they are off, nothing you scan leaves your phone. Opening a link is done by your browser, not by this app.",
+  "@helpPermInternetDesc": {
+    "description": "What the internet permission is used for, in plain words"
+  },
+  "labelPermProbing": "Online link check",
+  "@labelPermProbing": {
+    "description": "Name of the optional Active Online Probing check on the Permissions screen"
+  },
+  "helpPermProbingDesc": "Off unless you turn on Active Online Probing in Settings > Privacy & probing. When on, the app visits the scanned link before you open it, to follow its redirects, check its security certificate and see how old the website is.",
+  "@helpPermProbingDesc": {
+    "description": "What Active Online Probing does with the internet, in plain words"
+  },
+  "labelPermLinkServices": "Link safety services",
+  "@labelPermLinkServices": {
+    "description": "Name of the optional online link safety services on the Permissions screen"
+  },
+  "helpPermLinkServicesDesc": "Off unless you turn them on in Settings > URL Safety Providers. When on, the scanned link is sent to the services you chose (such as Google Safe Browsing or VirusTotal) to check it against their lists of harmful sites. Some need your own API key, which is kept in the phone's secure storage.",
+  "@helpPermLinkServicesDesc": {
+    "description": "What the optional online link safety services do with the internet, in plain words"
+  },
+  "labelPermWifi": "Wi-Fi connect",
+  "@labelPermWifi": {
+    "description": "Permission name: Wi-Fi and network control"
+  },
+  "helpPermWifiDesc": "Used only when you tap Connect to Wi-Fi on a scanned Wi-Fi QR code, to add that network to your phone. On newer Android versions, Android asks you to confirm first. The app does not read your saved Wi-Fi passwords.",
+  "@helpPermWifiDesc": {
+    "description": "What the Wi-Fi and network permissions are used for, in plain words"
+  },
+  "labelPermBackground": "Keep running",
+  "@labelPermBackground": {
+    "description": "Permission name: keep running in the background (foreground services)"
+  },
+  "helpPermBackgroundDesc": "Lets GhostScan and the Scan bubble keep working while you are in another app. Android always shows a notification while this is running, so you know about it.",
+  "@helpPermBackgroundDesc": {
+    "description": "What the foreground service permissions are used for, in plain words"
+  },
+  "labelPermBoot": "Start after restart",
+  "@labelPermBoot": {
+    "description": "Permission name: start after phone restart"
+  },
+  "helpPermBootDesc": "Brings the Scan bubble back after your phone restarts, but only if the bubble was on and you turned on Start after restart. Otherwise it does nothing.",
+  "@helpPermBootDesc": {
+    "description": "What the start-after-restart permission is used for, in plain words"
+  },
+  "labelPermStorage": "Photos and files",
+  "@labelPermStorage": {
+    "description": "Name of the storage permission, which the app does not ask for"
+  },
+  "helpPermStorageDesc": "The app has no storage permission. When you scan from a picture or a PDF, Android's own picker opens, and the app gets only the file you choose.",
+  "@helpPermStorageDesc": {
+    "description": "Explains that the app has no storage permission and uses the system picker"
+  },
+  "labelPermMicrophone": "Microphone",
+  "@labelPermMicrophone": {
+    "description": "Name of the microphone permission, which the app does not ask for"
+  },
+  "helpPermMicrophoneDesc": "The app does not use the microphone. The camera always opens with sound turned off.",
+  "@helpPermMicrophoneDesc": {
+    "description": "Explains that the app does not use the microphone"
+  },
+  "labelPermVibration": "Vibration",
+  "@labelPermVibration": {
+    "description": "Name of the vibration permission, which the app does not need"
+  },
+  "helpPermVibrationDesc": "Scan vibrations use Android's built-in touch feedback, which needs no permission.",
+  "@helpPermVibrationDesc": {
+    "description": "Explains that scan vibration needs no permission"
   },
   "labelOn": "On",
   "@labelOn": {
@@ -2141,101 +2196,6 @@
   "labelOpenPhishToggle": "Use OpenPhish feed",
   "@labelOpenPhishToggle": {
     "description": "Toggle switch label for the OpenPhish built-in provider"
-  },
-  "bodyQuishingSummaryAuthentic": "Authentic Printed Code. No physical tampering detected.",
-
-  "@bodyQuishingSummaryAuthentic": {
-    "description": "Summary when the printed code looks untouched"
-  },
-  "bodyQuishingSummaryWearAndTear": "Wear & Tear Detected. Slight physical surface noise observed.",
-  "@bodyQuishingSummaryWearAndTear": {
-    "description": "Summary when marks look like ordinary wear"
-  },
-  "bodyQuishingSummaryHighWarning": "High Warning: Physical Overlay Sticker Detected! Verify Before Tapping Links.",
-  "@bodyQuishingSummaryHighWarning": {
-    "description": "Summary when a sticker may cover the printed code"
-  },
-  "bodyQuishingStatusAuthentic": "🟢 Authentic Printed Code",
-  "@bodyQuishingStatusAuthentic": {
-    "description": "Short status label when the printed code looks untouched"
-  },
-  "bodyQuishingStatusWearAndTear": "🟡 Wear & Tear Detected",
-  "@bodyQuishingStatusWearAndTear": {
-    "description": "Short status label when marks look like ordinary wear"
-  },
-  "bodyQuishingStatusHighWarning": "🔴 High Warning: Physical Overlay Sticker Detected!",
-  "@bodyQuishingStatusHighWarning": {
-    "description": "Short status label when a sticker may cover the printed code"
-  },
-  "bodyQuishingSignalMicroShadowPerimeter": "Micro-shadow depth step line detected along matrix perimeter",
-  "@bodyQuishingSignalMicroShadowPerimeter": {
-    "description": "Finding: a shadow line suggests a raised layer around the code"
-  },
-  "bodyQuishingSignalGrainAberration": "Mismatching inkjet/thermal grain chromatic aberration detected",
-  "@bodyQuishingSignalGrainAberration": {
-    "description": "Finding: the print grain colours do not match"
-  },
-  "bodyQuishingSignalUniformReflection": "Uniform substrate reflection profile verified",
-  "@bodyQuishingSignalUniformReflection": {
-    "description": "Finding: light bounces evenly off the whole surface"
-  },
-  "bodyQuishingSignalConsistentDotsQrMatrix": "Consistent halftone dot density across QR matrix perimeter",
-  "@bodyQuishingSignalConsistentDotsQrMatrix": {
-    "description": "Finding: print grain is even around the code edge"
-  },
-  "bodyQuishingSignalReflectionVerified": "Substrate reflection profile verified",
-  "@bodyQuishingSignalReflectionVerified": {
-    "description": "Finding: the surface reflects light as expected"
-  },
-  "bodyQuishingSignalHalftoneConsistentQrMatrix": "Halftone dot density consistent across QR matrix perimeter",
-  "@bodyQuishingSignalHalftoneConsistentQrMatrix": {
-    "description": "Finding: print grain is consistent around the code edge"
-  },
-  "bodyQuishingSignalHalftoneConsistentMatrix": "Halftone dot density consistent across matrix",
-  "@bodyQuishingSignalHalftoneConsistentMatrix": {
-    "description": "Finding: print grain is consistent across the code"
-  },
-  "bodyQuishingSignalDoubleEdgeAroundMatrix": "Perimeter double-edge reflection detected around QR matrix",
-  "@bodyQuishingSignalDoubleEdgeAroundMatrix": {
-    "description": "Finding: two edges seen where there should be one"
-  },
-  "bodyQuishingSignalMicroShadowStickerBorder": "Micro-shadow depth step line detected along sticker border",
-  "@bodyQuishingSignalMicroShadowStickerBorder": {
-    "description": "Finding: a shadow line suggests a sticker border"
-  },
-  "bodyQuishingSignalGrainMismatchBase": "Inkjet/thermal print grain mismatching base substrate",
-  "@bodyQuishingSignalGrainMismatchBase": {
-    "description": "Finding: the code was printed on different material from its background"
-  },
-  "bodyQuishingSignalMinorScratch": "Minor surface scratch or wear pattern observed",
-  "@bodyQuishingSignalMinorScratch": {
-    "description": "Finding: ordinary scratches or wear"
-  },
-  "bodyQuishingSignalSlightDotIrregularity": "Slight dot density irregularity along edges",
-  "@bodyQuishingSignalSlightDotIrregularity": {
-    "description": "Finding: small print grain differences at the edges"
-  },
-  "bodyQuishingSignalConsistentDotsMatrixPerimeter": "Consistent halftone dot density across matrix perimeter",
-  "@bodyQuishingSignalConsistentDotsMatrixPerimeter": {
-    "description": "Finding: print grain is even around the code edge"
-  },
-  "bodyQuishingSignalPerimeterDoubleEdge": "Perimeter double-edge reflection detected ({zones} boundary zones)",
-  "@bodyQuishingSignalPerimeterDoubleEdge": {
-    "description": "Finding naming how many edge zones look doubled",
-    "placeholders": {
-      "zones": {
-        "type": "String"
-      }
-    }
-  },
-  "bodyQuishingSignalDotDensityVariance": "Substrate halftone dot density inconsistency detected ({variance}% variance)",
-  "@bodyQuishingSignalDotDensityVariance": {
-    "description": "Finding naming how uneven the print grain is",
-    "placeholders": {
-      "variance": {
-        "type": "String"
-      }
-    }
   },
   "bodyDomSslInvalidScheme": "Invalid URL scheme",
   "@bodyDomSslInvalidScheme": {
@@ -2866,23 +2826,23 @@
   },
   "titleFeatureQuishingGuard": "QuishingGuard™",
   "@titleFeatureQuishingGuard": {
-    "description": "Features screen: title of the QuishingGuard tamper detection feature"
+    "description": "Features screen: title of the QuishingGuard fake sticker check feature"
   },
-  "descFeatureQuishingGuard": "Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.",
+  "descFeatureQuishingGuard": "Reminds you to check printed QR codes for fake stickers before you open a link or pay. It gives you quick checks to do by hand; it does not examine the picture.",
   "@descFeatureQuishingGuard": {
-    "description": "Features screen: description of the QuishingGuard tamper detection feature"
+    "description": "Features screen: description of QuishingGuard, a reminder to check printed QR codes for fake stickers by hand (the app does not analyse the image)"
   },
-  "labelFeatureQuishingGuardChip1": "Sticker Overlays",
+  "labelFeatureQuishingGuardChip1": "Fake stickers",
   "@labelFeatureQuishingGuardChip1": {
-    "description": "Features screen: highlight chip 1 of the QuishingGuard tamper detection feature (max 22 characters)"
+    "description": "Features screen: QuishingGuard chip 1 (fake stickers)"
   },
-  "labelFeatureQuishingGuardChip2": "Edge Discontinuity",
+  "labelFeatureQuishingGuardChip2": "Hand checks",
   "@labelFeatureQuishingGuardChip2": {
-    "description": "Features screen: highlight chip 2 of the QuishingGuard tamper detection feature (max 22 characters)"
+    "description": "Features screen: QuishingGuard chip 2 (checks done by hand)"
   },
-  "labelFeatureQuishingGuardChip3": "Print Grain Analysis",
+  "labelFeatureQuishingGuardChip3": "Payment tips",
   "@labelFeatureQuishingGuardChip3": {
-    "description": "Features screen: highlight chip 3 of the QuishingGuard tamper detection feature (max 22 characters)"
+    "description": "Features screen: QuishingGuard chip 3 (payment safety tips)"
   },
   "titleFeatureArCodeVision": "AR CodeVision™",
   "@titleFeatureArCodeVision": {
@@ -3144,13 +3104,13 @@
   "@labelFeatureOfflinePrivacyChip3": {
     "description": "Features screen: highlight chip 3 of the offline privacy feature (max 22 characters)"
   },
-  "helpCenterHeaderTitle": "Help Center & User Guides",
+  "helpCenterHeaderTitle": "How to use this app",
   "@helpCenterHeaderTitle": {
-    "description": "Hero header title on the Help Home screen"
+    "description": "Heading of the card at the top of the Help hub"
   },
-  "helpCenterHeaderSubtitle": "Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.",
+  "helpCenterHeaderSubtitle": "Simple guides for every part of the app. Pick a topic to see what it does and how to use it.",
   "@helpCenterHeaderSubtitle": {
-    "description": "Hero header subtitle on the Help Home screen"
+    "description": "Text under the heading at the top of the Help hub"
   },
   "actionDecryptPayload": "Decrypt Payload",
   "@actionDecryptPayload": {
@@ -3461,14 +3421,6 @@
   "@tooltipToggleFlash": {
     "description": "Tooltip for camera flash button"
   },
-  "tooltipCameraAdjustments": "Camera adjustments",
-  "@tooltipCameraAdjustments": {
-    "description": "Tooltip for camera adjustments button"
-  },
-  "tooltipZoomControls": "Zoom controls",
-  "@tooltipZoomControls": {
-    "description": "Tooltip for camera zoom button"
-  },
   "tooltipSwitchCamera": "Switch camera",
   "@tooltipSwitchCamera": {
     "description": "Tooltip for camera flip button"
@@ -3480,10 +3432,6 @@
   "tooltipToggleSecretVisibility": "Show or hide secret",
   "@tooltipToggleSecretVisibility": {
     "description": "Tooltip for password or secret visibility toggle"
-  },
-  "tooltipResetStream": "Reset stream",
-  "@tooltipResetStream": {
-    "description": "Tooltip for AirQR stream reset button"
   },
   "labelAirQrModeText": "Custom Text",
   "@labelAirQrModeText": {
@@ -3908,27 +3856,27 @@
   "@bodyOnboardingSlide1Bullet3": {
     "description": "Third highlight bullet for URL safety slide"
   },
-  "labelOnboardingSlide2Badge": "Computer Vision",
+  "labelOnboardingSlide2Badge": "Scam stickers",
   "@labelOnboardingSlide2Badge": {
-    "description": "Badge tag for QuishingGuard tamper detection slide"
+    "description": "Badge tag for the QuishingGuard fake-sticker slide of the welcome tour"
   },
-  "titleOnboardingSlide2": "Tamper detection",
+  "titleOnboardingSlide2": "Fake sticker check",
   "@titleOnboardingSlide2": {
     "description": "Title for second onboarding slide explaining QuishingGuard"
   },
-  "bodyOnboardingSlide2": "Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.",
+  "bodyOnboardingSlide2": "Scammers paste fake QR stickers over real ones. When you scan a link or a payment code with the camera, QuishingGuard reminds you what to check before you open it or pay.",
   "@bodyOnboardingSlide2": {
-    "description": "Description for second onboarding slide explaining sticker tampering"
+    "description": "Description for second onboarding slide explaining the fake sticker check"
   },
-  "bodyOnboardingSlide2Bullet1": "Physical sticker overlay detection",
+  "bodyOnboardingSlide2Bullet1": "Feel for raised sticker edges",
   "@bodyOnboardingSlide2Bullet1": {
     "description": "First highlight bullet for QuishingGuard slide"
   },
-  "bodyOnboardingSlide2Bullet2": "Cut edge & shadow boundary analysis",
+  "bodyOnboardingSlide2Bullet2": "Check the payee name",
   "@bodyOnboardingSlide2Bullet2": {
     "description": "Second highlight bullet for QuishingGuard slide"
   },
-  "bodyOnboardingSlide2Bullet3": "Real-time camera frame inspection",
+  "bodyOnboardingSlide2Bullet3": "Ask the staff when in doubt",
   "@bodyOnboardingSlide2Bullet3": {
     "description": "Third highlight bullet for QuishingGuard slide"
   },
@@ -4188,577 +4136,1237 @@
   "@bodyGhostScanAnalyzing": {
     "description": "Status message while processing a captured screen image"
   },
-  "helpGuideGroupScanning": "Scanning & Ingestion Guides",
+  "helpGuideGroupScanning": "Scanning",
   "@helpGuideGroupScanning": {
-    "description": "Help Center hub: group header above the scanning guides"
+    "description": "Help hub group heading for the scanning guides"
   },
-  "helpGuideGroupSecurity": "Security & Threat Defense",
+  "helpGuideGroupCreate": "Making and sending codes",
+  "@helpGuideGroupCreate": {
+    "description": "Help hub group heading for the guides on making and sending codes"
+  },
+  "helpGuideGroupSecurity": "Staying safe",
   "@helpGuideGroupSecurity": {
-    "description": "Help Center hub: group header above the security guides"
+    "description": "Help hub group heading for the safety guides"
   },
-  "helpGuideGroupPayloads": "Payloads, Storage & Privacy",
+  "helpGuideGroupPayloads": "Using what you scan",
   "@helpGuideGroupPayloads": {
-    "description": "Help Center hub: group header above the payload, storage and privacy guides"
+    "description": "Help hub group heading for the guides on using scanned content"
   },
-  "titleHelpBarcode": "Barcode scanning",
-  "@titleHelpBarcode": {
-    "description": "App bar title of the Barcode & Media Scanning help screen. Short label."
+  "helpGuideGroupApp": "Your app and settings",
+  "@helpGuideGroupApp": {
+    "description": "Help hub group heading for the settings guide and FAQ"
   },
-  "helpGuideBarcodeName": "Barcode & Media Scanning",
+  "helpGuideBarcodeName": "Scanning codes",
   "@helpGuideBarcodeName": {
-    "description": "Help Center hub: card title for the Barcode & Media Scanning guide"
+    "description": "Help hub card title for the scanning guide"
   },
-  "helpGuideBarcodeSummary": "Live camera controls, gallery photos, and multi-page PDF document scanning.",
+  "helpGuideBarcodeSummary": "Scan with the camera, or from photos, PDF files and copied text. Scan many codes in a row.",
   "@helpGuideBarcodeSummary": {
-    "description": "Help Center hub: card subtitle for the Barcode & Media Scanning guide"
+    "description": "Help hub card summary for the scanning guide"
   },
-  "helpGuideBarcodeIntro": "Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.",
+  "helpGuideBarcodeIntro": "Point your camera at a code and the app reads it at once. You can also read codes from photos, PDF files and copied text. All reading happens on your phone, with no internet needed.",
   "@helpGuideBarcodeIntro": {
-    "description": "Barcode help screen: intro paragraph"
+    "description": "Opening paragraph of the scanning guide"
   },
-  "helpGuideBarcodeCameraTitle": "Live Camera Viewport",
+  "helpGuideBarcodeCameraTitle": "Scan with the camera",
   "@helpGuideBarcodeCameraTitle": {
-    "description": "Barcode help screen: section heading about the live camera"
+    "description": "Scanning guide section heading: scanning with the camera"
   },
-  "helpGuideBarcodeCameraBullet1": "Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.",
+  "helpGuideBarcodeCameraBullet1": "Open the Scan tab and hold the code inside the frame. The app reads it by itself. You do not need to tap anything.",
   "@helpGuideBarcodeCameraBullet1": {
-    "description": "Barcode help screen: live camera bullet 1 (supported formats; keep format names as-is)"
+    "description": "Scanning guide: how to scan with the camera"
   },
-  "helpGuideBarcodeCameraBullet2": "Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.",
+  "helpGuideBarcodeCameraBullet2": "It reads QR codes (also the small Micro QR and rMQR kinds), Data Matrix, Aztec, PDF417 and MaxiCode. It also reads shop and parcel barcodes such as EAN, UPC, Code 128, Code 39, Code 93, Codabar, ITF and DataBar.",
   "@helpGuideBarcodeCameraBullet2": {
-    "description": "Barcode help screen: live camera bullet 2 (torch and zoom)"
+    "description": "Scanning guide: list of code types the app can read"
   },
-  "helpGuideBarcodeCameraBullet3": "Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.",
+  "helpGuideBarcodeCameraBullet3": "Flash: tap the flash button to switch between Off, On and Auto. In Auto, the flash comes on by itself when it is dark.",
   "@helpGuideBarcodeCameraBullet3": {
-    "description": "Barcode help screen: live camera bullet 3 (viewfinder overlays in Settings)"
+    "description": "Scanning guide: the flash button and its three modes"
   },
-  "helpGuideBarcodeGalleryTitle": "Scanning Gallery Photos & Images",
+  "helpGuideBarcodeCameraBullet4": "Zoom: use the zoom slider for small or far-away codes. This works better than moving the phone very close.",
+  "@helpGuideBarcodeCameraBullet4": {
+    "description": "Scanning guide: the zoom slider"
+  },
+  "helpGuideBarcodeCameraBullet5": "Switch camera: change between the back and the front camera.",
+  "@helpGuideBarcodeCameraBullet5": {
+    "description": "Scanning guide: the switch camera button"
+  },
+  "helpGuideBarcodeCameraBullet6": "Pause: tap Pause scanning to stop for a moment, and Resume scanning to start again.",
+  "@helpGuideBarcodeCameraBullet6": {
+    "description": "Scanning guide: pausing and resuming the scanner"
+  },
+  "helpGuideBarcodeGalleryTitle": "Scan a photo or screenshot",
   "@helpGuideBarcodeGalleryTitle": {
-    "description": "Barcode help screen: section heading about scanning gallery images"
+    "description": "Scanning guide section heading: scanning a photo"
   },
-  "helpGuideBarcodeGalleryBullet1": "Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.",
+  "helpGuideBarcodeGalleryBullet1": "Tap the gallery button at the top of the Scan screen and pick a photo or screenshot.",
   "@helpGuideBarcodeGalleryBullet1": {
-    "description": "Barcode help screen: gallery bullet 1"
+    "description": "Scanning guide: how to scan a photo from the gallery"
   },
-  "helpGuideBarcodeGalleryBullet2": "Uses privacy-safe Android Photo Picker without requiring broad storage permissions.",
+  "helpGuideBarcodeGalleryBullet2": "Android's own picker opens. The app sees only the one picture you choose.",
   "@helpGuideBarcodeGalleryBullet2": {
-    "description": "Barcode help screen: gallery bullet 2 (photo picker privacy)"
+    "description": "Scanning guide: the photo picker sees only the chosen picture"
   },
-  "helpGuideBarcodeGalleryBullet3": "The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.",
+  "helpGuideBarcodeGalleryBullet3": "If the picture has more than one code, the app finds them all.",
   "@helpGuideBarcodeGalleryBullet3": {
-    "description": "Barcode help screen: gallery bullet 3"
+    "description": "Scanning guide: a photo can contain several codes"
   },
-  "helpGuideBarcodePdfTitle": "Multi-Page PDF Scanning",
+  "helpGuideBarcodePdfTitle": "Scan a PDF file",
   "@helpGuideBarcodePdfTitle": {
-    "description": "Barcode help screen: section heading about PDF scanning"
+    "description": "Scanning guide section heading: scanning a PDF file"
   },
-  "helpGuideBarcodePdfBullet1": "Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.",
+  "helpGuideBarcodePdfBullet1": "Tap the PDF button and choose a file, such as a ticket, bill or boarding pass.",
   "@helpGuideBarcodePdfBullet1": {
-    "description": "Barcode help screen: PDF bullet 1"
+    "description": "Scanning guide: how to pick a PDF file"
   },
-  "helpGuideBarcodePdfBullet2": "Extracts and renders every page in memory, cataloging all barcodes found across each individual page.",
+  "helpGuideBarcodePdfBullet2": "The app checks every page and lists each code it finds, with its page number.",
   "@helpGuideBarcodePdfBullet2": {
-    "description": "Barcode help screen: PDF bullet 2"
+    "description": "Scanning guide: every page of the PDF is checked"
   },
-  "helpGuideBarcodePdfBullet3": "Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.",
+  "helpGuideBarcodePdfBullet3": "Tap Save all to keep them all in your history at once.",
   "@helpGuideBarcodePdfBullet3": {
-    "description": "Barcode help screen: PDF bullet 3"
+    "description": "Scanning guide: saving all PDF codes to history"
   },
-  "helpGuideBarcodeTip": "Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.",
+  "helpGuideBarcodePdfBullet4": "You can also share a PDF to this app from another app, such as your email or files app.",
+  "@helpGuideBarcodePdfBullet4": {
+    "description": "Scanning guide: a PDF can be shared to the app from another app"
+  },
+  "helpGuideBarcodeClipboardTitle": "Scan copied text or pictures",
+  "@helpGuideBarcodeClipboardTitle": {
+    "description": "Scanning guide section heading: scanning copied text or pictures"
+  },
+  "helpGuideBarcodeClipboardBullet1": "If you copied a link, a code's text or a picture, tap the clipboard button at the top of the Scan screen to check it.",
+  "@helpGuideBarcodeClipboardBullet1": {
+    "description": "Scanning guide: the clipboard button"
+  },
+  "helpGuideBarcodeClipboardBullet2": "When you come back to the app with something copied, a small bar may offer to check it. Tap Scan Now, or close the bar.",
+  "@helpGuideBarcodeClipboardBullet2": {
+    "description": "Scanning guide: the clipboard bar that appears when the app opens"
+  },
+  "helpGuideBarcodeClipboardBullet3": "Copied links get the same safety check as scanned links.",
+  "@helpGuideBarcodeClipboardBullet3": {
+    "description": "Scanning guide: copied links get the same safety check"
+  },
+  "helpGuideBarcodeBatchTitle": "Scan many codes in a row",
+  "@helpGuideBarcodeBatchTitle": {
+    "description": "Scanning guide section heading: batch scan mode"
+  },
+  "helpGuideBarcodeBatchBullet1": "Tap the batch button to turn on batch mode. The camera keeps scanning, and each new code is added to a list.",
+  "@helpGuideBarcodeBatchBullet1": {
+    "description": "Scanning guide: turning on batch mode"
+  },
+  "helpGuideBarcodeBatchBullet2": "A counter shows how many codes you have scanned. Tap it to open the list.",
+  "@helpGuideBarcodeBatchBullet2": {
+    "description": "Scanning guide: the batch counter opens the list"
+  },
+  "helpGuideBarcodeBatchBullet3": "In the list you can look at each code, turn on Prevent Duplicates, and export the list as CSV, JSON, text or PDF.",
+  "@helpGuideBarcodeBatchBullet3": {
+    "description": "Scanning guide: what you can do in the batch list"
+  },
+  "helpGuideBarcodeBatchBullet4": "Tap the batch button again to go back to normal scanning.",
+  "@helpGuideBarcodeBatchBullet4": {
+    "description": "Scanning guide: turning off batch mode"
+  },
+  "helpGuideBarcodeTuneTitle": "When a code is hard to read",
+  "@helpGuideBarcodeTuneTitle": {
+    "description": "Scanning guide section heading: the camera adjustments sheet"
+  },
+  "helpGuideBarcodeTuneBullet1": "Tap the Camera adjustments button. Your changes show on the camera picture at once.",
+  "@helpGuideBarcodeTuneBullet1": {
+    "description": "Scanning guide: opening camera adjustments"
+  },
+  "helpGuideBarcodeTuneBullet2": "Brightness and Contrast: make a dark or faded code clearer.",
+  "@helpGuideBarcodeTuneBullet2": {
+    "description": "Scanning guide: the brightness and contrast sliders"
+  },
+  "helpGuideBarcodeTuneBullet3": "Invert colors: for a light code on a dark background, such as on a dark screen or on metal.",
+  "@helpGuideBarcodeTuneBullet3": {
+    "description": "Scanning guide: the invert colors switch"
+  },
+  "helpGuideBarcodeTuneBullet4": "Camera Resolution: 1080p suits most phones. 720p saves battery. Maximum helps with very small codes.",
+  "@helpGuideBarcodeTuneBullet4": {
+    "description": "Scanning guide: the camera resolution choices"
+  },
+  "helpGuideBarcodeTuneBullet5": "Distance Scan Assist: helps read codes far away, such as on posters and signs. Fine-tune it with Distance Zoom and Edge Sharpness.",
+  "@helpGuideBarcodeTuneBullet5": {
+    "description": "Scanning guide: Distance Scan Assist and its sliders"
+  },
+  "helpGuideBarcodeTuneBullet6": "Multi-Code Selection: when more than one code is in view, each one gets an outline. Tap the one you want.",
+  "@helpGuideBarcodeTuneBullet6": {
+    "description": "Scanning guide: Multi-Code Selection"
+  },
+  "helpGuideBarcodeTuneBullet7": "Reset Adjustments puts everything back to normal.",
+  "@helpGuideBarcodeTuneBullet7": {
+    "description": "Scanning guide: the reset adjustments button"
+  },
+  "helpGuideBarcodeTip": "Tip: Codes are read on your phone. Camera pictures are never saved or sent anywhere.",
   "@helpGuideBarcodeTip": {
-    "description": "Barcode help screen: tip box at the bottom"
+    "description": "Tip at the end of the scanning guide"
+  },
+  "helpGuideArCodeVisionName": "AR CodeVision",
+  "@helpGuideArCodeVisionName": {
+    "description": "Help hub card title for the AR CodeVision guide"
+  },
+  "helpGuideArCodeVisionSummary": "See and use many codes at once, right on the camera picture.",
+  "@helpGuideArCodeVisionSummary": {
+    "description": "Help hub card summary for the AR CodeVision guide"
+  },
+  "helpGuideArCodeVisionIntro": "AR CodeVision finds every code the camera can see, all at the same time. A small label floats over each code on the screen, so you can see what it is before you tap it.",
+  "@helpGuideArCodeVisionIntro": {
+    "description": "Opening paragraph of the AR CodeVision guide"
+  },
+  "helpGuideArCodeVisionOpenTitle": "How to open it",
+  "@helpGuideArCodeVisionOpenTitle": {
+    "description": "AR CodeVision guide section heading: how to open it"
+  },
+  "helpGuideArCodeVisionOpenBullet1": "On the Scan screen, tap More options (the three dots) and choose AR CodeVision HUD.",
+  "@helpGuideArCodeVisionOpenBullet1": {
+    "description": "AR CodeVision guide: where to find it in the menu"
+  },
+  "helpGuideArCodeVisionOpenBullet2": "Allow the camera if Android asks.",
+  "@helpGuideArCodeVisionOpenBullet2": {
+    "description": "AR CodeVision guide: allowing the camera"
+  },
+  "helpGuideArCodeVisionTrackingTitle": "The two modes",
+  "@helpGuideArCodeVisionTrackingTitle": {
+    "description": "AR CodeVision guide section heading: the two modes"
+  },
+  "helpGuideArCodeVisionTrackingBullet1": "Safety: each link gets a colour badge. Green means no problems were found. Red means the link looks unsafe.",
+  "@helpGuideArCodeVisionTrackingBullet1": {
+    "description": "AR CodeVision guide: the Safety mode and its colour badges"
+  },
+  "helpGuideArCodeVisionTrackingBullet2": "Warehouse: shows item details, such as a price tag, and lets you select codes.",
+  "@helpGuideArCodeVisionTrackingBullet2": {
+    "description": "AR CodeVision guide: the Warehouse mode"
+  },
+  "helpGuideArCodeVisionBatchTitle": "Using the labels",
+  "@helpGuideArCodeVisionBatchTitle": {
+    "description": "AR CodeVision guide section heading: using the floating labels"
+  },
+  "helpGuideArCodeVisionBatchBullet1": "Tap a label to see its full content. From there you can copy it, open the link, or select it.",
+  "@helpGuideArCodeVisionBatchBullet1": {
+    "description": "AR CodeVision guide: tapping a label"
+  },
+  "helpGuideArCodeVisionBatchBullet2": "In Warehouse mode, select several codes, then tap Batch Copy to copy them all together. Tap Clear to start again.",
+  "@helpGuideArCodeVisionBatchBullet2": {
+    "description": "AR CodeVision guide: copying many codes in Warehouse mode"
+  },
+  "helpGuideArCodeVisionBatchBullet3": "Tap the flashlight button when it is dark.",
+  "@helpGuideArCodeVisionBatchBullet3": {
+    "description": "AR CodeVision guide: the flashlight button"
+  },
+  "helpGuideArCodeVisionTip": "Tip: Move the phone slowly. The labels follow the codes as you move.",
+  "@helpGuideArCodeVisionTip": {
+    "description": "Tip at the end of the AR CodeVision guide"
+  },
+  "helpGuideScanBubbleName": "Scan from other apps",
+  "@helpGuideScanBubbleName": {
+    "description": "Help hub card title for the guide on scanning codes shown in other apps"
+  },
+  "helpGuideScanBubbleSummary": "Read a code that is on your screen in another app, with GhostScan or the Scan bubble.",
+  "@helpGuideScanBubbleSummary": {
+    "description": "Help hub card summary for the guide on scanning codes shown in other apps"
+  },
+  "helpGuideScanBubbleIntro": "Sometimes a code is on your screen, in a chat, a web page or an email. You can read it without taking a screenshot, in two ways: GhostScan and the Scan bubble. Both read the code on your phone, with no internet.",
+  "@helpGuideScanBubbleIntro": {
+    "description": "Opening paragraph of the guide on scanning codes shown in other apps"
+  },
+  "helpGuideScanBubbleGhostTitle": "GhostScan: scan the screen once",
+  "@helpGuideScanBubbleGhostTitle": {
+    "description": "Section heading: GhostScan, which scans the screen once"
+  },
+  "helpGuideScanBubbleGhostBullet1": "On the Scan screen, tap More options and choose GhostScan.",
+  "@helpGuideScanBubbleGhostBullet1": {
+    "description": "GhostScan: where to find it"
+  },
+  "helpGuideScanBubbleGhostBullet2": "Tap Add Settings tile to put a GhostScan button in your Quick Settings (the panel you pull down from the top of the screen).",
+  "@helpGuideScanBubbleGhostBullet2": {
+    "description": "GhostScan: adding the Quick Settings tile"
+  },
+  "helpGuideScanBubbleGhostBullet3": "Then, in any app, pull down Quick Settings and tap the GhostScan tile. The app reads the code on your screen.",
+  "@helpGuideScanBubbleGhostBullet3": {
+    "description": "GhostScan: using the tile from any app"
+  },
+  "helpGuideScanBubbleUseTitle": "How to use the Scan bubble",
+  "@helpGuideScanBubbleUseTitle": {
+    "description": "Section heading: how to use the Scan bubble"
+  },
+  "helpGuideScanBubbleUseBullet1": "Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.",
+  "@helpGuideScanBubbleUseBullet1": {
+    "description": "Scan bubble: the ways to turn it on"
+  },
+  "helpGuideScanBubbleUseBullet2": "Open any app that shows a QR code or barcode, then tap the bubble.",
+  "@helpGuideScanBubbleUseBullet2": {
+    "description": "Scan bubble: tapping the bubble over another app"
+  },
+  "helpGuideScanBubbleUseBullet3": "Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.",
+  "@helpGuideScanBubbleUseBullet3": {
+    "description": "Scan bubble: Android asks to allow screen capture"
+  },
+  "helpGuideScanBubbleUseBullet4": "Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.",
+  "@helpGuideScanBubbleUseBullet4": {
+    "description": "Scan bubble: moving it and turning it off"
+  },
+  "helpGuideScanBubbleUseBullet5": "Turn on Start after restart if you want the bubble to come back after the phone restarts.",
+  "@helpGuideScanBubbleUseBullet5": {
+    "description": "Scan bubble: the Start after restart switch"
+  },
+  "helpGuideScanBubblePrivacyTitle": "Privacy",
+  "@helpGuideScanBubblePrivacyTitle": {
+    "description": "Section heading: privacy of GhostScan and the Scan bubble"
+  },
+  "helpGuideScanBubblePrivacyBullet1": "The screen is captured only when you tap the bubble or the GhostScan tile, and Android asks you first.",
+  "@helpGuideScanBubblePrivacyBullet1": {
+    "description": "Privacy: the screen is captured only when you ask"
+  },
+  "helpGuideScanBubblePrivacyBullet2": "The code is read on your phone. Nothing is sent online for reading.",
+  "@helpGuideScanBubblePrivacyBullet2": {
+    "description": "Privacy: the code is read on the phone"
+  },
+  "helpGuideScanBubblePrivacyBullet3": "The screen picture is not saved to your gallery and is deleted right after reading.",
+  "@helpGuideScanBubblePrivacyBullet3": {
+    "description": "Privacy: the screen picture is deleted after reading"
+  },
+  "helpGuideScanBubbleLimitsTitle": "Good to know",
+  "@helpGuideScanBubbleLimitsTitle": {
+    "description": "Section heading: limits of GhostScan and the Scan bubble"
+  },
+  "helpGuideScanBubbleLimitsBullet1": "On Android 14 and newer, Android asks for screen capture permission on every tap.",
+  "@helpGuideScanBubbleLimitsBullet1": {
+    "description": "Limits: Android 14 asks on every tap"
+  },
+  "helpGuideScanBubbleLimitsBullet2": "Banking, payment and some video apps block screen capture. Codes inside them cannot be read.",
+  "@helpGuideScanBubbleLimitsBullet2": {
+    "description": "Limits: some apps block screen capture"
+  },
+  "helpGuideScanBubbleLimitsBullet3": "Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.",
+  "@helpGuideScanBubbleLimitsBullet3": {
+    "description": "Limits: some phones have extra settings that stop the bubble"
+  },
+  "helpGuideScanBubbleTip": "Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.",
+  "@helpGuideScanBubbleTip": {
+    "description": "Tip at the end of the guide on scanning codes shown in other apps"
+  },
+  "helpGuideCodeForgeName": "Making codes (CodeForge)",
+  "@helpGuideCodeForgeName": {
+    "description": "Help hub card title for the CodeForge guide"
+  },
+  "helpGuideCodeForgeSummary": "Make your own QR codes and barcodes, change their look, and share them.",
+  "@helpGuideCodeForgeSummary": {
+    "description": "Help hub card summary for the CodeForge guide"
+  },
+  "helpGuideCodeForgeIntro": "CodeForge lets you make your own QR code or barcode: for your Wi-Fi, your contact details, a link, a UPI payment and more. You can change its colours and shapes, and share it as a picture.",
+  "@helpGuideCodeForgeIntro": {
+    "description": "Opening paragraph of the CodeForge guide"
+  },
+  "helpGuideCodeForgeTypeTitle": "1. Choose what to put in it",
+  "@helpGuideCodeForgeTypeTitle": {
+    "description": "CodeForge guide section heading: choosing what the code holds"
+  },
+  "helpGuideCodeForgeTypeBullet1": "Open the CodeForge tab at the bottom of the screen.",
+  "@helpGuideCodeForgeTypeBullet1": {
+    "description": "CodeForge guide: opening the CodeForge tab"
+  },
+  "helpGuideCodeForgeTypeBullet2": "Pick the code type: QR Code, or a barcode such as Code 128, EAN-13, EAN-8, UPC-A, Code 39, PDF417 or Data Matrix.",
+  "@helpGuideCodeForgeTypeBullet2": {
+    "description": "CodeForge guide: choosing a QR code or a barcode type"
+  },
+  "helpGuideCodeForgeTypeBullet3": "For a QR code, pick what it holds: Text, URL / Link, Wi-Fi, Contact, UPI Pay, SMS, Email or Location.",
+  "@helpGuideCodeForgeTypeBullet3": {
+    "description": "CodeForge guide: the kinds of content a QR code can hold"
+  },
+  "helpGuideCodeForgeTypeBullet4": "Fill in the boxes. The preview changes as you type.",
+  "@helpGuideCodeForgeTypeBullet4": {
+    "description": "CodeForge guide: filling in the boxes and the live preview"
+  },
+  "helpGuideCodeForgeTypeBullet5": "For text, you can also tap Read from file to load text from a file (up to 500 characters).",
+  "@helpGuideCodeForgeTypeBullet5": {
+    "description": "CodeForge guide: reading text from a file"
+  },
+  "helpGuideCodeForgeTypeBullet6": "For a location, tap Use My Location to fill in where you are. The app asks for your location only at that moment and does not keep it.",
+  "@helpGuideCodeForgeTypeBullet6": {
+    "description": "CodeForge guide: filling a location with the current place"
+  },
+  "helpGuideCodeForgeStyleTitle": "2. Change the look",
+  "@helpGuideCodeForgeStyleTitle": {
+    "description": "CodeForge guide section heading: changing the look of the code"
+  },
+  "helpGuideCodeForgeStyleBullet1": "Design & Structure: choose the shape of the big corner squares, their centres, and the small dots.",
+  "@helpGuideCodeForgeStyleBullet1": {
+    "description": "CodeForge guide: the shape choices"
+  },
+  "helpGuideCodeForgeStyleBullet2": "Colors & Gradients: choose the code colour and the background, or a colour blend such as Sunset or Ocean.",
+  "@helpGuideCodeForgeStyleBullet2": {
+    "description": "CodeForge guide: the colour choices"
+  },
+  "helpGuideCodeForgeStyleBullet3": "Keep strong contrast. A dark code on a light background scans best.",
+  "@helpGuideCodeForgeStyleBullet3": {
+    "description": "CodeForge guide: keep strong contrast so the code scans"
+  },
+  "helpGuideCodeForgeStyleBullet4": "Center Badge: put a small icon in the middle of the code.",
+  "@helpGuideCodeForgeStyleBullet4": {
+    "description": "CodeForge guide: the centre badge"
+  },
+  "helpGuideCodeForgeStyleBullet5": "Error Correction: how much damage the code can take and still scan. L survives about 7%, M 15%, Q 25% and H 30%. Higher levels make the code busier. Choose H when you add a centre badge.",
+  "@helpGuideCodeForgeStyleBullet5": {
+    "description": "CodeForge guide: error correction levels explained simply"
+  },
+  "helpGuideCodeForgeStyleBullet6": "Show Text Label prints the text under a barcode. Reset Styling puts the look back to normal.",
+  "@helpGuideCodeForgeStyleBullet6": {
+    "description": "CodeForge guide: the text label under a barcode and the reset button"
+  },
+  "helpGuideCodeForgeShareTitle": "3. Check and share",
+  "@helpGuideCodeForgeShareTitle": {
+    "description": "CodeForge guide section heading: checking and sharing the code"
+  },
+  "helpGuideCodeForgeShareBullet1": "For a link, tap Check to test the link for safety before you share it.",
+  "@helpGuideCodeForgeShareBullet1": {
+    "description": "CodeForge guide: checking a link before sharing"
+  },
+  "helpGuideCodeForgeShareBullet2": "Tap Share PNG to share it as a normal picture, or Share SVG for a sharp picture that prints well at any size.",
+  "@helpGuideCodeForgeShareBullet2": {
+    "description": "CodeForge guide: sharing as PNG or SVG"
+  },
+  "helpGuideCodeForgeShareBullet3": "Tap Copy Content to copy the text inside the code.",
+  "@helpGuideCodeForgeShareBullet3": {
+    "description": "CodeForge guide: copying the content of the code"
+  },
+  "helpGuideCodeForgeTip": "Tip: Before you print many copies, scan your new code once with this app to make sure it reads well.",
+  "@helpGuideCodeForgeTip": {
+    "description": "Tip at the end of the CodeForge guide"
+  },
+  "helpGuideAirQrName": "AirQR: send data with no network",
+  "@helpGuideAirQrName": {
+    "description": "Help hub card title for the AirQR guide"
+  },
+  "helpGuideAirQrSummary": "Send text, or move your app data to another phone, using moving QR codes. No Wi-Fi, Bluetooth or cables.",
+  "@helpGuideAirQrSummary": {
+    "description": "Help hub card summary for the AirQR guide"
+  },
+  "helpGuideAirQrIntro": "AirQR sends data from one phone to another using only the screen and the camera. The sending phone shows a fast series of QR codes. The receiving phone watches them and joins them back together. No network is used at all.",
+  "@helpGuideAirQrIntro": {
+    "description": "Opening paragraph of the AirQR guide"
+  },
+  "helpGuideAirQrStreamingTitle": "How to send",
+  "@helpGuideAirQrStreamingTitle": {
+    "description": "AirQR guide section heading: how to send"
+  },
+  "helpGuideAirQrStreamingBullet1": "On the sending phone, open Scan > More options > AirQR receiver, then tap the AirQR transmitter button at the top.",
+  "@helpGuideAirQrStreamingBullet1": {
+    "description": "AirQR guide: opening the transmitter"
+  },
+  "helpGuideAirQrStreamingBullet2": "Type or paste what you want to send under Data to send.",
+  "@helpGuideAirQrStreamingBullet2": {
+    "description": "AirQR guide: entering the data to send"
+  },
+  "helpGuideAirQrStreamingBullet3": "Choose the Stream Speed (5 to 25 frames a second), then tap Start stream.",
+  "@helpGuideAirQrStreamingBullet3": {
+    "description": "AirQR guide: choosing the speed and starting"
+  },
+  "helpGuideAirQrStreamingBullet4": "Keep the sending screen bright and hold it still.",
+  "@helpGuideAirQrStreamingBullet4": {
+    "description": "AirQR guide: keep the sending screen bright and still"
+  },
+  "helpGuideAirQrControlsTitle": "How to receive",
+  "@helpGuideAirQrControlsTitle": {
+    "description": "AirQR guide section heading: how to receive"
+  },
+  "helpGuideAirQrControlsBullet1": "On the other phone, open Scan > More options > AirQR receiver and point the camera at the sending screen.",
+  "@helpGuideAirQrControlsBullet1": {
+    "description": "AirQR guide: opening the receiver"
+  },
+  "helpGuideAirQrControlsBullet2": "A progress bar shows how many parts have arrived and how many are still missing.",
+  "@helpGuideAirQrControlsBullet2": {
+    "description": "AirQR guide: the progress bar"
+  },
+  "helpGuideAirQrControlsBullet3": "Missed parts are no problem. AirQR also sends extra repair parts, so the receiver can fill in the gaps.",
+  "@helpGuideAirQrControlsBullet3": {
+    "description": "AirQR guide: missed parts are repaired by extra frames"
+  },
+  "helpGuideAirQrControlsBullet4": "When all parts arrive, the app checks the data and shows Transfer complete! You can copy the data from there.",
+  "@helpGuideAirQrControlsBullet4": {
+    "description": "AirQR guide: the transfer complete screen"
+  },
+  "helpGuideAirQrSyncTitle": "Move your data to a new phone",
+  "@helpGuideAirQrSyncTitle": {
+    "description": "AirQR guide section heading: moving app data to a new phone"
+  },
+  "helpGuideAirQrSyncBullet1": "On the old phone, go to Settings > AirQR Optical Sync. Choose your history, your app settings, or both.",
+  "@helpGuideAirQrSyncBullet1": {
+    "description": "AirQR guide: starting a device sync on the old phone"
+  },
+  "helpGuideAirQrSyncBullet2": "Type a passphrase or PIN, or tap Generate PIN. This locks the data, so only someone with the PIN can open it.",
+  "@helpGuideAirQrSyncBullet2": {
+    "description": "AirQR guide: locking the sync with a passphrase or PIN"
+  },
+  "helpGuideAirQrSyncBullet3": "Tap Beam via AirQR, and receive it on the new phone with the AirQR receiver.",
+  "@helpGuideAirQrSyncBullet3": {
+    "description": "AirQR guide: sending the sync package"
+  },
+  "helpGuideAirQrSyncBullet4": "On the new phone, type the same passphrase or PIN and tap Decrypt & Sync.",
+  "@helpGuideAirQrSyncBullet4": {
+    "description": "AirQR guide: opening the sync package on the new phone"
+  },
+  "helpGuideAirQrSecurityTitle": "Why it is private",
+  "@helpGuideAirQrSecurityTitle": {
+    "description": "AirQR guide section heading: why AirQR is private"
+  },
+  "helpGuideAirQrSecurityBullet1": "No radio signals are used: no Wi-Fi, Bluetooth, mobile data or internet.",
+  "@helpGuideAirQrSecurityBullet1": {
+    "description": "AirQR guide: no radio signals are used"
+  },
+  "helpGuideAirQrSecurityBullet2": "Nobody can catch the data over a network. Only a camera that can see the screen can read it.",
+  "@helpGuideAirQrSecurityBullet2": {
+    "description": "AirQR guide: only a camera that sees the screen can read it"
+  },
+  "helpGuideAirQrSecurityBullet3": "Useful for passwords, keys and other private data you do not want to send online.",
+  "@helpGuideAirQrSecurityBullet3": {
+    "description": "AirQR guide: good for private data"
+  },
+  "helpGuideAirQrTip": "Tip: Turn the sending phone's brightness up and hold the receiving phone steady. If parts keep going missing, lower the speed.",
+  "@helpGuideAirQrTip": {
+    "description": "Tip at the end of the AirQR guide"
+  },
+  "helpGuideUrlSafetyName": "Link safety checks",
+  "@helpGuideUrlSafetyName": {
+    "description": "Help hub card title for the link safety guide"
+  },
+  "helpGuideUrlSafetySummary": "How the app checks every link before you open it, and what the result means.",
+  "@helpGuideUrlSafetySummary": {
+    "description": "Help hub card summary for the link safety guide"
+  },
+  "helpGuideUrlSafetyIntro": "Scam QR codes often lead to fake websites. So before you open any link, the app checks it in up to six ways. The first four checks always run on your phone, with no internet.",
+  "@helpGuideUrlSafetyIntro": {
+    "description": "Opening paragraph of the link safety guide"
+  },
+  "helpGuideUrlSafetyLayersTitle": "The six checks",
+  "@helpGuideUrlSafetyLayersTitle": {
+    "description": "Link safety guide section heading: the six checks"
+  },
+  "helpGuideUrlSafetyLayersBullet1": "1. Safe connection: is the link using secure HTTPS? Does it hide strange or invisible characters?",
+  "@helpGuideUrlSafetyLayersBullet1": {
+    "description": "Link safety check 1: secure connection and hidden characters"
+  },
+  "helpGuideUrlSafetyLayersBullet2": "2. Lookalike letters: some fake sites use letters from other alphabets that look the same, for example a Cyrillic \"а\" in place of a normal \"a\".",
+  "@helpGuideUrlSafetyLayersBullet2": {
+    "description": "Link safety check 2: lookalike letters from other alphabets"
+  },
+  "helpGuideUrlSafetyLayersBullet3": "3. Odd web addresses: risky endings (such as .xyz or .top), too many parts in the name, or names made of random letters.",
+  "@helpGuideUrlSafetyLayersBullet3": {
+    "description": "Link safety check 3: odd web addresses"
+  },
+  "helpGuideUrlSafetyLayersBullet4": "4. Number addresses and odd ports: links that use a raw number (an IP address) or an unusual port, which normal shops and banks do not use.",
+  "@helpGuideUrlSafetyLayersBullet4": {
+    "description": "Link safety check 4: number addresses and odd ports"
+  },
+  "helpGuideUrlSafetyLayersBullet5": "5. Online check of the site (optional): follows short links (like bit.ly) to see where they really go, and checks the site's security certificate. Runs only if you turn on Active online checks.",
+  "@helpGuideUrlSafetyLayersBullet5": {
+    "description": "Link safety check 5: optional online check of the site"
+  },
+  "helpGuideUrlSafetyLayersBullet6": "6. Known-bad lists (optional): asks services such as Google Safe Browsing whether the link is a known scam or virus site. Runs only if you set it up.",
+  "@helpGuideUrlSafetyLayersBullet6": {
+    "description": "Link safety check 6: optional lists of known bad sites"
+  },
+  "helpGuideUrlSafetyVerdictsTitle": "Reading the result",
+  "@helpGuideUrlSafetyVerdictsTitle": {
+    "description": "Link safety guide section heading: reading the result"
+  },
+  "helpGuideUrlSafetyVerdictsBullet1": "No issues found: the link passed every check that ran. Still, trust only sources you know.",
+  "@helpGuideUrlSafetyVerdictsBullet1": {
+    "description": "Link safety guide: what No issues found means"
+  },
+  "helpGuideUrlSafetyVerdictsBullet2": "Issues found: the app shows which checks failed. Tap See details to read why.",
+  "@helpGuideUrlSafetyVerdictsBullet2": {
+    "description": "Link safety guide: what issues found means and See details"
+  },
+  "helpGuideUrlSafetyVerdictsBullet3": "If you still open a risky link, the app asks you first. Tap Open Anyway only if you trust the source.",
+  "@helpGuideUrlSafetyVerdictsBullet3": {
+    "description": "Link safety guide: opening a risky link asks first"
+  },
+  "helpGuideUrlSafetyVerdictsBullet4": "Tap Re-check to run the checks again, for example after you go online.",
+  "@helpGuideUrlSafetyVerdictsBullet4": {
+    "description": "Link safety guide: the Re-check button"
+  },
+  "helpGuideUrlSafetyPrivacyTitle": "Private mode and online checks",
+  "@helpGuideUrlSafetyPrivacyTitle": {
+    "description": "Link safety guide section heading: private mode and active online checks"
+  },
+  "helpGuideUrlSafetyPrivacyBullet1": "By default, the app never contacts the website itself. The site cannot see your phone or your IP address (your internet address).",
+  "@helpGuideUrlSafetyPrivacyBullet1": {
+    "description": "Link safety guide: by default the site itself is never contacted"
+  },
+  "helpGuideUrlSafetyPrivacyBullet2": "If you turn on Active online checks in Settings > Privacy & probing, the app visits the site to follow short links and check its certificate. This finds more, but the site can see your IP address.",
+  "@helpGuideUrlSafetyPrivacyBullet2": {
+    "description": "Link safety guide: what turning on active online checks does"
+  },
+  "helpGuideUrlSafetyPrivacyBullet3": "With Active online checks on, the result can also show a safe preview of the page. Scripts and trackers are removed first, so nothing on the page can run. Tap Show preview or Inspect page.",
+  "@helpGuideUrlSafetyPrivacyBullet3": {
+    "description": "Link safety guide: the safe page preview"
+  },
+  "helpGuideUrlSafetyProvidersTitle": "Extra online checkers",
+  "@helpGuideUrlSafetyProvidersTitle": {
+    "description": "Link safety guide section heading: extra online checkers"
+  },
+  "helpGuideUrlSafetyProvidersBullet1": "In Settings > URL Safety Providers you can turn on more checkers. PhishTank and OpenPhish need no account.",
+  "@helpGuideUrlSafetyProvidersBullet1": {
+    "description": "Link safety guide: checkers that need no account"
+  },
+  "helpGuideUrlSafetyProvidersBullet2": "Google Safe Browsing, VirusTotal and URLhaus need your own free key. See the guide \"Online checker setup\".",
+  "@helpGuideUrlSafetyProvidersBullet2": {
+    "description": "Link safety guide: checkers that need your own key"
+  },
+  "helpGuideUrlSafetyProvidersBullet3": "These checkers get only the link you scanned. OpenPhish works differently: the app downloads its list and checks on your phone. All of them are off until you turn them on.",
+  "@helpGuideUrlSafetyProvidersBullet3": {
+    "description": "Link safety guide: what the online checkers receive"
+  },
+  "helpGuideUrlSafetyTip": "Tip: A good result is not a promise. Scammers make new sites every day. If a payment or login page looks odd, close it.",
+  "@helpGuideUrlSafetyTip": {
+    "description": "Tip at the end of the link safety guide"
+  },
+  "helpGuideQuishingName": "QuishingGuard: fake sticker codes",
+  "@helpGuideQuishingName": {
+    "description": "Help hub card title for the QuishingGuard guide"
+  },
+  "helpGuideQuishingSummary": "Spot QR codes that may be fake stickers placed over real ones.",
+  "@helpGuideQuishingSummary": {
+    "description": "Help hub card summary for the QuishingGuard guide"
+  },
+  "helpGuideQuishingIntro": "\"Quishing\" means QR phishing. Scammers stick their own QR code over the real one, on parking meters, menus, shop counters and posters, so that your payment or login goes to them.",
+  "@helpGuideQuishingIntro": {
+    "description": "Opening paragraph of the QuishingGuard guide"
+  },
+  "helpGuideQuishingCvTitle": "What QuishingGuard shows",
+  "@helpGuideQuishingCvTitle": {
+    "description": "QuishingGuard guide section heading: what QuishingGuard shows"
+  },
+  "helpGuideQuishingCvBullet1": "When you scan a link or a payment code with the camera, the result screen shows a small QuishingGuard card: Fake sticker check.",
+  "@helpGuideQuishingCvBullet1": {
+    "description": "QuishingGuard guide: when and where the fake-sticker check card appears"
+  },
+  "helpGuideQuishingCvBullet2": "Tap it to open a short list of checks. The app does not look for stickers in the picture and gives no score, so it cannot tell you that a code is safe.",
+  "@helpGuideQuishingCvBullet2": {
+    "description": "QuishingGuard guide: the card lists hand checks; no image check and no score"
+  },
+  "helpGuideQuishingCvBullet3": "The card does not appear for photos, the clipboard, screen scans or plain text, because those codes are not stuck on a wall.",
+  "@helpGuideQuishingCvBullet3": {
+    "description": "QuishingGuard guide: the card is not shown for photos, clipboard, screen scans or plain text"
+  },
+  "helpGuideQuishingForensicTitle": "What you should do",
+  "@helpGuideQuishingForensicTitle": {
+    "description": "QuishingGuard guide section heading: what you should do"
+  },
+  "helpGuideQuishingForensicBullet1": "Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.",
+  "@helpGuideQuishingForensicBullet1": {
+    "description": "QuishingGuard guide: look at and feel the code"
+  },
+  "helpGuideQuishingForensicBullet2": "Before you pay, check that the name on the payment screen matches the shop.",
+  "@helpGuideQuishingForensicBullet2": {
+    "description": "QuishingGuard guide: check the payee name before paying"
+  },
+  "helpGuideQuishingForensicBullet3": "If in doubt, ask the staff, or type the website address yourself instead.",
+  "@helpGuideQuishingForensicBullet3": {
+    "description": "QuishingGuard guide: ask the staff or type the address yourself"
+  },
+  "helpGuideQuishingTip": "Tip: QuishingGuard is a helper, not a promise. Your own eyes and fingers are the best check.",
+  "@helpGuideQuishingTip": {
+    "description": "Tip at the end of the QuishingGuard guide"
+  },
+  "helpGuideSafeBrowsingName": "Online checker setup",
+  "@helpGuideSafeBrowsingName": {
+    "description": "Help hub card title for the online checker setup guide"
+  },
+  "helpGuideSafeBrowsingSummary": "Turn on extra link checks, and get a free key for Google Safe Browsing.",
+  "@helpGuideSafeBrowsingSummary": {
+    "description": "Help hub card summary for the online checker setup guide"
+  },
+  "helpGuideSafeBrowsingIntro": "Online checkers compare a scanned link with lists of known scam and virus sites. They are optional. The app's own checks work without them.",
+  "@helpGuideSafeBrowsingIntro": {
+    "description": "Opening paragraph of the online checker setup guide"
+  },
+  "helpGuideSafeBrowsingBuiltInTitle": "No account needed",
+  "@helpGuideSafeBrowsingBuiltInTitle": {
+    "description": "Online checker guide section heading: checkers with no account"
+  },
+  "helpGuideSafeBrowsingBuiltInBullet1": "Open Settings > URL Safety Providers.",
+  "@helpGuideSafeBrowsingBuiltInBullet1": {
+    "description": "Online checker guide: where the checkers are"
+  },
+  "helpGuideSafeBrowsingBuiltInBullet2": "Turn on Enable PhishTank to check links against PhishTank's list of scam sites.",
+  "@helpGuideSafeBrowsingBuiltInBullet2": {
+    "description": "Online checker guide: turning on PhishTank"
+  },
+  "helpGuideSafeBrowsingBuiltInBullet3": "Turn on Use OpenPhish feed. The app downloads OpenPhish's list and checks links on your phone. Tap Refresh feed now to get the latest list.",
+  "@helpGuideSafeBrowsingBuiltInBullet3": {
+    "description": "Online checker guide: turning on and refreshing OpenPhish"
+  },
+  "helpGuideSafeBrowsingKeyTitle": "Get a free Google Safe Browsing key",
+  "@helpGuideSafeBrowsingKeyTitle": {
+    "description": "Online checker guide section heading: getting a Google Safe Browsing key"
+  },
+  "helpGuideSafeBrowsingKeyStep1": "1. In a browser, open console.cloud.google.com and sign in with a Google account.",
+  "@helpGuideSafeBrowsingKeyStep1": {
+    "description": "Safe Browsing key step 1: open the Google Cloud console"
+  },
+  "helpGuideSafeBrowsingKeyStep2": "2. Create a new project. Any name is fine, for example \"QR safety\".",
+  "@helpGuideSafeBrowsingKeyStep2": {
+    "description": "Safe Browsing key step 2: create a project"
+  },
+  "helpGuideSafeBrowsingKeyStep3": "3. Go to APIs & Services > Library, search for \"Safe Browsing API\" and tap Enable.",
+  "@helpGuideSafeBrowsingKeyStep3": {
+    "description": "Safe Browsing key step 3: turn on the Safe Browsing API"
+  },
+  "helpGuideSafeBrowsingKeyStep4": "4. Go to APIs & Services > Credentials, tap Create credentials and choose API key.",
+  "@helpGuideSafeBrowsingKeyStep4": {
+    "description": "Safe Browsing key step 4: create an API key"
+  },
+  "helpGuideSafeBrowsingKeyStep5": "5. Copy the key. In the app, open Settings > URL Safety Providers, paste it into the Google Safe Browsing box and tap Save API Key.",
+  "@helpGuideSafeBrowsingKeyStep5": {
+    "description": "Safe Browsing key step 5: paste the key into the app"
+  },
+  "helpGuideSafeBrowsingOtherTitle": "Other services with a key",
+  "@helpGuideSafeBrowsingOtherTitle": {
+    "description": "Online checker guide section heading: other services that need a key"
+  },
+  "helpGuideSafeBrowsingOtherBullet1": "VirusTotal and URLhaus work the same way. Make a free account on their website, copy your key, and paste it under Your API Keys. The app shows where to get each key.",
+  "@helpGuideSafeBrowsingOtherBullet1": {
+    "description": "Online checker guide: VirusTotal and URLhaus keys"
+  },
+  "helpGuideSafeBrowsingOtherBullet2": "These free keys are for personal, non-commercial use.",
+  "@helpGuideSafeBrowsingOtherBullet2": {
+    "description": "Online checker guide: free keys are for personal use"
+  },
+  "helpGuideSafeBrowsingOtherBullet3": "Each service has a daily limit, and the app shows how many checks you have used today. In this app, Safe Browsing allows up to 10,000 a day and VirusTotal 500 a day.",
+  "@helpGuideSafeBrowsingOtherBullet3": {
+    "description": "Online checker guide: daily limits and the usage counter"
+  },
+  "helpGuideSafeBrowsingPrivacyTitle": "Your keys are safe",
+  "@helpGuideSafeBrowsingPrivacyTitle": {
+    "description": "Online checker guide section heading: your keys are safe"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet1": "Your keys are kept in Android's secure, locked storage on this phone, and are never shared.",
+  "@helpGuideSafeBrowsingPrivacyBullet1": {
+    "description": "Online checker guide: keys are kept in secure storage"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet2": "Only the link you scanned is sent to the service. Nothing else about you is sent.",
+  "@helpGuideSafeBrowsingPrivacyBullet2": {
+    "description": "Online checker guide: only the scanned link is sent"
+  },
+  "helpGuideSafeBrowsingPrivacyBullet3": "You can delete a key at any time. The app then simply skips that check.",
+  "@helpGuideSafeBrowsingPrivacyBullet3": {
+    "description": "Online checker guide: deleting a key"
+  },
+  "helpGuideSafeBrowsingTip": "Tip: You do not need any key to stay safe. The app's own checks always run, even with no internet.",
+  "@helpGuideSafeBrowsingTip": {
+    "description": "Tip at the end of the online checker setup guide"
+  },
+  "helpGuideSmartPayloadsName": "Smart actions",
+  "@helpGuideSmartPayloadsName": {
+    "description": "Help hub card title for the smart actions guide"
+  },
+  "helpGuideSmartPayloadsSummary": "One-tap buttons for Wi-Fi, payments, contacts, events, phone numbers, products and more.",
+  "@helpGuideSmartPayloadsSummary": {
+    "description": "Help hub card summary for the smart actions guide"
+  },
+  "helpGuideSmartPayloadsIntro": "The app understands what a code holds and shows a card with the right buttons. For example, a Wi-Fi code gets a Connect button, and a phone number gets a Call button.",
+  "@helpGuideSmartPayloadsIntro": {
+    "description": "Opening paragraph of the smart actions guide"
+  },
+  "helpGuideSmartPayloadsWifiTitle": "Wi-Fi",
+  "@helpGuideSmartPayloadsWifiTitle": {
+    "description": "Smart actions guide section heading: Wi-Fi codes"
+  },
+  "helpGuideSmartPayloadsWifiBullet1": "Shows the network name and its type of security. Tap the eye button to show or hide the password, or copy it.",
+  "@helpGuideSmartPayloadsWifiBullet1": {
+    "description": "Smart actions guide: what a Wi-Fi card shows"
+  },
+  "helpGuideSmartPayloadsWifiBullet2": "Tap Connect to Wi-Fi. Android may ask you to confirm. If your phone does not allow a direct connection, the password is copied so you can paste it in your Wi-Fi settings.",
+  "@helpGuideSmartPayloadsWifiBullet2": {
+    "description": "Smart actions guide: connecting to a Wi-Fi network"
+  },
+  "helpGuideSmartPayloadsPaymentsTitle": "Payments",
+  "@helpGuideSmartPayloadsPaymentsTitle": {
+    "description": "Smart actions guide section heading: payment codes"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet1": "UPI codes show who you are paying and the amount. Tap Pay with UPI app to open your UPI app (such as Google Pay, PhonePe, Paytm or BHIM) with the details filled in.",
+  "@helpGuideSmartPayloadsPaymentsBullet1": {
+    "description": "Smart actions guide: paying with a UPI code"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet2": "If the code has no amount, the app asks you to type it first.",
+  "@helpGuideSmartPayloadsPaymentsBullet2": {
+    "description": "Smart actions guide: codes with no amount"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet3": "This app never takes or sends money by itself. You confirm every payment in your UPI app.",
+  "@helpGuideSmartPayloadsPaymentsBullet3": {
+    "description": "Smart actions guide: the app never moves money itself"
+  },
+  "helpGuideSmartPayloadsPaymentsBullet4": "Crypto wallet codes (Bitcoin, Ethereum, Solana) and SEPA bank transfer codes show the address, which you can copy.",
+  "@helpGuideSmartPayloadsPaymentsBullet4": {
+    "description": "Smart actions guide: crypto and SEPA payment codes"
+  },
+  "helpGuideSmartPayloadsTotpTitle": "Two-step login codes (2FA)",
+  "@helpGuideSmartPayloadsTotpTitle": {
+    "description": "Smart actions guide section heading: two-step login codes"
+  },
+  "helpGuideSmartPayloadsTotpBullet1": "Websites often show a QR code when you turn on two-step login. Scanning it shows a 6-digit code that changes every 30 seconds, with a timer.",
+  "@helpGuideSmartPayloadsTotpBullet1": {
+    "description": "Smart actions guide: what a 2FA setup code shows"
+  },
+  "helpGuideSmartPayloadsTotpBullet2": "Tap Add to authenticator to save it in your authenticator app, such as Google or Microsoft Authenticator.",
+  "@helpGuideSmartPayloadsTotpBullet2": {
+    "description": "Smart actions guide: adding the code to an authenticator app"
+  },
+  "helpGuideSmartPayloadsTotpBullet3": "Keep this kind of code private. Anyone who scans it can make your login codes.",
+  "@helpGuideSmartPayloadsTotpBullet3": {
+    "description": "Smart actions guide: keep 2FA setup codes private"
+  },
+  "helpGuideSmartPayloadsContactsTitle": "Contacts and events",
+  "@helpGuideSmartPayloadsContactsTitle": {
+    "description": "Smart actions guide section heading: contacts and events"
+  },
+  "helpGuideSmartPayloadsContactsBullet1": "Contact codes (vCard or MeCard) show the name, phone, email and company. Tap Save to Contacts, or call or email straight away.",
+  "@helpGuideSmartPayloadsContactsBullet1": {
+    "description": "Smart actions guide: contact codes"
+  },
+  "helpGuideSmartPayloadsContactsBullet2": "Event codes show the title, time and place. Tap Add to calendar.",
+  "@helpGuideSmartPayloadsContactsBullet2": {
+    "description": "Smart actions guide: event codes"
+  },
+  "helpGuideSmartPayloadsOtherTitle": "Phone, messages, maps and more",
+  "@helpGuideSmartPayloadsOtherTitle": {
+    "description": "Smart actions guide section heading: phone, messages, email, maps, products and books"
+  },
+  "helpGuideSmartPayloadsOtherBullet1": "Phone number: tap Call. Text message: tap Send Message, and the message is filled in for you. Email: tap Send Email.",
+  "@helpGuideSmartPayloadsOtherBullet1": {
+    "description": "Smart actions guide: phone, SMS and email codes"
+  },
+  "helpGuideSmartPayloadsOtherBullet2": "Location: tap Open in Maps to see the place or get directions.",
+  "@helpGuideSmartPayloadsOtherBullet2": {
+    "description": "Smart actions guide: location codes"
+  },
+  "helpGuideSmartPayloadsOtherBullet3": "App link: tap Open in App to open the matching app, if it is installed.",
+  "@helpGuideSmartPayloadsOtherBullet3": {
+    "description": "Smart actions guide: app link codes"
+  },
+  "helpGuideSmartPayloadsOtherBullet4": "Product barcode: tap Food Info to look up food details, or Search Web.",
+  "@helpGuideSmartPayloadsOtherBullet4": {
+    "description": "Smart actions guide: product barcodes"
+  },
+  "helpGuideSmartPayloadsOtherBullet5": "Book (ISBN) barcode: look the book up on Google Books or Open Library.",
+  "@helpGuideSmartPayloadsOtherBullet5": {
+    "description": "Smart actions guide: book (ISBN) barcodes"
+  },
+  "helpGuideSmartPayloadsOtherBullet6": "Web links open in your browser only after the safety check has run.",
+  "@helpGuideSmartPayloadsOtherBullet6": {
+    "description": "Smart actions guide: links open only after the safety check"
+  },
+  "helpGuideSmartPayloadsTip": "Tip: Before you pay with a UPI code, check that the name on the card matches the shop or person you want to pay.",
+  "@helpGuideSmartPayloadsTip": {
+    "description": "Tip at the end of the smart actions guide"
+  },
+  "helpGuideHiddenName": "Hidden and locked codes",
+  "@helpGuideHiddenName": {
+    "description": "Help hub card title for the guide on hidden and locked codes"
+  },
+  "helpGuideHiddenSummary": "Open QR codes that carry a secret message or locked data.",
+  "@helpGuideHiddenSummary": {
+    "description": "Help hub card summary for the guide on hidden and locked codes"
+  },
+  "helpGuideHiddenIntro": "Some QR codes carry private data that is locked with a passphrase. The app spots these codes and lets you unlock them, right on your phone.",
+  "@helpGuideHiddenIntro": {
+    "description": "Opening paragraph of the guide on hidden and locked codes"
+  },
+  "helpGuideHiddenStegoTitle": "StegoQR: a code with a hidden message",
+  "@helpGuideHiddenStegoTitle": {
+    "description": "Locked codes guide section heading: StegoQR codes"
+  },
+  "helpGuideHiddenStegoBullet1": "A StegoQR code shows ordinary public text to everyone, and hides a second, secret message inside it.",
+  "@helpGuideHiddenStegoBullet1": {
+    "description": "Locked codes guide: what a StegoQR code is"
+  },
+  "helpGuideHiddenStegoBullet2": "When you scan one, the result shows StegoQR found. The public text is shown as usual.",
+  "@helpGuideHiddenStegoBullet2": {
+    "description": "Locked codes guide: what you see when you scan a StegoQR code"
+  },
+  "helpGuideHiddenStegoBullet3": "To see the secret, type the passphrase and tap Unlock. The person who made the code must give you the passphrase.",
+  "@helpGuideHiddenStegoBullet3": {
+    "description": "Locked codes guide: unlocking with the passphrase"
+  },
+  "helpGuideHiddenStegoBullet4": "Biometric Unlock asks for your fingerprint or face as well as the passphrase.",
+  "@helpGuideHiddenStegoBullet4": {
+    "description": "Locked codes guide: biometric unlock"
+  },
+  "helpGuideHiddenStegoBullet5": "After unlocking, you can copy or share the secret.",
+  "@helpGuideHiddenStegoBullet5": {
+    "description": "Locked codes guide: copying or sharing the secret"
+  },
+  "helpGuideHiddenOtherTitle": "Other locked codes",
+  "@helpGuideHiddenOtherTitle": {
+    "description": "Locked codes guide section heading: other locked codes"
+  },
+  "helpGuideHiddenOtherBullet1": "AirQR transfer codes: type the session code shown on the sending phone.",
+  "@helpGuideHiddenOtherBullet1": {
+    "description": "Locked codes guide: AirQR transfer codes and the session code"
+  },
+  "helpGuideHiddenOtherBullet2": "Encrypted JSON codes and other locked text: tap Decrypt Payload and type the passphrase.",
+  "@helpGuideHiddenOtherBullet2": {
+    "description": "Locked codes guide: encrypted JSON and other locked text"
+  },
+  "helpGuideHiddenOtherBullet3": "Advanced (Salt / IV) is only for codes made by other tools that need extra settings. Most people never need it.",
+  "@helpGuideHiddenOtherBullet3": {
+    "description": "Locked codes guide: the advanced salt and IV fields"
+  },
+  "helpGuideHiddenSafetyTitle": "Good to know",
+  "@helpGuideHiddenSafetyTitle": {
+    "description": "Locked codes guide section heading: good to know"
+  },
+  "helpGuideHiddenSafetyBullet1": "Unlocking happens on your phone. The passphrase and the secret are never sent anywhere.",
+  "@helpGuideHiddenSafetyBullet1": {
+    "description": "Locked codes guide: unlocking happens on the phone"
+  },
+  "helpGuideHiddenSafetyBullet2": "A wrong passphrase just shows an error. Check the spelling, capital letters and spaces, and try again.",
+  "@helpGuideHiddenSafetyBullet2": {
+    "description": "Locked codes guide: what to do after a wrong passphrase"
+  },
+  "helpGuideHiddenSafetyBullet3": "This app can open these codes, but it does not make them.",
+  "@helpGuideHiddenSafetyBullet3": {
+    "description": "Locked codes guide: the app reads these codes but cannot make them"
+  },
+  "helpGuideHiddenTip": "Tip: Share the passphrase in a different way from the code, for example by phone call. Never write it next to the code.",
+  "@helpGuideHiddenTip": {
+    "description": "Tip at the end of the guide on hidden and locked codes"
+  },
+  "helpGuideHistoryName": "History, backups and privacy",
+  "@helpGuideHistoryName": {
+    "description": "Help hub card title for the history guide"
+  },
+  "helpGuideHistorySummary": "Find old scans, add notes, export or back up your history, and lock the app.",
+  "@helpGuideHistorySummary": {
+    "description": "Help hub card summary for the history guide"
+  },
+  "helpGuideHistoryIntro": "Every scan is saved in the History tab on your phone, in a locked (encrypted) store. Nothing is uploaded.",
+  "@helpGuideHistoryIntro": {
+    "description": "Opening paragraph of the history guide"
+  },
+  "helpGuideHistoryManageTitle": "Find and manage scans",
+  "@helpGuideHistoryManageTitle": {
+    "description": "History guide section heading: finding and managing scans"
+  },
+  "helpGuideHistoryManageBullet1": "Type in the search box to find scans by their content, type or notes.",
+  "@helpGuideHistoryManageBullet1": {
+    "description": "History guide: the search box"
+  },
+  "helpGuideHistoryManageBullet2": "Use the filter chips to show only links, Wi-Fi, contacts, products and so on. Tap the star on a scan to add it to Starred.",
+  "@helpGuideHistoryManageBullet2": {
+    "description": "History guide: filter chips and starring a scan"
+  },
+  "helpGuideHistoryManageBullet3": "Tap a scan to see all its details: full content, safety score and time. You can add notes and a place, or copy, share or delete it.",
+  "@helpGuideHistoryManageBullet3": {
+    "description": "History guide: the details sheet of a scan"
+  },
+  "helpGuideHistoryManageBullet4": "Clear All deletes your whole history. This cannot be undone, so make a backup first.",
+  "@helpGuideHistoryManageBullet4": {
+    "description": "History guide: clearing all history"
+  },
+  "helpGuideHistoryBackupTitle": "Export and backup",
+  "@helpGuideHistoryBackupTitle": {
+    "description": "History guide section heading: export and backup"
+  },
+  "helpGuideHistoryBackupBullet1": "Tap the Export / Backup button at the top of the History tab.",
+  "@helpGuideHistoryBackupBullet1": {
+    "description": "History guide: opening export and backup"
+  },
+  "helpGuideHistoryBackupBullet2": "Export Records saves a copy as CSV (for Excel or Sheets), JSON, text or PDF. These files are not locked: anyone with the file can read your scans, so the app asks you first.",
+  "@helpGuideHistoryBackupBullet2": {
+    "description": "History guide: plain exports are not locked"
+  },
+  "helpGuideHistoryBackupBullet3": "Encrypted backup is the safe way to keep a copy. Type a passphrase and tap Create backup, then save or share the file.",
+  "@helpGuideHistoryBackupBullet3": {
+    "description": "History guide: making an encrypted backup"
+  },
+  "helpGuideHistoryBackupBullet4": "To restore, open Restore Backup, paste the text from your backup file, type the same passphrase and tap Restore history.",
+  "@helpGuideHistoryBackupBullet4": {
+    "description": "History guide: restoring an encrypted backup"
+  },
+  "helpGuideHistoryBiometricsTitle": "App lock and screenshot guard",
+  "@helpGuideHistoryBiometricsTitle": {
+    "description": "History guide section heading: app lock and screenshot guard"
+  },
+  "helpGuideHistoryBiometricsBullet1": "App lock: turn it on in Settings > Privacy & probing. The app then asks for your fingerprint, face or screen lock when it opens, and after you have been away for 30 seconds.",
+  "@helpGuideHistoryBiometricsBullet1": {
+    "description": "History guide: the app lock"
+  },
+  "helpGuideHistoryBiometricsBullet2": "Screenshot guard: stops screenshots and screen recording on screens with scans, history, secrets or keys. These screens also look blank in the recent apps list. Turn it on or off in Settings > Privacy & probing.",
+  "@helpGuideHistoryBiometricsBullet2": {
+    "description": "History guide: the screenshot guard"
+  },
+  "helpGuideHistoryBiometricsBullet3": "To move your history to a new phone, use AirQR Optical Sync. See the AirQR guide.",
+  "@helpGuideHistoryBiometricsBullet3": {
+    "description": "History guide: moving history to a new phone"
+  },
+  "helpGuideHistoryTip": "Tip: Make an encrypted backup before you reset or change your phone. Keep the passphrase somewhere safe. Without it, the backup cannot be opened.",
+  "@helpGuideHistoryTip": {
+    "description": "Tip at the end of the history guide"
+  },
+  "helpGuideSettingsName": "Settings and personal touch",
+  "@helpGuideSettingsName": {
+    "description": "Help hub card title for the settings guide"
+  },
+  "helpGuideSettingsSummary": "Change the look, language and sounds, see permissions, save battery, and delete your data.",
+  "@helpGuideSettingsSummary": {
+    "description": "Help hub card summary for the settings guide"
+  },
+  "helpGuideSettingsIntro": "To open Settings, go to the Scan screen, tap More options and choose Settings. Here is what each part does.",
+  "@helpGuideSettingsIntro": {
+    "description": "Opening paragraph of the settings guide"
+  },
+  "helpGuideSettingsLookTitle": "Look and language",
+  "@helpGuideSettingsLookTitle": {
+    "description": "Settings guide section heading: look and language"
+  },
+  "helpGuideSettingsLookBullet1": "Appearance > Theme Mode: System, Light, Dark or OLED. OLED is pure black and saves battery on OLED screens.",
+  "@helpGuideSettingsLookBullet1": {
+    "description": "Settings guide: theme mode choices"
+  },
+  "helpGuideSettingsLookBullet2": "Accent & colors: pick a main colour, or turn on Dynamic colors to match your wallpaper (Android 12 and newer).",
+  "@helpGuideSettingsLookBullet2": {
+    "description": "Settings guide: accent colour and dynamic colours"
+  },
+  "helpGuideSettingsLookBullet3": "Text size & font: choose the font. The text size follows the text size you set for your phone.",
+  "@helpGuideSettingsLookBullet3": {
+    "description": "Settings guide: font and text size"
+  },
+  "helpGuideSettingsLookBullet4": "Scan Overlay Style: choose how the scan frame looks.",
+  "@helpGuideSettingsLookBullet4": {
+    "description": "Settings guide: scan frame style"
+  },
+  "helpGuideSettingsLookBullet5": "Language: choose System default, English, Malayalam (മലയാളം) or Sanskrit (संस्कृतम्). The app changes at once, with no restart.",
+  "@helpGuideSettingsLookBullet5": {
+    "description": "Settings guide: the language picker"
+  },
+  "helpGuideSettingsFeedbackTitle": "Scan feedback",
+  "@helpGuideSettingsFeedbackTitle": {
+    "description": "Settings guide section heading: scan feedback"
+  },
+  "helpGuideSettingsFeedbackBullet1": "Choose whether the phone vibrates, beeps, or plays a short animation when a code is read.",
+  "@helpGuideSettingsFeedbackBullet1": {
+    "description": "Settings guide: vibration, beep and animation after a scan"
+  },
+  "helpGuideSettingsPrivacyTitle": "Privacy & probing",
+  "@helpGuideSettingsPrivacyTitle": {
+    "description": "Settings guide section heading: privacy and probing"
+  },
+  "helpGuideSettingsPrivacyBullet1": "Active online checks: off unless you turn it on. See the Link safety guide.",
+  "@helpGuideSettingsPrivacyBullet1": {
+    "description": "Settings guide: the active online checks switch"
+  },
+  "helpGuideSettingsPrivacyBullet2": "App lock and Screenshot guard: see the History, backups and privacy guide.",
+  "@helpGuideSettingsPrivacyBullet2": {
+    "description": "Settings guide: app lock and screenshot guard"
+  },
+  "helpGuideSettingsPrivacyBullet3": "Delete all data: removes your scan history, saved keys and all settings from this phone. This cannot be undone.",
+  "@helpGuideSettingsPrivacyBullet3": {
+    "description": "Settings guide: delete all data"
+  },
+  "helpGuideSettingsOtherTitle": "Other settings",
+  "@helpGuideSettingsOtherTitle": {
+    "description": "Settings guide section heading: other settings"
+  },
+  "helpGuideSettingsOtherBullet1": "URL Safety Providers: turn on extra online link checkers.",
+  "@helpGuideSettingsOtherBullet1": {
+    "description": "Settings guide: URL safety providers"
+  },
+  "helpGuideSettingsOtherBullet2": "AirQR Optical Sync: move your history and settings to another phone.",
+  "@helpGuideSettingsOtherBullet2": {
+    "description": "Settings guide: AirQR optical sync"
+  },
+  "helpGuideSettingsOtherBullet3": "Scan bubble: a floating button to scan codes in other apps.",
+  "@helpGuideSettingsOtherBullet3": {
+    "description": "Settings guide: the scan bubble"
+  },
+  "helpGuideSettingsOtherBullet4": "Permissions: a plain list of what the app may use, and why. The app asks for each one only when a feature needs it.",
+  "@helpGuideSettingsOtherBullet4": {
+    "description": "Settings guide: the permissions screen"
+  },
+  "helpGuideSettingsOtherBullet5": "Features lists everything the app can do. Welcome Tour shows the first-start introduction again. About shows the app version and licences.",
+  "@helpGuideSettingsOtherBullet5": {
+    "description": "Settings guide: features, welcome tour and about"
+  },
+  "helpGuideSettingsBatteryTitle": "Saving battery",
+  "@helpGuideSettingsBatteryTitle": {
+    "description": "Settings guide section heading: saving battery"
+  },
+  "helpGuideSettingsBatteryBullet1": "The camera turns off as soon as you leave the Scan screen or the app.",
+  "@helpGuideSettingsBatteryBullet1": {
+    "description": "Settings guide: the camera turns off on its own"
+  },
+  "helpGuideSettingsBatteryBullet2": "Choose 720p in Camera adjustments to use less power.",
+  "@helpGuideSettingsBatteryBullet2": {
+    "description": "Settings guide: choose 720p to use less power"
+  },
+  "helpGuideSettingsBatteryBullet3": "Turn off the Scan bubble when you do not need it.",
+  "@helpGuideSettingsBatteryBullet3": {
+    "description": "Settings guide: turn off the scan bubble when not needed"
+  },
+  "helpGuideSettingsBatteryBullet4": "Use the OLED theme on phones with an OLED screen.",
+  "@helpGuideSettingsBatteryBullet4": {
+    "description": "Settings guide: the OLED theme saves battery"
+  },
+  "helpGuideSettingsTip": "Tip: Not sure where something is? Every guide here names the button to tap.",
+  "@helpGuideSettingsTip": {
+    "description": "Tip at the end of the settings guide"
+  },
+  "helpGuideFaqName": "FAQ and problems",
+  "@helpGuideFaqName": {
+    "description": "Help hub card title for the FAQ"
+  },
+  "helpGuideFaqSummary": "Answers to common questions, and fixes when something does not work.",
+  "@helpGuideFaqSummary": {
+    "description": "Help hub card summary for the FAQ"
+  },
+  "helpGuideFaqIntro": "Quick answers to common questions, and what to do when something does not work.",
+  "@helpGuideFaqIntro": {
+    "description": "Opening paragraph of the FAQ"
+  },
+  "helpGuideFaqQuestionsTitle": "Common questions",
+  "@helpGuideFaqQuestionsTitle": {
+    "description": "FAQ section heading: common questions"
+  },
+  "helpGuideFaqQuestion1": "Does the app work without internet?\nYes. Reading codes, the first four link checks and QuishingGuard all work offline. Only the optional online checks need the internet.",
+  "@helpGuideFaqQuestion1": {
+    "description": "FAQ question and answer: does the app work offline (question, newline, answer)"
+  },
+  "helpGuideFaqQuestion2": "Are my camera pictures sent anywhere?\nNo. Pictures are read on your phone and are never saved or uploaded.",
+  "@helpGuideFaqQuestion2": {
+    "description": "FAQ question and answer: are camera pictures sent anywhere"
+  },
+  "helpGuideFaqQuestion3": "Does the app collect data about me?\nNo. There are no ads, no tracking and no analytics. Your history stays on your phone.",
+  "@helpGuideFaqQuestion3": {
+    "description": "FAQ question and answer: does the app collect data about the user"
+  },
+  "helpGuideFaqQuestion4": "Why does the app ask for a permission?\nOnly when you use a feature that needs it, such as the camera for scanning. See Settings > Permissions for the full list.",
+  "@helpGuideFaqQuestion4": {
+    "description": "FAQ question and answer: why the app asks for a permission"
+  },
+  "helpGuideFaqQuestion5": "How do I change the language?\nGo to Settings > Language. The app changes at once.",
+  "@helpGuideFaqQuestion5": {
+    "description": "FAQ question and answer: how to change the language"
+  },
+  "helpGuideFaqQuestion6": "How do I delete everything?\nGo to Settings > Privacy & probing > Delete all data. You can also delete single scans in History.",
+  "@helpGuideFaqQuestion6": {
+    "description": "FAQ question and answer: how to delete everything"
+  },
+  "helpGuideFaqQuestion7": "A link I trust is marked unsafe. Why?\nThe checks look for warning signs, and some real sites have them too. If you are sure about the source, you can still open it.",
+  "@helpGuideFaqQuestion7": {
+    "description": "FAQ question and answer: why a trusted link is marked unsafe"
+  },
+  "helpGuideFaqQuestion8": "Does the app use a lot of battery?\nNo. The camera stops as soon as you leave the Scan screen. See the Settings guide for more battery tips.",
+  "@helpGuideFaqQuestion8": {
+    "description": "FAQ question and answer: battery use"
+  },
+  "helpGuideFaqCameraTitle": "When a code will not scan",
+  "@helpGuideFaqCameraTitle": {
+    "description": "FAQ section heading: when a code will not scan"
+  },
+  "helpGuideFaqCameraBullet1": "Clean the camera lens and hold the phone about 15 to 20 cm (6 to 8 inches) from the code.",
+  "@helpGuideFaqCameraBullet1": {
+    "description": "FAQ: clean the lens and hold the phone at the right distance"
+  },
+  "helpGuideFaqCameraBullet2": "In a dark place, turn on the flash. For a shiny code, tilt the phone a little to remove the glare.",
+  "@helpGuideFaqCameraBullet2": {
+    "description": "FAQ: dark places and shiny codes"
+  },
+  "helpGuideFaqCameraBullet3": "For a small or far-away code, use the zoom slider or Distance Scan Assist, instead of moving very close.",
+  "@helpGuideFaqCameraBullet3": {
+    "description": "FAQ: small or far-away codes"
+  },
+  "helpGuideFaqCameraBullet4": "For a light code on a dark background, turn on Invert colors in Camera adjustments.",
+  "@helpGuideFaqCameraBullet4": {
+    "description": "FAQ: light codes on a dark background"
+  },
+  "helpGuideFaqCameraBullet5": "For a damaged or faded code, try Brightness and Contrast in Camera adjustments, or take a photo and scan it from the gallery.",
+  "@helpGuideFaqCameraBullet5": {
+    "description": "FAQ: damaged or faded codes"
+  },
+  "helpGuideFaqFixTitle": "Other problems",
+  "@helpGuideFaqFixTitle": {
+    "description": "FAQ section heading: other problems"
+  },
+  "helpGuideFaqFixBullet1": "Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.",
+  "@helpGuideFaqFixBullet1": {
+    "description": "FAQ: the camera does not open because permission was refused"
+  },
+  "helpGuideFaqFixBullet2": "Wi-Fi will not connect: copy the password and join the network in your phone's Wi-Fi settings.",
+  "@helpGuideFaqFixBullet2": {
+    "description": "FAQ: Wi-Fi will not connect"
+  },
+  "helpGuideFaqFixBullet3": "Payment app does not open: make sure a UPI app is installed. You can also copy the UPI ID.",
+  "@helpGuideFaqFixBullet3": {
+    "description": "FAQ: the payment app does not open"
+  },
+  "helpGuideFaqFixBullet4": "Scan bubble keeps disappearing: some phones stop apps in the background. Allow this app in your phone's battery settings.",
+  "@helpGuideFaqFixBullet4": {
+    "description": "FAQ: the scan bubble keeps disappearing"
+  },
+  "helpGuideFaqFixBullet5": "An online check says Skipped: that checker is turned off, or has no key. Tap Set up in Settings on the result to fix it.",
+  "@helpGuideFaqFixBullet5": {
+    "description": "FAQ: an online check shows as skipped"
+  },
+  "helpGuideFaqTip": "Tip: Still stuck? Take a clear photo of the code and scan it from the gallery.",
+  "@helpGuideFaqTip": {
+    "description": "Tip at the end of the FAQ"
+  },
+  "titleHelpBarcode": "Scanning codes",
+  "@titleHelpBarcode": {
+    "description": "App bar title of the scanning guide"
   },
   "titleHelpArCodeVision": "AR CodeVision",
   "@titleHelpArCodeVision": {
     "description": "App bar title of the AR CodeVision help screen. Short label."
   },
-  "helpGuideArCodeVisionName": "AR CodeVision™ Spatial HUD",
-  "@helpGuideArCodeVisionName": {
-    "description": "Help Center hub: card title for the AR CodeVision guide (keep the trademark name)"
-  },
-  "helpGuideArCodeVisionSummary": "Real-time multi-barcode camera tracking, floating chips, and batch actions.",
-  "@helpGuideArCodeVisionSummary": {
-    "description": "Help Center hub: card subtitle for the AR CodeVision guide"
-  },
-  "helpGuideArCodeVisionIntro": "AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.",
-  "@helpGuideArCodeVisionIntro": {
-    "description": "AR CodeVision help screen: intro paragraph"
-  },
-  "helpGuideArCodeVisionTrackingTitle": "Real-Time Spatial Tracking",
-  "@helpGuideArCodeVisionTrackingTitle": {
-    "description": "AR CodeVision help screen: section heading about spatial tracking"
-  },
-  "helpGuideArCodeVisionTrackingBullet1": "Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.",
-  "@helpGuideArCodeVisionTrackingBullet1": {
-    "description": "AR CodeVision help screen: tracking bullet 1"
-  },
-  "helpGuideArCodeVisionTrackingBullet2": "Renders floating interactive chips directly above each physical barcode on screen as you move your camera.",
-  "@helpGuideArCodeVisionTrackingBullet2": {
-    "description": "AR CodeVision help screen: tracking bullet 2"
-  },
-  "helpGuideArCodeVisionTrackingBullet3": "Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).",
-  "@helpGuideArCodeVisionTrackingBullet3": {
-    "description": "AR CodeVision help screen: tracking bullet 3 (color badges)"
-  },
-  "helpGuideArCodeVisionBatchTitle": "Interactive Multi-Select & Batch Actions",
-  "@helpGuideArCodeVisionBatchTitle": {
-    "description": "AR CodeVision help screen: section heading about multi-select and batch actions"
-  },
-  "helpGuideArCodeVisionBatchBullet1": "Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.",
-  "@helpGuideArCodeVisionBatchBullet1": {
-    "description": "AR CodeVision help screen: batch bullet 1"
-  },
-  "helpGuideArCodeVisionBatchBullet2": "Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.",
-  "@helpGuideArCodeVisionBatchBullet2": {
-    "description": "AR CodeVision help screen: batch bullet 2"
-  },
-  "helpGuideArCodeVisionBatchBullet3": "Copy all selected payload contents or export targets to your history in a single tap.",
-  "@helpGuideArCodeVisionBatchBullet3": {
-    "description": "AR CodeVision help screen: batch bullet 3"
-  },
-  "helpGuideArCodeVisionHudTitle": "HUD Controls & Performance",
-  "@helpGuideArCodeVisionHudTitle": {
-    "description": "AR CodeVision help screen: section heading about HUD controls"
-  },
-  "helpGuideArCodeVisionHudBullet1": "HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.",
-  "@helpGuideArCodeVisionHudBullet1": {
-    "description": "AR CodeVision help screen: HUD bullet 1"
-  },
-  "helpGuideArCodeVisionHudBullet2": "Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.",
-  "@helpGuideArCodeVisionHudBullet2": {
-    "description": "AR CodeVision help screen: HUD bullet 2"
-  },
-  "helpGuideArCodeVisionTip": "Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.",
-  "@helpGuideArCodeVisionTip": {
-    "description": "AR CodeVision help screen: tip box at the bottom"
-  },
   "titleHelpAirQr": "AirQR guide",
   "@titleHelpAirQr": {
     "description": "App bar title of the AirQR help screen. Short label."
   },
-  "helpGuideAirQrName": "AirQR™ Optical Air-Gap Stream",
-  "@helpGuideAirQrName": {
-    "description": "Help Center hub: card title for the AirQR guide (keep the trademark name)"
-  },
-  "helpGuideAirQrSummary": "Offline animated QR strobe transmitter and receiver for radio-silent data sharing.",
-  "@helpGuideAirQrSummary": {
-    "description": "Help Center hub: card subtitle for the AirQR guide"
-  },
-  "helpGuideAirQrIntro": "AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.",
-  "@helpGuideAirQrIntro": {
-    "description": "AirQR help screen: intro paragraph"
-  },
-  "helpGuideAirQrStreamingTitle": "How Optical Streaming Works",
-  "@helpGuideAirQrStreamingTitle": {
-    "description": "AirQR help screen: section heading about how streaming works"
-  },
-  "helpGuideAirQrStreamingBullet1": "Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.",
-  "@helpGuideAirQrStreamingBullet1": {
-    "description": "AirQR help screen: streaming bullet 1 (data frames plus LT fountain-code repair frames)"
-  },
-  "helpGuideAirQrStreamingBullet2": "The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).",
-  "@helpGuideAirQrStreamingBullet2": {
-    "description": "AirQR help screen: streaming bullet 2 (frame rate range 5 to 25 FPS)"
-  },
-  "helpGuideAirQrStreamingBullet3": "The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.",
-  "@helpGuideAirQrStreamingBullet3": {
-    "description": "AirQR help screen: streaming bullet 3"
-  },
-  "helpGuideAirQrSecurityTitle": "Air-Gap Security & Privacy",
-  "@helpGuideAirQrSecurityTitle": {
-    "description": "AirQR help screen: section heading about air-gap security"
-  },
-  "helpGuideAirQrSecurityBullet1": "Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).",
-  "@helpGuideAirQrSecurityBullet1": {
-    "description": "AirQR help screen: security bullet 1"
-  },
-  "helpGuideAirQrSecurityBullet2": "Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.",
-  "@helpGuideAirQrSecurityBullet2": {
-    "description": "AirQR help screen: security bullet 2"
-  },
-  "helpGuideAirQrSecurityBullet3": "Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.",
-  "@helpGuideAirQrSecurityBullet3": {
-    "description": "AirQR help screen: security bullet 3"
-  },
-  "helpGuideAirQrControlsTitle": "Transmitter & Receiver Controls",
-  "@helpGuideAirQrControlsTitle": {
-    "description": "AirQR help screen: section heading about transmitter and receiver controls"
-  },
-  "helpGuideAirQrControlsBullet1": "Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.",
-  "@helpGuideAirQrControlsBullet1": {
-    "description": "AirQR help screen: controls bullet 1 (transmitter has a frame rate control only; no chunk-size control)"
-  },
-  "helpGuideAirQrControlsBullet2": "Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.",
-  "@helpGuideAirQrControlsBullet2": {
-    "description": "AirQR help screen: controls bullet 2"
-  },
-  "helpGuideAirQrTip": "Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.",
-  "@helpGuideAirQrTip": {
-    "description": "AirQR help screen: tip box at the bottom"
-  },
-  "titleHelpUrlSafety": "URL safety",
+  "titleHelpUrlSafety": "Link safety",
   "@titleHelpUrlSafety": {
-    "description": "App bar title of the URL safety help screen. Short label."
-  },
-  "helpGuideUrlSafetyName": "6-Layer URL Safety Engine",
-  "@helpGuideUrlSafetyName": {
-    "description": "Help Center hub: card title for the URL safety guide"
-  },
-  "helpGuideUrlSafetySummary": "Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.",
-  "@helpGuideUrlSafetySummary": {
-    "description": "Help Center hub: card subtitle for the URL safety guide"
-  },
-  "helpGuideUrlSafetyIntro": "Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.",
-  "@helpGuideUrlSafetyIntro": {
-    "description": "URL safety help screen: intro paragraph"
-  },
-  "helpGuideUrlSafetyLayersTitle": "The 6 Safety Layers Explained",
-  "@helpGuideUrlSafetyLayersTitle": {
-    "description": "URL safety help screen: section heading for the list of 6 layers"
-  },
-  "helpGuideUrlSafetyLayersBullet1": "Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.",
-  "@helpGuideUrlSafetyLayersBullet1": {
-    "description": "URL safety help screen: layer 1 description"
-  },
-  "helpGuideUrlSafetyLayersBullet2": "Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.",
-  "@helpGuideUrlSafetyLayersBullet2": {
-    "description": "URL safety help screen: layer 2 description. Keep the Cyrillic example letter as-is."
-  },
-  "helpGuideUrlSafetyLayersBullet3": "Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.",
-  "@helpGuideUrlSafetyLayersBullet3": {
-    "description": "URL safety help screen: layer 3 description"
-  },
-  "helpGuideUrlSafetyLayersBullet4": "Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.",
-  "@helpGuideUrlSafetyLayersBullet4": {
-    "description": "URL safety help screen: layer 4 description"
-  },
-  "helpGuideUrlSafetyLayersBullet5": "Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.",
-  "@helpGuideUrlSafetyLayersBullet5": {
-    "description": "URL safety help screen: layer 5 description"
-  },
-  "helpGuideUrlSafetyLayersBullet6": "Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.",
-  "@helpGuideUrlSafetyLayersBullet6": {
-    "description": "URL safety help screen: layer 6 description"
-  },
-  "helpGuideUrlSafetyVerdictsTitle": "Safety Verdicts & Action Guidance",
-  "@helpGuideUrlSafetyVerdictsTitle": {
-    "description": "URL safety help screen: section heading about safety verdicts"
-  },
-  "helpGuideUrlSafetyVerdictsBullet1": "Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.",
-  "@helpGuideUrlSafetyVerdictsBullet1": {
-    "description": "URL safety help screen: verdict bullet 1 (green)"
-  },
-  "helpGuideUrlSafetyVerdictsBullet2": "Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.",
-  "@helpGuideUrlSafetyVerdictsBullet2": {
-    "description": "URL safety help screen: verdict bullet 2 (orange/red)"
-  },
-  "helpGuideUrlSafetyTip": "Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.",
-  "@helpGuideUrlSafetyTip": {
-    "description": "URL safety help screen: tip box at the bottom"
+    "description": "App bar title of the link safety guide"
   },
   "titleHelpQuishing": "QuishingGuard",
   "@titleHelpQuishing": {
     "description": "App bar title of the QuishingGuard help screen. Short label."
   },
-  "helpGuideQuishingName": "QuishingGuard™ Tamper Detection",
-  "@helpGuideQuishingName": {
-    "description": "Help Center hub: card title for the QuishingGuard guide (keep the trademark name)"
-  },
-  "helpGuideQuishingSummary": "On-device computer vision analyzing physical QR sticker overlays and edge cuts.",
-  "@helpGuideQuishingSummary": {
-    "description": "Help Center hub: card subtitle for the QuishingGuard guide"
-  },
-  "helpGuideQuishingIntro": "Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.",
-  "@helpGuideQuishingIntro": {
-    "description": "QuishingGuard help screen: intro paragraph (explains what quishing is)"
-  },
-  "helpGuideQuishingCvTitle": "On-Device Computer Vision Analysis",
-  "@helpGuideQuishingCvTitle": {
-    "description": "QuishingGuard help screen: section heading about on-device computer vision"
-  },
-  "helpGuideQuishingCvBullet1": "Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.",
-  "@helpGuideQuishingCvBullet1": {
-    "description": "QuishingGuard help screen: computer vision bullet 1 (edge metric)"
-  },
-  "helpGuideQuishingCvBullet2": "Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.",
-  "@helpGuideQuishingCvBullet2": {
-    "description": "QuishingGuard help screen: computer vision bullet 2 (print grain metric)"
-  },
-  "helpGuideQuishingCvBullet3": "Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).",
-  "@helpGuideQuishingCvBullet3": {
-    "description": "QuishingGuard help screen: computer vision bullet 3 (risk score)"
-  },
-  "helpGuideQuishingForensicTitle": "Forensic Signal Inspection",
-  "@helpGuideQuishingForensicTitle": {
-    "description": "QuishingGuard help screen: section heading about forensic signals"
-  },
-  "helpGuideQuishingForensicBullet1": "Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.",
-  "@helpGuideQuishingForensicBullet1": {
-    "description": "QuishingGuard help screen: forensic bullet 1. The quoted text must match the quishingViewSignals button."
-  },
-  "helpGuideQuishingForensicBullet2": "Helps identify suspicious payment QR codes in public places before sending money or typing credentials.",
-  "@helpGuideQuishingForensicBullet2": {
-    "description": "QuishingGuard help screen: forensic bullet 2"
-  },
-  "helpGuideQuishingTip": "Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.",
-  "@helpGuideQuishingTip": {
-    "description": "QuishingGuard help screen: tip box at the bottom"
-  },
-  "titleHelpSafeBrowsing": "Safe Browsing",
+  "titleHelpSafeBrowsing": "Online checkers",
   "@titleHelpSafeBrowsing": {
-    "description": "App bar title of the Google Safe Browsing setup help screen. Short label."
-  },
-  "helpGuideSafeBrowsingName": "Google Safe Browsing Setup",
-  "@helpGuideSafeBrowsingName": {
-    "description": "Help Center hub: card title for the Google Safe Browsing setup guide"
-  },
-  "helpGuideSafeBrowsingSummary": "Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.",
-  "@helpGuideSafeBrowsingSummary": {
-    "description": "Help Center hub: card subtitle for the Google Safe Browsing setup guide"
-  },
-  "helpGuideSafeBrowsingIntro": "Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.",
-  "@helpGuideSafeBrowsingIntro": {
-    "description": "Safe Browsing help screen: intro paragraph"
-  },
-  "helpGuideSafeBrowsingKeyTitle": "How to Obtain a Free API Key",
-  "@helpGuideSafeBrowsingKeyTitle": {
-    "description": "Safe Browsing help screen: section heading for the API key steps"
-  },
-  "helpGuideSafeBrowsingKeyStep1": "1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.",
-  "@helpGuideSafeBrowsingKeyStep1": {
-    "description": "Safe Browsing help screen: API key step 1 (keep the URL as-is)"
-  },
-  "helpGuideSafeBrowsingKeyStep2": "2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").",
-  "@helpGuideSafeBrowsingKeyStep2": {
-    "description": "Safe Browsing help screen: API key step 2 (the quoted project name is an English example)"
-  },
-  "helpGuideSafeBrowsingKeyStep3": "3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.",
-  "@helpGuideSafeBrowsingKeyStep3": {
-    "description": "Safe Browsing help screen: API key step 3. Google Cloud Console menu names stay in English."
-  },
-  "helpGuideSafeBrowsingKeyStep4": "4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".",
-  "@helpGuideSafeBrowsingKeyStep4": {
-    "description": "Safe Browsing help screen: API key step 4. Google Cloud Console menu names stay in English."
-  },
-  "helpGuideSafeBrowsingKeyStep5": "5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.",
-  "@helpGuideSafeBrowsingKeyStep5": {
-    "description": "Safe Browsing help screen: API key step 5"
-  },
-  "helpGuideSafeBrowsingPrivacyTitle": "Privacy & Secure Keystore Storage",
-  "@helpGuideSafeBrowsingPrivacyTitle": {
-    "description": "Safe Browsing help screen: section heading about key storage and privacy"
-  },
-  "helpGuideSafeBrowsingPrivacyBullet1": "Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.",
-  "@helpGuideSafeBrowsingPrivacyBullet1": {
-    "description": "Safe Browsing help screen: privacy bullet 1"
-  },
-  "helpGuideSafeBrowsingPrivacyBullet2": "Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.",
-  "@helpGuideSafeBrowsingPrivacyBullet2": {
-    "description": "Safe Browsing help screen: privacy bullet 2"
-  },
-  "helpGuideSafeBrowsingPrivacyBullet3": "Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.",
-  "@helpGuideSafeBrowsingPrivacyBullet3": {
-    "description": "Safe Browsing help screen: privacy bullet 3 (daily free quota)"
-  },
-  "helpGuideSafeBrowsingTip": "Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.",
-  "@helpGuideSafeBrowsingTip": {
-    "description": "Safe Browsing help screen: tip box at the bottom"
+    "description": "App bar title of the online checker setup guide"
   },
   "titleHelpSmartPayloads": "Smart actions",
   "@titleHelpSmartPayloads": {
     "description": "App bar title of the Smart Actions & Payments help screen. Short label."
   },
-  "helpGuideSmartPayloadsName": "Smart Actions & Payments",
-  "@helpGuideSmartPayloadsName": {
-    "description": "Help Center hub: card title for the Smart Actions & Payments guide"
-  },
-  "helpGuideSmartPayloadsSummary": "Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.",
-  "@helpGuideSmartPayloadsSummary": {
-    "description": "Help Center hub: card subtitle for the Smart Actions & Payments guide"
-  },
-  "helpGuideSmartPayloadsIntro": "SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.",
-  "@helpGuideSmartPayloadsIntro": {
-    "description": "Smart Actions help screen: intro paragraph"
-  },
-  "helpGuideSmartPayloadsWifiTitle": "Wi-Fi Network Auto-Connect",
-  "@helpGuideSmartPayloadsWifiTitle": {
-    "description": "Smart Actions help screen: section heading about Wi-Fi"
-  },
-  "helpGuideSmartPayloadsWifiBullet1": "Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.",
-  "@helpGuideSmartPayloadsWifiBullet1": {
-    "description": "Smart Actions help screen: Wi-Fi bullet 1. Keep the protocol token WIFI: as-is."
-  },
-  "helpGuideSmartPayloadsWifiBullet2": "Includes a Password Reveal / Hide button and 1-tap clipboard copy.",
-  "@helpGuideSmartPayloadsWifiBullet2": {
-    "description": "Smart Actions help screen: Wi-Fi bullet 2"
-  },
-  "helpGuideSmartPayloadsWifiBullet3": "Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.",
-  "@helpGuideSmartPayloadsWifiBullet3": {
-    "description": "Smart Actions help screen: Wi-Fi bullet 3. The quoted text must match the wifiConnectButton label."
-  },
-  "helpGuideSmartPayloadsPaymentsTitle": "UPI & Cryptocurrency Payments",
-  "@helpGuideSmartPayloadsPaymentsTitle": {
-    "description": "Smart Actions help screen: section heading about UPI and crypto payments"
-  },
-  "helpGuideSmartPayloadsPaymentsBullet1": "Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.",
-  "@helpGuideSmartPayloadsPaymentsBullet1": {
-    "description": "Smart Actions help screen: payments bullet 1 (UPI)"
-  },
-  "helpGuideSmartPayloadsPaymentsBullet2": "1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.",
-  "@helpGuideSmartPayloadsPaymentsBullet2": {
-    "description": "Smart Actions help screen: payments bullet 2 (keep app names as-is)"
-  },
-  "helpGuideSmartPayloadsPaymentsBullet3": "Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.",
-  "@helpGuideSmartPayloadsPaymentsBullet3": {
-    "description": "Smart Actions help screen: payments bullet 3 (crypto)"
-  },
-  "helpGuideSmartPayloadsTotpTitle": "TOTP 2FA Authenticator & Tokens",
-  "@helpGuideSmartPayloadsTotpTitle": {
-    "description": "Smart Actions help screen: section heading about TOTP 2FA"
-  },
-  "helpGuideSmartPayloadsTotpBullet1": "Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.",
-  "@helpGuideSmartPayloadsTotpBullet1": {
-    "description": "Smart Actions help screen: TOTP bullet 1. Keep otpauth:// as-is."
-  },
-  "helpGuideSmartPayloadsTotpBullet2": "Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.",
-  "@helpGuideSmartPayloadsTotpBullet2": {
-    "description": "Smart Actions help screen: TOTP bullet 2"
-  },
-  "helpGuideSmartPayloadsTotpBullet3": "Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.",
-  "@helpGuideSmartPayloadsTotpBullet3": {
-    "description": "Smart Actions help screen: TOTP bullet 3. The quoted text must match the totpImportButton label."
-  },
-  "helpGuideSmartPayloadsContactsTitle": "Contacts & Calendar Events",
-  "@helpGuideSmartPayloadsContactsTitle": {
-    "description": "Smart Actions help screen: section heading about contacts and calendar events"
-  },
-  "helpGuideSmartPayloadsContactsBullet1": "vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.",
-  "@helpGuideSmartPayloadsContactsBullet1": {
-    "description": "Smart Actions help screen: contacts bullet 1 (vCard and MeCard)"
-  },
-  "helpGuideSmartPayloadsContactsBullet2": "iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.",
-  "@helpGuideSmartPayloadsContactsBullet2": {
-    "description": "Smart Actions help screen: contacts bullet 2 (iCalendar events)"
-  },
-  "helpGuideSmartPayloadsTip": "Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.",
-  "@helpGuideSmartPayloadsTip": {
-    "description": "Smart Actions help screen: tip box at the bottom"
-  },
   "titleHelpHistory": "History & privacy",
   "@titleHelpHistory": {
     "description": "App bar title of the History, Backups & Privacy help screen. Short label."
-  },
-  "helpGuideHistoryName": "History, Backups & Privacy",
-  "@helpGuideHistoryName": {
-    "description": "Help Center hub: card title for the History, Backups & Privacy guide"
-  },
-  "helpGuideHistorySummary": "Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.",
-  "@helpGuideHistorySummary": {
-    "description": "Help Center hub: card subtitle for the History, Backups & Privacy guide"
-  },
-  "helpGuideHistoryIntro": "Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.",
-  "@helpGuideHistoryIntro": {
-    "description": "History help screen: intro paragraph"
-  },
-  "helpGuideHistoryManageTitle": "Scan History Management",
-  "@helpGuideHistoryManageTitle": {
-    "description": "History help screen: section heading about managing scan history"
-  },
-  "helpGuideHistoryManageBullet1": "Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).",
-  "@helpGuideHistoryManageBullet1": {
-    "description": "History help screen: manage bullet 1 (search and filter)"
-  },
-  "helpGuideHistoryManageBullet2": "Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.",
-  "@helpGuideHistoryManageBullet2": {
-    "description": "History help screen: manage bullet 2 (favorites)"
-  },
-  "helpGuideHistoryManageBullet3": "Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.",
-  "@helpGuideHistoryManageBullet3": {
-    "description": "History help screen: manage bullet 3 (detail sheet)"
-  },
-  "helpGuideHistoryBackupTitle": "Backup & Restore (JSON / CSV)",
-  "@helpGuideHistoryBackupTitle": {
-    "description": "History help screen: section heading about backup and restore"
-  },
-  "helpGuideHistoryBackupBullet1": "JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.",
-  "@helpGuideHistoryBackupBullet1": {
-    "description": "History help screen: backup bullet 1 (JSON)"
-  },
-  "helpGuideHistoryBackupBullet2": "CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.",
-  "@helpGuideHistoryBackupBullet2": {
-    "description": "History help screen: backup bullet 2 (CSV)"
-  },
-  "helpGuideHistoryBackupBullet3": "One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.",
-  "@helpGuideHistoryBackupBullet3": {
-    "description": "History help screen: backup bullet 3 (restore)"
-  },
-  "helpGuideHistoryBiometricsTitle": "Biometrics & Screenshot Guard",
-  "@helpGuideHistoryBiometricsTitle": {
-    "description": "History help screen: section heading about biometrics and screenshot guard"
-  },
-  "helpGuideHistoryBiometricsBullet1": "App lock and biometrics: an optional app lock asks for your fingerprint, face or screen lock when the app opens. Hidden StegoQR messages can also ask for biometrics.",
-  "@helpGuideHistoryBiometricsBullet1": {
-    "description": "History help screen: biometrics bullet 1"
-  },
-  "helpGuideHistoryBiometricsBullet2": "Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.",
-  "@helpGuideHistoryBiometricsBullet2": {
-    "description": "History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is."
-  },
-  "helpGuideHistoryTip": "Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.",
-  "@helpGuideHistoryTip": {
-    "description": "History help screen: tip box at the bottom"
   },
   "titleHelpFaq": "FAQ & help",
   "@titleHelpFaq": {
     "description": "App bar title of the FAQ & Troubleshooting help screen. Short label."
   },
-  "helpGuideFaqName": "FAQ & Troubleshooting",
-  "@helpGuideFaqName": {
-    "description": "Help Center hub: card title for the FAQ & Troubleshooting guide"
+  "titleHelpScanBubble": "Scan from other apps",
+  "@titleHelpScanBubble": {
+    "description": "App bar title of the guide on scanning codes shown in other apps"
   },
-  "helpGuideFaqSummary": "Common questions, camera focus tips, permission recovery, and offline guarantees.",
-  "@helpGuideFaqSummary": {
-    "description": "Help Center hub: card subtitle for the FAQ & Troubleshooting guide"
+  "titleHelpCodeForge": "Making codes",
+  "@titleHelpCodeForge": {
+    "description": "App bar title of the CodeForge guide (making your own codes)"
   },
-  "helpGuideFaqIntro": "Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.",
-  "@helpGuideFaqIntro": {
-    "description": "FAQ help screen: intro paragraph"
+  "titleHelpHiddenCodes": "Locked codes",
+  "@titleHelpHiddenCodes": {
+    "description": "App bar title of the guide on hidden and locked codes"
   },
-  "helpGuideFaqQuestionsTitle": "Frequently Asked Questions",
-  "@helpGuideFaqQuestionsTitle": {
-    "description": "FAQ help screen: section heading for the questions"
-  },
-  "helpGuideFaqQuestion1": "Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.",
-  "@helpGuideFaqQuestion1": {
-    "description": "FAQ help screen: question 1 and its answer, split by a line break"
-  },
-  "helpGuideFaqQuestion2": "Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.",
-  "@helpGuideFaqQuestion2": {
-    "description": "FAQ help screen: question 2 and its answer, split by a line break"
-  },
-  "helpGuideFaqQuestion3": "Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.",
-  "@helpGuideFaqQuestion3": {
-    "description": "FAQ help screen: question 3 and its answer, split by a line break"
-  },
-  "helpGuideFaqCameraTitle": "Camera Troubleshooting",
-  "@helpGuideFaqCameraTitle": {
-    "description": "FAQ help screen: section heading for camera troubleshooting"
-  },
-  "helpGuideFaqCameraBullet1": "Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.",
-  "@helpGuideFaqCameraBullet1": {
-    "description": "FAQ help screen: camera bullet 1 (focus problems)"
-  },
-  "helpGuideFaqCameraBullet2": "Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.",
-  "@helpGuideFaqCameraBullet2": {
-    "description": "FAQ help screen: camera bullet 2 (tiny or dense codes)"
-  },
-  "helpGuideFaqCameraBullet3": "Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.",
-  "@helpGuideFaqCameraBullet3": {
-    "description": "FAQ help screen: camera bullet 3 (restoring camera permission in Android Settings; the app name in the path is the Android app label)"
-  },
-  "helpGuideFaqTip": "Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.",
-  "@helpGuideFaqTip": {
-    "description": "FAQ help screen: tip box at the bottom"
+  "titleHelpSettings": "Settings guide",
+  "@titleHelpSettings": {
+    "description": "App bar title of the settings guide"
   },
   "tooltipResultMoreActions": "More actions",
   "@tooltipResultMoreActions": {
@@ -4848,15 +5456,6 @@
   "@tooltipSandboxHidePreview": {
     "description": "Tooltip to fold the sandboxed page preview"
   },
-  "labelQuishingCompactGenuine": "Genuine · {percent}%",
-  "@labelQuishingCompactGenuine": {
-    "description": "Folded Quishing Guard line when the printed code looks genuine; percent is the tamper risk",
-    "placeholders": {
-      "percent": {
-        "type": "String"
-      }
-    }
-  },
   "labelScanBubble": "Scan bubble",
   "@labelScanBubble": {
     "description": "Title of the floating Scan bubble feature (settings tile, screen title, menu item). Keep short."
@@ -4928,90 +5527,6 @@
   "labelHistorySourceScreen": "From screen",
   "@labelHistorySourceScreen": {
     "description": "Label on a history item that was read from a picture of the phone screen (GhostScan or Scan bubble)"
-  },
-  "helpPermissionOverlayTitle": "Display over other apps",
-  "@helpPermissionOverlayTitle": {
-    "description": "Name of the Android permission that lets the Scan bubble float over other apps"
-  },
-  "helpPermissionOverlayDesc": "Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.",
-  "@helpPermissionOverlayDesc": {
-    "description": "Why the app uses the Display over other apps permission"
-  },
-  "helpPermissionNotificationTitle": "Notifications",
-  "@helpPermissionNotificationTitle": {
-    "description": "Name of the Android notification permission"
-  },
-  "helpPermissionNotificationDesc": "Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.",
-  "@helpPermissionNotificationDesc": {
-    "description": "Why the app uses the notification permission"
-  },
-  "helpGuideScanBubbleName": "Scan bubble",
-  "@helpGuideScanBubbleName": {
-    "description": "Name of the Scan bubble help guide"
-  },
-  "helpGuideScanBubbleSummary": "A floating button to scan QR codes and barcodes shown in other apps.",
-  "@helpGuideScanBubbleSummary": {
-    "description": "One-line summary of the Scan bubble help guide"
-  },
-  "helpGuideScanBubbleIntro": "The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.",
-  "@helpGuideScanBubbleIntro": {
-    "description": "Intro paragraph of the Scan bubble help guide"
-  },
-  "helpGuideScanBubbleUseTitle": "How to use it",
-  "@helpGuideScanBubbleUseTitle": {
-    "description": "Section title: how to use the Scan bubble"
-  },
-  "helpGuideScanBubbleUseBullet1": "Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.",
-  "@helpGuideScanBubbleUseBullet1": {
-    "description": "How to turn the Scan bubble on"
-  },
-  "helpGuideScanBubbleUseBullet2": "Open any app that shows a QR code or barcode, then tap the bubble.",
-  "@helpGuideScanBubbleUseBullet2": {
-    "description": "Second step for using the Scan bubble"
-  },
-  "helpGuideScanBubbleUseBullet3": "Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.",
-  "@helpGuideScanBubbleUseBullet3": {
-    "description": "Third step for using the Scan bubble"
-  },
-  "helpGuideScanBubbleUseBullet4": "Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.",
-  "@helpGuideScanBubbleUseBullet4": {
-    "description": "How to move and close the Scan bubble"
-  },
-  "helpGuideScanBubblePrivacyTitle": "Privacy",
-  "@helpGuideScanBubblePrivacyTitle": {
-    "description": "Section title: privacy of the Scan bubble"
-  },
-  "helpGuideScanBubblePrivacyBullet1": "The screen is captured only when you tap the bubble, and Android always asks you first.",
-  "@helpGuideScanBubblePrivacyBullet1": {
-    "description": "Privacy point: capture only on tap"
-  },
-  "helpGuideScanBubblePrivacyBullet2": "The code is read on your phone. Nothing is sent online for reading.",
-  "@helpGuideScanBubblePrivacyBullet2": {
-    "description": "Privacy point: offline decoding"
-  },
-  "helpGuideScanBubblePrivacyBullet3": "The screen picture is not saved to your gallery and is deleted right after reading.",
-  "@helpGuideScanBubblePrivacyBullet3": {
-    "description": "Privacy point: picture deleted"
-  },
-  "helpGuideScanBubbleLimitsTitle": "Good to know",
-  "@helpGuideScanBubbleLimitsTitle": {
-    "description": "Section title: limits of the Scan bubble"
-  },
-  "helpGuideScanBubbleLimitsBullet1": "On Android 14 and newer, Android asks for screen capture permission on every tap.",
-  "@helpGuideScanBubbleLimitsBullet1": {
-    "description": "Limit: Android 14 asks every time"
-  },
-  "helpGuideScanBubbleLimitsBullet2": "Banking, payment and some video apps block screen capture. Codes inside them cannot be read.",
-  "@helpGuideScanBubbleLimitsBullet2": {
-    "description": "Limit: some apps block capture"
-  },
-  "helpGuideScanBubbleLimitsBullet3": "Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.",
-  "@helpGuideScanBubbleLimitsBullet3": {
-    "description": "Limit: phone maker settings"
-  },
-  "helpGuideScanBubbleTip": "Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.",
-  "@helpGuideScanBubbleTip": {
-    "description": "Tip at the end of the Scan bubble help guide"
   },
   "labelCodeForgeBarcodeContent": "Barcode content",
   "@labelCodeForgeBarcodeContent": {

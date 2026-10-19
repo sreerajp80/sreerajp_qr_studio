@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/help/widgets/help_page_widgets.dart';
 
 class UrlSafetyHelpScreen extends StatelessWidget {
   const UrlSafetyHelpScreen({super.key});
@@ -8,175 +9,52 @@ class UrlSafetyHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.titleHelpUrlSafety)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-          children: [
-            _Intro(l10n.helpGuideUrlSafetyIntro),
-            const SizedBox(height: 24),
-            _Section(
-              icon: Icons.shield_outlined,
-              title: l10n.helpGuideUrlSafetyLayersTitle,
-              children: [
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet1),
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet2),
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet3),
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet4),
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet5),
-                _Bullet(l10n.helpGuideUrlSafetyLayersBullet6),
-              ],
-            ),
-            _Section(
-              icon: Icons.lock_outline,
-              title: l10n.helpGuideUrlSafetyVerdictsTitle,
-              children: [
-                _Bullet(l10n.helpGuideUrlSafetyVerdictsBullet1),
-                _Bullet(l10n.helpGuideUrlSafetyVerdictsBullet2),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _Footer(l10n.helpGuideUrlSafetyTip),
+    return HelpGuidePage(
+      title: l10n.titleHelpUrlSafety,
+      intro: l10n.helpGuideUrlSafetyIntro,
+      sections: [
+        HelpSection(
+          icon: Icons.layers_outlined,
+          title: l10n.helpGuideUrlSafetyLayersTitle,
+          bullets: [
+            l10n.helpGuideUrlSafetyLayersBullet1,
+            l10n.helpGuideUrlSafetyLayersBullet2,
+            l10n.helpGuideUrlSafetyLayersBullet3,
+            l10n.helpGuideUrlSafetyLayersBullet4,
+            l10n.helpGuideUrlSafetyLayersBullet5,
+            l10n.helpGuideUrlSafetyLayersBullet6,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Intro extends StatelessWidget {
-  final String text;
-  const _Intro(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      text,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
-        height: 1.5,
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final List<Widget> children;
-
-  const _Section({
-    required this.icon,
-    required this.title,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: accent),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-class _Bullet extends StatelessWidget {
-  final String text;
-  const _Bullet(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 7, right: 10),
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13.5,
-                color: theme.colorScheme.onSurfaceVariant,
-                height: 1.4,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final String text;
-  const _Footer(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: accent.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.lightbulb_outline, color: accent, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: accent,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
-      ),
+        HelpSection(
+          icon: Icons.fact_check_outlined,
+          title: l10n.helpGuideUrlSafetyVerdictsTitle,
+          bullets: [
+            l10n.helpGuideUrlSafetyVerdictsBullet1,
+            l10n.helpGuideUrlSafetyVerdictsBullet2,
+            l10n.helpGuideUrlSafetyVerdictsBullet3,
+            l10n.helpGuideUrlSafetyVerdictsBullet4,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.visibility_off_outlined,
+          title: l10n.helpGuideUrlSafetyPrivacyTitle,
+          bullets: [
+            l10n.helpGuideUrlSafetyPrivacyBullet1,
+            l10n.helpGuideUrlSafetyPrivacyBullet2,
+            l10n.helpGuideUrlSafetyPrivacyBullet3,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.add_moderator_outlined,
+          title: l10n.helpGuideUrlSafetyProvidersTitle,
+          bullets: [
+            l10n.helpGuideUrlSafetyProvidersBullet1,
+            l10n.helpGuideUrlSafetyProvidersBullet2,
+            l10n.helpGuideUrlSafetyProvidersBullet3,
+          ],
+        ),
+      ],
+      tip: l10n.helpGuideUrlSafetyTip,
     );
   }
 }

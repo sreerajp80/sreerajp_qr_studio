@@ -66,6 +66,9 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
           formats: const [CodeFormat.qrCode],
           profile: DecodeProfile.fast,
           maxSymbols: 1,
+          // AirQR frames change fast: decode every frame, never slow down.
+          minFrameGap: Duration.zero,
+          idleFrameGap: Duration.zero,
         );
       }
     });

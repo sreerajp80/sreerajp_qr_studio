@@ -41,11 +41,11 @@ void main() {
 
     expect(find.text('Scan bubble'), findsOneWidget);
     expect(find.text('Show scan bubble'), findsOneWidget);
-    expect(find.text('Display over other apps'), findsOneWidget);
+    expect(find.text('Show over other apps'), findsOneWidget);
     expect(find.text('Allow'), findsOneWidget);
     expect(find.text('Start after restart'), findsOneWidget);
     expect(find.text('Add Settings tile'), findsOneWidget);
-    expect(find.text('How to use it'), findsOneWidget);
+    expect(find.text('How to use the Scan bubble'), findsOneWidget);
   });
 
   testWidgets('turning on without permission shows the explain dialog', (

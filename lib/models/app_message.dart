@@ -109,31 +109,6 @@ enum AppMessageKey {
   openPhishFeedStale,
   openPhishUnavailable,
 
-  // --- printed-code tamper check: summaries and status labels ---
-  quishingSummaryAuthentic,
-  quishingSummaryWearAndTear,
-  quishingSummaryHighWarning,
-  quishingStatusAuthentic,
-  quishingStatusWearAndTear,
-  quishingStatusHighWarning,
-
-  // --- printed-code tamper check: individual findings ---
-  quishingSignalPerimeterDoubleEdge,
-  quishingSignalMicroShadowPerimeter,
-  quishingSignalDotDensityVariance,
-  quishingSignalGrainAberration,
-  quishingSignalUniformReflection,
-  quishingSignalConsistentDotsQrMatrix,
-  quishingSignalReflectionVerified,
-  quishingSignalHalftoneConsistentQrMatrix,
-  quishingSignalHalftoneConsistentMatrix,
-  quishingSignalDoubleEdgeAroundMatrix,
-  quishingSignalMicroShadowStickerBorder,
-  quishingSignalGrainMismatchBase,
-  quishingSignalMinorScratch,
-  quishingSignalSlightDotIrregularity,
-  quishingSignalConsistentDotsMatrixPerimeter,
-
   // --- sandboxed page preview ---
   domSslInvalidScheme,
   domSslHttps,

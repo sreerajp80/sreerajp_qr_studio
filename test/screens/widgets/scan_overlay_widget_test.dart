@@ -123,5 +123,42 @@ void main() {
       await tester.pump(const Duration(milliseconds: 100));
       expect(find.byType(ScanOverlayWidget), findsOneWidget);
     });
+
+    testWidgets('idle animation stops when not active and restarts', (
+      tester,
+    ) async {
+      Widget build({required bool active}) => MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: ScanOverlayWidget(
+              style: ScanOverlayStyle.laserLine,
+              isActive: active,
+            ),
+          ),
+        ),
+      );
+
+      // Not active: nothing animates, so pumpAndSettle finishes.
+      await tester.pumpWidget(build(active: false));
+      await tester.pumpAndSettle();
+
+      // Active: the idle loop runs for ever, so pumpAndSettle times out.
+      await tester.pumpWidget(build(active: true));
+      var timedOut = false;
+      try {
+        await tester.pumpAndSettle(
+          const Duration(milliseconds: 100),
+          EnginePhase.sendSemanticsUpdate,
+          const Duration(seconds: 2),
+        );
+      } on FlutterError {
+        timedOut = true;
+      }
+      expect(timedOut, isTrue);
+
+      // Not active again: the loop stops.
+      await tester.pumpWidget(build(active: false));
+      await tester.pumpAndSettle();
+    });
   });
 }

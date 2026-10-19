@@ -230,39 +230,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionPaymentAmountPay => 'Pay';
 
   @override
-  String labelPercentValue(String value) {
-    return '$value%';
-  }
-
-  @override
   String get titleQuishingGuard => 'QuishingGuard™';
 
   @override
-  String get labelQuishingTamperBadge => 'Physical Tamper CV';
+  String get titleStickerCheck => 'Fake sticker check';
 
   @override
-  String get labelQuishingRiskScore => 'Tamper Risk Score:';
+  String get tooltipStickerCheckExpand => 'Show checks';
 
   @override
-  String get actionQuishingViewSignals => 'Show signals';
+  String get tooltipStickerCheckCollapse => 'Hide checks';
 
   @override
-  String get actionQuishingHideSignals => 'Hide signals';
+  String get bodyStickerCheckIntro =>
+      'Scammers stick their own QR code over the real one. This app cannot spot a sticker in the camera picture, so please check it yourself:';
 
   @override
-  String get labelQuishingMetricEdge => 'Edge Discontinuity';
+  String get bodyStickerCheckEdges =>
+      'Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.';
 
   @override
-  String get descQuishingMetricEdge => 'Double edges & shadow lines';
+  String get bodyStickerCheckPayee =>
+      'Before you pay, check that the name on the payment screen matches the shop.';
 
   @override
-  String get labelQuishingMetricGrain => 'Print Grain & DPI';
-
-  @override
-  String get descQuishingMetricGrain => 'Halftone dot & chromatic noise';
-
-  @override
-  String get titleQuishingSignals => 'Detected signals:';
+  String get bodyStickerCheckAsk =>
+      'If in doubt, ask the staff, or type the website address yourself.';
 
   @override
   String get tooltipArCloseSheet => 'Close Sheet';
@@ -1046,15 +1039,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelSettingsPermissions => 'Permissions';
 
   @override
-  String get descSettingsPermissions =>
-      'Explicit, implicit & setting-dependent details';
+  String get descSettingsPermissions => 'What the app uses, and why';
 
   @override
   String get labelSettingsHelp => 'Help & guides';
 
   @override
-  String get descSettingsHelp =>
-      'AR CodeVision, AirQR, Quishing Guard & URL Safety';
+  String get descSettingsHelp => 'Simple guides for every feature';
 
   @override
   String get descSettingsAbout => 'App version, developer & license details';
@@ -1111,77 +1102,134 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titlePermissionsScreen => 'Permissions Overview';
 
   @override
-  String get helpPermissionsExplicitHeading =>
-      'Explicit Permissions (Runtime / Manifest)';
+  String get helpPermissionsIntro =>
+      'Permissions let an app use parts of your phone, such as the camera. This app asks only for what a feature needs, and only when you use that feature. You can see or change them at any time in Android Settings > Apps > this app > Permissions.';
 
   @override
-  String get helpPermissionCameraTitle =>
-      'Camera Access (android.permission.CAMERA)';
+  String get labelPermGroupAsked => 'Asked when needed';
 
   @override
-  String get helpPermissionCameraDesc =>
-      'Requested on-demand at point of use. Required for live scanning, AR CodeVision HUD overlay, and AirQR optical stream decoding.';
+  String get helpPermGroupAskedNote =>
+      'Android asks you before the app can use these. If you say no, the rest of the app still works.';
 
   @override
-  String get helpPermissionBiometricTitle =>
-      'Biometric Authentication (android.permission.USE_BIOMETRIC)';
+  String get labelPermGroupInstall => 'Allowed at install';
 
   @override
-  String get helpPermissionBiometricDesc =>
-      'Requested when unlocking biometric secure vaults or encrypted QR code payloads.';
+  String get helpPermGroupInstallNote =>
+      'Android allows these when the app is installed, without asking. Each one is used only for the feature named here.';
 
   @override
-  String get helpPermissionsImplicitHeading => 'Implicit & System Permissions';
+  String get labelPermGroupNotUsed => 'Not asked for';
 
   @override
-  String get helpPermissionInternetTitle =>
-      'Internet Access (android.permission.INTERNET)';
+  String get helpPermGroupNotUsedNote =>
+      'The app does not ask for these, so it cannot use them.';
 
   @override
-  String get helpPermissionInternetDesc =>
-      'Declared in Android Manifest. Used only when Active Online Probing or Google Safe Browsing API lookup is enabled.';
+  String get labelPermCamera => 'Camera';
 
   @override
-  String get helpPermissionVibrateTitle =>
-      'Vibration & Haptics (android.permission.VIBRATE)';
+  String get helpPermCameraDesc =>
+      'Used to scan QR codes and barcodes, and for AR CodeVision and receiving AirQR transfers. Android asks you the first time you open a camera screen. Camera pictures are read on your phone and are never saved or sent. If you say no, you can still scan from pictures and PDFs.';
 
   @override
-  String get helpPermissionVibrateDesc =>
-      'System permission. Triggers haptic vibration feedback during scan alerts and button taps.';
+  String get labelPermLocation => 'Location';
 
   @override
-  String get helpPermissionPhotoPickerTitle => 'Scoped Media Photo Picker';
+  String get helpPermLocationDesc =>
+      'Used only when you tap Use My Location in CodeForge, to put your current place into a map QR code. The app reads your position once, does not keep it and never sends it anywhere. It is never used in the background. If you say no, you can type the place yourself.';
 
   @override
-  String get helpPermissionPhotoPickerDesc =>
-      'System photo picker access. Allows selecting QR images or videos from gallery without requesting full storage access.';
+  String get labelPermBiometric => 'Fingerprint or face';
 
   @override
-  String get helpPermissionsSettingHeading => 'Setting-Dependent Permissions';
+  String get helpPermBiometricDesc =>
+      'Used by App lock, and to open locked StegoQR items with your fingerprint, face or screen lock. Android does the check and only tells the app whether it passed. The app never sees your fingerprint or face.';
 
   @override
-  String get helpPermissionProbingTitle =>
-      'Active Online Probing (Privacy Setting)';
+  String get labelPermNotifications => 'Notifications';
 
   @override
-  String get helpPermissionProbingDesc =>
-      'Active only when enabled. Performs outbound HTTP HEAD requests to follow URL redirects and check SSL certificates. When disabled, checks are 100% offline.';
+  String get helpPermNotificationsDesc =>
+      'Used only while the Scan bubble is on, to show that it is on, with a Turn off button. Android asks the first time you turn the bubble on. If you say no, the bubble still works, just without the notice.';
 
   @override
-  String get helpPermissionSafeBrowsingTitle =>
-      'Google Safe Browsing API (API Key Setting)';
+  String get labelPermOverlay => 'Show over other apps';
 
   @override
-  String get helpPermissionSafeBrowsingDesc =>
-      'Active only when API key is configured. Queries Google Threat API for malware & phishing checks.';
+  String get helpPermOverlayDesc =>
+      'Lets the Scan bubble float over other apps, so you can scan a code you see on screen. Used only after you turn the bubble on. The app explains this first, then opens the Android page where you allow it. If you do not allow it, the bubble stays off.';
 
   @override
-  String get helpPermissionFeedbackTitle =>
-      'Scan Feedback Vibrations (Alert Setting)';
+  String get labelPermScreenCapture => 'Screen capture';
 
   @override
-  String get helpPermissionFeedbackDesc =>
-      'Active only when Vibration is enabled in Scan Feedback & Alerts settings.';
+  String get helpPermScreenCaptureDesc =>
+      'Used by GhostScan and the Scan bubble to read a code shown on your screen. Android asks you every time. The app takes one picture of the screen, reads the code on your phone, then throws the picture away. It never records video and never sends the picture anywhere.';
+
+  @override
+  String get labelPermInternet => 'Internet';
+
+  @override
+  String get helpPermInternetDesc =>
+      'Scanning works fully offline. The internet is used only by the two optional link checks below. Both are off until you turn them on. While they are off, nothing you scan leaves your phone. Opening a link is done by your browser, not by this app.';
+
+  @override
+  String get labelPermProbing => 'Online link check';
+
+  @override
+  String get helpPermProbingDesc =>
+      'Off unless you turn on Active Online Probing in Settings > Privacy & probing. When on, the app visits the scanned link before you open it, to follow its redirects, check its security certificate and see how old the website is.';
+
+  @override
+  String get labelPermLinkServices => 'Link safety services';
+
+  @override
+  String get helpPermLinkServicesDesc =>
+      'Off unless you turn them on in Settings > URL Safety Providers. When on, the scanned link is sent to the services you chose (such as Google Safe Browsing or VirusTotal) to check it against their lists of harmful sites. Some need your own API key, which is kept in the phone\'s secure storage.';
+
+  @override
+  String get labelPermWifi => 'Wi-Fi connect';
+
+  @override
+  String get helpPermWifiDesc =>
+      'Used only when you tap Connect to Wi-Fi on a scanned Wi-Fi QR code, to add that network to your phone. On newer Android versions, Android asks you to confirm first. The app does not read your saved Wi-Fi passwords.';
+
+  @override
+  String get labelPermBackground => 'Keep running';
+
+  @override
+  String get helpPermBackgroundDesc =>
+      'Lets GhostScan and the Scan bubble keep working while you are in another app. Android always shows a notification while this is running, so you know about it.';
+
+  @override
+  String get labelPermBoot => 'Start after restart';
+
+  @override
+  String get helpPermBootDesc =>
+      'Brings the Scan bubble back after your phone restarts, but only if the bubble was on and you turned on Start after restart. Otherwise it does nothing.';
+
+  @override
+  String get labelPermStorage => 'Photos and files';
+
+  @override
+  String get helpPermStorageDesc =>
+      'The app has no storage permission. When you scan from a picture or a PDF, Android\'s own picker opens, and the app gets only the file you choose.';
+
+  @override
+  String get labelPermMicrophone => 'Microphone';
+
+  @override
+  String get helpPermMicrophoneDesc =>
+      'The app does not use the microphone. The camera always opens with sound turned off.';
+
+  @override
+  String get labelPermVibration => 'Vibration';
+
+  @override
+  String get helpPermVibrationDesc =>
+      'Scan vibrations use Android\'s built-in touch feedback, which needs no permission.';
 
   @override
   String get labelOn => 'On';
@@ -1524,90 +1572,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelOpenPhishToggle => 'Use OpenPhish feed';
-
-  @override
-  String get bodyQuishingSummaryAuthentic =>
-      'Authentic Printed Code. No physical tampering detected.';
-
-  @override
-  String get bodyQuishingSummaryWearAndTear =>
-      'Wear & Tear Detected. Slight physical surface noise observed.';
-
-  @override
-  String get bodyQuishingSummaryHighWarning =>
-      'High Warning: Physical Overlay Sticker Detected! Verify Before Tapping Links.';
-
-  @override
-  String get bodyQuishingStatusAuthentic => '🟢 Authentic Printed Code';
-
-  @override
-  String get bodyQuishingStatusWearAndTear => '🟡 Wear & Tear Detected';
-
-  @override
-  String get bodyQuishingStatusHighWarning =>
-      '🔴 High Warning: Physical Overlay Sticker Detected!';
-
-  @override
-  String get bodyQuishingSignalMicroShadowPerimeter =>
-      'Micro-shadow depth step line detected along matrix perimeter';
-
-  @override
-  String get bodyQuishingSignalGrainAberration =>
-      'Mismatching inkjet/thermal grain chromatic aberration detected';
-
-  @override
-  String get bodyQuishingSignalUniformReflection =>
-      'Uniform substrate reflection profile verified';
-
-  @override
-  String get bodyQuishingSignalConsistentDotsQrMatrix =>
-      'Consistent halftone dot density across QR matrix perimeter';
-
-  @override
-  String get bodyQuishingSignalReflectionVerified =>
-      'Substrate reflection profile verified';
-
-  @override
-  String get bodyQuishingSignalHalftoneConsistentQrMatrix =>
-      'Halftone dot density consistent across QR matrix perimeter';
-
-  @override
-  String get bodyQuishingSignalHalftoneConsistentMatrix =>
-      'Halftone dot density consistent across matrix';
-
-  @override
-  String get bodyQuishingSignalDoubleEdgeAroundMatrix =>
-      'Perimeter double-edge reflection detected around QR matrix';
-
-  @override
-  String get bodyQuishingSignalMicroShadowStickerBorder =>
-      'Micro-shadow depth step line detected along sticker border';
-
-  @override
-  String get bodyQuishingSignalGrainMismatchBase =>
-      'Inkjet/thermal print grain mismatching base substrate';
-
-  @override
-  String get bodyQuishingSignalMinorScratch =>
-      'Minor surface scratch or wear pattern observed';
-
-  @override
-  String get bodyQuishingSignalSlightDotIrregularity =>
-      'Slight dot density irregularity along edges';
-
-  @override
-  String get bodyQuishingSignalConsistentDotsMatrixPerimeter =>
-      'Consistent halftone dot density across matrix perimeter';
-
-  @override
-  String bodyQuishingSignalPerimeterDoubleEdge(String zones) {
-    return 'Perimeter double-edge reflection detected ($zones boundary zones)';
-  }
-
-  @override
-  String bodyQuishingSignalDotDensityVariance(String variance) {
-    return 'Substrate halftone dot density inconsistency detected ($variance% variance)';
-  }
 
   @override
   String get bodyDomSslInvalidScheme => 'Invalid URL scheme';
@@ -2105,16 +2069,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get descFeatureQuishingGuard =>
-      'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.';
+      'Reminds you to check printed QR codes for fake stickers before you open a link or pay. It gives you quick checks to do by hand; it does not examine the picture.';
 
   @override
-  String get labelFeatureQuishingGuardChip1 => 'Sticker Overlays';
+  String get labelFeatureQuishingGuardChip1 => 'Fake stickers';
 
   @override
-  String get labelFeatureQuishingGuardChip2 => 'Edge Discontinuity';
+  String get labelFeatureQuishingGuardChip2 => 'Hand checks';
 
   @override
-  String get labelFeatureQuishingGuardChip3 => 'Print Grain Analysis';
+  String get labelFeatureQuishingGuardChip3 => 'Payment tips';
 
   @override
   String get titleFeatureArCodeVision => 'AR CodeVision™';
@@ -2325,11 +2289,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get labelFeatureOfflinePrivacyChip3 => 'Open-Source Safety';
 
   @override
-  String get helpCenterHeaderTitle => 'Help Center & User Guides';
+  String get helpCenterHeaderTitle => 'How to use this app';
 
   @override
   String get helpCenterHeaderSubtitle =>
-      'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.';
+      'Simple guides for every part of the app. Pick a topic to see what it does and how to use it.';
 
   @override
   String get actionDecryptPayload => 'Decrypt Payload';
@@ -2560,12 +2524,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipToggleFlash => 'Toggle flash';
 
   @override
-  String get tooltipCameraAdjustments => 'Camera adjustments';
-
-  @override
-  String get tooltipZoomControls => 'Zoom controls';
-
-  @override
   String get tooltipSwitchCamera => 'Switch camera';
 
   @override
@@ -2573,9 +2531,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipToggleSecretVisibility => 'Show or hide secret';
-
-  @override
-  String get tooltipResetStream => 'Reset stream';
 
   @override
   String get labelAirQrModeText => 'Custom Text';
@@ -2896,25 +2851,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bodyOnboardingSlide1Bullet3 => 'Private Probing & Safe Browsing';
 
   @override
-  String get labelOnboardingSlide2Badge => 'Computer Vision';
+  String get labelOnboardingSlide2Badge => 'Scam stickers';
 
   @override
-  String get titleOnboardingSlide2 => 'Tamper detection';
+  String get titleOnboardingSlide2 => 'Fake sticker check';
 
   @override
   String get bodyOnboardingSlide2 =>
-      'Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.';
+      'Scammers paste fake QR stickers over real ones. When you scan a link or a payment code with the camera, QuishingGuard reminds you what to check before you open it or pay.';
 
   @override
-  String get bodyOnboardingSlide2Bullet1 =>
-      'Physical sticker overlay detection';
+  String get bodyOnboardingSlide2Bullet1 => 'Feel for raised sticker edges';
 
   @override
-  String get bodyOnboardingSlide2Bullet2 =>
-      'Cut edge & shadow boundary analysis';
+  String get bodyOnboardingSlide2Bullet2 => 'Check the payee name';
 
   @override
-  String get bodyOnboardingSlide2Bullet3 => 'Real-time camera frame inspection';
+  String get bodyOnboardingSlide2Bullet3 => 'Ask the staff when in doubt';
 
   @override
   String get labelOnboardingSlide3Badge => 'Zero tracking';
@@ -3103,537 +3056,1159 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bodyGhostScanAnalyzing => 'Analyzing screen content...';
 
   @override
-  String get helpGuideGroupScanning => 'Scanning & Ingestion Guides';
+  String get helpGuideGroupScanning => 'Scanning';
 
   @override
-  String get helpGuideGroupSecurity => 'Security & Threat Defense';
+  String get helpGuideGroupCreate => 'Making and sending codes';
 
   @override
-  String get helpGuideGroupPayloads => 'Payloads, Storage & Privacy';
+  String get helpGuideGroupSecurity => 'Staying safe';
 
   @override
-  String get titleHelpBarcode => 'Barcode scanning';
+  String get helpGuideGroupPayloads => 'Using what you scan';
 
   @override
-  String get helpGuideBarcodeName => 'Barcode & Media Scanning';
+  String get helpGuideGroupApp => 'Your app and settings';
+
+  @override
+  String get helpGuideBarcodeName => 'Scanning codes';
 
   @override
   String get helpGuideBarcodeSummary =>
-      'Live camera controls, gallery photos, and multi-page PDF document scanning.';
+      'Scan with the camera, or from photos, PDF files and copied text. Scan many codes in a row.';
 
   @override
   String get helpGuideBarcodeIntro =>
-      'Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.';
+      'Point your camera at a code and the app reads it at once. You can also read codes from photos, PDF files and copied text. All reading happens on your phone, with no internet needed.';
 
   @override
-  String get helpGuideBarcodeCameraTitle => 'Live Camera Viewport';
+  String get helpGuideBarcodeCameraTitle => 'Scan with the camera';
 
   @override
   String get helpGuideBarcodeCameraBullet1 =>
-      'Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.';
+      'Open the Scan tab and hold the code inside the frame. The app reads it by itself. You do not need to tap anything.';
 
   @override
   String get helpGuideBarcodeCameraBullet2 =>
-      'Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.';
+      'It reads QR codes (also the small Micro QR and rMQR kinds), Data Matrix, Aztec, PDF417 and MaxiCode. It also reads shop and parcel barcodes such as EAN, UPC, Code 128, Code 39, Code 93, Codabar, ITF and DataBar.';
 
   @override
   String get helpGuideBarcodeCameraBullet3 =>
-      'Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.';
+      'Flash: tap the flash button to switch between Off, On and Auto. In Auto, the flash comes on by itself when it is dark.';
 
   @override
-  String get helpGuideBarcodeGalleryTitle => 'Scanning Gallery Photos & Images';
+  String get helpGuideBarcodeCameraBullet4 =>
+      'Zoom: use the zoom slider for small or far-away codes. This works better than moving the phone very close.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet5 =>
+      'Switch camera: change between the back and the front camera.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet6 =>
+      'Pause: tap Pause scanning to stop for a moment, and Resume scanning to start again.';
+
+  @override
+  String get helpGuideBarcodeGalleryTitle => 'Scan a photo or screenshot';
 
   @override
   String get helpGuideBarcodeGalleryBullet1 =>
-      'Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.';
+      'Tap the gallery button at the top of the Scan screen and pick a photo or screenshot.';
 
   @override
   String get helpGuideBarcodeGalleryBullet2 =>
-      'Uses privacy-safe Android Photo Picker without requiring broad storage permissions.';
+      'Android\'s own picker opens. The app sees only the one picture you choose.';
 
   @override
   String get helpGuideBarcodeGalleryBullet3 =>
-      'The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.';
+      'If the picture has more than one code, the app finds them all.';
 
   @override
-  String get helpGuideBarcodePdfTitle => 'Multi-Page PDF Scanning';
+  String get helpGuideBarcodePdfTitle => 'Scan a PDF file';
 
   @override
   String get helpGuideBarcodePdfBullet1 =>
-      'Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.';
+      'Tap the PDF button and choose a file, such as a ticket, bill or boarding pass.';
 
   @override
   String get helpGuideBarcodePdfBullet2 =>
-      'Extracts and renders every page in memory, cataloging all barcodes found across each individual page.';
+      'The app checks every page and lists each code it finds, with its page number.';
 
   @override
   String get helpGuideBarcodePdfBullet3 =>
-      'Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.';
+      'Tap Save all to keep them all in your history at once.';
+
+  @override
+  String get helpGuideBarcodePdfBullet4 =>
+      'You can also share a PDF to this app from another app, such as your email or files app.';
+
+  @override
+  String get helpGuideBarcodeClipboardTitle => 'Scan copied text or pictures';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet1 =>
+      'If you copied a link, a code\'s text or a picture, tap the clipboard button at the top of the Scan screen to check it.';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet2 =>
+      'When you come back to the app with something copied, a small bar may offer to check it. Tap Scan Now, or close the bar.';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet3 =>
+      'Copied links get the same safety check as scanned links.';
+
+  @override
+  String get helpGuideBarcodeBatchTitle => 'Scan many codes in a row';
+
+  @override
+  String get helpGuideBarcodeBatchBullet1 =>
+      'Tap the batch button to turn on batch mode. The camera keeps scanning, and each new code is added to a list.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet2 =>
+      'A counter shows how many codes you have scanned. Tap it to open the list.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet3 =>
+      'In the list you can look at each code, turn on Prevent Duplicates, and export the list as CSV, JSON, text or PDF.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet4 =>
+      'Tap the batch button again to go back to normal scanning.';
+
+  @override
+  String get helpGuideBarcodeTuneTitle => 'When a code is hard to read';
+
+  @override
+  String get helpGuideBarcodeTuneBullet1 =>
+      'Tap the Camera adjustments button. Your changes show on the camera picture at once.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet2 =>
+      'Brightness and Contrast: make a dark or faded code clearer.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet3 =>
+      'Invert colors: for a light code on a dark background, such as on a dark screen or on metal.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet4 =>
+      'Camera Resolution: 1080p suits most phones. 720p saves battery. Maximum helps with very small codes.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet5 =>
+      'Distance Scan Assist: helps read codes far away, such as on posters and signs. Fine-tune it with Distance Zoom and Edge Sharpness.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet6 =>
+      'Multi-Code Selection: when more than one code is in view, each one gets an outline. Tap the one you want.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet7 =>
+      'Reset Adjustments puts everything back to normal.';
 
   @override
   String get helpGuideBarcodeTip =>
-      'Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.';
+      'Tip: Codes are read on your phone. Camera pictures are never saved or sent anywhere.';
+
+  @override
+  String get helpGuideArCodeVisionName => 'AR CodeVision';
+
+  @override
+  String get helpGuideArCodeVisionSummary =>
+      'See and use many codes at once, right on the camera picture.';
+
+  @override
+  String get helpGuideArCodeVisionIntro =>
+      'AR CodeVision finds every code the camera can see, all at the same time. A small label floats over each code on the screen, so you can see what it is before you tap it.';
+
+  @override
+  String get helpGuideArCodeVisionOpenTitle => 'How to open it';
+
+  @override
+  String get helpGuideArCodeVisionOpenBullet1 =>
+      'On the Scan screen, tap More options (the three dots) and choose AR CodeVision HUD.';
+
+  @override
+  String get helpGuideArCodeVisionOpenBullet2 =>
+      'Allow the camera if Android asks.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingTitle => 'The two modes';
+
+  @override
+  String get helpGuideArCodeVisionTrackingBullet1 =>
+      'Safety: each link gets a colour badge. Green means no problems were found. Red means the link looks unsafe.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingBullet2 =>
+      'Warehouse: shows item details, such as a price tag, and lets you select codes.';
+
+  @override
+  String get helpGuideArCodeVisionBatchTitle => 'Using the labels';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet1 =>
+      'Tap a label to see its full content. From there you can copy it, open the link, or select it.';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet2 =>
+      'In Warehouse mode, select several codes, then tap Batch Copy to copy them all together. Tap Clear to start again.';
+
+  @override
+  String get helpGuideArCodeVisionBatchBullet3 =>
+      'Tap the flashlight button when it is dark.';
+
+  @override
+  String get helpGuideArCodeVisionTip =>
+      'Tip: Move the phone slowly. The labels follow the codes as you move.';
+
+  @override
+  String get helpGuideScanBubbleName => 'Scan from other apps';
+
+  @override
+  String get helpGuideScanBubbleSummary =>
+      'Read a code that is on your screen in another app, with GhostScan or the Scan bubble.';
+
+  @override
+  String get helpGuideScanBubbleIntro =>
+      'Sometimes a code is on your screen, in a chat, a web page or an email. You can read it without taking a screenshot, in two ways: GhostScan and the Scan bubble. Both read the code on your phone, with no internet.';
+
+  @override
+  String get helpGuideScanBubbleGhostTitle => 'GhostScan: scan the screen once';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet1 =>
+      'On the Scan screen, tap More options and choose GhostScan.';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet2 =>
+      'Tap Add Settings tile to put a GhostScan button in your Quick Settings (the panel you pull down from the top of the screen).';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet3 =>
+      'Then, in any app, pull down Quick Settings and tap the GhostScan tile. The app reads the code on your screen.';
+
+  @override
+  String get helpGuideScanBubbleUseTitle => 'How to use the Scan bubble';
+
+  @override
+  String get helpGuideScanBubbleUseBullet1 =>
+      'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet2 =>
+      'Open any app that shows a QR code or barcode, then tap the bubble.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet3 =>
+      'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet4 =>
+      'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet5 =>
+      'Turn on Start after restart if you want the bubble to come back after the phone restarts.';
+
+  @override
+  String get helpGuideScanBubblePrivacyTitle => 'Privacy';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet1 =>
+      'The screen is captured only when you tap the bubble or the GhostScan tile, and Android asks you first.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet2 =>
+      'The code is read on your phone. Nothing is sent online for reading.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet3 =>
+      'The screen picture is not saved to your gallery and is deleted right after reading.';
+
+  @override
+  String get helpGuideScanBubbleLimitsTitle => 'Good to know';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet1 =>
+      'On Android 14 and newer, Android asks for screen capture permission on every tap.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet2 =>
+      'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet3 =>
+      'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.';
+
+  @override
+  String get helpGuideScanBubbleTip =>
+      'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.';
+
+  @override
+  String get helpGuideCodeForgeName => 'Making codes (CodeForge)';
+
+  @override
+  String get helpGuideCodeForgeSummary =>
+      'Make your own QR codes and barcodes, change their look, and share them.';
+
+  @override
+  String get helpGuideCodeForgeIntro =>
+      'CodeForge lets you make your own QR code or barcode: for your Wi-Fi, your contact details, a link, a UPI payment and more. You can change its colours and shapes, and share it as a picture.';
+
+  @override
+  String get helpGuideCodeForgeTypeTitle => '1. Choose what to put in it';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet1 =>
+      'Open the CodeForge tab at the bottom of the screen.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet2 =>
+      'Pick the code type: QR Code, or a barcode such as Code 128, EAN-13, EAN-8, UPC-A, Code 39, PDF417 or Data Matrix.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet3 =>
+      'For a QR code, pick what it holds: Text, URL / Link, Wi-Fi, Contact, UPI Pay, SMS, Email or Location.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet4 =>
+      'Fill in the boxes. The preview changes as you type.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet5 =>
+      'For text, you can also tap Read from file to load text from a file (up to 500 characters).';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet6 =>
+      'For a location, tap Use My Location to fill in where you are. The app asks for your location only at that moment and does not keep it.';
+
+  @override
+  String get helpGuideCodeForgeStyleTitle => '2. Change the look';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet1 =>
+      'Design & Structure: choose the shape of the big corner squares, their centres, and the small dots.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet2 =>
+      'Colors & Gradients: choose the code colour and the background, or a colour blend such as Sunset or Ocean.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet3 =>
+      'Keep strong contrast. A dark code on a light background scans best.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet4 =>
+      'Center Badge: put a small icon in the middle of the code.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet5 =>
+      'Error Correction: how much damage the code can take and still scan. L survives about 7%, M 15%, Q 25% and H 30%. Higher levels make the code busier. Choose H when you add a centre badge.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet6 =>
+      'Show Text Label prints the text under a barcode. Reset Styling puts the look back to normal.';
+
+  @override
+  String get helpGuideCodeForgeShareTitle => '3. Check and share';
+
+  @override
+  String get helpGuideCodeForgeShareBullet1 =>
+      'For a link, tap Check to test the link for safety before you share it.';
+
+  @override
+  String get helpGuideCodeForgeShareBullet2 =>
+      'Tap Share PNG to share it as a normal picture, or Share SVG for a sharp picture that prints well at any size.';
+
+  @override
+  String get helpGuideCodeForgeShareBullet3 =>
+      'Tap Copy Content to copy the text inside the code.';
+
+  @override
+  String get helpGuideCodeForgeTip =>
+      'Tip: Before you print many copies, scan your new code once with this app to make sure it reads well.';
+
+  @override
+  String get helpGuideAirQrName => 'AirQR: send data with no network';
+
+  @override
+  String get helpGuideAirQrSummary =>
+      'Send text, or move your app data to another phone, using moving QR codes. No Wi-Fi, Bluetooth or cables.';
+
+  @override
+  String get helpGuideAirQrIntro =>
+      'AirQR sends data from one phone to another using only the screen and the camera. The sending phone shows a fast series of QR codes. The receiving phone watches them and joins them back together. No network is used at all.';
+
+  @override
+  String get helpGuideAirQrStreamingTitle => 'How to send';
+
+  @override
+  String get helpGuideAirQrStreamingBullet1 =>
+      'On the sending phone, open Scan > More options > AirQR receiver, then tap the AirQR transmitter button at the top.';
+
+  @override
+  String get helpGuideAirQrStreamingBullet2 =>
+      'Type or paste what you want to send under Data to send.';
+
+  @override
+  String get helpGuideAirQrStreamingBullet3 =>
+      'Choose the Stream Speed (5 to 25 frames a second), then tap Start stream.';
+
+  @override
+  String get helpGuideAirQrStreamingBullet4 =>
+      'Keep the sending screen bright and hold it still.';
+
+  @override
+  String get helpGuideAirQrControlsTitle => 'How to receive';
+
+  @override
+  String get helpGuideAirQrControlsBullet1 =>
+      'On the other phone, open Scan > More options > AirQR receiver and point the camera at the sending screen.';
+
+  @override
+  String get helpGuideAirQrControlsBullet2 =>
+      'A progress bar shows how many parts have arrived and how many are still missing.';
+
+  @override
+  String get helpGuideAirQrControlsBullet3 =>
+      'Missed parts are no problem. AirQR also sends extra repair parts, so the receiver can fill in the gaps.';
+
+  @override
+  String get helpGuideAirQrControlsBullet4 =>
+      'When all parts arrive, the app checks the data and shows Transfer complete! You can copy the data from there.';
+
+  @override
+  String get helpGuideAirQrSyncTitle => 'Move your data to a new phone';
+
+  @override
+  String get helpGuideAirQrSyncBullet1 =>
+      'On the old phone, go to Settings > AirQR Optical Sync. Choose your history, your app settings, or both.';
+
+  @override
+  String get helpGuideAirQrSyncBullet2 =>
+      'Type a passphrase or PIN, or tap Generate PIN. This locks the data, so only someone with the PIN can open it.';
+
+  @override
+  String get helpGuideAirQrSyncBullet3 =>
+      'Tap Beam via AirQR, and receive it on the new phone with the AirQR receiver.';
+
+  @override
+  String get helpGuideAirQrSyncBullet4 =>
+      'On the new phone, type the same passphrase or PIN and tap Decrypt & Sync.';
+
+  @override
+  String get helpGuideAirQrSecurityTitle => 'Why it is private';
+
+  @override
+  String get helpGuideAirQrSecurityBullet1 =>
+      'No radio signals are used: no Wi-Fi, Bluetooth, mobile data or internet.';
+
+  @override
+  String get helpGuideAirQrSecurityBullet2 =>
+      'Nobody can catch the data over a network. Only a camera that can see the screen can read it.';
+
+  @override
+  String get helpGuideAirQrSecurityBullet3 =>
+      'Useful for passwords, keys and other private data you do not want to send online.';
+
+  @override
+  String get helpGuideAirQrTip =>
+      'Tip: Turn the sending phone\'s brightness up and hold the receiving phone steady. If parts keep going missing, lower the speed.';
+
+  @override
+  String get helpGuideUrlSafetyName => 'Link safety checks';
+
+  @override
+  String get helpGuideUrlSafetySummary =>
+      'How the app checks every link before you open it, and what the result means.';
+
+  @override
+  String get helpGuideUrlSafetyIntro =>
+      'Scam QR codes often lead to fake websites. So before you open any link, the app checks it in up to six ways. The first four checks always run on your phone, with no internet.';
+
+  @override
+  String get helpGuideUrlSafetyLayersTitle => 'The six checks';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet1 =>
+      '1. Safe connection: is the link using secure HTTPS? Does it hide strange or invisible characters?';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet2 =>
+      '2. Lookalike letters: some fake sites use letters from other alphabets that look the same, for example a Cyrillic \"а\" in place of a normal \"a\".';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet3 =>
+      '3. Odd web addresses: risky endings (such as .xyz or .top), too many parts in the name, or names made of random letters.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet4 =>
+      '4. Number addresses and odd ports: links that use a raw number (an IP address) or an unusual port, which normal shops and banks do not use.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet5 =>
+      '5. Online check of the site (optional): follows short links (like bit.ly) to see where they really go, and checks the site\'s security certificate. Runs only if you turn on Active online checks.';
+
+  @override
+  String get helpGuideUrlSafetyLayersBullet6 =>
+      '6. Known-bad lists (optional): asks services such as Google Safe Browsing whether the link is a known scam or virus site. Runs only if you set it up.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsTitle => 'Reading the result';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet1 =>
+      'No issues found: the link passed every check that ran. Still, trust only sources you know.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet2 =>
+      'Issues found: the app shows which checks failed. Tap See details to read why.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet3 =>
+      'If you still open a risky link, the app asks you first. Tap Open Anyway only if you trust the source.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet4 =>
+      'Tap Re-check to run the checks again, for example after you go online.';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyTitle => 'Private mode and online checks';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet1 =>
+      'By default, the app never contacts the website itself. The site cannot see your phone or your IP address (your internet address).';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet2 =>
+      'If you turn on Active online checks in Settings > Privacy & probing, the app visits the site to follow short links and check its certificate. This finds more, but the site can see your IP address.';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet3 =>
+      'With Active online checks on, the result can also show a safe preview of the page. Scripts and trackers are removed first, so nothing on the page can run. Tap Show preview or Inspect page.';
+
+  @override
+  String get helpGuideUrlSafetyProvidersTitle => 'Extra online checkers';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet1 =>
+      'In Settings > URL Safety Providers you can turn on more checkers. PhishTank and OpenPhish need no account.';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet2 =>
+      'Google Safe Browsing, VirusTotal and URLhaus need your own free key. See the guide \"Online checker setup\".';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet3 =>
+      'These checkers get only the link you scanned. OpenPhish works differently: the app downloads its list and checks on your phone. All of them are off until you turn them on.';
+
+  @override
+  String get helpGuideUrlSafetyTip =>
+      'Tip: A good result is not a promise. Scammers make new sites every day. If a payment or login page looks odd, close it.';
+
+  @override
+  String get helpGuideQuishingName => 'QuishingGuard: fake sticker codes';
+
+  @override
+  String get helpGuideQuishingSummary =>
+      'Spot QR codes that may be fake stickers placed over real ones.';
+
+  @override
+  String get helpGuideQuishingIntro =>
+      '\"Quishing\" means QR phishing. Scammers stick their own QR code over the real one, on parking meters, menus, shop counters and posters, so that your payment or login goes to them.';
+
+  @override
+  String get helpGuideQuishingCvTitle => 'What QuishingGuard shows';
+
+  @override
+  String get helpGuideQuishingCvBullet1 =>
+      'When you scan a link or a payment code with the camera, the result screen shows a small QuishingGuard card: Fake sticker check.';
+
+  @override
+  String get helpGuideQuishingCvBullet2 =>
+      'Tap it to open a short list of checks. The app does not look for stickers in the picture and gives no score, so it cannot tell you that a code is safe.';
+
+  @override
+  String get helpGuideQuishingCvBullet3 =>
+      'The card does not appear for photos, the clipboard, screen scans or plain text, because those codes are not stuck on a wall.';
+
+  @override
+  String get helpGuideQuishingForensicTitle => 'What you should do';
+
+  @override
+  String get helpGuideQuishingForensicBullet1 =>
+      'Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.';
+
+  @override
+  String get helpGuideQuishingForensicBullet2 =>
+      'Before you pay, check that the name on the payment screen matches the shop.';
+
+  @override
+  String get helpGuideQuishingForensicBullet3 =>
+      'If in doubt, ask the staff, or type the website address yourself instead.';
+
+  @override
+  String get helpGuideQuishingTip =>
+      'Tip: QuishingGuard is a helper, not a promise. Your own eyes and fingers are the best check.';
+
+  @override
+  String get helpGuideSafeBrowsingName => 'Online checker setup';
+
+  @override
+  String get helpGuideSafeBrowsingSummary =>
+      'Turn on extra link checks, and get a free key for Google Safe Browsing.';
+
+  @override
+  String get helpGuideSafeBrowsingIntro =>
+      'Online checkers compare a scanned link with lists of known scam and virus sites. They are optional. The app\'s own checks work without them.';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInTitle => 'No account needed';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet1 =>
+      'Open Settings > URL Safety Providers.';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet2 =>
+      'Turn on Enable PhishTank to check links against PhishTank\'s list of scam sites.';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet3 =>
+      'Turn on Use OpenPhish feed. The app downloads OpenPhish\'s list and checks links on your phone. Tap Refresh feed now to get the latest list.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyTitle =>
+      'Get a free Google Safe Browsing key';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep1 =>
+      '1. In a browser, open console.cloud.google.com and sign in with a Google account.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep2 =>
+      '2. Create a new project. Any name is fine, for example \"QR safety\".';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep3 =>
+      '3. Go to APIs & Services > Library, search for \"Safe Browsing API\" and tap Enable.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep4 =>
+      '4. Go to APIs & Services > Credentials, tap Create credentials and choose API key.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyStep5 =>
+      '5. Copy the key. In the app, open Settings > URL Safety Providers, paste it into the Google Safe Browsing box and tap Save API Key.';
+
+  @override
+  String get helpGuideSafeBrowsingOtherTitle => 'Other services with a key';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet1 =>
+      'VirusTotal and URLhaus work the same way. Make a free account on their website, copy your key, and paste it under Your API Keys. The app shows where to get each key.';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet2 =>
+      'These free keys are for personal, non-commercial use.';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet3 =>
+      'Each service has a daily limit, and the app shows how many checks you have used today. In this app, Safe Browsing allows up to 10,000 a day and VirusTotal 500 a day.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyTitle => 'Your keys are safe';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet1 =>
+      'Your keys are kept in Android\'s secure, locked storage on this phone, and are never shared.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet2 =>
+      'Only the link you scanned is sent to the service. Nothing else about you is sent.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyBullet3 =>
+      'You can delete a key at any time. The app then simply skips that check.';
+
+  @override
+  String get helpGuideSafeBrowsingTip =>
+      'Tip: You do not need any key to stay safe. The app\'s own checks always run, even with no internet.';
+
+  @override
+  String get helpGuideSmartPayloadsName => 'Smart actions';
+
+  @override
+  String get helpGuideSmartPayloadsSummary =>
+      'One-tap buttons for Wi-Fi, payments, contacts, events, phone numbers, products and more.';
+
+  @override
+  String get helpGuideSmartPayloadsIntro =>
+      'The app understands what a code holds and shows a card with the right buttons. For example, a Wi-Fi code gets a Connect button, and a phone number gets a Call button.';
+
+  @override
+  String get helpGuideSmartPayloadsWifiTitle => 'Wi-Fi';
+
+  @override
+  String get helpGuideSmartPayloadsWifiBullet1 =>
+      'Shows the network name and its type of security. Tap the eye button to show or hide the password, or copy it.';
+
+  @override
+  String get helpGuideSmartPayloadsWifiBullet2 =>
+      'Tap Connect to Wi-Fi. Android may ask you to confirm. If your phone does not allow a direct connection, the password is copied so you can paste it in your Wi-Fi settings.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsTitle => 'Payments';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet1 =>
+      'UPI codes show who you are paying and the amount. Tap Pay with UPI app to open your UPI app (such as Google Pay, PhonePe, Paytm or BHIM) with the details filled in.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet2 =>
+      'If the code has no amount, the app asks you to type it first.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet3 =>
+      'This app never takes or sends money by itself. You confirm every payment in your UPI app.';
+
+  @override
+  String get helpGuideSmartPayloadsPaymentsBullet4 =>
+      'Crypto wallet codes (Bitcoin, Ethereum, Solana) and SEPA bank transfer codes show the address, which you can copy.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpTitle => 'Two-step login codes (2FA)';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet1 =>
+      'Websites often show a QR code when you turn on two-step login. Scanning it shows a 6-digit code that changes every 30 seconds, with a timer.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet2 =>
+      'Tap Add to authenticator to save it in your authenticator app, such as Google or Microsoft Authenticator.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpBullet3 =>
+      'Keep this kind of code private. Anyone who scans it can make your login codes.';
+
+  @override
+  String get helpGuideSmartPayloadsContactsTitle => 'Contacts and events';
+
+  @override
+  String get helpGuideSmartPayloadsContactsBullet1 =>
+      'Contact codes (vCard or MeCard) show the name, phone, email and company. Tap Save to Contacts, or call or email straight away.';
+
+  @override
+  String get helpGuideSmartPayloadsContactsBullet2 =>
+      'Event codes show the title, time and place. Tap Add to calendar.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherTitle =>
+      'Phone, messages, maps and more';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet1 =>
+      'Phone number: tap Call. Text message: tap Send Message, and the message is filled in for you. Email: tap Send Email.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet2 =>
+      'Location: tap Open in Maps to see the place or get directions.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet3 =>
+      'App link: tap Open in App to open the matching app, if it is installed.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet4 =>
+      'Product barcode: tap Food Info to look up food details, or Search Web.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet5 =>
+      'Book (ISBN) barcode: look the book up on Google Books or Open Library.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet6 =>
+      'Web links open in your browser only after the safety check has run.';
+
+  @override
+  String get helpGuideSmartPayloadsTip =>
+      'Tip: Before you pay with a UPI code, check that the name on the card matches the shop or person you want to pay.';
+
+  @override
+  String get helpGuideHiddenName => 'Hidden and locked codes';
+
+  @override
+  String get helpGuideHiddenSummary =>
+      'Open QR codes that carry a secret message or locked data.';
+
+  @override
+  String get helpGuideHiddenIntro =>
+      'Some QR codes carry private data that is locked with a passphrase. The app spots these codes and lets you unlock them, right on your phone.';
+
+  @override
+  String get helpGuideHiddenStegoTitle =>
+      'StegoQR: a code with a hidden message';
+
+  @override
+  String get helpGuideHiddenStegoBullet1 =>
+      'A StegoQR code shows ordinary public text to everyone, and hides a second, secret message inside it.';
+
+  @override
+  String get helpGuideHiddenStegoBullet2 =>
+      'When you scan one, the result shows StegoQR found. The public text is shown as usual.';
+
+  @override
+  String get helpGuideHiddenStegoBullet3 =>
+      'To see the secret, type the passphrase and tap Unlock. The person who made the code must give you the passphrase.';
+
+  @override
+  String get helpGuideHiddenStegoBullet4 =>
+      'Biometric Unlock asks for your fingerprint or face as well as the passphrase.';
+
+  @override
+  String get helpGuideHiddenStegoBullet5 =>
+      'After unlocking, you can copy or share the secret.';
+
+  @override
+  String get helpGuideHiddenOtherTitle => 'Other locked codes';
+
+  @override
+  String get helpGuideHiddenOtherBullet1 =>
+      'AirQR transfer codes: type the session code shown on the sending phone.';
+
+  @override
+  String get helpGuideHiddenOtherBullet2 =>
+      'Encrypted JSON codes and other locked text: tap Decrypt Payload and type the passphrase.';
+
+  @override
+  String get helpGuideHiddenOtherBullet3 =>
+      'Advanced (Salt / IV) is only for codes made by other tools that need extra settings. Most people never need it.';
+
+  @override
+  String get helpGuideHiddenSafetyTitle => 'Good to know';
+
+  @override
+  String get helpGuideHiddenSafetyBullet1 =>
+      'Unlocking happens on your phone. The passphrase and the secret are never sent anywhere.';
+
+  @override
+  String get helpGuideHiddenSafetyBullet2 =>
+      'A wrong passphrase just shows an error. Check the spelling, capital letters and spaces, and try again.';
+
+  @override
+  String get helpGuideHiddenSafetyBullet3 =>
+      'This app can open these codes, but it does not make them.';
+
+  @override
+  String get helpGuideHiddenTip =>
+      'Tip: Share the passphrase in a different way from the code, for example by phone call. Never write it next to the code.';
+
+  @override
+  String get helpGuideHistoryName => 'History, backups and privacy';
+
+  @override
+  String get helpGuideHistorySummary =>
+      'Find old scans, add notes, export or back up your history, and lock the app.';
+
+  @override
+  String get helpGuideHistoryIntro =>
+      'Every scan is saved in the History tab on your phone, in a locked (encrypted) store. Nothing is uploaded.';
+
+  @override
+  String get helpGuideHistoryManageTitle => 'Find and manage scans';
+
+  @override
+  String get helpGuideHistoryManageBullet1 =>
+      'Type in the search box to find scans by their content, type or notes.';
+
+  @override
+  String get helpGuideHistoryManageBullet2 =>
+      'Use the filter chips to show only links, Wi-Fi, contacts, products and so on. Tap the star on a scan to add it to Starred.';
+
+  @override
+  String get helpGuideHistoryManageBullet3 =>
+      'Tap a scan to see all its details: full content, safety score and time. You can add notes and a place, or copy, share or delete it.';
+
+  @override
+  String get helpGuideHistoryManageBullet4 =>
+      'Clear All deletes your whole history. This cannot be undone, so make a backup first.';
+
+  @override
+  String get helpGuideHistoryBackupTitle => 'Export and backup';
+
+  @override
+  String get helpGuideHistoryBackupBullet1 =>
+      'Tap the Export / Backup button at the top of the History tab.';
+
+  @override
+  String get helpGuideHistoryBackupBullet2 =>
+      'Export Records saves a copy as CSV (for Excel or Sheets), JSON, text or PDF. These files are not locked: anyone with the file can read your scans, so the app asks you first.';
+
+  @override
+  String get helpGuideHistoryBackupBullet3 =>
+      'Encrypted backup is the safe way to keep a copy. Type a passphrase and tap Create backup, then save or share the file.';
+
+  @override
+  String get helpGuideHistoryBackupBullet4 =>
+      'To restore, open Restore Backup, paste the text from your backup file, type the same passphrase and tap Restore history.';
+
+  @override
+  String get helpGuideHistoryBiometricsTitle => 'App lock and screenshot guard';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet1 =>
+      'App lock: turn it on in Settings > Privacy & probing. The app then asks for your fingerprint, face or screen lock when it opens, and after you have been away for 30 seconds.';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet2 =>
+      'Screenshot guard: stops screenshots and screen recording on screens with scans, history, secrets or keys. These screens also look blank in the recent apps list. Turn it on or off in Settings > Privacy & probing.';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet3 =>
+      'To move your history to a new phone, use AirQR Optical Sync. See the AirQR guide.';
+
+  @override
+  String get helpGuideHistoryTip =>
+      'Tip: Make an encrypted backup before you reset or change your phone. Keep the passphrase somewhere safe. Without it, the backup cannot be opened.';
+
+  @override
+  String get helpGuideSettingsName => 'Settings and personal touch';
+
+  @override
+  String get helpGuideSettingsSummary =>
+      'Change the look, language and sounds, see permissions, save battery, and delete your data.';
+
+  @override
+  String get helpGuideSettingsIntro =>
+      'To open Settings, go to the Scan screen, tap More options and choose Settings. Here is what each part does.';
+
+  @override
+  String get helpGuideSettingsLookTitle => 'Look and language';
+
+  @override
+  String get helpGuideSettingsLookBullet1 =>
+      'Appearance > Theme Mode: System, Light, Dark or OLED. OLED is pure black and saves battery on OLED screens.';
+
+  @override
+  String get helpGuideSettingsLookBullet2 =>
+      'Accent & colors: pick a main colour, or turn on Dynamic colors to match your wallpaper (Android 12 and newer).';
+
+  @override
+  String get helpGuideSettingsLookBullet3 =>
+      'Text size & font: choose the font. The text size follows the text size you set for your phone.';
+
+  @override
+  String get helpGuideSettingsLookBullet4 =>
+      'Scan Overlay Style: choose how the scan frame looks.';
+
+  @override
+  String get helpGuideSettingsLookBullet5 =>
+      'Language: choose System default, English, Malayalam (മലയാളം) or Sanskrit (संस्कृतम्). The app changes at once, with no restart.';
+
+  @override
+  String get helpGuideSettingsFeedbackTitle => 'Scan feedback';
+
+  @override
+  String get helpGuideSettingsFeedbackBullet1 =>
+      'Choose whether the phone vibrates, beeps, or plays a short animation when a code is read.';
+
+  @override
+  String get helpGuideSettingsPrivacyTitle => 'Privacy & probing';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet1 =>
+      'Active online checks: off unless you turn it on. See the Link safety guide.';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet2 =>
+      'App lock and Screenshot guard: see the History, backups and privacy guide.';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet3 =>
+      'Delete all data: removes your scan history, saved keys and all settings from this phone. This cannot be undone.';
+
+  @override
+  String get helpGuideSettingsOtherTitle => 'Other settings';
+
+  @override
+  String get helpGuideSettingsOtherBullet1 =>
+      'URL Safety Providers: turn on extra online link checkers.';
+
+  @override
+  String get helpGuideSettingsOtherBullet2 =>
+      'AirQR Optical Sync: move your history and settings to another phone.';
+
+  @override
+  String get helpGuideSettingsOtherBullet3 =>
+      'Scan bubble: a floating button to scan codes in other apps.';
+
+  @override
+  String get helpGuideSettingsOtherBullet4 =>
+      'Permissions: a plain list of what the app may use, and why. The app asks for each one only when a feature needs it.';
+
+  @override
+  String get helpGuideSettingsOtherBullet5 =>
+      'Features lists everything the app can do. Welcome Tour shows the first-start introduction again. About shows the app version and licences.';
+
+  @override
+  String get helpGuideSettingsBatteryTitle => 'Saving battery';
+
+  @override
+  String get helpGuideSettingsBatteryBullet1 =>
+      'The camera turns off as soon as you leave the Scan screen or the app.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet2 =>
+      'Choose 720p in Camera adjustments to use less power.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet3 =>
+      'Turn off the Scan bubble when you do not need it.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet4 =>
+      'Use the OLED theme on phones with an OLED screen.';
+
+  @override
+  String get helpGuideSettingsTip =>
+      'Tip: Not sure where something is? Every guide here names the button to tap.';
+
+  @override
+  String get helpGuideFaqName => 'FAQ and problems';
+
+  @override
+  String get helpGuideFaqSummary =>
+      'Answers to common questions, and fixes when something does not work.';
+
+  @override
+  String get helpGuideFaqIntro =>
+      'Quick answers to common questions, and what to do when something does not work.';
+
+  @override
+  String get helpGuideFaqQuestionsTitle => 'Common questions';
+
+  @override
+  String get helpGuideFaqQuestion1 =>
+      'Does the app work without internet?\nYes. Reading codes, the first four link checks and QuishingGuard all work offline. Only the optional online checks need the internet.';
+
+  @override
+  String get helpGuideFaqQuestion2 =>
+      'Are my camera pictures sent anywhere?\nNo. Pictures are read on your phone and are never saved or uploaded.';
+
+  @override
+  String get helpGuideFaqQuestion3 =>
+      'Does the app collect data about me?\nNo. There are no ads, no tracking and no analytics. Your history stays on your phone.';
+
+  @override
+  String get helpGuideFaqQuestion4 =>
+      'Why does the app ask for a permission?\nOnly when you use a feature that needs it, such as the camera for scanning. See Settings > Permissions for the full list.';
+
+  @override
+  String get helpGuideFaqQuestion5 =>
+      'How do I change the language?\nGo to Settings > Language. The app changes at once.';
+
+  @override
+  String get helpGuideFaqQuestion6 =>
+      'How do I delete everything?\nGo to Settings > Privacy & probing > Delete all data. You can also delete single scans in History.';
+
+  @override
+  String get helpGuideFaqQuestion7 =>
+      'A link I trust is marked unsafe. Why?\nThe checks look for warning signs, and some real sites have them too. If you are sure about the source, you can still open it.';
+
+  @override
+  String get helpGuideFaqQuestion8 =>
+      'Does the app use a lot of battery?\nNo. The camera stops as soon as you leave the Scan screen. See the Settings guide for more battery tips.';
+
+  @override
+  String get helpGuideFaqCameraTitle => 'When a code will not scan';
+
+  @override
+  String get helpGuideFaqCameraBullet1 =>
+      'Clean the camera lens and hold the phone about 15 to 20 cm (6 to 8 inches) from the code.';
+
+  @override
+  String get helpGuideFaqCameraBullet2 =>
+      'In a dark place, turn on the flash. For a shiny code, tilt the phone a little to remove the glare.';
+
+  @override
+  String get helpGuideFaqCameraBullet3 =>
+      'For a small or far-away code, use the zoom slider or Distance Scan Assist, instead of moving very close.';
+
+  @override
+  String get helpGuideFaqCameraBullet4 =>
+      'For a light code on a dark background, turn on Invert colors in Camera adjustments.';
+
+  @override
+  String get helpGuideFaqCameraBullet5 =>
+      'For a damaged or faded code, try Brightness and Contrast in Camera adjustments, or take a photo and scan it from the gallery.';
+
+  @override
+  String get helpGuideFaqFixTitle => 'Other problems';
+
+  @override
+  String get helpGuideFaqFixBullet1 =>
+      'Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.';
+
+  @override
+  String get helpGuideFaqFixBullet2 =>
+      'Wi-Fi will not connect: copy the password and join the network in your phone\'s Wi-Fi settings.';
+
+  @override
+  String get helpGuideFaqFixBullet3 =>
+      'Payment app does not open: make sure a UPI app is installed. You can also copy the UPI ID.';
+
+  @override
+  String get helpGuideFaqFixBullet4 =>
+      'Scan bubble keeps disappearing: some phones stop apps in the background. Allow this app in your phone\'s battery settings.';
+
+  @override
+  String get helpGuideFaqFixBullet5 =>
+      'An online check says Skipped: that checker is turned off, or has no key. Tap Set up in Settings on the result to fix it.';
+
+  @override
+  String get helpGuideFaqTip =>
+      'Tip: Still stuck? Take a clear photo of the code and scan it from the gallery.';
+
+  @override
+  String get titleHelpBarcode => 'Scanning codes';
 
   @override
   String get titleHelpArCodeVision => 'AR CodeVision';
 
   @override
-  String get helpGuideArCodeVisionName => 'AR CodeVision™ Spatial HUD';
-
-  @override
-  String get helpGuideArCodeVisionSummary =>
-      'Real-time multi-barcode camera tracking, floating chips, and batch actions.';
-
-  @override
-  String get helpGuideArCodeVisionIntro =>
-      'AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.';
-
-  @override
-  String get helpGuideArCodeVisionTrackingTitle => 'Real-Time Spatial Tracking';
-
-  @override
-  String get helpGuideArCodeVisionTrackingBullet1 =>
-      'Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.';
-
-  @override
-  String get helpGuideArCodeVisionTrackingBullet2 =>
-      'Renders floating interactive chips directly above each physical barcode on screen as you move your camera.';
-
-  @override
-  String get helpGuideArCodeVisionTrackingBullet3 =>
-      'Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).';
-
-  @override
-  String get helpGuideArCodeVisionBatchTitle =>
-      'Interactive Multi-Select & Batch Actions';
-
-  @override
-  String get helpGuideArCodeVisionBatchBullet1 =>
-      'Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.';
-
-  @override
-  String get helpGuideArCodeVisionBatchBullet2 =>
-      'Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.';
-
-  @override
-  String get helpGuideArCodeVisionBatchBullet3 =>
-      'Copy all selected payload contents or export targets to your history in a single tap.';
-
-  @override
-  String get helpGuideArCodeVisionHudTitle => 'HUD Controls & Performance';
-
-  @override
-  String get helpGuideArCodeVisionHudBullet1 =>
-      'HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.';
-
-  @override
-  String get helpGuideArCodeVisionHudBullet2 =>
-      'Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.';
-
-  @override
-  String get helpGuideArCodeVisionTip =>
-      'Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.';
-
-  @override
   String get titleHelpAirQr => 'AirQR guide';
 
   @override
-  String get helpGuideAirQrName => 'AirQR™ Optical Air-Gap Stream';
-
-  @override
-  String get helpGuideAirQrSummary =>
-      'Offline animated QR strobe transmitter and receiver for radio-silent data sharing.';
-
-  @override
-  String get helpGuideAirQrIntro =>
-      'AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.';
-
-  @override
-  String get helpGuideAirQrStreamingTitle => 'How Optical Streaming Works';
-
-  @override
-  String get helpGuideAirQrStreamingBullet1 =>
-      'Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.';
-
-  @override
-  String get helpGuideAirQrStreamingBullet2 =>
-      'The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).';
-
-  @override
-  String get helpGuideAirQrStreamingBullet3 =>
-      'The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.';
-
-  @override
-  String get helpGuideAirQrSecurityTitle => 'Air-Gap Security & Privacy';
-
-  @override
-  String get helpGuideAirQrSecurityBullet1 =>
-      'Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).';
-
-  @override
-  String get helpGuideAirQrSecurityBullet2 =>
-      'Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.';
-
-  @override
-  String get helpGuideAirQrSecurityBullet3 =>
-      'Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.';
-
-  @override
-  String get helpGuideAirQrControlsTitle => 'Transmitter & Receiver Controls';
-
-  @override
-  String get helpGuideAirQrControlsBullet1 =>
-      'Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.';
-
-  @override
-  String get helpGuideAirQrControlsBullet2 =>
-      'Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.';
-
-  @override
-  String get helpGuideAirQrTip =>
-      'Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.';
-
-  @override
-  String get titleHelpUrlSafety => 'URL safety';
-
-  @override
-  String get helpGuideUrlSafetyName => '6-Layer URL Safety Engine';
-
-  @override
-  String get helpGuideUrlSafetySummary =>
-      'Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.';
-
-  @override
-  String get helpGuideUrlSafetyIntro =>
-      'Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.';
-
-  @override
-  String get helpGuideUrlSafetyLayersTitle => 'The 6 Safety Layers Explained';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet1 =>
-      'Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet2 =>
-      'Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet3 =>
-      'Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet4 =>
-      'Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet5 =>
-      'Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.';
-
-  @override
-  String get helpGuideUrlSafetyLayersBullet6 =>
-      'Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.';
-
-  @override
-  String get helpGuideUrlSafetyVerdictsTitle =>
-      'Safety Verdicts & Action Guidance';
-
-  @override
-  String get helpGuideUrlSafetyVerdictsBullet1 =>
-      'Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.';
-
-  @override
-  String get helpGuideUrlSafetyVerdictsBullet2 =>
-      'Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.';
-
-  @override
-  String get helpGuideUrlSafetyTip =>
-      'Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.';
+  String get titleHelpUrlSafety => 'Link safety';
 
   @override
   String get titleHelpQuishing => 'QuishingGuard';
 
   @override
-  String get helpGuideQuishingName => 'QuishingGuard™ Tamper Detection';
-
-  @override
-  String get helpGuideQuishingSummary =>
-      'On-device computer vision analyzing physical QR sticker overlays and edge cuts.';
-
-  @override
-  String get helpGuideQuishingIntro =>
-      'Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.';
-
-  @override
-  String get helpGuideQuishingCvTitle => 'On-Device Computer Vision Analysis';
-
-  @override
-  String get helpGuideQuishingCvBullet1 =>
-      'Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.';
-
-  @override
-  String get helpGuideQuishingCvBullet2 =>
-      'Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.';
-
-  @override
-  String get helpGuideQuishingCvBullet3 =>
-      'Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).';
-
-  @override
-  String get helpGuideQuishingForensicTitle => 'Forensic Signal Inspection';
-
-  @override
-  String get helpGuideQuishingForensicBullet1 =>
-      'Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.';
-
-  @override
-  String get helpGuideQuishingForensicBullet2 =>
-      'Helps identify suspicious payment QR codes in public places before sending money or typing credentials.';
-
-  @override
-  String get helpGuideQuishingTip =>
-      'Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.';
-
-  @override
-  String get titleHelpSafeBrowsing => 'Safe Browsing';
-
-  @override
-  String get helpGuideSafeBrowsingName => 'Google Safe Browsing Setup';
-
-  @override
-  String get helpGuideSafeBrowsingSummary =>
-      'Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.';
-
-  @override
-  String get helpGuideSafeBrowsingIntro =>
-      'Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.';
-
-  @override
-  String get helpGuideSafeBrowsingKeyTitle => 'How to Obtain a Free API Key';
-
-  @override
-  String get helpGuideSafeBrowsingKeyStep1 =>
-      '1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.';
-
-  @override
-  String get helpGuideSafeBrowsingKeyStep2 =>
-      '2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").';
-
-  @override
-  String get helpGuideSafeBrowsingKeyStep3 =>
-      '3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.';
-
-  @override
-  String get helpGuideSafeBrowsingKeyStep4 =>
-      '4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".';
-
-  @override
-  String get helpGuideSafeBrowsingKeyStep5 =>
-      '5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.';
-
-  @override
-  String get helpGuideSafeBrowsingPrivacyTitle =>
-      'Privacy & Secure Keystore Storage';
-
-  @override
-  String get helpGuideSafeBrowsingPrivacyBullet1 =>
-      'Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.';
-
-  @override
-  String get helpGuideSafeBrowsingPrivacyBullet2 =>
-      'Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.';
-
-  @override
-  String get helpGuideSafeBrowsingPrivacyBullet3 =>
-      'Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.';
-
-  @override
-  String get helpGuideSafeBrowsingTip =>
-      'Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.';
+  String get titleHelpSafeBrowsing => 'Online checkers';
 
   @override
   String get titleHelpSmartPayloads => 'Smart actions';
 
   @override
-  String get helpGuideSmartPayloadsName => 'Smart Actions & Payments';
-
-  @override
-  String get helpGuideSmartPayloadsSummary =>
-      'Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.';
-
-  @override
-  String get helpGuideSmartPayloadsIntro =>
-      'SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.';
-
-  @override
-  String get helpGuideSmartPayloadsWifiTitle => 'Wi-Fi Network Auto-Connect';
-
-  @override
-  String get helpGuideSmartPayloadsWifiBullet1 =>
-      'Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.';
-
-  @override
-  String get helpGuideSmartPayloadsWifiBullet2 =>
-      'Includes a Password Reveal / Hide button and 1-tap clipboard copy.';
-
-  @override
-  String get helpGuideSmartPayloadsWifiBullet3 =>
-      'Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.';
-
-  @override
-  String get helpGuideSmartPayloadsPaymentsTitle =>
-      'UPI & Cryptocurrency Payments';
-
-  @override
-  String get helpGuideSmartPayloadsPaymentsBullet1 =>
-      'Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.';
-
-  @override
-  String get helpGuideSmartPayloadsPaymentsBullet2 =>
-      '1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.';
-
-  @override
-  String get helpGuideSmartPayloadsPaymentsBullet3 =>
-      'Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.';
-
-  @override
-  String get helpGuideSmartPayloadsTotpTitle =>
-      'TOTP 2FA Authenticator & Tokens';
-
-  @override
-  String get helpGuideSmartPayloadsTotpBullet1 =>
-      'Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.';
-
-  @override
-  String get helpGuideSmartPayloadsTotpBullet2 =>
-      'Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.';
-
-  @override
-  String get helpGuideSmartPayloadsTotpBullet3 =>
-      'Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.';
-
-  @override
-  String get helpGuideSmartPayloadsContactsTitle =>
-      'Contacts & Calendar Events';
-
-  @override
-  String get helpGuideSmartPayloadsContactsBullet1 =>
-      'vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.';
-
-  @override
-  String get helpGuideSmartPayloadsContactsBullet2 =>
-      'iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.';
-
-  @override
-  String get helpGuideSmartPayloadsTip =>
-      'Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.';
-
-  @override
   String get titleHelpHistory => 'History & privacy';
-
-  @override
-  String get helpGuideHistoryName => 'History, Backups & Privacy';
-
-  @override
-  String get helpGuideHistorySummary =>
-      'Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.';
-
-  @override
-  String get helpGuideHistoryIntro =>
-      'Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.';
-
-  @override
-  String get helpGuideHistoryManageTitle => 'Scan History Management';
-
-  @override
-  String get helpGuideHistoryManageBullet1 =>
-      'Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).';
-
-  @override
-  String get helpGuideHistoryManageBullet2 =>
-      'Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.';
-
-  @override
-  String get helpGuideHistoryManageBullet3 =>
-      'Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.';
-
-  @override
-  String get helpGuideHistoryBackupTitle => 'Backup & Restore (JSON / CSV)';
-
-  @override
-  String get helpGuideHistoryBackupBullet1 =>
-      'JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.';
-
-  @override
-  String get helpGuideHistoryBackupBullet2 =>
-      'CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.';
-
-  @override
-  String get helpGuideHistoryBackupBullet3 =>
-      'One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.';
-
-  @override
-  String get helpGuideHistoryBiometricsTitle => 'Biometrics & Screenshot Guard';
-
-  @override
-  String get helpGuideHistoryBiometricsBullet1 =>
-      'App lock and biometrics: an optional app lock asks for your fingerprint, face or screen lock when the app opens. Hidden StegoQR messages can also ask for biometrics.';
-
-  @override
-  String get helpGuideHistoryBiometricsBullet2 =>
-      'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.';
-
-  @override
-  String get helpGuideHistoryTip =>
-      'Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.';
 
   @override
   String get titleHelpFaq => 'FAQ & help';
 
   @override
-  String get helpGuideFaqName => 'FAQ & Troubleshooting';
+  String get titleHelpScanBubble => 'Scan from other apps';
 
   @override
-  String get helpGuideFaqSummary =>
-      'Common questions, camera focus tips, permission recovery, and offline guarantees.';
+  String get titleHelpCodeForge => 'Making codes';
 
   @override
-  String get helpGuideFaqIntro =>
-      'Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.';
+  String get titleHelpHiddenCodes => 'Locked codes';
 
   @override
-  String get helpGuideFaqQuestionsTitle => 'Frequently Asked Questions';
-
-  @override
-  String get helpGuideFaqQuestion1 =>
-      'Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.';
-
-  @override
-  String get helpGuideFaqQuestion2 =>
-      'Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.';
-
-  @override
-  String get helpGuideFaqQuestion3 =>
-      'Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.';
-
-  @override
-  String get helpGuideFaqCameraTitle => 'Camera Troubleshooting';
-
-  @override
-  String get helpGuideFaqCameraBullet1 =>
-      'Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.';
-
-  @override
-  String get helpGuideFaqCameraBullet2 =>
-      'Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.';
-
-  @override
-  String get helpGuideFaqCameraBullet3 =>
-      'Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.';
-
-  @override
-  String get helpGuideFaqTip =>
-      'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.';
+  String get titleHelpSettings => 'Settings guide';
 
   @override
   String get tooltipResultMoreActions => 'More actions';
@@ -3715,11 +4290,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tooltipSandboxHidePreview => 'Hide preview';
 
   @override
-  String labelQuishingCompactGenuine(String percent) {
-    return 'Genuine · $percent%';
-  }
-
-  @override
   String get labelScanBubble => 'Scan bubble';
 
   @override
@@ -3779,84 +4349,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get labelHistorySourceScreen => 'From screen';
-
-  @override
-  String get helpPermissionOverlayTitle => 'Display over other apps';
-
-  @override
-  String get helpPermissionOverlayDesc =>
-      'Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.';
-
-  @override
-  String get helpPermissionNotificationTitle => 'Notifications';
-
-  @override
-  String get helpPermissionNotificationDesc =>
-      'Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.';
-
-  @override
-  String get helpGuideScanBubbleName => 'Scan bubble';
-
-  @override
-  String get helpGuideScanBubbleSummary =>
-      'A floating button to scan QR codes and barcodes shown in other apps.';
-
-  @override
-  String get helpGuideScanBubbleIntro =>
-      'The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.';
-
-  @override
-  String get helpGuideScanBubbleUseTitle => 'How to use it';
-
-  @override
-  String get helpGuideScanBubbleUseBullet1 =>
-      'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet2 =>
-      'Open any app that shows a QR code or barcode, then tap the bubble.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet3 =>
-      'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet4 =>
-      'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.';
-
-  @override
-  String get helpGuideScanBubblePrivacyTitle => 'Privacy';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet1 =>
-      'The screen is captured only when you tap the bubble, and Android always asks you first.';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet2 =>
-      'The code is read on your phone. Nothing is sent online for reading.';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet3 =>
-      'The screen picture is not saved to your gallery and is deleted right after reading.';
-
-  @override
-  String get helpGuideScanBubbleLimitsTitle => 'Good to know';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet1 =>
-      'On Android 14 and newer, Android asks for screen capture permission on every tap.';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet2 =>
-      'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet3 =>
-      'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.';
-
-  @override
-  String get helpGuideScanBubbleTip =>
-      'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.';
 
   @override
   String get labelCodeForgeBarcodeContent => 'Barcode content';

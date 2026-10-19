@@ -21,10 +21,9 @@ import 'package:sreerajp_qr_studio/screens/widgets/sms_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/app_link_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/product_barcode_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/isbn_action_card.dart';
-import 'package:sreerajp_qr_studio/screens/widgets/quishing_risk_bar_widget.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/sticker_check_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/dom_sandbox_preview_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/url_verdict_card.dart';
-import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 import 'package:sreerajp_qr_studio/widgets/secure_screen.dart';
 
@@ -107,9 +106,9 @@ class _ResultScreenState extends State<ResultScreen> {
                 const SizedBox(height: 16),
               ],
 
-              // QuishingGuard Risk Indicator Card
-              if (scanProvider.quishingResult != null) ...[
-                QuishingRiskBarWidget(result: scanProvider.quishingResult!),
+              // QuishingGuard fake-sticker reminder
+              if (scanProvider.showStickerReminder) ...[
+                const StickerCheckCard(),
                 const SizedBox(height: 16),
               ],
 
@@ -1035,16 +1034,11 @@ class _ResultScreenState extends State<ResultScreen> {
   /// already holds.
   _OpenRisk _openRiskFor(ScanProvider p) {
     final failed = p.safetyChecks.where((c) => !c.passed).length;
-    final quishing = p.quishingResult?.riskLevel;
     final sandboxUnsafe = p.domSandboxResult?.isSafe == false;
-    if (quishing == QuishingRiskLevel.highWarning ||
-        sandboxUnsafe ||
-        failed >= 2) {
+    if (sandboxUnsafe || failed >= 2) {
       return _OpenRisk.danger;
     }
-    if (failed > 0 ||
-        quishing == QuishingRiskLevel.wearAndTear ||
-        !p.isSafeUrl) {
+    if (failed > 0 || !p.isSafeUrl) {
       return _OpenRisk.warning;
     }
     return _OpenRisk.safe;

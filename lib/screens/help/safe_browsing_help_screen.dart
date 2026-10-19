@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/help/widgets/help_page_widgets.dart';
 
 class SafeBrowsingHelpScreen extends StatelessWidget {
   const SafeBrowsingHelpScreen({super.key});
@@ -8,175 +9,50 @@ class SafeBrowsingHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.titleHelpSafeBrowsing)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-          children: [
-            _Intro(l10n.helpGuideSafeBrowsingIntro),
-            const SizedBox(height: 24),
-            _Section(
-              icon: Icons.vpn_key_outlined,
-              title: l10n.helpGuideSafeBrowsingKeyTitle,
-              children: [
-                _Bullet(l10n.helpGuideSafeBrowsingKeyStep1),
-                _Bullet(l10n.helpGuideSafeBrowsingKeyStep2),
-                _Bullet(l10n.helpGuideSafeBrowsingKeyStep3),
-                _Bullet(l10n.helpGuideSafeBrowsingKeyStep4),
-                _Bullet(l10n.helpGuideSafeBrowsingKeyStep5),
-              ],
-            ),
-            _Section(
-              icon: Icons.lock_outline,
-              title: l10n.helpGuideSafeBrowsingPrivacyTitle,
-              children: [
-                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet1),
-                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet2),
-                _Bullet(l10n.helpGuideSafeBrowsingPrivacyBullet3),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _Footer(l10n.helpGuideSafeBrowsingTip),
+    return HelpGuidePage(
+      title: l10n.titleHelpSafeBrowsing,
+      intro: l10n.helpGuideSafeBrowsingIntro,
+      sections: [
+        HelpSection(
+          icon: Icons.toggle_on_outlined,
+          title: l10n.helpGuideSafeBrowsingBuiltInTitle,
+          bullets: [
+            l10n.helpGuideSafeBrowsingBuiltInBullet1,
+            l10n.helpGuideSafeBrowsingBuiltInBullet2,
+            l10n.helpGuideSafeBrowsingBuiltInBullet3,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Intro extends StatelessWidget {
-  final String text;
-  const _Intro(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      text,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
-        height: 1.5,
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final List<Widget> children;
-
-  const _Section({
-    required this.icon,
-    required this.title,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: accent),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-class _Bullet extends StatelessWidget {
-  final String text;
-  const _Bullet(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 7, right: 10),
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13.5,
-                color: theme.colorScheme.onSurfaceVariant,
-                height: 1.4,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final String text;
-  const _Footer(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: accent.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.lightbulb_outline, color: accent, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: accent,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
-      ),
+        HelpSection(
+          icon: Icons.vpn_key_outlined,
+          title: l10n.helpGuideSafeBrowsingKeyTitle,
+          bullets: [
+            l10n.helpGuideSafeBrowsingKeyStep1,
+            l10n.helpGuideSafeBrowsingKeyStep2,
+            l10n.helpGuideSafeBrowsingKeyStep3,
+            l10n.helpGuideSafeBrowsingKeyStep4,
+            l10n.helpGuideSafeBrowsingKeyStep5,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.key_outlined,
+          title: l10n.helpGuideSafeBrowsingOtherTitle,
+          bullets: [
+            l10n.helpGuideSafeBrowsingOtherBullet1,
+            l10n.helpGuideSafeBrowsingOtherBullet2,
+            l10n.helpGuideSafeBrowsingOtherBullet3,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.lock_outline,
+          title: l10n.helpGuideSafeBrowsingPrivacyTitle,
+          bullets: [
+            l10n.helpGuideSafeBrowsingPrivacyBullet1,
+            l10n.helpGuideSafeBrowsingPrivacyBullet2,
+            l10n.helpGuideSafeBrowsingPrivacyBullet3,
+          ],
+        ),
+      ],
+      tip: l10n.helpGuideSafeBrowsingTip,
     );
   }
 }

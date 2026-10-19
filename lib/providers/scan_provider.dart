@@ -4,7 +4,6 @@ import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/dom_sandbox_result.dart';
 import 'package:sreerajp_qr_studio/models/encrypted_payload_data.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
-import 'package:sreerajp_qr_studio/models/quishing_analysis_result.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
@@ -13,12 +12,11 @@ import 'package:sreerajp_qr_studio/services/biometric_service.dart';
 import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
 import 'package:sreerajp_qr_studio/services/encrypted_payload_service.dart';
 import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
-import 'package:sreerajp_qr_studio/services/quishing_guard_service.dart';
 import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
 
-/// Provider managing scan results, URL safety checks, StegoQR & AirQR state, Smart Payload parsing, QuishingGuard tamper detection, Zero-Trust DOM Sandboxing, and Scan Feedback preferences.
+/// Provider managing scan results, URL safety checks, StegoQR & AirQR state, Smart Payload parsing, QuishingGuard fake-sticker reminder, Zero-Trust DOM Sandboxing, and Scan Feedback preferences.
 class ScanProvider extends ChangeNotifier {
   static const String vibrationPrefKey = 'scan_feedback_vibration';
   static const String soundPrefKey = 'scan_feedback_sound';
@@ -37,7 +35,7 @@ class ScanProvider extends ChangeNotifier {
   StegoQrData? _stegoQrData;
   EncryptedPayloadData? _encryptedPayloadData;
   ParsedPayload? _parsedPayload;
-  QuishingAnalysisResult? _quishingResult;
+  bool _scannedWithCamera = false;
   DomSandboxResult? _domSandboxResult;
 
   final UrlSafetyService _urlSafetyService;
@@ -45,7 +43,6 @@ class ScanProvider extends ChangeNotifier {
   final EncryptedPayloadService _encryptedPayloadService;
   final BiometricService _biometricService;
   final PayloadParserService _payloadParserService;
-  final QuishingGuardService _quishingGuardService;
   final DomSandboxService _domSandboxService;
 
   ScanProvider({
@@ -54,7 +51,6 @@ class ScanProvider extends ChangeNotifier {
     EncryptedPayloadService? encryptedPayloadService,
     BiometricService? biometricService,
     PayloadParserService? payloadParserService,
-    QuishingGuardService? quishingGuardService,
     DomSandboxService? domSandboxService,
   }) : _urlSafetyService = urlSafetyService ?? UrlSafetyService(),
        _stegoQrService = stegoQrService ?? StegoQrService(),
@@ -65,8 +61,6 @@ class ScanProvider extends ChangeNotifier {
            ),
        _biometricService = biometricService ?? BiometricService(),
        _payloadParserService = payloadParserService ?? PayloadParserService(),
-       _quishingGuardService =
-           quishingGuardService ?? const QuishingGuardService(),
        _domSandboxService = domSandboxService ?? DomSandboxService() {
     _loadFeedbackSettings();
   }
@@ -80,7 +74,16 @@ class ScanProvider extends ChangeNotifier {
   bool get isSoundEnabled => _isSoundEnabled;
   bool get isAnimationEnabled => _isAnimationEnabled;
   ParsedPayload? get parsedPayload => _parsedPayload;
-  QuishingAnalysisResult? get quishingResult => _quishingResult;
+
+  /// Whether the result screen should show the QuishingGuard fake-sticker
+  /// reminder: the code was read live by the camera (so it may be printed in
+  /// a public place) and it holds a link or a payment request.
+  ///
+  /// The app does not look at the image for stickers; it only reminds the
+  /// user to check by hand.
+  bool get showStickerReminder =>
+      _scannedWithCamera &&
+      (_isUrl || _parsedPayload?.type == PayloadType.payment);
   DomSandboxResult? get domSandboxResult => _domSandboxResult;
 
   Future<void> _loadFeedbackSettings() async {
@@ -178,13 +181,11 @@ class ScanProvider extends ChangeNotifier {
   void setScanResult(
     String result,
     CodeContentType type, {
-    List<int>? rawFrameBytes,
-    int frameWidth = 0,
-    int frameHeight = 0,
-    Map<String, dynamic>? quishingMetadata,
+    bool fromCamera = false,
   }) {
     _scanResult = result;
     _scanType = type;
+    _scannedWithCamera = fromCamera;
 
     // 1. Detect universal encrypted container (AirQR, StegoQR, JSON container, PGP)
     _encryptedPayloadData = _encryptedPayloadService.detectEncryptedPayload(
@@ -207,32 +208,6 @@ class ScanProvider extends ChangeNotifier {
       _isUrl = _checkIfUrl(result);
     }
 
-    _quishingResult = _quishingGuardService.analyzeQrContext(
-      rawContent: result,
-      rawBytes: rawFrameBytes,
-      width: frameWidth,
-      height: frameHeight,
-      metadata: quishingMetadata,
-    );
-
-    notifyListeners();
-  }
-
-  /// Explicitly triggers QuishingGuard physical tamper analysis with custom camera frame or metadata parameters.
-  void runQuishingAnalysis({
-    List<int>? rawFrameBytes,
-    int width = 0,
-    int height = 0,
-    Map<String, dynamic>? metadata,
-  }) {
-    if (_scanResult == null) return;
-    _quishingResult = _quishingGuardService.analyzeQrContext(
-      rawContent: _scanResult!,
-      rawBytes: rawFrameBytes,
-      width: width,
-      height: height,
-      metadata: metadata,
-    );
     notifyListeners();
   }
 
@@ -381,7 +356,6 @@ class ScanProvider extends ChangeNotifier {
       metadata: {
         'isStego': isStegoQr,
         'isSafeUrl': _isSafeUrl,
-        'quishingRisk': _quishingResult?.riskLevel.name,
         'source': ?source,
       },
     );
@@ -397,7 +371,7 @@ class ScanProvider extends ChangeNotifier {
     _stegoQrData = null;
     _encryptedPayloadData = null;
     _parsedPayload = null;
-    _quishingResult = null;
+    _scannedWithCamera = false;
     _domSandboxResult = null;
     notifyListeners();
   }

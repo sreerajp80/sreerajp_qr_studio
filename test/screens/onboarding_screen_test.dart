@@ -79,8 +79,8 @@ void main() {
       await tester.tap(find.byKey(const Key('onboarding_action_button')));
       await tester.pumpAndSettle();
 
-      expect(find.text('Tamper detection'), findsOneWidget);
-      expect(find.text('Physical sticker overlay detection'), findsOneWidget);
+      expect(find.text('Fake sticker check'), findsOneWidget);
+      expect(find.text('Feel for raised sticker edges'), findsOneWidget);
 
       // Tap Next -> Slide 3
       await tester.tap(find.byKey(const Key('onboarding_action_button')));

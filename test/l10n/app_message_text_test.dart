@@ -18,8 +18,6 @@ const Map<AppMessageKey, Map<String, String>> _sampleArgs = {
   AppMessageKey.homographLookalikes: {'characters': 'а, о'},
   AppMessageKey.maliciousThreats: {'threats': 'MALWARE'},
   AppMessageKey.maliciousApiError: {'status': '503'},
-  AppMessageKey.quishingSignalPerimeterDoubleEdge: {'zones': '2'},
-  AppMessageKey.quishingSignalDotDensityVariance: {'variance': '12.5'},
   AppMessageKey.domStatusOpenRedirect: {'target': 'https://elsewhere.example'},
   AppMessageKey.domStatusNewDomain: {'days': '9'},
   AppMessageKey.mediaImagePickFailed: {'error': 'boom'},

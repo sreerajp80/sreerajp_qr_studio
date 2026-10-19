@@ -235,7 +235,11 @@ class HistoryCard extends StatelessWidget {
                         value: 'edit',
                         child: Row(
                           children: [
-                            const Icon(Icons.edit, size: 18),
+                            Icon(
+                              Icons.edit,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                             const SizedBox(width: 8),
                             Text(l10n.actionHistoryEditNotes),
                           ],
@@ -245,7 +249,11 @@ class HistoryCard extends StatelessWidget {
                         value: 'copy',
                         child: Row(
                           children: [
-                            const Icon(Icons.copy, size: 18),
+                            Icon(
+                              Icons.copy,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                             const SizedBox(width: 8),
                             Text(l10n.tooltipHistoryCopyString),
                           ],
@@ -255,7 +263,11 @@ class HistoryCard extends StatelessWidget {
                         value: 'share',
                         child: Row(
                           children: [
-                            const Icon(Icons.share, size: 18),
+                            Icon(
+                              Icons.share,
+                              size: 18,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                             const SizedBox(width: 8),
                             Text(l10n.actionHistoryShare),
                           ],
@@ -265,15 +277,17 @@ class HistoryCard extends StatelessWidget {
                         value: 'delete',
                         child: Row(
                           children: [
-                            const Icon(
+                            Icon(
                               Icons.delete,
-                              color: Colors.red,
+                              color: Theme.of(context).colorScheme.error,
                               size: 18,
                             ),
                             const SizedBox(width: 8),
                             Text(
                               l10n.actionHistoryDelete,
-                              style: const TextStyle(color: Colors.red),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.error,
+                              ),
                             ),
                           ],
                         ),

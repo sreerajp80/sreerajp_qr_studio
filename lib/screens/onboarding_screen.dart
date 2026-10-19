@@ -6,7 +6,7 @@ import 'package:sreerajp_qr_studio/providers/onboarding_provider.dart';
 
 /// Lightweight 3-slide introductory carousel explaining:
 /// 1. 6-Layer URL Safety Engine
-/// 2. QuishingGuard™ Physical Tamper Detection
+/// 2. QuishingGuard™ fake-sticker check
 /// 3. 100% Offline Privacy Model
 class OnboardingScreen extends StatefulWidget {
   final bool isReplay;

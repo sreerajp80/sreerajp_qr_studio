@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/help/widgets/help_page_widgets.dart';
 
 class HistoryPrivacyHelpScreen extends StatelessWidget {
   const HistoryPrivacyHelpScreen({super.key});
@@ -8,181 +9,41 @@ class HistoryPrivacyHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.titleHelpHistory)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-          children: [
-            _Intro(l10n.helpGuideHistoryIntro),
-            const SizedBox(height: 24),
-            _Section(
-              icon: Icons.history,
-              title: l10n.helpGuideHistoryManageTitle,
-              children: [
-                _Bullet(l10n.helpGuideHistoryManageBullet1),
-                _Bullet(l10n.helpGuideHistoryManageBullet2),
-                _Bullet(l10n.helpGuideHistoryManageBullet3),
-              ],
-            ),
-            _Section(
-              icon: Icons.import_export,
-              title: l10n.helpGuideHistoryBackupTitle,
-              children: [
-                _Bullet(l10n.helpGuideHistoryBackupBullet1),
-                _Bullet(l10n.helpGuideHistoryBackupBullet2),
-                _Bullet(l10n.helpGuideHistoryBackupBullet3),
-              ],
-            ),
-            _Section(
-              icon: Icons.fingerprint,
-              title: l10n.helpGuideHistoryBiometricsTitle,
-              children: [
-                _Bullet(l10n.helpGuideHistoryBiometricsBullet1),
-                _Bullet(l10n.helpGuideHistoryBiometricsBullet2),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _Footer(l10n.helpGuideHistoryTip),
+    return HelpGuidePage(
+      title: l10n.titleHelpHistory,
+      intro: l10n.helpGuideHistoryIntro,
+      sections: [
+        HelpSection(
+          icon: Icons.manage_search,
+          title: l10n.helpGuideHistoryManageTitle,
+          bullets: [
+            l10n.helpGuideHistoryManageBullet1,
+            l10n.helpGuideHistoryManageBullet2,
+            l10n.helpGuideHistoryManageBullet3,
+            l10n.helpGuideHistoryManageBullet4,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Intro extends StatelessWidget {
-  final String text;
-  const _Intro(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      text,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
-        height: 1.5,
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final List<Widget> children;
-
-  const _Section({
-    required this.icon,
-    required this.title,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: accent),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-class _Bullet extends StatelessWidget {
-  final String text;
-  const _Bullet(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 7, right: 10),
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13.5,
-                color: theme.colorScheme.onSurfaceVariant,
-                height: 1.4,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final String text;
-  const _Footer(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: accent.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.lightbulb_outline, color: accent, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: accent,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
-      ),
+        HelpSection(
+          icon: Icons.backup_outlined,
+          title: l10n.helpGuideHistoryBackupTitle,
+          bullets: [
+            l10n.helpGuideHistoryBackupBullet1,
+            l10n.helpGuideHistoryBackupBullet2,
+            l10n.helpGuideHistoryBackupBullet3,
+            l10n.helpGuideHistoryBackupBullet4,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.fingerprint,
+          title: l10n.helpGuideHistoryBiometricsTitle,
+          bullets: [
+            l10n.helpGuideHistoryBiometricsBullet1,
+            l10n.helpGuideHistoryBiometricsBullet2,
+            l10n.helpGuideHistoryBiometricsBullet3,
+          ],
+        ),
+      ],
+      tip: l10n.helpGuideHistoryTip,
     );
   }
 }

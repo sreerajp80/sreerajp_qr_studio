@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/screens/help/widgets/help_page_widgets.dart';
 
 class SmartPayloadsHelpScreen extends StatelessWidget {
   const SmartPayloadsHelpScreen({super.key});
@@ -8,190 +9,59 @@ class SmartPayloadsHelpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return Scaffold(
-      appBar: AppBar(title: Text(l10n.titleHelpSmartPayloads)),
-      body: SafeArea(
-        top: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
-          children: [
-            _Intro(l10n.helpGuideSmartPayloadsIntro),
-            const SizedBox(height: 24),
-            _Section(
-              icon: Icons.wifi,
-              title: l10n.helpGuideSmartPayloadsWifiTitle,
-              children: [
-                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet1),
-                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet2),
-                _Bullet(l10n.helpGuideSmartPayloadsWifiBullet3),
-              ],
-            ),
-            _Section(
-              icon: Icons.payment_outlined,
-              title: l10n.helpGuideSmartPayloadsPaymentsTitle,
-              children: [
-                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet1),
-                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet2),
-                _Bullet(l10n.helpGuideSmartPayloadsPaymentsBullet3),
-              ],
-            ),
-            _Section(
-              icon: Icons.timer_outlined,
-              title: l10n.helpGuideSmartPayloadsTotpTitle,
-              children: [
-                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet1),
-                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet2),
-                _Bullet(l10n.helpGuideSmartPayloadsTotpBullet3),
-              ],
-            ),
-            _Section(
-              icon: Icons.contact_page_outlined,
-              title: l10n.helpGuideSmartPayloadsContactsTitle,
-              children: [
-                _Bullet(l10n.helpGuideSmartPayloadsContactsBullet1),
-                _Bullet(l10n.helpGuideSmartPayloadsContactsBullet2),
-              ],
-            ),
-            const SizedBox(height: 8),
-            _Footer(l10n.helpGuideSmartPayloadsTip),
+    return HelpGuidePage(
+      title: l10n.titleHelpSmartPayloads,
+      intro: l10n.helpGuideSmartPayloadsIntro,
+      sections: [
+        HelpSection(
+          icon: Icons.wifi,
+          title: l10n.helpGuideSmartPayloadsWifiTitle,
+          bullets: [
+            l10n.helpGuideSmartPayloadsWifiBullet1,
+            l10n.helpGuideSmartPayloadsWifiBullet2,
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _Intro extends StatelessWidget {
-  final String text;
-  const _Intro(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Text(
-      text,
-      style: theme.textTheme.bodyLarge?.copyWith(
-        color: theme.colorScheme.onSurfaceVariant,
-        height: 1.5,
-      ),
-    );
-  }
-}
-
-class _Section extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final List<Widget> children;
-
-  const _Section({
-    required this.icon,
-    required this.title,
-    required this.children,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: accent),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-class _Bullet extends StatelessWidget {
-  final String text;
-  const _Bullet(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 7, right: 10),
-            width: 6,
-            height: 6,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary,
-              shape: BoxShape.circle,
-            ),
-          ),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13.5,
-                color: theme.colorScheme.onSurfaceVariant,
-                height: 1.4,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Footer extends StatelessWidget {
-  final String text;
-  const _Footer(this.text);
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
-
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: accent.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: accent.withValues(alpha: 0.2)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(Icons.lightbulb_outline, color: accent, size: 20),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: accent,
-                height: 1.35,
-              ),
-            ),
-          ),
-        ],
-      ),
+        HelpSection(
+          icon: Icons.payments_outlined,
+          title: l10n.helpGuideSmartPayloadsPaymentsTitle,
+          bullets: [
+            l10n.helpGuideSmartPayloadsPaymentsBullet1,
+            l10n.helpGuideSmartPayloadsPaymentsBullet2,
+            l10n.helpGuideSmartPayloadsPaymentsBullet3,
+            l10n.helpGuideSmartPayloadsPaymentsBullet4,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.password,
+          title: l10n.helpGuideSmartPayloadsTotpTitle,
+          bullets: [
+            l10n.helpGuideSmartPayloadsTotpBullet1,
+            l10n.helpGuideSmartPayloadsTotpBullet2,
+            l10n.helpGuideSmartPayloadsTotpBullet3,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.contact_page_outlined,
+          title: l10n.helpGuideSmartPayloadsContactsTitle,
+          bullets: [
+            l10n.helpGuideSmartPayloadsContactsBullet1,
+            l10n.helpGuideSmartPayloadsContactsBullet2,
+          ],
+        ),
+        HelpSection(
+          icon: Icons.apps_outlined,
+          title: l10n.helpGuideSmartPayloadsOtherTitle,
+          bullets: [
+            l10n.helpGuideSmartPayloadsOtherBullet1,
+            l10n.helpGuideSmartPayloadsOtherBullet2,
+            l10n.helpGuideSmartPayloadsOtherBullet3,
+            l10n.helpGuideSmartPayloadsOtherBullet4,
+            l10n.helpGuideSmartPayloadsOtherBullet5,
+            l10n.helpGuideSmartPayloadsOtherBullet6,
+          ],
+        ),
+      ],
+      tip: l10n.helpGuideSmartPayloadsTip,
     );
   }
 }

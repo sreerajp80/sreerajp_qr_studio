@@ -9,12 +9,15 @@ import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/help/air_qr_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/ar_codevision_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/barcode_scanning_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/code_forge_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/faq_troubleshooting_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/help_home_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/hidden_codes_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/history_privacy_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/quishing_guard_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/safe_browsing_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/scan_bubble_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/settings_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/smart_payloads_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/url_safety_help_screen.dart';
 
@@ -26,7 +29,10 @@ class _HelpCase {
   final Widget screen;
   final String Function(AppLocalizations l10n) title;
 
-  const _HelpCase(this.name, this.screen, this.title);
+  /// The title of this guide's card on the Help hub (null for the hub).
+  final String Function(AppLocalizations l10n)? hubCard;
+
+  const _HelpCase(this.name, this.screen, this.title, [this.hubCard]);
 }
 
 final _cases = <_HelpCase>[
@@ -35,43 +41,79 @@ final _cases = <_HelpCase>[
     'barcode',
     const BarcodeScanningHelpScreen(),
     (l) => l.titleHelpBarcode,
+    (l) => l.helpGuideBarcodeName,
   ),
   _HelpCase(
     'ar codevision',
     const ArCodeVisionHelpScreen(),
     (l) => l.titleHelpArCodeVision,
+    (l) => l.helpGuideArCodeVisionName,
   ),
-  _HelpCase('airqr', const AirQrHelpScreen(), (l) => l.titleHelpAirQr),
+  _HelpCase(
+    'scan from other apps',
+    const ScanBubbleHelpScreen(),
+    (l) => l.titleHelpScanBubble,
+    (l) => l.helpGuideScanBubbleName,
+  ),
+  _HelpCase(
+    'codeforge',
+    const CodeForgeHelpScreen(),
+    (l) => l.titleHelpCodeForge,
+    (l) => l.helpGuideCodeForgeName,
+  ),
+  _HelpCase(
+    'airqr',
+    const AirQrHelpScreen(),
+    (l) => l.titleHelpAirQr,
+    (l) => l.helpGuideAirQrName,
+  ),
   _HelpCase(
     'url safety',
     const UrlSafetyHelpScreen(),
     (l) => l.titleHelpUrlSafety,
+    (l) => l.helpGuideUrlSafetyName,
   ),
   _HelpCase(
     'quishing',
     const QuishingGuardHelpScreen(),
     (l) => l.titleHelpQuishing,
+    (l) => l.helpGuideQuishingName,
   ),
   _HelpCase(
-    'safe browsing',
+    'online checkers',
     const SafeBrowsingHelpScreen(),
     (l) => l.titleHelpSafeBrowsing,
+    (l) => l.helpGuideSafeBrowsingName,
   ),
   _HelpCase(
     'smart payloads',
     const SmartPayloadsHelpScreen(),
     (l) => l.titleHelpSmartPayloads,
+    (l) => l.helpGuideSmartPayloadsName,
+  ),
+  _HelpCase(
+    'hidden codes',
+    const HiddenCodesHelpScreen(),
+    (l) => l.titleHelpHiddenCodes,
+    (l) => l.helpGuideHiddenName,
   ),
   _HelpCase(
     'history',
     const HistoryPrivacyHelpScreen(),
     (l) => l.titleHelpHistory,
+    (l) => l.helpGuideHistoryName,
   ),
-  _HelpCase('faq', const FaqTroubleshootingHelpScreen(), (l) => l.titleHelpFaq),
   _HelpCase(
-    'scan bubble',
-    const ScanBubbleHelpScreen(),
-    (l) => l.helpGuideScanBubbleName,
+    'settings',
+    const SettingsHelpScreen(),
+    (l) => l.titleHelpSettings,
+    (l) => l.helpGuideSettingsName,
+  ),
+  _HelpCase(
+    'faq',
+    const FaqTroubleshootingHelpScreen(),
+    (l) => l.titleHelpFaq,
+    (l) => l.helpGuideFaqName,
   ),
 ];
 
@@ -125,6 +167,36 @@ void main() {
           );
         });
       }
+
+      testWidgets('the hub opens every help guide', (tester) async {
+        await tester.binding.setSurfaceSize(const Size(360, 800));
+        addTearDown(() => tester.binding.setSurfaceSize(null));
+        final l10n = await AppLocalizations.delegate.load(locale);
+
+        for (final helpCase in _cases.skip(1)) {
+          // Start from a fresh app each time, so no guide is left open.
+          await tester.pumpWidget(const SizedBox());
+          await tester.pumpWidget(_wrap(const HelpHomeScreen(), locale));
+          await tester.pumpAndSettle();
+
+          final card = find.text(helpCase.hubCard!(l10n));
+          await tester.scrollUntilVisible(
+            card,
+            200,
+            scrollable: find.byType(Scrollable).first,
+          );
+          await tester.ensureVisible(card);
+          await tester.pumpAndSettle();
+          await tester.tap(card);
+          await tester.pumpAndSettle();
+
+          expect(
+            find.byType(helpCase.screen.runtimeType),
+            findsOneWidget,
+            reason: 'The hub card for ${helpCase.name} must open its guide',
+          );
+        }
+      });
 
       test('help app bar titles fit the short-label budget', () async {
         final l10n = await AppLocalizations.delegate.load(locale);

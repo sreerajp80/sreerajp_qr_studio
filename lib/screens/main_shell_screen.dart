@@ -54,10 +54,20 @@ class _MainShellScreenState extends State<MainShellScreen> {
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
+        // TickerMode pauses animations in the hidden tabs to save battery.
         children: [
-          ScannerScreen(isActive: _selectedIndex == 0),
-          const CodeForgeScreen(isEmbeddedTab: true),
-          const HistoryScreen(isEmbeddedTab: true),
+          TickerMode(
+            enabled: _selectedIndex == 0,
+            child: ScannerScreen(isActive: _selectedIndex == 0),
+          ),
+          TickerMode(
+            enabled: _selectedIndex == 1,
+            child: const CodeForgeScreen(isEmbeddedTab: true),
+          ),
+          TickerMode(
+            enabled: _selectedIndex == 2,
+            child: const HistoryScreen(isEmbeddedTab: true),
+          ),
         ],
       ),
       bottomNavigationBar: NavigationBar(

@@ -170,13 +170,6 @@ class FeaturesScreen extends StatelessWidget {
               l10n.labelFeatureSafeBrowsingChip3,
             ],
           ),
-        ],
-      ),
-      _FeatureCategory(
-        name: l10n.titleFeaturesCatVision,
-        subtitle: l10n.descFeaturesCatVision,
-        icon: Icons.remove_red_eye_outlined,
-        features: [
           _AppFeature(
             title: l10n.titleFeatureQuishingGuard,
             description: l10n.descFeatureQuishingGuard,
@@ -187,6 +180,13 @@ class FeaturesScreen extends StatelessWidget {
               l10n.labelFeatureQuishingGuardChip3,
             ],
           ),
+        ],
+      ),
+      _FeatureCategory(
+        name: l10n.titleFeaturesCatVision,
+        subtitle: l10n.descFeaturesCatVision,
+        icon: Icons.remove_red_eye_outlined,
+        features: [
           _AppFeature(
             title: l10n.titleFeatureArCodeVision,
             description: l10n.descFeatureArCodeVision,

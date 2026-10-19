@@ -23,7 +23,7 @@
 
 Beyond standard barcode decoding, SreerajP QR Studio serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
 - **6-Layer URL Safety & Threat Intelligence** protects against phishing, malicious redirects, and lookalike domains using local heuristics plus Google Safe Browsing, VirusTotal, URLhaus, PhishTank, and OpenPhish.
-- **QuishingGuard™** performs on-device computer vision forensic analysis to detect physical sticker overlays on genuine QR codes.
+- **QuishingGuard™** reminds you to check printed QR codes for fake stickers before you open a link or pay, with simple checks you do by hand.
 - **Zero-Trust Sandboxed Preview** renders web destinations in an isolated, script-disabled environment with domain age (WHOIS) insights before opening.
 - **StegoQR** allows secret payloads hidden within standard QR codes, encrypted with AES-256 and protected by passphrases and biometric authentication.
 - **AirQR Optical Streaming & Device Sync** provides an air-gapped optical transfer mechanism (5–25 FPS animated QR sequences) to send files, encrypted scan history, and app settings between phones without Wi-Fi, Bluetooth, or cables.
@@ -75,11 +75,11 @@ Every scanned link is evaluated across six rigorous security layers before the u
 
 > **Private by Default**: Outbound threat queries run only when enabled by the user or when **Active Online Probing** is explicitly enabled. In private mode, heuristic checks run entirely on-device.
 
-### 🔍 QuishingGuard™ Physical Tamper Detection
-Protects users from real-world "quishing" (QR phishing) where attackers paste fraudulent stickers over legitimate QR codes on parking meters, restaurants, or payment terminals.
-- **On-Device Computer Vision**: Analyzes camera frames surrounding the detected code.
-- **Forensic Indicators**: Evaluates double edge boundaries, cast shadow steps, paper seam gradients, and print grain mismatches.
-- **Scored Risk Verdict**: Delivers an instant visual score: **Authentic** (green), **Wear & Tear** (yellow), or **High Warning** (red).
+### 🔍 QuishingGuard™ Fake Sticker Check
+Helps users avoid real-world "quishing" (QR phishing), where attackers paste fake stickers over real QR codes on parking meters, restaurants, or payment stands.
+- **Shown when it matters**: When a link or payment code is scanned with the camera, the result screen shows a small "Fake sticker check" card.
+- **Hand checks**: Feel for raised sticker edges, check the payee name before paying, and ask staff or type the address yourself when in doubt.
+- **Honest by design**: The app does not analyse the camera picture for stickers and gives no score, so it never claims a code is genuine.
 
 ### 🌐 Zero-Trust Sandboxed Web Preview
 - Fetches destination pages in an isolated, script-disabled sandbox.
@@ -133,7 +133,7 @@ Transfer data and synchronize devices without Wi-Fi, Bluetooth, cellular data, o
 - **Continuous Batch Scan Mode**: Rapidly queues multiple scans without leaving the viewfinder, complete with duplicate prevention and multi-format export.
 
 ### 🚀 Interactive Onboarding & Feature Guides
-- **Welcome Tour**: 3-slide interactive onboarding carousel on first launch introducing the 6-Layer URL Safety Engine, QuishingGuard™ tamper detection, and 100% offline privacy architecture.
+- **Welcome Tour**: 3-slide interactive onboarding carousel on first launch introducing the 6-Layer URL Safety Engine, the QuishingGuard™ fake sticker check, and 100% offline privacy architecture.
 - **Tour Replay**: Replay the onboarding tour at any time from the Settings screen or the Help Center.
 - **Feature Help Guides**: Dedicated in-app guide cards explaining AR CodeVision, AirQR, QuishingGuard™, URL threat checks, and permission requirements.
 
@@ -190,8 +190,8 @@ location) with a style editor, and the AirQR transmitter turns text into
 animated QR code sequences (5–25 FPS) for optical transmission. Beyond plain decoding, every scanned link is checked for safety against
 phishing and fake sites using a 6-layer check, and the user can preview the
 destination page itself in a safe, script-disabled sandbox before ever
-opening it. Every scanned code can also be checked for physical tampering
-(like a sticker glued over a real code). It also understands "smart" QR
+opening it. For links and payment codes scanned with the camera, it also reminds the
+user to check for a fake sticker glued over the real code. It also understands "smart" QR
 content (Wi-Fi logins, contact cards, locations, calendar invites, payment
 links, 2FA codes) and turns them into one-tap actions, supports a
 hidden/encrypted QR format unlocked by a passphrase (with an optional
@@ -306,7 +306,7 @@ Result screen layout:
   the privacy mode. "See details" scrolls to the full list.
 - In the full list, failed checks are always shown. Passed checks and
   skipped checks (no API key, or service turned off) are folded into one
-  line each. The sandbox preview and a genuine-print Quishing Guard result
+  line each. The sandbox preview and the Quishing Guard sticker check card
   also start folded.
 - The Open button follows the risk: normal when safe, amber with a warning
   sign for a warning, and outlined red for danger. A confirm step always
@@ -332,19 +332,18 @@ Result screen layout:
 
 ---
 
-### Quishing Guard — physical tamper detector
+### Quishing Guard — fake sticker check
 
-Checks whether a printed QR code has been physically tampered with (for
-example, a fake sticker glued over a real one — a real-world "quishing"
-attack).
+Reminds the user to check a printed QR code for a fake sticker glued over
+the real one (a real-world "quishing" attack).
 
-- Runs fully on the device, using the camera image around the scanned code,
-  no network needed.
-- Looks for tell-tale signs of an overlay: double edges, small shadow steps,
-  print texture/grain mismatches, and other forensic signals.
-- Gives a 3-level risk result: **Authentic** (green), **Wear & Tear**
-  (yellow), **High Warning** (red), with the details behind the score shown
-  to the user.
+- Shown on the result screen for links and payment codes scanned with the
+  camera. Not shown for photos, the clipboard, screen scans or plain text.
+- Lists simple hand checks: feel for raised sticker edges, check the payee
+  name before paying, ask staff or type the address yourself.
+- The app does not analyse the camera image for stickers and gives no score.
+  Spotting a well-made sticker reliably from a phone camera is not possible
+  today, so the app does not pretend to.
 
 ---
 

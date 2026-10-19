@@ -18,7 +18,7 @@ Read first: [../CLAUDE.md](../CLAUDE.md) / [../AGENTS.md](../AGENTS.md). Templat
 | Item | Value |
 |---|---|
 | App display name | `SreerajP QR Studio` (dev flavor: `QR Studio Dev`) |
-| Short description (one line) | `A privacy-first QR/barcode scanner with link safety checks, tamper detection, StegoQR, AR CodeVision, and offline smart tools` |
+| Short description (one line) | `A privacy-first QR/barcode scanner with link safety checks, fake-sticker reminders, StegoQR, AR CodeVision, and offline smart tools` |
 | Organization / publisher | `Sreeraj P` |
 | Reverse-DNS app id | `in.sreerajp.qr_studio` — permanent once published (dev flavor adds `.dev`) |
 | Dart package name (`pubspec.yaml` `name`) | `sreerajp_qr_studio` |

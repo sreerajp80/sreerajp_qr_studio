@@ -466,71 +466,53 @@ abstract class AppLocalizations {
   /// **'Pay'**
   String get actionPaymentAmountPay;
 
-  /// A percentage shown to the user, for example 42%
-  ///
-  /// In en, this message translates to:
-  /// **'{value}%'**
-  String labelPercentValue(String value);
-
-  /// Name of the feature that checks a printed code for physical tampering
+  /// Name of the feature that reminds the user to check a printed QR code for a fake sticker
   ///
   /// In en, this message translates to:
   /// **'QuishingGuard™'**
   String get titleQuishingGuard;
 
-  /// Small badge saying the check uses computer vision on the printed code
+  /// QuishingGuard card on the result screen: subtitle line. Short label (fake QR sticker check reminder)
   ///
   /// In en, this message translates to:
-  /// **'Physical Tamper CV'**
-  String get labelQuishingTamperBadge;
+  /// **'Fake sticker check'**
+  String get titleStickerCheck;
 
-  /// Label before the tamper risk percentage
+  /// QuishingGuard card: tooltip of the button that opens the list of hand checks
   ///
   /// In en, this message translates to:
-  /// **'Tamper Risk Score:'**
-  String get labelQuishingRiskScore;
+  /// **'Show checks'**
+  String get tooltipStickerCheckExpand;
 
-  /// Link that opens the detailed tamper findings
+  /// QuishingGuard card: tooltip of the button that closes the list of hand checks
   ///
   /// In en, this message translates to:
-  /// **'Show signals'**
-  String get actionQuishingViewSignals;
+  /// **'Hide checks'**
+  String get tooltipStickerCheckCollapse;
 
-  /// Link that closes the detailed tamper findings
+  /// QuishingGuard card: explains the sticker scam and that the app cannot see stickers, so the user checks by hand
   ///
   /// In en, this message translates to:
-  /// **'Hide signals'**
-  String get actionQuishingHideSignals;
+  /// **'Scammers stick their own QR code over the real one. This app cannot spot a sticker in the camera picture, so please check it yourself:'**
+  String get bodyStickerCheckIntro;
 
-  /// Name of the tamper metric that looks at the edges of the printed code
+  /// QuishingGuard card: hand check 1, look at and feel the code for raised sticker edges
   ///
   /// In en, this message translates to:
-  /// **'Edge Discontinuity'**
-  String get labelQuishingMetricEdge;
+  /// **'Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.'**
+  String get bodyStickerCheckEdges;
 
-  /// Short explanation of the edge discontinuity metric
+  /// QuishingGuard card: hand check 2, check the payee name before paying
   ///
   /// In en, this message translates to:
-  /// **'Double edges & shadow lines'**
-  String get descQuishingMetricEdge;
+  /// **'Before you pay, check that the name on the payment screen matches the shop.'**
+  String get bodyStickerCheckPayee;
 
-  /// Name of the tamper metric that looks at print quality
+  /// QuishingGuard card: hand check 3, ask staff or type the address yourself
   ///
   /// In en, this message translates to:
-  /// **'Print Grain & DPI'**
-  String get labelQuishingMetricGrain;
-
-  /// Short explanation of the print grain metric
-  ///
-  /// In en, this message translates to:
-  /// **'Halftone dot & chromatic noise'**
-  String get descQuishingMetricGrain;
-
-  /// Heading above the list of tamper findings
-  ///
-  /// In en, this message translates to:
-  /// **'Detected signals:'**
-  String get titleQuishingSignals;
+  /// **'If in doubt, ask the staff, or type the website address yourself.'**
+  String get bodyStickerCheckAsk;
 
   /// Tooltip on the button that closes the AR detail sheet
   ///
@@ -1921,7 +1903,7 @@ abstract class AppLocalizations {
   /// Explanation under the permissions card
   ///
   /// In en, this message translates to:
-  /// **'Explicit, implicit & setting-dependent details'**
+  /// **'What the app uses, and why'**
   String get descSettingsPermissions;
 
   /// Settings card that opens the feature guides
@@ -1930,10 +1912,10 @@ abstract class AppLocalizations {
   /// **'Help & guides'**
   String get labelSettingsHelp;
 
-  /// Explanation under the help card
+  /// Subtitle of the Help card in Settings
   ///
   /// In en, this message translates to:
-  /// **'AR CodeVision, AirQR, Quishing Guard & URL Safety'**
+  /// **'Simple guides for every feature'**
   String get descSettingsHelp;
 
   /// Explanation under the about card
@@ -2038,119 +2020,227 @@ abstract class AppLocalizations {
   /// **'Permissions Overview'**
   String get titlePermissionsScreen;
 
-  /// Heading for permissions the user is asked for
+  /// Introduction at the top of the Permissions screen
   ///
   /// In en, this message translates to:
-  /// **'Explicit Permissions (Runtime / Manifest)'**
-  String get helpPermissionsExplicitHeading;
+  /// **'Permissions let an app use parts of your phone, such as the camera. This app asks only for what a feature needs, and only when you use that feature. You can see or change them at any time in Android Settings > Apps > this app > Permissions.'**
+  String get helpPermissionsIntro;
 
-  /// Name of the camera permission
+  /// Permissions screen group heading: permissions Android asks the user for
   ///
   /// In en, this message translates to:
-  /// **'Camera Access (android.permission.CAMERA)'**
-  String get helpPermissionCameraTitle;
+  /// **'Asked when needed'**
+  String get labelPermGroupAsked;
 
-  /// What the camera permission is used for
+  /// Short note under the "Asked when needed" group heading
   ///
   /// In en, this message translates to:
-  /// **'Requested on-demand at point of use. Required for live scanning, AR CodeVision HUD overlay, and AirQR optical stream decoding.'**
-  String get helpPermissionCameraDesc;
+  /// **'Android asks you before the app can use these. If you say no, the rest of the app still works.'**
+  String get helpPermGroupAskedNote;
 
-  /// Name of the fingerprint and face permission
+  /// Permissions screen group heading: permissions Android allows at install without asking
   ///
   /// In en, this message translates to:
-  /// **'Biometric Authentication (android.permission.USE_BIOMETRIC)'**
-  String get helpPermissionBiometricTitle;
+  /// **'Allowed at install'**
+  String get labelPermGroupInstall;
 
-  /// What the biometric permission is used for
+  /// Short note under the "Allowed at install" group heading
   ///
   /// In en, this message translates to:
-  /// **'Requested when unlocking biometric secure vaults or encrypted QR code payloads.'**
-  String get helpPermissionBiometricDesc;
+  /// **'Android allows these when the app is installed, without asking. Each one is used only for the feature named here.'**
+  String get helpPermGroupInstallNote;
 
-  /// Heading for permissions granted by the system
+  /// Permissions screen group heading: permissions the app does not ask for
   ///
   /// In en, this message translates to:
-  /// **'Implicit & System Permissions'**
-  String get helpPermissionsImplicitHeading;
+  /// **'Not asked for'**
+  String get labelPermGroupNotUsed;
 
-  /// Name of the internet permission
+  /// Short note under the "Not asked for" group heading
   ///
   /// In en, this message translates to:
-  /// **'Internet Access (android.permission.INTERNET)'**
-  String get helpPermissionInternetTitle;
+  /// **'The app does not ask for these, so it cannot use them.'**
+  String get helpPermGroupNotUsedNote;
 
-  /// What the internet permission is used for
+  /// Permission name: camera
   ///
   /// In en, this message translates to:
-  /// **'Declared in Android Manifest. Used only when Active Online Probing or Google Safe Browsing API lookup is enabled.'**
-  String get helpPermissionInternetDesc;
+  /// **'Camera'**
+  String get labelPermCamera;
 
-  /// Name of the vibration permission
+  /// What the camera permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Vibration & Haptics (android.permission.VIBRATE)'**
-  String get helpPermissionVibrateTitle;
+  /// **'Used to scan QR codes and barcodes, and for AR CodeVision and receiving AirQR transfers. Android asks you the first time you open a camera screen. Camera pictures are read on your phone and are never saved or sent. If you say no, you can still scan from pictures and PDFs.'**
+  String get helpPermCameraDesc;
 
-  /// What the vibration permission is used for
+  /// Permission name: location
   ///
   /// In en, this message translates to:
-  /// **'System permission. Triggers haptic vibration feedback during scan alerts and button taps.'**
-  String get helpPermissionVibrateDesc;
+  /// **'Location'**
+  String get labelPermLocation;
 
-  /// Name of the photo picker access
+  /// What the location permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Scoped Media Photo Picker'**
-  String get helpPermissionPhotoPickerTitle;
+  /// **'Used only when you tap Use My Location in CodeForge, to put your current place into a map QR code. The app reads your position once, does not keep it and never sends it anywhere. It is never used in the background. If you say no, you can type the place yourself.'**
+  String get helpPermLocationDesc;
 
-  /// What the photo picker access is used for
+  /// Permission name: fingerprint or face unlock
   ///
   /// In en, this message translates to:
-  /// **'System photo picker access. Allows selecting QR images or videos from gallery without requesting full storage access.'**
-  String get helpPermissionPhotoPickerDesc;
+  /// **'Fingerprint or face'**
+  String get labelPermBiometric;
 
-  /// Heading for permissions that depend on a setting
+  /// What the biometric permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Setting-Dependent Permissions'**
-  String get helpPermissionsSettingHeading;
+  /// **'Used by App lock, and to open locked StegoQR items with your fingerprint, face or screen lock. Android does the check and only tells the app whether it passed. The app never sees your fingerprint or face.'**
+  String get helpPermBiometricDesc;
 
-  /// Name of the active online checks setting
+  /// Permission name: notifications
   ///
   /// In en, this message translates to:
-  /// **'Active Online Probing (Privacy Setting)'**
-  String get helpPermissionProbingTitle;
+  /// **'Notifications'**
+  String get labelPermNotifications;
 
-  /// What active online checks do
+  /// What the notification permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Active only when enabled. Performs outbound HTTP HEAD requests to follow URL redirects and check SSL certificates. When disabled, checks are 100% offline.'**
-  String get helpPermissionProbingDesc;
+  /// **'Used only while the Scan bubble is on, to show that it is on, with a Turn off button. Android asks the first time you turn the bubble on. If you say no, the bubble still works, just without the notice.'**
+  String get helpPermNotificationsDesc;
 
-  /// Name of the Safe Browsing lookup setting
+  /// Permission name: display over other apps
   ///
   /// In en, this message translates to:
-  /// **'Google Safe Browsing API (API Key Setting)'**
-  String get helpPermissionSafeBrowsingTitle;
+  /// **'Show over other apps'**
+  String get labelPermOverlay;
 
-  /// What the Safe Browsing lookup does
+  /// What the display-over-other-apps permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Active only when API key is configured. Queries Google Threat API for malware & phishing checks.'**
-  String get helpPermissionSafeBrowsingDesc;
+  /// **'Lets the Scan bubble float over other apps, so you can scan a code you see on screen. Used only after you turn the bubble on. The app explains this first, then opens the Android page where you allow it. If you do not allow it, the bubble stays off.'**
+  String get helpPermOverlayDesc;
 
-  /// Name of the scan vibration setting
+  /// Permission name: screen capture (GhostScan)
   ///
   /// In en, this message translates to:
-  /// **'Scan Feedback Vibrations (Alert Setting)'**
-  String get helpPermissionFeedbackTitle;
+  /// **'Screen capture'**
+  String get labelPermScreenCapture;
 
-  /// When scan vibration is used
+  /// What the screen capture permission is used for, in plain words
   ///
   /// In en, this message translates to:
-  /// **'Active only when Vibration is enabled in Scan Feedback & Alerts settings.'**
-  String get helpPermissionFeedbackDesc;
+  /// **'Used by GhostScan and the Scan bubble to read a code shown on your screen. Android asks you every time. The app takes one picture of the screen, reads the code on your phone, then throws the picture away. It never records video and never sends the picture anywhere.'**
+  String get helpPermScreenCaptureDesc;
+
+  /// Permission name: internet
+  ///
+  /// In en, this message translates to:
+  /// **'Internet'**
+  String get labelPermInternet;
+
+  /// What the internet permission is used for, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning works fully offline. The internet is used only by the two optional link checks below. Both are off until you turn them on. While they are off, nothing you scan leaves your phone. Opening a link is done by your browser, not by this app.'**
+  String get helpPermInternetDesc;
+
+  /// Name of the optional Active Online Probing check on the Permissions screen
+  ///
+  /// In en, this message translates to:
+  /// **'Online link check'**
+  String get labelPermProbing;
+
+  /// What Active Online Probing does with the internet, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Off unless you turn on Active Online Probing in Settings > Privacy & probing. When on, the app visits the scanned link before you open it, to follow its redirects, check its security certificate and see how old the website is.'**
+  String get helpPermProbingDesc;
+
+  /// Name of the optional online link safety services on the Permissions screen
+  ///
+  /// In en, this message translates to:
+  /// **'Link safety services'**
+  String get labelPermLinkServices;
+
+  /// What the optional online link safety services do with the internet, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Off unless you turn them on in Settings > URL Safety Providers. When on, the scanned link is sent to the services you chose (such as Google Safe Browsing or VirusTotal) to check it against their lists of harmful sites. Some need your own API key, which is kept in the phone\'s secure storage.'**
+  String get helpPermLinkServicesDesc;
+
+  /// Permission name: Wi-Fi and network control
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi connect'**
+  String get labelPermWifi;
+
+  /// What the Wi-Fi and network permissions are used for, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Used only when you tap Connect to Wi-Fi on a scanned Wi-Fi QR code, to add that network to your phone. On newer Android versions, Android asks you to confirm first. The app does not read your saved Wi-Fi passwords.'**
+  String get helpPermWifiDesc;
+
+  /// Permission name: keep running in the background (foreground services)
+  ///
+  /// In en, this message translates to:
+  /// **'Keep running'**
+  String get labelPermBackground;
+
+  /// What the foreground service permissions are used for, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Lets GhostScan and the Scan bubble keep working while you are in another app. Android always shows a notification while this is running, so you know about it.'**
+  String get helpPermBackgroundDesc;
+
+  /// Permission name: start after phone restart
+  ///
+  /// In en, this message translates to:
+  /// **'Start after restart'**
+  String get labelPermBoot;
+
+  /// What the start-after-restart permission is used for, in plain words
+  ///
+  /// In en, this message translates to:
+  /// **'Brings the Scan bubble back after your phone restarts, but only if the bubble was on and you turned on Start after restart. Otherwise it does nothing.'**
+  String get helpPermBootDesc;
+
+  /// Name of the storage permission, which the app does not ask for
+  ///
+  /// In en, this message translates to:
+  /// **'Photos and files'**
+  String get labelPermStorage;
+
+  /// Explains that the app has no storage permission and uses the system picker
+  ///
+  /// In en, this message translates to:
+  /// **'The app has no storage permission. When you scan from a picture or a PDF, Android\'s own picker opens, and the app gets only the file you choose.'**
+  String get helpPermStorageDesc;
+
+  /// Name of the microphone permission, which the app does not ask for
+  ///
+  /// In en, this message translates to:
+  /// **'Microphone'**
+  String get labelPermMicrophone;
+
+  /// Explains that the app does not use the microphone
+  ///
+  /// In en, this message translates to:
+  /// **'The app does not use the microphone. The camera always opens with sound turned off.'**
+  String get helpPermMicrophoneDesc;
+
+  /// Name of the vibration permission, which the app does not need
+  ///
+  /// In en, this message translates to:
+  /// **'Vibration'**
+  String get labelPermVibration;
+
+  /// Explains that scan vibration needs no permission
+  ///
+  /// In en, this message translates to:
+  /// **'Scan vibrations use Android\'s built-in touch feedback, which needs no permission.'**
+  String get helpPermVibrationDesc;
 
   /// Word shown when a setting is turned on
   ///
@@ -2733,132 +2823,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Use OpenPhish feed'**
   String get labelOpenPhishToggle;
-
-  /// Summary when the printed code looks untouched
-  ///
-  /// In en, this message translates to:
-  /// **'Authentic Printed Code. No physical tampering detected.'**
-  String get bodyQuishingSummaryAuthentic;
-
-  /// Summary when marks look like ordinary wear
-  ///
-  /// In en, this message translates to:
-  /// **'Wear & Tear Detected. Slight physical surface noise observed.'**
-  String get bodyQuishingSummaryWearAndTear;
-
-  /// Summary when a sticker may cover the printed code
-  ///
-  /// In en, this message translates to:
-  /// **'High Warning: Physical Overlay Sticker Detected! Verify Before Tapping Links.'**
-  String get bodyQuishingSummaryHighWarning;
-
-  /// Short status label when the printed code looks untouched
-  ///
-  /// In en, this message translates to:
-  /// **'🟢 Authentic Printed Code'**
-  String get bodyQuishingStatusAuthentic;
-
-  /// Short status label when marks look like ordinary wear
-  ///
-  /// In en, this message translates to:
-  /// **'🟡 Wear & Tear Detected'**
-  String get bodyQuishingStatusWearAndTear;
-
-  /// Short status label when a sticker may cover the printed code
-  ///
-  /// In en, this message translates to:
-  /// **'🔴 High Warning: Physical Overlay Sticker Detected!'**
-  String get bodyQuishingStatusHighWarning;
-
-  /// Finding: a shadow line suggests a raised layer around the code
-  ///
-  /// In en, this message translates to:
-  /// **'Micro-shadow depth step line detected along matrix perimeter'**
-  String get bodyQuishingSignalMicroShadowPerimeter;
-
-  /// Finding: the print grain colours do not match
-  ///
-  /// In en, this message translates to:
-  /// **'Mismatching inkjet/thermal grain chromatic aberration detected'**
-  String get bodyQuishingSignalGrainAberration;
-
-  /// Finding: light bounces evenly off the whole surface
-  ///
-  /// In en, this message translates to:
-  /// **'Uniform substrate reflection profile verified'**
-  String get bodyQuishingSignalUniformReflection;
-
-  /// Finding: print grain is even around the code edge
-  ///
-  /// In en, this message translates to:
-  /// **'Consistent halftone dot density across QR matrix perimeter'**
-  String get bodyQuishingSignalConsistentDotsQrMatrix;
-
-  /// Finding: the surface reflects light as expected
-  ///
-  /// In en, this message translates to:
-  /// **'Substrate reflection profile verified'**
-  String get bodyQuishingSignalReflectionVerified;
-
-  /// Finding: print grain is consistent around the code edge
-  ///
-  /// In en, this message translates to:
-  /// **'Halftone dot density consistent across QR matrix perimeter'**
-  String get bodyQuishingSignalHalftoneConsistentQrMatrix;
-
-  /// Finding: print grain is consistent across the code
-  ///
-  /// In en, this message translates to:
-  /// **'Halftone dot density consistent across matrix'**
-  String get bodyQuishingSignalHalftoneConsistentMatrix;
-
-  /// Finding: two edges seen where there should be one
-  ///
-  /// In en, this message translates to:
-  /// **'Perimeter double-edge reflection detected around QR matrix'**
-  String get bodyQuishingSignalDoubleEdgeAroundMatrix;
-
-  /// Finding: a shadow line suggests a sticker border
-  ///
-  /// In en, this message translates to:
-  /// **'Micro-shadow depth step line detected along sticker border'**
-  String get bodyQuishingSignalMicroShadowStickerBorder;
-
-  /// Finding: the code was printed on different material from its background
-  ///
-  /// In en, this message translates to:
-  /// **'Inkjet/thermal print grain mismatching base substrate'**
-  String get bodyQuishingSignalGrainMismatchBase;
-
-  /// Finding: ordinary scratches or wear
-  ///
-  /// In en, this message translates to:
-  /// **'Minor surface scratch or wear pattern observed'**
-  String get bodyQuishingSignalMinorScratch;
-
-  /// Finding: small print grain differences at the edges
-  ///
-  /// In en, this message translates to:
-  /// **'Slight dot density irregularity along edges'**
-  String get bodyQuishingSignalSlightDotIrregularity;
-
-  /// Finding: print grain is even around the code edge
-  ///
-  /// In en, this message translates to:
-  /// **'Consistent halftone dot density across matrix perimeter'**
-  String get bodyQuishingSignalConsistentDotsMatrixPerimeter;
-
-  /// Finding naming how many edge zones look doubled
-  ///
-  /// In en, this message translates to:
-  /// **'Perimeter double-edge reflection detected ({zones} boundary zones)'**
-  String bodyQuishingSignalPerimeterDoubleEdge(String zones);
-
-  /// Finding naming how uneven the print grain is
-  ///
-  /// In en, this message translates to:
-  /// **'Substrate halftone dot density inconsistency detected ({variance}% variance)'**
-  String bodyQuishingSignalDotDensityVariance(String variance);
 
   /// Badge when the link is not a normal web address
   ///
@@ -3748,34 +3712,34 @@ abstract class AppLocalizations {
   /// **'Daily Quota Meter'**
   String get labelFeatureSafeBrowsingChip3;
 
-  /// Features screen: title of the QuishingGuard tamper detection feature
+  /// Features screen: title of the QuishingGuard fake sticker check feature
   ///
   /// In en, this message translates to:
   /// **'QuishingGuard™'**
   String get titleFeatureQuishingGuard;
 
-  /// Features screen: description of the QuishingGuard tamper detection feature
+  /// Features screen: description of QuishingGuard, a reminder to check printed QR codes for fake stickers by hand (the app does not analyse the image)
   ///
   /// In en, this message translates to:
-  /// **'Forensic computer vision pipeline detecting physical QR sticker overlays, edge discontinuities, micro-shadows, and chromatic halftone print grain.'**
+  /// **'Reminds you to check printed QR codes for fake stickers before you open a link or pay. It gives you quick checks to do by hand; it does not examine the picture.'**
   String get descFeatureQuishingGuard;
 
-  /// Features screen: highlight chip 1 of the QuishingGuard tamper detection feature (max 22 characters)
+  /// Features screen: QuishingGuard chip 1 (fake stickers)
   ///
   /// In en, this message translates to:
-  /// **'Sticker Overlays'**
+  /// **'Fake stickers'**
   String get labelFeatureQuishingGuardChip1;
 
-  /// Features screen: highlight chip 2 of the QuishingGuard tamper detection feature (max 22 characters)
+  /// Features screen: QuishingGuard chip 2 (checks done by hand)
   ///
   /// In en, this message translates to:
-  /// **'Edge Discontinuity'**
+  /// **'Hand checks'**
   String get labelFeatureQuishingGuardChip2;
 
-  /// Features screen: highlight chip 3 of the QuishingGuard tamper detection feature (max 22 characters)
+  /// Features screen: QuishingGuard chip 3 (payment safety tips)
   ///
   /// In en, this message translates to:
-  /// **'Print Grain Analysis'**
+  /// **'Payment tips'**
   String get labelFeatureQuishingGuardChip3;
 
   /// Features screen: title of the AR CodeVision feature
@@ -4168,16 +4132,16 @@ abstract class AppLocalizations {
   /// **'Open-Source Safety'**
   String get labelFeatureOfflinePrivacyChip3;
 
-  /// Hero header title on the Help Home screen
+  /// Heading of the card at the top of the Help hub
   ///
   /// In en, this message translates to:
-  /// **'Help Center & User Guides'**
+  /// **'How to use this app'**
   String get helpCenterHeaderTitle;
 
-  /// Hero header subtitle on the Help Home screen
+  /// Text under the heading at the top of the Help hub
   ///
   /// In en, this message translates to:
-  /// **'Browse in-depth guides, step-by-step instructions, and solutions for all features of SreerajP QR Studio.'**
+  /// **'Simple guides for every part of the app. Pick a topic to see what it does and how to use it.'**
   String get helpCenterHeaderSubtitle;
 
   /// Button to open the manual decryption tool
@@ -4606,18 +4570,6 @@ abstract class AppLocalizations {
   /// **'Toggle flash'**
   String get tooltipToggleFlash;
 
-  /// Tooltip for camera adjustments button
-  ///
-  /// In en, this message translates to:
-  /// **'Camera adjustments'**
-  String get tooltipCameraAdjustments;
-
-  /// Tooltip for camera zoom button
-  ///
-  /// In en, this message translates to:
-  /// **'Zoom controls'**
-  String get tooltipZoomControls;
-
   /// Tooltip for camera flip button
   ///
   /// In en, this message translates to:
@@ -4635,12 +4587,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show or hide secret'**
   String get tooltipToggleSecretVisibility;
-
-  /// Tooltip for AirQR stream reset button
-  ///
-  /// In en, this message translates to:
-  /// **'Reset stream'**
-  String get tooltipResetStream;
 
   /// Label for custom text mode tab in AirQR transmitter
   ///
@@ -5254,40 +5200,40 @@ abstract class AppLocalizations {
   /// **'Private Probing & Safe Browsing'**
   String get bodyOnboardingSlide1Bullet3;
 
-  /// Badge tag for QuishingGuard tamper detection slide
+  /// Badge tag for the QuishingGuard fake-sticker slide of the welcome tour
   ///
   /// In en, this message translates to:
-  /// **'Computer Vision'**
+  /// **'Scam stickers'**
   String get labelOnboardingSlide2Badge;
 
   /// Title for second onboarding slide explaining QuishingGuard
   ///
   /// In en, this message translates to:
-  /// **'Tamper detection'**
+  /// **'Fake sticker check'**
   String get titleOnboardingSlide2;
 
-  /// Description for second onboarding slide explaining sticker tampering
+  /// Description for second onboarding slide explaining the fake sticker check
   ///
   /// In en, this message translates to:
-  /// **'Criminals paste fraudulent QR stickers over authentic signs. QuishingGuard inspects physical edges, shadows, and surface paper textures before you scan.'**
+  /// **'Scammers paste fake QR stickers over real ones. When you scan a link or a payment code with the camera, QuishingGuard reminds you what to check before you open it or pay.'**
   String get bodyOnboardingSlide2;
 
   /// First highlight bullet for QuishingGuard slide
   ///
   /// In en, this message translates to:
-  /// **'Physical sticker overlay detection'**
+  /// **'Feel for raised sticker edges'**
   String get bodyOnboardingSlide2Bullet1;
 
   /// Second highlight bullet for QuishingGuard slide
   ///
   /// In en, this message translates to:
-  /// **'Cut edge & shadow boundary analysis'**
+  /// **'Check the payee name'**
   String get bodyOnboardingSlide2Bullet2;
 
   /// Third highlight bullet for QuishingGuard slide
   ///
   /// In en, this message translates to:
-  /// **'Real-time camera frame inspection'**
+  /// **'Ask the staff when in doubt'**
   String get bodyOnboardingSlide2Bullet3;
 
   /// Badge tag for offline privacy model slide
@@ -5618,125 +5564,1781 @@ abstract class AppLocalizations {
   /// **'Analyzing screen content...'**
   String get bodyGhostScanAnalyzing;
 
-  /// Help Center hub: group header above the scanning guides
+  /// Help hub group heading for the scanning guides
   ///
   /// In en, this message translates to:
-  /// **'Scanning & Ingestion Guides'**
+  /// **'Scanning'**
   String get helpGuideGroupScanning;
 
-  /// Help Center hub: group header above the security guides
+  /// Help hub group heading for the guides on making and sending codes
   ///
   /// In en, this message translates to:
-  /// **'Security & Threat Defense'**
+  /// **'Making and sending codes'**
+  String get helpGuideGroupCreate;
+
+  /// Help hub group heading for the safety guides
+  ///
+  /// In en, this message translates to:
+  /// **'Staying safe'**
   String get helpGuideGroupSecurity;
 
-  /// Help Center hub: group header above the payload, storage and privacy guides
+  /// Help hub group heading for the guides on using scanned content
   ///
   /// In en, this message translates to:
-  /// **'Payloads, Storage & Privacy'**
+  /// **'Using what you scan'**
   String get helpGuideGroupPayloads;
 
-  /// App bar title of the Barcode & Media Scanning help screen. Short label.
+  /// Help hub group heading for the settings guide and FAQ
   ///
   /// In en, this message translates to:
-  /// **'Barcode scanning'**
-  String get titleHelpBarcode;
+  /// **'Your app and settings'**
+  String get helpGuideGroupApp;
 
-  /// Help Center hub: card title for the Barcode & Media Scanning guide
+  /// Help hub card title for the scanning guide
   ///
   /// In en, this message translates to:
-  /// **'Barcode & Media Scanning'**
+  /// **'Scanning codes'**
   String get helpGuideBarcodeName;
 
-  /// Help Center hub: card subtitle for the Barcode & Media Scanning guide
+  /// Help hub card summary for the scanning guide
   ///
   /// In en, this message translates to:
-  /// **'Live camera controls, gallery photos, and multi-page PDF document scanning.'**
+  /// **'Scan with the camera, or from photos, PDF files and copied text. Scan many codes in a row.'**
   String get helpGuideBarcodeSummary;
 
-  /// Barcode help screen: intro paragraph
+  /// Opening paragraph of the scanning guide
   ///
   /// In en, this message translates to:
-  /// **'Scan any 1D or 2D barcode instantly using live camera, photo gallery images, or multi-page PDF documents with high-precision computer vision.'**
+  /// **'Point your camera at a code and the app reads it at once. You can also read codes from photos, PDF files and copied text. All reading happens on your phone, with no internet needed.'**
   String get helpGuideBarcodeIntro;
 
-  /// Barcode help screen: section heading about the live camera
+  /// Scanning guide section heading: scanning with the camera
   ///
   /// In en, this message translates to:
-  /// **'Live Camera Viewport'**
+  /// **'Scan with the camera'**
   String get helpGuideBarcodeCameraTitle;
 
-  /// Barcode help screen: live camera bullet 1 (supported formats; keep format names as-is)
+  /// Scanning guide: how to scan with the camera
   ///
   /// In en, this message translates to:
-  /// **'Aim your camera at any QR code, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, or Codabar symbol.'**
+  /// **'Open the Scan tab and hold the code inside the frame. The app reads it by itself. You do not need to tap anything.'**
   String get helpGuideBarcodeCameraBullet1;
 
-  /// Barcode help screen: live camera bullet 2 (torch and zoom)
+  /// Scanning guide: list of code types the app can read
   ///
   /// In en, this message translates to:
-  /// **'Torch & Zoom: Tap the Flashlight icon in low light, or use the zoom slider to read high-density micro-QR codes from a distance.'**
+  /// **'It reads QR codes (also the small Micro QR and rMQR kinds), Data Matrix, Aztec, PDF417 and MaxiCode. It also reads shop and parcel barcodes such as EAN, UPC, Code 128, Code 39, Code 93, Codabar, ITF and DataBar.'**
   String get helpGuideBarcodeCameraBullet2;
 
-  /// Barcode help screen: live camera bullet 3 (viewfinder overlays in Settings)
+  /// Scanning guide: the flash button and its three modes
   ///
   /// In en, this message translates to:
-  /// **'Viewfinder Overlays: Customize the visual scan frame under Settings -> Appearance to suit your preference.'**
+  /// **'Flash: tap the flash button to switch between Off, On and Auto. In Auto, the flash comes on by itself when it is dark.'**
   String get helpGuideBarcodeCameraBullet3;
 
-  /// Barcode help screen: section heading about scanning gallery images
+  /// Scanning guide: the zoom slider
   ///
   /// In en, this message translates to:
-  /// **'Scanning Gallery Photos & Images'**
+  /// **'Zoom: use the zoom slider for small or far-away codes. This works better than moving the phone very close.'**
+  String get helpGuideBarcodeCameraBullet4;
+
+  /// Scanning guide: the switch camera button
+  ///
+  /// In en, this message translates to:
+  /// **'Switch camera: change between the back and the front camera.'**
+  String get helpGuideBarcodeCameraBullet5;
+
+  /// Scanning guide: pausing and resuming the scanner
+  ///
+  /// In en, this message translates to:
+  /// **'Pause: tap Pause scanning to stop for a moment, and Resume scanning to start again.'**
+  String get helpGuideBarcodeCameraBullet6;
+
+  /// Scanning guide section heading: scanning a photo
+  ///
+  /// In en, this message translates to:
+  /// **'Scan a photo or screenshot'**
   String get helpGuideBarcodeGalleryTitle;
 
-  /// Barcode help screen: gallery bullet 1
+  /// Scanning guide: how to scan a photo from the gallery
   ///
   /// In en, this message translates to:
-  /// **'Tap the Gallery icon on the scanner screen to pick any saved image or screenshot from your device.'**
+  /// **'Tap the gallery button at the top of the Scan screen and pick a photo or screenshot.'**
   String get helpGuideBarcodeGalleryBullet1;
 
-  /// Barcode help screen: gallery bullet 2 (photo picker privacy)
+  /// Scanning guide: the photo picker sees only the chosen picture
   ///
   /// In en, this message translates to:
-  /// **'Uses privacy-safe Android Photo Picker without requiring broad storage permissions.'**
+  /// **'Android\'s own picker opens. The app sees only the one picture you choose.'**
   String get helpGuideBarcodeGalleryBullet2;
 
-  /// Barcode help screen: gallery bullet 3
+  /// Scanning guide: a photo can contain several codes
   ///
   /// In en, this message translates to:
-  /// **'The scanner analyzes full-resolution image frames to detect and decode multiple barcodes in milliseconds.'**
+  /// **'If the picture has more than one code, the app finds them all.'**
   String get helpGuideBarcodeGalleryBullet3;
 
-  /// Barcode help screen: section heading about PDF scanning
+  /// Scanning guide section heading: scanning a PDF file
   ///
   /// In en, this message translates to:
-  /// **'Multi-Page PDF Scanning'**
+  /// **'Scan a PDF file'**
   String get helpGuideBarcodePdfTitle;
 
-  /// Barcode help screen: PDF bullet 1
+  /// Scanning guide: how to pick a PDF file
   ///
   /// In en, this message translates to:
-  /// **'Select a PDF document (such as an invoice, ticket, or boarding pass) directly through the file picker.'**
+  /// **'Tap the PDF button and choose a file, such as a ticket, bill or boarding pass.'**
   String get helpGuideBarcodePdfBullet1;
 
-  /// Barcode help screen: PDF bullet 2
+  /// Scanning guide: every page of the PDF is checked
   ///
   /// In en, this message translates to:
-  /// **'Extracts and renders every page in memory, cataloging all barcodes found across each individual page.'**
+  /// **'The app checks every page and lists each code it finds, with its page number.'**
   String get helpGuideBarcodePdfBullet2;
 
-  /// Barcode help screen: PDF bullet 3
+  /// Scanning guide: saving all PDF codes to history
   ///
   /// In en, this message translates to:
-  /// **'Review all detected codes in a dedicated bottom sheet and save them into your scan history in 1 tap.'**
+  /// **'Tap Save all to keep them all in your history at once.'**
   String get helpGuideBarcodePdfBullet3;
 
-  /// Barcode help screen: tip box at the bottom
+  /// Scanning guide: a PDF can be shared to the app from another app
   ///
   /// In en, this message translates to:
-  /// **'Tip: Barcode recognition operates 100% locally on your device without uploading your camera frames or images to the cloud.'**
+  /// **'You can also share a PDF to this app from another app, such as your email or files app.'**
+  String get helpGuideBarcodePdfBullet4;
+
+  /// Scanning guide section heading: scanning copied text or pictures
+  ///
+  /// In en, this message translates to:
+  /// **'Scan copied text or pictures'**
+  String get helpGuideBarcodeClipboardTitle;
+
+  /// Scanning guide: the clipboard button
+  ///
+  /// In en, this message translates to:
+  /// **'If you copied a link, a code\'s text or a picture, tap the clipboard button at the top of the Scan screen to check it.'**
+  String get helpGuideBarcodeClipboardBullet1;
+
+  /// Scanning guide: the clipboard bar that appears when the app opens
+  ///
+  /// In en, this message translates to:
+  /// **'When you come back to the app with something copied, a small bar may offer to check it. Tap Scan Now, or close the bar.'**
+  String get helpGuideBarcodeClipboardBullet2;
+
+  /// Scanning guide: copied links get the same safety check
+  ///
+  /// In en, this message translates to:
+  /// **'Copied links get the same safety check as scanned links.'**
+  String get helpGuideBarcodeClipboardBullet3;
+
+  /// Scanning guide section heading: batch scan mode
+  ///
+  /// In en, this message translates to:
+  /// **'Scan many codes in a row'**
+  String get helpGuideBarcodeBatchTitle;
+
+  /// Scanning guide: turning on batch mode
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the batch button to turn on batch mode. The camera keeps scanning, and each new code is added to a list.'**
+  String get helpGuideBarcodeBatchBullet1;
+
+  /// Scanning guide: the batch counter opens the list
+  ///
+  /// In en, this message translates to:
+  /// **'A counter shows how many codes you have scanned. Tap it to open the list.'**
+  String get helpGuideBarcodeBatchBullet2;
+
+  /// Scanning guide: what you can do in the batch list
+  ///
+  /// In en, this message translates to:
+  /// **'In the list you can look at each code, turn on Prevent Duplicates, and export the list as CSV, JSON, text or PDF.'**
+  String get helpGuideBarcodeBatchBullet3;
+
+  /// Scanning guide: turning off batch mode
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the batch button again to go back to normal scanning.'**
+  String get helpGuideBarcodeBatchBullet4;
+
+  /// Scanning guide section heading: the camera adjustments sheet
+  ///
+  /// In en, this message translates to:
+  /// **'When a code is hard to read'**
+  String get helpGuideBarcodeTuneTitle;
+
+  /// Scanning guide: opening camera adjustments
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the Camera adjustments button. Your changes show on the camera picture at once.'**
+  String get helpGuideBarcodeTuneBullet1;
+
+  /// Scanning guide: the brightness and contrast sliders
+  ///
+  /// In en, this message translates to:
+  /// **'Brightness and Contrast: make a dark or faded code clearer.'**
+  String get helpGuideBarcodeTuneBullet2;
+
+  /// Scanning guide: the invert colors switch
+  ///
+  /// In en, this message translates to:
+  /// **'Invert colors: for a light code on a dark background, such as on a dark screen or on metal.'**
+  String get helpGuideBarcodeTuneBullet3;
+
+  /// Scanning guide: the camera resolution choices
+  ///
+  /// In en, this message translates to:
+  /// **'Camera Resolution: 1080p suits most phones. 720p saves battery. Maximum helps with very small codes.'**
+  String get helpGuideBarcodeTuneBullet4;
+
+  /// Scanning guide: Distance Scan Assist and its sliders
+  ///
+  /// In en, this message translates to:
+  /// **'Distance Scan Assist: helps read codes far away, such as on posters and signs. Fine-tune it with Distance Zoom and Edge Sharpness.'**
+  String get helpGuideBarcodeTuneBullet5;
+
+  /// Scanning guide: Multi-Code Selection
+  ///
+  /// In en, this message translates to:
+  /// **'Multi-Code Selection: when more than one code is in view, each one gets an outline. Tap the one you want.'**
+  String get helpGuideBarcodeTuneBullet6;
+
+  /// Scanning guide: the reset adjustments button
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Adjustments puts everything back to normal.'**
+  String get helpGuideBarcodeTuneBullet7;
+
+  /// Tip at the end of the scanning guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Codes are read on your phone. Camera pictures are never saved or sent anywhere.'**
   String get helpGuideBarcodeTip;
+
+  /// Help hub card title for the AR CodeVision guide
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision'**
+  String get helpGuideArCodeVisionName;
+
+  /// Help hub card summary for the AR CodeVision guide
+  ///
+  /// In en, this message translates to:
+  /// **'See and use many codes at once, right on the camera picture.'**
+  String get helpGuideArCodeVisionSummary;
+
+  /// Opening paragraph of the AR CodeVision guide
+  ///
+  /// In en, this message translates to:
+  /// **'AR CodeVision finds every code the camera can see, all at the same time. A small label floats over each code on the screen, so you can see what it is before you tap it.'**
+  String get helpGuideArCodeVisionIntro;
+
+  /// AR CodeVision guide section heading: how to open it
+  ///
+  /// In en, this message translates to:
+  /// **'How to open it'**
+  String get helpGuideArCodeVisionOpenTitle;
+
+  /// AR CodeVision guide: where to find it in the menu
+  ///
+  /// In en, this message translates to:
+  /// **'On the Scan screen, tap More options (the three dots) and choose AR CodeVision HUD.'**
+  String get helpGuideArCodeVisionOpenBullet1;
+
+  /// AR CodeVision guide: allowing the camera
+  ///
+  /// In en, this message translates to:
+  /// **'Allow the camera if Android asks.'**
+  String get helpGuideArCodeVisionOpenBullet2;
+
+  /// AR CodeVision guide section heading: the two modes
+  ///
+  /// In en, this message translates to:
+  /// **'The two modes'**
+  String get helpGuideArCodeVisionTrackingTitle;
+
+  /// AR CodeVision guide: the Safety mode and its colour badges
+  ///
+  /// In en, this message translates to:
+  /// **'Safety: each link gets a colour badge. Green means no problems were found. Red means the link looks unsafe.'**
+  String get helpGuideArCodeVisionTrackingBullet1;
+
+  /// AR CodeVision guide: the Warehouse mode
+  ///
+  /// In en, this message translates to:
+  /// **'Warehouse: shows item details, such as a price tag, and lets you select codes.'**
+  String get helpGuideArCodeVisionTrackingBullet2;
+
+  /// AR CodeVision guide section heading: using the floating labels
+  ///
+  /// In en, this message translates to:
+  /// **'Using the labels'**
+  String get helpGuideArCodeVisionBatchTitle;
+
+  /// AR CodeVision guide: tapping a label
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a label to see its full content. From there you can copy it, open the link, or select it.'**
+  String get helpGuideArCodeVisionBatchBullet1;
+
+  /// AR CodeVision guide: copying many codes in Warehouse mode
+  ///
+  /// In en, this message translates to:
+  /// **'In Warehouse mode, select several codes, then tap Batch Copy to copy them all together. Tap Clear to start again.'**
+  String get helpGuideArCodeVisionBatchBullet2;
+
+  /// AR CodeVision guide: the flashlight button
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the flashlight button when it is dark.'**
+  String get helpGuideArCodeVisionBatchBullet3;
+
+  /// Tip at the end of the AR CodeVision guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Move the phone slowly. The labels follow the codes as you move.'**
+  String get helpGuideArCodeVisionTip;
+
+  /// Help hub card title for the guide on scanning codes shown in other apps
+  ///
+  /// In en, this message translates to:
+  /// **'Scan from other apps'**
+  String get helpGuideScanBubbleName;
+
+  /// Help hub card summary for the guide on scanning codes shown in other apps
+  ///
+  /// In en, this message translates to:
+  /// **'Read a code that is on your screen in another app, with GhostScan or the Scan bubble.'**
+  String get helpGuideScanBubbleSummary;
+
+  /// Opening paragraph of the guide on scanning codes shown in other apps
+  ///
+  /// In en, this message translates to:
+  /// **'Sometimes a code is on your screen, in a chat, a web page or an email. You can read it without taking a screenshot, in two ways: GhostScan and the Scan bubble. Both read the code on your phone, with no internet.'**
+  String get helpGuideScanBubbleIntro;
+
+  /// Section heading: GhostScan, which scans the screen once
+  ///
+  /// In en, this message translates to:
+  /// **'GhostScan: scan the screen once'**
+  String get helpGuideScanBubbleGhostTitle;
+
+  /// GhostScan: where to find it
+  ///
+  /// In en, this message translates to:
+  /// **'On the Scan screen, tap More options and choose GhostScan.'**
+  String get helpGuideScanBubbleGhostBullet1;
+
+  /// GhostScan: adding the Quick Settings tile
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Add Settings tile to put a GhostScan button in your Quick Settings (the panel you pull down from the top of the screen).'**
+  String get helpGuideScanBubbleGhostBullet2;
+
+  /// GhostScan: using the tile from any app
+  ///
+  /// In en, this message translates to:
+  /// **'Then, in any app, pull down Quick Settings and tap the GhostScan tile. The app reads the code on your screen.'**
+  String get helpGuideScanBubbleGhostBullet3;
+
+  /// Section heading: how to use the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'How to use the Scan bubble'**
+  String get helpGuideScanBubbleUseTitle;
+
+  /// Scan bubble: the ways to turn it on
+  ///
+  /// In en, this message translates to:
+  /// **'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.'**
+  String get helpGuideScanBubbleUseBullet1;
+
+  /// Scan bubble: tapping the bubble over another app
+  ///
+  /// In en, this message translates to:
+  /// **'Open any app that shows a QR code or barcode, then tap the bubble.'**
+  String get helpGuideScanBubbleUseBullet2;
+
+  /// Scan bubble: Android asks to allow screen capture
+  ///
+  /// In en, this message translates to:
+  /// **'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.'**
+  String get helpGuideScanBubbleUseBullet3;
+
+  /// Scan bubble: moving it and turning it off
+  ///
+  /// In en, this message translates to:
+  /// **'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.'**
+  String get helpGuideScanBubbleUseBullet4;
+
+  /// Scan bubble: the Start after restart switch
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Start after restart if you want the bubble to come back after the phone restarts.'**
+  String get helpGuideScanBubbleUseBullet5;
+
+  /// Section heading: privacy of GhostScan and the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get helpGuideScanBubblePrivacyTitle;
+
+  /// Privacy: the screen is captured only when you ask
+  ///
+  /// In en, this message translates to:
+  /// **'The screen is captured only when you tap the bubble or the GhostScan tile, and Android asks you first.'**
+  String get helpGuideScanBubblePrivacyBullet1;
+
+  /// Privacy: the code is read on the phone
+  ///
+  /// In en, this message translates to:
+  /// **'The code is read on your phone. Nothing is sent online for reading.'**
+  String get helpGuideScanBubblePrivacyBullet2;
+
+  /// Privacy: the screen picture is deleted after reading
+  ///
+  /// In en, this message translates to:
+  /// **'The screen picture is not saved to your gallery and is deleted right after reading.'**
+  String get helpGuideScanBubblePrivacyBullet3;
+
+  /// Section heading: limits of GhostScan and the Scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Good to know'**
+  String get helpGuideScanBubbleLimitsTitle;
+
+  /// Limits: Android 14 asks on every tap
+  ///
+  /// In en, this message translates to:
+  /// **'On Android 14 and newer, Android asks for screen capture permission on every tap.'**
+  String get helpGuideScanBubbleLimitsBullet1;
+
+  /// Limits: some apps block screen capture
+  ///
+  /// In en, this message translates to:
+  /// **'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.'**
+  String get helpGuideScanBubbleLimitsBullet2;
+
+  /// Limits: some phones have extra settings that stop the bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.'**
+  String get helpGuideScanBubbleLimitsBullet3;
+
+  /// Tip at the end of the guide on scanning codes shown in other apps
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.'**
+  String get helpGuideScanBubbleTip;
+
+  /// Help hub card title for the CodeForge guide
+  ///
+  /// In en, this message translates to:
+  /// **'Making codes (CodeForge)'**
+  String get helpGuideCodeForgeName;
+
+  /// Help hub card summary for the CodeForge guide
+  ///
+  /// In en, this message translates to:
+  /// **'Make your own QR codes and barcodes, change their look, and share them.'**
+  String get helpGuideCodeForgeSummary;
+
+  /// Opening paragraph of the CodeForge guide
+  ///
+  /// In en, this message translates to:
+  /// **'CodeForge lets you make your own QR code or barcode: for your Wi-Fi, your contact details, a link, a UPI payment and more. You can change its colours and shapes, and share it as a picture.'**
+  String get helpGuideCodeForgeIntro;
+
+  /// CodeForge guide section heading: choosing what the code holds
+  ///
+  /// In en, this message translates to:
+  /// **'1. Choose what to put in it'**
+  String get helpGuideCodeForgeTypeTitle;
+
+  /// CodeForge guide: opening the CodeForge tab
+  ///
+  /// In en, this message translates to:
+  /// **'Open the CodeForge tab at the bottom of the screen.'**
+  String get helpGuideCodeForgeTypeBullet1;
+
+  /// CodeForge guide: choosing a QR code or a barcode type
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the code type: QR Code, or a barcode such as Code 128, EAN-13, EAN-8, UPC-A, Code 39, PDF417 or Data Matrix.'**
+  String get helpGuideCodeForgeTypeBullet2;
+
+  /// CodeForge guide: the kinds of content a QR code can hold
+  ///
+  /// In en, this message translates to:
+  /// **'For a QR code, pick what it holds: Text, URL / Link, Wi-Fi, Contact, UPI Pay, SMS, Email or Location.'**
+  String get helpGuideCodeForgeTypeBullet3;
+
+  /// CodeForge guide: filling in the boxes and the live preview
+  ///
+  /// In en, this message translates to:
+  /// **'Fill in the boxes. The preview changes as you type.'**
+  String get helpGuideCodeForgeTypeBullet4;
+
+  /// CodeForge guide: reading text from a file
+  ///
+  /// In en, this message translates to:
+  /// **'For text, you can also tap Read from file to load text from a file (up to 500 characters).'**
+  String get helpGuideCodeForgeTypeBullet5;
+
+  /// CodeForge guide: filling a location with the current place
+  ///
+  /// In en, this message translates to:
+  /// **'For a location, tap Use My Location to fill in where you are. The app asks for your location only at that moment and does not keep it.'**
+  String get helpGuideCodeForgeTypeBullet6;
+
+  /// CodeForge guide section heading: changing the look of the code
+  ///
+  /// In en, this message translates to:
+  /// **'2. Change the look'**
+  String get helpGuideCodeForgeStyleTitle;
+
+  /// CodeForge guide: the shape choices
+  ///
+  /// In en, this message translates to:
+  /// **'Design & Structure: choose the shape of the big corner squares, their centres, and the small dots.'**
+  String get helpGuideCodeForgeStyleBullet1;
+
+  /// CodeForge guide: the colour choices
+  ///
+  /// In en, this message translates to:
+  /// **'Colors & Gradients: choose the code colour and the background, or a colour blend such as Sunset or Ocean.'**
+  String get helpGuideCodeForgeStyleBullet2;
+
+  /// CodeForge guide: keep strong contrast so the code scans
+  ///
+  /// In en, this message translates to:
+  /// **'Keep strong contrast. A dark code on a light background scans best.'**
+  String get helpGuideCodeForgeStyleBullet3;
+
+  /// CodeForge guide: the centre badge
+  ///
+  /// In en, this message translates to:
+  /// **'Center Badge: put a small icon in the middle of the code.'**
+  String get helpGuideCodeForgeStyleBullet4;
+
+  /// CodeForge guide: error correction levels explained simply
+  ///
+  /// In en, this message translates to:
+  /// **'Error Correction: how much damage the code can take and still scan. L survives about 7%, M 15%, Q 25% and H 30%. Higher levels make the code busier. Choose H when you add a centre badge.'**
+  String get helpGuideCodeForgeStyleBullet5;
+
+  /// CodeForge guide: the text label under a barcode and the reset button
+  ///
+  /// In en, this message translates to:
+  /// **'Show Text Label prints the text under a barcode. Reset Styling puts the look back to normal.'**
+  String get helpGuideCodeForgeStyleBullet6;
+
+  /// CodeForge guide section heading: checking and sharing the code
+  ///
+  /// In en, this message translates to:
+  /// **'3. Check and share'**
+  String get helpGuideCodeForgeShareTitle;
+
+  /// CodeForge guide: checking a link before sharing
+  ///
+  /// In en, this message translates to:
+  /// **'For a link, tap Check to test the link for safety before you share it.'**
+  String get helpGuideCodeForgeShareBullet1;
+
+  /// CodeForge guide: sharing as PNG or SVG
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Share PNG to share it as a normal picture, or Share SVG for a sharp picture that prints well at any size.'**
+  String get helpGuideCodeForgeShareBullet2;
+
+  /// CodeForge guide: copying the content of the code
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Copy Content to copy the text inside the code.'**
+  String get helpGuideCodeForgeShareBullet3;
+
+  /// Tip at the end of the CodeForge guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Before you print many copies, scan your new code once with this app to make sure it reads well.'**
+  String get helpGuideCodeForgeTip;
+
+  /// Help hub card title for the AirQR guide
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR: send data with no network'**
+  String get helpGuideAirQrName;
+
+  /// Help hub card summary for the AirQR guide
+  ///
+  /// In en, this message translates to:
+  /// **'Send text, or move your app data to another phone, using moving QR codes. No Wi-Fi, Bluetooth or cables.'**
+  String get helpGuideAirQrSummary;
+
+  /// Opening paragraph of the AirQR guide
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR sends data from one phone to another using only the screen and the camera. The sending phone shows a fast series of QR codes. The receiving phone watches them and joins them back together. No network is used at all.'**
+  String get helpGuideAirQrIntro;
+
+  /// AirQR guide section heading: how to send
+  ///
+  /// In en, this message translates to:
+  /// **'How to send'**
+  String get helpGuideAirQrStreamingTitle;
+
+  /// AirQR guide: opening the transmitter
+  ///
+  /// In en, this message translates to:
+  /// **'On the sending phone, open Scan > More options > AirQR receiver, then tap the AirQR transmitter button at the top.'**
+  String get helpGuideAirQrStreamingBullet1;
+
+  /// AirQR guide: entering the data to send
+  ///
+  /// In en, this message translates to:
+  /// **'Type or paste what you want to send under Data to send.'**
+  String get helpGuideAirQrStreamingBullet2;
+
+  /// AirQR guide: choosing the speed and starting
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the Stream Speed (5 to 25 frames a second), then tap Start stream.'**
+  String get helpGuideAirQrStreamingBullet3;
+
+  /// AirQR guide: keep the sending screen bright and still
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the sending screen bright and hold it still.'**
+  String get helpGuideAirQrStreamingBullet4;
+
+  /// AirQR guide section heading: how to receive
+  ///
+  /// In en, this message translates to:
+  /// **'How to receive'**
+  String get helpGuideAirQrControlsTitle;
+
+  /// AirQR guide: opening the receiver
+  ///
+  /// In en, this message translates to:
+  /// **'On the other phone, open Scan > More options > AirQR receiver and point the camera at the sending screen.'**
+  String get helpGuideAirQrControlsBullet1;
+
+  /// AirQR guide: the progress bar
+  ///
+  /// In en, this message translates to:
+  /// **'A progress bar shows how many parts have arrived and how many are still missing.'**
+  String get helpGuideAirQrControlsBullet2;
+
+  /// AirQR guide: missed parts are repaired by extra frames
+  ///
+  /// In en, this message translates to:
+  /// **'Missed parts are no problem. AirQR also sends extra repair parts, so the receiver can fill in the gaps.'**
+  String get helpGuideAirQrControlsBullet3;
+
+  /// AirQR guide: the transfer complete screen
+  ///
+  /// In en, this message translates to:
+  /// **'When all parts arrive, the app checks the data and shows Transfer complete! You can copy the data from there.'**
+  String get helpGuideAirQrControlsBullet4;
+
+  /// AirQR guide section heading: moving app data to a new phone
+  ///
+  /// In en, this message translates to:
+  /// **'Move your data to a new phone'**
+  String get helpGuideAirQrSyncTitle;
+
+  /// AirQR guide: starting a device sync on the old phone
+  ///
+  /// In en, this message translates to:
+  /// **'On the old phone, go to Settings > AirQR Optical Sync. Choose your history, your app settings, or both.'**
+  String get helpGuideAirQrSyncBullet1;
+
+  /// AirQR guide: locking the sync with a passphrase or PIN
+  ///
+  /// In en, this message translates to:
+  /// **'Type a passphrase or PIN, or tap Generate PIN. This locks the data, so only someone with the PIN can open it.'**
+  String get helpGuideAirQrSyncBullet2;
+
+  /// AirQR guide: sending the sync package
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Beam via AirQR, and receive it on the new phone with the AirQR receiver.'**
+  String get helpGuideAirQrSyncBullet3;
+
+  /// AirQR guide: opening the sync package on the new phone
+  ///
+  /// In en, this message translates to:
+  /// **'On the new phone, type the same passphrase or PIN and tap Decrypt & Sync.'**
+  String get helpGuideAirQrSyncBullet4;
+
+  /// AirQR guide section heading: why AirQR is private
+  ///
+  /// In en, this message translates to:
+  /// **'Why it is private'**
+  String get helpGuideAirQrSecurityTitle;
+
+  /// AirQR guide: no radio signals are used
+  ///
+  /// In en, this message translates to:
+  /// **'No radio signals are used: no Wi-Fi, Bluetooth, mobile data or internet.'**
+  String get helpGuideAirQrSecurityBullet1;
+
+  /// AirQR guide: only a camera that sees the screen can read it
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody can catch the data over a network. Only a camera that can see the screen can read it.'**
+  String get helpGuideAirQrSecurityBullet2;
+
+  /// AirQR guide: good for private data
+  ///
+  /// In en, this message translates to:
+  /// **'Useful for passwords, keys and other private data you do not want to send online.'**
+  String get helpGuideAirQrSecurityBullet3;
+
+  /// Tip at the end of the AirQR guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Turn the sending phone\'s brightness up and hold the receiving phone steady. If parts keep going missing, lower the speed.'**
+  String get helpGuideAirQrTip;
+
+  /// Help hub card title for the link safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'Link safety checks'**
+  String get helpGuideUrlSafetyName;
+
+  /// Help hub card summary for the link safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'How the app checks every link before you open it, and what the result means.'**
+  String get helpGuideUrlSafetySummary;
+
+  /// Opening paragraph of the link safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'Scam QR codes often lead to fake websites. So before you open any link, the app checks it in up to six ways. The first four checks always run on your phone, with no internet.'**
+  String get helpGuideUrlSafetyIntro;
+
+  /// Link safety guide section heading: the six checks
+  ///
+  /// In en, this message translates to:
+  /// **'The six checks'**
+  String get helpGuideUrlSafetyLayersTitle;
+
+  /// Link safety check 1: secure connection and hidden characters
+  ///
+  /// In en, this message translates to:
+  /// **'1. Safe connection: is the link using secure HTTPS? Does it hide strange or invisible characters?'**
+  String get helpGuideUrlSafetyLayersBullet1;
+
+  /// Link safety check 2: lookalike letters from other alphabets
+  ///
+  /// In en, this message translates to:
+  /// **'2. Lookalike letters: some fake sites use letters from other alphabets that look the same, for example a Cyrillic \"а\" in place of a normal \"a\".'**
+  String get helpGuideUrlSafetyLayersBullet2;
+
+  /// Link safety check 3: odd web addresses
+  ///
+  /// In en, this message translates to:
+  /// **'3. Odd web addresses: risky endings (such as .xyz or .top), too many parts in the name, or names made of random letters.'**
+  String get helpGuideUrlSafetyLayersBullet3;
+
+  /// Link safety check 4: number addresses and odd ports
+  ///
+  /// In en, this message translates to:
+  /// **'4. Number addresses and odd ports: links that use a raw number (an IP address) or an unusual port, which normal shops and banks do not use.'**
+  String get helpGuideUrlSafetyLayersBullet4;
+
+  /// Link safety check 5: optional online check of the site
+  ///
+  /// In en, this message translates to:
+  /// **'5. Online check of the site (optional): follows short links (like bit.ly) to see where they really go, and checks the site\'s security certificate. Runs only if you turn on Active online checks.'**
+  String get helpGuideUrlSafetyLayersBullet5;
+
+  /// Link safety check 6: optional lists of known bad sites
+  ///
+  /// In en, this message translates to:
+  /// **'6. Known-bad lists (optional): asks services such as Google Safe Browsing whether the link is a known scam or virus site. Runs only if you set it up.'**
+  String get helpGuideUrlSafetyLayersBullet6;
+
+  /// Link safety guide section heading: reading the result
+  ///
+  /// In en, this message translates to:
+  /// **'Reading the result'**
+  String get helpGuideUrlSafetyVerdictsTitle;
+
+  /// Link safety guide: what No issues found means
+  ///
+  /// In en, this message translates to:
+  /// **'No issues found: the link passed every check that ran. Still, trust only sources you know.'**
+  String get helpGuideUrlSafetyVerdictsBullet1;
+
+  /// Link safety guide: what issues found means and See details
+  ///
+  /// In en, this message translates to:
+  /// **'Issues found: the app shows which checks failed. Tap See details to read why.'**
+  String get helpGuideUrlSafetyVerdictsBullet2;
+
+  /// Link safety guide: opening a risky link asks first
+  ///
+  /// In en, this message translates to:
+  /// **'If you still open a risky link, the app asks you first. Tap Open Anyway only if you trust the source.'**
+  String get helpGuideUrlSafetyVerdictsBullet3;
+
+  /// Link safety guide: the Re-check button
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Re-check to run the checks again, for example after you go online.'**
+  String get helpGuideUrlSafetyVerdictsBullet4;
+
+  /// Link safety guide section heading: private mode and active online checks
+  ///
+  /// In en, this message translates to:
+  /// **'Private mode and online checks'**
+  String get helpGuideUrlSafetyPrivacyTitle;
+
+  /// Link safety guide: by default the site itself is never contacted
+  ///
+  /// In en, this message translates to:
+  /// **'By default, the app never contacts the website itself. The site cannot see your phone or your IP address (your internet address).'**
+  String get helpGuideUrlSafetyPrivacyBullet1;
+
+  /// Link safety guide: what turning on active online checks does
+  ///
+  /// In en, this message translates to:
+  /// **'If you turn on Active online checks in Settings > Privacy & probing, the app visits the site to follow short links and check its certificate. This finds more, but the site can see your IP address.'**
+  String get helpGuideUrlSafetyPrivacyBullet2;
+
+  /// Link safety guide: the safe page preview
+  ///
+  /// In en, this message translates to:
+  /// **'With Active online checks on, the result can also show a safe preview of the page. Scripts and trackers are removed first, so nothing on the page can run. Tap Show preview or Inspect page.'**
+  String get helpGuideUrlSafetyPrivacyBullet3;
+
+  /// Link safety guide section heading: extra online checkers
+  ///
+  /// In en, this message translates to:
+  /// **'Extra online checkers'**
+  String get helpGuideUrlSafetyProvidersTitle;
+
+  /// Link safety guide: checkers that need no account
+  ///
+  /// In en, this message translates to:
+  /// **'In Settings > URL Safety Providers you can turn on more checkers. PhishTank and OpenPhish need no account.'**
+  String get helpGuideUrlSafetyProvidersBullet1;
+
+  /// Link safety guide: checkers that need your own key
+  ///
+  /// In en, this message translates to:
+  /// **'Google Safe Browsing, VirusTotal and URLhaus need your own free key. See the guide \"Online checker setup\".'**
+  String get helpGuideUrlSafetyProvidersBullet2;
+
+  /// Link safety guide: what the online checkers receive
+  ///
+  /// In en, this message translates to:
+  /// **'These checkers get only the link you scanned. OpenPhish works differently: the app downloads its list and checks on your phone. All of them are off until you turn them on.'**
+  String get helpGuideUrlSafetyProvidersBullet3;
+
+  /// Tip at the end of the link safety guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: A good result is not a promise. Scammers make new sites every day. If a payment or login page looks odd, close it.'**
+  String get helpGuideUrlSafetyTip;
+
+  /// Help hub card title for the QuishingGuard guide
+  ///
+  /// In en, this message translates to:
+  /// **'QuishingGuard: fake sticker codes'**
+  String get helpGuideQuishingName;
+
+  /// Help hub card summary for the QuishingGuard guide
+  ///
+  /// In en, this message translates to:
+  /// **'Spot QR codes that may be fake stickers placed over real ones.'**
+  String get helpGuideQuishingSummary;
+
+  /// Opening paragraph of the QuishingGuard guide
+  ///
+  /// In en, this message translates to:
+  /// **'\"Quishing\" means QR phishing. Scammers stick their own QR code over the real one, on parking meters, menus, shop counters and posters, so that your payment or login goes to them.'**
+  String get helpGuideQuishingIntro;
+
+  /// QuishingGuard guide section heading: what QuishingGuard shows
+  ///
+  /// In en, this message translates to:
+  /// **'What QuishingGuard shows'**
+  String get helpGuideQuishingCvTitle;
+
+  /// QuishingGuard guide: when and where the fake-sticker check card appears
+  ///
+  /// In en, this message translates to:
+  /// **'When you scan a link or a payment code with the camera, the result screen shows a small QuishingGuard card: Fake sticker check.'**
+  String get helpGuideQuishingCvBullet1;
+
+  /// QuishingGuard guide: the card lists hand checks; no image check and no score
+  ///
+  /// In en, this message translates to:
+  /// **'Tap it to open a short list of checks. The app does not look for stickers in the picture and gives no score, so it cannot tell you that a code is safe.'**
+  String get helpGuideQuishingCvBullet2;
+
+  /// QuishingGuard guide: the card is not shown for photos, clipboard, screen scans or plain text
+  ///
+  /// In en, this message translates to:
+  /// **'The card does not appear for photos, the clipboard, screen scans or plain text, because those codes are not stuck on a wall.'**
+  String get helpGuideQuishingCvBullet3;
+
+  /// QuishingGuard guide section heading: what you should do
+  ///
+  /// In en, this message translates to:
+  /// **'What you should do'**
+  String get helpGuideQuishingForensicTitle;
+
+  /// QuishingGuard guide: look at and feel the code
+  ///
+  /// In en, this message translates to:
+  /// **'Look at the code and feel it with your finger. A sticker on top often has raised edges or sits crooked.'**
+  String get helpGuideQuishingForensicBullet1;
+
+  /// QuishingGuard guide: check the payee name before paying
+  ///
+  /// In en, this message translates to:
+  /// **'Before you pay, check that the name on the payment screen matches the shop.'**
+  String get helpGuideQuishingForensicBullet2;
+
+  /// QuishingGuard guide: ask the staff or type the address yourself
+  ///
+  /// In en, this message translates to:
+  /// **'If in doubt, ask the staff, or type the website address yourself instead.'**
+  String get helpGuideQuishingForensicBullet3;
+
+  /// Tip at the end of the QuishingGuard guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: QuishingGuard is a helper, not a promise. Your own eyes and fingers are the best check.'**
+  String get helpGuideQuishingTip;
+
+  /// Help hub card title for the online checker setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Online checker setup'**
+  String get helpGuideSafeBrowsingName;
+
+  /// Help hub card summary for the online checker setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on extra link checks, and get a free key for Google Safe Browsing.'**
+  String get helpGuideSafeBrowsingSummary;
+
+  /// Opening paragraph of the online checker setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Online checkers compare a scanned link with lists of known scam and virus sites. They are optional. The app\'s own checks work without them.'**
+  String get helpGuideSafeBrowsingIntro;
+
+  /// Online checker guide section heading: checkers with no account
+  ///
+  /// In en, this message translates to:
+  /// **'No account needed'**
+  String get helpGuideSafeBrowsingBuiltInTitle;
+
+  /// Online checker guide: where the checkers are
+  ///
+  /// In en, this message translates to:
+  /// **'Open Settings > URL Safety Providers.'**
+  String get helpGuideSafeBrowsingBuiltInBullet1;
+
+  /// Online checker guide: turning on PhishTank
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Enable PhishTank to check links against PhishTank\'s list of scam sites.'**
+  String get helpGuideSafeBrowsingBuiltInBullet2;
+
+  /// Online checker guide: turning on and refreshing OpenPhish
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on Use OpenPhish feed. The app downloads OpenPhish\'s list and checks links on your phone. Tap Refresh feed now to get the latest list.'**
+  String get helpGuideSafeBrowsingBuiltInBullet3;
+
+  /// Online checker guide section heading: getting a Google Safe Browsing key
+  ///
+  /// In en, this message translates to:
+  /// **'Get a free Google Safe Browsing key'**
+  String get helpGuideSafeBrowsingKeyTitle;
+
+  /// Safe Browsing key step 1: open the Google Cloud console
+  ///
+  /// In en, this message translates to:
+  /// **'1. In a browser, open console.cloud.google.com and sign in with a Google account.'**
+  String get helpGuideSafeBrowsingKeyStep1;
+
+  /// Safe Browsing key step 2: create a project
+  ///
+  /// In en, this message translates to:
+  /// **'2. Create a new project. Any name is fine, for example \"QR safety\".'**
+  String get helpGuideSafeBrowsingKeyStep2;
+
+  /// Safe Browsing key step 3: turn on the Safe Browsing API
+  ///
+  /// In en, this message translates to:
+  /// **'3. Go to APIs & Services > Library, search for \"Safe Browsing API\" and tap Enable.'**
+  String get helpGuideSafeBrowsingKeyStep3;
+
+  /// Safe Browsing key step 4: create an API key
+  ///
+  /// In en, this message translates to:
+  /// **'4. Go to APIs & Services > Credentials, tap Create credentials and choose API key.'**
+  String get helpGuideSafeBrowsingKeyStep4;
+
+  /// Safe Browsing key step 5: paste the key into the app
+  ///
+  /// In en, this message translates to:
+  /// **'5. Copy the key. In the app, open Settings > URL Safety Providers, paste it into the Google Safe Browsing box and tap Save API Key.'**
+  String get helpGuideSafeBrowsingKeyStep5;
+
+  /// Online checker guide section heading: other services that need a key
+  ///
+  /// In en, this message translates to:
+  /// **'Other services with a key'**
+  String get helpGuideSafeBrowsingOtherTitle;
+
+  /// Online checker guide: VirusTotal and URLhaus keys
+  ///
+  /// In en, this message translates to:
+  /// **'VirusTotal and URLhaus work the same way. Make a free account on their website, copy your key, and paste it under Your API Keys. The app shows where to get each key.'**
+  String get helpGuideSafeBrowsingOtherBullet1;
+
+  /// Online checker guide: free keys are for personal use
+  ///
+  /// In en, this message translates to:
+  /// **'These free keys are for personal, non-commercial use.'**
+  String get helpGuideSafeBrowsingOtherBullet2;
+
+  /// Online checker guide: daily limits and the usage counter
+  ///
+  /// In en, this message translates to:
+  /// **'Each service has a daily limit, and the app shows how many checks you have used today. In this app, Safe Browsing allows up to 10,000 a day and VirusTotal 500 a day.'**
+  String get helpGuideSafeBrowsingOtherBullet3;
+
+  /// Online checker guide section heading: your keys are safe
+  ///
+  /// In en, this message translates to:
+  /// **'Your keys are safe'**
+  String get helpGuideSafeBrowsingPrivacyTitle;
+
+  /// Online checker guide: keys are kept in secure storage
+  ///
+  /// In en, this message translates to:
+  /// **'Your keys are kept in Android\'s secure, locked storage on this phone, and are never shared.'**
+  String get helpGuideSafeBrowsingPrivacyBullet1;
+
+  /// Online checker guide: only the scanned link is sent
+  ///
+  /// In en, this message translates to:
+  /// **'Only the link you scanned is sent to the service. Nothing else about you is sent.'**
+  String get helpGuideSafeBrowsingPrivacyBullet2;
+
+  /// Online checker guide: deleting a key
+  ///
+  /// In en, this message translates to:
+  /// **'You can delete a key at any time. The app then simply skips that check.'**
+  String get helpGuideSafeBrowsingPrivacyBullet3;
+
+  /// Tip at the end of the online checker setup guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: You do not need any key to stay safe. The app\'s own checks always run, even with no internet.'**
+  String get helpGuideSafeBrowsingTip;
+
+  /// Help hub card title for the smart actions guide
+  ///
+  /// In en, this message translates to:
+  /// **'Smart actions'**
+  String get helpGuideSmartPayloadsName;
+
+  /// Help hub card summary for the smart actions guide
+  ///
+  /// In en, this message translates to:
+  /// **'One-tap buttons for Wi-Fi, payments, contacts, events, phone numbers, products and more.'**
+  String get helpGuideSmartPayloadsSummary;
+
+  /// Opening paragraph of the smart actions guide
+  ///
+  /// In en, this message translates to:
+  /// **'The app understands what a code holds and shows a card with the right buttons. For example, a Wi-Fi code gets a Connect button, and a phone number gets a Call button.'**
+  String get helpGuideSmartPayloadsIntro;
+
+  /// Smart actions guide section heading: Wi-Fi codes
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi'**
+  String get helpGuideSmartPayloadsWifiTitle;
+
+  /// Smart actions guide: what a Wi-Fi card shows
+  ///
+  /// In en, this message translates to:
+  /// **'Shows the network name and its type of security. Tap the eye button to show or hide the password, or copy it.'**
+  String get helpGuideSmartPayloadsWifiBullet1;
+
+  /// Smart actions guide: connecting to a Wi-Fi network
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Connect to Wi-Fi. Android may ask you to confirm. If your phone does not allow a direct connection, the password is copied so you can paste it in your Wi-Fi settings.'**
+  String get helpGuideSmartPayloadsWifiBullet2;
+
+  /// Smart actions guide section heading: payment codes
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get helpGuideSmartPayloadsPaymentsTitle;
+
+  /// Smart actions guide: paying with a UPI code
+  ///
+  /// In en, this message translates to:
+  /// **'UPI codes show who you are paying and the amount. Tap Pay with UPI app to open your UPI app (such as Google Pay, PhonePe, Paytm or BHIM) with the details filled in.'**
+  String get helpGuideSmartPayloadsPaymentsBullet1;
+
+  /// Smart actions guide: codes with no amount
+  ///
+  /// In en, this message translates to:
+  /// **'If the code has no amount, the app asks you to type it first.'**
+  String get helpGuideSmartPayloadsPaymentsBullet2;
+
+  /// Smart actions guide: the app never moves money itself
+  ///
+  /// In en, this message translates to:
+  /// **'This app never takes or sends money by itself. You confirm every payment in your UPI app.'**
+  String get helpGuideSmartPayloadsPaymentsBullet3;
+
+  /// Smart actions guide: crypto and SEPA payment codes
+  ///
+  /// In en, this message translates to:
+  /// **'Crypto wallet codes (Bitcoin, Ethereum, Solana) and SEPA bank transfer codes show the address, which you can copy.'**
+  String get helpGuideSmartPayloadsPaymentsBullet4;
+
+  /// Smart actions guide section heading: two-step login codes
+  ///
+  /// In en, this message translates to:
+  /// **'Two-step login codes (2FA)'**
+  String get helpGuideSmartPayloadsTotpTitle;
+
+  /// Smart actions guide: what a 2FA setup code shows
+  ///
+  /// In en, this message translates to:
+  /// **'Websites often show a QR code when you turn on two-step login. Scanning it shows a 6-digit code that changes every 30 seconds, with a timer.'**
+  String get helpGuideSmartPayloadsTotpBullet1;
+
+  /// Smart actions guide: adding the code to an authenticator app
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Add to authenticator to save it in your authenticator app, such as Google or Microsoft Authenticator.'**
+  String get helpGuideSmartPayloadsTotpBullet2;
+
+  /// Smart actions guide: keep 2FA setup codes private
+  ///
+  /// In en, this message translates to:
+  /// **'Keep this kind of code private. Anyone who scans it can make your login codes.'**
+  String get helpGuideSmartPayloadsTotpBullet3;
+
+  /// Smart actions guide section heading: contacts and events
+  ///
+  /// In en, this message translates to:
+  /// **'Contacts and events'**
+  String get helpGuideSmartPayloadsContactsTitle;
+
+  /// Smart actions guide: contact codes
+  ///
+  /// In en, this message translates to:
+  /// **'Contact codes (vCard or MeCard) show the name, phone, email and company. Tap Save to Contacts, or call or email straight away.'**
+  String get helpGuideSmartPayloadsContactsBullet1;
+
+  /// Smart actions guide: event codes
+  ///
+  /// In en, this message translates to:
+  /// **'Event codes show the title, time and place. Tap Add to calendar.'**
+  String get helpGuideSmartPayloadsContactsBullet2;
+
+  /// Smart actions guide section heading: phone, messages, email, maps, products and books
+  ///
+  /// In en, this message translates to:
+  /// **'Phone, messages, maps and more'**
+  String get helpGuideSmartPayloadsOtherTitle;
+
+  /// Smart actions guide: phone, SMS and email codes
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number: tap Call. Text message: tap Send Message, and the message is filled in for you. Email: tap Send Email.'**
+  String get helpGuideSmartPayloadsOtherBullet1;
+
+  /// Smart actions guide: location codes
+  ///
+  /// In en, this message translates to:
+  /// **'Location: tap Open in Maps to see the place or get directions.'**
+  String get helpGuideSmartPayloadsOtherBullet2;
+
+  /// Smart actions guide: app link codes
+  ///
+  /// In en, this message translates to:
+  /// **'App link: tap Open in App to open the matching app, if it is installed.'**
+  String get helpGuideSmartPayloadsOtherBullet3;
+
+  /// Smart actions guide: product barcodes
+  ///
+  /// In en, this message translates to:
+  /// **'Product barcode: tap Food Info to look up food details, or Search Web.'**
+  String get helpGuideSmartPayloadsOtherBullet4;
+
+  /// Smart actions guide: book (ISBN) barcodes
+  ///
+  /// In en, this message translates to:
+  /// **'Book (ISBN) barcode: look the book up on Google Books or Open Library.'**
+  String get helpGuideSmartPayloadsOtherBullet5;
+
+  /// Smart actions guide: links open only after the safety check
+  ///
+  /// In en, this message translates to:
+  /// **'Web links open in your browser only after the safety check has run.'**
+  String get helpGuideSmartPayloadsOtherBullet6;
+
+  /// Tip at the end of the smart actions guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Before you pay with a UPI code, check that the name on the card matches the shop or person you want to pay.'**
+  String get helpGuideSmartPayloadsTip;
+
+  /// Help hub card title for the guide on hidden and locked codes
+  ///
+  /// In en, this message translates to:
+  /// **'Hidden and locked codes'**
+  String get helpGuideHiddenName;
+
+  /// Help hub card summary for the guide on hidden and locked codes
+  ///
+  /// In en, this message translates to:
+  /// **'Open QR codes that carry a secret message or locked data.'**
+  String get helpGuideHiddenSummary;
+
+  /// Opening paragraph of the guide on hidden and locked codes
+  ///
+  /// In en, this message translates to:
+  /// **'Some QR codes carry private data that is locked with a passphrase. The app spots these codes and lets you unlock them, right on your phone.'**
+  String get helpGuideHiddenIntro;
+
+  /// Locked codes guide section heading: StegoQR codes
+  ///
+  /// In en, this message translates to:
+  /// **'StegoQR: a code with a hidden message'**
+  String get helpGuideHiddenStegoTitle;
+
+  /// Locked codes guide: what a StegoQR code is
+  ///
+  /// In en, this message translates to:
+  /// **'A StegoQR code shows ordinary public text to everyone, and hides a second, secret message inside it.'**
+  String get helpGuideHiddenStegoBullet1;
+
+  /// Locked codes guide: what you see when you scan a StegoQR code
+  ///
+  /// In en, this message translates to:
+  /// **'When you scan one, the result shows StegoQR found. The public text is shown as usual.'**
+  String get helpGuideHiddenStegoBullet2;
+
+  /// Locked codes guide: unlocking with the passphrase
+  ///
+  /// In en, this message translates to:
+  /// **'To see the secret, type the passphrase and tap Unlock. The person who made the code must give you the passphrase.'**
+  String get helpGuideHiddenStegoBullet3;
+
+  /// Locked codes guide: biometric unlock
+  ///
+  /// In en, this message translates to:
+  /// **'Biometric Unlock asks for your fingerprint or face as well as the passphrase.'**
+  String get helpGuideHiddenStegoBullet4;
+
+  /// Locked codes guide: copying or sharing the secret
+  ///
+  /// In en, this message translates to:
+  /// **'After unlocking, you can copy or share the secret.'**
+  String get helpGuideHiddenStegoBullet5;
+
+  /// Locked codes guide section heading: other locked codes
+  ///
+  /// In en, this message translates to:
+  /// **'Other locked codes'**
+  String get helpGuideHiddenOtherTitle;
+
+  /// Locked codes guide: AirQR transfer codes and the session code
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR transfer codes: type the session code shown on the sending phone.'**
+  String get helpGuideHiddenOtherBullet1;
+
+  /// Locked codes guide: encrypted JSON and other locked text
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted JSON codes and other locked text: tap Decrypt Payload and type the passphrase.'**
+  String get helpGuideHiddenOtherBullet2;
+
+  /// Locked codes guide: the advanced salt and IV fields
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced (Salt / IV) is only for codes made by other tools that need extra settings. Most people never need it.'**
+  String get helpGuideHiddenOtherBullet3;
+
+  /// Locked codes guide section heading: good to know
+  ///
+  /// In en, this message translates to:
+  /// **'Good to know'**
+  String get helpGuideHiddenSafetyTitle;
+
+  /// Locked codes guide: unlocking happens on the phone
+  ///
+  /// In en, this message translates to:
+  /// **'Unlocking happens on your phone. The passphrase and the secret are never sent anywhere.'**
+  String get helpGuideHiddenSafetyBullet1;
+
+  /// Locked codes guide: what to do after a wrong passphrase
+  ///
+  /// In en, this message translates to:
+  /// **'A wrong passphrase just shows an error. Check the spelling, capital letters and spaces, and try again.'**
+  String get helpGuideHiddenSafetyBullet2;
+
+  /// Locked codes guide: the app reads these codes but cannot make them
+  ///
+  /// In en, this message translates to:
+  /// **'This app can open these codes, but it does not make them.'**
+  String get helpGuideHiddenSafetyBullet3;
+
+  /// Tip at the end of the guide on hidden and locked codes
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Share the passphrase in a different way from the code, for example by phone call. Never write it next to the code.'**
+  String get helpGuideHiddenTip;
+
+  /// Help hub card title for the history guide
+  ///
+  /// In en, this message translates to:
+  /// **'History, backups and privacy'**
+  String get helpGuideHistoryName;
+
+  /// Help hub card summary for the history guide
+  ///
+  /// In en, this message translates to:
+  /// **'Find old scans, add notes, export or back up your history, and lock the app.'**
+  String get helpGuideHistorySummary;
+
+  /// Opening paragraph of the history guide
+  ///
+  /// In en, this message translates to:
+  /// **'Every scan is saved in the History tab on your phone, in a locked (encrypted) store. Nothing is uploaded.'**
+  String get helpGuideHistoryIntro;
+
+  /// History guide section heading: finding and managing scans
+  ///
+  /// In en, this message translates to:
+  /// **'Find and manage scans'**
+  String get helpGuideHistoryManageTitle;
+
+  /// History guide: the search box
+  ///
+  /// In en, this message translates to:
+  /// **'Type in the search box to find scans by their content, type or notes.'**
+  String get helpGuideHistoryManageBullet1;
+
+  /// History guide: filter chips and starring a scan
+  ///
+  /// In en, this message translates to:
+  /// **'Use the filter chips to show only links, Wi-Fi, contacts, products and so on. Tap the star on a scan to add it to Starred.'**
+  String get helpGuideHistoryManageBullet2;
+
+  /// History guide: the details sheet of a scan
+  ///
+  /// In en, this message translates to:
+  /// **'Tap a scan to see all its details: full content, safety score and time. You can add notes and a place, or copy, share or delete it.'**
+  String get helpGuideHistoryManageBullet3;
+
+  /// History guide: clearing all history
+  ///
+  /// In en, this message translates to:
+  /// **'Clear All deletes your whole history. This cannot be undone, so make a backup first.'**
+  String get helpGuideHistoryManageBullet4;
+
+  /// History guide section heading: export and backup
+  ///
+  /// In en, this message translates to:
+  /// **'Export and backup'**
+  String get helpGuideHistoryBackupTitle;
+
+  /// History guide: opening export and backup
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the Export / Backup button at the top of the History tab.'**
+  String get helpGuideHistoryBackupBullet1;
+
+  /// History guide: plain exports are not locked
+  ///
+  /// In en, this message translates to:
+  /// **'Export Records saves a copy as CSV (for Excel or Sheets), JSON, text or PDF. These files are not locked: anyone with the file can read your scans, so the app asks you first.'**
+  String get helpGuideHistoryBackupBullet2;
+
+  /// History guide: making an encrypted backup
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted backup is the safe way to keep a copy. Type a passphrase and tap Create backup, then save or share the file.'**
+  String get helpGuideHistoryBackupBullet3;
+
+  /// History guide: restoring an encrypted backup
+  ///
+  /// In en, this message translates to:
+  /// **'To restore, open Restore Backup, paste the text from your backup file, type the same passphrase and tap Restore history.'**
+  String get helpGuideHistoryBackupBullet4;
+
+  /// History guide section heading: app lock and screenshot guard
+  ///
+  /// In en, this message translates to:
+  /// **'App lock and screenshot guard'**
+  String get helpGuideHistoryBiometricsTitle;
+
+  /// History guide: the app lock
+  ///
+  /// In en, this message translates to:
+  /// **'App lock: turn it on in Settings > Privacy & probing. The app then asks for your fingerprint, face or screen lock when it opens, and after you have been away for 30 seconds.'**
+  String get helpGuideHistoryBiometricsBullet1;
+
+  /// History guide: the screenshot guard
+  ///
+  /// In en, this message translates to:
+  /// **'Screenshot guard: stops screenshots and screen recording on screens with scans, history, secrets or keys. These screens also look blank in the recent apps list. Turn it on or off in Settings > Privacy & probing.'**
+  String get helpGuideHistoryBiometricsBullet2;
+
+  /// History guide: moving history to a new phone
+  ///
+  /// In en, this message translates to:
+  /// **'To move your history to a new phone, use AirQR Optical Sync. See the AirQR guide.'**
+  String get helpGuideHistoryBiometricsBullet3;
+
+  /// Tip at the end of the history guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Make an encrypted backup before you reset or change your phone. Keep the passphrase somewhere safe. Without it, the backup cannot be opened.'**
+  String get helpGuideHistoryTip;
+
+  /// Help hub card title for the settings guide
+  ///
+  /// In en, this message translates to:
+  /// **'Settings and personal touch'**
+  String get helpGuideSettingsName;
+
+  /// Help hub card summary for the settings guide
+  ///
+  /// In en, this message translates to:
+  /// **'Change the look, language and sounds, see permissions, save battery, and delete your data.'**
+  String get helpGuideSettingsSummary;
+
+  /// Opening paragraph of the settings guide
+  ///
+  /// In en, this message translates to:
+  /// **'To open Settings, go to the Scan screen, tap More options and choose Settings. Here is what each part does.'**
+  String get helpGuideSettingsIntro;
+
+  /// Settings guide section heading: look and language
+  ///
+  /// In en, this message translates to:
+  /// **'Look and language'**
+  String get helpGuideSettingsLookTitle;
+
+  /// Settings guide: theme mode choices
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance > Theme Mode: System, Light, Dark or OLED. OLED is pure black and saves battery on OLED screens.'**
+  String get helpGuideSettingsLookBullet1;
+
+  /// Settings guide: accent colour and dynamic colours
+  ///
+  /// In en, this message translates to:
+  /// **'Accent & colors: pick a main colour, or turn on Dynamic colors to match your wallpaper (Android 12 and newer).'**
+  String get helpGuideSettingsLookBullet2;
+
+  /// Settings guide: font and text size
+  ///
+  /// In en, this message translates to:
+  /// **'Text size & font: choose the font. The text size follows the text size you set for your phone.'**
+  String get helpGuideSettingsLookBullet3;
+
+  /// Settings guide: scan frame style
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Overlay Style: choose how the scan frame looks.'**
+  String get helpGuideSettingsLookBullet4;
+
+  /// Settings guide: the language picker
+  ///
+  /// In en, this message translates to:
+  /// **'Language: choose System default, English, Malayalam (മലയാളം) or Sanskrit (संस्कृतम्). The app changes at once, with no restart.'**
+  String get helpGuideSettingsLookBullet5;
+
+  /// Settings guide section heading: scan feedback
+  ///
+  /// In en, this message translates to:
+  /// **'Scan feedback'**
+  String get helpGuideSettingsFeedbackTitle;
+
+  /// Settings guide: vibration, beep and animation after a scan
+  ///
+  /// In en, this message translates to:
+  /// **'Choose whether the phone vibrates, beeps, or plays a short animation when a code is read.'**
+  String get helpGuideSettingsFeedbackBullet1;
+
+  /// Settings guide section heading: privacy and probing
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy & probing'**
+  String get helpGuideSettingsPrivacyTitle;
+
+  /// Settings guide: the active online checks switch
+  ///
+  /// In en, this message translates to:
+  /// **'Active online checks: off unless you turn it on. See the Link safety guide.'**
+  String get helpGuideSettingsPrivacyBullet1;
+
+  /// Settings guide: app lock and screenshot guard
+  ///
+  /// In en, this message translates to:
+  /// **'App lock and Screenshot guard: see the History, backups and privacy guide.'**
+  String get helpGuideSettingsPrivacyBullet2;
+
+  /// Settings guide: delete all data
+  ///
+  /// In en, this message translates to:
+  /// **'Delete all data: removes your scan history, saved keys and all settings from this phone. This cannot be undone.'**
+  String get helpGuideSettingsPrivacyBullet3;
+
+  /// Settings guide section heading: other settings
+  ///
+  /// In en, this message translates to:
+  /// **'Other settings'**
+  String get helpGuideSettingsOtherTitle;
+
+  /// Settings guide: URL safety providers
+  ///
+  /// In en, this message translates to:
+  /// **'URL Safety Providers: turn on extra online link checkers.'**
+  String get helpGuideSettingsOtherBullet1;
+
+  /// Settings guide: AirQR optical sync
+  ///
+  /// In en, this message translates to:
+  /// **'AirQR Optical Sync: move your history and settings to another phone.'**
+  String get helpGuideSettingsOtherBullet2;
+
+  /// Settings guide: the scan bubble
+  ///
+  /// In en, this message translates to:
+  /// **'Scan bubble: a floating button to scan codes in other apps.'**
+  String get helpGuideSettingsOtherBullet3;
+
+  /// Settings guide: the permissions screen
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions: a plain list of what the app may use, and why. The app asks for each one only when a feature needs it.'**
+  String get helpGuideSettingsOtherBullet4;
+
+  /// Settings guide: features, welcome tour and about
+  ///
+  /// In en, this message translates to:
+  /// **'Features lists everything the app can do. Welcome Tour shows the first-start introduction again. About shows the app version and licences.'**
+  String get helpGuideSettingsOtherBullet5;
+
+  /// Settings guide section heading: saving battery
+  ///
+  /// In en, this message translates to:
+  /// **'Saving battery'**
+  String get helpGuideSettingsBatteryTitle;
+
+  /// Settings guide: the camera turns off on its own
+  ///
+  /// In en, this message translates to:
+  /// **'The camera turns off as soon as you leave the Scan screen or the app.'**
+  String get helpGuideSettingsBatteryBullet1;
+
+  /// Settings guide: choose 720p to use less power
+  ///
+  /// In en, this message translates to:
+  /// **'Choose 720p in Camera adjustments to use less power.'**
+  String get helpGuideSettingsBatteryBullet2;
+
+  /// Settings guide: turn off the scan bubble when not needed
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off the Scan bubble when you do not need it.'**
+  String get helpGuideSettingsBatteryBullet3;
+
+  /// Settings guide: the OLED theme saves battery
+  ///
+  /// In en, this message translates to:
+  /// **'Use the OLED theme on phones with an OLED screen.'**
+  String get helpGuideSettingsBatteryBullet4;
+
+  /// Tip at the end of the settings guide
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Not sure where something is? Every guide here names the button to tap.'**
+  String get helpGuideSettingsTip;
+
+  /// Help hub card title for the FAQ
+  ///
+  /// In en, this message translates to:
+  /// **'FAQ and problems'**
+  String get helpGuideFaqName;
+
+  /// Help hub card summary for the FAQ
+  ///
+  /// In en, this message translates to:
+  /// **'Answers to common questions, and fixes when something does not work.'**
+  String get helpGuideFaqSummary;
+
+  /// Opening paragraph of the FAQ
+  ///
+  /// In en, this message translates to:
+  /// **'Quick answers to common questions, and what to do when something does not work.'**
+  String get helpGuideFaqIntro;
+
+  /// FAQ section heading: common questions
+  ///
+  /// In en, this message translates to:
+  /// **'Common questions'**
+  String get helpGuideFaqQuestionsTitle;
+
+  /// FAQ question and answer: does the app work offline (question, newline, answer)
+  ///
+  /// In en, this message translates to:
+  /// **'Does the app work without internet?\nYes. Reading codes, the first four link checks and QuishingGuard all work offline. Only the optional online checks need the internet.'**
+  String get helpGuideFaqQuestion1;
+
+  /// FAQ question and answer: are camera pictures sent anywhere
+  ///
+  /// In en, this message translates to:
+  /// **'Are my camera pictures sent anywhere?\nNo. Pictures are read on your phone and are never saved or uploaded.'**
+  String get helpGuideFaqQuestion2;
+
+  /// FAQ question and answer: does the app collect data about the user
+  ///
+  /// In en, this message translates to:
+  /// **'Does the app collect data about me?\nNo. There are no ads, no tracking and no analytics. Your history stays on your phone.'**
+  String get helpGuideFaqQuestion3;
+
+  /// FAQ question and answer: why the app asks for a permission
+  ///
+  /// In en, this message translates to:
+  /// **'Why does the app ask for a permission?\nOnly when you use a feature that needs it, such as the camera for scanning. See Settings > Permissions for the full list.'**
+  String get helpGuideFaqQuestion4;
+
+  /// FAQ question and answer: how to change the language
+  ///
+  /// In en, this message translates to:
+  /// **'How do I change the language?\nGo to Settings > Language. The app changes at once.'**
+  String get helpGuideFaqQuestion5;
+
+  /// FAQ question and answer: how to delete everything
+  ///
+  /// In en, this message translates to:
+  /// **'How do I delete everything?\nGo to Settings > Privacy & probing > Delete all data. You can also delete single scans in History.'**
+  String get helpGuideFaqQuestion6;
+
+  /// FAQ question and answer: why a trusted link is marked unsafe
+  ///
+  /// In en, this message translates to:
+  /// **'A link I trust is marked unsafe. Why?\nThe checks look for warning signs, and some real sites have them too. If you are sure about the source, you can still open it.'**
+  String get helpGuideFaqQuestion7;
+
+  /// FAQ question and answer: battery use
+  ///
+  /// In en, this message translates to:
+  /// **'Does the app use a lot of battery?\nNo. The camera stops as soon as you leave the Scan screen. See the Settings guide for more battery tips.'**
+  String get helpGuideFaqQuestion8;
+
+  /// FAQ section heading: when a code will not scan
+  ///
+  /// In en, this message translates to:
+  /// **'When a code will not scan'**
+  String get helpGuideFaqCameraTitle;
+
+  /// FAQ: clean the lens and hold the phone at the right distance
+  ///
+  /// In en, this message translates to:
+  /// **'Clean the camera lens and hold the phone about 15 to 20 cm (6 to 8 inches) from the code.'**
+  String get helpGuideFaqCameraBullet1;
+
+  /// FAQ: dark places and shiny codes
+  ///
+  /// In en, this message translates to:
+  /// **'In a dark place, turn on the flash. For a shiny code, tilt the phone a little to remove the glare.'**
+  String get helpGuideFaqCameraBullet2;
+
+  /// FAQ: small or far-away codes
+  ///
+  /// In en, this message translates to:
+  /// **'For a small or far-away code, use the zoom slider or Distance Scan Assist, instead of moving very close.'**
+  String get helpGuideFaqCameraBullet3;
+
+  /// FAQ: light codes on a dark background
+  ///
+  /// In en, this message translates to:
+  /// **'For a light code on a dark background, turn on Invert colors in Camera adjustments.'**
+  String get helpGuideFaqCameraBullet4;
+
+  /// FAQ: damaged or faded codes
+  ///
+  /// In en, this message translates to:
+  /// **'For a damaged or faded code, try Brightness and Contrast in Camera adjustments, or take a photo and scan it from the gallery.'**
+  String get helpGuideFaqCameraBullet5;
+
+  /// FAQ section heading: other problems
+  ///
+  /// In en, this message translates to:
+  /// **'Other problems'**
+  String get helpGuideFaqFixTitle;
+
+  /// FAQ: the camera does not open because permission was refused
+  ///
+  /// In en, this message translates to:
+  /// **'Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.'**
+  String get helpGuideFaqFixBullet1;
+
+  /// FAQ: Wi-Fi will not connect
+  ///
+  /// In en, this message translates to:
+  /// **'Wi-Fi will not connect: copy the password and join the network in your phone\'s Wi-Fi settings.'**
+  String get helpGuideFaqFixBullet2;
+
+  /// FAQ: the payment app does not open
+  ///
+  /// In en, this message translates to:
+  /// **'Payment app does not open: make sure a UPI app is installed. You can also copy the UPI ID.'**
+  String get helpGuideFaqFixBullet3;
+
+  /// FAQ: the scan bubble keeps disappearing
+  ///
+  /// In en, this message translates to:
+  /// **'Scan bubble keeps disappearing: some phones stop apps in the background. Allow this app in your phone\'s battery settings.'**
+  String get helpGuideFaqFixBullet4;
+
+  /// FAQ: an online check shows as skipped
+  ///
+  /// In en, this message translates to:
+  /// **'An online check says Skipped: that checker is turned off, or has no key. Tap Set up in Settings on the result to fix it.'**
+  String get helpGuideFaqFixBullet5;
+
+  /// Tip at the end of the FAQ
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Still stuck? Take a clear photo of the code and scan it from the gallery.'**
+  String get helpGuideFaqTip;
+
+  /// App bar title of the scanning guide
+  ///
+  /// In en, this message translates to:
+  /// **'Scanning codes'**
+  String get titleHelpBarcode;
 
   /// App bar title of the AR CodeVision help screen. Short label.
   ///
@@ -5744,281 +7346,17 @@ abstract class AppLocalizations {
   /// **'AR CodeVision'**
   String get titleHelpArCodeVision;
 
-  /// Help Center hub: card title for the AR CodeVision guide (keep the trademark name)
-  ///
-  /// In en, this message translates to:
-  /// **'AR CodeVision™ Spatial HUD'**
-  String get helpGuideArCodeVisionName;
-
-  /// Help Center hub: card subtitle for the AR CodeVision guide
-  ///
-  /// In en, this message translates to:
-  /// **'Real-time multi-barcode camera tracking, floating chips, and batch actions.'**
-  String get helpGuideArCodeVisionSummary;
-
-  /// AR CodeVision help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'AR CodeVision™ transforms your camera viewport into an augmented reality spatial heads-up display that detects, tracks, and analyzes multiple barcodes simultaneously in real time.'**
-  String get helpGuideArCodeVisionIntro;
-
-  /// AR CodeVision help screen: section heading about spatial tracking
-  ///
-  /// In en, this message translates to:
-  /// **'Real-Time Spatial Tracking'**
-  String get helpGuideArCodeVisionTrackingTitle;
-
-  /// AR CodeVision help screen: tracking bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'Simultaneously identifies every barcode within the camera frame, locking a spatial 2D/3D tracking anchor onto each code.'**
-  String get helpGuideArCodeVisionTrackingBullet1;
-
-  /// AR CodeVision help screen: tracking bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Renders floating interactive chips directly above each physical barcode on screen as you move your camera.'**
-  String get helpGuideArCodeVisionTrackingBullet2;
-
-  /// AR CodeVision help screen: tracking bullet 3 (color badges)
-  ///
-  /// In en, this message translates to:
-  /// **'Live color-coded security badges immediately indicate if a link is Verified Safe (green) or Phishing Suspicion (red).'**
-  String get helpGuideArCodeVisionTrackingBullet3;
-
-  /// AR CodeVision help screen: section heading about multi-select and batch actions
-  ///
-  /// In en, this message translates to:
-  /// **'Interactive Multi-Select & Batch Actions'**
-  String get helpGuideArCodeVisionBatchTitle;
-
-  /// AR CodeVision help screen: batch bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'Tap any floating chip to inspect its payload, trigger contextual actions, or open the detailed AR Action Sheet.'**
-  String get helpGuideArCodeVisionBatchBullet1;
-
-  /// AR CodeVision help screen: batch bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Select multiple items across warehouse shelves, product catalogs, or event badges for batch processing.'**
-  String get helpGuideArCodeVisionBatchBullet2;
-
-  /// AR CodeVision help screen: batch bullet 3
-  ///
-  /// In en, this message translates to:
-  /// **'Copy all selected payload contents or export targets to your history in a single tap.'**
-  String get helpGuideArCodeVisionBatchBullet3;
-
-  /// AR CodeVision help screen: section heading about HUD controls
-  ///
-  /// In en, this message translates to:
-  /// **'HUD Controls & Performance'**
-  String get helpGuideArCodeVisionHudTitle;
-
-  /// AR CodeVision help screen: HUD bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'HUD Action Strip: Quick toggles for camera flash, zoom level, front/rear camera flip, and target clearing.'**
-  String get helpGuideArCodeVisionHudBullet1;
-
-  /// AR CodeVision help screen: HUD bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Optimized hardware frame rate processing prevents thermal throttling and conserves battery during extended scanning sessions.'**
-  String get helpGuideArCodeVisionHudBullet2;
-
-  /// AR CodeVision help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: In dense environments with dozens of barcodes, use the zoom slider to isolate specific clusters with surgical precision.'**
-  String get helpGuideArCodeVisionTip;
-
   /// App bar title of the AirQR help screen. Short label.
   ///
   /// In en, this message translates to:
   /// **'AirQR guide'**
   String get titleHelpAirQr;
 
-  /// Help Center hub: card title for the AirQR guide (keep the trademark name)
+  /// App bar title of the link safety guide
   ///
   /// In en, this message translates to:
-  /// **'AirQR™ Optical Air-Gap Stream'**
-  String get helpGuideAirQrName;
-
-  /// Help Center hub: card subtitle for the AirQR guide
-  ///
-  /// In en, this message translates to:
-  /// **'Offline animated QR strobe transmitter and receiver for radio-silent data sharing.'**
-  String get helpGuideAirQrSummary;
-
-  /// AirQR help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'AirQR™ establishes a bidirectional, completely offline optical data pipeline between devices using high-speed animated QR strobe frames without needing Wi-Fi, Bluetooth, cellular data, or physical cables.'**
-  String get helpGuideAirQrIntro;
-
-  /// AirQR help screen: section heading about how streaming works
-  ///
-  /// In en, this message translates to:
-  /// **'How Optical Streaming Works'**
-  String get helpGuideAirQrStreamingTitle;
-
-  /// AirQR help screen: streaming bullet 1 (data frames plus LT fountain-code repair frames)
-  ///
-  /// In en, this message translates to:
-  /// **'Large files, cryptographic keys, or long documents are divided into small data frames, plus extra fountain-code repair frames that let the receiver rebuild frames it missed.'**
-  String get helpGuideAirQrStreamingBullet1;
-
-  /// AirQR help screen: streaming bullet 2 (frame rate range 5 to 25 FPS)
-  ///
-  /// In en, this message translates to:
-  /// **'The transmitting device flashes the animated QR code stream at a customizable frame rate (5 to 25 FPS).'**
-  String get helpGuideAirQrStreamingBullet2;
-
-  /// AirQR help screen: streaming bullet 3
-  ///
-  /// In en, this message translates to:
-  /// **'The receiving device continuously captures the strobe sequence, reconstructing missing frames on the fly until the full payload is reassembled.'**
-  String get helpGuideAirQrStreamingBullet3;
-
-  /// AirQR help screen: section heading about air-gap security
-  ///
-  /// In en, this message translates to:
-  /// **'Air-Gap Security & Privacy'**
-  String get helpGuideAirQrSecurityTitle;
-
-  /// AirQR help screen: security bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'Complete Radio Silence: Zero electromagnetic radio emissions (no RF broadcasts, pairing requests, or network logs).'**
-  String get helpGuideAirQrSecurityBullet1;
-
-  /// AirQR help screen: security bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Immune to remote network interception, man-in-the-middle attacks, and Bluetooth sniffing vulnerabilities.'**
-  String get helpGuideAirQrSecurityBullet2;
-
-  /// AirQR help screen: security bullet 3
-  ///
-  /// In en, this message translates to:
-  /// **'Perfect for air-gapped cryptocurrency cold wallets, confidential credentials, and secure offline data sharing.'**
-  String get helpGuideAirQrSecurityBullet3;
-
-  /// AirQR help screen: section heading about transmitter and receiver controls
-  ///
-  /// In en, this message translates to:
-  /// **'Transmitter & Receiver Controls'**
-  String get helpGuideAirQrControlsTitle;
-
-  /// AirQR help screen: controls bullet 1 (transmitter has a frame rate control only; no chunk-size control)
-  ///
-  /// In en, this message translates to:
-  /// **'Transmitter Screen: Choose the frame rate (FPS) and see the total number of frames in the stream.'**
-  String get helpGuideAirQrControlsBullet1;
-
-  /// AirQR help screen: controls bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Receiver Screen: Real-time progress bar, captured frame counter, missing frame indices, and checksum verification.'**
-  String get helpGuideAirQrControlsBullet2;
-
-  /// AirQR help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: When receiving an AirQR stream, hold your phone steady and ensure the transmitter screen brightness is set to high for maximum frame capture speed.'**
-  String get helpGuideAirQrTip;
-
-  /// App bar title of the URL safety help screen. Short label.
-  ///
-  /// In en, this message translates to:
-  /// **'URL safety'**
+  /// **'Link safety'**
   String get titleHelpUrlSafety;
-
-  /// Help Center hub: card title for the URL safety guide
-  ///
-  /// In en, this message translates to:
-  /// **'6-Layer URL Safety Engine'**
-  String get helpGuideUrlSafetyName;
-
-  /// Help Center hub: card subtitle for the URL safety guide
-  ///
-  /// In en, this message translates to:
-  /// **'Homograph attacks, punycode defense, suspicious TLDs, and heuristic port traps.'**
-  String get helpGuideUrlSafetySummary;
-
-  /// URL safety help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'Before you open any scanned web link, our comprehensive 6-layer forensic safety engine evaluates the URL against modern phishing heuristics, homograph spoofing attacks, and malicious redirect traps.'**
-  String get helpGuideUrlSafetyIntro;
-
-  /// URL safety help screen: section heading for the list of 6 layers
-  ///
-  /// In en, this message translates to:
-  /// **'The 6 Safety Layers Explained'**
-  String get helpGuideUrlSafetyLayersTitle;
-
-  /// URL safety help screen: layer 1 description
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 1: Protocol & Scheme Guard - Enforces HTTPS encryption and verifies standard protocol formatting while intercepting malformed or zero-width character traps.'**
-  String get helpGuideUrlSafetyLayersBullet1;
-
-  /// URL safety help screen: layer 2 description. Keep the Cyrillic example letter as-is.
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 2: Homograph & Unicode Attack Shield - Identifies Cyrillic, Greek, and mixed-script lookalike characters (such as \"а\" instead of \"a\") used by scammers to imitate trusted websites.'**
-  String get helpGuideUrlSafetyLayersBullet2;
-
-  /// URL safety help screen: layer 3 description
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 3: Suspicious TLD & Entropy Analysis - Flags high-risk domain endings (.xyz, .top, .work), excessive subdomain nesting, and randomized machine-generated domain names.'**
-  String get helpGuideUrlSafetyLayersBullet3;
-
-  /// URL safety help screen: layer 4 description
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 4: Heuristic IP & Non-Standard Port Trap - Detects links connecting directly to numeric IP addresses or weird port numbers often used by botnet malware servers.'**
-  String get helpGuideUrlSafetyLayersBullet4;
-
-  /// URL safety help screen: layer 5 description
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 5: Privacy-Safe Online Head Probing - Optionally follows shortened URL redirects (bit.ly, tinyurl) and inspects SSL certificate trust chains without executing malicious JavaScript.'**
-  String get helpGuideUrlSafetyLayersBullet5;
-
-  /// URL safety help screen: layer 6 description
-  ///
-  /// In en, this message translates to:
-  /// **'Layer 6: Google Safe Browsing API Integration - Optional cloud-based real-time threat intelligence protecting against phishing sites and malware distribution networks.'**
-  String get helpGuideUrlSafetyLayersBullet6;
-
-  /// URL safety help screen: section heading about safety verdicts
-  ///
-  /// In en, this message translates to:
-  /// **'Safety Verdicts & Action Guidance'**
-  String get helpGuideUrlSafetyVerdictsTitle;
-
-  /// URL safety help screen: verdict bullet 1 (green)
-  ///
-  /// In en, this message translates to:
-  /// **'Verified Safe (Green): The URL passed all structural and threat checks without triggering any suspicious signals.'**
-  String get helpGuideUrlSafetyVerdictsBullet1;
-
-  /// URL safety help screen: verdict bullet 2 (orange/red)
-  ///
-  /// In en, this message translates to:
-  /// **'Caution / Warning (Orange/Red): High risk factors detected. The app displays the full unshortened destination and highlights exactly which rules triggered the alert.'**
-  String get helpGuideUrlSafetyVerdictsBullet2;
-
-  /// URL safety help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: Layers 1 through 4 operate 100% offline using on-device heuristics, protecting your privacy wherever you are.'**
-  String get helpGuideUrlSafetyTip;
 
   /// App bar title of the QuishingGuard help screen. Short label.
   ///
@@ -6026,161 +7364,11 @@ abstract class AppLocalizations {
   /// **'QuishingGuard'**
   String get titleHelpQuishing;
 
-  /// Help Center hub: card title for the QuishingGuard guide (keep the trademark name)
+  /// App bar title of the online checker setup guide
   ///
   /// In en, this message translates to:
-  /// **'QuishingGuard™ Tamper Detection'**
-  String get helpGuideQuishingName;
-
-  /// Help Center hub: card subtitle for the QuishingGuard guide
-  ///
-  /// In en, this message translates to:
-  /// **'On-device computer vision analyzing physical QR sticker overlays and edge cuts.'**
-  String get helpGuideQuishingSummary;
-
-  /// QuishingGuard help screen: intro paragraph (explains what quishing is)
-  ///
-  /// In en, this message translates to:
-  /// **'Quishing (QR Phishing) occurs when criminals paste physical fraudulent sticker QR codes over legitimate QR codes on parking meters, restaurant menus, payment counters, or transit signs.'**
-  String get helpGuideQuishingIntro;
-
-  /// QuishingGuard help screen: section heading about on-device computer vision
-  ///
-  /// In en, this message translates to:
-  /// **'On-Device Computer Vision Analysis'**
-  String get helpGuideQuishingCvTitle;
-
-  /// QuishingGuard help screen: computer vision bullet 1 (edge metric)
-  ///
-  /// In en, this message translates to:
-  /// **'Edge Discontinuity Metric: Detects double edges, cutting misalignment, and micro-shadows along the boundary of pasted overlay stickers.'**
-  String get helpGuideQuishingCvBullet1;
-
-  /// QuishingGuard help screen: computer vision bullet 2 (print grain metric)
-  ///
-  /// In en, this message translates to:
-  /// **'Print Grain & Halftone Metric: Identifies inconsistencies in dot pitch, chromatic noise, and print resolution between the code and surrounding background poster.'**
-  String get helpGuideQuishingCvBullet2;
-
-  /// QuishingGuard help screen: computer vision bullet 3 (risk score)
-  ///
-  /// In en, this message translates to:
-  /// **'Calculates a combined Tamper Risk Score from 0% (Authentic) to 100% (High Tamper Risk).'**
-  String get helpGuideQuishingCvBullet3;
-
-  /// QuishingGuard help screen: section heading about forensic signals
-  ///
-  /// In en, this message translates to:
-  /// **'Forensic Signal Inspection'**
-  String get helpGuideQuishingForensicTitle;
-
-  /// QuishingGuard help screen: forensic bullet 1. The quoted text must match the quishingViewSignals button.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap \"View Forensic Analysis\" on any scanned code to view real-time CV confidence levels, border edge metrics, and chromatic noise charts.'**
-  String get helpGuideQuishingForensicBullet1;
-
-  /// QuishingGuard help screen: forensic bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Helps identify suspicious payment QR codes in public places before sending money or typing credentials.'**
-  String get helpGuideQuishingForensicBullet2;
-
-  /// QuishingGuard help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: When scanning outdoor QR codes on parking meters or public kiosks, inspect the code physically with your fingers if QuishingGuard flags an edge discontinuity alert.'**
-  String get helpGuideQuishingTip;
-
-  /// App bar title of the Google Safe Browsing setup help screen. Short label.
-  ///
-  /// In en, this message translates to:
-  /// **'Safe Browsing'**
+  /// **'Online checkers'**
   String get titleHelpSafeBrowsing;
-
-  /// Help Center hub: card title for the Google Safe Browsing setup guide
-  ///
-  /// In en, this message translates to:
-  /// **'Google Safe Browsing Setup'**
-  String get helpGuideSafeBrowsingName;
-
-  /// Help Center hub: card subtitle for the Google Safe Browsing setup guide
-  ///
-  /// In en, this message translates to:
-  /// **'Acquiring a Google Cloud API key, hardware keystore storage, and lookup quotas.'**
-  String get helpGuideSafeBrowsingSummary;
-
-  /// Safe Browsing help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'Google Safe Browsing enables Layer 6 cloud threat intelligence to check scanned URLs against billions of constantly updated known malware, social engineering, and phishing threat entries.'**
-  String get helpGuideSafeBrowsingIntro;
-
-  /// Safe Browsing help screen: section heading for the API key steps
-  ///
-  /// In en, this message translates to:
-  /// **'How to Obtain a Free API Key'**
-  String get helpGuideSafeBrowsingKeyTitle;
-
-  /// Safe Browsing help screen: API key step 1 (keep the URL as-is)
-  ///
-  /// In en, this message translates to:
-  /// **'1. Open the Google Cloud Console (console.cloud.google.com) on your computer or mobile browser.'**
-  String get helpGuideSafeBrowsingKeyStep1;
-
-  /// Safe Browsing help screen: API key step 2 (the quoted project name is an English example)
-  ///
-  /// In en, this message translates to:
-  /// **'2. Create a new Google Cloud Project (e.g., \"My QR Reader Security\").'**
-  String get helpGuideSafeBrowsingKeyStep2;
-
-  /// Safe Browsing help screen: API key step 3. Google Cloud Console menu names stay in English.
-  ///
-  /// In en, this message translates to:
-  /// **'3. Navigate to APIs & Services -> Library and search for \"Web Risk API\" or \"Safe Browsing API\" and click Enable.'**
-  String get helpGuideSafeBrowsingKeyStep3;
-
-  /// Safe Browsing help screen: API key step 4. Google Cloud Console menu names stay in English.
-  ///
-  /// In en, this message translates to:
-  /// **'4. Go to APIs & Services -> Credentials and click \"+ CREATE CREDENTIALS\" -> \"API key\".'**
-  String get helpGuideSafeBrowsingKeyStep4;
-
-  /// Safe Browsing help screen: API key step 5
-  ///
-  /// In en, this message translates to:
-  /// **'5. Copy your new API key and paste it into the Google Safe Browsing field under Settings.'**
-  String get helpGuideSafeBrowsingKeyStep5;
-
-  /// Safe Browsing help screen: section heading about key storage and privacy
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy & Secure Keystore Storage'**
-  String get helpGuideSafeBrowsingPrivacyTitle;
-
-  /// Safe Browsing help screen: privacy bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'Your API key is encrypted using Android Keystore hardware-backed secure storage (FlutterSecureStorage) and never exported or shared.'**
-  String get helpGuideSafeBrowsingPrivacyBullet1;
-
-  /// Safe Browsing help screen: privacy bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Google Safe Browsing is 100% optional. If no key is provided, the app continues to perform comprehensive offline checks.'**
-  String get helpGuideSafeBrowsingPrivacyBullet2;
-
-  /// Safe Browsing help screen: privacy bullet 3 (daily free quota)
-  ///
-  /// In en, this message translates to:
-  /// **'Free Tier Quota: Google provides up to 10,000 free requests per day, and the app resets its local usage counter every 24 hours.'**
-  String get helpGuideSafeBrowsingPrivacyBullet3;
-
-  /// Safe Browsing help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: Safe Browsing checks only execute after offline heuristics pass, conserving your daily lookup quota.'**
-  String get helpGuideSafeBrowsingTip;
 
   /// App bar title of the Smart Actions & Payments help screen. Short label.
   ///
@@ -6188,215 +7376,11 @@ abstract class AppLocalizations {
   /// **'Smart actions'**
   String get titleHelpSmartPayloads;
 
-  /// Help Center hub: card title for the Smart Actions & Payments guide
-  ///
-  /// In en, this message translates to:
-  /// **'Smart Actions & Payments'**
-  String get helpGuideSmartPayloadsName;
-
-  /// Help Center hub: card subtitle for the Smart Actions & Payments guide
-  ///
-  /// In en, this message translates to:
-  /// **'Wi-Fi connect, UPI & crypto payments, live TOTP 2FA tokens, vCards, and events.'**
-  String get helpGuideSmartPayloadsSummary;
-
-  /// Smart Actions help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'SreerajP QR Studio automatically identifies the semantic type of every barcode, presenting contextual, 1-tap actionable cards for Wi-Fi networks, UPI and crypto payments, 2FA tokens, contacts, and calendar events.'**
-  String get helpGuideSmartPayloadsIntro;
-
-  /// Smart Actions help screen: section heading about Wi-Fi
-  ///
-  /// In en, this message translates to:
-  /// **'Wi-Fi Network Auto-Connect'**
-  String get helpGuideSmartPayloadsWifiTitle;
-
-  /// Smart Actions help screen: Wi-Fi bullet 1. Keep the protocol token WIFI: as-is.
-  ///
-  /// In en, this message translates to:
-  /// **'Scans WIFI: formatted barcodes containing SSID, encryption type (WPA, WPA2, WPA3, WEP, None), and network passwords.'**
-  String get helpGuideSmartPayloadsWifiBullet1;
-
-  /// Smart Actions help screen: Wi-Fi bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Includes a Password Reveal / Hide button and 1-tap clipboard copy.'**
-  String get helpGuideSmartPayloadsWifiBullet2;
-
-  /// Smart Actions help screen: Wi-Fi bullet 3. The quoted text must match the wifiConnectButton label.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap \"Connect to Wi-Fi\" to trigger direct connection or jump straight to system Wi-Fi settings.'**
-  String get helpGuideSmartPayloadsWifiBullet3;
-
-  /// Smart Actions help screen: section heading about UPI and crypto payments
-  ///
-  /// In en, this message translates to:
-  /// **'UPI & Cryptocurrency Payments'**
-  String get helpGuideSmartPayloadsPaymentsTitle;
-
-  /// Smart Actions help screen: payments bullet 1 (UPI)
-  ///
-  /// In en, this message translates to:
-  /// **'Indian UPI QR Codes: Parses Virtual Payment Addresses (VPA), merchant names, transaction references, and exact amount values.'**
-  String get helpGuideSmartPayloadsPaymentsBullet1;
-
-  /// Smart Actions help screen: payments bullet 2 (keep app names as-is)
-  ///
-  /// In en, this message translates to:
-  /// **'1-Tap Dispatch: Launches your installed payment apps (Google Pay, PhonePe, Paytm, or BHIM) with pre-filled transaction parameters.'**
-  String get helpGuideSmartPayloadsPaymentsBullet2;
-
-  /// Smart Actions help screen: payments bullet 3 (crypto)
-  ///
-  /// In en, this message translates to:
-  /// **'Crypto QR Codes: Recognizes Bitcoin, Ethereum, and Solana wallet schemes with 1-tap copy and address formatting.'**
-  String get helpGuideSmartPayloadsPaymentsBullet3;
-
-  /// Smart Actions help screen: section heading about TOTP 2FA
-  ///
-  /// In en, this message translates to:
-  /// **'TOTP 2FA Authenticator & Tokens'**
-  String get helpGuideSmartPayloadsTotpTitle;
-
-  /// Smart Actions help screen: TOTP bullet 1. Keep otpauth:// as-is.
-  ///
-  /// In en, this message translates to:
-  /// **'Scans otpauth:// standard two-factor authentication setup codes used by Google Authenticator and Microsoft Authenticator.'**
-  String get helpGuideSmartPayloadsTotpBullet1;
-
-  /// Smart Actions help screen: TOTP bullet 2
-  ///
-  /// In en, this message translates to:
-  /// **'Displays a live, rolling 6-digit one-time passcode with an animated 30-second circular countdown timer on device.'**
-  String get helpGuideSmartPayloadsTotpBullet2;
-
-  /// Smart Actions help screen: TOTP bullet 3. The quoted text must match the totpImportButton label.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap \"Import into Authenticator App\" to register the key in your preferred 2FA app.'**
-  String get helpGuideSmartPayloadsTotpBullet3;
-
-  /// Smart Actions help screen: section heading about contacts and calendar events
-  ///
-  /// In en, this message translates to:
-  /// **'Contacts & Calendar Events'**
-  String get helpGuideSmartPayloadsContactsTitle;
-
-  /// Smart Actions help screen: contacts bullet 1 (vCard and MeCard)
-  ///
-  /// In en, this message translates to:
-  /// **'vCard & MeCard: Parses full name, telephone numbers, email addresses, organization, and job title with 1-tap address book import.'**
-  String get helpGuideSmartPayloadsContactsBullet1;
-
-  /// Smart Actions help screen: contacts bullet 2 (iCalendar events)
-  ///
-  /// In en, this message translates to:
-  /// **'iCalendar (VEVENT): Parses event title, start and end date/time, location, and description, offering 1-tap Google/device calendar scheduling.'**
-  String get helpGuideSmartPayloadsContactsBullet2;
-
-  /// Smart Actions help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: When paying with UPI QR codes, always verify the merchant name shown on the card matches the physical store counter.'**
-  String get helpGuideSmartPayloadsTip;
-
   /// App bar title of the History, Backups & Privacy help screen. Short label.
   ///
   /// In en, this message translates to:
   /// **'History & privacy'**
   String get titleHelpHistory;
-
-  /// Help Center hub: card title for the History, Backups & Privacy guide
-  ///
-  /// In en, this message translates to:
-  /// **'History, Backups & Privacy'**
-  String get helpGuideHistoryName;
-
-  /// Help Center hub: card subtitle for the History, Backups & Privacy guide
-  ///
-  /// In en, this message translates to:
-  /// **'Offline SQLite database, JSON/CSV backups, biometrics, and screenshot guard.'**
-  String get helpGuideHistorySummary;
-
-  /// History help screen: intro paragraph
-  ///
-  /// In en, this message translates to:
-  /// **'Your scan records belong solely to you. SreerajP QR Studio stores all history entries in a local SQLite database on your device with biometric authentication safeguards and structured export formats.'**
-  String get helpGuideHistoryIntro;
-
-  /// History help screen: section heading about managing scan history
-  ///
-  /// In en, this message translates to:
-  /// **'Scan History Management'**
-  String get helpGuideHistoryManageTitle;
-
-  /// History help screen: manage bullet 1 (search and filter)
-  ///
-  /// In en, this message translates to:
-  /// **'Search & Filter: Search scan history in real time by text query or filter by payload type (URLs, Wi-Fi, Contacts, Payments, TOTP).'**
-  String get helpGuideHistoryManageBullet1;
-
-  /// History help screen: manage bullet 2 (favorites)
-  ///
-  /// In en, this message translates to:
-  /// **'Star Favorites: Mark important Wi-Fi credentials or loyalty codes as favorites for quick access.'**
-  String get helpGuideHistoryManageBullet2;
-
-  /// History help screen: manage bullet 3 (detail sheet)
-  ///
-  /// In en, this message translates to:
-  /// **'Detailed Inspect Sheet: Review the exact raw decoded bytes, safety score breakdown, timestamp, and add custom notes.'**
-  String get helpGuideHistoryManageBullet3;
-
-  /// History help screen: section heading about backup and restore
-  ///
-  /// In en, this message translates to:
-  /// **'Backup & Restore (JSON / CSV)'**
-  String get helpGuideHistoryBackupTitle;
-
-  /// History help screen: backup bullet 1 (JSON)
-  ///
-  /// In en, this message translates to:
-  /// **'JSON Full Backup: Exports your complete history including custom tags, favorites, and safety results into a portable .json file.'**
-  String get helpGuideHistoryBackupBullet1;
-
-  /// History help screen: backup bullet 2 (CSV)
-  ///
-  /// In en, this message translates to:
-  /// **'CSV Spreadsheet: Generates a clean comma-separated values file compatible with Microsoft Excel and Google Sheets.'**
-  String get helpGuideHistoryBackupBullet2;
-
-  /// History help screen: backup bullet 3 (restore)
-  ///
-  /// In en, this message translates to:
-  /// **'One-Click Restore: Import previously exported JSON backup files at any time to restore your scan log.'**
-  String get helpGuideHistoryBackupBullet3;
-
-  /// History help screen: section heading about biometrics and screenshot guard
-  ///
-  /// In en, this message translates to:
-  /// **'Biometrics & Screenshot Guard'**
-  String get helpGuideHistoryBiometricsTitle;
-
-  /// History help screen: biometrics bullet 1
-  ///
-  /// In en, this message translates to:
-  /// **'App lock and biometrics: an optional app lock asks for your fingerprint, face or screen lock when the app opens. Hidden StegoQR messages can also ask for biometrics.'**
-  String get helpGuideHistoryBiometricsBullet1;
-
-  /// History help screen: biometrics bullet 2. Keep FLAG_SECURE as-is.
-  ///
-  /// In en, this message translates to:
-  /// **'Screenshot guard: screens that show scans, history, secrets or API keys cannot be captured by screenshots or screen recording (FLAG_SECURE). You can turn this off in Settings › Privacy & probing.'**
-  String get helpGuideHistoryBiometricsBullet2;
-
-  /// History help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: Back up your history to a JSON file before switching or resetting your phone to preserve your saved scans.'**
-  String get helpGuideHistoryTip;
 
   /// App bar title of the FAQ & Troubleshooting help screen. Short label.
   ///
@@ -6404,77 +7388,29 @@ abstract class AppLocalizations {
   /// **'FAQ & help'**
   String get titleHelpFaq;
 
-  /// Help Center hub: card title for the FAQ & Troubleshooting guide
+  /// App bar title of the guide on scanning codes shown in other apps
   ///
   /// In en, this message translates to:
-  /// **'FAQ & Troubleshooting'**
-  String get helpGuideFaqName;
+  /// **'Scan from other apps'**
+  String get titleHelpScanBubble;
 
-  /// Help Center hub: card subtitle for the FAQ & Troubleshooting guide
+  /// App bar title of the CodeForge guide (making your own codes)
   ///
   /// In en, this message translates to:
-  /// **'Common questions, camera focus tips, permission recovery, and offline guarantees.'**
-  String get helpGuideFaqSummary;
+  /// **'Making codes'**
+  String get titleHelpCodeForge;
 
-  /// FAQ help screen: intro paragraph
+  /// App bar title of the guide on hidden and locked codes
   ///
   /// In en, this message translates to:
-  /// **'Answers to common questions, camera troubleshooting advice, and privacy clarifications for SreerajP QR Studio.'**
-  String get helpGuideFaqIntro;
+  /// **'Locked codes'**
+  String get titleHelpHiddenCodes;
 
-  /// FAQ help screen: section heading for the questions
+  /// App bar title of the settings guide
   ///
   /// In en, this message translates to:
-  /// **'Frequently Asked Questions'**
-  String get helpGuideFaqQuestionsTitle;
-
-  /// FAQ help screen: question 1 and its answer, split by a line break
-  ///
-  /// In en, this message translates to:
-  /// **'Q: Does the app work without internet?\nYes! 100% of barcode decoding, QuishingGuard CV checks, and URL safety heuristics (Layers 1-4) work completely offline.'**
-  String get helpGuideFaqQuestion1;
-
-  /// FAQ help screen: question 2 and its answer, split by a line break
-  ///
-  /// In en, this message translates to:
-  /// **'Q: Is my camera feed sent to any server?\nNo. Camera frames are processed strictly on-device in volatile memory and are never recorded, saved, or uploaded.'**
-  String get helpGuideFaqQuestion2;
-
-  /// FAQ help screen: question 3 and its answer, split by a line break
-  ///
-  /// In en, this message translates to:
-  /// **'Q: Why is Google Safe Browsing optional?\nWe believe in privacy-by-default. Offline safety layers protect you immediately, while Google Safe Browsing is an optional opt-in for users with a Google Cloud API key.'**
-  String get helpGuideFaqQuestion3;
-
-  /// FAQ help screen: section heading for camera troubleshooting
-  ///
-  /// In en, this message translates to:
-  /// **'Camera Troubleshooting'**
-  String get helpGuideFaqCameraTitle;
-
-  /// FAQ help screen: camera bullet 1 (focus problems)
-  ///
-  /// In en, this message translates to:
-  /// **'Camera Fails to Focus: Ensure the lens is clean and hold the device 15-20 cm away. In low light, tap the Flashlight icon.'**
-  String get helpGuideFaqCameraBullet1;
-
-  /// FAQ help screen: camera bullet 2 (tiny or dense codes)
-  ///
-  /// In en, this message translates to:
-  /// **'Tiny or Dense QR Code: Use the zoom slider to magnify the QR code rather than bringing the phone too close.'**
-  String get helpGuideFaqCameraBullet2;
-
-  /// FAQ help screen: camera bullet 3 (restoring camera permission in Android Settings; the app name in the path is the Android app label)
-  ///
-  /// In en, this message translates to:
-  /// **'Permission Denied: If camera permission was revoked, go to Android Settings -> Apps -> SreerajP QR Studio -> Permissions -> Camera -> Allow.'**
-  String get helpGuideFaqCameraBullet3;
-
-  /// FAQ help screen: tip box at the bottom
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: If you encounter an unusual barcode format, take a photo and use the Gallery scan tool to process it in full resolution.'**
-  String get helpGuideFaqTip;
+  /// **'Settings guide'**
+  String get titleHelpSettings;
 
   /// Tooltip and sheet title for the menu of extra actions on the scan result screen
   ///
@@ -6565,12 +7501,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hide preview'**
   String get tooltipSandboxHidePreview;
-
-  /// Folded Quishing Guard line when the printed code looks genuine; percent is the tamper risk
-  ///
-  /// In en, this message translates to:
-  /// **'Genuine · {percent}%'**
-  String labelQuishingCompactGenuine(String percent);
 
   /// Title of the floating Scan bubble feature (settings tile, screen title, menu item). Keep short.
   ///
@@ -6679,132 +7609,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From screen'**
   String get labelHistorySourceScreen;
-
-  /// Name of the Android permission that lets the Scan bubble float over other apps
-  ///
-  /// In en, this message translates to:
-  /// **'Display over other apps'**
-  String get helpPermissionOverlayTitle;
-
-  /// Why the app uses the Display over other apps permission
-  ///
-  /// In en, this message translates to:
-  /// **'Used only by the Scan bubble, and only after you turn it on. Lets the bubble float over other apps.'**
-  String get helpPermissionOverlayDesc;
-
-  /// Name of the Android notification permission
-  ///
-  /// In en, this message translates to:
-  /// **'Notifications'**
-  String get helpPermissionNotificationTitle;
-
-  /// Why the app uses the notification permission
-  ///
-  /// In en, this message translates to:
-  /// **'Shows \"Scan bubble is on\" with a Turn off button while the bubble is on.'**
-  String get helpPermissionNotificationDesc;
-
-  /// Name of the Scan bubble help guide
-  ///
-  /// In en, this message translates to:
-  /// **'Scan bubble'**
-  String get helpGuideScanBubbleName;
-
-  /// One-line summary of the Scan bubble help guide
-  ///
-  /// In en, this message translates to:
-  /// **'A floating button to scan QR codes and barcodes shown in other apps.'**
-  String get helpGuideScanBubbleSummary;
-
-  /// Intro paragraph of the Scan bubble help guide
-  ///
-  /// In en, this message translates to:
-  /// **'The Scan bubble is a small round button that floats over other apps. When a QR code or barcode is on your screen, tap the bubble and the app reads it, offline, on your phone.'**
-  String get helpGuideScanBubbleIntro;
-
-  /// Section title: how to use the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'How to use it'**
-  String get helpGuideScanBubbleUseTitle;
-
-  /// How to turn the Scan bubble on
-  ///
-  /// In en, this message translates to:
-  /// **'Turn it on in Settings > Scan bubble, from the Scan bubble tile in Quick Settings, or by long-pressing the app icon.'**
-  String get helpGuideScanBubbleUseBullet1;
-
-  /// Second step for using the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'Open any app that shows a QR code or barcode, then tap the bubble.'**
-  String get helpGuideScanBubbleUseBullet2;
-
-  /// Third step for using the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'Android asks to allow screen capture. Allow it, and the result opens with the usual safety checks.'**
-  String get helpGuideScanBubbleUseBullet3;
-
-  /// How to move and close the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'Drag the bubble to move it. Drag it onto the X at the bottom of the screen to turn it off.'**
-  String get helpGuideScanBubbleUseBullet4;
-
-  /// Section title: privacy of the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy'**
-  String get helpGuideScanBubblePrivacyTitle;
-
-  /// Privacy point: capture only on tap
-  ///
-  /// In en, this message translates to:
-  /// **'The screen is captured only when you tap the bubble, and Android always asks you first.'**
-  String get helpGuideScanBubblePrivacyBullet1;
-
-  /// Privacy point: offline decoding
-  ///
-  /// In en, this message translates to:
-  /// **'The code is read on your phone. Nothing is sent online for reading.'**
-  String get helpGuideScanBubblePrivacyBullet2;
-
-  /// Privacy point: picture deleted
-  ///
-  /// In en, this message translates to:
-  /// **'The screen picture is not saved to your gallery and is deleted right after reading.'**
-  String get helpGuideScanBubblePrivacyBullet3;
-
-  /// Section title: limits of the Scan bubble
-  ///
-  /// In en, this message translates to:
-  /// **'Good to know'**
-  String get helpGuideScanBubbleLimitsTitle;
-
-  /// Limit: Android 14 asks every time
-  ///
-  /// In en, this message translates to:
-  /// **'On Android 14 and newer, Android asks for screen capture permission on every tap.'**
-  String get helpGuideScanBubbleLimitsBullet1;
-
-  /// Limit: some apps block capture
-  ///
-  /// In en, this message translates to:
-  /// **'Banking, payment and some video apps block screen capture. Codes inside them cannot be read.'**
-  String get helpGuideScanBubbleLimitsBullet2;
-
-  /// Limit: phone maker settings
-  ///
-  /// In en, this message translates to:
-  /// **'Some phones have extra \"pop-up window\" or battery settings that can hide or stop the bubble.'**
-  String get helpGuideScanBubbleLimitsBullet3;
-
-  /// Tip at the end of the Scan bubble help guide
-  ///
-  /// In en, this message translates to:
-  /// **'Tip: Add the Scan bubble tile to Quick Settings. Then one tap turns the bubble on or off from any app.'**
-  String get helpGuideScanBubbleTip;
 
   /// CodeForge: heading above the text box for 1D/2D barcode content.
   ///

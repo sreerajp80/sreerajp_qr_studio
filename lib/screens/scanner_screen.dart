@@ -52,6 +52,10 @@ class _ScannerScreenState extends State<ScannerScreen>
     with WidgetsBindingObserver, RouteAware {
   ScanCameraController? controller;
   bool _isScanning = true;
+
+  /// Mirrors the camera controller's running state, so the scan frame
+  /// animation stops while the camera is off.
+  bool _isCameraRunning = false;
   bool _hasPermission = false;
   bool _isInitialized = false;
 
@@ -104,8 +108,12 @@ class _ScannerScreenState extends State<ScannerScreen>
     final newProvider = Provider.of<CameraSettingsProvider>(context);
     if (_cameraSettingsProvider != newProvider) {
       _cameraSettingsProvider?.removeListener(_onCameraSettingsChanged);
+      _cameraSettingsProvider?.setCameraActive(false);
       _cameraSettingsProvider = newProvider;
       _cameraSettingsProvider?.addListener(_onCameraSettingsChanged);
+      if (controller?.value.isRunning ?? false) {
+        _cameraSettingsProvider?.setCameraActive(true);
+      }
     }
   }
 
@@ -146,6 +154,16 @@ class _ScannerScreenState extends State<ScannerScreen>
       } catch (e, st) {
         AppLogger.error('Resume camera error', error: e, stackTrace: st);
       }
+    }
+  }
+
+  /// Tells the camera settings whether the camera is open, so the light
+  /// sensor runs only while it is needed.
+  void _onControllerChanged() {
+    final running = controller?.value.isRunning ?? false;
+    _cameraSettingsProvider?.setCameraActive(running);
+    if (running != _isCameraRunning && mounted) {
+      setState(() => _isCameraRunning = running);
     }
   }
 
@@ -196,7 +214,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           distanceAssist: cameraSettings.isDistanceEnhanceMode
               ? cameraSettings.distanceScanConfig
               : null,
-        );
+        )..addListener(_onControllerChanged);
         _isInitialized = true;
       });
     }
@@ -206,6 +224,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     if (controller != null) {
       try {
         await controller!.stop();
+        controller!.removeListener(_onControllerChanged);
         controller!.dispose();
       } catch (e, st) {
         AppLogger.error(
@@ -266,10 +285,12 @@ class _ScannerScreenState extends State<ScannerScreen>
   void dispose() {
     _batchToastTimer?.cancel();
     _cameraSettingsProvider?.removeListener(_onCameraSettingsChanged);
+    _cameraSettingsProvider?.setCameraActive(false);
     _intentSubscription?.cancel();
     _ghostScanSubscription?.cancel();
     routeObserver.unsubscribe(this);
     WidgetsBinding.instance.removeObserver(this);
+    controller?.removeListener(_onControllerChanged);
     controller?.dispose();
     super.dispose();
   }
@@ -526,6 +547,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         barcode.rawValue!,
         barcode.type,
         corners: barcode.corners,
+        fromCamera: true,
       );
     }
   }
@@ -565,6 +587,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           visibleBarcode.rawValue,
           visibleBarcode.type,
           corners: visibleBarcode.corners,
+          fromCamera: true,
         );
       }
     }
@@ -648,6 +671,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     CodeContentType format, {
     List<Offset>? corners,
     String? source,
+    bool fromCamera = false,
   }) async {
     final scanProvider = Provider.of<ScanProvider>(context, listen: false);
 
@@ -670,7 +694,7 @@ class _ScannerScreenState extends State<ScannerScreen>
       _isScanSuccess = true;
     });
 
-    scanProvider.setScanResult(rawValue, format);
+    scanProvider.setScanResult(rawValue, format, fromCamera: fromCamera);
 
     final record = scanProvider.createScanRecord(source: source);
     if (record != null) {
@@ -937,6 +961,26 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  /// Builds one "more options" menu entry. The icon uses the same colour as
+  /// the label, so it stays clear in light mode instead of the pale default.
+  PopupMenuItem<String> _buildMenuItem(
+    BuildContext context, {
+    required String value,
+    required IconData icon,
+    required String label,
+  }) {
+    return PopupMenuItem<String>(
+      value: value,
+      child: Row(
+        children: [
+          Icon(icon, color: Theme.of(context).colorScheme.onSurface),
+          const SizedBox(width: 12),
+          Text(label),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -1011,75 +1055,47 @@ class _ScannerScreenState extends State<ScannerScreen>
             tooltip: l10n.tooltipMoreOptions,
             onSelected: _navigateToRoute,
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/ghost_scan',
-                child: Row(
-                  children: [
-                    const Icon(Icons.screenshot_monitor),
-                    const SizedBox(width: 12),
-                    Text(l10n.labelGhostScan),
-                  ],
-                ),
+                icon: Icons.screenshot_monitor,
+                label: l10n.labelGhostScan,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: ScanBubbleSettingsScreen.routeName,
-                child: Row(
-                  children: [
-                    const Icon(Icons.bubble_chart_outlined),
-                    const SizedBox(width: 12),
-                    Text(l10n.labelScanBubble),
-                  ],
-                ),
+                icon: Icons.bubble_chart_outlined,
+                label: l10n.labelScanBubble,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/code_forge',
-                child: Row(
-                  children: [
-                    const Icon(Icons.qr_code_2),
-                    const SizedBox(width: 12),
-                    Text(l10n.tabCodeForge),
-                  ],
-                ),
+                icon: Icons.qr_code_2,
+                label: l10n.tabCodeForge,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/ar_codevision',
-                child: Row(
-                  children: [
-                    const Icon(Icons.view_in_ar),
-                    const SizedBox(width: 12),
-                    Text(l10n.titleArScreen),
-                  ],
-                ),
+                icon: Icons.view_in_ar,
+                label: l10n.titleArScreen,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/air_qr',
-                child: Row(
-                  children: [
-                    const Icon(Icons.sensors),
-                    const SizedBox(width: 12),
-                    Text(l10n.titleAirQrReceiver),
-                  ],
-                ),
+                icon: Icons.sensors,
+                label: l10n.titleAirQrReceiver,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/history',
-                child: Row(
-                  children: [
-                    const Icon(Icons.history),
-                    const SizedBox(width: 12),
-                    Text(l10n.actionMenuHistory),
-                  ],
-                ),
+                icon: Icons.history,
+                label: l10n.actionMenuHistory,
               ),
-              PopupMenuItem<String>(
+              _buildMenuItem(
+                context,
                 value: '/settings',
-                child: Row(
-                  children: [
-                    const Icon(Icons.settings),
-                    const SizedBox(width: 12),
-                    Text(l10n.actionMenuSettings),
-                  ],
-                ),
+                icon: Icons.settings,
+                label: l10n.actionMenuSettings,
               ),
             ],
           ),
@@ -1180,6 +1196,7 @@ class _ScannerScreenState extends State<ScannerScreen>
               style: themeProvider.scanOverlayStyle,
               detectedCorners: _detectedCorners,
               isSuccess: _isScanSuccess,
+              isActive: _isScanning && _isCameraRunning,
             ),
           ),
           // Interactive Focus Ring overlay on user tap

@@ -33,7 +33,7 @@ structure, providers, services, models or screens.
 - Link safety: 6 offline checks (HTTPS, certificate, redirects, suspicious patterns, shorteners,
   homographs) plus optional online reputation checks with user-supplied API keys.
 - A sandboxed page preview to inspect a link before opening it in a browser.
-- Quishing Guard: physical sticker-tampering signals.
+- Quishing Guard: a reminder to check printed codes for fake stickers by hand (no image analysis).
 - StegoQR: hidden, encrypted QR content (AES-256-GCM), with optional biometric reveal.
 - Smart payload actions (Wi-Fi, contact, calendar, phone, SMS, email, geo, UPI, TOTP, ISBN,
   products, app links).
@@ -182,7 +182,7 @@ the Screenshot guard off), so the recent-apps preview of those screens is blank.
 
 | Provider | Owns |
 |---|---|
-| `ScanProvider` | Current scan result, payload parsing, link safety checks, StegoQR/encrypted payload state, quishing analysis, scan feedback settings |
+| `ScanProvider` | Current scan result, payload parsing, link safety checks, StegoQR/encrypted payload state, whether to show the Quishing Guard sticker reminder, scan feedback settings |
 | `HistoryProvider` | History list, filters, search, favorites, notes, exports, backup, load error flag, database delete |
 | `BatchScanProvider` | Batch scanning queue and its export |
 | `MultiCodeSelectionProvider` | Choosing one code when a frame holds several |
@@ -297,7 +297,6 @@ All models are immutable (`const` constructors, `copyWith`).
 | `SafetyCheckResult` | Result of one link safety check |
 | `ParsedPayload` | Parsed smart payload (Wi-Fi, contact, UPI, …) |
 | `StegoQrData`, `EncryptedPayloadData` | StegoQR / encrypted payload content |
-| `QuishingAnalysisResult` | Sticker-tampering signals |
 | `DomSandboxResult` | Sandboxed page preview result |
 | `AirQrFrame`, `AirQrProgress` | AirQR frames (data or XOR parity, CRC32) and receiver progress |
 | `ArCodeTarget` | One tracked code in AR CodeVision |

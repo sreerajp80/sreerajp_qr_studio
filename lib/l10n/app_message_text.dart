@@ -191,51 +191,6 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
     case AppMessageKey.openPhishUnavailable:
       return l10n.bodyOpenPhishUnavailable;
 
-    // printed-code tamper check
-
-    case AppMessageKey.quishingSummaryAuthentic:
-      return l10n.bodyQuishingSummaryAuthentic;
-    case AppMessageKey.quishingSummaryWearAndTear:
-      return l10n.bodyQuishingSummaryWearAndTear;
-    case AppMessageKey.quishingSummaryHighWarning:
-      return l10n.bodyQuishingSummaryHighWarning;
-    case AppMessageKey.quishingStatusAuthentic:
-      return l10n.bodyQuishingStatusAuthentic;
-    case AppMessageKey.quishingStatusWearAndTear:
-      return l10n.bodyQuishingStatusWearAndTear;
-    case AppMessageKey.quishingStatusHighWarning:
-      return l10n.bodyQuishingStatusHighWarning;
-    case AppMessageKey.quishingSignalPerimeterDoubleEdge:
-      return l10n.bodyQuishingSignalPerimeterDoubleEdge(args['zones'] ?? '');
-    case AppMessageKey.quishingSignalMicroShadowPerimeter:
-      return l10n.bodyQuishingSignalMicroShadowPerimeter;
-    case AppMessageKey.quishingSignalDotDensityVariance:
-      return l10n.bodyQuishingSignalDotDensityVariance(args['variance'] ?? '');
-    case AppMessageKey.quishingSignalGrainAberration:
-      return l10n.bodyQuishingSignalGrainAberration;
-    case AppMessageKey.quishingSignalUniformReflection:
-      return l10n.bodyQuishingSignalUniformReflection;
-    case AppMessageKey.quishingSignalConsistentDotsQrMatrix:
-      return l10n.bodyQuishingSignalConsistentDotsQrMatrix;
-    case AppMessageKey.quishingSignalReflectionVerified:
-      return l10n.bodyQuishingSignalReflectionVerified;
-    case AppMessageKey.quishingSignalHalftoneConsistentQrMatrix:
-      return l10n.bodyQuishingSignalHalftoneConsistentQrMatrix;
-    case AppMessageKey.quishingSignalHalftoneConsistentMatrix:
-      return l10n.bodyQuishingSignalHalftoneConsistentMatrix;
-    case AppMessageKey.quishingSignalDoubleEdgeAroundMatrix:
-      return l10n.bodyQuishingSignalDoubleEdgeAroundMatrix;
-    case AppMessageKey.quishingSignalMicroShadowStickerBorder:
-      return l10n.bodyQuishingSignalMicroShadowStickerBorder;
-    case AppMessageKey.quishingSignalGrainMismatchBase:
-      return l10n.bodyQuishingSignalGrainMismatchBase;
-    case AppMessageKey.quishingSignalMinorScratch:
-      return l10n.bodyQuishingSignalMinorScratch;
-    case AppMessageKey.quishingSignalSlightDotIrregularity:
-      return l10n.bodyQuishingSignalSlightDotIrregularity;
-    case AppMessageKey.quishingSignalConsistentDotsMatrixPerimeter:
-      return l10n.bodyQuishingSignalConsistentDotsMatrixPerimeter;
-
     // sandboxed page preview
     case AppMessageKey.domSslInvalidScheme:
       return l10n.bodyDomSslInvalidScheme;

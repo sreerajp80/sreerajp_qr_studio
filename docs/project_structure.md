@@ -97,7 +97,9 @@ sreerajp_qr_studio/
 |   |   |-- ar_codevision_screen.dart # Multi-code AR HUD viewfinder
 |   |   |-- settings_screen.dart     # App preferences, language, API keys
 |   |   |-- scan_bubble_settings_screen.dart # Scan bubble switch, permission, restart option
-|   |   |-- help/scan_bubble_help_screen.dart # Scan bubble help guide
+|   |   |-- help/help_home_screen.dart # Help hub: every guide, in 5 groups
+|   |   |-- help/*_help_screen.dart  # One guide page per topic (13 guides)
+|   |   |-- help/widgets/help_page_widgets.dart # Shared guide layout: intro, sections, tip
 |   |   `-- about_screen.dart        # Dynamic About screen with MadeWithLove
 |   |-- services/
 |   |   |-- barcode_decoder/         # FFI bindings, native reader, decoder isolate service

@@ -229,39 +229,32 @@ class AppLocalizationsMl extends AppLocalizations {
   String get actionPaymentAmountPay => 'പണം നൽകുക';
 
   @override
-  String labelPercentValue(String value) {
-    return '$value%';
-  }
-
-  @override
   String get titleQuishingGuard => 'ക്വിഷിംഗ് ഗാർഡ്™';
 
   @override
-  String get labelQuishingTamperBadge => 'ഭൗതിക കൃത്രിമം CV';
+  String get titleStickerCheck => 'സ്റ്റിക്കർ പരിശോധന';
 
   @override
-  String get labelQuishingRiskScore => 'കൃത്രിമത്വ സാധ്യത നിരക്ക്:';
+  String get tooltipStickerCheckExpand => 'പരിശോധനകൾ കാണിക്കുക';
 
   @override
-  String get actionQuishingViewSignals => 'സിഗ്നലുകൾ കാണിക്കുക';
+  String get tooltipStickerCheckCollapse => 'പരിശോധനകൾ മറയ്ക്കുക';
 
   @override
-  String get actionQuishingHideSignals => 'സിഗ്നലുകൾ മറയ്ക്കുക';
+  String get bodyStickerCheckIntro =>
+      'തട്ടിപ്പുകാർ യഥാർത്ഥ കോഡിനു മുകളിൽ സ്വന്തം QR കോഡ് ഒട്ടിക്കാറുണ്ട്. ക്യാമറ ചിത്രത്തിൽ നിന്ന് സ്റ്റിക്കർ തിരിച്ചറിയാൻ ഈ ആപ്പിന് കഴിയില്ല, അതിനാൽ നിങ്ങൾ തന്നെ പരിശോധിക്കുക:';
 
   @override
-  String get labelQuishingMetricEdge => 'അരികുകളുടെ വിച്ഛേദം';
+  String get bodyStickerCheckEdges =>
+      'കോഡ് നോക്കുകയും വിരൽ കൊണ്ട് തൊട്ടുനോക്കുകയും ചെയ്യുക. മുകളിൽ ഒട്ടിച്ച സ്റ്റിക്കറിന് പലപ്പോഴും ഉയർന്ന അരികുകൾ ഉണ്ടാകും, അല്ലെങ്കിൽ ചരിഞ്ഞിരിക്കും.';
 
   @override
-  String get descQuishingMetricEdge => 'ഇരട്ട അരികുകളും നിഴൽ വരകളും';
+  String get bodyStickerCheckPayee =>
+      'പണം നൽകുന്നതിനു മുൻപ്, പണമിടപാട് സ്ക്രീനിലെ പേര് കടയുടേതു തന്നെയാണോ എന്ന് ഉറപ്പാക്കുക.';
 
   @override
-  String get labelQuishingMetricGrain => 'പ്രിന്റ് തരികളും ഡിപിഐയും';
-
-  @override
-  String get descQuishingMetricGrain => 'ഹാഫ്‌ടോൺ ഡോട്ടും വർണ്ണ ശബ്ദവും';
-
-  @override
-  String get titleQuishingSignals => 'കണ്ടെത്തിയ സിഗ്നലുകൾ:';
+  String get bodyStickerCheckAsk =>
+      'സംശയമുണ്ടെങ്കിൽ ജീവനക്കാരോടു ചോദിക്കുക, അല്ലെങ്കിൽ വെബ്സൈറ്റ് വിലാസം സ്വയം ടൈപ്പ് ചെയ്യുക.';
 
   @override
   String get tooltipArCloseSheet => 'അടയ്ക്കുക';
@@ -1046,15 +1039,13 @@ class AppLocalizationsMl extends AppLocalizations {
   String get labelSettingsPermissions => 'അനുമതികൾ';
 
   @override
-  String get descSettingsPermissions =>
-      'പ്രത്യേകവും അന്തർലീനവുമായ അനുമതികളുടെ വിവരങ്ങൾ';
+  String get descSettingsPermissions => 'ആപ്പ് എന്ത് ഉപയോഗിക്കുന്നു, എന്തിന്';
 
   @override
   String get labelSettingsHelp => 'സഹായവും സവിശേഷതകളും';
 
   @override
-  String get descSettingsHelp =>
-      'AR കോഡ്‌വിഷൻ, എയർ ക്യുആർ, ക്വിഷിംഗ് ഗാർഡ്, സുരക്ഷ';
+  String get descSettingsHelp => 'എല്ലാ സവിശേഷതകൾക്കും ലളിതമായ വഴികാട്ടി';
 
   @override
   String get descSettingsAbout => 'ആപ്പ് പതിപ്പ്, നിർമ്മാതാവ്, ലൈസൻസ് വിവരങ്ങൾ';
@@ -1111,74 +1102,134 @@ class AppLocalizationsMl extends AppLocalizations {
   String get titlePermissionsScreen => 'അനുമതി വിവരങ്ങൾ';
 
   @override
-  String get helpPermissionsExplicitHeading => 'പ്രത്യേക അനുമതികൾ (റൺടൈം)';
+  String get helpPermissionsIntro =>
+      'ക്യാമറ പോലുള്ള ഫോണിന്റെ ഭാഗങ്ങൾ ഉപയോഗിക്കാൻ ആപ്പിന് അനുമതി വേണം. ഓരോ സവിശേഷതയ്ക്കും ആവശ്യമുള്ളത് മാത്രം, നിങ്ങൾ ആ സവിശേഷത ഉപയോഗിക്കുമ്പോൾ മാത്രം, ഈ ആപ്പ് ചോദിക്കുന്നു. Android ക്രമീകരണങ്ങൾ > ആപ്പുകൾ > ഈ ആപ്പ് > അനുമതികൾ എന്നതിൽ എപ്പോൾ വേണമെങ്കിലും ഇവ കാണാനും മാറ്റാനും കഴിയും.';
 
   @override
-  String get helpPermissionCameraTitle =>
-      'ക്യാമറ അനുമതി (android.permission.CAMERA)';
+  String get labelPermGroupAsked => 'ആവശ്യമുള്ളപ്പോൾ ചോദിക്കും';
 
   @override
-  String get helpPermissionCameraDesc =>
-      'സ്കാൻ ചെയ്യുന്ന വേളയിൽ മാത്രം ചോദിക്കുന്നു. ലൈവ് സ്കാനിംഗ്, AR ഹഡ്, എയർ ക്യുആർ ഡീകോഡിംഗ് എന്നിവയ്ക്ക് ആവശ്യമാണ്.';
+  String get helpPermGroupAskedNote =>
+      'ഇവ ഉപയോഗിക്കുന്നതിന് മുമ്പ് Android നിങ്ങളോട് ചോദിക്കും. വേണ്ടെന്ന് പറഞ്ഞാലും ആപ്പിന്റെ മറ്റ് ഭാഗങ്ങൾ പ്രവർത്തിക്കും.';
 
   @override
-  String get helpPermissionBiometricTitle =>
-      'ബയോമെട്രിക് അനുമതി (android.permission.USE_BIOMETRIC)';
+  String get labelPermGroupInstall => 'സ്വയം ലഭിക്കുന്നവ';
 
   @override
-  String get helpPermissionBiometricDesc =>
-      'സുരക്ഷിത വോൾട്ടുകളും എൻക്രിപ്റ്റ് ചെയ്ത ക്യുആർ കോഡുകളും അൺലോക്ക് ചെയ്യാൻ ഉപയോഗിക്കുന്നു.';
+  String get helpPermGroupInstallNote =>
+      'ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്യുമ്പോൾ ചോദിക്കാതെ തന്നെ Android ഇവ അനുവദിക്കുന്നു. ഓരോന്നും ഇവിടെ പറഞ്ഞ സവിശേഷതയ്ക്ക് മാത്രം ഉപയോഗിക്കുന്നു.';
 
   @override
-  String get helpPermissionsImplicitHeading => 'അന്തർലീന സിസ്റ്റം അനുമതികൾ';
+  String get labelPermGroupNotUsed => 'ചോദിക്കാത്തവ';
 
   @override
-  String get helpPermissionInternetTitle =>
-      'ഇന്റർനെറ്റ് അനുമതി (android.permission.INTERNET)';
+  String get helpPermGroupNotUsedNote =>
+      'ആപ്പ് ഇവ ചോദിക്കുന്നില്ല, അതിനാൽ ഇവ ഉപയോഗിക്കാൻ ആപ്പിന് കഴിയില്ല.';
 
   @override
-  String get helpPermissionInternetDesc =>
-      'ഓൺലൈൻ പരിശോധനയോ ഗൂഗിൾ സേഫ് ബ്രൗസിംഗ് APIയോ സജീവമാക്കുമ്പോൾ മാത്രം ഉപയോഗിക്കുന്നു.';
+  String get labelPermCamera => 'ക്യാമറ';
 
   @override
-  String get helpPermissionVibrateTitle =>
-      'വൈബ്രേഷൻ അനുമതി (android.permission.VIBRATE)';
+  String get helpPermCameraDesc =>
+      'QR കോഡുകളും ബാർകോഡുകളും സ്കാൻ ചെയ്യാനും AR കോഡ്‌വിഷനും AirQR കൈമാറ്റങ്ങൾ സ്വീകരിക്കാനും ഉപയോഗിക്കുന്നു. ക്യാമറ സ്ക്രീൻ ആദ്യമായി തുറക്കുമ്പോൾ Android ചോദിക്കും. ക്യാമറ ദൃശ്യങ്ങൾ ഫോണിൽ തന്നെ വായിക്കുന്നു; അവ സൂക്ഷിക്കുകയോ അയയ്ക്കുകയോ ചെയ്യുന്നില്ല. വേണ്ടെന്ന് പറഞ്ഞാലും ചിത്രങ്ങളിൽ നിന്നും PDF-കളിൽ നിന്നും സ്കാൻ ചെയ്യാം.';
 
   @override
-  String get helpPermissionVibrateDesc =>
-      'സ്കാൻ ചെയ്യുമ്പോഴും ബട്ടണുകൾ അമർത്തുമ്പോഴും ഹാപ്റ്റിക് വൈബ്രേഷൻ നൽകാൻ ഉപയോഗിക്കുന്നു.';
+  String get labelPermLocation => 'സ്ഥാനം';
 
   @override
-  String get helpPermissionPhotoPickerTitle => 'ഫോട്ടോ പിക്കർ അനുമതി';
+  String get helpPermLocationDesc =>
+      'കോഡ്ഫോർജിൽ \"എന്റെ ലൊക്കേഷൻ\" അമർത്തുമ്പോൾ മാത്രം, നിങ്ങളുടെ ഇപ്പോഴത്തെ സ്ഥലം ഒരു മാപ്പ് QR കോഡിൽ ചേർക്കാൻ ഉപയോഗിക്കുന്നു. സ്ഥാനം ഒരിക്കൽ മാത്രം വായിക്കുന്നു; അത് സൂക്ഷിക്കുകയോ എവിടേക്കും അയയ്ക്കുകയോ ചെയ്യുന്നില്ല. പശ്ചാത്തലത്തിൽ ഒരിക്കലും ഉപയോഗിക്കുന്നില്ല. വേണ്ടെന്ന് പറഞ്ഞാൽ സ്ഥലം നിങ്ങൾക്ക് തന്നെ നൽകാം.';
 
   @override
-  String get helpPermissionPhotoPickerDesc =>
-      'ഫോൺ സ്റ്റോറേജ് മുഴുവൻ നൽകാതെ തന്നെ ഗാലറിയിൽ നിന്ന് ചിത്രങ്ങളോ വീഡിയോകളോ തിരഞ്ഞെടുക്കാം.';
+  String get labelPermBiometric => 'വിരലടയാളം / മുഖം';
 
   @override
-  String get helpPermissionsSettingHeading =>
-      'ക്രമീകരണങ്ങളെ അടിസ്ഥാനമാക്കിയുള്ള അനുമതികൾ';
+  String get helpPermBiometricDesc =>
+      'ആപ്പ് ലോക്കിനും, പൂട്ടിയ StegoQR ഇനങ്ങൾ വിരലടയാളം, മുഖം അല്ലെങ്കിൽ സ്ക്രീൻ ലോക്ക് ഉപയോഗിച്ച് തുറക്കാനും ഉപയോഗിക്കുന്നു. പരിശോധന നടത്തുന്നത് Android ആണ്; വിജയിച്ചോ ഇല്ലയോ എന്ന് മാത്രം ആപ്പിനെ അറിയിക്കുന്നു. നിങ്ങളുടെ വിരലടയാളമോ മുഖമോ ആപ്പ് ഒരിക്കലും കാണുന്നില്ല.';
 
   @override
-  String get helpPermissionProbingTitle => 'ഓൺലൈൻ നെറ്റ്‌വർക്ക് പരിശോധന';
+  String get labelPermNotifications => 'അറിയിപ്പുകൾ';
 
   @override
-  String get helpPermissionProbingDesc =>
-      'സജീവമാക്കുമ്പോൾ മാത്രം വെബ്‌സൈറ്റുകളിലേക്ക് സുരക്ഷിത കണക്ഷൻ വഴി റീഡയറക്‌ട് വിവരങ്ങൾ അറിയാൻ ശ്രമിക്കുന്നു. ഓഫാക്കിയാൽ 100% ഓഫ്‌ലൈൻ.';
+  String get helpPermNotificationsDesc =>
+      'സ്കാൻ ബബിൾ ഓണായിരിക്കുമ്പോൾ മാത്രം, അത് ഓണാണെന്ന് ഓഫാക്കാനുള്ള ബട്ടണോടൊപ്പം കാണിക്കാൻ ഉപയോഗിക്കുന്നു. ബബിൾ ആദ്യമായി ഓണാക്കുമ്പോൾ Android ചോദിക്കും. വേണ്ടെന്ന് പറഞ്ഞാലും ബബിൾ പ്രവർത്തിക്കും, അറിയിപ്പ് മാത്രം കാണില്ല.';
 
   @override
-  String get helpPermissionSafeBrowsingTitle => 'ഗൂഗിൾ സേഫ് ബ്രൗസിംഗ് API';
+  String get labelPermOverlay => 'മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ';
 
   @override
-  String get helpPermissionSafeBrowsingDesc =>
-      'API കീ നൽകുമ്പോൾ മാത്രം സുരക്ഷാ വിവരങ്ങൾക്കായി ഗൂഗിൾ ഭീഷണി ഡാറ്റാബേസിൽ പരിശോധിക്കുന്നു.';
+  String get helpPermOverlayDesc =>
+      'സ്ക്രീനിൽ കാണുന്ന കോഡ് സ്കാൻ ചെയ്യാൻ, സ്കാൻ ബബിളിനെ മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ കാണിക്കുന്നു. നിങ്ങൾ ബബിൾ ഓണാക്കിയ ശേഷം മാത്രം ഉപയോഗിക്കുന്നു. ആപ്പ് ആദ്യം ഇത് വിശദീകരിക്കും, തുടർന്ന് അനുമതി നൽകാനുള്ള Android താൾ തുറക്കും. അനുവദിച്ചില്ലെങ്കിൽ ബബിൾ ഓഫായി തുടരും.';
 
   @override
-  String get helpPermissionFeedbackTitle => 'സ്കാൻ വൈബ്രേഷൻ ഫീഡ്‌ബാക്ക്';
+  String get labelPermScreenCapture => 'സ്ക്രീൻ പകർത്തൽ';
 
   @override
-  String get helpPermissionFeedbackDesc =>
-      'ക്രമീകരണങ്ങളിൽ വൈബ്രേഷൻ ഓൺ ചെയ്യുമ്പോൾ മാത്രം പ്രവർത്തിക്കുന്നു.';
+  String get helpPermScreenCaptureDesc =>
+      'സ്ക്രീനിൽ കാണുന്ന കോഡ് വായിക്കാൻ ഗോസ്റ്റ്സ്കാനും സ്കാൻ ബബിളും ഉപയോഗിക്കുന്നു. ഓരോ തവണയും Android നിങ്ങളോട് ചോദിക്കും. ആപ്പ് സ്ക്രീനിന്റെ ഒരു ചിത്രം മാത്രം എടുത്ത്, കോഡ് ഫോണിൽ തന്നെ വായിച്ച്, ചിത്രം ഉപേക്ഷിക്കുന്നു. വീഡിയോ പകർത്തുകയോ ചിത്രം എവിടേക്കും അയയ്ക്കുകയോ ചെയ്യുന്നില്ല.';
+
+  @override
+  String get labelPermInternet => 'ഇന്റർനെറ്റ്';
+
+  @override
+  String get helpPermInternetDesc =>
+      'സ്കാനിംഗ് പൂർണ്ണമായും ഓഫ്‌ലൈനായി പ്രവർത്തിക്കുന്നു. താഴെയുള്ള രണ്ട് ഐച്ഛിക ലിങ്ക് പരിശോധനകൾക്ക് മാത്രമാണ് ഇന്റർനെറ്റ് ഉപയോഗിക്കുന്നത്. നിങ്ങൾ ഓണാക്കുന്നതുവരെ രണ്ടും ഓഫാണ്. അവ ഓഫായിരിക്കുമ്പോൾ നിങ്ങൾ സ്കാൻ ചെയ്യുന്ന ഒന്നും ഫോണിൽ നിന്ന് പുറത്തുപോകുന്നില്ല. ലിങ്ക് തുറക്കുന്നത് നിങ്ങളുടെ ബ്രൗസറാണ്, ഈ ആപ്പല്ല.';
+
+  @override
+  String get labelPermProbing => 'ഓൺലൈൻ ലിങ്ക് പരിശോധന';
+
+  @override
+  String get helpPermProbingDesc =>
+      'ക്രമീകരണങ്ങൾ > സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും എന്നതിൽ ഓണാക്കിയാൽ മാത്രം. ഓണായിരിക്കുമ്പോൾ, നിങ്ങൾ ലിങ്ക് തുറക്കുന്നതിന് മുമ്പ് ആപ്പ് ആ ലിങ്ക് സന്ദർശിച്ച് അതിന്റെ വഴിതിരിച്ചുവിടലുകൾ പിന്തുടരുകയും സുരക്ഷാ സർട്ടിഫിക്കറ്റ് പരിശോധിക്കുകയും വെബ്‌സൈറ്റിന്റെ പഴക്കം നോക്കുകയും ചെയ്യുന്നു.';
+
+  @override
+  String get labelPermLinkServices => 'ലിങ്ക് സുരക്ഷാ സേവനങ്ങൾ';
+
+  @override
+  String get helpPermLinkServicesDesc =>
+      'ക്രമീകരണങ്ങൾ > URL സുരക്ഷാ ദാതാക്കൾ എന്നതിൽ നിങ്ങൾ ഓണാക്കിയാൽ മാത്രം. ഓണായിരിക്കുമ്പോൾ, സ്കാൻ ചെയ്ത ലിങ്ക് നിങ്ങൾ തിരഞ്ഞെടുത്ത സേവനങ്ങളിലേക്ക് (ഉദാ. Google Safe Browsing, VirusTotal) അയച്ച് അപകടകരമായ സൈറ്റുകളുടെ പട്ടികയുമായി ഒത്തുനോക്കുന്നു. ചിലതിന് നിങ്ങളുടെ സ്വന്തം API കീ വേണം; അത് ഫോണിന്റെ സുരക്ഷിത സംഭരണിയിൽ സൂക്ഷിക്കുന്നു.';
+
+  @override
+  String get labelPermWifi => 'വൈ-ഫൈ കണക്ഷൻ';
+
+  @override
+  String get helpPermWifiDesc =>
+      'സ്കാൻ ചെയ്ത വൈ-ഫൈ QR കോഡിൽ \"വൈ-ഫൈയിലേക്ക് ബന്ധിപ്പിക്കുക\" അമർത്തുമ്പോൾ മാത്രം, ആ ശൃംഖല ഫോണിൽ ചേർക്കാൻ ഉപയോഗിക്കുന്നു. പുതിയ Android പതിപ്പുകളിൽ Android ആദ്യം നിങ്ങളോട് സ്ഥിരീകരണം ചോദിക്കും. നിങ്ങൾ സൂക്ഷിച്ച വൈ-ഫൈ പാസ്‌വേഡുകൾ ആപ്പ് വായിക്കുന്നില്ല.';
+
+  @override
+  String get labelPermBackground => 'പശ്ചാത്തല പ്രവർത്തനം';
+
+  @override
+  String get helpPermBackgroundDesc =>
+      'നിങ്ങൾ മറ്റൊരു ആപ്പിലായിരിക്കുമ്പോഴും ഗോസ്റ്റ്സ്കാനും സ്കാൻ ബബിളും പ്രവർത്തിക്കാൻ അനുവദിക്കുന്നു. ഇത് പ്രവർത്തിക്കുമ്പോൾ നിങ്ങൾ അറിയാനായി Android എപ്പോഴും ഒരു അറിയിപ്പ് കാണിക്കും.';
+
+  @override
+  String get labelPermBoot => 'റീസ്റ്റാർട്ടിനു ശേഷം';
+
+  @override
+  String get helpPermBootDesc =>
+      'ഫോൺ റീസ്റ്റാർട്ട് ചെയ്ത ശേഷം സ്കാൻ ബബിൾ തിരികെ കൊണ്ടുവരുന്നു. ബബിൾ ഓണായിരിക്കുകയും \"റീസ്റ്റാർട്ടിനു ശേഷം തുടങ്ങുക\" ഓണാക്കുകയും ചെയ്തിട്ടുണ്ടെങ്കിൽ മാത്രം. അല്ലാത്തപക്ഷം ഇത് ഒന്നും ചെയ്യുന്നില്ല.';
+
+  @override
+  String get labelPermStorage => 'ഫോട്ടോകളും ഫയലുകളും';
+
+  @override
+  String get helpPermStorageDesc =>
+      'ആപ്പിന് സംഭരണ അനുമതി ഇല്ല. ചിത്രത്തിൽ നിന്നോ PDF-ൽ നിന്നോ സ്കാൻ ചെയ്യുമ്പോൾ Android-ന്റെ സ്വന്തം തിരഞ്ഞെടുക്കൽ സ്ക്രീൻ തുറക്കും; നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ഫയൽ മാത്രമേ ആപ്പിന് ലഭിക്കൂ.';
+
+  @override
+  String get labelPermMicrophone => 'മൈക്രോഫോൺ';
+
+  @override
+  String get helpPermMicrophoneDesc =>
+      'ആപ്പ് മൈക്രോഫോൺ ഉപയോഗിക്കുന്നില്ല. ക്യാമറ എപ്പോഴും ശബ്ദമില്ലാതെയാണ് തുറക്കുന്നത്.';
+
+  @override
+  String get labelPermVibration => 'കമ്പനം';
+
+  @override
+  String get helpPermVibrationDesc =>
+      'സ്കാൻ കമ്പനങ്ങൾ Android-ന്റെ സ്വന്തം സ്പർശന പ്രതികരണം ഉപയോഗിക്കുന്നു; അതിന് അനുമതി ആവശ്യമില്ല.';
 
   @override
   String get labelOn => 'ഓൺ';
@@ -1525,90 +1576,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get labelOpenPhishToggle => 'OpenPhish ഫീഡ് ഉപയോഗിക്കുക';
-
-  @override
-  String get bodyQuishingSummaryAuthentic =>
-      'യഥാർത്ഥ പ്രിന്റ് ചെയ്ത കോഡ്. ഭൗതിക കൃത്രിമത്വം കണ്ടെത്തിയില്ല.';
-
-  @override
-  String get bodyQuishingSummaryWearAndTear =>
-      'തേയ്മാനം കണ്ടെത്തി. ഉപരിതലത്തിൽ ചെറിയ മാറ്റങ്ങൾ കാണുന്നു.';
-
-  @override
-  String get bodyQuishingSummaryHighWarning =>
-      'ഉയർന്ന മുന്നറിയിപ്പ്: ഭൗതിക സ്റ്റിക്കർ പതിച്ചതായി കണ്ടെത്തി! തുറക്കും മുൻപ് സ്ഥിരീകരിക്കുക.';
-
-  @override
-  String get bodyQuishingStatusAuthentic => '🟢 യഥാർത്ഥ പ്രിന്റ് ചെയ്ത കോഡ്';
-
-  @override
-  String get bodyQuishingStatusWearAndTear => '🟡 തേയ്മാനം കണ്ടെത്തി';
-
-  @override
-  String get bodyQuishingStatusHighWarning =>
-      '🔴 ഉയർന്ന മുന്നറിയിപ്പ്: ഭൗതിക സ്റ്റിക്കർ കണ്ടെത്തി!';
-
-  @override
-  String get bodyQuishingSignalMicroShadowPerimeter =>
-      'മാട്രിക്സ് ചുറ്റളവിൽ ചെറിയ നിഴൽ വര കണ്ടെത്തി';
-
-  @override
-  String get bodyQuishingSignalGrainAberration =>
-      'പ്രിന്റ് തരികളുടെ പൊരുത്തക്കേട് കണ്ടെത്തി';
-
-  @override
-  String get bodyQuishingSignalUniformReflection =>
-      'പ്രതല പ്രതിഫലനം സ്ഥിരീകരിച്ചു';
-
-  @override
-  String get bodyQuishingSignalConsistentDotsQrMatrix =>
-      'ക്യുആർ മാട്രിക്സിൽ ഒരേപോലെയുള്ള ഡോട്ട് സാന്ദ്രത';
-
-  @override
-  String get bodyQuishingSignalReflectionVerified =>
-      'പ്രതല പ്രതിഫലനം സ്ഥിരീകരിച്ചു';
-
-  @override
-  String get bodyQuishingSignalHalftoneConsistentQrMatrix =>
-      'മാട്രിക്സ് ചുറ്റളവിൽ കൃത്യമായ ഡോട്ട് സാന്ദ്രത';
-
-  @override
-  String get bodyQuishingSignalHalftoneConsistentMatrix =>
-      'മാട്രിക്സിൽ ഉടനീളം കൃത്യമായ ഡോട്ട് സാന്ദ്രത';
-
-  @override
-  String get bodyQuishingSignalDoubleEdgeAroundMatrix =>
-      'മാട്രിക്സിന് ചുറ്റും ഇരട്ട അരികുകൾ കണ്ടെത്തി';
-
-  @override
-  String get bodyQuishingSignalMicroShadowStickerBorder =>
-      'സ്റ്റിക്കർ അതിർത്തിയിൽ ചെറിയ നിഴൽ വര കണ്ടെത്തി';
-
-  @override
-  String get bodyQuishingSignalGrainMismatchBase =>
-      'അടിസ്ഥാന പ്രതലവുമായി പൊരുത്തപ്പെടാത്ത പ്രിന്റ് തരികൾ';
-
-  @override
-  String get bodyQuishingSignalMinorScratch =>
-      'ചെറിയ പോറലുകളോ തേയ്മാനമോ കാണപ്പെടുന്നു';
-
-  @override
-  String get bodyQuishingSignalSlightDotIrregularity =>
-      'അരികുകളിൽ ചെറിയ ഡോട്ട് വ്യതിയാനങ്ങൾ';
-
-  @override
-  String get bodyQuishingSignalConsistentDotsMatrixPerimeter =>
-      'ചുറ്റളവിൽ ഒരേപോലെയുള്ള ഡോട്ട് സാന്ദ്രത';
-
-  @override
-  String bodyQuishingSignalPerimeterDoubleEdge(String zones) {
-    return 'ഇരട്ട അരികുകളുടെ പ്രതിഫലനം കണ്ടെത്തി ($zones അതിർത്തി മേഖലകൾ)';
-  }
-
-  @override
-  String bodyQuishingSignalDotDensityVariance(String variance) {
-    return 'ഡോട്ട് സാന്ദ്രതയിൽ പൊരുത്തക്കേട് കണ്ടെത്തി ($variance% വ്യതിയാനം)';
-  }
 
   @override
   String get bodyDomSslInvalidScheme => 'അസാധുവായ URL സ്കീം';
@@ -2106,16 +2073,16 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get descFeatureQuishingGuard =>
-      'QR കോഡിന് മുകളിൽ ഒട്ടിച്ച സ്റ്റിക്കറുകൾ, അരികിലെ വിടവുകൾ, ചെറു നിഴലുകൾ, അച്ചടി തരികൾ എന്നിവ കണ്ടെത്തുന്ന ഫോറൻസിക് കമ്പ്യൂട്ടർ ദൃഷ്ടി.';
+      'ലിങ്ക് തുറക്കുന്നതിനോ പണം നൽകുന്നതിനോ മുൻപ്, അച്ചടിച്ച QR കോഡിൽ വ്യാജ സ്റ്റിക്കർ ഉണ്ടോ എന്നു പരിശോധിക്കാൻ ഓർമ്മിപ്പിക്കുന്നു. കൈകൊണ്ടു ചെയ്യാവുന്ന ലളിതമായ പരിശോധനകൾ നൽകുന്നു; ചിത്രം പരിശോധിക്കുന്നില്ല.';
 
   @override
-  String get labelFeatureQuishingGuardChip1 => 'ഒട്ടിച്ച സ്റ്റിക്കർ';
+  String get labelFeatureQuishingGuardChip1 => 'വ്യാജ സ്റ്റിക്കർ';
 
   @override
-  String get labelFeatureQuishingGuardChip2 => 'അരികിലെ വിടവ്';
+  String get labelFeatureQuishingGuardChip2 => 'സ്വയം പരിശോധന';
 
   @override
-  String get labelFeatureQuishingGuardChip3 => 'അച്ചടി തരി വിശകലനം';
+  String get labelFeatureQuishingGuardChip3 => 'പണമിടപാട് നുറുങ്ങുകൾ';
 
   @override
   String get titleFeatureArCodeVision => 'AR കോഡ്‌വിഷൻ™';
@@ -2326,11 +2293,11 @@ class AppLocalizationsMl extends AppLocalizations {
   String get labelFeatureOfflinePrivacyChip3 => 'ഓപ്പൺ സോഴ്സ്';
 
   @override
-  String get helpCenterHeaderTitle => 'സഹായ കേന്ദ്രവും വഴികാട്ടിയും';
+  String get helpCenterHeaderTitle => 'ആപ്പ് എങ്ങനെ ഉപയോഗിക്കാം';
 
   @override
   String get helpCenterHeaderSubtitle =>
-      'ആപ്പിന്റെ എല്ലാ സവിശേഷതകളെക്കുറിച്ചുമുള്ള സമഗ്രമായ നിർദ്ദേശങ്ങൾ വായിക്കുക.';
+      'ആപ്പിന്റെ ഓരോ ഭാഗത്തിനും ലളിതമായ വഴികാട്ടികൾ. ഒരു വിഷയം തിരഞ്ഞെടുത്ത്, അത് എന്തു ചെയ്യുന്നു, എങ്ങനെ ഉപയോഗിക്കാം എന്നു കാണുക.';
 
   @override
   String get actionDecryptPayload => 'ഡീക്രിപ്റ്റ് ചെയ്യുക';
@@ -2560,12 +2527,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get tooltipToggleFlash => 'ഫ്ലാഷ്‌ലൈറ്റ് മാറ്റുക';
 
   @override
-  String get tooltipCameraAdjustments => 'ക്യാമറ ക്രമീകരണങ്ങൾ';
-
-  @override
-  String get tooltipZoomControls => 'വലുതാക്കൽ നിയന്ത്രണം';
-
-  @override
   String get tooltipSwitchCamera => 'ക്യാമറ മാറ്റുക';
 
   @override
@@ -2573,9 +2534,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get tooltipToggleSecretVisibility => 'രഹസ്യം കാണിക്കുക/മറയ്ക്കുക';
-
-  @override
-  String get tooltipResetStream => 'സ്ട്രീം പുനരാരംഭിക്കുക';
 
   @override
   String get labelAirQrModeText => 'സ്വന്തം ഉള്ളടക്കം';
@@ -2900,25 +2858,26 @@ class AppLocalizationsMl extends AppLocalizations {
       'സ്വകാര്യ പരിശോധനയും സേഫ് ബ്രൗസിംഗും';
 
   @override
-  String get labelOnboardingSlide2Badge => 'കമ്പ്യൂട്ടർ വിഷൻ';
+  String get labelOnboardingSlide2Badge => 'തട്ടിപ്പ് സ്റ്റിക്കർ';
 
   @override
-  String get titleOnboardingSlide2 => 'വ്യാജ സ്റ്റിക്കർ കണ്ടെത്തൽ';
+  String get titleOnboardingSlide2 => 'സ്റ്റിക്കർ പരിശോധന';
 
   @override
   String get bodyOnboardingSlide2 =>
-      'യഥാർത്ഥ കോഡുകൾക്ക് മുകളിൽ പതിപ്പിച്ച വ്യാജ ക്യുആർ സ്റ്റിക്കറുകൾ ക്വിഷിംഗ്ഗാർഡ് ക്യാമറ വഴി തിരിച്ചറിയുന്നു. വശങ്ങളിലെ വെട്ടുകളും നിഴലുകളും ഉപരിതലവും ഇത് സൂക്ഷ്മമായി പരിശോധിക്കുന്നു.';
+      'തട്ടിപ്പുകാർ യഥാർത്ഥ കോഡുകൾക്കു മുകളിൽ വ്യാജ QR സ്റ്റിക്കറുകൾ ഒട്ടിക്കാറുണ്ട്. ക്യാമറ കൊണ്ട് ലിങ്കോ പണമിടപാട് കോഡോ സ്കാൻ ചെയ്യുമ്പോൾ, തുറക്കുന്നതിനോ പണം നൽകുന്നതിനോ മുൻപ് എന്തു പരിശോധിക്കണമെന്ന് ക്വിഷിംഗ് ഗാർഡ് ഓർമ്മിപ്പിക്കും.';
 
   @override
   String get bodyOnboardingSlide2Bullet1 =>
-      'വ്യാജ സ്റ്റിക്കർ പതിപ്പിക്കലുകൾ കണ്ടെത്തുന്നു';
+      'സ്റ്റിക്കറിന്റെ ഉയർന്ന അരികുകൾ തൊട്ടുനോക്കുക';
 
   @override
   String get bodyOnboardingSlide2Bullet2 =>
-      'മുറിച്ച അരികുകളും നിഴൽ അതിരുകളും പരിശോധിക്കുന്നു';
+      'പണം വാങ്ങുന്നയാളുടെ പേര് ഉറപ്പാക്കുക';
 
   @override
-  String get bodyOnboardingSlide2Bullet3 => 'തത്സമയ ക്യാമറ പരിശോധന';
+  String get bodyOnboardingSlide2Bullet3 =>
+      'സംശയമുണ്ടെങ്കിൽ ജീവനക്കാരോടു ചോദിക്കുക';
 
   @override
   String get labelOnboardingSlide3Badge => 'ട്രാക്കിംഗ് ഇല്ല';
@@ -3108,545 +3067,1171 @@ class AppLocalizationsMl extends AppLocalizations {
   String get bodyGhostScanAnalyzing => 'സ്ക്രീൻ ഉള്ളടക്കം പരിശോധിക്കുന്നു...';
 
   @override
-  String get helpGuideGroupScanning => 'സ്കാനിംഗ് ഗൈഡുകൾ';
+  String get helpGuideGroupScanning => 'സ്കാനിംഗ്';
 
   @override
-  String get helpGuideGroupSecurity => 'സുരക്ഷയും ഭീഷണി പ്രതിരോധവും';
+  String get helpGuideGroupCreate => 'കോഡുകൾ നിർമ്മിക്കലും അയയ്ക്കലും';
 
   @override
-  String get helpGuideGroupPayloads => 'ഉള്ളടക്കം, സംഭരണം, സ്വകാര്യത';
+  String get helpGuideGroupSecurity => 'സുരക്ഷിതരായിരിക്കാൻ';
 
   @override
-  String get titleHelpBarcode => 'ബാർകോഡ് സ്കാനിംഗ്';
+  String get helpGuideGroupPayloads => 'സ്കാൻ ചെയ്തവ ഉപയോഗിക്കാൻ';
 
   @override
-  String get helpGuideBarcodeName => 'ബാർകോഡും മീഡിയയും സ്കാൻ ചെയ്യൽ';
+  String get helpGuideGroupApp => 'ആപ്പും ക്രമീകരണങ്ങളും';
+
+  @override
+  String get helpGuideBarcodeName => 'കോഡുകൾ സ്കാൻ ചെയ്യൽ';
 
   @override
   String get helpGuideBarcodeSummary =>
-      'തത്സമയ ക്യാമറ നിയന്ത്രണങ്ങൾ, ഗാലറി ഫോട്ടോകൾ, പല പേജുള്ള PDF രേഖകളുടെ സ്കാനിംഗ്.';
+      'ക്യാമറ കൊണ്ടോ, ഫോട്ടോ, PDF ഫയൽ, പകർത്തിയ വാചകം എന്നിവയിൽ നിന്നോ സ്കാൻ ചെയ്യുക. പല കോഡുകൾ ഒന്നിനു പിന്നാലെ ഒന്നായി സ്കാൻ ചെയ്യുക.';
 
   @override
   String get helpGuideBarcodeIntro =>
-      'ഉയർന്ന കൃത്യതയുള്ള കമ്പ്യൂട്ടർ വിഷൻ ഉപയോഗിച്ച്, തത്സമയ ക്യാമറ, ഗാലറിയിലെ ചിത്രങ്ങൾ, പല പേജുള്ള PDF രേഖകൾ എന്നിവയിൽ നിന്ന് ഏത് 1D അല്ലെങ്കിൽ 2D ബാർകോഡും ഉടൻ സ്കാൻ ചെയ്യാം.';
+      'ക്യാമറ ഒരു കോഡിനു നേരെ പിടിച്ചാൽ ആപ്പ് ഉടൻ അത് വായിക്കും. ഫോട്ടോകൾ, PDF ഫയലുകൾ, പകർത്തിയ വാചകം എന്നിവയിൽ നിന്നും കോഡുകൾ വായിക്കാം. എല്ലാം നിങ്ങളുടെ ഫോണിൽത്തന്നെ നടക്കുന്നു; ഇന്റർനെറ്റ് ആവശ്യമില്ല.';
 
   @override
-  String get helpGuideBarcodeCameraTitle => 'തത്സമയ ക്യാമറ കാഴ്ച';
+  String get helpGuideBarcodeCameraTitle => 'ക്യാമറ കൊണ്ട് സ്കാൻ ചെയ്യുക';
 
   @override
   String get helpGuideBarcodeCameraBullet1 =>
-      'ഏത് ക്യുആർ കോഡ്, Data Matrix, Aztec, PDF417, EAN-13, UPC-A, Code 128, Codabar ചിഹ്നത്തിനു നേരെയും ക്യാമറ തിരിക്കുക.';
+      'സ്കാൻ ടാബ് തുറന്ന്, കോഡ് ഫ്രെയിമിനുള്ളിൽ വരുന്ന വിധം പിടിക്കുക. ആപ്പ് സ്വയം അത് വായിക്കും. ഒന്നും തൊടേണ്ടതില്ല.';
 
   @override
   String get helpGuideBarcodeCameraBullet2 =>
-      'ടോർച്ചും സൂമും: കുറഞ്ഞ വെളിച്ചത്തിൽ ഫ്ലാഷ്‌ലൈറ്റ് ഐക്കണിൽ തൊടുക. അകലെയുള്ള ചെറുതും തിങ്ങിയതുമായ മൈക്രോ-ക്യുആർ കോഡുകൾ വായിക്കാൻ സൂം സ്ലൈഡർ ഉപയോഗിക്കുക.';
+      'QR കോഡുകൾ (ചെറിയ Micro QR, rMQR എന്നിവയും), Data Matrix, Aztec, PDF417, MaxiCode എന്നിവ വായിക്കും. കടകളിലും പാഴ്സലുകളിലും കാണുന്ന EAN, UPC, Code 128, Code 39, Code 93, Codabar, ITF, DataBar ബാർകോഡുകളും വായിക്കും.';
 
   @override
   String get helpGuideBarcodeCameraBullet3 =>
-      'വ്യൂഫൈൻഡർ ഓവർലേകൾ: ക്രമീകരണങ്ങൾ -> രൂപഭംഗിയും തീമും എന്നതിൽ സ്കാൻ ഫ്രെയിമിന്റെ രൂപം നിങ്ങളുടെ ഇഷ്ടത്തിന് മാറ്റാം.';
+      'ഫ്ലാഷ്: ഫ്ലാഷ് ബട്ടൺ തൊട്ട് ഓഫ്, ഓൺ, സ്വയം എന്നിവയ്ക്കിടയിൽ മാറ്റുക. ‘സ്വയം’ ആണെങ്കിൽ ഇരുട്ടാകുമ്പോൾ ഫ്ലാഷ് തനിയെ തെളിയും.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet4 =>
+      'സൂം: ചെറുതോ ദൂരെയുള്ളതോ ആയ കോഡുകൾക്ക് സൂം സ്ലൈഡർ ഉപയോഗിക്കുക. ഫോൺ വളരെ അടുപ്പിക്കുന്നതിനേക്കാൾ നന്നായി ഇതു പ്രവർത്തിക്കും.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet5 =>
+      'ക്യാമറ മാറ്റുക: പിൻ ക്യാമറയ്ക്കും മുൻ ക്യാമറയ്ക്കും ഇടയിൽ മാറ്റുക.';
+
+  @override
+  String get helpGuideBarcodeCameraBullet6 =>
+      'നിർത്തിവയ്ക്കൽ: അൽപനേരം നിർത്താൻ ‘സ്കാനിംഗ് നിർത്തിവയ്ക്കുക’, വീണ്ടും തുടങ്ങാൻ ‘സ്കാനിംഗ് തുടരുക’ തൊടുക.';
 
   @override
   String get helpGuideBarcodeGalleryTitle =>
-      'ഗാലറി ഫോട്ടോകളും ചിത്രങ്ങളും സ്കാൻ ചെയ്യൽ';
+      'ഫോട്ടോയോ സ്ക്രീൻഷോട്ടോ സ്കാൻ ചെയ്യുക';
 
   @override
   String get helpGuideBarcodeGalleryBullet1 =>
-      'ഉപകരണത്തിൽ സേവ് ചെയ്ത ഏതെങ്കിലും ചിത്രമോ സ്ക്രീൻഷോട്ടോ തിരഞ്ഞെടുക്കാൻ സ്കാനർ സ്ക്രീനിലെ ഗാലറി ഐക്കണിൽ തൊടുക.';
+      'സ്കാൻ സ്ക്രീനിന്റെ മുകളിലെ ഗാലറി ബട്ടൺ തൊട്ട് ഒരു ഫോട്ടോയോ സ്ക്രീൻഷോട്ടോ തിരഞ്ഞെടുക്കുക.';
 
   @override
   String get helpGuideBarcodeGalleryBullet2 =>
-      'വിപുലമായ സ്റ്റോറേജ് അനുമതി ആവശ്യപ്പെടാതെ, സ്വകാര്യത സംരക്ഷിക്കുന്ന Android ഫോട്ടോ പിക്കർ ഉപയോഗിക്കുന്നു.';
+      'Android-ന്റെ സ്വന്തം പിക്കർ തുറക്കും. നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ആ ഒരു ചിത്രം മാത്രമേ ആപ്പ് കാണൂ.';
 
   @override
   String get helpGuideBarcodeGalleryBullet3 =>
-      'പൂർണ്ണ റെസല്യൂഷനുള്ള ചിത്രം വിശകലനം ചെയ്ത്, മില്ലിസെക്കൻഡുകൾക്കുള്ളിൽ ഒന്നിലധികം ബാർകോഡുകൾ കണ്ടെത്തി വായിക്കുന്നു.';
+      'ചിത്രത്തിൽ ഒന്നിലധികം കോഡുകൾ ഉണ്ടെങ്കിൽ ആപ്പ് എല്ലാം കണ്ടെത്തും.';
 
   @override
-  String get helpGuideBarcodePdfTitle => 'പല പേജുള്ള PDF സ്കാനിംഗ്';
+  String get helpGuideBarcodePdfTitle => 'PDF ഫയൽ സ്കാൻ ചെയ്യുക';
 
   @override
   String get helpGuideBarcodePdfBullet1 =>
-      'ഫയൽ പിക്കർ വഴി ഒരു PDF രേഖ (ഇൻവോയ്സ്, ടിക്കറ്റ്, ബോർഡിംഗ് പാസ് തുടങ്ങിയവ) നേരിട്ട് തിരഞ്ഞെടുക്കുക.';
+      'PDF ബട്ടൺ തൊട്ട്, ടിക്കറ്റ്, ബിൽ, ബോർഡിംഗ് പാസ് പോലുള്ള ഒരു ഫയൽ തിരഞ്ഞെടുക്കുക.';
 
   @override
   String get helpGuideBarcodePdfBullet2 =>
-      'ഓരോ പേജും മെമ്മറിയിൽ തന്നെ തുറന്ന്, ഓരോ പേജിലും കണ്ടെത്തുന്ന എല്ലാ ബാർകോഡുകളുടെയും പട്ടിക തയ്യാറാക്കുന്നു.';
+      'ആപ്പ് ഓരോ താളും പരിശോധിച്ച്, കണ്ടെത്തുന്ന ഓരോ കോഡും അതിന്റെ താൾ നമ്പറോടെ കാണിക്കും.';
 
   @override
   String get helpGuideBarcodePdfBullet3 =>
-      'കണ്ടെത്തിയ എല്ലാ കോഡുകളും പ്രത്യേക ബോട്ടം ഷീറ്റിൽ പരിശോധിച്ച്, ഒറ്റ ടാപ്പിൽ സ്കാൻ നാൾവഴിയിൽ സേവ് ചെയ്യാം.';
+      'എല്ലാം ഒരുമിച്ച് നാൾവഴിയിൽ സൂക്ഷിക്കാൻ ‘എല്ലാം സൂക്ഷിക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideBarcodePdfBullet4 =>
+      'ഇമെയിൽ, ഫയൽ ആപ്പ് പോലുള്ള മറ്റൊരു ആപ്പിൽ നിന്ന് PDF ഈ ആപ്പിലേക്ക് പങ്കിട്ടും സ്കാൻ ചെയ്യാം.';
+
+  @override
+  String get helpGuideBarcodeClipboardTitle =>
+      'പകർത്തിയ വാചകമോ ചിത്രമോ സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet1 =>
+      'ഒരു ലിങ്കോ കോഡിലെ വാചകമോ ചിത്രമോ പകർത്തിയിട്ടുണ്ടെങ്കിൽ, അതു പരിശോധിക്കാൻ സ്കാൻ സ്ക്രീനിന്റെ മുകളിലെ ക്ലിപ്പ്ബോർഡ് ബട്ടൺ തൊടുക.';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet2 =>
+      'എന്തെങ്കിലും പകർത്തിയ ശേഷം ആപ്പിലേക്ക് തിരികെ വരുമ്പോൾ, അതു പരിശോധിക്കണോ എന്ന് ഒരു ചെറിയ പട്ട ചോദിച്ചേക്കാം. ‘ഇപ്പോൾ സ്കാൻ ചെയ്യുക’ തൊടുക, അല്ലെങ്കിൽ പട്ട അടയ്ക്കുക.';
+
+  @override
+  String get helpGuideBarcodeClipboardBullet3 =>
+      'സ്കാൻ ചെയ്ത ലിങ്കുകൾക്കുള്ള അതേ സുരക്ഷാ പരിശോധന പകർത്തിയ ലിങ്കുകൾക്കും നടക്കും.';
+
+  @override
+  String get helpGuideBarcodeBatchTitle =>
+      'പല കോഡുകൾ തുടർച്ചയായി സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get helpGuideBarcodeBatchBullet1 =>
+      'ബാച്ച് മോഡ് ഓണാക്കാൻ ബാച്ച് ബട്ടൺ തൊടുക. ക്യാമറ സ്കാൻ ചെയ്തുകൊണ്ടേയിരിക്കും, ഓരോ പുതിയ കോഡും ഒരു പട്ടികയിൽ ചേരും.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet2 =>
+      'എത്ര കോഡുകൾ സ്കാൻ ചെയ്തു എന്ന് ഒരു എണ്ണം കാണിക്കും. പട്ടിക തുറക്കാൻ അതിൽ തൊടുക.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet3 =>
+      'പട്ടികയിൽ ഓരോ കോഡും കാണാം, ‘ഡ്യൂപ്ലിക്കേറ്റുകൾ ഒഴിവാക്കുക’ ഓണാക്കാം, പട്ടിക CSV, JSON, ടെക്സ്റ്റ്, PDF ആയി കയറ്റുമതി ചെയ്യാം.';
+
+  @override
+  String get helpGuideBarcodeBatchBullet4 =>
+      'സാധാരണ സ്കാനിംഗിലേക്ക് മടങ്ങാൻ ബാച്ച് ബട്ടൺ വീണ്ടും തൊടുക.';
+
+  @override
+  String get helpGuideBarcodeTuneTitle => 'കോഡ് വായിക്കാൻ പ്രയാസമാകുമ്പോൾ';
+
+  @override
+  String get helpGuideBarcodeTuneBullet1 =>
+      '‘ക്യാമറ ക്രമീകരണങ്ങൾ’ ബട്ടൺ തൊടുക. മാറ്റങ്ങൾ ക്യാമറ ദൃശ്യത്തിൽ ഉടൻ കാണാം.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet2 =>
+      'തെളിച്ചം, കോൺട്രാസ്റ്റ്: ഇരുണ്ടതോ മങ്ങിയതോ ആയ കോഡ് കൂടുതൽ വ്യക്തമാക്കുന്നു.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet3 =>
+      'നിറങ്ങൾ വിപരീതമാക്കുക: ഇരുണ്ട പശ്ചാത്തലത്തിലെ തെളിഞ്ഞ കോഡിന്, ഉദാഹരണത്തിന് ഇരുണ്ട സ്ക്രീനിലോ ലോഹത്തിലോ ഉള്ളവയ്ക്ക്.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet4 =>
+      'ക്യാമറ റെസല്യൂഷൻ: മിക്ക ഫോണുകൾക്കും 1080p നല്ലത്. 720p ബാറ്ററി ലാഭിക്കും. വളരെ ചെറിയ കോഡുകൾക്ക് ‘പരമാവധി’ സഹായിക്കും.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet5 =>
+      'ദൂര സ്കാൻ സഹായം: പോസ്റ്ററുകളിലും ബോർഡുകളിലും ഉള്ളതുപോലെ ദൂരെയുള്ള കോഡുകൾ വായിക്കാൻ സഹായിക്കും. ‘ദൂര സൂം’, ‘അരികുകളുടെ മൂർച്ച’ എന്നിവ കൊണ്ട് ഇതു ക്രമീകരിക്കാം.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet6 =>
+      'മൾട്ടി-കോഡ് സ്കാൻ: ഒന്നിലധികം കോഡുകൾ കാണുമ്പോൾ ഓരോന്നിനും ചുറ്റും ഒരു വര വരും. വേണ്ടതിൽ തൊടുക.';
+
+  @override
+  String get helpGuideBarcodeTuneBullet7 =>
+      '‘ക്രമീകരണങ്ങൾ പുനഃക്രമീകരിക്കുക’ എല്ലാം പഴയപടിയാക്കും.';
 
   @override
   String get helpGuideBarcodeTip =>
-      'നുറുങ്ങ്: ബാർകോഡ് തിരിച്ചറിയൽ പൂർണ്ണമായും (100%) നിങ്ങളുടെ ഉപകരണത്തിൽ തന്നെ നടക്കുന്നു. ക്യാമറ ഫ്രെയിമുകളോ ചിത്രങ്ങളോ ക്ലൗഡിലേക്ക് അപ്‌ലോഡ് ചെയ്യുന്നില്ല.';
+      'നുറുങ്ങ്: കോഡുകൾ നിങ്ങളുടെ ഫോണിൽത്തന്നെ വായിക്കുന്നു. ക്യാമറ ദൃശ്യങ്ങൾ ഒരിക്കലും സൂക്ഷിക്കുകയോ എവിടേക്കും അയയ്ക്കുകയോ ചെയ്യില്ല.';
 
   @override
-  String get titleHelpArCodeVision => 'AR കോഡ്‌വിഷൻ';
-
-  @override
-  String get helpGuideArCodeVisionName => 'AR CodeVision™ സ്പേഷ്യൽ HUD';
+  String get helpGuideArCodeVisionName => 'AR കോഡ്‌വിഷൻ';
 
   @override
   String get helpGuideArCodeVisionSummary =>
-      'ഒരേസമയം പല ബാർകോഡുകളും തത്സമയം പിന്തുടരൽ, ഒഴുകിനിൽക്കുന്ന ചിപ്പുകൾ, കൂട്ടമായ പ്രവർത്തനങ്ങൾ.';
+      'പല കോഡുകൾ ഒരേസമയം ക്യാമറ ദൃശ്യത്തിൽത്തന്നെ കാണാനും ഉപയോഗിക്കാനും.';
 
   @override
   String get helpGuideArCodeVisionIntro =>
-      'AR CodeVision™ നിങ്ങളുടെ ക്യാമറ കാഴ്ചയെ ഒരു ഓഗ്‌മെന്റഡ് റിയാലിറ്റി ഹെഡ്സ്-അപ് ഡിസ്‌പ്ലേ (HUD) ആക്കി മാറ്റുന്നു. ഇത് ഒന്നിലധികം ബാർകോഡുകൾ ഒരേസമയം തത്സമയം കണ്ടെത്തുകയും പിന്തുടരുകയും വിശകലനം ചെയ്യുകയും ചെയ്യുന്നു.';
+      'ക്യാമറയ്ക്ക് കാണാവുന്ന എല്ലാ കോഡുകളും AR കോഡ്‌വിഷൻ ഒരേസമയം കണ്ടെത്തും. ഓരോ കോഡിനും മുകളിൽ ഒരു ചെറിയ ലേബൽ തെളിയും; അതിനാൽ തൊടുന്നതിനു മുൻപേ അത് എന്താണെന്ന് അറിയാം.';
 
   @override
-  String get helpGuideArCodeVisionTrackingTitle =>
-      'തത്സമയ സ്പേഷ്യൽ ട്രാക്കിംഗ്';
+  String get helpGuideArCodeVisionOpenTitle => 'എങ്ങനെ തുറക്കാം';
+
+  @override
+  String get helpGuideArCodeVisionOpenBullet1 =>
+      'സ്കാൻ സ്ക്രീനിൽ ‘കൂടുതൽ ഓപ്ഷനുകൾ’ (മൂന്നു കുത്തുകൾ) തൊട്ട് ‘എആർ കോഡ്‌വിഷൻ HUD’ തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideArCodeVisionOpenBullet2 =>
+      'Android ചോദിച്ചാൽ ക്യാമറ അനുവദിക്കുക.';
+
+  @override
+  String get helpGuideArCodeVisionTrackingTitle => 'രണ്ടു മോഡുകൾ';
 
   @override
   String get helpGuideArCodeVisionTrackingBullet1 =>
-      'ക്യാമറ ഫ്രെയിമിലുള്ള എല്ലാ ബാർകോഡുകളും ഒരേസമയം തിരിച്ചറിയുകയും ഓരോ കോഡിലും ഒരു 2D/3D ട്രാക്കിംഗ് ആങ്കർ ഉറപ്പിക്കുകയും ചെയ്യുന്നു.';
+      'സുരക്ഷ: ഓരോ ലിങ്കിനും ഒരു നിറമുള്ള അടയാളം കിട്ടും. പച്ച എന്നാൽ പ്രശ്നമൊന്നും കണ്ടില്ല. ചുവപ്പ് എന്നാൽ ലിങ്ക് സുരക്ഷിതമല്ലെന്നു തോന്നുന്നു.';
 
   @override
   String get helpGuideArCodeVisionTrackingBullet2 =>
-      'ക്യാമറ നീക്കുമ്പോഴും, സ്ക്രീനിൽ ഓരോ ബാർകോഡിനും തൊട്ടുമുകളിൽ ഒഴുകിനിൽക്കുന്ന, തൊട്ടുപയോഗിക്കാവുന്ന ചിപ്പുകൾ കാണിക്കുന്നു.';
+      'വെയർഹൗസ്: വിലച്ചീട്ട് പോലുള്ള സാധനവിവരങ്ങൾ കാണിക്കും, കോഡുകൾ തിരഞ്ഞെടുക്കാനും കഴിയും.';
 
   @override
-  String get helpGuideArCodeVisionTrackingBullet3 =>
-      'ഒരു ലിങ്ക് സുരക്ഷിതമാണോ (പച്ച) ഫിഷിംഗ് സംശയമുള്ളതാണോ (ചുവപ്പ്) എന്ന്, നിറം കൊണ്ട് തിരിച്ചറിയാവുന്ന തത്സമയ സുരക്ഷാ ബാഡ്ജുകൾ ഉടൻ കാണിക്കുന്നു.';
-
-  @override
-  String get helpGuideArCodeVisionBatchTitle =>
-      'ഒന്നിലധികം തിരഞ്ഞെടുക്കലും കൂട്ടമായ പ്രവർത്തനങ്ങളും';
+  String get helpGuideArCodeVisionBatchTitle => 'ലേബലുകൾ ഉപയോഗിക്കാൻ';
 
   @override
   String get helpGuideArCodeVisionBatchBullet1 =>
-      'ഏതെങ്കിലും ചിപ്പിൽ തൊട്ട് അതിലെ ഉള്ളടക്കം പരിശോധിക്കാം, അനുയോജ്യമായ പ്രവർത്തനങ്ങൾ ചെയ്യാം, അല്ലെങ്കിൽ വിശദമായ AR ആക്ഷൻ ഷീറ്റ് തുറക്കാം.';
+      'മുഴുവൻ ഉള്ളടക്കം കാണാൻ ഒരു ലേബലിൽ തൊടുക. അവിടെനിന്ന് അതു പകർത്താം, ലിങ്ക് തുറക്കാം, അല്ലെങ്കിൽ തിരഞ്ഞെടുക്കാം.';
 
   @override
   String get helpGuideArCodeVisionBatchBullet2 =>
-      'ഗോഡൗൺ ഷെൽഫുകൾ, ഉൽപ്പന്ന കാറ്റലോഗുകൾ, ഇവന്റ് ബാഡ്ജുകൾ എന്നിവയിലെ പല കോഡുകളും ഒന്നിച്ച് തിരഞ്ഞെടുത്ത് കൂട്ടമായി കൈകാര്യം ചെയ്യാം.';
+      'വെയർഹൗസ് മോഡിൽ കുറെ കോഡുകൾ തിരഞ്ഞെടുത്ത്, എല്ലാം ഒരുമിച്ച് പകർത്താൻ ‘മൊത്തമായി പകർത്തുക’ തൊടുക. വീണ്ടും തുടങ്ങാൻ ‘മായ്ക്കുക’ തൊടുക.';
 
   @override
   String get helpGuideArCodeVisionBatchBullet3 =>
-      'തിരഞ്ഞെടുത്ത എല്ലാ ഉള്ളടക്കവും ഒറ്റ ടാപ്പിൽ പകർത്താം, അല്ലെങ്കിൽ നാൾവഴിയിലേക്ക് മാറ്റാം.';
-
-  @override
-  String get helpGuideArCodeVisionHudTitle => 'HUD നിയന്ത്രണങ്ങളും പ്രകടനവും';
-
-  @override
-  String get helpGuideArCodeVisionHudBullet1 =>
-      'HUD ആക്ഷൻ സ്ട്രിപ്പ്: ക്യാമറ ഫ്ലാഷ്, സൂം നില, മുൻ/പിൻ ക്യാമറ മാറ്റം, ലക്ഷ്യങ്ങൾ മായ്ക്കൽ എന്നിവയ്ക്കുള്ള ദ്രുത ബട്ടണുകൾ.';
-
-  @override
-  String get helpGuideArCodeVisionHudBullet2 =>
-      'ഫ്രെയിം നിരക്ക് കാര്യക്ഷമമായി കൈകാര്യം ചെയ്യുന്നതിനാൽ ദീർഘനേരം സ്കാൻ ചെയ്യുമ്പോഴും ഫോൺ അമിതമായി ചൂടാകുന്നില്ല, ബാറ്ററിയും ലാഭിക്കുന്നു.';
+      'ഇരുട്ടാണെങ്കിൽ ഫ്ലാഷ്‌ലൈറ്റ് ബട്ടൺ തൊടുക.';
 
   @override
   String get helpGuideArCodeVisionTip =>
-      'നുറുങ്ങ്: ഡസൻ കണക്കിന് ബാർകോഡുകൾ തിങ്ങിനിറഞ്ഞ സ്ഥലങ്ങളിൽ, വേണ്ട കോഡുകൾ മാത്രം കൃത്യമായി വേർതിരിക്കാൻ സൂം സ്ലൈഡർ ഉപയോഗിക്കുക.';
+      'നുറുങ്ങ്: ഫോൺ പതുക്കെ നീക്കുക. നീക്കുമ്പോൾ ലേബലുകൾ കോഡുകളെ പിന്തുടരും.';
 
   @override
-  String get titleHelpAirQr => 'എയർ ക്യുആർ സഹായി';
+  String get helpGuideScanBubbleName => 'മറ്റ് ആപ്പുകളിൽ നിന്ന് സ്കാൻ ചെയ്യുക';
 
   @override
-  String get helpGuideAirQrName => 'AirQR™ ഒപ്റ്റിക്കൽ എയർ-ഗ്യാപ് സ്ട്രീം';
+  String get helpGuideScanBubbleSummary =>
+      'മറ്റൊരു ആപ്പിൽ സ്ക്രീനിൽ കാണുന്ന കോഡ് ഗോസ്റ്റ്സ്കാൻ അല്ലെങ്കിൽ സ്കാൻ ബബിൾ ഉപയോഗിച്ച് വായിക്കുക.';
+
+  @override
+  String get helpGuideScanBubbleIntro =>
+      'ചിലപ്പോൾ ഒരു കോഡ് ചാറ്റിലോ വെബ് പേജിലോ ഇമെയിലിലോ നിങ്ങളുടെ സ്ക്രീനിൽ കാണും. സ്ക്രീൻഷോട്ട് എടുക്കാതെ രണ്ടു വിധത്തിൽ അതു വായിക്കാം: ഗോസ്റ്റ്സ്കാൻ, സ്കാൻ ബബിൾ. രണ്ടും ഇന്റർനെറ്റ് ഇല്ലാതെ നിങ്ങളുടെ ഫോണിൽത്തന്നെ കോഡ് വായിക്കും.';
+
+  @override
+  String get helpGuideScanBubbleGhostTitle =>
+      'ഗോസ്റ്റ്സ്കാൻ: സ്ക്രീൻ ഒരു തവണ സ്കാൻ ചെയ്യുക';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet1 =>
+      'സ്കാൻ സ്ക്രീനിൽ ‘കൂടുതൽ ഓപ്ഷനുകൾ’ തൊട്ട് ‘ഗോസ്റ്റ്സ്കാൻ’ തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet2 =>
+      'ക്വിക്ക് സെറ്റിങ്സിൽ (സ്ക്രീനിന്റെ മുകളിൽ നിന്ന് താഴേക്ക് വലിക്കുന്ന പാനൽ) ഒരു ഗോസ്റ്റ്സ്കാൻ ബട്ടൺ വയ്ക്കാൻ ‘ക്വിക്ക് സെറ്റിങ്സ് ടൈൽ ചേർക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideScanBubbleGhostBullet3 =>
+      'പിന്നെ, ഏത് ആപ്പിലായാലും ക്വിക്ക് സെറ്റിങ്സ് താഴേക്ക് വലിച്ച് ഗോസ്റ്റ്സ്കാൻ ടൈൽ തൊടുക. സ്ക്രീനിലെ കോഡ് ആപ്പ് വായിക്കും.';
+
+  @override
+  String get helpGuideScanBubbleUseTitle => 'സ്കാൻ ബബിൾ എങ്ങനെ ഉപയോഗിക്കാം';
+
+  @override
+  String get helpGuideScanBubbleUseBullet1 =>
+      'ക്രമീകരണങ്ങൾ > സ്കാൻ ബബിൾ, ക്വിക്ക് സെറ്റിങ്സിലെ സ്കാൻ ബബിൾ ടൈൽ, അല്ലെങ്കിൽ ആപ്പ് ഐക്കൺ അമർത്തിപ്പിടിക്കൽ എന്നിവയിലൂടെ ഇത് ഓണാക്കാം.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet2 =>
+      'ക്യുആർ കോഡോ ബാർകോഡോ കാണിക്കുന്ന ഏതെങ്കിലും ആപ്പ് തുറന്ന് ബബിളിൽ തൊടുക.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet3 =>
+      'സ്ക്രീൻ പകർത്താൻ Android അനുമതി ചോദിക്കും. അനുവദിച്ചാൽ, സാധാരണ സുരക്ഷാ പരിശോധനകളോടെ ഫലം തുറക്കും.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet4 =>
+      'ബബിൾ നീക്കാൻ അതു വലിക്കുക. ഓഫാക്കാൻ സ്ക്രീനിന്റെ താഴെയുള്ള X-ലേക്ക് വലിച്ചിടുക.';
+
+  @override
+  String get helpGuideScanBubbleUseBullet5 =>
+      'ഫോൺ റീസ്റ്റാർട്ട് ചെയ്ത ശേഷവും ബബിൾ തിരികെ വരണമെങ്കിൽ ‘റീസ്റ്റാർട്ടിനു ശേഷം തുടങ്ങുക’ ഓണാക്കുക.';
+
+  @override
+  String get helpGuideScanBubblePrivacyTitle => 'സ്വകാര്യത';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet1 =>
+      'നിങ്ങൾ ബബിളിലോ ഗോസ്റ്റ്സ്കാൻ ടൈലിലോ തൊടുമ്പോൾ മാത്രമേ സ്ക്രീൻ പകർത്തുകയുള്ളൂ; Android ആദ്യം നിങ്ങളോടു ചോദിക്കും.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet2 =>
+      'കോഡ് നിങ്ങളുടെ ഫോണിൽത്തന്നെ വായിക്കുന്നു. വായിക്കാനായി ഒന്നും ഓൺലൈനിൽ അയയ്ക്കുന്നില്ല.';
+
+  @override
+  String get helpGuideScanBubblePrivacyBullet3 =>
+      'സ്ക്രീൻ ചിത്രം ഗാലറിയിൽ സൂക്ഷിക്കുന്നില്ല, വായിച്ച ഉടനെ മായ്ക്കുന്നു.';
+
+  @override
+  String get helpGuideScanBubbleLimitsTitle => 'അറിഞ്ഞിരിക്കേണ്ടവ';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet1 =>
+      'Android 14-ലും പുതിയവയിലും, ഓരോ തവണ തൊടുമ്പോഴും സ്ക്രീൻ പകർത്താനുള്ള അനുമതി ചോദിക്കും.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet2 =>
+      'ബാങ്കിംഗ്, പണമിടപാട്, ചില വീഡിയോ ആപ്പുകൾ സ്ക്രീൻ പകർത്തുന്നത് തടയുന്നു. അവയിലെ കോഡുകൾ വായിക്കാനാവില്ല.';
+
+  @override
+  String get helpGuideScanBubbleLimitsBullet3 =>
+      'ചില ഫോണുകളിൽ ബബിളിനെ മറയ്ക്കാനോ നിർത്താനോ കഴിയുന്ന അധിക \"പോപ്പ്-അപ്പ് വിൻഡോ\" അല്ലെങ്കിൽ ബാറ്ററി ക്രമീകരണങ്ങൾ ഉണ്ട്.';
+
+  @override
+  String get helpGuideScanBubbleTip =>
+      'നുറുങ്ങ്: സ്കാൻ ബബിൾ ടൈൽ ക്വിക്ക് സെറ്റിങ്സിൽ ചേർക്കുക. പിന്നെ ഏത് ആപ്പിൽ നിന്നും ഒറ്റ തൊടലിൽ ബബിൾ ഓണാക്കാനും ഓഫാക്കാനും കഴിയും.';
+
+  @override
+  String get helpGuideCodeForgeName => 'കോഡുകൾ നിർമ്മിക്കാൻ (കോഡ്ഫോർജ്)';
+
+  @override
+  String get helpGuideCodeForgeSummary =>
+      'സ്വന്തം QR കോഡുകളും ബാർകോഡുകളും നിർമ്മിക്കുക, അവയുടെ രൂപം മാറ്റുക, പങ്കിടുക.';
+
+  @override
+  String get helpGuideCodeForgeIntro =>
+      'നിങ്ങളുടെ വൈ-ഫൈ, വിലാസവിവരം, ഒരു ലിങ്ക്, UPI പണമിടപാട് തുടങ്ങിയവയ്ക്കായി സ്വന്തം QR കോഡോ ബാർകോഡോ കോഡ്ഫോർജിൽ നിർമ്മിക്കാം. അതിന്റെ നിറവും രൂപവും മാറ്റി ഒരു ചിത്രമായി പങ്കിടാം.';
+
+  @override
+  String get helpGuideCodeForgeTypeTitle =>
+      '1. എന്തു ചേർക്കണമെന്നു തിരഞ്ഞെടുക്കുക';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet1 =>
+      'സ്ക്രീനിന്റെ താഴെയുള്ള ‘കോഡ്ഫോർജ്’ ടാബ് തുറക്കുക.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet2 =>
+      'കോഡിന്റെ തരം തിരഞ്ഞെടുക്കുക: ക്യുആർ കോഡ്, അല്ലെങ്കിൽ Code 128, EAN-13, EAN-8, UPC-A, Code 39, PDF417, Data Matrix പോലുള്ള ബാർകോഡ്.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet3 =>
+      'QR കോഡിൽ എന്തു വേണമെന്നു തിരഞ്ഞെടുക്കുക: ടെക്സ്റ്റ്, ലിങ്ക്, വൈ-ഫൈ, കോൺടാക്റ്റ്, യുപിഐ, എസ്എംഎസ്, ഇമെയിൽ, ലൊക്കേഷൻ.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet4 =>
+      'കള്ളികൾ പൂരിപ്പിക്കുക. ടൈപ്പ് ചെയ്യുന്നതിനൊപ്പം പ്രിവ്യൂ മാറും.';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet5 =>
+      'ടെക്സ്റ്റിനായി, ഒരു ഫയലിൽ നിന്ന് വാചകം എടുക്കാൻ ‘ഫയലിൽ നിന്ന് ചേർക്കുക’ തൊടുകയുമാവാം (500 അക്ഷരം വരെ).';
+
+  @override
+  String get helpGuideCodeForgeTypeBullet6 =>
+      'ലൊക്കേഷനായി, നിങ്ങൾ ഇപ്പോൾ എവിടെയാണോ അതു ചേർക്കാൻ ‘എന്റെ ലൊക്കേഷൻ’ തൊടുക. ആ നിമിഷം മാത്രമേ ആപ്പ് ലൊക്കേഷൻ ചോദിക്കൂ; അതു സൂക്ഷിക്കില്ല.';
+
+  @override
+  String get helpGuideCodeForgeStyleTitle => '2. രൂപം മാറ്റുക';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet1 =>
+      'രൂപകൽപ്പന: വലിയ മൂലച്ചതുരങ്ങൾ, അവയുടെ നടുഭാഗം, ചെറിയ കുത്തുകൾ എന്നിവയുടെ ആകൃതി തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet2 =>
+      'വർണ്ണങ്ങൾ: കോഡിന്റെ നിറവും പശ്ചാത്തലവും, അല്ലെങ്കിൽ ‘സൂര്യാസ്തമയം’, ‘സമുദ്രം’ പോലുള്ള നിറക്കൂട്ട് തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet3 =>
+      'നിറങ്ങൾ തമ്മിൽ നല്ല വ്യത്യാസം വേണം. തെളിഞ്ഞ പശ്ചാത്തലത്തിൽ ഇരുണ്ട കോഡാണ് ഏറ്റവും നന്നായി സ്കാൻ ആകുന്നത്.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet4 =>
+      'ചിഹ്നം: കോഡിന്റെ നടുവിൽ ഒരു ചെറിയ ചിഹ്നം വയ്ക്കുക.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet5 =>
+      'പിശക് തിരുത്തൽ: കോഡിന് എത്ര കേടുപാട് പറ്റിയാലും സ്കാൻ ആകും എന്നത്. L ഏകദേശം 7%, M 15%, Q 25%, H 30% വരെ താങ്ങും. ഉയർന്ന നിലയിൽ കോഡിൽ കുത്തുകൾ കൂടും. നടുവിൽ ചിഹ്നം ചേർക്കുമ്പോൾ H തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideCodeForgeStyleBullet6 =>
+      '‘വാചകം കാണിക്കുക’ ബാർകോഡിനു താഴെ അതിലെ വാചകം കാണിക്കും. ‘ഡിസൈൻ മാറ്റുക’ രൂപം പഴയപടിയാക്കും.';
+
+  @override
+  String get helpGuideCodeForgeShareTitle => '3. പരിശോധിച്ച് പങ്കിടുക';
+
+  @override
+  String get helpGuideCodeForgeShareBullet1 =>
+      'ലിങ്ക് ആണെങ്കിൽ, പങ്കിടുന്നതിനു മുൻപ് അതിന്റെ സുരക്ഷ നോക്കാൻ ‘പരിശോധിക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideCodeForgeShareBullet2 =>
+      'സാധാരണ ചിത്രമായി പങ്കിടാൻ ‘പിഎൻജി പങ്കിടുക’, ഏതു വലുപ്പത്തിലും വ്യക്തമായി അച്ചടിക്കാവുന്ന ചിത്രത്തിന് ‘എസ്വിജി പങ്കിടുക’ തൊടുക.';
+
+  @override
+  String get helpGuideCodeForgeShareBullet3 =>
+      'കോഡിനുള്ളിലെ വാചകം പകർത്താൻ ‘പകർത്തുക’ ബട്ടൺ തൊടുക.';
+
+  @override
+  String get helpGuideCodeForgeTip =>
+      'നുറുങ്ങ്: ധാരാളം പകർപ്പുകൾ അച്ചടിക്കുന്നതിനു മുൻപ്, പുതിയ കോഡ് നന്നായി വായിക്കുന്നുണ്ടോ എന്ന് ഈ ആപ്പ് കൊണ്ട് ഒരിക്കൽ സ്കാൻ ചെയ്തു നോക്കുക.';
+
+  @override
+  String get helpGuideAirQrName =>
+      'എയർ ക്യുആർ: നെറ്റ്‌വർക്ക് ഇല്ലാതെ വിവരങ്ങൾ അയയ്ക്കാം';
 
   @override
   String get helpGuideAirQrSummary =>
-      'റേഡിയോ സിഗ്നൽ ഇല്ലാതെ, ചലിക്കുന്ന ക്യുആർ കോഡുകൾ വഴി ഓഫ്‌ലൈനായി ഡാറ്റ അയയ്ക്കാനും സ്വീകരിക്കാനും.';
+      'ചലിക്കുന്ന QR കോഡുകൾ വഴി വാചകം അയയ്ക്കുക, അല്ലെങ്കിൽ ആപ്പിലെ വിവരങ്ങൾ മറ്റൊരു ഫോണിലേക്ക് മാറ്റുക. വൈ-ഫൈയോ ബ്ലൂടൂത്തോ കേബിളോ വേണ്ട.';
 
   @override
   String get helpGuideAirQrIntro =>
-      'Wi-Fi, ബ്ലൂടൂത്ത്, മൊബൈൽ ഡാറ്റ, കേബിൾ എന്നിവയൊന്നും ഇല്ലാതെ, അതിവേഗം മാറുന്ന ചലിക്കുന്ന ക്യുആർ ഫ്രെയിമുകൾ ഉപയോഗിച്ച് AirQR™ രണ്ട് ഉപകരണങ്ങൾക്കിടയിൽ പൂർണ്ണമായും ഓഫ്‌ലൈനായ ഒരു ഒപ്റ്റിക്കൽ ഡാറ്റാ പാത ഒരുക്കുന്നു. ഇരു ദിശകളിലേക്കും ഡാറ്റ കൈമാറാം.';
+      'സ്ക്രീനും ക്യാമറയും മാത്രം ഉപയോഗിച്ച് എയർ ക്യുആർ ഒരു ഫോണിൽ നിന്ന് മറ്റൊന്നിലേക്ക് വിവരങ്ങൾ അയയ്ക്കുന്നു. അയയ്ക്കുന്ന ഫോൺ വേഗത്തിൽ മാറുന്ന QR കോഡുകൾ കാണിക്കും. സ്വീകരിക്കുന്ന ഫോൺ അവ കണ്ട് വീണ്ടും ഒന്നായി ചേർക്കും. ഒരു നെറ്റ്‌വർക്കും ഉപയോഗിക്കുന്നില്ല.';
 
   @override
-  String get helpGuideAirQrStreamingTitle =>
-      'ഒപ്റ്റിക്കൽ സ്ട്രീമിംഗ് എങ്ങനെ പ്രവർത്തിക്കുന്നു';
+  String get helpGuideAirQrStreamingTitle => 'എങ്ങനെ അയയ്ക്കാം';
 
   @override
   String get helpGuideAirQrStreamingBullet1 =>
-      'വലിയ ഫയലുകൾ, ക്രിപ്റ്റോഗ്രാഫിക് കീകൾ, നീണ്ട രേഖകൾ എന്നിവ ചെറിയ ഡാറ്റാ ഫ്രെയിമുകളായി വിഭജിക്കുന്നു. ഒപ്പം, നഷ്ടപ്പെട്ട ഫ്രെയിമുകൾ സ്വീകരിക്കുന്ന ഉപകരണത്തിന് വീണ്ടും നിർമ്മിക്കാൻ സഹായിക്കുന്ന ഫൗണ്ടൻ-കോഡ് റിപ്പയർ ഫ്രെയിമുകളും അധികമായി ചേർക്കുന്നു.';
+      'അയയ്ക്കുന്ന ഫോണിൽ സ്കാൻ > കൂടുതൽ ഓപ്ഷനുകൾ > എയർ ക്യുആർ റിസീവർ തുറന്ന്, മുകളിലെ എയർ ക്യുആർ ട്രാൻസ്മിറ്റർ ബട്ടൺ തൊടുക.';
 
   @override
   String get helpGuideAirQrStreamingBullet2 =>
-      'അയയ്ക്കുന്ന ഉപകരണം ചലിക്കുന്ന ക്യുആർ കോഡ് സ്ട്രീം നിങ്ങൾക്ക് ക്രമീകരിക്കാവുന്ന ഫ്രെയിം നിരക്കിൽ (5 മുതൽ 25 FPS വരെ) മിന്നിക്കുന്നു.';
+      'അയയ്ക്കേണ്ടത് ‘അയയ്ക്കേണ്ട വിവരങ്ങൾ’ എന്നതിൽ ടൈപ്പ് ചെയ്യുകയോ ഒട്ടിക്കുകയോ ചെയ്യുക.';
 
   @override
   String get helpGuideAirQrStreamingBullet3 =>
-      'സ്വീകരിക്കുന്ന ഉപകരണം ഫ്രെയിമുകൾ തുടർച്ചയായി പകർത്തുന്നു. മുഴുവൻ ഡാറ്റയും വീണ്ടും ഒന്നിച്ചു ചേരുന്നതുവരെ നഷ്ടപ്പെട്ട ഫ്രെയിമുകൾ അപ്പപ്പോൾ പുനർനിർമ്മിക്കുന്നു.';
+      '‘സ്ട്രീം വേഗത’ (സെക്കൻഡിൽ 5 മുതൽ 25 വരെ ചിത്രങ്ങൾ) തിരഞ്ഞെടുത്ത് ‘പ്രക്ഷേപണം ആരംഭിക്കുക’ തൊടുക.';
 
   @override
-  String get helpGuideAirQrSecurityTitle => 'എയർ-ഗ്യാപ് സുരക്ഷയും സ്വകാര്യതയും';
+  String get helpGuideAirQrStreamingBullet4 =>
+      'അയയ്ക്കുന്ന സ്ക്രീനിന് നല്ല തെളിച്ചം വേണം; അത് അനക്കാതെ പിടിക്കുക.';
 
   @override
-  String get helpGuideAirQrSecurityBullet1 =>
-      'പൂർണ്ണ റേഡിയോ നിശ്ശബ്ദത: റേഡിയോ തരംഗങ്ങൾ ഒട്ടും പുറപ്പെടുവിക്കുന്നില്ല (RF പ്രക്ഷേപണമോ പെയറിംഗ് അഭ്യർത്ഥനകളോ നെറ്റ്‌വർക്ക് ലോഗുകളോ ഇല്ല).';
-
-  @override
-  String get helpGuideAirQrSecurityBullet2 =>
-      'ദൂരെനിന്നുള്ള നെറ്റ്‌വർക്ക് ചോർത്തൽ, മാൻ-ഇൻ-ദ-മിഡിൽ ആക്രമണങ്ങൾ, ബ്ലൂടൂത്ത് വഴിയുള്ള ചോർത്തൽ എന്നിവയൊന്നും ഇതിനെ ബാധിക്കില്ല.';
-
-  @override
-  String get helpGuideAirQrSecurityBullet3 =>
-      'എയർ-ഗ്യാപ് ചെയ്ത ക്രിപ്റ്റോകറൻസി കോൾഡ് വാലറ്റുകൾ, രഹസ്യ ലോഗിൻ വിവരങ്ങൾ, സുരക്ഷിതമായ ഓഫ്‌ലൈൻ ഡാറ്റ കൈമാറ്റം എന്നിവയ്ക്ക് ഏറ്റവും അനുയോജ്യം.';
-
-  @override
-  String get helpGuideAirQrControlsTitle =>
-      'ട്രാൻസ്മിറ്റർ, റിസീവർ നിയന്ത്രണങ്ങൾ';
+  String get helpGuideAirQrControlsTitle => 'എങ്ങനെ സ്വീകരിക്കാം';
 
   @override
   String get helpGuideAirQrControlsBullet1 =>
-      'ട്രാൻസ്മിറ്റർ സ്ക്രീൻ: ഫ്രെയിം നിരക്ക് (FPS) തിരഞ്ഞെടുക്കാം, സ്ട്രീമിലെ ആകെ ഫ്രെയിമുകളുടെ എണ്ണം കാണാം.';
+      'മറ്റേ ഫോണിൽ സ്കാൻ > കൂടുതൽ ഓപ്ഷനുകൾ > എയർ ക്യുആർ റിസീവർ തുറന്ന്, ക്യാമറ അയയ്ക്കുന്ന സ്ക്രീനിനു നേരെ പിടിക്കുക.';
 
   @override
   String get helpGuideAirQrControlsBullet2 =>
-      'റിസീവർ സ്ക്രീൻ: തത്സമയ പുരോഗതി ബാർ, ലഭിച്ച ഫ്രെയിമുകളുടെ എണ്ണം, കിട്ടാത്ത ഫ്രെയിമുകളുടെ നമ്പറുകൾ, ചെക്ക്‌സം പരിശോധന.';
+      'എത്ര ഭാഗങ്ങൾ എത്തി, ഇനിയും എത്ര കിട്ടാനുണ്ട് എന്ന് ഒരു പുരോഗതി വര കാണിക്കും.';
+
+  @override
+  String get helpGuideAirQrControlsBullet3 =>
+      'ചില ഭാഗങ്ങൾ വിട്ടുപോയാലും പ്രശ്നമില്ല. വിടവുകൾ നികത്താൻ എയർ ക്യുആർ അധിക ‘പരിഹാര’ ഭാഗങ്ങളും അയയ്ക്കുന്നു.';
+
+  @override
+  String get helpGuideAirQrControlsBullet4 =>
+      'എല്ലാ ഭാഗങ്ങളും എത്തുമ്പോൾ ആപ്പ് വിവരങ്ങൾ പരിശോധിച്ച് ‘കൈമാറ്റം പൂർത്തിയായി!’ എന്നു കാണിക്കും. അവിടെനിന്ന് വിവരങ്ങൾ പകർത്താം.';
+
+  @override
+  String get helpGuideAirQrSyncTitle => 'വിവരങ്ങൾ പുതിയ ഫോണിലേക്ക് മാറ്റുക';
+
+  @override
+  String get helpGuideAirQrSyncBullet1 =>
+      'പഴയ ഫോണിൽ ക്രമീകരണങ്ങൾ > എയർക്യുആർ സിങ്ക് തുറക്കുക. നാൾവഴിയോ ആപ്പ് ക്രമീകരണങ്ങളോ രണ്ടുമോ തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideAirQrSyncBullet2 =>
+      'ഒരു രഹസ്യവാക്കോ പിൻ നമ്പറോ ടൈപ്പ് ചെയ്യുക, അല്ലെങ്കിൽ ‘പിൻ നിർമ്മിക്കുക’ തൊടുക. ഇതു വിവരങ്ങൾ പൂട്ടും; പിൻ അറിയുന്നവർക്കു മാത്രമേ തുറക്കാനാകൂ.';
+
+  @override
+  String get helpGuideAirQrSyncBullet3 =>
+      '‘എയർക്യുആർ വഴി അയക്കുക’ തൊട്ട്, പുതിയ ഫോണിൽ എയർ ക്യുആർ റിസീവർ കൊണ്ട് സ്വീകരിക്കുക.';
+
+  @override
+  String get helpGuideAirQrSyncBullet4 =>
+      'പുതിയ ഫോണിൽ അതേ രഹസ്യവാക്കോ പിൻ നമ്പറോ ടൈപ്പ് ചെയ്ത് ‘ഡീക്രിപ്റ്റ് ചെയ്തു് സിങ്ക് ചെയ്യുക’ തൊടുക.';
+
+  @override
+  String get helpGuideAirQrSecurityTitle => 'എന്തുകൊണ്ട് സ്വകാര്യം';
+
+  @override
+  String get helpGuideAirQrSecurityBullet1 =>
+      'റേഡിയോ സിഗ്നലുകൾ ഒന്നും ഉപയോഗിക്കുന്നില്ല: വൈ-ഫൈ, ബ്ലൂടൂത്ത്, മൊബൈൽ ഡാറ്റ, ഇന്റർനെറ്റ് ഒന്നും വേണ്ട.';
+
+  @override
+  String get helpGuideAirQrSecurityBullet2 =>
+      'നെറ്റ്‌വർക്ക് വഴി ആർക്കും ഈ വിവരങ്ങൾ പിടിച്ചെടുക്കാനാവില്ല. സ്ക്രീൻ കാണാവുന്ന ക്യാമറയ്ക്കു മാത്രമേ ഇതു വായിക്കാനാകൂ.';
+
+  @override
+  String get helpGuideAirQrSecurityBullet3 =>
+      'ഓൺലൈനായി അയയ്ക്കാൻ ആഗ്രഹിക്കാത്ത പാസ്‌വേഡുകൾ, കീകൾ, മറ്റു സ്വകാര്യ വിവരങ്ങൾ എന്നിവയ്ക്ക് ഉപകാരപ്രദം.';
 
   @override
   String get helpGuideAirQrTip =>
-      'നുറുങ്ങ്: AirQR സ്ട്രീം സ്വീകരിക്കുമ്പോൾ ഫോൺ അനങ്ങാതെ പിടിക്കുക. ഫ്രെയിമുകൾ ഏറ്റവും വേഗത്തിൽ പകർത്താൻ, അയയ്ക്കുന്ന ഫോണിന്റെ സ്ക്രീൻ തെളിച്ചം കൂട്ടി വയ്ക്കുക.';
+      'നുറുങ്ങ്: അയയ്ക്കുന്ന ഫോണിന്റെ തെളിച്ചം കൂട്ടുക, സ്വീകരിക്കുന്ന ഫോൺ അനക്കാതെ പിടിക്കുക. ഭാഗങ്ങൾ വിട്ടുപോകുന്നുണ്ടെങ്കിൽ വേഗത കുറയ്ക്കുക.';
 
   @override
-  String get titleHelpUrlSafety => 'URL സുരക്ഷ';
-
-  @override
-  String get helpGuideUrlSafetyName => '6-ലെയർ URL സുരക്ഷാ സംവിധാനം';
+  String get helpGuideUrlSafetyName => 'ലിങ്ക് സുരക്ഷാ പരിശോധന';
 
   @override
   String get helpGuideUrlSafetySummary =>
-      'ഹോമോഗ്രാഫ് ആക്രമണങ്ങൾ, പ്യൂണികോഡ് പ്രതിരോധം, സംശയാസ്പദമായ TLD-കൾ, പോർട്ട് കെണികൾ.';
+      'തുറക്കുന്നതിനു മുൻപ് ആപ്പ് ഓരോ ലിങ്കും എങ്ങനെ പരിശോധിക്കുന്നു, ഫലത്തിന്റെ അർഥം എന്ത്.';
 
   @override
   String get helpGuideUrlSafetyIntro =>
-      'സ്കാൻ ചെയ്ത ഏതെങ്കിലും വെബ് ലിങ്ക് തുറക്കുന്നതിനു മുമ്പ്, ഞങ്ങളുടെ 6-ലെയർ സുരക്ഷാ സംവിധാനം ആധുനിക ഫിഷിംഗ് രീതികൾ, ഹോമോഗ്രാഫ് കബളിപ്പിക്കൽ ആക്രമണങ്ങൾ, അപകടകരമായ റീഡയറക്ട് കെണികൾ എന്നിവയ്ക്കെതിരെ URL പരിശോധിക്കുന്നു.';
+      'തട്ടിപ്പ് QR കോഡുകൾ പലപ്പോഴും വ്യാജ വെബ്സൈറ്റുകളിലേക്കാണ് കൊണ്ടുപോകുന്നത്. അതിനാൽ ഏതു ലിങ്കും തുറക്കുന്നതിനു മുൻപ് ആപ്പ് അത് ആറു വിധത്തിൽ വരെ പരിശോധിക്കും. ആദ്യത്തെ നാലു പരിശോധനകൾ എപ്പോഴും ഇന്റർനെറ്റ് ഇല്ലാതെ നിങ്ങളുടെ ഫോണിൽത്തന്നെ നടക്കും.';
 
   @override
-  String get helpGuideUrlSafetyLayersTitle => '6 സുരക്ഷാ ലെയറുകൾ വിശദമായി';
+  String get helpGuideUrlSafetyLayersTitle => 'ആറു പരിശോധനകൾ';
 
   @override
   String get helpGuideUrlSafetyLayersBullet1 =>
-      'ലെയർ 1: പ്രോട്ടോക്കോൾ, സ്കീം സംരക്ഷണം - HTTPS എൻക്രിപ്ഷൻ ഉറപ്പാക്കുന്നു, പ്രോട്ടോക്കോൾ ഘടന ശരിയാണോ എന്ന് പരിശോധിക്കുന്നു, തെറ്റായ രൂപത്തിലുള്ളതോ കാണാനാവാത്ത (zero-width) അക്ഷരങ്ങളുള്ളതോ ആയ കെണികൾ തടയുന്നു.';
+      '1. സുരക്ഷിത കണക്ഷൻ: ലിങ്ക് സുരക്ഷിതമായ HTTPS ആണോ? അതിൽ വിചിത്രമോ കാണാനാകാത്തതോ ആയ അക്ഷരങ്ങൾ ഒളിപ്പിച്ചിട്ടുണ്ടോ?';
 
   @override
   String get helpGuideUrlSafetyLayersBullet2 =>
-      'ലെയർ 2: ഹോമോഗ്രാഫ്, യൂണികോഡ് ആക്രമണ കവചം - വിശ്വസനീയ വെബ്സൈറ്റുകളെ അനുകരിക്കാൻ തട്ടിപ്പുകാർ ഉപയോഗിക്കുന്ന സിറിലിക്, ഗ്രീക്ക്, കലർന്ന ലിപികളിലെ ഒരുപോലെ തോന്നുന്ന അക്ഷരങ്ങൾ (\"a\"-ക്കു പകരം \"а\" പോലുള്ളവ) തിരിച്ചറിയുന്നു.';
+      '2. ഒരുപോലെ തോന്നുന്ന അക്ഷരങ്ങൾ: ചില വ്യാജ സൈറ്റുകൾ ഒരുപോലെ തോന്നുന്ന മറ്റു ലിപികളിലെ അക്ഷരങ്ങൾ ഉപയോഗിക്കും; ഉദാഹരണത്തിന് സാധാരണ \"a\"-യ്ക്കു പകരം സിറിലിക് \"а\".';
 
   @override
   String get helpGuideUrlSafetyLayersBullet3 =>
-      'ലെയർ 3: സംശയാസ്പദ TLD, എൻട്രോപ്പി വിശകലനം - അപകടസാധ്യത കൂടിയ ഡൊമെയ്ൻ അവസാനങ്ങൾ (.xyz, .top, .work), അമിതമായ സബ്ഡൊമെയ്ൻ അടുക്കുകൾ, യന്ത്രം ക്രമരഹിതമായി ഉണ്ടാക്കിയ ഡൊമെയ്ൻ പേരുകൾ എന്നിവ ചൂണ്ടിക്കാട്ടുന്നു.';
+      '3. വിചിത്രമായ വെബ് വിലാസങ്ങൾ: അപകടസാധ്യതയുള്ള അവസാനഭാഗങ്ങൾ (.xyz, .top പോലെ), പേരിൽ വളരെയധികം ഭാഗങ്ങൾ, അല്ലെങ്കിൽ ക്രമമില്ലാത്ത അക്ഷരങ്ങൾ കൊണ്ടുള്ള പേരുകൾ.';
 
   @override
   String get helpGuideUrlSafetyLayersBullet4 =>
-      'ലെയർ 4: IP, അസാധാരണ പോർട്ട് കെണി - ബോട്ട്‌നെറ്റ് മാൽവെയർ സെർവറുകൾ പലപ്പോഴും ഉപയോഗിക്കുന്ന, സംഖ്യാ IP വിലാസങ്ങളിലേക്കോ അസാധാരണ പോർട്ട് നമ്പറുകളിലേക്കോ നേരിട്ട് ബന്ധിപ്പിക്കുന്ന ലിങ്കുകൾ കണ്ടെത്തുന്നു.';
+      '4. നമ്പർ വിലാസങ്ങളും അസാധാരണ പോർട്ടുകളും: വെറും നമ്പർ (IP വിലാസം) അല്ലെങ്കിൽ അസാധാരണ പോർട്ട് ഉപയോഗിക്കുന്ന ലിങ്കുകൾ; സാധാരണ കടകളും ബാങ്കുകളും ഇവ ഉപയോഗിക്കാറില്ല.';
 
   @override
   String get helpGuideUrlSafetyLayersBullet5 =>
-      'ലെയർ 5: സ്വകാര്യത സംരക്ഷിക്കുന്ന ഓൺലൈൻ HEAD പരിശോധന - വേണമെങ്കിൽ, ചുരുക്കിയ URL-കളുടെ റീഡയറക്ടുകൾ (bit.ly, tinyurl) പിന്തുടരുകയും, അപകടകരമായ JavaScript പ്രവർത്തിപ്പിക്കാതെ SSL സർട്ടിഫിക്കറ്റ് വിശ്വാസ ശൃംഖല പരിശോധിക്കുകയും ചെയ്യുന്നു.';
+      '5. സൈറ്റിന്റെ ഓൺലൈൻ പരിശോധന (ഐച്ഛികം): ചുരുക്കിയ ലിങ്കുകൾ (bit.ly പോലെ) ശരിക്കും എവിടേക്കാണ് പോകുന്നതെന്ന് നോക്കും, സൈറ്റിന്റെ സുരക്ഷാ സർട്ടിഫിക്കറ്റും പരിശോധിക്കും. ‘ഓൺലൈൻ പരിശോധനകൾ’ ഓണാക്കിയാൽ മാത്രം.';
 
   @override
   String get helpGuideUrlSafetyLayersBullet6 =>
-      'ലെയർ 6: Google Safe Browsing API സംയോജനം - ഫിഷിംഗ് സൈറ്റുകളിൽ നിന്നും മാൽവെയർ വിതരണ ശൃംഖലകളിൽ നിന്നും സംരക്ഷിക്കുന്ന, ഐച്ഛികമായ ക്ലൗഡ് അധിഷ്ഠിത തത്സമയ ഭീഷണി വിവരങ്ങൾ.';
+      '6. അറിയപ്പെടുന്ന അപകട സൈറ്റുകളുടെ പട്ടിക (ഐച്ഛികം): ലിങ്ക് അറിയപ്പെടുന്ന തട്ടിപ്പ് അല്ലെങ്കിൽ വൈറസ് സൈറ്റ് ആണോ എന്ന് Google Safe Browsing പോലുള്ള സേവനങ്ങളോടു ചോദിക്കും. നിങ്ങൾ സജ്ജമാക്കിയാൽ മാത്രം.';
 
   @override
-  String get helpGuideUrlSafetyVerdictsTitle =>
-      'സുരക്ഷാ വിധികളും നിർദ്ദേശങ്ങളും';
+  String get helpGuideUrlSafetyVerdictsTitle => 'ഫലം എങ്ങനെ വായിക്കാം';
 
   @override
   String get helpGuideUrlSafetyVerdictsBullet1 =>
-      'സുരക്ഷിതം എന്ന് ഉറപ്പാക്കി (പച്ച): സംശയകരമായ ഒരു സൂചനയും ഇല്ലാതെ URL എല്ലാ ഘടനാ, ഭീഷണി പരിശോധനകളും വിജയിച്ചു.';
+      'പ്രശ്നങ്ങളൊന്നുമില്ല: നടന്ന എല്ലാ പരിശോധനകളും ലിങ്ക് വിജയിച്ചു. എങ്കിലും, അറിയാവുന്ന ഉറവിടങ്ങളെ മാത്രം വിശ്വസിക്കുക.';
 
   @override
   String get helpGuideUrlSafetyVerdictsBullet2 =>
-      'ജാഗ്രത / മുന്നറിയിപ്പ് (ഓറഞ്ച്/ചുവപ്പ്): ഉയർന്ന അപകടസാധ്യത കണ്ടെത്തി. ചുരുക്കാത്ത മുഴുവൻ ലക്ഷ്യസ്ഥാനവും ആപ്പ് കാണിക്കുന്നു, ഏതൊക്കെ നിയമങ്ങളാണ് മുന്നറിയിപ്പിന് കാരണമായതെന്ന് കൃത്യമായി എടുത്തുകാണിക്കുന്നു.';
+      'പ്രശ്നങ്ങൾ കണ്ടെത്തി: ഏതൊക്കെ പരിശോധനകൾ പരാജയപ്പെട്ടു എന്ന് ആപ്പ് കാണിക്കും. കാരണം വായിക്കാൻ ‘വിശദാംശങ്ങൾ കാണുക’ തൊടുക.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet3 =>
+      'അപകടസാധ്യതയുള്ള ലിങ്ക് തുറക്കാൻ ശ്രമിച്ചാൽ ആപ്പ് ആദ്യം ചോദിക്കും. ഉറവിടം വിശ്വസനീയമാണെങ്കിൽ മാത്രം തുറക്കുക.';
+
+  @override
+  String get helpGuideUrlSafetyVerdictsBullet4 =>
+      'പരിശോധനകൾ വീണ്ടും നടത്താൻ ‘വീണ്ടും പരിശോധിക്കുക’ തൊടുക; ഉദാഹരണത്തിന്, ഇന്റർനെറ്റ് കിട്ടിയ ശേഷം.';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyTitle =>
+      'സ്വകാര്യ മോഡും ഓൺലൈൻ പരിശോധനയും';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet1 =>
+      'സാധാരണ നിലയിൽ ആപ്പ് ആ വെബ്സൈറ്റുമായി ഒരിക്കലും ബന്ധപ്പെടില്ല. നിങ്ങളുടെ ഫോണോ IP വിലാസമോ (ഇന്റർനെറ്റ് വിലാസം) ആ സൈറ്റിന് കാണാനാവില്ല.';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet2 =>
+      'ക്രമീകരണങ്ങൾ > സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും എന്നതിൽ ‘ഓൺലൈൻ പരിശോധനകൾ’ ഓണാക്കിയാൽ, ചുരുക്കിയ ലിങ്കുകൾ പിന്തുടരാനും സർട്ടിഫിക്കറ്റ് നോക്കാനും ആപ്പ് ആ സൈറ്റ് സന്ദർശിക്കും. ഇതു കൂടുതൽ കണ്ടെത്തും, പക്ഷേ സൈറ്റിന് നിങ്ങളുടെ IP വിലാസം കാണാം.';
+
+  @override
+  String get helpGuideUrlSafetyPrivacyBullet3 =>
+      '‘ഓൺലൈൻ പരിശോധനകൾ’ ഓണാണെങ്കിൽ, ഫലത്തിൽ പേജിന്റെ ഒരു സുരക്ഷിത പ്രിവ്യൂവും കാണാം. സ്ക്രിപ്റ്റുകളും ട്രാക്കറുകളും ആദ്യമേ നീക്കുന്നതിനാൽ പേജിലെ ഒന്നും പ്രവർത്തിക്കില്ല. ‘പ്രിവ്യൂ കാണിക്കുക’ അല്ലെങ്കിൽ ‘പേജ് പരിശോധിക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideUrlSafetyProvidersTitle => 'അധിക ഓൺലൈൻ പരിശോധകർ';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet1 =>
+      'ക്രമീകരണങ്ങൾ > URL സുരക്ഷാ ദാതാക്കൾ എന്നതിൽ കൂടുതൽ പരിശോധകരെ ഓണാക്കാം. PhishTank, OpenPhish എന്നിവയ്ക്ക് അക്കൗണ്ട് വേണ്ട.';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet2 =>
+      'Google Safe Browsing, VirusTotal, URLhaus എന്നിവയ്ക്ക് നിങ്ങളുടെ സ്വന്തം സൗജന്യ കീ വേണം. \"ഓൺലൈൻ പരിശോധകരെ സജ്ജമാക്കൽ\" എന്ന വഴികാട്ടി കാണുക.';
+
+  @override
+  String get helpGuideUrlSafetyProvidersBullet3 =>
+      'ഈ പരിശോധകർക്ക് നിങ്ങൾ സ്കാൻ ചെയ്ത ലിങ്ക് മാത്രമേ കിട്ടൂ. OpenPhish വേറൊരു രീതിയിലാണ്: ആപ്പ് അതിന്റെ പട്ടിക ഡൗൺലോഡ് ചെയ്ത് ഫോണിൽത്തന്നെ പരിശോധിക്കും. നിങ്ങൾ ഓണാക്കുന്നതു വരെ ഇവയെല്ലാം ഓഫ് ആയിരിക്കും.';
 
   @override
   String get helpGuideUrlSafetyTip =>
-      'നുറുങ്ങ്: ലെയർ 1 മുതൽ 4 വരെ ഉപകരണത്തിൽ തന്നെയുള്ള പരിശോധനകളിലൂടെ പൂർണ്ണമായും ഓഫ്‌ലൈനായി പ്രവർത്തിക്കുന്നു. നിങ്ങൾ എവിടെയായിരുന്നാലും സ്വകാര്യത സംരക്ഷിക്കപ്പെടുന്നു.';
+      'നുറുങ്ങ്: നല്ല ഫലം ഒരു ഉറപ്പല്ല. തട്ടിപ്പുകാർ ദിവസവും പുതിയ സൈറ്റുകൾ ഉണ്ടാക്കുന്നു. പണമിടപാടിന്റെയോ ലോഗിൻ ചെയ്യുന്നതിന്റെയോ പേജ് വിചിത്രമായി തോന്നിയാൽ അത് അടയ്ക്കുക.';
 
   @override
-  String get titleHelpQuishing => 'ക്വിഷിംഗ് ഗാർഡ്';
-
-  @override
-  String get helpGuideQuishingName => 'QuishingGuard™ കൃത്രിമം കണ്ടെത്തൽ';
+  String get helpGuideQuishingName =>
+      'ക്വിഷിംഗ് ഗാർഡ്: വ്യാജ സ്റ്റിക്കർ കോഡുകൾ';
 
   @override
   String get helpGuideQuishingSummary =>
-      'യഥാർത്ഥ കോഡിനു മുകളിൽ ഒട്ടിച്ച ക്യുആർ സ്റ്റിക്കറുകളും അരികിലെ മുറിവുകളും ഫോണിൽ തന്നെ കമ്പ്യൂട്ടർ വിഷൻ വഴി പരിശോധിക്കുന്നു.';
+      'യഥാർത്ഥ കോഡിനു മുകളിൽ ഒട്ടിച്ച വ്യാജ സ്റ്റിക്കർ ആയേക്കാവുന്ന QR കോഡുകൾ തിരിച്ചറിയുക.';
 
   @override
   String get helpGuideQuishingIntro =>
-      'പാർക്കിംഗ് മീറ്ററുകൾ, റെസ്റ്റോറന്റ് മെനുകൾ, പണമടയ്ക്കുന്ന കൗണ്ടറുകൾ, യാത്രാ ബോർഡുകൾ എന്നിവയിലെ യഥാർത്ഥ ക്യുആർ കോഡുകൾക്കു മുകളിൽ തട്ടിപ്പുകാർ വ്യാജ ക്യുആർ സ്റ്റിക്കറുകൾ ഒട്ടിക്കുന്നതാണ് ക്വിഷിംഗ് (ക്യുആർ ഫിഷിംഗ്).';
+      '\"ക്വിഷിംഗ്\" എന്നാൽ QR വഴിയുള്ള തട്ടിപ്പ്. പാർക്കിംഗ് മീറ്റർ, മെനു, കടയിലെ കൗണ്ടർ, പോസ്റ്റർ എന്നിവയിലെ യഥാർത്ഥ കോഡിനു മുകളിൽ തട്ടിപ്പുകാർ സ്വന്തം QR കോഡ് ഒട്ടിക്കും; അപ്പോൾ നിങ്ങളുടെ പണമോ ലോഗിനോ അവരിലേക്കെത്തും.';
 
   @override
-  String get helpGuideQuishingCvTitle => 'ഉപകരണത്തിലെ കമ്പ്യൂട്ടർ വിഷൻ വിശകലനം';
+  String get helpGuideQuishingCvTitle => 'ക്വിഷിംഗ് ഗാർഡ് എന്തു കാണിക്കുന്നു';
 
   @override
   String get helpGuideQuishingCvBullet1 =>
-      'അരിക് തുടർച്ചയില്ലായ്മ അളവ്: ഒട്ടിച്ച സ്റ്റിക്കറുകളുടെ അതിരുകളിലെ ഇരട്ട അരികുകൾ, ചരിഞ്ഞ മുറിവുകൾ, ചെറിയ നിഴലുകൾ എന്നിവ കണ്ടെത്തുന്നു.';
+      'ക്യാമറ കൊണ്ട് ലിങ്കോ പണമിടപാട് കോഡോ സ്കാൻ ചെയ്യുമ്പോൾ, ഫല സ്ക്രീനിൽ ‘സ്റ്റിക്കർ പരിശോധന’ എന്ന ചെറിയ ക്വിഷിംഗ് ഗാർഡ് കാർഡ് കാണാം.';
 
   @override
   String get helpGuideQuishingCvBullet2 =>
-      'പ്രിന്റ് ഗ്രെയിൻ, ഹാഫ്‌ടോൺ അളവ്: കോഡും ചുറ്റുമുള്ള പോസ്റ്ററും തമ്മിൽ ഡോട്ട് അകലം, നിറത്തിലെ നോയ്സ്, പ്രിന്റ് റെസല്യൂഷൻ എന്നിവയിലെ പൊരുത്തക്കേടുകൾ കണ്ടെത്തുന്നു.';
+      'അതിൽ തൊട്ടാൽ ചെറിയൊരു പരിശോധനാ പട്ടിക തുറക്കും. ആപ്പ് ചിത്രത്തിൽ സ്റ്റിക്കർ തിരയുന്നില്ല, സ്കോറും നൽകുന്നില്ല; അതിനാൽ ഒരു കോഡ് സുരക്ഷിതമാണെന്ന് ഇതിനു പറയാൻ കഴിയില്ല.';
 
   @override
   String get helpGuideQuishingCvBullet3 =>
-      '0% (യഥാർത്ഥം) മുതൽ 100% (ഉയർന്ന കൃത്രിമ സാധ്യത) വരെയുള്ള ഒരു സംയുക്ത കൃത്രിമ സാധ്യതാ സ്കോർ കണക്കാക്കുന്നു.';
+      'ഫോട്ടോ, ക്ലിപ്പ്ബോർഡ്, സ്ക്രീൻ സ്കാൻ, സാധാരണ എഴുത്ത് എന്നിവയ്ക്ക് ഈ കാർഡ് കാണിക്കില്ല, കാരണം അവ ചുമരിൽ ഒട്ടിച്ചവയല്ല.';
 
   @override
-  String get helpGuideQuishingForensicTitle => 'ഫോറൻസിക് സൂചനാ പരിശോധന';
+  String get helpGuideQuishingForensicTitle => 'നിങ്ങൾ എന്തു ചെയ്യണം';
 
   @override
   String get helpGuideQuishingForensicBullet1 =>
-      'തത്സമയ CV വിശ്വാസ്യതാ നിലകൾ, അതിർ-അരിക് അളവുകൾ, നിറ നോയ്സ് ചാർട്ടുകൾ എന്നിവ കാണാൻ, സ്കാൻ ചെയ്ത ഏത് കോഡിലും \"ഫോറൻസിക് വിശകലനം കാണുക\" എന്നതിൽ തൊടുക.';
+      'കോഡ് നോക്കുകയും വിരൽ കൊണ്ട് തൊട്ടുനോക്കുകയും ചെയ്യുക. മുകളിൽ ഒട്ടിച്ച സ്റ്റിക്കറിന് പലപ്പോഴും ഉയർന്ന അരികുകൾ ഉണ്ടാകും, അല്ലെങ്കിൽ ചരിഞ്ഞിരിക്കും.';
 
   @override
   String get helpGuideQuishingForensicBullet2 =>
-      'പണം അയയ്ക്കുന്നതിനോ ലോഗിൻ വിവരങ്ങൾ നൽകുന്നതിനോ മുമ്പ്, പൊതുസ്ഥലങ്ങളിലെ സംശയാസ്പദമായ പേയ്‌മെന്റ് ക്യുആർ കോഡുകൾ തിരിച്ചറിയാൻ സഹായിക്കുന്നു.';
+      'പണം നൽകുന്നതിനു മുൻപ്, പണമിടപാട് സ്ക്രീനിലെ പേര് കടയുടേതു തന്നെയാണോ എന്ന് ഉറപ്പാക്കുക.';
+
+  @override
+  String get helpGuideQuishingForensicBullet3 =>
+      'സംശയമുണ്ടെങ്കിൽ ജീവനക്കാരോടു ചോദിക്കുക, അല്ലെങ്കിൽ വെബ്സൈറ്റ് വിലാസം സ്വയം ടൈപ്പ് ചെയ്യുക.';
 
   @override
   String get helpGuideQuishingTip =>
-      'നുറുങ്ങ്: പാർക്കിംഗ് മീറ്ററുകളിലോ പൊതു കിയോസ്കുകളിലോ ഉള്ള ക്യുആർ കോഡുകൾ സ്കാൻ ചെയ്യുമ്പോൾ QuishingGuard അരിക് മുന്നറിയിപ്പ് നൽകിയാൽ, കോഡ് വിരലുകൾ കൊണ്ട് തൊട്ടുനോക്കി പരിശോധിക്കുക.';
+      'നുറുങ്ങ്: ക്വിഷിംഗ് ഗാർഡ് ഒരു സഹായി മാത്രമാണ്, ഉറപ്പല്ല. നിങ്ങളുടെ കണ്ണും വിരലുമാണ് ഏറ്റവും നല്ല പരിശോധന.';
 
   @override
-  String get titleHelpSafeBrowsing => 'സേഫ് ബ്രൗസിംഗ്';
-
-  @override
-  String get helpGuideSafeBrowsingName => 'Google Safe Browsing സജ്ജീകരണം';
+  String get helpGuideSafeBrowsingName => 'ഓൺലൈൻ പരിശോധകരെ സജ്ജമാക്കൽ';
 
   @override
   String get helpGuideSafeBrowsingSummary =>
-      'Google Cloud API കീ നേടൽ, ഹാർഡ്‌വെയർ കീസ്റ്റോർ സംഭരണം, പരിശോധനാ പരിധികൾ.';
+      'അധിക ലിങ്ക് പരിശോധനകൾ ഓണാക്കുക, Google Safe Browsing-നുള്ള സൗജന്യ കീ നേടുക.';
 
   @override
   String get helpGuideSafeBrowsingIntro =>
-      'Google Safe Browsing ലെയർ 6 ക്ലൗഡ് ഭീഷണി വിവരങ്ങൾ ഓണാക്കുന്നു. സ്കാൻ ചെയ്ത URL-കൾ, നിരന്തരം പുതുക്കുന്ന കോടിക്കണക്കിന് മാൽവെയർ, സോഷ്യൽ എഞ്ചിനീയറിംഗ്, ഫിഷിംഗ് ഭീഷണി വിവരങ്ങളുമായി ഒത്തുനോക്കുന്നു.';
+      'സ്കാൻ ചെയ്ത ലിങ്കിനെ അറിയപ്പെടുന്ന തട്ടിപ്പ്, വൈറസ് സൈറ്റുകളുടെ പട്ടികകളുമായി ഓൺലൈൻ പരിശോധകർ താരതമ്യം ചെയ്യുന്നു. ഇവ ഐച്ഛികമാണ്. ഇവ ഇല്ലാതെയും ആപ്പിന്റെ സ്വന്തം പരിശോധനകൾ പ്രവർത്തിക്കും.';
 
   @override
-  String get helpGuideSafeBrowsingKeyTitle => 'സൗജന്യ API കീ എങ്ങനെ നേടാം';
+  String get helpGuideSafeBrowsingBuiltInTitle => 'അക്കൗണ്ട് വേണ്ട';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet1 =>
+      'ക്രമീകരണങ്ങൾ > URL സുരക്ഷാ ദാതാക്കൾ തുറക്കുക.';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet2 =>
+      'PhishTank-ന്റെ തട്ടിപ്പ് സൈറ്റ് പട്ടികയുമായി ലിങ്കുകൾ ഒത്തുനോക്കാൻ ‘PhishTank പ്രവർത്തനക്ഷമമാക്കുക’ ഓണാക്കുക.';
+
+  @override
+  String get helpGuideSafeBrowsingBuiltInBullet3 =>
+      '‘OpenPhish ഫീഡ് ഉപയോഗിക്കുക’ ഓണാക്കുക. ആപ്പ് OpenPhish-ന്റെ പട്ടിക ഡൗൺലോഡ് ചെയ്ത് ലിങ്കുകൾ ഫോണിൽത്തന്നെ പരിശോധിക്കും. പുതിയ പട്ടിക കിട്ടാൻ ‘ഫീഡ് ഇപ്പോൾ പുതുക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSafeBrowsingKeyTitle =>
+      'Google Safe Browsing-ന് സൗജന്യ കീ നേടുക';
 
   @override
   String get helpGuideSafeBrowsingKeyStep1 =>
-      '1. കമ്പ്യൂട്ടറിലോ മൊബൈൽ ബ്രൗസറിലോ Google Cloud Console (console.cloud.google.com) തുറക്കുക.';
+      '1. ഒരു ബ്രൗസറിൽ console.cloud.google.com തുറന്ന് Google അക്കൗണ്ട് കൊണ്ട് പ്രവേശിക്കുക.';
 
   @override
   String get helpGuideSafeBrowsingKeyStep2 =>
-      '2. ഒരു പുതിയ Google Cloud Project ഉണ്ടാക്കുക (ഉദാ: \"My QR Reader Security\").';
+      '2. ഒരു പുതിയ പ്രോജക്റ്റ് ഉണ്ടാക്കുക. ഏതു പേരും മതി, ഉദാഹരണത്തിന് \"QR safety\".';
 
   @override
   String get helpGuideSafeBrowsingKeyStep3 =>
-      '3. \"APIs & Services\" -> \"Library\" എന്നതിലേക്ക് പോയി \"Web Risk API\" അല്ലെങ്കിൽ \"Safe Browsing API\" തിരഞ്ഞ് \"Enable\" ക്ലിക്ക് ചെയ്യുക.';
+      '3. APIs & Services > Library എന്നതിൽ ചെന്ന് \"Safe Browsing API\" തിരഞ്ഞ് Enable തൊടുക.';
 
   @override
   String get helpGuideSafeBrowsingKeyStep4 =>
-      '4. \"APIs & Services\" -> \"Credentials\" എന്നതിൽ പോയി \"+ CREATE CREDENTIALS\" -> \"API key\" ക്ലിക്ക് ചെയ്യുക.';
+      '4. APIs & Services > Credentials എന്നതിൽ ചെന്ന് Create credentials തൊട്ട് API key തിരഞ്ഞെടുക്കുക.';
 
   @override
   String get helpGuideSafeBrowsingKeyStep5 =>
-      '5. പുതിയ API കീ പകർത്തി, ക്രമീകരണങ്ങളിലെ Google Safe Browsing ഫീൽഡിൽ ഒട്ടിക്കുക.';
+      '5. കീ പകർത്തുക. ആപ്പിൽ ക്രമീകരണങ്ങൾ > URL സുരക്ഷാ ദാതാക്കൾ തുറന്ന്, Google Safe Browsing കള്ളിയിൽ ഒട്ടിച്ച് ‘API കീ സംരക്ഷിക്കുക’ തൊടുക.';
 
   @override
-  String get helpGuideSafeBrowsingPrivacyTitle =>
-      'സ്വകാര്യതയും സുരക്ഷിത കീസ്റ്റോർ സംഭരണവും';
+  String get helpGuideSafeBrowsingOtherTitle => 'കീ വേണ്ട മറ്റു സേവനങ്ങൾ';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet1 =>
+      'VirusTotal, URLhaus എന്നിവയും ഇതേ രീതിയിലാണ്. അവരുടെ വെബ്സൈറ്റിൽ സൗജന്യ അക്കൗണ്ട് ഉണ്ടാക്കി, കീ പകർത്തി, ‘നിങ്ങളുടെ API കീകൾ’ എന്നതിൽ ഒട്ടിക്കുക. ഓരോ കീയും എവിടെ കിട്ടുമെന്ന് ആപ്പ് കാണിക്കും.';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet2 =>
+      'ഈ സൗജന്യ കീകൾ വ്യക്തിപരമായ, വാണിജ്യേതര ഉപയോഗത്തിനു മാത്രമാണ്.';
+
+  @override
+  String get helpGuideSafeBrowsingOtherBullet3 =>
+      'ഓരോ സേവനത്തിനും ദിവസ പരിധിയുണ്ട്; ഇന്ന് എത്ര പരിശോധനകൾ ഉപയോഗിച്ചു എന്ന് ആപ്പ് കാണിക്കും. ഈ ആപ്പിൽ Safe Browsing ദിവസം 10,000 വരെയും VirusTotal 500 വരെയും അനുവദിക്കുന്നു.';
+
+  @override
+  String get helpGuideSafeBrowsingPrivacyTitle => 'നിങ്ങളുടെ കീകൾ സുരക്ഷിതം';
 
   @override
   String get helpGuideSafeBrowsingPrivacyBullet1 =>
-      'നിങ്ങളുടെ API കീ Android Keystore ഹാർഡ്‌വെയർ പിന്തുണയുള്ള സുരക്ഷിത സംഭരണിയിൽ (FlutterSecureStorage) എൻക്രിപ്റ്റ് ചെയ്ത് സൂക്ഷിക്കുന്നു. അത് ഒരിക്കലും പുറത്തേക്ക് എക്സ്പോർട്ട് ചെയ്യുകയോ പങ്കിടുകയോ ഇല്ല.';
+      'നിങ്ങളുടെ കീകൾ ഈ ഫോണിലെ Android-ന്റെ സുരക്ഷിതവും പൂട്ടിയതുമായ സംഭരണിയിൽ സൂക്ഷിക്കുന്നു; ഒരിക്കലും പങ്കിടില്ല.';
 
   @override
   String get helpGuideSafeBrowsingPrivacyBullet2 =>
-      'Google Safe Browsing പൂർണ്ണമായും ഐച്ഛികമാണ്. കീ നൽകിയില്ലെങ്കിലും ആപ്പ് വിശദമായ ഓഫ്‌ലൈൻ പരിശോധനകൾ തുടർന്നും നടത്തും.';
+      'നിങ്ങൾ സ്കാൻ ചെയ്ത ലിങ്ക് മാത്രമേ സേവനത്തിലേക്ക് അയയ്ക്കൂ. നിങ്ങളെക്കുറിച്ചുള്ള മറ്റൊന്നും അയയ്ക്കില്ല.';
 
   @override
   String get helpGuideSafeBrowsingPrivacyBullet3 =>
-      'സൗജന്യ പരിധി: Google ദിവസം 10,000 സൗജന്യ അഭ്യർത്ഥനകൾ വരെ അനുവദിക്കുന്നു. ആപ്പ് അതിന്റെ ഉപയോഗ കൗണ്ടർ ഓരോ 24 മണിക്കൂറിലും പുനഃസജ്ജമാക്കുന്നു.';
+      'ഏതു സമയത്തും ഒരു കീ ഇല്ലാതാക്കാം. അപ്പോൾ ആപ്പ് ആ പരിശോധന ഒഴിവാക്കും.';
 
   @override
   String get helpGuideSafeBrowsingTip =>
-      'നുറുങ്ങ്: ഓഫ്‌ലൈൻ പരിശോധനകൾ വിജയിച്ചതിനു ശേഷം മാത്രമേ Safe Browsing പരിശോധന നടക്കൂ. അതുവഴി ദിവസേനയുള്ള പരിശോധനാ പരിധി ലാഭിക്കാം.';
+      'നുറുങ്ങ്: സുരക്ഷിതരായിരിക്കാൻ ഒരു കീയും നിർബന്ധമില്ല. ഇന്റർനെറ്റ് ഇല്ലെങ്കിലും ആപ്പിന്റെ സ്വന്തം പരിശോധനകൾ എപ്പോഴും നടക്കും.';
 
   @override
-  String get titleHelpSmartPayloads => 'സ്മാർട്ട് പ്രവർത്തനങ്ങൾ';
-
-  @override
-  String get helpGuideSmartPayloadsName =>
-      'സ്മാർട്ട് പ്രവർത്തനങ്ങളും പേയ്‌മെന്റുകളും';
+  String get helpGuideSmartPayloadsName => 'സ്മാർട്ട് പ്രവർത്തനങ്ങൾ';
 
   @override
   String get helpGuideSmartPayloadsSummary =>
-      'Wi-Fi കണക്ഷൻ, UPI, ക്രിപ്റ്റോ പേയ്‌മെന്റുകൾ, തത്സമയ TOTP 2FA ടോക്കണുകൾ, vCard-കൾ, ഇവന്റുകൾ.';
+      'വൈ-ഫൈ, പണമിടപാട്, വിലാസവിവരങ്ങൾ, പരിപാടികൾ, ഫോൺ നമ്പറുകൾ, ഉൽപ്പന്നങ്ങൾ തുടങ്ങിയവയ്ക്ക് ഒറ്റ തൊടലിൽ പ്രവർത്തിക്കുന്ന ബട്ടണുകൾ.';
 
   @override
   String get helpGuideSmartPayloadsIntro =>
-      'ശ്രീരാജ് പി ക്യുആർ സ്റ്റുഡിയോ ഓരോ ബാർകോഡിന്റെയും തരം സ്വയം തിരിച്ചറിയുന്നു. Wi-Fi ശൃംഖലകൾ, UPI, ക്രിപ്റ്റോ പേയ്‌മെന്റുകൾ, 2FA ടോക്കണുകൾ, കോൺടാക്റ്റുകൾ, കലണ്ടർ ഇവന്റുകൾ എന്നിവയ്ക്ക് ഒറ്റ ടാപ്പിൽ ഉപയോഗിക്കാവുന്ന കാർഡുകൾ കാണിക്കുന്നു.';
+      'കോഡിൽ എന്താണുള്ളതെന്ന് ആപ്പ് മനസ്സിലാക്കി, അതിനു പറ്റിയ ബട്ടണുകളുള്ള ഒരു കാർഡ് കാണിക്കും. ഉദാഹരണത്തിന്, വൈ-ഫൈ കോഡിന് ബന്ധിപ്പിക്കാനുള്ള ബട്ടണും ഫോൺ നമ്പറിന് വിളിക്കാനുള്ള ബട്ടണും.';
 
   @override
-  String get helpGuideSmartPayloadsWifiTitle =>
-      'Wi-Fi ശൃംഖലയിലേക്ക് സ്വയം ബന്ധിപ്പിക്കൽ';
+  String get helpGuideSmartPayloadsWifiTitle => 'വൈ-ഫൈ';
 
   @override
   String get helpGuideSmartPayloadsWifiBullet1 =>
-      'SSID, എൻക്രിപ്ഷൻ തരം (WPA, WPA2, WPA3, WEP, ഒന്നുമില്ല), നെറ്റ്‌വർക്ക് പാസ്‌വേഡ് എന്നിവ അടങ്ങിയ WIFI: ഫോർമാറ്റിലുള്ള ബാർകോഡുകൾ സ്കാൻ ചെയ്യുന്നു.';
+      'നെറ്റ്‌വർക്കിന്റെ പേരും സുരക്ഷാ തരവും കാണിക്കും. പാസ്‌വേഡ് കാണിക്കാനോ മറയ്ക്കാനോ കണ്ണിന്റെ ബട്ടൺ തൊടുക; പകർത്തുകയുമാവാം.';
 
   @override
   String get helpGuideSmartPayloadsWifiBullet2 =>
-      'പാസ്‌വേഡ് കാണിക്കാനും മറയ്ക്കാനുമുള്ള ബട്ടണും ഒറ്റ ടാപ്പിൽ ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്താനുള്ള സൗകര്യവും ഉണ്ട്.';
+      '‘വൈ-ഫൈയിലേക്ക് ബന്ധിപ്പിക്കുക’ തൊടുക. Android സ്ഥിരീകരണം ചോദിച്ചേക്കാം. ഫോൺ നേരിട്ടു ബന്ധിപ്പിക്കാൻ അനുവദിക്കുന്നില്ലെങ്കിൽ, പാസ്‌വേഡ് പകർത്തും; വൈ-ഫൈ ക്രമീകരണങ്ങളിൽ അത് ഒട്ടിക്കാം.';
 
   @override
-  String get helpGuideSmartPayloadsWifiBullet3 =>
-      'നേരിട്ട് ബന്ധിപ്പിക്കാനോ സിസ്റ്റം Wi-Fi ക്രമീകരണങ്ങൾ തുറക്കാനോ \"വൈ-ഫൈയിലേക്ക് ബന്ധിപ്പിക്കുക\" എന്നതിൽ തൊടുക.';
-
-  @override
-  String get helpGuideSmartPayloadsPaymentsTitle =>
-      'UPI, ക്രിപ്റ്റോകറൻസി പേയ്‌മെന്റുകൾ';
+  String get helpGuideSmartPayloadsPaymentsTitle => 'പണമിടപാടുകൾ';
 
   @override
   String get helpGuideSmartPayloadsPaymentsBullet1 =>
-      'ഇന്ത്യൻ UPI ക്യുആർ കോഡുകൾ: വെർച്വൽ പേയ്‌മെന്റ് വിലാസം (VPA), വ്യാപാരിയുടെ പേര്, ഇടപാട് റഫറൻസ്, കൃത്യമായ തുക എന്നിവ വേർതിരിച്ചെടുക്കുന്നു.';
+      'UPI കോഡുകൾ ആർക്കാണ് പണം നൽകുന്നതെന്നും തുകയും കാണിക്കും. വിവരങ്ങൾ പൂരിപ്പിച്ച നിലയിൽ നിങ്ങളുടെ UPI ആപ്പ് (Google Pay, PhonePe, Paytm, BHIM പോലെ) തുറക്കാൻ ‘UPI ആപ്പ് വഴി നൽകുക’ തൊടുക.';
 
   @override
   String get helpGuideSmartPayloadsPaymentsBullet2 =>
-      'ഒറ്റ ടാപ്പ് അയയ്ക്കൽ: ഇടപാട് വിവരങ്ങൾ മുൻകൂട്ടി പൂരിപ്പിച്ച്, ഫോണിലുള്ള പേയ്‌മെന്റ് ആപ്പുകൾ (Google Pay, PhonePe, Paytm, BHIM) തുറക്കുന്നു.';
+      'കോഡിൽ തുക ഇല്ലെങ്കിൽ, ആദ്യം അതു ടൈപ്പ് ചെയ്യാൻ ആപ്പ് ആവശ്യപ്പെടും.';
 
   @override
   String get helpGuideSmartPayloadsPaymentsBullet3 =>
-      'ക്രിപ്റ്റോ ക്യുആർ കോഡുകൾ: Bitcoin, Ethereum, Solana വാലറ്റ് വിലാസങ്ങൾ തിരിച്ചറിയുന്നു; ഒറ്റ ടാപ്പിൽ പകർത്താം, വിലാസം വ്യക്തമായി ക്രമീകരിച്ച് കാണിക്കുന്നു.';
+      'ഈ ആപ്പ് ഒരിക്കലും സ്വയം പണം എടുക്കുകയോ അയയ്ക്കുകയോ ചെയ്യില്ല. ഓരോ പണമിടപാടും നിങ്ങളുടെ UPI ആപ്പിൽ നിങ്ങൾ തന്നെ സ്ഥിരീകരിക്കണം.';
 
   @override
-  String get helpGuideSmartPayloadsTotpTitle =>
-      'TOTP 2FA ഓതന്റിക്കേറ്ററും ടോക്കണുകളും';
+  String get helpGuideSmartPayloadsPaymentsBullet4 =>
+      'ക്രിപ്റ്റോ വാലറ്റ് കോഡുകളും (Bitcoin, Ethereum, Solana) SEPA ബാങ്ക് കൈമാറ്റ കോഡുകളും വിലാസം കാണിക്കും; അതു പകർത്താം.';
+
+  @override
+  String get helpGuideSmartPayloadsTotpTitle => 'രണ്ടു-ഘട്ട ലോഗിൻ കോഡുകൾ (2FA)';
 
   @override
   String get helpGuideSmartPayloadsTotpBullet1 =>
-      'Google Authenticator, Microsoft Authenticator എന്നിവ ഉപയോഗിക്കുന്ന otpauth:// മാനദണ്ഡത്തിലുള്ള ടു-ഫാക്ടർ ഓതന്റിക്കേഷൻ സജ്ജീകരണ കോഡുകൾ സ്കാൻ ചെയ്യുന്നു.';
+      'രണ്ടു-ഘട്ട ലോഗിൻ ഓണാക്കുമ്പോൾ വെബ്സൈറ്റുകൾ പലപ്പോഴും ഒരു QR കോഡ് കാണിക്കും. അതു സ്കാൻ ചെയ്താൽ ഓരോ 30 സെക്കൻഡിലും മാറുന്ന 6 അക്ക കോഡ് ഒരു ടൈമറോടെ കാണാം.';
 
   @override
   String get helpGuideSmartPayloadsTotpBullet2 =>
-      '30 സെക്കൻഡ് എണ്ണിക്കുറയ്ക്കുന്ന വൃത്താകൃതിയിലുള്ള ടൈമറിനൊപ്പം, മാറിക്കൊണ്ടിരിക്കുന്ന 6 അക്ക ഒറ്റത്തവണ പാസ്‌കോഡ് ഉപകരണത്തിൽ തത്സമയം കാണിക്കുന്നു.';
+      'Google Authenticator, Microsoft Authenticator പോലുള്ള നിങ്ങളുടെ ഓതന്റിക്കേറ്റർ ആപ്പിൽ സൂക്ഷിക്കാൻ ‘ഓതന്റിക്കേറ്ററിലേക്ക് ചേർക്കുക’ തൊടുക.';
 
   @override
   String get helpGuideSmartPayloadsTotpBullet3 =>
-      'നിങ്ങൾക്കിഷ്ടമുള്ള 2FA ആപ്പിൽ കീ ചേർക്കാൻ \"ഓതന്റിക്കേറ്ററിലേക്ക് ചേർക്കുക\" എന്നതിൽ തൊടുക.';
+      'ഇത്തരം കോഡ് രഹസ്യമായി സൂക്ഷിക്കുക. ഇതു സ്കാൻ ചെയ്യുന്ന ആർക്കും നിങ്ങളുടെ ലോഗിൻ കോഡുകൾ ഉണ്ടാക്കാൻ കഴിയും.';
 
   @override
   String get helpGuideSmartPayloadsContactsTitle =>
-      'കോൺടാക്റ്റുകളും കലണ്ടർ ഇവന്റുകളും';
+      'വിലാസവിവരങ്ങളും പരിപാടികളും';
 
   @override
   String get helpGuideSmartPayloadsContactsBullet1 =>
-      'vCard, MeCard: മുഴുവൻ പേര്, ഫോൺ നമ്പറുകൾ, ഇമെയിൽ വിലാസങ്ങൾ, സ്ഥാപനം, ജോലിപ്പേര് എന്നിവ വേർതിരിച്ചെടുത്ത്, ഒറ്റ ടാപ്പിൽ കോൺടാക്റ്റുകളിലേക്ക് ചേർക്കാം.';
+      'വിലാസവിവര കോഡുകൾ (vCard, MeCard) പേര്, ഫോൺ, ഇമെയിൽ, സ്ഥാപനം എന്നിവ കാണിക്കും. ‘കോൺടാക്റ്റുകളിലേക്ക് സൂക്ഷിക്കുക’ തൊടുക, അല്ലെങ്കിൽ നേരിട്ട് വിളിക്കുകയോ ഇമെയിൽ അയയ്ക്കുകയോ ചെയ്യുക.';
 
   @override
   String get helpGuideSmartPayloadsContactsBullet2 =>
-      'iCalendar (VEVENT): ഇവന്റിന്റെ പേര്, ആരംഭ-അവസാന തീയതിയും സമയവും, സ്ഥലം, വിവരണം എന്നിവ വേർതിരിച്ചെടുത്ത്, ഒറ്റ ടാപ്പിൽ Google/ഉപകരണ കലണ്ടറിൽ ചേർക്കാൻ സൗകര്യമൊരുക്കുന്നു.';
+      'പരിപാടി കോഡുകൾ ശീർഷകം, സമയം, സ്ഥലം എന്നിവ കാണിക്കും. ‘ഉപകരണ കലണ്ടറിലേക്ക് ചേർക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherTitle =>
+      'ഫോൺ, സന്ദേശം, മാപ്പ് തുടങ്ങിയവ';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet1 =>
+      'ഫോൺ നമ്പർ: ‘വിളിക്കുക’ തൊടുക. ടെക്സ്റ്റ് സന്ദേശം: ‘സന്ദേശം അയക്കുക’ തൊടുക; സന്ദേശം മുൻകൂട്ടി പൂരിപ്പിച്ചിരിക്കും. ഇമെയിൽ: ‘ഇമെയിൽ അയക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet2 =>
+      'സ്ഥലം: സ്ഥലം കാണാനോ വഴി അറിയാനോ ‘ഗൂഗിൾ മാപ്‌സിൽ വഴികാട്ടുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet3 =>
+      'ആപ്പ് ലിങ്ക്: ബന്ധപ്പെട്ട ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്തിട്ടുണ്ടെങ്കിൽ അതു തുറക്കാൻ ‘ആപ്പിൽ തുറക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet4 =>
+      'ഉൽപ്പന്ന ബാർകോഡ്: ഭക്ഷണത്തിന്റെ വിവരങ്ങൾ അറിയാൻ ‘ഭക്ഷണ വിവരം’, അല്ലെങ്കിൽ ‘വെബിൽ തിരയുക’ തൊടുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet5 =>
+      'പുസ്തക (ISBN) ബാർകോഡ്: പുസ്തകം ഗൂഗിൾ ബുക്സിലോ ഓപ്പൺ ലൈബ്രറിയിലോ തിരയുക.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet6 =>
+      'സുരക്ഷാ പരിശോധന കഴിഞ്ഞതിനു ശേഷമേ വെബ് ലിങ്കുകൾ ബ്രൗസറിൽ തുറക്കൂ.';
 
   @override
   String get helpGuideSmartPayloadsTip =>
-      'നുറുങ്ങ്: UPI ക്യുആർ കോഡ് വഴി പണമടയ്ക്കുമ്പോൾ, കാർഡിൽ കാണിക്കുന്ന വ്യാപാരിയുടെ പേര് കടയിലെ പേരുമായി ഒത്തുപോകുന്നുണ്ടെന്ന് എപ്പോഴും ഉറപ്പാക്കുക.';
+      'നുറുങ്ങ്: UPI കോഡ് വഴി പണം നൽകുന്നതിനു മുൻപ്, കാർഡിലെ പേര് നിങ്ങൾ പണം നൽകാൻ ഉദ്ദേശിക്കുന്ന കടയുടേതോ ആളുടേതോ തന്നെയാണെന്ന് ഉറപ്പാക്കുക.';
 
   @override
-  String get titleHelpHistory => 'നാൾവഴിയും സ്വകാര്യതയും';
+  String get helpGuideHiddenName => 'ഒളിപ്പിച്ചതും പൂട്ടിയതുമായ കോഡുകൾ';
+
+  @override
+  String get helpGuideHiddenSummary =>
+      'രഹസ്യ സന്ദേശമോ പൂട്ടിയ വിവരങ്ങളോ ഉള്ള QR കോഡുകൾ തുറക്കുക.';
+
+  @override
+  String get helpGuideHiddenIntro =>
+      'ചില QR കോഡുകളിൽ രഹസ്യവാക്ക് കൊണ്ട് പൂട്ടിയ സ്വകാര്യ വിവരങ്ങൾ ഉണ്ടാകും. ആപ്പ് ഇത്തരം കോഡുകൾ തിരിച്ചറിയുകയും നിങ്ങളുടെ ഫോണിൽത്തന്നെ അവ തുറക്കാൻ സഹായിക്കുകയും ചെയ്യും.';
+
+  @override
+  String get helpGuideHiddenStegoTitle =>
+      'StegoQR: ഒളിപ്പിച്ച സന്ദേശമുള്ള കോഡ്';
+
+  @override
+  String get helpGuideHiddenStegoBullet1 =>
+      'StegoQR കോഡ് എല്ലാവർക്കും സാധാരണ ഒരു പൊതു വാചകം കാണിക്കും; അതിനുള്ളിൽ രണ്ടാമതൊരു രഹസ്യ സന്ദേശം ഒളിപ്പിച്ചിരിക്കും.';
+
+  @override
+  String get helpGuideHiddenStegoBullet2 =>
+      'അത്തരമൊന്ന് സ്കാൻ ചെയ്യുമ്പോൾ ഫലത്തിൽ ‘StegoQR കണ്ടെത്തി’ എന്നു കാണാം. പൊതു വാചകം പതിവുപോലെ കാണിക്കും.';
+
+  @override
+  String get helpGuideHiddenStegoBullet3 =>
+      'രഹസ്യം കാണാൻ രഹസ്യവാക്ക് ടൈപ്പ് ചെയ്ത് ‘തുറക്കുക’ തൊടുക. കോഡ് ഉണ്ടാക്കിയ ആളാണ് രഹസ്യവാക്ക് നിങ്ങൾക്കു തരേണ്ടത്.';
+
+  @override
+  String get helpGuideHiddenStegoBullet4 =>
+      '‘ബയോമെട്രിക് അൺലോക്ക്’ രഹസ്യവാക്കിനൊപ്പം നിങ്ങളുടെ വിരലടയാളമോ മുഖമോ കൂടി ചോദിക്കും.';
+
+  @override
+  String get helpGuideHiddenStegoBullet5 =>
+      'തുറന്നതിനു ശേഷം രഹസ്യം പകർത്തുകയോ പങ്കിടുകയോ ചെയ്യാം.';
+
+  @override
+  String get helpGuideHiddenOtherTitle => 'മറ്റു പൂട്ടിയ കോഡുകൾ';
+
+  @override
+  String get helpGuideHiddenOtherBullet1 =>
+      'എയർ ക്യുആർ കൈമാറ്റ കോഡുകൾ: അയയ്ക്കുന്ന ഫോണിൽ കാണിക്കുന്ന സെഷൻ കോഡ് ടൈപ്പ് ചെയ്യുക.';
+
+  @override
+  String get helpGuideHiddenOtherBullet2 =>
+      'എൻക്രിപ്റ്റ് ചെയ്ത JSON കോഡുകളും പൂട്ടിയ മറ്റു വാചകങ്ങളും: ‘ഡീക്രിപ്റ്റ് ചെയ്യുക’ തൊട്ട് രഹസ്യവാക്ക് ടൈപ്പ് ചെയ്യുക.';
+
+  @override
+  String get helpGuideHiddenOtherBullet3 =>
+      '‘വിപുലം (Salt / IV)’ അധിക ക്രമീകരണങ്ങൾ ആവശ്യമുള്ള, മറ്റു ടൂളുകൾ കൊണ്ടുണ്ടാക്കിയ കോഡുകൾക്കു മാത്രമാണ്. മിക്കവർക്കും ഇത് ഒരിക്കലും വേണ്ടിവരില്ല.';
+
+  @override
+  String get helpGuideHiddenSafetyTitle => 'അറിഞ്ഞിരിക്കേണ്ടവ';
+
+  @override
+  String get helpGuideHiddenSafetyBullet1 =>
+      'തുറക്കൽ നിങ്ങളുടെ ഫോണിൽത്തന്നെ നടക്കുന്നു. രഹസ്യവാക്കും രഹസ്യവും ഒരിക്കലും എവിടേക്കും അയയ്ക്കില്ല.';
+
+  @override
+  String get helpGuideHiddenSafetyBullet2 =>
+      'തെറ്റായ രഹസ്യവാക്ക് ഒരു പിശക് കാണിക്കുക മാത്രം ചെയ്യും. അക്ഷരങ്ങൾ, വലിയക്ഷരങ്ങൾ, ഇടകൾ എന്നിവ ശ്രദ്ധിച്ച് വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get helpGuideHiddenSafetyBullet3 =>
+      'ഈ ആപ്പിന് ഇത്തരം കോഡുകൾ തുറക്കാനാകും; പക്ഷേ ഇവ നിർമ്മിക്കുന്നില്ല.';
+
+  @override
+  String get helpGuideHiddenTip =>
+      'നുറുങ്ങ്: രഹസ്യവാക്ക് കോഡിൽ നിന്നു വേറിട്ട ഒരു വഴിയിൽ, ഉദാഹരണത്തിന് ഫോൺ വിളിയിലൂടെ, പങ്കിടുക. കോഡിന്റെ അടുത്ത് ഒരിക്കലും അത് എഴുതിവയ്ക്കരുത്.';
 
   @override
   String get helpGuideHistoryName => 'നാൾവഴി, ബാക്കപ്പ്, സ്വകാര്യത';
 
   @override
   String get helpGuideHistorySummary =>
-      'ഓഫ്‌ലൈൻ SQLite ഡാറ്റാബേസ്, JSON/CSV ബാക്കപ്പുകൾ, ബയോമെട്രിക്സ്, സ്ക്രീൻഷോട്ട് സംരക്ഷണം.';
+      'പഴയ സ്കാനുകൾ കണ്ടെത്തുക, കുറിപ്പുകൾ ചേർക്കുക, നാൾവഴി കയറ്റുമതി ചെയ്യുക അല്ലെങ്കിൽ ബാക്കപ്പ് എടുക്കുക, ആപ്പ് പൂട്ടുക.';
 
   @override
   String get helpGuideHistoryIntro =>
-      'നിങ്ങളുടെ സ്കാൻ രേഖകൾ നിങ്ങളുടേത് മാത്രമാണ്. ശ്രീരാജ് പി ക്യുആർ സ്റ്റുഡിയോ എല്ലാ നാൾവഴി വിവരങ്ങളും നിങ്ങളുടെ ഉപകരണത്തിലെ ഒരു ലോക്കൽ SQLite ഡാറ്റാബേസിൽ സൂക്ഷിക്കുന്നു. ബയോമെട്രിക് സംരക്ഷണവും ക്രമീകൃത എക്സ്പോർട്ട് ഫോർമാറ്റുകളും ഇതിനൊപ്പമുണ്ട്.';
+      'ഓരോ സ്കാനും നിങ്ങളുടെ ഫോണിലെ നാൾവഴി ടാബിൽ, പൂട്ടിയ (എൻക്രിപ്റ്റ് ചെയ്ത) സംഭരണിയിൽ സൂക്ഷിക്കുന്നു. ഒന്നും അപ്‌ലോഡ് ചെയ്യുന്നില്ല.';
 
   @override
-  String get helpGuideHistoryManageTitle => 'സ്കാൻ നാൾവഴി കൈകാര്യം ചെയ്യൽ';
+  String get helpGuideHistoryManageTitle =>
+      'സ്കാനുകൾ കണ്ടെത്താനും നിയന്ത്രിക്കാനും';
 
   @override
   String get helpGuideHistoryManageBullet1 =>
-      'തിരയലും ഫിൽട്ടറും: വാക്കുകൾ ഉപയോഗിച്ച് സ്കാൻ നാൾവഴി തത്സമയം തിരയാം, അല്ലെങ്കിൽ ഉള്ളടക്ക തരം (URL, Wi-Fi, കോൺടാക്റ്റുകൾ, പേയ്‌മെന്റുകൾ, TOTP) അനുസരിച്ച് ഫിൽട്ടർ ചെയ്യാം.';
+      'ഉള്ളടക്കം, തരം, കുറിപ്പുകൾ എന്നിവ കൊണ്ട് സ്കാനുകൾ കണ്ടെത്താൻ തിരയൽ കള്ളിയിൽ ടൈപ്പ് ചെയ്യുക.';
 
   @override
   String get helpGuideHistoryManageBullet2 =>
-      'പ്രിയപ്പെട്ടവ: പ്രധാനപ്പെട്ട Wi-Fi വിവരങ്ങളോ ലോയൽറ്റി കോഡുകളോ വേഗം തുറക്കാൻ പ്രിയപ്പെട്ടവയായി അടയാളപ്പെടുത്താം.';
+      'ലിങ്കുകൾ, വൈ-ഫൈ, വിലാസവിവരങ്ങൾ, ഉൽപ്പന്നങ്ങൾ തുടങ്ങിയവ മാത്രം കാണാൻ ഫിൽട്ടർ ചിപ്പുകൾ ഉപയോഗിക്കുക. ഒരു സ്കാൻ ‘നക്ഷത്രമിട്ടവ’യിൽ ചേർക്കാൻ അതിലെ നക്ഷത്രം തൊടുക.';
 
   @override
   String get helpGuideHistoryManageBullet3 =>
-      'വിശദ പരിശോധനാ ഷീറ്റ്: ഡീകോഡ് ചെയ്ത യഥാർത്ഥ ഡാറ്റ, സുരക്ഷാ സ്കോറിന്റെ വിശദാംശങ്ങൾ, സമയം എന്നിവ കാണാം; സ്വന്തം കുറിപ്പുകളും ചേർക്കാം.';
+      'ഒരു സ്കാനിന്റെ മുഴുവൻ വിശദാംശങ്ങളും (ഉള്ളടക്കം, സുരക്ഷാ സ്കോർ, സമയം) കാണാൻ അതിൽ തൊടുക. കുറിപ്പും സ്ഥലവും ചേർക്കാം, അല്ലെങ്കിൽ പകർത്താം, പങ്കിടാം, ഇല്ലാതാക്കാം.';
 
   @override
-  String get helpGuideHistoryBackupTitle =>
-      'ബാക്കപ്പും പുനഃസ്ഥാപനവും (JSON / CSV)';
+  String get helpGuideHistoryManageBullet4 =>
+      '‘എല്ലാം മായ്ക്കുക’ മുഴുവൻ നാൾവഴിയും ഇല്ലാതാക്കും. ഇതു പഴയപടിയാക്കാനാവില്ല; അതിനാൽ ആദ്യം ബാക്കപ്പ് എടുക്കുക.';
+
+  @override
+  String get helpGuideHistoryBackupTitle => 'കയറ്റുമതിയും ബാക്കപ്പും';
 
   @override
   String get helpGuideHistoryBackupBullet1 =>
-      'JSON പൂർണ്ണ ബാക്കപ്പ്: ടാഗുകൾ, പ്രിയപ്പെട്ടവ, സുരക്ഷാ ഫലങ്ങൾ എന്നിവ ഉൾപ്പെടെ മുഴുവൻ നാൾവഴിയും എവിടെയും കൊണ്ടുപോകാവുന്ന ഒരു .json ഫയലിലേക്ക് എക്സ്പോർട്ട് ചെയ്യുന്നു.';
+      'നാൾവഴി ടാബിന്റെ മുകളിലെ ‘കയറ്റുമതി / ബാക്കപ്പ്’ ബട്ടൺ തൊടുക.';
 
   @override
   String get helpGuideHistoryBackupBullet2 =>
-      'CSV സ്പ്രെഡ്‌ഷീറ്റ്: Microsoft Excel-ലും Google Sheets-ലും തുറക്കാവുന്ന വൃത്തിയുള്ള ഒരു കോമ-വേർതിരിച്ച (CSV) ഫയൽ തയ്യാറാക്കുന്നു.';
+      '‘രേഖകൾ കയറ്റുമതി ചെയ്യുക’ ഒരു പകർപ്പ് CSV (Excel, Sheets എന്നിവയ്ക്ക്), JSON, ടെക്സ്റ്റ്, PDF ആയി സൂക്ഷിക്കും. ഈ ഫയലുകൾ പൂട്ടിയവയല്ല: ഫയൽ കിട്ടുന്ന ആർക്കും നിങ്ങളുടെ സ്കാനുകൾ വായിക്കാം; അതിനാൽ ആപ്പ് ആദ്യം ചോദിക്കും.';
 
   @override
   String get helpGuideHistoryBackupBullet3 =>
-      'ഒറ്റ ക്ലിക്ക് പുനഃസ്ഥാപനം: മുമ്പ് എക്സ്പോർട്ട് ചെയ്ത JSON ബാക്കപ്പ് ഫയലുകൾ എപ്പോൾ വേണമെങ്കിലും ഇമ്പോർട്ട് ചെയ്ത് സ്കാൻ രേഖകൾ തിരികെ കൊണ്ടുവരാം.';
+      'പകർപ്പ് സൂക്ഷിക്കാനുള്ള സുരക്ഷിത മാർഗമാണ് ‘എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ്’. ഒരു രഹസ്യവാക്ക് ടൈപ്പ് ചെയ്ത് ‘ബാക്കപ്പ് നിർമ്മിക്കുക’ തൊടുക; തുടർന്ന് ഫയൽ സൂക്ഷിക്കുകയോ പങ്കിടുകയോ ചെയ്യുക.';
+
+  @override
+  String get helpGuideHistoryBackupBullet4 =>
+      'പുനഃസ്ഥാപിക്കാൻ ‘ബാക്കപ്പ് പുനഃസ്ഥാപിക്കുക’ തുറന്ന്, ബാക്കപ്പ് ഫയലിലെ വാചകം ഒട്ടിച്ച്, അതേ രഹസ്യവാക്ക് ടൈപ്പ് ചെയ്ത് ‘നാൾവഴി പുനഃസ്ഥാപിക്കുക’ തൊടുക.';
 
   @override
   String get helpGuideHistoryBiometricsTitle =>
-      'ബയോമെട്രിക്സും സ്ക്രീൻഷോട്ട് സംരക്ഷണവും';
+      'ആപ്പ് ലോക്കും സ്ക്രീൻഷോട്ട് സംരക്ഷണവും';
 
   @override
   String get helpGuideHistoryBiometricsBullet1 =>
-      'ആപ്പ് ലോക്കും ബയോമെട്രിക്സും: ഐച്ഛിക ആപ്പ് ലോക്ക് ആപ്പ് തുറക്കുമ്പോൾ നിങ്ങളുടെ വിരലടയാളം, മുഖം അല്ലെങ്കിൽ സ്ക്രീൻ ലോക്ക് ആവശ്യപ്പെടുന്നു. രഹസ്യ StegoQR സന്ദേശങ്ങൾക്കും ബയോമെട്രിക് പരിശോധന ആവശ്യപ്പെടാം.';
+      'ആപ്പ് ലോക്ക്: ക്രമീകരണങ്ങൾ > സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും എന്നതിൽ ഓണാക്കുക. പിന്നെ ആപ്പ് തുറക്കുമ്പോഴും 30 സെക്കൻഡ് മാറിനിന്നതിനു ശേഷവും വിരലടയാളമോ മുഖമോ സ്ക്രീൻ ലോക്കോ ചോദിക്കും.';
 
   @override
   String get helpGuideHistoryBiometricsBullet2 =>
-      'സ്ക്രീൻഷോട്ട് സംരക്ഷണം: സ്കാനുകൾ, നാൾവഴി, രഹസ്യങ്ങൾ, API കീകൾ എന്നിവ കാണിക്കുന്ന സ്ക്രീനുകൾ സ്ക്രീൻഷോട്ടായോ സ്ക്രീൻ റെക്കോർഡിംഗായോ പകർത്താൻ കഴിയില്ല (FLAG_SECURE). ക്രമീകരണങ്ങൾ › സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും എന്നതിൽ ഇത് ഓഫാക്കാം.';
+      'സ്ക്രീൻഷോട്ട് സംരക്ഷണം: സ്കാനുകൾ, നാൾവഴി, രഹസ്യങ്ങൾ, കീകൾ എന്നിവയുള്ള സ്ക്രീനുകളിൽ സ്ക്രീൻഷോട്ടും സ്ക്രീൻ റെക്കോർഡിംഗും തടയും. സമീപകാല ആപ്പുകളുടെ പട്ടികയിൽ ഈ സ്ക്രീനുകൾ ശൂന്യമായി കാണും. ക്രമീകരണങ്ങൾ > സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും എന്നതിൽ ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യാം.';
+
+  @override
+  String get helpGuideHistoryBiometricsBullet3 =>
+      'നാൾവഴി പുതിയ ഫോണിലേക്ക് മാറ്റാൻ ‘എയർക്യുആർ സിങ്ക്’ ഉപയോഗിക്കുക. എയർ ക്യുആർ വഴികാട്ടി കാണുക.';
 
   @override
   String get helpGuideHistoryTip =>
-      'നുറുങ്ങ്: ഫോൺ മാറ്റുന്നതിനോ റീസെറ്റ് ചെയ്യുന്നതിനോ മുമ്പ്, സേവ് ചെയ്ത സ്കാനുകൾ നഷ്ടപ്പെടാതിരിക്കാൻ നാൾവഴി ഒരു JSON ഫയലിലേക്ക് ബാക്കപ്പ് ചെയ്യുക.';
+      'നുറുങ്ങ്: ഫോൺ റീസെറ്റ് ചെയ്യുന്നതിനോ മാറ്റുന്നതിനോ മുൻപ് എൻക്രിപ്റ്റ് ചെയ്ത ബാക്കപ്പ് എടുക്കുക. രഹസ്യവാക്ക് സുരക്ഷിതമായി സൂക്ഷിക്കുക; അതില്ലാതെ ബാക്കപ്പ് തുറക്കാനാവില്ല.';
+
+  @override
+  String get helpGuideSettingsName => 'ക്രമീകരണങ്ങളും ഇഷ്ടാനുസൃതമാക്കലും';
+
+  @override
+  String get helpGuideSettingsSummary =>
+      'രൂപം, ഭാഷ, ശബ്ദം എന്നിവ മാറ്റുക, അനുമതികൾ കാണുക, ബാറ്ററി ലാഭിക്കുക, നിങ്ങളുടെ വിവരങ്ങൾ ഇല്ലാതാക്കുക.';
+
+  @override
+  String get helpGuideSettingsIntro =>
+      'ക്രമീകരണങ്ങൾ തുറക്കാൻ സ്കാൻ സ്ക്രീനിൽ ‘കൂടുതൽ ഓപ്ഷനുകൾ’ തൊട്ട് ‘ക്രമീകരണങ്ങൾ’ തിരഞ്ഞെടുക്കുക. ഓരോ ഭാഗവും എന്തു ചെയ്യുന്നു എന്നു താഴെ.';
+
+  @override
+  String get helpGuideSettingsLookTitle => 'രൂപവും ഭാഷയും';
+
+  @override
+  String get helpGuideSettingsLookBullet1 =>
+      'രൂപഭംഗി > തീം മോഡ്: സിസ്റ്റം, ലൈറ്റ്, ഡാർക്ക്, OLED. OLED പൂർണ്ണ കറുപ്പാണ്; OLED സ്ക്രീനുകളിൽ ബാറ്ററി ലാഭിക്കും.';
+
+  @override
+  String get helpGuideSettingsLookBullet2 =>
+      'വർണ്ണങ്ങളും ഡൈനാമിക് തീമും: ഒരു പ്രധാന നിറം തിരഞ്ഞെടുക്കുക, അല്ലെങ്കിൽ വാൾപേപ്പറിനു ചേരാൻ ഡൈനാമിക് നിറങ്ങൾ ഓണാക്കുക (Android 12-ഉം പുതിയവയും).';
+
+  @override
+  String get helpGuideSettingsLookBullet3 =>
+      'അക്ഷര ശൈലിയും വലുപ്പവും: അക്ഷരരൂപം തിരഞ്ഞെടുക്കുക. ഫോണിൽ നിങ്ങൾ വച്ചിരിക്കുന്ന അക്ഷരവലുപ്പം ആപ്പും പിന്തുടരും.';
+
+  @override
+  String get helpGuideSettingsLookBullet4 =>
+      'സ്കാൻ ഓവർലേ ശൈലി: സ്കാൻ ഫ്രെയിം എങ്ങനെ കാണണമെന്നു തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideSettingsLookBullet5 =>
+      'ഭാഷ: സിസ്റ്റം സ്വതവേയുള്ളത്, English, മലയാളം, സംസ്കൃതം (संस्कृतम्) എന്നിവയിൽ ഒന്നു തിരഞ്ഞെടുക്കുക. റീസ്റ്റാർട്ട് ഇല്ലാതെ ആപ്പ് ഉടൻ മാറും.';
+
+  @override
+  String get helpGuideSettingsFeedbackTitle => 'സ്കാൻ പ്രതികരണം';
+
+  @override
+  String get helpGuideSettingsFeedbackBullet1 =>
+      'കോഡ് വായിക്കുമ്പോൾ ഫോൺ വിറയ്ക്കണോ, ബീപ്പ് ശബ്ദം വേണോ, ചെറിയ ആനിമേഷൻ വേണോ എന്നു തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideSettingsPrivacyTitle =>
+      'സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet1 =>
+      'ഓൺലൈൻ പരിശോധനകൾ: നിങ്ങൾ ഓണാക്കുന്നില്ലെങ്കിൽ ഓഫ്. ലിങ്ക് സുരക്ഷാ വഴികാട്ടി കാണുക.';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet2 =>
+      'ആപ്പ് ലോക്ക്, സ്ക്രീൻഷോട്ട് സംരക്ഷണം: നാൾവഴി, ബാക്കപ്പ്, സ്വകാര്യത വഴികാട്ടി കാണുക.';
+
+  @override
+  String get helpGuideSettingsPrivacyBullet3 =>
+      'എല്ലാ വിവരങ്ങളും ഇല്ലാതാക്കുക: സ്കാൻ നാൾവഴി, സൂക്ഷിച്ച കീകൾ, എല്ലാ ക്രമീകരണങ്ങളും ഈ ഫോണിൽ നിന്നു നീക്കും. ഇതു പഴയപടിയാക്കാനാവില്ല.';
+
+  @override
+  String get helpGuideSettingsOtherTitle => 'മറ്റു ക്രമീകരണങ്ങൾ';
+
+  @override
+  String get helpGuideSettingsOtherBullet1 =>
+      'URL സുരക്ഷാ ദാതാക്കൾ: അധിക ഓൺലൈൻ ലിങ്ക് പരിശോധകരെ ഓണാക്കുക.';
+
+  @override
+  String get helpGuideSettingsOtherBullet2 =>
+      'എയർക്യുആർ സിങ്ക്: നാൾവഴിയും ക്രമീകരണങ്ങളും മറ്റൊരു ഫോണിലേക്കു മാറ്റുക.';
+
+  @override
+  String get helpGuideSettingsOtherBullet3 =>
+      'സ്കാൻ ബബിൾ: മറ്റ് ആപ്പുകളിലെ കോഡുകൾ സ്കാൻ ചെയ്യാനുള്ള ഒഴുകി നിൽക്കുന്ന ബട്ടൺ.';
+
+  @override
+  String get helpGuideSettingsOtherBullet4 =>
+      'അനുമതികൾ: ആപ്പ് എന്തൊക്കെ ഉപയോഗിച്ചേക്കാം, എന്തിന് എന്നതിന്റെ ലളിതമായ പട്ടിക. ഒരു സവിശേഷതയ്ക്ക് ആവശ്യമുള്ളപ്പോൾ മാത്രമേ ആപ്പ് ഓരോന്നും ചോദിക്കൂ.';
+
+  @override
+  String get helpGuideSettingsOtherBullet5 =>
+      'സവിശേഷതകൾ ആപ്പിന് ചെയ്യാനാകുന്ന എല്ലാം കാണിക്കും. ആമുഖ ടൂർ ആദ്യം തുറന്നപ്പോഴുള്ള പരിചയപ്പെടുത്തൽ വീണ്ടും കാണിക്കും. ‘വിവരങ്ങൾ’ ആപ്പിന്റെ പതിപ്പും ലൈസൻസുകളും കാണിക്കും.';
+
+  @override
+  String get helpGuideSettingsBatteryTitle => 'ബാറ്ററി ലാഭിക്കാൻ';
+
+  @override
+  String get helpGuideSettingsBatteryBullet1 =>
+      'സ്കാൻ സ്ക്രീനിൽ നിന്നോ ആപ്പിൽ നിന്നോ പുറത്തുപോകുന്ന ഉടൻ ക്യാമറ ഓഫാകും.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet2 =>
+      'കുറഞ്ഞ ഊർജ്ജം ഉപയോഗിക്കാൻ ക്യാമറ ക്രമീകരണങ്ങളിൽ 720p തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet3 =>
+      'ആവശ്യമില്ലാത്തപ്പോൾ സ്കാൻ ബബിൾ ഓഫാക്കുക.';
+
+  @override
+  String get helpGuideSettingsBatteryBullet4 =>
+      'OLED സ്ക്രീനുള്ള ഫോണുകളിൽ OLED തീം ഉപയോഗിക്കുക.';
+
+  @override
+  String get helpGuideSettingsTip =>
+      'നുറുങ്ങ്: എന്തെങ്കിലും എവിടെയാണെന്ന് ഉറപ്പില്ലേ? ഇവിടത്തെ ഓരോ വഴികാട്ടിയും തൊടേണ്ട ബട്ടണിന്റെ പേരു പറയുന്നു.';
+
+  @override
+  String get helpGuideFaqName => 'പതിവ് ചോദ്യങ്ങളും പ്രശ്നങ്ങളും';
+
+  @override
+  String get helpGuideFaqSummary =>
+      'സാധാരണ ചോദ്യങ്ങൾക്കുള്ള ഉത്തരങ്ങളും, എന്തെങ്കിലും പ്രവർത്തിക്കാത്തപ്പോഴുള്ള പരിഹാരങ്ങളും.';
+
+  @override
+  String get helpGuideFaqIntro =>
+      'സാധാരണ ചോദ്യങ്ങൾക്കുള്ള ചുരുക്ക ഉത്തരങ്ങളും, എന്തെങ്കിലും പ്രവർത്തിക്കാത്തപ്പോൾ എന്തു ചെയ്യണമെന്നും.';
+
+  @override
+  String get helpGuideFaqQuestionsTitle => 'സാധാരണ ചോദ്യങ്ങൾ';
+
+  @override
+  String get helpGuideFaqQuestion1 =>
+      'ഇന്റർനെറ്റ് ഇല്ലാതെ ആപ്പ് പ്രവർത്തിക്കുമോ?\nഉവ്വ്. കോഡ് വായിക്കൽ, ആദ്യത്തെ നാലു ലിങ്ക് പരിശോധനകൾ, ക്വിഷിംഗ് ഗാർഡ് എന്നിവയെല്ലാം ഓഫ്‌ലൈനായി പ്രവർത്തിക്കും. ഐച്ഛികമായ ഓൺലൈൻ പരിശോധനകൾക്കു മാത്രമേ ഇന്റർനെറ്റ് വേണ്ടൂ.';
+
+  @override
+  String get helpGuideFaqQuestion2 =>
+      'എന്റെ ക്യാമറ ദൃശ്യങ്ങൾ എവിടേക്കെങ്കിലും അയയ്ക്കുമോ?\nഇല്ല. ദൃശ്യങ്ങൾ നിങ്ങളുടെ ഫോണിൽത്തന്നെ വായിക്കുന്നു; ഒരിക്കലും സൂക്ഷിക്കുകയോ അപ്‌ലോഡ് ചെയ്യുകയോ ഇല്ല.';
+
+  @override
+  String get helpGuideFaqQuestion3 =>
+      'ആപ്പ് എന്നെക്കുറിച്ചുള്ള വിവരങ്ങൾ ശേഖരിക്കുന്നുണ്ടോ?\nഇല്ല. പരസ്യങ്ങളോ പിന്തുടരലോ വിശകലനങ്ങളോ ഇല്ല. നിങ്ങളുടെ നാൾവഴി നിങ്ങളുടെ ഫോണിൽത്തന്നെ നിൽക്കും.';
+
+  @override
+  String get helpGuideFaqQuestion4 =>
+      'ആപ്പ് എന്തിനാണ് അനുമതി ചോദിക്കുന്നത്?\nആവശ്യമുള്ള ഒരു സവിശേഷത, ഉദാഹരണത്തിന് സ്കാനിംഗിനുള്ള ക്യാമറ, ഉപയോഗിക്കുമ്പോൾ മാത്രം. മുഴുവൻ പട്ടികയ്ക്ക് ക്രമീകരണങ്ങൾ > അനുമതികൾ കാണുക.';
+
+  @override
+  String get helpGuideFaqQuestion5 =>
+      'ഭാഷ എങ്ങനെ മാറ്റാം?\nക്രമീകരണങ്ങൾ > ഭാഷ എന്നതിൽ ചെല്ലുക. ആപ്പ് ഉടൻ മാറും.';
+
+  @override
+  String get helpGuideFaqQuestion6 =>
+      'എല്ലാം എങ്ങനെ ഇല്ലാതാക്കാം?\nക്രമീകരണങ്ങൾ > സ്വകാര്യതയും നെറ്റ്‌വർക്ക് പരിശോധനയും > എല്ലാ വിവരങ്ങളും ഇല്ലാതാക്കുക. നാൾവഴിയിൽ ഓരോ സ്കാനായും ഇല്ലാതാക്കാം.';
+
+  @override
+  String get helpGuideFaqQuestion7 =>
+      'ഞാൻ വിശ്വസിക്കുന്ന ഒരു ലിങ്ക് സുരക്ഷിതമല്ല എന്നു കാണിക്കുന്നു. എന്തുകൊണ്ട്?\nപരിശോധനകൾ മുന്നറിയിപ്പു ലക്ഷണങ്ങൾ നോക്കുന്നു; ചില യഥാർത്ഥ സൈറ്റുകളിലും അവ ഉണ്ടാകാം. ഉറവിടത്തെക്കുറിച്ച് ഉറപ്പുണ്ടെങ്കിൽ എന്നിട്ടും തുറക്കാം.';
+
+  @override
+  String get helpGuideFaqQuestion8 =>
+      'ആപ്പ് ധാരാളം ബാറ്ററി ഉപയോഗിക്കുമോ?\nഇല്ല. സ്കാൻ സ്ക്രീൻ വിടുന്ന ഉടൻ ക്യാമറ നിൽക്കും. കൂടുതൽ ബാറ്ററി നുറുങ്ങുകൾക്ക് ക്രമീകരണ സഹായി കാണുക.';
+
+  @override
+  String get helpGuideFaqCameraTitle => 'കോഡ് സ്കാൻ ആകുന്നില്ലെങ്കിൽ';
+
+  @override
+  String get helpGuideFaqCameraBullet1 =>
+      'ക്യാമറ ലെൻസ് വൃത്തിയാക്കി, ഫോൺ കോഡിൽ നിന്ന് ഏകദേശം 15 മുതൽ 20 സെ.മീ. (6 മുതൽ 8 ഇഞ്ച്) അകലെ പിടിക്കുക.';
+
+  @override
+  String get helpGuideFaqCameraBullet2 =>
+      'ഇരുണ്ട സ്ഥലത്ത് ഫ്ലാഷ് ഓണാക്കുക. തിളങ്ങുന്ന കോഡാണെങ്കിൽ തിളക്കം മാറാൻ ഫോൺ അൽപം ചരിക്കുക.';
+
+  @override
+  String get helpGuideFaqCameraBullet3 =>
+      'ചെറുതോ ദൂരെയുള്ളതോ ആയ കോഡിന്, വളരെ അടുത്തു പോകുന്നതിനു പകരം സൂം സ്ലൈഡറോ ‘ദൂര സ്കാൻ സഹായം’ ഉപയോഗിക്കുക.';
+
+  @override
+  String get helpGuideFaqCameraBullet4 =>
+      'ഇരുണ്ട പശ്ചാത്തലത്തിലെ തെളിഞ്ഞ കോഡിന്, ക്യാമറ ക്രമീകരണങ്ങളിൽ ‘നിറങ്ങൾ വിപരീതമാക്കുക’ ഓണാക്കുക.';
+
+  @override
+  String get helpGuideFaqCameraBullet5 =>
+      'കേടായതോ മങ്ങിയതോ ആയ കോഡിന്, ക്യാമറ ക്രമീകരണങ്ങളിലെ തെളിച്ചവും കോൺട്രാസ്റ്റും നോക്കുക, അല്ലെങ്കിൽ ഫോട്ടോ എടുത്ത് ഗാലറിയിൽ നിന്ന് സ്കാൻ ചെയ്യുക.';
+
+  @override
+  String get helpGuideFaqFixTitle => 'മറ്റു പ്രശ്നങ്ങൾ';
+
+  @override
+  String get helpGuideFaqFixBullet1 =>
+      'ക്യാമറ തുറക്കുന്നില്ല: ക്യാമറയ്ക്ക് അനുമതി നിഷേധിച്ചിട്ടുണ്ടെങ്കിൽ, Android ക്രമീകരണങ്ങൾ > ആപ്പുകൾ > SreerajP QR Studio > അനുമതികൾ > ക്യാമറ എന്നതിൽ ചെന്ന് ‘അനുവദിക്കുക’ തിരഞ്ഞെടുക്കുക.';
+
+  @override
+  String get helpGuideFaqFixBullet2 =>
+      'വൈ-ഫൈ ബന്ധിപ്പിക്കുന്നില്ല: പാസ്‌വേഡ് പകർത്തി ഫോണിന്റെ വൈ-ഫൈ ക്രമീകരണങ്ങളിൽ നെറ്റ്‌വർക്കിൽ ചേരുക.';
+
+  @override
+  String get helpGuideFaqFixBullet3 =>
+      'പണമിടപാട് ആപ്പ് തുറക്കുന്നില്ല: ഒരു UPI ആപ്പ് ഇൻസ്റ്റാൾ ചെയ്തിട്ടുണ്ടെന്ന് ഉറപ്പാക്കുക. UPI ഐഡി പകർത്തുകയുമാവാം.';
+
+  @override
+  String get helpGuideFaqFixBullet4 =>
+      'സ്കാൻ ബബിൾ അപ്രത്യക്ഷമാകുന്നു: ചില ഫോണുകൾ പശ്ചാത്തലത്തിലെ ആപ്പുകൾ നിർത്തും. ഫോണിന്റെ ബാറ്ററി ക്രമീകരണങ്ങളിൽ ഈ ആപ്പിനെ അനുവദിക്കുക.';
+
+  @override
+  String get helpGuideFaqFixBullet5 =>
+      'ഒരു ഓൺലൈൻ പരിശോധന ഒഴിവാക്കി എന്നു കാണിക്കുന്നു: ആ പരിശോധകൻ ഓഫാണ്, അല്ലെങ്കിൽ കീ ഇല്ല. ശരിയാക്കാൻ ഫലത്തിലെ ‘ക്രമീകരണങ്ങളിൽ സജ്ജമാക്കുക’ തൊടുക.';
+
+  @override
+  String get helpGuideFaqTip =>
+      'നുറുങ്ങ്: ഇപ്പോഴും പ്രശ്നമുണ്ടോ? കോഡിന്റെ വ്യക്തമായ ഒരു ഫോട്ടോ എടുത്ത് ഗാലറിയിൽ നിന്ന് സ്കാൻ ചെയ്യുക.';
+
+  @override
+  String get titleHelpBarcode => 'കോഡ് സ്കാനിംഗ്';
+
+  @override
+  String get titleHelpArCodeVision => 'AR കോഡ്‌വിഷൻ';
+
+  @override
+  String get titleHelpAirQr => 'എയർ ക്യുആർ സഹായി';
+
+  @override
+  String get titleHelpUrlSafety => 'ലിങ്ക് സുരക്ഷ';
+
+  @override
+  String get titleHelpQuishing => 'ക്വിഷിംഗ് ഗാർഡ്';
+
+  @override
+  String get titleHelpSafeBrowsing => 'ഓൺലൈൻ പരിശോധകർ';
+
+  @override
+  String get titleHelpSmartPayloads => 'സ്മാർട്ട് പ്രവർത്തനങ്ങൾ';
+
+  @override
+  String get titleHelpHistory => 'നാൾവഴിയും സ്വകാര്യതയും';
 
   @override
   String get titleHelpFaq => 'പതിവ് ചോദ്യങ്ങൾ';
 
   @override
-  String get helpGuideFaqName => 'പതിവ് ചോദ്യങ്ങളും പ്രശ്നപരിഹാരവും';
+  String get titleHelpScanBubble => 'മറ്റ് ആപ്പുകളിൽ നിന്ന്';
 
   @override
-  String get helpGuideFaqSummary =>
-      'സാധാരണ ചോദ്യങ്ങൾ, ക്യാമറ ഫോക്കസ് നുറുങ്ങുകൾ, അനുമതി വീണ്ടെടുക്കൽ, ഓഫ്‌ലൈൻ ഉറപ്പുകൾ.';
+  String get titleHelpCodeForge => 'കോഡ് നിർമ്മാണം';
 
   @override
-  String get helpGuideFaqIntro =>
-      'ശ്രീരാജ് പി ക്യുആർ സ്റ്റുഡിയോയെക്കുറിച്ചുള്ള സാധാരണ ചോദ്യങ്ങൾക്കുള്ള ഉത്തരങ്ങൾ, ക്യാമറ പ്രശ്നങ്ങൾക്കുള്ള പരിഹാരങ്ങൾ, സ്വകാര്യതയെക്കുറിച്ചുള്ള വിശദീകരണങ്ങൾ.';
+  String get titleHelpHiddenCodes => 'പൂട്ടിയ കോഡുകൾ';
 
   @override
-  String get helpGuideFaqQuestionsTitle => 'പതിവ് ചോദ്യങ്ങൾ';
-
-  @override
-  String get helpGuideFaqQuestion1 =>
-      'ചോ: ഇന്റർനെറ്റ് ഇല്ലാതെ ആപ്പ് പ്രവർത്തിക്കുമോ?\nഉവ്വ്! ബാർകോഡ് വായന, QuishingGuard CV പരിശോധനകൾ, URL സുരക്ഷാ പരിശോധനകൾ (ലെയർ 1-4) എന്നിവയെല്ലാം പൂർണ്ണമായും ഓഫ്‌ലൈനായി പ്രവർത്തിക്കുന്നു.';
-
-  @override
-  String get helpGuideFaqQuestion2 =>
-      'ചോ: എന്റെ ക്യാമറ ദൃശ്യങ്ങൾ ഏതെങ്കിലും സെർവറിലേക്ക് അയയ്ക്കുന്നുണ്ടോ?\nഇല്ല. ക്യാമറ ഫ്രെയിമുകൾ ഉപകരണത്തിലെ താൽക്കാലിക മെമ്മറിയിൽ മാത്രമാണ് കൈകാര്യം ചെയ്യുന്നത്. അവ ഒരിക്കലും റെക്കോർഡ് ചെയ്യുകയോ സേവ് ചെയ്യുകയോ അപ്‌ലോഡ് ചെയ്യുകയോ ഇല്ല.';
-
-  @override
-  String get helpGuideFaqQuestion3 =>
-      'ചോ: Google Safe Browsing എന്തുകൊണ്ട് ഐച്ഛികമാണ്?\nസ്വകാര്യതയ്ക്കാണ് ഞങ്ങൾ ആദ്യ പരിഗണന നൽകുന്നത്. ഓഫ്‌ലൈൻ സുരക്ഷാ ലെയറുകൾ ഉടൻ തന്നെ നിങ്ങളെ സംരക്ഷിക്കുന്നു. Google Cloud API കീ ഉള്ളവർക്ക് വേണമെങ്കിൽ മാത്രം Google Safe Browsing ഓണാക്കാം.';
-
-  @override
-  String get helpGuideFaqCameraTitle => 'ക്യാമറ പ്രശ്നപരിഹാരം';
-
-  @override
-  String get helpGuideFaqCameraBullet1 =>
-      'ക്യാമറ ഫോക്കസ് ആകുന്നില്ലെങ്കിൽ: ലെൻസ് വൃത്തിയാണെന്ന് ഉറപ്പാക്കി ഉപകരണം 15-20 സെ.മീ. അകലെ പിടിക്കുക. വെളിച്ചം കുറവാണെങ്കിൽ ഫ്ലാഷ്‌ലൈറ്റ് ഐക്കണിൽ തൊടുക.';
-
-  @override
-  String get helpGuideFaqCameraBullet2 =>
-      'വളരെ ചെറുതോ തിങ്ങിയതോ ആയ ക്യുആർ കോഡ്: ഫോൺ വളരെ അടുത്തേക്ക് കൊണ്ടുവരുന്നതിനു പകരം സൂം സ്ലൈഡർ ഉപയോഗിച്ച് കോഡ് വലുതാക്കുക.';
-
-  @override
-  String get helpGuideFaqCameraBullet3 =>
-      'അനുമതി നിഷേധിച്ചാൽ: ക്യാമറ അനുമതി പിൻവലിച്ചിട്ടുണ്ടെങ്കിൽ, Android ക്രമീകരണങ്ങൾ -> ആപ്പുകൾ -> SreerajP QR Studio -> അനുമതികൾ -> ക്യാമറ -> അനുവദിക്കുക എന്നതിലേക്ക് പോകുക.';
-
-  @override
-  String get helpGuideFaqTip =>
-      'നുറുങ്ങ്: അസാധാരണമായ ഒരു ബാർകോഡ് ഫോർമാറ്റ് കണ്ടാൽ, അതിന്റെ ഫോട്ടോ എടുത്ത് ഗാലറി സ്കാൻ വഴി പൂർണ്ണ റെസല്യൂഷനിൽ പരിശോധിക്കുക.';
+  String get titleHelpSettings => 'ക്രമീകരണ സഹായി';
 
   @override
   String get tooltipResultMoreActions => 'കൂടുതൽ';
@@ -3728,11 +4313,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get tooltipSandboxHidePreview => 'പ്രിവ്യൂ മറയ്ക്കുക';
 
   @override
-  String labelQuishingCompactGenuine(String percent) {
-    return 'യഥാർത്ഥം · $percent%';
-  }
-
-  @override
   String get labelScanBubble => 'സ്കാൻ ബബിൾ';
 
   @override
@@ -3793,84 +4373,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get labelHistorySourceScreen => 'സ്ക്രീനിൽ നിന്ന്';
-
-  @override
-  String get helpPermissionOverlayTitle => 'മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ കാണിക്കുക';
-
-  @override
-  String get helpPermissionOverlayDesc =>
-      'സ്കാൻ ബബിൾ മാത്രം ഉപയോഗിക്കുന്നു, നിങ്ങൾ അത് ഓണാക്കിയ ശേഷം മാത്രം. ബബിളിനെ മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ നിർത്തുന്നു.';
-
-  @override
-  String get helpPermissionNotificationTitle => 'അറിയിപ്പുകൾ';
-
-  @override
-  String get helpPermissionNotificationDesc =>
-      'ബബിൾ ഓണായിരിക്കുമ്പോൾ, ഓഫാക്കാനുള്ള ബട്ടണോടൊപ്പം \"സ്കാൻ ബബിൾ ഓണാണ്\" എന്ന് കാണിക്കുന്നു.';
-
-  @override
-  String get helpGuideScanBubbleName => 'സ്കാൻ ബബിൾ';
-
-  @override
-  String get helpGuideScanBubbleSummary =>
-      'മറ്റ് ആപ്പുകളിൽ കാണുന്ന ക്യുആർ കോഡുകളും ബാർകോഡുകളും സ്കാൻ ചെയ്യാനുള്ള ഒഴുകുന്ന ബട്ടൺ.';
-
-  @override
-  String get helpGuideScanBubbleIntro =>
-      'സ്കാൻ ബബിൾ മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ നിൽക്കുന്ന ഒരു ചെറിയ വട്ട ബട്ടണാണ്. സ്ക്രീനിൽ ക്യുആർ കോഡോ ബാർകോഡോ ഉള്ളപ്പോൾ ബബിളിൽ തൊട്ടാൽ, ആപ്പ് അത് ഓഫ്‌ലൈനായി നിങ്ങളുടെ ഫോണിൽ തന്നെ വായിക്കും.';
-
-  @override
-  String get helpGuideScanBubbleUseTitle => 'എങ്ങനെ ഉപയോഗിക്കാം';
-
-  @override
-  String get helpGuideScanBubbleUseBullet1 =>
-      'ക്രമീകരണം > സ്കാൻ ബബിൾ, ക്വിക്ക് സെറ്റിംഗ്സിലെ സ്കാൻ ബബിൾ ടൈൽ, അല്ലെങ്കിൽ ആപ്പ് ഐക്കൺ അമർത്തിപ്പിടിക്കൽ എന്നിവയിലൂടെ ഇത് ഓണാക്കാം.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet2 =>
-      'ക്യുആർ കോഡോ ബാർകോഡോ കാണിക്കുന്ന ഏതെങ്കിലും ആപ്പ് തുറന്ന് ബബിളിൽ തൊടുക.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet3 =>
-      'സ്ക്രീൻ പകർത്താൻ ആൻഡ്രോയിഡ് അനുമതി ചോദിക്കും. അനുവദിച്ചാൽ, സാധാരണ സുരക്ഷാ പരിശോധനകളോടെ ഫലം തുറക്കും.';
-
-  @override
-  String get helpGuideScanBubbleUseBullet4 =>
-      'ബബിൾ നീക്കാൻ അത് വലിക്കുക. ഓഫാക്കാൻ സ്ക്രീനിന്റെ താഴെയുള്ള X-ലേക്ക് വലിച്ചിടുക.';
-
-  @override
-  String get helpGuideScanBubblePrivacyTitle => 'സ്വകാര്യത';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet1 =>
-      'നിങ്ങൾ ബബിളിൽ തൊടുമ്പോൾ മാത്രമേ സ്ക്രീൻ പകർത്തുകയുള്ളൂ, ആൻഡ്രോയിഡ് എപ്പോഴും ആദ്യം ചോദിക്കും.';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet2 =>
-      'കോഡ് നിങ്ങളുടെ ഫോണിൽ തന്നെ വായിക്കുന്നു. വായിക്കാനായി ഒന്നും ഓൺലൈനിൽ അയയ്ക്കുന്നില്ല.';
-
-  @override
-  String get helpGuideScanBubblePrivacyBullet3 =>
-      'സ്ക്രീൻ ചിത്രം ഗാലറിയിൽ സൂക്ഷിക്കുന്നില്ല, വായിച്ച ഉടനെ മായ്ക്കുന്നു.';
-
-  @override
-  String get helpGuideScanBubbleLimitsTitle => 'അറിഞ്ഞിരിക്കേണ്ടവ';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet1 =>
-      'ആൻഡ്രോയിഡ് 14-ലും പുതിയവയിലും, ഓരോ തവണ തൊടുമ്പോഴും സ്ക്രീൻ പകർത്താനുള്ള അനുമതി ചോദിക്കും.';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet2 =>
-      'ബാങ്കിംഗ്, പേയ്‌മെന്റ്, ചില വീഡിയോ ആപ്പുകൾ സ്ക്രീൻ പകർത്തുന്നത് തടയുന്നു. അവയിലെ കോഡുകൾ വായിക്കാനാവില്ല.';
-
-  @override
-  String get helpGuideScanBubbleLimitsBullet3 =>
-      'ചില ഫോണുകളിൽ ബബിളിനെ മറയ്ക്കാനോ നിർത്താനോ കഴിയുന്ന അധിക \"പോപ്പ്-അപ്പ് വിൻഡോ\" അല്ലെങ്കിൽ ബാറ്ററി ക്രമീകരണങ്ങൾ ഉണ്ട്.';
-
-  @override
-  String get helpGuideScanBubbleTip =>
-      'നുറുങ്ങ്: സ്കാൻ ബബിൾ ടൈൽ ക്വിക്ക് സെറ്റിംഗ്സിൽ ചേർക്കുക. പിന്നെ ഏത് ആപ്പിൽ നിന്നും ഒറ്റ തൊടലിൽ ബബിൾ ഓണാക്കാനും ഓഫാക്കാനും കഴിയും.';
 
   @override
   String get labelCodeForgeBarcodeContent => 'ബാർകോഡ് ഉള്ളടക്കം';

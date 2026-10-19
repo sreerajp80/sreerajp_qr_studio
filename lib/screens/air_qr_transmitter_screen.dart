@@ -30,7 +30,8 @@ class AirQrTransmitterScreen extends StatefulWidget {
   State<AirQrTransmitterScreen> createState() => _AirQrTransmitterScreenState();
 }
 
-class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
+class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
+    with WidgetsBindingObserver {
   final TextEditingController _textController = TextEditingController();
   final TextEditingController _passphraseController = TextEditingController();
   final DeviceSyncService _deviceSyncService = DeviceSyncService();
@@ -50,6 +51,7 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _mode = widget.startInSyncMode
         ? AirQrTransmitMode.deviceSync
         : AirQrTransmitMode.customText;
@@ -99,6 +101,7 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _broadcastTimer?.cancel();
     _textController.dispose();
     _passphraseController.dispose();
@@ -205,6 +208,25 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen> {
         _encodedFrames = frames;
         _currentFrameIndex = 0;
       });
+    }
+  }
+
+  /// Pauses the frame timer while the app is in the background (nobody can
+  /// see the screen), and starts it again when the app comes back.
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.detached:
+        _broadcastTimer?.cancel();
+        _broadcastTimer = null;
+        break;
+      case AppLifecycleState.resumed:
+        if (_isBroadcasting && _broadcastTimer == null) _startBroadcasting();
+        break;
+      case AppLifecycleState.inactive:
+        break;
     }
   }
 

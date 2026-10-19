@@ -48,6 +48,10 @@ class CameraSettingsProvider extends ChangeNotifier {
   bool _autoTorchActive = false;
   StreamSubscription<double>? _lightSubscription;
 
+  /// True while a camera screen has its camera open. The light sensor is
+  /// read only then, and only in auto flash mode, to save battery.
+  bool _isCameraActive = false;
+
   Offset? _focusPoint;
   DateTime? _focusPointTimestamp;
 
@@ -57,7 +61,6 @@ class CameraSettingsProvider extends ChangeNotifier {
   }) : _lightSensorService = lightSensorService ?? LightSensorService(),
        _colorMatrixService = colorMatrixService ?? const ColorMatrixService() {
     _loadPreferences();
-    _startLightSensorMonitoring();
   }
 
   CameraFlashMode get flashMode => _flashMode;
@@ -68,6 +71,7 @@ class CameraSettingsProvider extends ChangeNotifier {
   double? get currentLux => _currentLux;
   bool get isLightSensorAvailable => _isLightSensorAvailable;
   bool get autoTorchActive => _autoTorchActive;
+  bool get isCameraActive => _isCameraActive;
   Offset? get focusPoint => _focusPoint;
   DateTime? get focusPointTimestamp => _focusPointTimestamp;
 
@@ -149,11 +153,45 @@ class CameraSettingsProvider extends ChangeNotifier {
         stackTrace: st,
       );
     } finally {
+      _updateLightSensor();
+      notifyListeners();
+    }
+  }
+
+  /// Tells the provider whether a camera is open right now. Camera screens
+  /// call this when their camera starts and stops.
+  void setCameraActive(bool active) {
+    if (_isCameraActive == active || _isDisposed) return;
+    _isCameraActive = active;
+    _updateLightSensor();
+  }
+
+  /// Listens to the light sensor only while a camera is open and the flash
+  /// mode is auto. Any other time the sensor is left off to save battery.
+  void _updateLightSensor() {
+    final needed =
+        _isCameraActive && _flashMode == CameraFlashMode.auto && !_isDisposed;
+    if (needed) {
+      _startLightSensorMonitoring();
+    } else {
+      _stopLightSensorMonitoring();
+    }
+  }
+
+  void _stopLightSensorMonitoring() {
+    final subscription = _lightSubscription;
+    if (subscription == null) return;
+    _lightSubscription = null;
+    subscription.cancel();
+    _currentLux = null;
+    if (_autoTorchActive) {
+      _autoTorchActive = false;
       notifyListeners();
     }
   }
 
   void _startLightSensorMonitoring() {
+    if (_lightSubscription != null) return;
     try {
       _lightSubscription = _lightSensorService.luxStream.listen(
         (lux) {
@@ -193,6 +231,7 @@ class CameraSettingsProvider extends ChangeNotifier {
     } else if (_currentLux != null && _currentLux! < 12.0) {
       _autoTorchActive = true;
     }
+    _updateLightSensor();
     notifyListeners();
 
     try {
@@ -387,6 +426,7 @@ class CameraSettingsProvider extends ChangeNotifier {
   void dispose() {
     _isDisposed = true;
     _lightSubscription?.cancel();
+    _lightSubscription = null;
     super.dispose();
   }
 }

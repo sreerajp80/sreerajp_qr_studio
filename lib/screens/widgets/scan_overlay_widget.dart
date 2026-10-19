@@ -12,6 +12,10 @@ class ScanOverlayWidget extends StatefulWidget {
   final Rect? detectedBoundingBox;
   final List<Offset>? detectedCorners;
   final bool isSuccess;
+
+  /// False while the camera is stopped or scanning is paused. The idle
+  /// animation then stops, so no frames are drawn for nothing.
+  final bool isActive;
   final VoidCallback? onAnimationComplete;
 
   const ScanOverlayWidget({
@@ -21,6 +25,7 @@ class ScanOverlayWidget extends StatefulWidget {
     this.detectedBoundingBox,
     this.detectedCorners,
     this.isSuccess = false,
+    this.isActive = true,
     this.onAnimationComplete,
   });
 
@@ -39,7 +44,8 @@ class _ScanOverlayWidgetState extends State<ScanOverlayWidget>
     _idleController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2000),
-    )..repeat(reverse: true);
+    );
+    if (widget.isActive) _idleController.repeat(reverse: true);
 
     _successController = AnimationController(
       vsync: this,
@@ -64,7 +70,13 @@ class _ScanOverlayWidgetState extends State<ScanOverlayWidget>
       });
     } else if (oldWidget.isSuccess && !widget.isSuccess) {
       _successController.reset();
-      _idleController.repeat(reverse: true);
+      if (widget.isActive) _idleController.repeat(reverse: true);
+    } else if (!widget.isSuccess && oldWidget.isActive != widget.isActive) {
+      if (widget.isActive) {
+        _idleController.repeat(reverse: true);
+      } else {
+        _idleController.stop();
+      }
     }
   }
 

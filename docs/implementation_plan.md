@@ -180,6 +180,12 @@ No mobile QR app combines dual-layer steganography with biometric authorization.
 
 #### 3.2 Feature 2: QuishingGuard — Physical Print & Sticker Tamper Detector ✅ [COMPLETED]
 
+> **Update (2026-10-18):** the camera analysis described below was removed. The camera
+> frames never reached it, so every scan showed a made-up "Authentic" score, and the frame
+> math could not tell a sticker from a normal code. QuishingGuard is now an honest reminder
+> card with hand checks (see `plans/20261018_112550_quishing_guard_honest.md`). The text below
+> is kept as history.
+
 ##### What It Is:
 An on-device computer vision engine designed specifically to detect **"Quishing"** (QR Phishing via physical malicious sticker overlays placed over legitimate public posters, parking meters, or restaurant tables).
 

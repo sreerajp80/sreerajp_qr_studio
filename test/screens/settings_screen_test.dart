@@ -163,10 +163,7 @@ void main() {
 
       expect(find.byType(PermissionsSettingsScreen), findsOneWidget);
       expect(find.text('Permissions Overview'), findsOneWidget);
-      expect(
-        find.text('Explicit Permissions (Runtime / Manifest)'),
-        findsOneWidget,
-      );
+      expect(find.text('Asked when needed'), findsOneWidget);
     });
 
     testWidgets('Navigates to Help Center page on card tap', (tester) async {
@@ -182,10 +179,10 @@ void main() {
       await tester.pump(const Duration(milliseconds: 300));
 
       expect(find.byType(HelpHomeScreen), findsOneWidget);
-      expect(find.text('Help Center & User Guides'), findsOneWidget);
-      expect(find.text('Barcode & Media Scanning'), findsOneWidget);
-      expect(find.text('AR CodeVision™ Spatial HUD'), findsOneWidget);
-      expect(find.text('AirQR™ Optical Air-Gap Stream'), findsOneWidget);
+      expect(find.text('How to use this app'), findsOneWidget);
+      expect(find.text('Scanning codes'), findsOneWidget);
+      expect(find.text('AR CodeVision'), findsOneWidget);
+      expect(find.text('Scan from other apps'), findsOneWidget);
     });
 
     testWidgets('Navigates to About screen on card tap', (tester) async {

@@ -3,11 +3,14 @@ import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/screens/help/air_qr_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/ar_codevision_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/barcode_scanning_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/code_forge_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/faq_troubleshooting_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/hidden_codes_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/history_privacy_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/quishing_guard_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/safe_browsing_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/scan_bubble_help_screen.dart';
+import 'package:sreerajp_qr_studio/screens/help/settings_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/smart_payloads_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/help/url_safety_help_screen.dart';
 import 'package:sreerajp_qr_studio/screens/onboarding_screen.dart';
@@ -36,101 +39,139 @@ class HelpHomeScreen extends StatelessWidget {
               onTap: () =>
                   _push(context, const OnboardingScreen(isReplay: true)),
             ),
-            const SizedBox(height: 20),
-
-            _buildSectionHeader(
+            ..._buildGroup(
               context,
               l10n.helpGuideGroupScanning,
               Icons.qr_code_scanner,
+              [
+                _HelpTopicCard(
+                  icon: Icons.document_scanner_outlined,
+                  title: l10n.helpGuideBarcodeName,
+                  subtitle: l10n.helpGuideBarcodeSummary,
+                  onTap: () =>
+                      _push(context, const BarcodeScanningHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.view_in_ar,
+                  title: l10n.helpGuideArCodeVisionName,
+                  subtitle: l10n.helpGuideArCodeVisionSummary,
+                  onTap: () => _push(context, const ArCodeVisionHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.bubble_chart_outlined,
+                  title: l10n.helpGuideScanBubbleName,
+                  subtitle: l10n.helpGuideScanBubbleSummary,
+                  onTap: () => _push(context, const ScanBubbleHelpScreen()),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.document_scanner_outlined,
-              title: l10n.helpGuideBarcodeName,
-              subtitle: l10n.helpGuideBarcodeSummary,
-              onTap: () => _push(context, const BarcodeScanningHelpScreen()),
+            ..._buildGroup(
+              context,
+              l10n.helpGuideGroupCreate,
+              Icons.qr_code_2,
+              [
+                _HelpTopicCard(
+                  icon: Icons.brush_outlined,
+                  title: l10n.helpGuideCodeForgeName,
+                  subtitle: l10n.helpGuideCodeForgeSummary,
+                  onTap: () => _push(context, const CodeForgeHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.stream,
+                  title: l10n.helpGuideAirQrName,
+                  subtitle: l10n.helpGuideAirQrSummary,
+                  onTap: () => _push(context, const AirQrHelpScreen()),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.view_in_ar,
-              title: l10n.helpGuideArCodeVisionName,
-              subtitle: l10n.helpGuideArCodeVisionSummary,
-              onTap: () => _push(context, const ArCodeVisionHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.stream,
-              title: l10n.helpGuideAirQrName,
-              subtitle: l10n.helpGuideAirQrSummary,
-              onTap: () => _push(context, const AirQrHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.bubble_chart_outlined,
-              title: l10n.helpGuideScanBubbleName,
-              subtitle: l10n.helpGuideScanBubbleSummary,
-              onTap: () => _push(context, const ScanBubbleHelpScreen()),
-            ),
-            const SizedBox(height: 22),
-
-            _buildSectionHeader(
+            ..._buildGroup(
               context,
               l10n.helpGuideGroupSecurity,
               Icons.security_outlined,
+              [
+                _HelpTopicCard(
+                  icon: Icons.shield_outlined,
+                  title: l10n.helpGuideUrlSafetyName,
+                  subtitle: l10n.helpGuideUrlSafetySummary,
+                  onTap: () => _push(context, const UrlSafetyHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.policy_outlined,
+                  title: l10n.helpGuideQuishingName,
+                  subtitle: l10n.helpGuideQuishingSummary,
+                  onTap: () => _push(context, const QuishingGuardHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.vpn_key_outlined,
+                  title: l10n.helpGuideSafeBrowsingName,
+                  subtitle: l10n.helpGuideSafeBrowsingSummary,
+                  onTap: () => _push(context, const SafeBrowsingHelpScreen()),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.shield_outlined,
-              title: l10n.helpGuideUrlSafetyName,
-              subtitle: l10n.helpGuideUrlSafetySummary,
-              onTap: () => _push(context, const UrlSafetyHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.policy_outlined,
-              title: l10n.helpGuideQuishingName,
-              subtitle: l10n.helpGuideQuishingSummary,
-              onTap: () => _push(context, const QuishingGuardHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.vpn_key_outlined,
-              title: l10n.helpGuideSafeBrowsingName,
-              subtitle: l10n.helpGuideSafeBrowsingSummary,
-              onTap: () => _push(context, const SafeBrowsingHelpScreen()),
-            ),
-            const SizedBox(height: 22),
-
-            _buildSectionHeader(
+            ..._buildGroup(
               context,
               l10n.helpGuideGroupPayloads,
               Icons.inventory_2_outlined,
+              [
+                _HelpTopicCard(
+                  icon: Icons.touch_app_outlined,
+                  title: l10n.helpGuideSmartPayloadsName,
+                  subtitle: l10n.helpGuideSmartPayloadsSummary,
+                  onTap: () => _push(context, const SmartPayloadsHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.enhanced_encryption_outlined,
+                  title: l10n.helpGuideHiddenName,
+                  subtitle: l10n.helpGuideHiddenSummary,
+                  onTap: () => _push(context, const HiddenCodesHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.history_edu_outlined,
+                  title: l10n.helpGuideHistoryName,
+                  subtitle: l10n.helpGuideHistorySummary,
+                  onTap: () => _push(context, const HistoryPrivacyHelpScreen()),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.touch_app_outlined,
-              title: l10n.helpGuideSmartPayloadsName,
-              subtitle: l10n.helpGuideSmartPayloadsSummary,
-              onTap: () => _push(context, const SmartPayloadsHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.history_edu_outlined,
-              title: l10n.helpGuideHistoryName,
-              subtitle: l10n.helpGuideHistorySummary,
-              onTap: () => _push(context, const HistoryPrivacyHelpScreen()),
-            ),
-            const SizedBox(height: 10),
-            _HelpTopicCard(
-              icon: Icons.help_center_outlined,
-              title: l10n.helpGuideFaqName,
-              subtitle: l10n.helpGuideFaqSummary,
-              onTap: () => _push(context, const FaqTroubleshootingHelpScreen()),
+            ..._buildGroup(
+              context,
+              l10n.helpGuideGroupApp,
+              Icons.settings_outlined,
+              [
+                _HelpTopicCard(
+                  icon: Icons.tune,
+                  title: l10n.helpGuideSettingsName,
+                  subtitle: l10n.helpGuideSettingsSummary,
+                  onTap: () => _push(context, const SettingsHelpScreen()),
+                ),
+                _HelpTopicCard(
+                  icon: Icons.help_center_outlined,
+                  title: l10n.helpGuideFaqName,
+                  subtitle: l10n.helpGuideFaqSummary,
+                  onTap: () =>
+                      _push(context, const FaqTroubleshootingHelpScreen()),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  /// A group heading followed by its topic cards, with even spacing.
+  List<Widget> _buildGroup(
+    BuildContext context,
+    String title,
+    IconData icon,
+    List<Widget> cards,
+  ) {
+    return [
+      const SizedBox(height: 22),
+      _buildSectionHeader(context, title, icon),
+      for (final card in cards) ...[const SizedBox(height: 10), card],
+    ];
   }
 
   void _push(BuildContext context, Widget screen) {

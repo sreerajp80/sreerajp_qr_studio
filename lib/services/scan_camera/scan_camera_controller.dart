@@ -90,6 +90,19 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   /// changed while the camera runs.
   DistanceScanConfig? distanceAssist;
 
+  /// Shortest gap between two frame decodes. [Duration.zero] decodes every
+  /// frame (AirQR needs this to catch fast-changing frames).
+  final Duration minFrameGap;
+
+  /// Gap between decodes after [idleAfter] with no code and no user action.
+  final Duration idleFrameGap;
+
+  /// Time with no code and no user action before [idleFrameGap] is used.
+  final Duration idleAfter;
+
+  DateTime? _lastDecodeStart;
+  DateTime _lastActivity = DateTime.now();
+
   /// Shortest gap between two distance assist tries.
   static const Duration distanceAssistInterval = Duration(milliseconds: 600);
 
@@ -110,6 +123,29 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
         : DecodeProfile.fast;
   }
 
+  /// Default shortest gap between two frame decodes (about 15 a second).
+  /// Fast enough to feel instant, but keeps the CPU from running flat out.
+  static const Duration defaultMinFrameGap = Duration(milliseconds: 66);
+
+  /// Default gap once no code has been seen for [defaultIdleAfter]
+  /// (about 5 decodes a second), to save battery while nothing is in view.
+  static const Duration defaultIdleFrameGap = Duration(milliseconds: 200);
+
+  /// Default time with no code and no user action before the slower
+  /// [defaultIdleFrameGap] is used.
+  static const Duration defaultIdleAfter = Duration(seconds: 8);
+
+  /// The gap to wait between decodes, given how long it has been since the
+  /// last code was found or the user last touched the camera.
+  static Duration frameGapFor({
+    required Duration sinceActivity,
+    required Duration minGap,
+    required Duration idleGap,
+    required Duration idleAfter,
+  }) {
+    return sinceActivity >= idleAfter ? idleGap : minGap;
+  }
+
   /// Frames per debug timing log line.
   static const int _timingLogFrames = 30;
 
@@ -120,6 +156,9 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
     this.profile = DecodeProfile.live,
     this.maxSymbols = 8,
     this.distanceAssist,
+    this.minFrameGap = defaultMinFrameGap,
+    this.idleFrameGap = defaultIdleFrameGap,
+    this.idleAfter = defaultIdleAfter,
     CameraLensDirection facing = CameraLensDirection.back,
     BarcodeDecoder? decoder,
     DistanceEnhancementService? distanceEnhancementService,
@@ -206,6 +245,8 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
       }
       if (value.zoomScale > 0) await _applyZoom(value.zoomScale);
 
+      _lastDecodeStart = null;
+      noteActivity();
       await camera.startImageStream(_onFrame);
       _setValue(
         value.copyWith(
@@ -291,6 +332,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   /// Sets zoom as a 0–1 fraction between minimum and maximum zoom.
   Future<void> setZoomScale(double scale) async {
     final clamped = scale.clamp(0.0, 1.0);
+    noteActivity();
     _setValue(value.copyWith(zoomScale: clamped));
     await _applyZoom(clamped);
   }
@@ -306,6 +348,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   /// Focuses (and meters exposure) on a point given as 0–1 fractions of the
   /// preview width and height.
   Future<void> setFocusPoint(Offset normalized) async {
+    noteActivity();
     final camera = _camera;
     if (camera == null || !camera.value.isInitialized) return;
     final point = Offset(
@@ -322,9 +365,26 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
     } catch (_) {}
   }
 
+  /// Marks user activity (focus tap, zoom), so decoding goes back to the
+  /// full speed right away.
+  void noteActivity() => _lastActivity = DateTime.now();
+
   Future<void> _onFrame(CameraImage image) async {
     if (_decoding || _disposed || _camera == null) return;
     if (image.planes.isEmpty) return;
+    final now = DateTime.now();
+    final lastStart = _lastDecodeStart;
+    if (lastStart != null) {
+      final gap = frameGapFor(
+        sinceActivity: now.difference(_lastActivity),
+        minGap: minFrameGap,
+        idleGap: idleFrameGap,
+        idleAfter: idleAfter,
+      );
+      // Skip this frame to save battery; a newer one comes soon.
+      if (now.difference(lastStart) < gap) return;
+    }
+    _lastDecodeStart = now;
     _decoding = true;
     try {
       final description = _camera?.description;
@@ -388,6 +448,7 @@ class ScanCameraController extends ValueNotifier<ScanCameraState> {
   }
 
   void _emit(List<ScannedCode> codes, Size upright, bool mirror) {
+    noteActivity();
     final visible = mirror
         ? codes.map((c) => _mirror(c, upright.width)).toList()
         : codes;

@@ -71,6 +71,7 @@ void main() {
       await Future<void>.delayed(Duration.zero);
 
       await provider.setFlashMode(CameraFlashMode.auto);
+      provider.setCameraActive(true);
       expect(provider.shouldTorchBeOn, isFalse);
 
       // Low light condition (< 12 lux)
@@ -98,6 +99,62 @@ void main() {
       provider.dispose();
       mockService.dispose();
     });
+
+    test('Light sensor is off until a camera is open in auto mode', () async {
+      final mockService = MockLightSensorService();
+      final provider = CameraSettingsProvider(lightSensorService: mockService);
+      await Future<void>.delayed(Duration.zero);
+
+      // App start: no camera, flash off -> sensor not read.
+      expect(mockService.controller.hasListener, isFalse);
+
+      // Camera open but flash mode is off -> still not read.
+      provider.setCameraActive(true);
+      expect(mockService.controller.hasListener, isFalse);
+
+      // Camera open and auto mode -> sensor is read.
+      await provider.setFlashMode(CameraFlashMode.auto);
+      expect(mockService.controller.hasListener, isTrue);
+
+      // Camera closes -> sensor stops and auto torch goes off.
+      mockService.controller.add(5.0);
+      await Future<void>.delayed(Duration.zero);
+      expect(provider.autoTorchActive, isTrue);
+      provider.setCameraActive(false);
+      expect(mockService.controller.hasListener, isFalse);
+      expect(provider.autoTorchActive, isFalse);
+      expect(provider.currentLux, isNull);
+
+      // Camera open again, then flash mode changed away from auto -> stops.
+      provider.setCameraActive(true);
+      expect(mockService.controller.hasListener, isTrue);
+      await provider.setFlashMode(CameraFlashMode.on);
+      expect(mockService.controller.hasListener, isFalse);
+
+      provider.dispose();
+      mockService.dispose();
+    });
+
+    test(
+      'Saved auto mode starts the sensor only with an open camera',
+      () async {
+        SharedPreferences.setMockInitialValues({'camera_flash_mode': 'auto'});
+        final mockService = MockLightSensorService();
+        final provider = CameraSettingsProvider(
+          lightSensorService: mockService,
+        );
+        await Future<void>.delayed(Duration.zero);
+
+        expect(provider.flashMode, CameraFlashMode.auto);
+        expect(mockService.controller.hasListener, isFalse);
+        provider.setCameraActive(true);
+        expect(mockService.controller.hasListener, isTrue);
+
+        provider.dispose();
+        expect(mockService.controller.hasListener, isFalse);
+        mockService.dispose();
+      },
+    );
 
     test(
       'Brightness and contrast adjustments update state and clamp safely',

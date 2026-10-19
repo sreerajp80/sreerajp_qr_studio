@@ -162,7 +162,7 @@ class _ScanBubbleSettingsScreenState extends State<ScanBubbleSettingsScreen>
                           ? Colors.green
                           : theme.colorScheme.error,
                     ),
-                    title: Text(l10n.helpPermissionOverlayTitle),
+                    title: Text(l10n.labelPermOverlay),
                     subtitle: Text(
                       provider.hasOverlayPermission
                           ? l10n.descScanBubblePermissionGranted
