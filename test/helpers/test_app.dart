@@ -15,6 +15,7 @@ Widget buildTestApp({
   required Widget home,
   Locale locale = const Locale('en'),
   List<SingleChildWidget> providers = const [],
+  Map<String, WidgetBuilder> routes = const {},
 }) {
   final app = MaterialApp(
     locale: locale,
@@ -27,6 +28,7 @@ Widget buildTestApp({
     ],
     supportedLocales: AppLocalizations.supportedLocales,
     home: home,
+    routes: routes,
   );
   if (providers.isEmpty) return app;
   return MultiProvider(providers: providers, child: app);

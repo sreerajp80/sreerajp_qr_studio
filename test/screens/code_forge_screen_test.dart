@@ -70,6 +70,7 @@ void main() {
           ),
         ],
         home: const CodeForgeScreen(),
+        routes: {'/settings': (_) => const Text('settings-route')},
       ),
     );
     await tester.pumpAndSettle();
@@ -95,6 +96,16 @@ void main() {
       expectAllIconButtonsHaveTooltips(tester);
     });
   }
+
+  testWidgets('Settings button opens the Settings screen', (tester) async {
+    final l10n = l10nFor(const Locale('en'));
+    await pumpScreen(tester);
+
+    await tester.tap(find.byTooltip(l10n.actionMenuSettings));
+    await tester.pumpAndSettle();
+
+    expect(find.text('settings-route'), findsOneWidget);
+  });
 
   testWidgets('Wi-Fi preset: missing SSID shows a localized error', (
     tester,

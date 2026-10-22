@@ -158,6 +158,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   ? () => _confirmClearAll(context)
                   : null,
             ),
+            IconButton(
+              icon: const Icon(Icons.settings_outlined),
+              tooltip: l10n.actionMenuSettings,
+              onPressed: () => Navigator.of(context).pushNamed('/settings'),
+            ),
           ],
         ),
         body: SafeArea(

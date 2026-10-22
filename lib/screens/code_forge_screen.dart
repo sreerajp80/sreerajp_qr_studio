@@ -191,6 +191,11 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
               _showCopiedSnackBar(context);
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.settings_outlined),
+            tooltip: l10n.actionMenuSettings,
+            onPressed: () => Navigator.of(context).pushNamed('/settings'),
+          ),
         ],
       ),
       body: SafeArea(

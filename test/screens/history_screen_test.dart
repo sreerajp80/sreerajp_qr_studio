@@ -98,6 +98,7 @@ void main() {
         ),
       ],
       home: const HistoryScreen(),
+      routes: {'/settings': (_) => const Text('settings-route')},
     );
   }
 
@@ -125,6 +126,17 @@ void main() {
       },
     );
   }
+
+  testWidgets('Settings button opens the Settings screen', (tester) async {
+    final l10n = l10nFor(const Locale('en'));
+    await tester.pumpWidget(app(sampleRecords));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byTooltip(l10n.actionMenuSettings));
+    await tester.pumpAndSettle();
+
+    expect(find.text('settings-route'), findsOneWidget);
+  });
 
   testWidgets('search box filters the list', (tester) async {
     final l10n = l10nFor(const Locale('en'));
