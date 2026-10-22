@@ -142,8 +142,16 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  /// True when no other page is shown on top of this screen.
+  ///
+  /// The camera must start only then. Otherwise this hidden screen takes the
+  /// camera away from a camera screen on top (AirQR, AR CodeVision), whose
+  /// preview then goes black.
+  bool get _isTopRoute => ModalRoute.of(context)?.isCurrent ?? true;
+
   Future<void> _resumeCamera() async {
     if (mounted &&
+        _isTopRoute &&
         _isScanning &&
         controller != null &&
         controller!.value.isInitialized) {
@@ -393,7 +401,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         controller != null &&
         controller!.value.isInitialized) {
       await Future.delayed(const Duration(milliseconds: 300));
-      if (mounted && _isScanning && controller != null) {
+      if (mounted && _isTopRoute && _isScanning && controller != null) {
         try {
           if (!controller!.value.isRunning) {
             await controller!.start();
@@ -405,6 +413,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           );
           await Future.delayed(const Duration(milliseconds: 400));
           if (mounted &&
+              _isTopRoute &&
               _isScanning &&
               controller != null &&
               !controller!.value.isRunning) {
@@ -432,7 +441,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         } catch (_) {}
         break;
       case AppLifecycleState.resumed:
-        if (_isScanning) {
+        if (_isScanning && _isTopRoute) {
           try {
             if (!controller!.value.isRunning) {
               controller?.start();
@@ -478,7 +487,7 @@ class _ScannerScreenState extends State<ScannerScreen>
         controller != null &&
         controller!.value.isInitialized) {
       await Future.delayed(const Duration(milliseconds: 300));
-      if (mounted && _isScanning && controller != null) {
+      if (mounted && _isTopRoute && _isScanning && controller != null) {
         try {
           if (!controller!.value.isRunning) {
             await controller!.start();
@@ -487,6 +496,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           AppLogger.warning('Initial camera start failed; retrying', error: e);
           await Future.delayed(const Duration(milliseconds: 400));
           if (mounted &&
+              _isTopRoute &&
               _isScanning &&
               controller != null &&
               !controller!.value.isRunning) {
