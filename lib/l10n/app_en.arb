@@ -5837,5 +5837,53 @@
   "errorAppLockFailed": "Could not confirm it is you. Try again.",
   "@errorAppLockFailed": {
     "description": "Shown when fingerprint, face or screen lock authentication fails or is cancelled."
+  },
+  "titleIdCard": "ID card",
+  "@titleIdCard": {
+    "description": "Title of the result card for a scanned driving licence or ID card barcode (max 20 characters)"
+  },
+  "labelIdCardName": "Name",
+  "@labelIdCardName": {
+    "description": "ID card result: label for the card holder's full name"
+  },
+  "labelIdCardBirthDate": "Date of birth",
+  "@labelIdCardBirthDate": {
+    "description": "ID card result: label for the card holder's date of birth"
+  },
+  "labelIdCardExpiry": "Expires",
+  "@labelIdCardExpiry": {
+    "description": "ID card result: label for the date the card stops being valid"
+  },
+  "labelIdCardNumber": "Document number",
+  "@labelIdCardNumber": {
+    "description": "ID card result: label for the licence or ID number (shown masked until the user taps Show)"
+  },
+  "labelIdCardIssuer": "Issued by",
+  "@labelIdCardIssuer": {
+    "description": "ID card result: label for the state or province (and country) that issued the card"
+  },
+  "labelIdCardAddress": "Address",
+  "@labelIdCardAddress": {
+    "description": "ID card result: label for the card holder's home address"
+  },
+  "actionIdCardShowNumber": "Show number",
+  "@actionIdCardShowNumber": {
+    "description": "ID card result: button that reveals the masked document number"
+  },
+  "actionIdCardHideNumber": "Hide number",
+  "@actionIdCardHideNumber": {
+    "description": "ID card result: button that masks the document number again"
+  },
+  "actionIdCardCopy": "Copy details",
+  "@actionIdCardCopy": {
+    "description": "ID card result: button that copies the shown card details to the clipboard"
+  },
+  "bodyIdCardNotSaved": "ID card data is not saved to history.",
+  "@bodyIdCardNotSaved": {
+    "description": "ID card result: note that scans of ID cards are never stored in the scan history"
+  },
+  "helpGuideSmartPayloadsOtherBullet7": "ID card (US or Canadian driving licence): see the name, dates and address. The number stays hidden until you tap Show. ID cards are never saved to history.",
+  "@helpGuideSmartPayloadsOtherBullet7": {
+    "description": "Smart actions guide: what the ID card result shows, and that it is not saved to history"
   }
 }

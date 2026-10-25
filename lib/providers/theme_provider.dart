@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 
 /// Supported application theme modes.
 enum AppThemeMode { system, light, dark, oled }
@@ -73,7 +74,9 @@ class ThemeProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefThemeModeKey, mode.name);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning('Theme mode setting could not be saved', error: e);
+    }
   }
 
   /// Toggles or sets Material You dynamic color support (Android 12+ Monet engine).
@@ -85,7 +88,9 @@ class ThemeProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_prefUseDynamicColorKey, enabled);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning('Dynamic color setting could not be saved', error: e);
+    }
   }
 
   /// Sets the active scanner overlay style.
@@ -97,7 +102,12 @@ class ThemeProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefScanOverlayStyleKey, style.name);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning(
+        'Scan overlay style setting could not be saved',
+        error: e,
+      );
+    }
   }
 
   static const List<String> fontFallback = [

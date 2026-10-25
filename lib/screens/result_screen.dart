@@ -20,6 +20,7 @@ import 'package:sreerajp_qr_studio/screens/widgets/phone_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/sms_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/app_link_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/product_barcode_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/id_card_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/isbn_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/sticker_check_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/dom_sandbox_preview_card.dart';
@@ -199,6 +200,8 @@ class _ResultScreenState extends State<ResultScreen> {
       return ProductBarcodeActionCard(payload: payload);
     } else if (payload is IsbnPayload) {
       return IsbnActionCard(payload: payload);
+    } else if (payload is IdCardPayload) {
+      return IdCardActionCard(payload: payload);
     }
     return const SizedBox();
   }
@@ -248,6 +251,8 @@ class _ResultScreenState extends State<ResultScreen> {
                   ? Icons.qr_code_scanner
                   : payload is IsbnPayload
                   ? Icons.menu_book
+                  : payload is IdCardPayload
+                  ? Icons.badge
                   : provider.scanType == CodeContentType.url
                   ? Icons.link
                   : Icons.qr_code,

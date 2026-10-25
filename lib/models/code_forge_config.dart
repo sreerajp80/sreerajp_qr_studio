@@ -1,4 +1,6 @@
-import 'package:material_ui/material_ui.dart';
+import 'dart:ui';
+
+import 'package:flutter/foundation.dart';
 
 /// Supported barcode types in CodeForge.
 enum CodeForgeBarcodeType {

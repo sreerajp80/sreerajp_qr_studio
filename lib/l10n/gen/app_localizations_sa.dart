@@ -4568,4 +4568,41 @@ class AppLocalizationsSa extends AppLocalizations {
   @override
   String get errorAppLockFailed =>
       'भवान् एव इति निश्चेतुं न शक्यम्। पुनः प्रयत्यताम्।';
+
+  @override
+  String get titleIdCard => 'परिचयपत्रम्';
+
+  @override
+  String get labelIdCardName => 'नाम';
+
+  @override
+  String get labelIdCardBirthDate => 'जन्मदिनाङ्कः';
+
+  @override
+  String get labelIdCardExpiry => 'अवधिसमाप्तिः';
+
+  @override
+  String get labelIdCardNumber => 'पत्रसङ्ख्या';
+
+  @override
+  String get labelIdCardIssuer => 'प्रदाता';
+
+  @override
+  String get labelIdCardAddress => 'निवासस्थानम्';
+
+  @override
+  String get actionIdCardShowNumber => 'सङ्ख्यां दर्शयतु';
+
+  @override
+  String get actionIdCardHideNumber => 'सङ्ख्यां गोपयतु';
+
+  @override
+  String get actionIdCardCopy => 'विवरणं प्रतिलिख्यताम्';
+
+  @override
+  String get bodyIdCardNotSaved => 'परिचयपत्रस्य विवरणम् इतिवृत्ते न रक्ष्यते।';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet7 =>
+      'परिचयपत्रम् (अमेरिका-कनाडा-देशयोः वाहनचालन-अनुज्ञापत्रम्): नाम, दिनाङ्काः, निवासस्थानं च दृश्यन्ते। \'दर्शयतु\' इति स्पृष्टपर्यन्तं सङ्ख्या गुप्ता तिष्ठति। परिचयपत्राणि इतिवृत्ते कदापि न रक्ष्यन्ते।';
 }

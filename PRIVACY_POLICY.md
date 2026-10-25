@@ -43,6 +43,9 @@ an individual developer.
 
 - **Scan history.** Stored in an encrypted database on your phone. The
   encryption key is kept in Android's secure storage.
+- **ID cards are not stored.** If you scan the barcode on a driving licence or
+  ID card, the app shows the details on screen only. It never saves them to
+  history and never sends them anywhere.
 - **Settings.** Your choices, such as language and theme.
 - **API keys you add.** If you add your own Google Safe Browsing or
   VirusTotal key, it is kept in Android's secure storage.

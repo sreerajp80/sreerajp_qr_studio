@@ -22,6 +22,12 @@ change is in [`change_log/`](change_log/).
   recording. This **Screenshot guard** is on by default; you can turn it off in
   Settings → Privacy.
 - A warning before exporting history or batch scans as an unencrypted file.
+- **Settings → Permissions** now lists every permission the app can use, in plain words, and
+  says why each one is needed.
+- A **Settings** button on the CodeForge and History tabs.
+- Driving licence / ID card barcodes (US and Canada) now show the name, dates, issuer and
+  address in a clear card. The document number stays hidden until you tap **Show number**.
+  ID card scans are never saved to history.
 
 ### Changed
 - Scan history is now encrypted with AES-256-GCM and a fresh random nonce for every field.
@@ -41,6 +47,11 @@ change is in [`change_log/`](change_log/).
 - The privacy policy now says correctly that the page preview runs by itself after a link scan,
   only when "Active online checks" is on. The "Private mode" note on a scanned link no longer
   names only Google Safe Browsing; it says the safety services you turned on were used.
+- Every Help guide is rewritten in plain words and covers every feature.
+- The fake sticker check no longer shows a made-up "authentic" score. It now gives an honest
+  reminder to check for a sticker placed over the real code.
+- Lower battery use: the light sensor runs only while the camera is open and the flash is
+  set to Auto.
 
 ### Fixed
 - Unexpected errors no longer show a raw error box in release builds; they are logged without
@@ -50,6 +61,16 @@ change is in [`change_log/`](change_log/).
   are found.
 - Screen scan no longer stays silent right after first-run onboarding (until the app was
   restarted, captures were not decoded).
+- AirQR Receiver and AR CodeVision no longer show a black camera when opened from the Scan
+  screen menu.
+- Live scanning can no longer stop silently if the background barcode reader stops
+  responding; it now starts a fresh reader.
+- The "Online checks" card in Settings is readable in dark mode, and menu icons are clear in
+  light mode.
+- CodeForge previews of Code 128, EAN, UPC and Code 39 barcodes now show the numbers under the
+  bars (before, the preview could be blank or the numbers could not be seen).
+- Text no longer runs off the screen in the camera adjustments panel or on the label under a
+  detected code, in any language or with large text.
 
 ## [4.1.0+34] — 2026-10-12 (`Release_20261012`)
 

@@ -8011,6 +8011,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not confirm it is you. Try again.'**
   String get errorAppLockFailed;
+
+  /// Title of the result card for a scanned driving licence or ID card barcode (max 20 characters)
+  ///
+  /// In en, this message translates to:
+  /// **'ID card'**
+  String get titleIdCard;
+
+  /// ID card result: label for the card holder's full name
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get labelIdCardName;
+
+  /// ID card result: label for the card holder's date of birth
+  ///
+  /// In en, this message translates to:
+  /// **'Date of birth'**
+  String get labelIdCardBirthDate;
+
+  /// ID card result: label for the date the card stops being valid
+  ///
+  /// In en, this message translates to:
+  /// **'Expires'**
+  String get labelIdCardExpiry;
+
+  /// ID card result: label for the licence or ID number (shown masked until the user taps Show)
+  ///
+  /// In en, this message translates to:
+  /// **'Document number'**
+  String get labelIdCardNumber;
+
+  /// ID card result: label for the state or province (and country) that issued the card
+  ///
+  /// In en, this message translates to:
+  /// **'Issued by'**
+  String get labelIdCardIssuer;
+
+  /// ID card result: label for the card holder's home address
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get labelIdCardAddress;
+
+  /// ID card result: button that reveals the masked document number
+  ///
+  /// In en, this message translates to:
+  /// **'Show number'**
+  String get actionIdCardShowNumber;
+
+  /// ID card result: button that masks the document number again
+  ///
+  /// In en, this message translates to:
+  /// **'Hide number'**
+  String get actionIdCardHideNumber;
+
+  /// ID card result: button that copies the shown card details to the clipboard
+  ///
+  /// In en, this message translates to:
+  /// **'Copy details'**
+  String get actionIdCardCopy;
+
+  /// ID card result: note that scans of ID cards are never stored in the scan history
+  ///
+  /// In en, this message translates to:
+  /// **'ID card data is not saved to history.'**
+  String get bodyIdCardNotSaved;
+
+  /// Smart actions guide: what the ID card result shows, and that it is not saved to history
+  ///
+  /// In en, this message translates to:
+  /// **'ID card (US or Canadian driving licence): see the name, dates and address. The number stays hidden until you tap Show. ID cards are never saved to history.'**
+  String get helpGuideSmartPayloadsOtherBullet7;
 }
 
 class _AppLocalizationsDelegate

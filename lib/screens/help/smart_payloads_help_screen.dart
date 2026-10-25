@@ -58,6 +58,7 @@ class SmartPayloadsHelpScreen extends StatelessWidget {
             l10n.helpGuideSmartPayloadsOtherBullet4,
             l10n.helpGuideSmartPayloadsOtherBullet5,
             l10n.helpGuideSmartPayloadsOtherBullet6,
+            l10n.helpGuideSmartPayloadsOtherBullet7,
           ],
         ),
       ],

@@ -4,6 +4,7 @@ import 'package:sreerajp_qr_studio/models/history_report_labels.dart';
 import 'package:sreerajp_qr_studio/models/scan_record.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 import 'package:sreerajp_qr_studio/services/history_export_service.dart';
+import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
 
 enum ExportFormat { csv, json, txt, pdf }
 
@@ -93,7 +94,14 @@ class HistoryProvider extends ChangeNotifier {
   }
 
   /// Adds a new scan record to history.
+  ///
+  /// Driving licence / ID card scans are personal ID data and are never
+  /// saved.
   Future<void> addScanRecord(ScanRecord record) async {
+    if (PayloadParserService.isIdCardData(record.rawContent)) {
+      AppLogger.info('ID card scan not saved to history');
+      return;
+    }
     try {
       await _dbService.insertRecord(record);
       await loadRecords();

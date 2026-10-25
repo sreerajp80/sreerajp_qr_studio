@@ -1,5 +1,6 @@
 import 'package:barcode/barcode.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/code_forge_config.dart';
 
 /// Canvas painter for rendering 1D and 2D barcodes (Code 128, EAN-13, UPC-A, etc.)
@@ -30,6 +31,10 @@ class CodeForgeBarcodePainter extends CustomPainter {
         width: size.width,
         height: size.height,
         drawText: config.includeTextLabel,
+        // package:barcode needs a font height when it draws text. These are
+        // the defaults its own toSvg uses, so the preview matches the export.
+        fontHeight: size.height * 0.2,
+        textPadding: size.height * 0.05,
       );
 
       for (final element in elements) {
@@ -63,8 +68,12 @@ class CodeForgeBarcodePainter extends CustomPainter {
           textPainter.paint(canvas, Offset(element.left, element.top));
         }
       }
-    } catch (_) {
-      // Fallback message if parameters cannot fit the canvas
+    } catch (e) {
+      // The data does not fit this barcode type; only the background shows.
+      // Only the error type is logged: the message may quote the user's data.
+      AppLogger.warning(
+        'CodeForge barcode preview could not be drawn (${e.runtimeType})',
+      );
     }
   }
 

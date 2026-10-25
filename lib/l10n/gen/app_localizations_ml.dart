@@ -4623,4 +4623,42 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get errorAppLockFailed =>
       'നിങ്ങളാണെന്ന് ഉറപ്പാക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.';
+
+  @override
+  String get titleIdCard => 'തിരിച്ചറിയൽ കാർഡ്';
+
+  @override
+  String get labelIdCardName => 'പേര്';
+
+  @override
+  String get labelIdCardBirthDate => 'ജനനത്തീയതി';
+
+  @override
+  String get labelIdCardExpiry => 'കാലാവധി തീരുന്നത്';
+
+  @override
+  String get labelIdCardNumber => 'രേഖയുടെ നമ്പർ';
+
+  @override
+  String get labelIdCardIssuer => 'നൽകിയത്';
+
+  @override
+  String get labelIdCardAddress => 'വിലാസം';
+
+  @override
+  String get actionIdCardShowNumber => 'നമ്പർ കാണിക്കുക';
+
+  @override
+  String get actionIdCardHideNumber => 'നമ്പർ മറയ്ക്കുക';
+
+  @override
+  String get actionIdCardCopy => 'വിവരങ്ങൾ പകർത്തുക';
+
+  @override
+  String get bodyIdCardNotSaved =>
+      'തിരിച്ചറിയൽ കാർഡ് വിവരങ്ങൾ നാൾവഴിയിൽ സൂക്ഷിക്കുന്നില്ല.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet7 =>
+      'തിരിച്ചറിയൽ കാർഡ് (യുഎസ് അല്ലെങ്കിൽ കാനഡ ഡ്രൈവിംഗ് ലൈസൻസ്): പേര്, തീയതികൾ, വിലാസം എന്നിവ കാണാം. \'കാണിക്കുക\' അമർത്തുന്നതുവരെ നമ്പർ മറച്ചുവയ്ക്കും. തിരിച്ചറിയൽ കാർഡുകൾ ഒരിക്കലും നാൾവഴിയിൽ സൂക്ഷിക്കില്ല.';
 }

@@ -2,6 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
 
+import '../helpers/id_card_samples.dart';
+
 void main() {
   group('PayloadParserService', () {
     late PayloadParserService parser;
@@ -315,6 +317,71 @@ END:VCALENDAR
 
       expect(payload, isA<GenericPayload>());
       expect(payload.rawContent, equals(raw));
+    });
+  });
+
+  group('ID card (AAMVA)', () {
+    final parser = PayloadParserService();
+
+    test('parses a US driving licence', () {
+      final payload = parser.parse(kSampleUsIdCard);
+
+      expect(payload, isA<IdCardPayload>());
+      final card = payload as IdCardPayload;
+      expect(card.firstName, 'JANE');
+      expect(card.middleName, 'Q');
+      expect(card.lastName, 'SAMPLE');
+      expect(card.fullName, 'JANE Q SAMPLE');
+      expect(card.documentNumber, 'D1234562');
+      expect(card.dateOfBirth, DateTime(1985, 1, 31));
+      expect(card.expiryDate, DateTime(2031, 1, 31));
+      expect(card.issuer, 'CA');
+      expect(card.country, 'USA');
+      expect(card.street, '123 MAIN STREET');
+      expect(card.city, 'SACRAMENTO');
+      expect(card.postalCode, '958220000');
+      expect(card.rawContent, kSampleUsIdCard);
+    });
+
+    test('parses a Canadian card with year-first dates and DCT names', () {
+      final card = parser.parse(kSampleCanadaIdCard) as IdCardPayload;
+
+      expect(card.firstName, 'MARIE');
+      expect(card.middleName, 'LOUISE');
+      expect(card.lastName, 'TREMBLAY');
+      expect(card.documentNumber, '987654321');
+      expect(card.dateOfBirth, DateTime(1990, 2, 15));
+      expect(card.expiryDate, DateTime(2030, 2, 15));
+      expect(card.address, isEmpty);
+    });
+
+    test('leaves broken or missing fields empty and never throws', () {
+      const raw =
+          '@\n\x1e\rANSI 636014090102DL00410278ZC03190024DLDAQ\n'
+          'DCSNONE\n'
+          'DBB13452020\n'
+          'DBA02312030\n'
+          'DACunavl\n'
+          'garbage line \u0000\n';
+      final card = parser.parse(raw) as IdCardPayload;
+
+      expect(card.documentNumber, isEmpty);
+      expect(card.lastName, isEmpty);
+      expect(card.firstName, isEmpty);
+      expect(card.dateOfBirth, isNull);
+      expect(card.expiryDate, isNull);
+    });
+
+    test('a header with no fields falls back to GenericPayload', () {
+      const raw = '@\n\x1e\rANSI 636014090102';
+      expect(parser.parse(raw), isA<GenericPayload>());
+    });
+
+    test('isIdCardData only matches AAMVA data', () {
+      expect(PayloadParserService.isIdCardData(kSampleUsIdCard), isTrue);
+      expect(PayloadParserService.isIdCardData('  $kSampleUsIdCard'), isTrue);
+      expect(PayloadParserService.isIdCardData('ANSI 636014'), isFalse);
+      expect(PayloadParserService.isIdCardData('@hello'), isFalse);
     });
   });
 }

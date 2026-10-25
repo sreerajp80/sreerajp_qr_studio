@@ -237,7 +237,9 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefFlashModeKey, mode.name);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning('Flash mode setting could not be saved', error: e);
+    }
   }
 
   /// Cycles through flash modes: Off -> On -> Auto -> Off.
@@ -315,7 +317,9 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString(_prefResolutionPresetKey, preset.name);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning('Resolution setting could not be saved', error: e);
+    }
   }
 
   /// Toggles distance-enhanced scanning pipeline.
@@ -332,7 +336,12 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_prefDistanceEnhanceModeKey, enabled);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning(
+        'Distance enhance setting could not be saved',
+        error: e,
+      );
+    }
   }
 
   /// Sets digital zoom factor applied to candidate distant ROIs (1.5 to 4.0).
@@ -345,7 +354,9 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setDouble(_prefDistanceZoomKey, clamped);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning('Distance zoom setting could not be saved', error: e);
+    }
   }
 
   /// Sets unsharp masking sharpening strength (0.5 to 2.5).
@@ -358,7 +369,12 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setDouble(_prefUnsharpStrengthKey, clamped);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning(
+        'Sharpen strength setting could not be saved',
+        error: e,
+      );
+    }
   }
 
   /// Sets whether multi-code tappable selection is enabled on the main scanner.
@@ -370,7 +386,12 @@ class CameraSettingsProvider extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(_prefMultiCodeSelectionKey, enabled);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning(
+        'Multi-code selection setting could not be saved',
+        error: e,
+      );
+    }
   }
 
   /// Resets brightness, contrast, inverted colors, distance zoom, edge
@@ -396,7 +417,12 @@ class CameraSettingsProvider extends ChangeNotifier {
       await prefs.remove(prefBrightnessKey);
       await prefs.remove(prefContrastKey);
       await prefs.remove(prefInvertColorsKey);
-    } catch (_) {}
+    } catch (e) {
+      AppLogger.warning(
+        'Camera adjustments reset could not be saved',
+        error: e,
+      );
+    }
   }
 
   /// Records tap-to-focus point and timestamp for animation.

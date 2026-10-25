@@ -10,6 +10,12 @@ class PayloadParserService {
     }
 
     try {
+      // 0. Driving licence / ID card (AAMVA PDF417)
+      if (isIdCardData(trimmed)) {
+        final idCard = _parseIdCard(content);
+        if (idCard != null) return idCard;
+      }
+
       // 1. Wi-Fi QR
       if (trimmed.toUpperCase().startsWith('WIFI:')) {
         final wifi = _parseWifi(trimmed);
@@ -106,6 +112,107 @@ class PayloadParserService {
     }
 
     return GenericPayload(content);
+  }
+
+  // --- ID Card (AAMVA) Parser ---
+
+  /// True for driving licence / ID card data. Same check as the barcode
+  /// classifier: `@` first, then an `ANSI ` or
+  /// `AAMVA` header near the start. Leading whitespace is ignored.
+  static bool isIdCardData(String raw) {
+    final value = raw.trimLeft();
+    if (!value.startsWith('@')) return false;
+    final head = value.length > 40 ? value.substring(0, 40) : value;
+    return head.contains('ANSI ') || head.contains('AAMVA');
+  }
+
+  /// A subfile starts with `DL` or `ID` right before its first element; on
+  /// the header line it follows a digit of the subfile directory.
+  /// Group 1 is the first element (code and value).
+  static final _subfileStart = RegExp(r'(?:^|\d)(?:DL|ID)(D[A-Z]{2}.*)$');
+  static final _elementLine = RegExp(r'^(D[A-Z]{2})(.*)$');
+
+  IdCardPayload? _parseIdCard(String raw) {
+    final fields = <String, String>{};
+    for (final rawLine in raw.split(RegExp(r'[\r\n\x1e]+'))) {
+      var line = rawLine.trim();
+      // No element code starts with "DL", so this only strips the subfile
+      // type, and only on the subfile's first line or the header line.
+      if (line.startsWith('DL') ||
+          line.startsWith('ID') ||
+          line.contains('ANSI ') ||
+          line.contains('AAMVA')) {
+        final subfile = _subfileStart.firstMatch(line);
+        if (subfile != null) line = subfile.group(1)!;
+      }
+      final element = _elementLine.firstMatch(line);
+      if (element == null) continue;
+      final value = element.group(2)!.trim();
+      if (value.isEmpty) continue;
+      fields.putIfAbsent(element.group(1)!, () => value);
+    }
+    if (fields.isEmpty) return null;
+
+    String field(List<String> codes) {
+      for (final code in codes) {
+        final value = fields[code];
+        if (value != null && !_isUnavailable(value)) return value;
+      }
+      return '';
+    }
+
+    final country = field(['DCG']);
+    final isCanada = country.toUpperCase() == 'CAN';
+    var firstName = field(['DAC', 'DCT']);
+    var middleName = field(['DAD']);
+    // Older cards put "first,middle" together in DCT.
+    if (middleName.isEmpty && firstName.contains(',')) {
+      final parts = firstName.split(',');
+      firstName = parts.first.trim();
+      middleName = parts.skip(1).join(' ').trim();
+    }
+
+    return IdCardPayload(
+      rawContent: raw,
+      firstName: firstName,
+      middleName: middleName,
+      lastName: field(['DCS', 'DAB']),
+      documentNumber: field(['DAQ']),
+      dateOfBirth: _parseAamvaDate(field(['DBB']), isCanada: isCanada),
+      expiryDate: _parseAamvaDate(field(['DBA']), isCanada: isCanada),
+      issuer: field(['DAJ']),
+      country: country,
+      street: field(['DAG']),
+      city: field(['DAI']),
+      postalCode: field(['DAK']),
+    );
+  }
+
+  /// AAMVA writes `NONE` or `unavl` for a missing value.
+  static bool _isUnavailable(String value) {
+    final lower = value.toLowerCase();
+    return lower == 'none' || lower == 'unavl' || lower == 'unavail';
+  }
+
+  /// US cards use MMDDCCYY, Canadian cards CCYYMMDD. Returns null for
+  /// anything that is not a real date.
+  static DateTime? _parseAamvaDate(String value, {required bool isCanada}) {
+    if (!RegExp(r'^\d{8}$').hasMatch(value)) return null;
+    final yearFirst = isCanada || int.parse(value.substring(0, 4)) > 1231;
+    final year = int.parse(
+      yearFirst ? value.substring(0, 4) : value.substring(4, 8),
+    );
+    final month = int.parse(
+      yearFirst ? value.substring(4, 6) : value.substring(0, 2),
+    );
+    final day = int.parse(
+      yearFirst ? value.substring(6, 8) : value.substring(2, 4),
+    );
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+    final date = DateTime(year, month, day);
+    // Reject dates that roll over, such as 31 February.
+    if (date.month != month || date.day != day) return null;
+    return date;
   }
 
   // --- Wi-Fi Parser ---

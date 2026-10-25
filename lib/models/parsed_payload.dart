@@ -14,6 +14,7 @@ enum PayloadType {
   appLink,
   productBarcode,
   isbn,
+  idCard,
   generic,
 }
 
@@ -243,4 +244,46 @@ class IsbnPayload extends ParsedPayload {
     required this.isbn,
     required this.isIsbn13,
   }) : super(type: PayloadType.isbn);
+}
+
+/// Driving licence / ID card data (AAMVA PDF417 on the back of US and
+/// Canadian cards). Every field is optional: a card may leave any out.
+class IdCardPayload extends ParsedPayload {
+  final String firstName;
+  final String middleName;
+  final String lastName;
+  final String documentNumber;
+  final DateTime? dateOfBirth;
+  final DateTime? expiryDate;
+  final String issuer;
+  final String country;
+  final String street;
+  final String city;
+  final String postalCode;
+
+  const IdCardPayload({
+    required super.rawContent,
+    this.firstName = '',
+    this.middleName = '',
+    this.lastName = '',
+    this.documentNumber = '',
+    this.dateOfBirth,
+    this.expiryDate,
+    this.issuer = '',
+    this.country = '',
+    this.street = '',
+    this.city = '',
+    this.postalCode = '',
+  }) : super(type: PayloadType.idCard);
+
+  /// Full name in reading order, without empty parts.
+  String get fullName => [
+    firstName,
+    middleName,
+    lastName,
+  ].where((part) => part.isNotEmpty).join(' ');
+
+  /// Street, city and postal code on one line, without empty parts.
+  String get address =>
+      [street, city, postalCode].where((part) => part.isNotEmpty).join(', ');
 }

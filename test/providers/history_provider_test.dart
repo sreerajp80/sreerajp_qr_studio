@@ -6,6 +6,8 @@ import 'package:sreerajp_qr_studio/providers/history_provider.dart';
 import 'package:sreerajp_qr_studio/services/history_database_schema.dart';
 import 'package:sreerajp_qr_studio/services/history_database_service.dart';
 
+import '../helpers/id_card_samples.dart';
+
 class FakeFlutterSecureStorage extends Fake implements FlutterSecureStorage {
   final Map<String, String> _storage = {};
 
@@ -86,6 +88,21 @@ void main() {
 
       expect(provider.totalCount, 1);
       expect(provider.records.first.rawContent, 'https://flutter.dev');
+    });
+
+    test('addScanRecord never saves ID card scans', () async {
+      await provider.addScanRecord(
+        ScanRecord(
+          id: 'id-1',
+          timestamp: DateTime.now(),
+          rawContent: kSampleUsIdCard,
+          barcodeFormat: 'pdf417',
+          category: 'text',
+        ),
+      );
+
+      expect(provider.totalCount, 0);
+      expect(provider.records, isEmpty);
     });
 
     test('setCategory filters records', () async {

@@ -4594,4 +4594,41 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorAppLockFailed => 'Could not confirm it is you. Try again.';
+
+  @override
+  String get titleIdCard => 'ID card';
+
+  @override
+  String get labelIdCardName => 'Name';
+
+  @override
+  String get labelIdCardBirthDate => 'Date of birth';
+
+  @override
+  String get labelIdCardExpiry => 'Expires';
+
+  @override
+  String get labelIdCardNumber => 'Document number';
+
+  @override
+  String get labelIdCardIssuer => 'Issued by';
+
+  @override
+  String get labelIdCardAddress => 'Address';
+
+  @override
+  String get actionIdCardShowNumber => 'Show number';
+
+  @override
+  String get actionIdCardHideNumber => 'Hide number';
+
+  @override
+  String get actionIdCardCopy => 'Copy details';
+
+  @override
+  String get bodyIdCardNotSaved => 'ID card data is not saved to history.';
+
+  @override
+  String get helpGuideSmartPayloadsOtherBullet7 =>
+      'ID card (US or Canadian driving licence): see the name, dates and address. The number stays hidden until you tap Show. ID cards are never saved to history.';
 }

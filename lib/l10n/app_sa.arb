@@ -1317,5 +1317,17 @@
   "actionUnlock": "उद्घाटयतु",
   "bodyAppLockReason": "SreerajP QR Studio उद्घाटयतु",
   "errorAppLockUnavailable": "प्रथमम् अस्मिन् दूरवाणीयन्त्रे पटल-तालकम् अङ्गुलिमुद्रां वा सज्जीकरोतु।",
-  "errorAppLockFailed": "भवान् एव इति निश्चेतुं न शक्यम्। पुनः प्रयत्यताम्।"
+  "errorAppLockFailed": "भवान् एव इति निश्चेतुं न शक्यम्। पुनः प्रयत्यताम्।",
+  "titleIdCard": "परिचयपत्रम्",
+  "labelIdCardName": "नाम",
+  "labelIdCardBirthDate": "जन्मदिनाङ्कः",
+  "labelIdCardExpiry": "अवधिसमाप्तिः",
+  "labelIdCardNumber": "पत्रसङ्ख्या",
+  "labelIdCardIssuer": "प्रदाता",
+  "labelIdCardAddress": "निवासस्थानम्",
+  "actionIdCardShowNumber": "सङ्ख्यां दर्शयतु",
+  "actionIdCardHideNumber": "सङ्ख्यां गोपयतु",
+  "actionIdCardCopy": "विवरणं प्रतिलिख्यताम्",
+  "bodyIdCardNotSaved": "परिचयपत्रस्य विवरणम् इतिवृत्ते न रक्ष्यते।",
+  "helpGuideSmartPayloadsOtherBullet7": "परिचयपत्रम् (अमेरिका-कनाडा-देशयोः वाहनचालन-अनुज्ञापत्रम्): नाम, दिनाङ्काः, निवासस्थानं च दृश्यन्ते। 'दर्शयतु' इति स्पृष्टपर्यन्तं सङ्ख्या गुप्ता तिष्ठति। परिचयपत्राणि इतिवृत्ते कदापि न रक्ष्यन्ते।"
 }

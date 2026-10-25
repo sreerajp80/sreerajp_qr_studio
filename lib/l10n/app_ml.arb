@@ -1317,5 +1317,17 @@
   "actionUnlock": "അൺലോക്ക് ചെയ്യുക",
   "bodyAppLockReason": "SreerajP QR Studio അൺലോക്ക് ചെയ്യുക",
   "errorAppLockUnavailable": "ആദ്യം ഈ ഫോണിൽ ഒരു സ്ക്രീൻ ലോക്കോ വിരലടയാളമോ സജ്ജമാക്കുക.",
-  "errorAppLockFailed": "നിങ്ങളാണെന്ന് ഉറപ്പാക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക."
+  "errorAppLockFailed": "നിങ്ങളാണെന്ന് ഉറപ്പാക്കാൻ കഴിഞ്ഞില്ല. വീണ്ടും ശ്രമിക്കുക.",
+  "titleIdCard": "തിരിച്ചറിയൽ കാർഡ്",
+  "labelIdCardName": "പേര്",
+  "labelIdCardBirthDate": "ജനനത്തീയതി",
+  "labelIdCardExpiry": "കാലാവധി തീരുന്നത്",
+  "labelIdCardNumber": "രേഖയുടെ നമ്പർ",
+  "labelIdCardIssuer": "നൽകിയത്",
+  "labelIdCardAddress": "വിലാസം",
+  "actionIdCardShowNumber": "നമ്പർ കാണിക്കുക",
+  "actionIdCardHideNumber": "നമ്പർ മറയ്ക്കുക",
+  "actionIdCardCopy": "വിവരങ്ങൾ പകർത്തുക",
+  "bodyIdCardNotSaved": "തിരിച്ചറിയൽ കാർഡ് വിവരങ്ങൾ നാൾവഴിയിൽ സൂക്ഷിക്കുന്നില്ല.",
+  "helpGuideSmartPayloadsOtherBullet7": "തിരിച്ചറിയൽ കാർഡ് (യുഎസ് അല്ലെങ്കിൽ കാനഡ ഡ്രൈവിംഗ് ലൈസൻസ്): പേര്, തീയതികൾ, വിലാസം എന്നിവ കാണാം. 'കാണിക്കുക' അമർത്തുന്നതുവരെ നമ്പർ മറച്ചുവയ്ക്കും. തിരിച്ചറിയൽ കാർഡുകൾ ഒരിക്കലും നാൾവഴിയിൽ സൂക്ഷിക്കില്ല."
 }

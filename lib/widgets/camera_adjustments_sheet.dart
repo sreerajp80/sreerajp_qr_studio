@@ -62,18 +62,28 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 ),
               ),
 
-              // Header title and reset button
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // Header title and reset button. They share one line when
+              // there is room; otherwise Reset moves under the title, so
+              // nothing runs off the screen in any language or text size.
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 8,
+                runSpacing: 4,
                 children: [
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.tune, color: theme.colorScheme.primary),
                       const SizedBox(width: 10),
-                      Text(
-                        l10n.titleCameraTune,
-                        style: theme.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      Flexible(
+                        child: Text(
+                          l10n.titleCameraTune,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ],
@@ -81,7 +91,11 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                   TextButton.icon(
                     onPressed: () => provider.resetAdjustments(),
                     icon: const Icon(Icons.refresh, size: 18),
-                    label: Text(l10n.actionCameraReset),
+                    label: Text(
+                      l10n.actionCameraReset,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ],
               ),
@@ -91,17 +105,24 @@ class CameraAdjustmentsSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.brightness_medium, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        l10n.labelCameraBrightness,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                  // The label shrinks so the value always fits.
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const Icon(Icons.brightness_medium, size: 20),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            l10n.labelCameraBrightness,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Text(
                     '${(provider.brightness * 100).round() > 0 ? '+' : ''}${(provider.brightness * 100).round()}%',
@@ -125,17 +146,23 @@ class CameraAdjustmentsSheet extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.contrast, size: 20),
-                      const SizedBox(width: 8),
-                      Text(
-                        l10n.labelCameraContrast,
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Row(
+                      children: [
+                        const Icon(Icons.contrast, size: 20),
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: Text(
+                            l10n.labelCameraContrast,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                   Text(
                     '${provider.contrast.toStringAsFixed(1)}x',
@@ -252,10 +279,14 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      l10n.labelCameraDistanceZoom,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                    Flexible(
+                      child: Text(
+                        l10n.labelCameraDistanceZoom,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     Text(
@@ -279,10 +310,14 @@ class CameraAdjustmentsSheet extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      l10n.labelCameraUnsharp,
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        fontWeight: FontWeight.w600,
+                    Flexible(
+                      child: Text(
+                        l10n.labelCameraUnsharp,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                     Text(

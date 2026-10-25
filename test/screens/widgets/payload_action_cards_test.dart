@@ -6,6 +6,7 @@ import 'package:sreerajp_qr_studio/screens/widgets/calendar_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/contact_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/email_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/geo_action_card.dart';
+import 'package:sreerajp_qr_studio/screens/widgets/id_card_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/isbn_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/payment_action_card.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/phone_action_card.dart';
@@ -16,6 +17,7 @@ import 'package:sreerajp_qr_studio/screens/widgets/wifi_action_card.dart';
 import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
 
 import '../../helpers/accessibility_checks.dart';
+import '../../helpers/id_card_samples.dart';
 import '../../helpers/test_app.dart';
 
 /// One sample scan per smart-payload card, with the payload type the parser
@@ -39,6 +41,7 @@ const Map<String, Type> _samples = {
   'market://details?id=com.example.app': AppLinkPayload,
   '9780306406157': IsbnPayload,
   '4006381333931': ProductBarcodePayload,
+  kSampleUsIdCard: IdCardPayload,
 };
 
 /// Builds the card the result screen shows for [payload].
@@ -56,6 +59,7 @@ Widget _cardFor(ParsedPayload payload) {
     AppLinkPayload() => AppLinkActionCard(payload: payload),
     IsbnPayload() => IsbnActionCard(payload: payload),
     ProductBarcodePayload() => ProductBarcodeActionCard(payload: payload),
+    IdCardPayload() => IdCardActionCard(payload: payload),
     _ => throw ArgumentError('No card for ${payload.runtimeType}'),
   };
 }

@@ -113,12 +113,18 @@ class MultiCodeBoundingBoxWidget extends StatelessWidget {
                               color: primaryColor,
                             ),
                             const SizedBox(width: 4),
-                            Text(
-                              barcode.displayLabel,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.bold,
+                            // Long labels end with "…" instead of running
+                            // past a small box.
+                            Flexible(
+                              child: Text(
+                                barcode.displayLabel,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 4),

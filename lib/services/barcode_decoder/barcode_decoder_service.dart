@@ -60,19 +60,29 @@ class BarcodeDecoderService implements BarcodeDecoder {
   /// down first to keep memory use bounded.
   static const int maxImageDimension = 4096;
 
-  Future<_DecoderWorker?>? _worker;
+  Future<DecoderWorker?>? _worker;
 
   /// Whether the native decoder can run on this platform.
   bool get isSupported => Platform.isAndroid;
 
-  Future<_DecoderWorker?> _getWorker() {
-    return _worker ??= _DecoderWorker.spawn()
-        .then<_DecoderWorker?>((worker) => worker)
+  Future<DecoderWorker?> _getWorker() {
+    final existing = _worker;
+    if (existing != null) return existing;
+    late final Future<DecoderWorker?> started;
+    started = DecoderWorker.spawn()
+        .then<DecoderWorker?>((worker) {
+          // A dead worker is dropped, so the next call starts a new one.
+          worker.onDead = () {
+            if (identical(_worker, started)) _worker = null;
+          };
+          return worker;
+        })
         .catchError((Object e) {
           AppLogger.error('Barcode decoder worker failed to start', error: e);
-          _worker = null;
+          if (identical(_worker, started)) _worker = null;
           return null;
         });
+    return _worker = started;
   }
 
   /// Starts the worker early so the first camera frame is not delayed.
@@ -219,40 +229,112 @@ class RgbaImage {
 }
 
 /// Owns the background isolate that runs [NativeBarcodeReader].
-class _DecoderWorker {
+///
+/// If the isolate exits, or keeps failing to answer, the worker marks itself
+/// dead: every waiting decode gets an empty result and [onDead] runs, so the
+/// service starts a fresh worker on the next call. A decode never waits
+/// forever, so a caller's "busy" flag is always reset.
+@visibleForTesting
+class DecoderWorker {
+  /// Longest a single decode may take before it gives an empty result.
+  static const Duration defaultTimeout = Duration(seconds: 10);
+
+  /// Timeouts in a row after which the worker is treated as stuck.
+  static const int maxTimeoutsInARow = 3;
+
   final SendPort _commands;
+  final Duration _timeout;
+  final Isolate? _isolate;
   final Map<int, Completer<List<ScannedCode>>> _pending = {};
   int _nextId = 0;
+  int _timeoutsInARow = 0;
+  bool _dead = false;
+  void Function()? _onClosed;
 
-  static Future<_DecoderWorker> spawn() async {
+  /// Called once, when the worker becomes unusable.
+  void Function()? onDead;
+
+  static Future<DecoderWorker> spawn() async {
     final responses = ReceivePort('barcode-decoder-responses');
     final broadcast = responses.asBroadcastStream();
-    await Isolate.spawn(
+    final isolate = await Isolate.spawn(
       _workerMain,
       responses.sendPort,
       debugName: 'barcode-decoder',
       errorsAreFatal: false,
+      onExit: responses.sendPort,
+      onError: responses.sendPort,
     );
     final commands = await broadcast
         .firstWhere((message) => message is SendPort)
         .timeout(const Duration(seconds: 10));
-    return _DecoderWorker._(commands as SendPort, broadcast);
+    return DecoderWorker(
+      commands as SendPort,
+      broadcast,
+      isolate: isolate,
+      onClosed: responses.close,
+    );
   }
 
-  _DecoderWorker._(this._commands, Stream<dynamic> responses) {
+  DecoderWorker(
+    this._commands,
+    Stream<dynamic> responses, {
+    this._timeout = defaultTimeout,
+    this._isolate,
+    this._onClosed,
+  }) {
     responses.listen((message) {
       if (message is (int, List<ScannedCode>)) {
+        _timeoutsInARow = 0;
         _pending.remove(message.$1)?.complete(message.$2);
+      } else if (message == null) {
+        // The isolate's exit listener sends null.
+        AppLogger.warning('Barcode decoder worker exited');
+        markDead();
+      } else if (message is List && message.length == 2) {
+        // An uncaught error inside the worker; it keeps running.
+        AppLogger.warning('Barcode decoder worker error: ${message.first}');
       }
     });
   }
 
+  /// Whether the worker can no longer decode.
+  bool get isDead => _dead;
+
+  /// Number of decodes still waiting for an answer.
+  @visibleForTesting
+  int get pendingCount => _pending.length;
+
   Future<List<ScannedCode>> decode(DecodeRequest request) {
+    if (_dead) return Future.value(const []);
     final id = _nextId++;
     final completer = Completer<List<ScannedCode>>();
     _pending[id] = completer;
     _commands.send((id, request));
-    return completer.future;
+    return completer.future.timeout(
+      _timeout,
+      onTimeout: () {
+        _pending.remove(id);
+        _timeoutsInARow++;
+        AppLogger.warning('Barcode decode timed out');
+        if (_timeoutsInARow >= maxTimeoutsInARow) markDead();
+        return const [];
+      },
+    );
+  }
+
+  /// Gives every waiting decode an empty result and stops the worker.
+  void markDead() {
+    if (_dead) return;
+    _dead = true;
+    for (final completer in _pending.values) {
+      if (!completer.isCompleted) completer.complete(const []);
+    }
+    _pending.clear();
+    _isolate?.kill(priority: Isolate.immediate);
+    _onClosed?.call();
+    _onClosed = null;
+    onDead?.call();
   }
 }
 
