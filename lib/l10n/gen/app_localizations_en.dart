@@ -1247,7 +1247,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get bodyPrivacyExplainerOff =>
-      'SSL, redirect and shortener checks run from local rules only. Malicious-content lookup still uses Google Safe Browsing (the link is sent only to Google, never to the scanned site).';
+      'SSL, redirect and shortener checks use local rules only, so the scanned site is never contacted. A link is sent to a safety service, such as Google Safe Browsing, only if you turned that service on in Settings.';
 
   @override
   String get bodyApiKeyDelete =>

@@ -1247,7 +1247,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get bodyPrivacyExplainerOff =>
-      'പ്രാദേശിക നിയമങ്ങൾ മാത്രമുപയോഗിച്ച് സുരക്ഷിതമായി പരിശോധിക്കുന്നു. ലിങ്കുകൾ മൂന്നാം കക്ഷി സെർവറുകളിലേക്ക് അയയ്ക്കില്ല.';
+      'SSL, റീഡയറക്ട്, ഷോർട്ട്‌നർ പരിശോധനകൾ പ്രാദേശിക നിയമങ്ങൾ മാത്രം ഉപയോഗിക്കുന്നു; സ്കാൻ ചെയ്ത സൈറ്റുമായി ബന്ധപ്പെടുന്നില്ല. ക്രമീകരണങ്ങളിൽ നിങ്ങൾ ഓണാക്കിയ സുരക്ഷാ സേവനത്തിലേക്ക് (ഉദാ. Google Safe Browsing) മാത്രമേ ലിങ്ക് അയയ്ക്കൂ.';
 
   @override
   String get bodyApiKeyDelete =>

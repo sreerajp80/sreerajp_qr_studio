@@ -1689,9 +1689,9 @@
   "@bodyPrivacyExplainerOn": {
     "description": "Longer explanation shown when active online checks are on"
   },
-  "bodyPrivacyExplainerOff": "SSL, redirect and shortener checks run from local rules only. Malicious-content lookup still uses Google Safe Browsing (the link is sent only to Google, never to the scanned site).",
+  "bodyPrivacyExplainerOff": "SSL, redirect and shortener checks use local rules only, so the scanned site is never contacted. A link is sent to a safety service, such as Google Safe Browsing, only if you turned that service on in Settings.",
   "@bodyPrivacyExplainerOff": {
-    "description": "Longer explanation shown when active online checks are off"
+    "description": "Longer explanation shown on Settings > Privacy when active online checks are off. Must match the code: SSL, redirect and shortener checks are local only, and a link goes to a safety service (Google Safe Browsing, VirusTotal, etc.) only when the user has turned that service on."
   },
   "bodyApiKeyDelete": "Are you sure you want to delete your Google Safe Browsing API key? URL malicious content checking will be disabled.",
   "@bodyApiKeyDelete": {

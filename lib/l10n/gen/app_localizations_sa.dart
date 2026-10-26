@@ -1233,7 +1233,7 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get bodyPrivacyExplainerOff =>
-      'अन्तस्थनियमैः एव सुरक्षितपरीक्षणं भवति। सङ्केताः कुत्रचिदपि न प्रेष्यन्ते।';
+      'SSL-पुनर्निर्देशन-लघुकरण-परीक्षाः अन्तस्थनियमैः एव भवन्ति; संवीक्षितेन जालस्थानेन सह सम्पर्कः न क्रियते। भवता विन्यासेषु सक्रियीकृतायै सुरक्षासेवायै (यथा Google Safe Browsing) एव जालबन्धः प्रेष्यते।';
 
   @override
   String get bodyApiKeyDelete =>

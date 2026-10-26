@@ -2266,10 +2266,10 @@ abstract class AppLocalizations {
   /// **'When on, the SSL, redirect and shortener checks connect directly to the scanned site. This exposes your IP address (and therefore your approximate location and mobile carrier) to that server before you open the link.'**
   String get bodyPrivacyExplainerOn;
 
-  /// Longer explanation shown when active online checks are off
+  /// Longer explanation shown on Settings > Privacy when active online checks are off. Must match the code: SSL, redirect and shortener checks are local only, and a link goes to a safety service (Google Safe Browsing, VirusTotal, etc.) only when the user has turned that service on.
   ///
   /// In en, this message translates to:
-  /// **'SSL, redirect and shortener checks run from local rules only. Malicious-content lookup still uses Google Safe Browsing (the link is sent only to Google, never to the scanned site).'**
+  /// **'SSL, redirect and shortener checks use local rules only, so the scanned site is never contacted. A link is sent to a safety service, such as Google Safe Browsing, only if you turned that service on in Settings.'**
   String get bodyPrivacyExplainerOff;
 
   /// Warning shown before the Safe Browsing key is deleted
