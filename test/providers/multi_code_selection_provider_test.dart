@@ -110,4 +110,86 @@ void main() {
       expect(provider.selectedBarcodeId, isNull);
     });
   });
+
+  group('MultiCodeSelectionProvider stale box cleanup', () {
+    const twoCodes = ScanFrameResult(
+      barcodes: [
+        ScannedCode(rawValue: 'codeA', format: CodeFormat.qrCode),
+        ScannedCode(rawValue: 'codeB', format: CodeFormat.qrCode),
+      ],
+    );
+
+    late MultiCodeSelectionProvider provider;
+
+    setUp(() {
+      provider = MultiCodeSelectionProvider(
+        staleAfter: const Duration(milliseconds: 60),
+        cleanupInterval: const Duration(milliseconds: 10),
+      );
+    });
+
+    tearDown(() => provider.dispose());
+
+    void showTwoCodes() {
+      provider.processCapture(
+        capture: twoCodes,
+        screenSize: const Size(400, 800),
+        frameSize: const Size(1080, 1920),
+      );
+    }
+
+    test('boxes clear on their own after the codes stop arriving', () async {
+      showTwoCodes();
+      expect(provider.isMultiCodeActive, isTrue);
+      expect(provider.visibleCount, 2);
+
+      // No more frames arrive, as when the camera points away from the codes.
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+
+      expect(provider.isMultiCodeActive, isFalse);
+      expect(provider.visibleBarcodes, isEmpty);
+    });
+
+    test('boxes stay while the codes keep arriving', () async {
+      for (var i = 0; i < 6; i++) {
+        showTwoCodes();
+        await Future<void>.delayed(const Duration(milliseconds: 20));
+      }
+
+      expect(provider.isMultiCodeActive, isTrue);
+      expect(provider.visibleCount, 2);
+    });
+
+    test('cleanup notifies listeners only when something changes', () async {
+      showTwoCodes();
+      var notifications = 0;
+      provider.addListener(() => notifications++);
+
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+
+      expect(notifications, 1);
+    });
+
+    test('reset stops the cleanup timer', () async {
+      showTwoCodes();
+      provider.reset();
+      var notifications = 0;
+      provider.addListener(() => notifications++);
+
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+
+      expect(notifications, 0);
+    });
+
+    test('dismiss stops the cleanup timer', () async {
+      showTwoCodes();
+      provider.dismiss();
+      var notifications = 0;
+      provider.addListener(() => notifications++);
+
+      await Future<void>.delayed(const Duration(milliseconds: 200));
+
+      expect(notifications, 0);
+    });
+  });
 }

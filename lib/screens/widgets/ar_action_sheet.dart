@@ -21,7 +21,7 @@ class ArActionSheet extends StatelessWidget {
     final provider = Provider.of<ArCodevisionProvider>(context, listen: false);
 
     return Positioned(
-      bottom: 20,
+      bottom: 20 + MediaQuery.viewPaddingOf(context).bottom,
       left: 16,
       right: 16,
       child: Material(

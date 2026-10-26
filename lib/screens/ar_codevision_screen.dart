@@ -254,7 +254,7 @@ class _ArCodevisionScreenState extends State<ArCodevisionScreen>
                       if (arProvider.hudMode == ArHudMode.warehouse &&
                           arProvider.selectedCount > 0)
                         Positioned(
-                          bottom: 16,
+                          bottom: 16 + MediaQuery.viewPaddingOf(context).bottom,
                           left: 16,
                           right: 16,
                           child: Container(

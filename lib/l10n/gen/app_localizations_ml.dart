@@ -662,9 +662,6 @@ class AppLocalizationsMl extends AppLocalizations {
   String get titleAirQrReceiver => 'എയർ ക്യുആർ റിസീവർ';
 
   @override
-  String get tooltipAirQrTransmitter => 'എയർ ക്യുആർ ട്രാൻസ്മിറ്റർ';
-
-  @override
   String get tooltipAirQrResetStream => 'പുനഃക്രമീകരിക്കുക';
 
   @override
@@ -2534,12 +2531,6 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get tooltipToggleSecretVisibility => 'രഹസ്യം കാണിക്കുക/മറയ്ക്കുക';
-
-  @override
-  String get labelAirQrModeText => 'സ്വന്തം ഉള്ളടക്കം';
-
-  @override
-  String get labelAirQrModeSync => 'ഡിവൈസ് സിങ്ക്';
 
   @override
   String labelAirQrSyncIncludeHistory(int count) {

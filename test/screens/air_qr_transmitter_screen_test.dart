@@ -30,6 +30,7 @@ void main() {
   Future<void> pumpScreen(
     WidgetTester tester, {
     Locale locale = const Locale('en'),
+    bool startInSyncMode = false,
   }) async {
     tester.view.physicalSize = const Size(1080, 3200);
     tester.view.devicePixelRatio = 2.0;
@@ -44,10 +45,17 @@ void main() {
                 HistoryProvider(dbService: _EmptyHistoryDatabaseService()),
           ),
         ],
-        home: const AirQrTransmitterScreen(),
+        home: AirQrTransmitterScreen(startInSyncMode: startInSyncMode),
       ),
     );
-    await tester.pumpAndSettle();
+    // Sync mode opens an "encrypting" dialog with a spinner that never
+    // settles under the test clock, so only pump a few frames there.
+    if (startInSyncMode) {
+      await tester.pump();
+      await tester.pump();
+    } else {
+      await tester.pumpAndSettle();
+    }
   }
 
   /// The visible texts, to see whether the frame label has moved on.
@@ -67,6 +75,33 @@ void main() {
           find.widgetWithText(ElevatedButton, l10n.actionAirQrStartStream),
         );
         expect(start.onPressed, isNotNull);
+        expect(find.byType(SegmentedButton<AirQrTransmitMode>), findsNothing);
+        expect(
+          find.widgetWithText(TextField, l10n.labelAirQrSyncPassphrase),
+          findsNothing,
+        );
+        expect(tester.takeException(), isNull);
+        expectAllIconButtonsHaveTooltips(tester);
+      },
+    );
+
+    testWidgets(
+      'sync mode shows only the sync package in ${locale.languageCode}',
+      (tester) async {
+        final l10n = l10nFor(locale);
+        await pumpScreen(tester, locale: locale, startInSyncMode: true);
+
+        expect(find.text(l10n.titleAirQrSyncSettings), findsOneWidget);
+        expect(find.text(l10n.titleAirQrTransmitter), findsNothing);
+        expect(
+          find.widgetWithText(TextField, l10n.labelAirQrSyncPassphrase),
+          findsOneWidget,
+        );
+        expect(
+          find.widgetWithText(TextField, l10n.labelAirQrPayload),
+          findsNothing,
+        );
+        expect(find.byType(SegmentedButton<AirQrTransmitMode>), findsNothing);
         expect(tester.takeException(), isNull);
         expectAllIconButtonsHaveTooltips(tester);
       },

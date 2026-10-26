@@ -1,6 +1,6 @@
 name: sreerajp_qr_studio
 description: A privacy-first QR/barcode scanner with link safety checks, tamper detection, StegoQR, AR CodeVision, and offline smart tools
-version: 4.1.6+40
+version: 4.1.8+42
 
 environment:
   sdk: '>=3.13.5 <4.0.0'

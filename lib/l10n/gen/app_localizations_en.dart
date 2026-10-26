@@ -663,9 +663,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleAirQrReceiver => 'AirQR receiver';
 
   @override
-  String get tooltipAirQrTransmitter => 'AirQR Transmitter';
-
-  @override
   String get tooltipAirQrResetStream => 'Reset Stream';
 
   @override
@@ -2531,12 +2528,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tooltipToggleSecretVisibility => 'Show or hide secret';
-
-  @override
-  String get labelAirQrModeText => 'Custom Text';
-
-  @override
-  String get labelAirQrModeSync => 'Device Sync';
 
   @override
   String labelAirQrSyncIncludeHistory(int count) {

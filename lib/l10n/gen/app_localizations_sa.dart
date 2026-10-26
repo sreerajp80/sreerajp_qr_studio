@@ -657,9 +657,6 @@ class AppLocalizationsSa extends AppLocalizations {
   String get titleAirQrReceiver => 'वायु-क्यूआर ग्राहकः';
 
   @override
-  String get tooltipAirQrTransmitter => 'वायु-क्यूआर प्रसारकः';
-
-  @override
   String get tooltipAirQrResetStream => 'पुनःस्थाप्यताम्';
 
   @override
@@ -2499,12 +2496,6 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get tooltipToggleSecretVisibility => 'गूढप्रदर्शनं परिवर्तयतु';
-
-  @override
-  String get labelAirQrModeText => 'स्वेच्छापाठः';
-
-  @override
-  String get labelAirQrModeSync => 'उपकरणतुल्यकालिकता';
 
   @override
   String labelAirQrSyncIncludeHistory(int count) {

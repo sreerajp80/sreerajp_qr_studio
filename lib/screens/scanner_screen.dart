@@ -1097,6 +1097,12 @@ class _ScannerScreenState extends State<ScannerScreen>
               ),
               _buildMenuItem(
                 context,
+                value: '/air_qr_transmitter',
+                icon: Icons.cast,
+                label: l10n.titleAirQrTransmitter,
+              ),
+              _buildMenuItem(
+                context,
                 value: '/history',
                 icon: Icons.history,
                 label: l10n.actionMenuHistory,

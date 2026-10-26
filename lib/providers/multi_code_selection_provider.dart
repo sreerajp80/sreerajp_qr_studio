@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:sreerajp_qr_studio/models/visible_barcode.dart';
 import 'package:sreerajp_qr_studio/services/multi_code_service.dart';
@@ -9,13 +11,25 @@ import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 class MultiCodeSelectionProvider extends ChangeNotifier {
   final MultiCodeService _service;
 
+  /// How long a code may go unseen before its tap box is removed.
+  final Duration staleAfter;
+
+  /// How often stale tap boxes are checked while multi-code mode is active.
+  /// The camera sends no frames when it sees no codes, so this timer is what
+  /// clears the boxes once every code has left the view.
+  final Duration cleanupInterval;
+
+  Timer? _cleanupTimer;
   bool _enabled = true;
   bool _isMultiCodeActive = false;
   List<VisibleBarcode> _visibleBarcodes = [];
   String? _selectedBarcodeId;
 
-  MultiCodeSelectionProvider({MultiCodeService? service})
-    : _service = service ?? MultiCodeService();
+  MultiCodeSelectionProvider({
+    MultiCodeService? service,
+    this.staleAfter = const Duration(milliseconds: 1500),
+    this.cleanupInterval = const Duration(milliseconds: 250),
+  }) : _service = service ?? MultiCodeService();
 
   bool get enabled => _enabled;
   bool get isMultiCodeActive => _isMultiCodeActive;
@@ -95,7 +109,10 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
       }
 
       // Decay stale targets not seen recently
-      final activeList = _service.decayStaleBarcodes(updatedList);
+      final activeList = _service.decayStaleBarcodes(
+        updatedList,
+        decayDuration: staleAfter,
+      );
       _visibleBarcodes = activeList;
 
       if (capture.barcodes.length > 1 || _visibleBarcodes.length > 1) {
@@ -104,8 +121,38 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
         _isMultiCodeActive = false;
       }
 
+      _updateCleanupTimer();
       notifyListeners();
     }
+  }
+
+  /// Starts the stale-box cleanup timer while multi-code mode is active and
+  /// stops it otherwise.
+  void _updateCleanupTimer() {
+    if (_isMultiCodeActive) {
+      _cleanupTimer ??= Timer.periodic(cleanupInterval, (_) => _removeStale());
+    } else {
+      _cleanupTimer?.cancel();
+      _cleanupTimer = null;
+    }
+  }
+
+  /// Removes tap boxes whose codes have not been seen recently. Ends
+  /// multi-code mode when none are left.
+  void _removeStale() {
+    final activeList = _service.decayStaleBarcodes(
+      _visibleBarcodes,
+      decayDuration: staleAfter,
+    );
+    if (activeList.length == _visibleBarcodes.length) return;
+
+    _visibleBarcodes = activeList;
+    if (_visibleBarcodes.isEmpty) {
+      _isMultiCodeActive = false;
+      _selectedBarcodeId = null;
+    }
+    _updateCleanupTimer();
+    notifyListeners();
   }
 
   /// Records the tapped barcode ID for confirmation micro-interaction.
@@ -119,6 +166,7 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
     _isMultiCodeActive = false;
     _visibleBarcodes = [];
     _selectedBarcodeId = null;
+    _updateCleanupTimer();
     notifyListeners();
   }
 
@@ -127,6 +175,14 @@ class MultiCodeSelectionProvider extends ChangeNotifier {
     _isMultiCodeActive = false;
     _visibleBarcodes = [];
     _selectedBarcodeId = null;
+    _updateCleanupTimer();
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _cleanupTimer?.cancel();
+    _cleanupTimer = null;
+    super.dispose();
   }
 }

@@ -961,10 +961,6 @@
   "@titleAirQrReceiver": {
     "description": "Title of the screen that reads a stream of codes"
   },
-  "tooltipAirQrTransmitter": "AirQR Transmitter",
-  "@tooltipAirQrTransmitter": {
-    "description": "Tooltip on the button that opens the sending screen"
-  },
   "tooltipAirQrResetStream": "Reset Stream",
   "@tooltipAirQrResetStream": {
     "description": "Tooltip on the button that starts the capture again"
@@ -3432,14 +3428,6 @@
   "tooltipToggleSecretVisibility": "Show or hide secret",
   "@tooltipToggleSecretVisibility": {
     "description": "Tooltip for password or secret visibility toggle"
-  },
-  "labelAirQrModeText": "Custom Text",
-  "@labelAirQrModeText": {
-    "description": "Label for custom text mode tab in AirQR transmitter"
-  },
-  "labelAirQrModeSync": "Device Sync",
-  "@labelAirQrModeSync": {
-    "description": "Label for device sync mode tab in AirQR transmitter"
   },
   "labelAirQrSyncIncludeHistory": "History ({count})",
   "@labelAirQrSyncIncludeHistory": {

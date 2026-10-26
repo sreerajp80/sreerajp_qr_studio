@@ -93,6 +93,8 @@ void main() {
       // The HUD still works.
       expect(find.text(l10n.bodyAirQrStatusIdle), findsOneWidget);
       expect(find.byTooltip(l10n.tooltipAirQrResetStream), findsOneWidget);
+      // The transmitter opens from the scanner menu, not from here.
+      expect(find.byIcon(Icons.qr_code_2), findsNothing);
       expect(tester.takeException(), isNull);
       expectAllIconButtonsHaveTooltips(tester);
     });

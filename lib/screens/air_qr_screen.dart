@@ -223,31 +223,6 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
             backgroundColor: Colors.black87,
             actions: [
               IconButton(
-                icon: const Icon(Icons.qr_code_2),
-                onPressed: () async {
-                  try {
-                    if (controller != null &&
-                        controller!.value.isInitialized &&
-                        controller!.value.isRunning) {
-                      await controller!.stop();
-                    }
-                  } catch (_) {}
-                  if (context.mounted) {
-                    await Navigator.pushNamed(context, '/air_qr_transmitter');
-                    if (mounted &&
-                        controller != null &&
-                        controller!.value.isInitialized) {
-                      try {
-                        if (!controller!.value.isRunning) {
-                          await controller!.start();
-                        }
-                      } catch (_) {}
-                    }
-                  }
-                },
-                tooltip: l10n.tooltipAirQrTransmitter,
-              ),
-              IconButton(
                 icon: const Icon(Icons.refresh),
                 onPressed: () {
                   setState(() {
@@ -373,7 +348,7 @@ class _AirQrScreenState extends State<AirQrScreen> with WidgetsBindingObserver {
               ),
               // HUD Matrix & Progress Panel (Bottom)
               Positioned(
-                bottom: 24,
+                bottom: 24 + MediaQuery.viewPaddingOf(context).bottom,
                 left: 16,
                 right: 16,
                 child: _buildHudPanel(l10n, progress),

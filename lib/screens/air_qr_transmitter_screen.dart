@@ -38,6 +38,7 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
 
   late AirQrTransmitMode _mode;
   bool _sampleTextApplied = false;
+  bool _syncPrepareScheduled = false;
   bool _includeHistory = true;
   bool _includeSettings = true;
   bool _isPassphraseVisible = true;
@@ -94,8 +95,14 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
           .bodyAirQrSamplePayload;
       _prepareFrames();
     } else if (_mode == AirQrTransmitMode.deviceSync &&
-        _encodedFrames.isEmpty) {
-      _prepareSyncFrames();
+        _encodedFrames.isEmpty &&
+        !_syncPrepareScheduled) {
+      // Loading history notifies listeners, which is not allowed during
+      // build, so start after the first frame.
+      _syncPrepareScheduled = true;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _prepareSyncFrames();
+      });
     }
   }
 
@@ -298,7 +305,14 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
 
     return SecureScreen(
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.titleAirQrTransmitter), elevation: 2),
+        appBar: AppBar(
+          title: Text(
+            _mode == AirQrTransmitMode.deviceSync
+                ? l10n.titleAirQrSyncSettings
+                : l10n.titleAirQrTransmitter,
+          ),
+          elevation: 2,
+        ),
         body: SafeArea(
           top: false,
           child: SingleChildScrollView(
@@ -306,36 +320,9 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Mode Selector
-                SegmentedButton<AirQrTransmitMode>(
-                  segments: [
-                    ButtonSegment(
-                      value: AirQrTransmitMode.customText,
-                      label: Text(l10n.labelAirQrModeText),
-                      icon: const Icon(Icons.short_text),
-                    ),
-                    ButtonSegment(
-                      value: AirQrTransmitMode.deviceSync,
-                      label: Text(l10n.labelAirQrModeSync),
-                      icon: const Icon(Icons.sync_lock),
-                    ),
-                  ],
-                  selected: {_mode},
-                  onSelectionChanged: (selected) {
-                    _stopBroadcasting();
-                    setState(() {
-                      _mode = selected.first;
-                    });
-                    if (_mode == AirQrTransmitMode.customText) {
-                      _prepareFrames();
-                    } else {
-                      _prepareSyncFrames();
-                    }
-                  },
-                ),
-                const SizedBox(height: 16),
-
-                // Mode-specific Configuration
+                // Mode is fixed by how the screen was opened: the AirQR
+                // menu sends custom text, Settings / Export send a sync
+                // package.
                 if (_mode == AirQrTransmitMode.customText) ...[
                   TextField(
                     controller: _textController,

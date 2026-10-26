@@ -312,15 +312,21 @@ class ScanBubbleService : Service() {
         closeTargetView = null
     }
 
-    /** True when the bubble centre is close to the close target centre. */
-    private fun isOverCloseTarget(params: WindowManager.LayoutParams): Boolean {
-        val bubbleSize = dp(BUBBLE_SIZE_DP)
-        val targetSize = dp(CLOSE_TARGET_SIZE_DP)
-        val bubbleCx = params.x + bubbleSize / 2f
-        val bubbleCy = params.y + bubbleSize / 2f
-        val targetCx = screenWidth() / 2f
-        val targetCy = screenHeight() - dp(CLOSE_TARGET_MARGIN_DP) - targetSize / 2f
-        return hypot(bubbleCx - targetCx, bubbleCy - targetCy) < targetSize
+    /**
+     * True when the finger (raw screen position) is close to the close target centre.
+     *
+     * Uses the target's real on-screen position: overlay windows are placed
+     * inside the status and navigation bars, so working it out from the full
+     * screen height puts the target too low and the drop is missed.
+     */
+    private fun isOverCloseTarget(rawX: Float, rawY: Float): Boolean {
+        val target = closeTargetView ?: return false
+        if (target.width == 0 || target.height == 0) return false
+        val location = IntArray(2)
+        target.getLocationOnScreen(location)
+        val targetCx = location[0] + target.width / 2f
+        val targetCy = location[1] + target.height / 2f
+        return hypot(rawX - targetCx, rawY - targetCy) < dp(CLOSE_TARGET_SIZE_DP)
     }
 
     private fun snapToEdge(params: WindowManager.LayoutParams) {
@@ -393,14 +399,15 @@ class ScanBubbleService : Service() {
                         params.x = startX + dx.toInt()
                         params.y = startY + dy.toInt()
                         updateBubbleLayout(params)
-                        closeTargetView?.scaleX = if (isOverCloseTarget(params)) 1.25f else 1f
+                        closeTargetView?.scaleX =
+                            if (isOverCloseTarget(event.rawX, event.rawY)) 1.25f else 1f
                         closeTargetView?.scaleY = closeTargetView?.scaleX ?: 1f
                     }
                     return true
                 }
                 MotionEvent.ACTION_UP -> {
                     if (dragging) {
-                        val close = isOverCloseTarget(params)
+                        val close = isOverCloseTarget(event.rawX, event.rawY)
                         hideCloseTarget()
                         if (close) {
                             ScanBubblePrefs.setEnabled(this@ScanBubbleService, false)

@@ -1216,12 +1216,6 @@ abstract class AppLocalizations {
   /// **'AirQR receiver'**
   String get titleAirQrReceiver;
 
-  /// Tooltip on the button that opens the sending screen
-  ///
-  /// In en, this message translates to:
-  /// **'AirQR Transmitter'**
-  String get tooltipAirQrTransmitter;
-
   /// Tooltip on the button that starts the capture again
   ///
   /// In en, this message translates to:
@@ -4587,18 +4581,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show or hide secret'**
   String get tooltipToggleSecretVisibility;
-
-  /// Label for custom text mode tab in AirQR transmitter
-  ///
-  /// In en, this message translates to:
-  /// **'Custom Text'**
-  String get labelAirQrModeText;
-
-  /// Label for device sync mode tab in AirQR transmitter
-  ///
-  /// In en, this message translates to:
-  /// **'Device Sync'**
-  String get labelAirQrModeSync;
 
   /// Checkbox label to include scan history in optical sync
   ///
