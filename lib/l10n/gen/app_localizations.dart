@@ -100,12 +100,6 @@ abstract class AppLocalizations {
     Locale('sa'),
   ];
 
-  /// The application name, shown as the task title and in the About screen
-  ///
-  /// In en, this message translates to:
-  /// **'SreerajP QR Studio'**
-  String get titleApp;
-
   /// Label above the network name on the Wi-Fi action card
   ///
   /// In en, this message translates to:
@@ -2356,6 +2350,12 @@ abstract class AppLocalizations {
   /// **'SSL certificate not yet valid'**
   String get bodySslNotYetValid;
 
+  /// Result when the site certificate is self-signed, for another site, or from an unknown issuer
+  ///
+  /// In en, this message translates to:
+  /// **'SSL certificate is not trusted'**
+  String get bodySslUntrusted;
+
   /// Result when the certificate could not be read
   ///
   /// In en, this message translates to:
@@ -2907,6 +2907,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed to pick or parse PDF: {error}'**
   String errorMediaPdfPickFailed(String error);
+
+  /// Shown when a picked, shared or pasted image file is over the size limit; maxMb is the limit in megabytes
+  ///
+  /// In en, this message translates to:
+  /// **'This image is too large to scan (over {maxMb} MB).'**
+  String errorMediaImageTooLarge(String maxMb);
+
+  /// Shown when a picked or shared PDF file is over the size limit; maxMb is the limit in megabytes
+  ///
+  /// In en, this message translates to:
+  /// **'This PDF is too large to scan (over {maxMb} MB).'**
+  String errorMediaPdfTooLarge(String maxMb);
+
+  /// Short note after scanning a PDF that has more pages than the page limit
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first {count} pages were checked.'**
+  String bodyPdfPagesSkipped(int count);
 
   /// Shown when a PDF could not be scanned
   ///
@@ -5091,6 +5109,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share SVG'**
   String get actionCodeForgeExportSvg;
+
+  /// Tooltip of the CodeForge app bar share icon; it opens a menu with Share PNG and Share SVG
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get tooltipCodeForgeShare;
 
   /// Button to copy raw barcode content to clipboard
   ///

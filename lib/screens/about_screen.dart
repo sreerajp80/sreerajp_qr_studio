@@ -244,7 +244,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
 
-                    // Made with ❤️ from India badge
+                    // Made with {heart} from India badge
                     const MadeWithLove(),
 
                     const SizedBox(height: 16),

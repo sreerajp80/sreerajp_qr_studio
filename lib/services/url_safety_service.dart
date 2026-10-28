@@ -109,6 +109,22 @@ class UrlSafetyService {
     return count;
   }
 
+  /// Why the platform rejected a certificate: out of its dates, or else not
+  /// trusted (self-signed, issued for another site, or unknown issuer).
+  static AppMessage certificateProblem({
+    required DateTime startValidity,
+    required DateTime endValidity,
+    required DateTime now,
+  }) {
+    if (endValidity.isBefore(now)) {
+      return const AppMessage(AppMessageKey.sslExpired);
+    }
+    if (startValidity.isAfter(now)) {
+      return const AppMessage(AppMessageKey.sslNotYetValid);
+    }
+    return const AppMessage(AppMessageKey.sslUntrusted);
+  }
+
   Future<SafetyCheckResult> checkSslCertificate(
     String url, {
     bool activeProbing = false,
@@ -138,22 +154,19 @@ class UrlSafetyService {
       final client = HttpClient();
       // Don't leak the default `Dart/<version> (dart:io)` fingerprint.
       client.userAgent = null;
-      var certificateValid = true;
-      var certMessage = const AppMessage(AppMessageKey.sslValid);
+      // Set only when the platform rejects the certificate.
+      AppMessage? certProblem;
 
+      // Certificate checks are never turned off (engineering standard
+      // §15.1): a rejected certificate always stays rejected. The callback
+      // only records why, so the result can say it.
       client.badCertificateCallback = (cert, host, port) {
-        final now = DateTime.now();
-        if (cert.endValidity.isBefore(now)) {
-          certificateValid = false;
-          certMessage = const AppMessage(AppMessageKey.sslExpired);
-          return false;
-        }
-        if (cert.startValidity.isAfter(now)) {
-          certificateValid = false;
-          certMessage = const AppMessage(AppMessageKey.sslNotYetValid);
-          return false;
-        }
-        return true;
+        certProblem = certificateProblem(
+          startValidity: cert.startValidity,
+          endValidity: cert.endValidity,
+          now: DateTime.now(),
+        );
+        return false;
       };
 
       try {
@@ -163,16 +176,17 @@ class UrlSafetyService {
         request.followRedirects = false;
         final response = await request.close();
         await response.drain<void>();
-        return SafetyCheckResult(
-          checkName: const AppMessage(AppMessageKey.checkNameSsl),
-          passed: certificateValid,
-          message: certMessage,
-        );
-      } catch (e) {
         return const SafetyCheckResult(
           checkName: AppMessage(AppMessageKey.checkNameSsl),
+          passed: true,
+          message: AppMessage(AppMessageKey.sslValid),
+        );
+      } catch (e) {
+        return SafetyCheckResult(
+          checkName: const AppMessage(AppMessageKey.checkNameSsl),
           passed: false,
-          message: AppMessage(AppMessageKey.sslUnverifiable),
+          message:
+              certProblem ?? const AppMessage(AppMessageKey.sslUnverifiable),
         );
       } finally {
         client.close();

@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
+import 'package:sreerajp_qr_studio/widgets/app_display_name.dart';
 
 /// Configuration screen for Font size scaling preferences and typography display.
 class TypographySettingsScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _TypographySettingsScreenState extends State<TypographySettingsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.titleApp,
+                      context.appDisplayName,
                       style: TextStyle(
                         fontSize: 18 * _textScale,
                         fontWeight: FontWeight.w800,

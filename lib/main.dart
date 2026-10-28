@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+import 'package:sreerajp_qr_studio/core/config/app_config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/l10n/fallback_localizations.dart';
@@ -31,6 +32,7 @@ import 'package:sreerajp_qr_studio/screens/scan_bubble_settings_screen.dart';
 import 'package:sreerajp_qr_studio/screens/scanner_screen.dart';
 import 'package:sreerajp_qr_studio/screens/settings_screen.dart';
 import 'package:sreerajp_qr_studio/services/app_startup_service.dart';
+import 'package:sreerajp_qr_studio/widgets/app_display_name.dart';
 import 'package:sreerajp_qr_studio/widgets/app_lock_gate.dart';
 import 'package:sreerajp_qr_studio/widgets/app_restart_scope.dart';
 
@@ -40,20 +42,31 @@ final RouteObserver<ModalRoute<void>> routeObserver =
 Future<void> main() async {
   final startup = await AppStartupService.run();
   runApp(
-    AppRestartScope(builder: (_) => SreerajQRReaderApp(prefs: startup.prefs)),
+    AppRestartScope(
+      builder: (_) =>
+          SreerajQRReaderApp(prefs: startup.prefs, config: startup.config),
+    ),
   );
 }
 
 class SreerajQRReaderApp extends StatelessWidget {
-  const SreerajQRReaderApp({super.key, this.prefs});
+  const SreerajQRReaderApp({
+    super.key,
+    this.prefs,
+    this.config = AppConfig.fallback,
+  });
 
   /// Preferences loaded before the first frame (saved language, onboarding).
   final SharedPreferences? prefs;
+
+  /// About metadata; the app name comes from here (guideline.md §1.8).
+  final AppConfig config;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        Provider<AppConfig>.value(value: config),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => AppLockProvider(prefs: prefs)),
         ChangeNotifierProvider(
@@ -104,8 +117,7 @@ class SreerajQRReaderApp extends StatelessWidget {
                   };
 
                   return MaterialApp(
-                    onGenerateTitle: (context) =>
-                        AppLocalizations.of(context).titleApp,
+                    onGenerateTitle: (context) => context.appDisplayName,
                     locale: localeProvider.locale,
                     localizationsDelegates: const [
                       AppLocalizations.delegate,

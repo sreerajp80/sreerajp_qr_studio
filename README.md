@@ -650,7 +650,7 @@ releases never collide.
 
 | Flavor | Application ID | Display Name | Signing |
 | :--- | :--- | :--- | :--- |
-| **`dev`** | `in.sreerajp.qr_studio.dev` | `QR Studio Dev` | Automatic Debug Keystore |
+| **`dev`** | `in.sreerajp.qr_studio.dev` | `SreerajP QR Studio Dev` | Automatic Debug Keystore |
 | **`prod`** | `in.sreerajp.qr_studio` | `SreerajP QR Studio` | Release Keystore (`android/key.properties`) |
 
 ---

@@ -240,6 +240,39 @@ void main() {
     );
   });
 
+  group('UrlSafetyService.certificateProblem', () {
+    final now = DateTime(2026, 10, 27);
+
+    test('an expired certificate is reported as expired', () {
+      final message = UrlSafetyService.certificateProblem(
+        startValidity: DateTime(2025),
+        endValidity: DateTime(2026),
+        now: now,
+      );
+      expect(message.key, AppMessageKey.sslExpired);
+    });
+
+    test('a future certificate is reported as not yet valid', () {
+      final message = UrlSafetyService.certificateProblem(
+        startValidity: DateTime(2027),
+        endValidity: DateTime(2028),
+        now: now,
+      );
+      expect(message.key, AppMessageKey.sslNotYetValid);
+    });
+
+    test('a rejected certificate with valid dates is not trusted', () {
+      // For example self-signed or issued for another site. It must never
+      // be shown as valid.
+      final message = UrlSafetyService.certificateProblem(
+        startValidity: DateTime(2026),
+        endValidity: DateTime(2027),
+        now: now,
+      );
+      expect(message.key, AppMessageKey.sslUntrusted);
+    });
+  });
+
   group('UrlSafetyService privacy mode (active probing disabled)', () {
     test(
       'checkSslCertificate confirms https without opening a connection',

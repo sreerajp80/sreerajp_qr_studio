@@ -21,11 +21,26 @@ void main() {
     expect(formattingLocale(const Locale('xx')), 'en');
   });
 
+  test('a regional locale keeps its region or falls back to its language', () {
+    final us = formattingLocale(const Locale('en', 'US'));
+    expect(us, anyOf('en_US', 'en'));
+    expect(us, isNot(contains('-')));
+    expect(formattingLocale(const Locale('ml', 'IN')), anyOf('ml_IN', 'ml'));
+    expect(formattingLocale(const Locale('sa', 'IN')), 'en');
+  });
+
   test('the result can always be used by DateFormat', () {
     final date = DateTime(2026, 10, 10, 21, 30);
-    for (final code in ['en', 'ml', 'sa']) {
+    for (final locale in const [
+      Locale('en'),
+      Locale('en', 'US'),
+      Locale('ml'),
+      Locale('ml', 'IN'),
+      Locale('sa'),
+      Locale('sa', 'IN'),
+    ]) {
       expect(
-        () => DateFormat.yMMMd(formattingLocale(Locale(code))).format(date),
+        () => DateFormat.yMMMd(formattingLocale(locale)).format(date),
         returnsNormally,
       );
     }

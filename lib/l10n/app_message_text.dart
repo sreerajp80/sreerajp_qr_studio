@@ -36,6 +36,8 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
       return l10n.bodySslExpired;
     case AppMessageKey.sslNotYetValid:
       return l10n.bodySslNotYetValid;
+    case AppMessageKey.sslUntrusted:
+      return l10n.bodySslUntrusted;
     case AppMessageKey.sslUnverifiable:
       return l10n.bodySslUnverifiable;
     case AppMessageKey.sslCheckFailed:
@@ -268,6 +270,10 @@ String appMessageText(AppLocalizations l10n, AppMessage message) {
       return l10n.errorMediaNoCodeInPdf;
     case AppMessageKey.mediaPdfScanFailed:
       return l10n.errorMediaPdfScanFailed(args['error'] ?? '');
+    case AppMessageKey.mediaImageTooLarge:
+      return l10n.errorMediaImageTooLarge(args['maxMb'] ?? '');
+    case AppMessageKey.mediaPdfTooLarge:
+      return l10n.errorMediaPdfTooLarge(args['maxMb'] ?? '');
 
     // CodeForge file reading
     case AppMessageKey.codeForgeFileEmpty:

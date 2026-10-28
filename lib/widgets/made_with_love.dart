@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 
-/// The fixed "Made with ❤️ from India" badge shown at the bottom of every
+/// The fixed "Made with {heart} from India" badge shown at the bottom of every
 /// About screen. Text is localized; the heart is always red.
 class MadeWithLove extends StatelessWidget {
   const MadeWithLove({super.key});

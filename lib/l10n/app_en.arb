@@ -1,9 +1,5 @@
 {
   "@@locale": "en",
-  "titleApp": "SreerajP QR Studio",
-  "@titleApp": {
-    "description": "The application name, shown as the task title and in the About screen"
-  },
   "titleWifiCard": "Wi-Fi Network",
   "@titleWifiCard": {
     "description": "Label above the network name on the Wi-Fi action card"
@@ -1797,6 +1793,10 @@
   "@bodySslNotYetValid": {
     "description": "Result when the site certificate starts in the future"
   },
+  "bodySslUntrusted": "SSL certificate is not trusted",
+  "@bodySslUntrusted": {
+    "description": "Result when the site certificate is self-signed, for another site, or from an unknown issuer"
+  },
   "bodySslUnverifiable": "Unable to verify certificate",
   "@bodySslUnverifiable": {
     "description": "Result when the certificate could not be read"
@@ -2275,6 +2275,33 @@
     "placeholders": {
       "error": {
         "type": "String"
+      }
+    }
+  },
+  "errorMediaImageTooLarge": "This image is too large to scan (over {maxMb} MB).",
+  "@errorMediaImageTooLarge": {
+    "description": "Shown when a picked, shared or pasted image file is over the size limit; maxMb is the limit in megabytes",
+    "placeholders": {
+      "maxMb": {
+        "type": "String"
+      }
+    }
+  },
+  "errorMediaPdfTooLarge": "This PDF is too large to scan (over {maxMb} MB).",
+  "@errorMediaPdfTooLarge": {
+    "description": "Shown when a picked or shared PDF file is over the size limit; maxMb is the limit in megabytes",
+    "placeholders": {
+      "maxMb": {
+        "type": "String"
+      }
+    }
+  },
+  "bodyPdfPagesSkipped": "Only the first {count} pages were checked.",
+  "@bodyPdfPagesSkipped": {
+    "description": "Short note after scanning a PDF that has more pages than the page limit",
+    "placeholders": {
+      "count": {
+        "type": "int"
       }
     }
   },
@@ -3783,6 +3810,10 @@
   "actionCodeForgeExportSvg": "Share SVG",
   "@actionCodeForgeExportSvg": {
     "description": "Button to export and share vector SVG file"
+  },
+  "tooltipCodeForgeShare": "Share",
+  "@tooltipCodeForgeShare": {
+    "description": "Tooltip of the CodeForge app bar share icon; it opens a menu with Share PNG and Share SVG"
   },
   "tooltipCodeForgeCopyPayload": "Copy Content",
   "@tooltipCodeForgeCopyPayload": {

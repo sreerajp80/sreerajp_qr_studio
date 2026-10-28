@@ -1,3 +1,5 @@
+import 'package:sreerajp_qr_studio/core/config/app_flavor_config.dart';
+
 /// A config text that may be language-independent (one string) or translated
 /// (one string per locale code). Resolution order: exact locale → 'en' → any.
 class LocalizedText {
@@ -53,6 +55,11 @@ class AppConfig {
     required this.build,
     this.details = const {},
   });
+
+  /// The app name shown in the app, for [languageCode], with the flavor
+  /// suffix (guideline.md §1.8). It is never written as a literal in Dart.
+  String displayName(String languageCode) =>
+      appName.resolve(languageCode) + AppFlavorConfig.instance.nameSuffix;
 
   /// Safe built-in value used when the config file is missing or malformed,
   /// so the app never crashes on a bad config.

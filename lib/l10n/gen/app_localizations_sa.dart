@@ -10,9 +10,6 @@ class AppLocalizationsSa extends AppLocalizations {
   AppLocalizationsSa([String locale = 'sa']) : super(locale);
 
   @override
-  String get titleApp => 'श्रीराज् पि क्यू-आर-कार्यशाला';
-
-  @override
   String get titleWifiCard => 'वै-फाई संजालम्';
 
   @override
@@ -1282,6 +1279,9 @@ class AppLocalizationsSa extends AppLocalizations {
   String get bodySslNotYetValid => 'प्रमाणपत्रं न अद्यापि वैधम्';
 
   @override
+  String get bodySslUntrusted => 'प्रमाणपत्रं विश्वसनीयं नास्ति';
+
+  @override
   String get bodySslUnverifiable => 'प्रमाणपत्र-सत्यापनं न जातम्';
 
   @override
@@ -1606,6 +1606,21 @@ class AppLocalizationsSa extends AppLocalizations {
   @override
   String errorMediaPdfPickFailed(String error) {
     return 'PDF-उद्घाटने दोषः: $error';
+  }
+
+  @override
+  String errorMediaImageTooLarge(String maxMb) {
+    return 'इदं चित्रं परीक्षणाय अतिविशालम् ($maxMb MB-अधिकम्)।';
+  }
+
+  @override
+  String errorMediaPdfTooLarge(String maxMb) {
+    return 'इदं PDF परीक्षणाय अतिविशालम् ($maxMb MB-अधिकम्)।';
+  }
+
+  @override
+  String bodyPdfPagesSkipped(int count) {
+    return 'केवलं प्रथमानि $count पृष्ठानि परीक्षितानि।';
   }
 
   @override
@@ -2760,6 +2775,9 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get actionCodeForgeExportSvg => 'सदिश-भाजनम्';
+
+  @override
+  String get tooltipCodeForgeShare => 'विभज्यताम्';
 
   @override
   String get tooltipCodeForgeCopyPayload => 'प्रतिलिख्यताम्';

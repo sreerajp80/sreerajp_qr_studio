@@ -425,7 +425,7 @@ image files are written.
 
 ## 15. Environment And Build Model
 
-- Flavors: `dev` (`in.sreerajp.qr_studio.dev`, "QR Studio Dev", debug key, "DEV" icon badge)
+- Flavors: `dev` (`in.sreerajp.qr_studio.dev`, "SreerajP QR Studio Dev", debug key, "DEV" icon badge)
   and `prod` (`in.sreerajp.qr_studio`, "SreerajP QR Studio", release key).
 - Runtime config: `--flavor <name>`; Flutter sets `FLUTTER_APP_FLAVOR`, read by
   `AppFlavorConfig` (`APP_FLAVOR` first, for desktop compatibility; default `prod`). Verbose
@@ -525,7 +525,7 @@ integration_test/
   decoding off the UI isolate; size budgets in [release_process.md](release_process.md) §6.3.
 - Store: Google Play policies (foreground-service declarations for the Scan bubble and
   GhostScan, Data safety, privacy policy, 16 KB pages).
-- Team: a single developer; releases tagged `Release_YYYYMMDD`.
+- Team: a single developer; releases tagged `v<X.Y.Z>` (older ones `Release_YYYYMMDD`).
 - Orientation: portrait only.
 - Offline: no network package may run without the user turning it on.
 

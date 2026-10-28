@@ -40,6 +40,10 @@ class AppFlavorConfig {
   bool get isDev => flavor == AppFlavor.dev;
   bool get isProd => flavor == AppFlavor.prod;
 
+  /// Added after the app name in dev builds, so they are easy to tell apart
+  /// (guideline.md §1.8).
+  String get nameSuffix => isDev ? ' Dev' : '';
+
   /// Trace and debug logs are printed only in dev builds (§14.3).
   bool get enableVerboseLogging => isDev;
 }

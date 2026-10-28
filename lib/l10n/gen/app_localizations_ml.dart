@@ -10,9 +10,6 @@ class AppLocalizationsMl extends AppLocalizations {
   AppLocalizationsMl([String locale = 'ml']) : super(locale);
 
   @override
-  String get titleApp => 'ശ്രീരാജ് പി ക്യുആർ സ്റ്റുഡിയോ';
-
-  @override
   String get titleWifiCard => 'വൈ-ഫൈ ശൃംഖല';
 
   @override
@@ -1297,6 +1294,9 @@ class AppLocalizationsMl extends AppLocalizations {
   String get bodySslNotYetValid => 'SSL സർട്ടിഫിക്കറ്റ് ഇതുവരെ സാധുവല്ല';
 
   @override
+  String get bodySslUntrusted => 'SSL സർട്ടിഫിക്കറ്റ് വിശ്വസനീയമല്ല';
+
+  @override
   String get bodySslUnverifiable => 'സർട്ടിഫിക്കറ്റ് സ്ഥിരീകരിക്കാനായില്ല';
 
   @override
@@ -1633,6 +1633,21 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String errorMediaPdfPickFailed(String error) {
     return 'PDF തുറക്കാൻ കഴിഞ്ഞില്ല: $error';
+  }
+
+  @override
+  String errorMediaImageTooLarge(String maxMb) {
+    return 'ഈ ചിത്രം സ്കാൻ ചെയ്യാൻ വളരെ വലുതാണ് ($maxMb MB-ൽ കൂടുതൽ).';
+  }
+
+  @override
+  String errorMediaPdfTooLarge(String maxMb) {
+    return 'ഈ PDF സ്കാൻ ചെയ്യാൻ വളരെ വലുതാണ് ($maxMb MB-ൽ കൂടുതൽ).';
+  }
+
+  @override
+  String bodyPdfPagesSkipped(int count) {
+    return 'ആദ്യത്തെ $count പേജുകൾ മാത്രമേ പരിശോധിച്ചുള്ളൂ.';
   }
 
   @override
@@ -2798,6 +2813,9 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get actionCodeForgeExportSvg => 'എസ്വിജി പങ്കിടുക';
+
+  @override
+  String get tooltipCodeForgeShare => 'പങ്കിടുക';
 
   @override
   String get tooltipCodeForgeCopyPayload => 'പകർത്തുക';

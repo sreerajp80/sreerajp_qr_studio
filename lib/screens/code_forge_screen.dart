@@ -178,6 +178,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           ],
         ),
         actions: [
+          _buildShareMenu(context, provider),
           IconButton(
             icon: const Icon(Icons.refresh),
             tooltip: l10n.tooltipCodeForgeResetStyle,
@@ -1363,6 +1364,58 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
     );
   }
 
+  void _sharePng(CodeForgeProvider provider) {
+    provider.exportPngAndShare(
+      paintQr: (canvas, size, qrImage) => CodeForgeQrPainter(
+        config: provider.config,
+        qrImage: qrImage,
+      ).paint(canvas, size),
+    );
+  }
+
+  /// App bar share icon, so sharing does not need a scroll to the page end.
+  Widget _buildShareMenu(BuildContext context, CodeForgeProvider provider) {
+    final l10n = AppLocalizations.of(context);
+    final isBusy = provider.isExporting;
+
+    return PopupMenuButton<String>(
+      tooltip: l10n.tooltipCodeForgeShare,
+      enabled: provider.isValid && !isBusy,
+      icon: isBusy
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            )
+          : const Icon(Icons.share),
+      onSelected: (value) {
+        if (value == 'png') {
+          _sharePng(provider);
+        } else {
+          provider.exportSvgAndShare();
+        }
+      },
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          value: 'png',
+          child: ListTile(
+            leading: const Icon(Icons.image),
+            title: Text(l10n.actionCodeForgeExportPng),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+        PopupMenuItem(
+          value: 'svg',
+          child: ListTile(
+            leading: const Icon(Icons.code),
+            title: Text(l10n.actionCodeForgeExportSvg),
+            contentPadding: EdgeInsets.zero,
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildActionButtons(BuildContext context, CodeForgeProvider provider) {
     final l10n = AppLocalizations.of(context);
     final isBusy = provider.isExporting;
@@ -1373,12 +1426,7 @@ class _CodeForgeScreenState extends State<CodeForgeScreen> {
           child: ElevatedButton.icon(
             onPressed: !provider.isValid || isBusy
                 ? null
-                : () => provider.exportPngAndShare(
-                    paintQr: (canvas, size, qrImage) => CodeForgeQrPainter(
-                      config: provider.config,
-                      qrImage: qrImage,
-                    ).paint(canvas, size),
-                  ),
+                : () => _sharePng(provider),
             icon: isBusy
                 ? const SizedBox(
                     width: 18,

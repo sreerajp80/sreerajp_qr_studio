@@ -97,13 +97,13 @@ void main() {
 
     test('All three locales load through AppLocalizations delegate', () async {
       final en = await AppLocalizations.delegate.load(const Locale('en'));
-      expect(en.titleApp, isNotEmpty);
+      expect(en.titleWifiCard, isNotEmpty);
 
       final ml = await AppLocalizations.delegate.load(const Locale('ml'));
-      expect(ml.titleApp, isNotEmpty);
+      expect(ml.titleWifiCard, isNotEmpty);
 
       final sa = await AppLocalizations.delegate.load(const Locale('sa'));
-      expect(sa.titleApp, isNotEmpty);
+      expect(sa.titleWifiCard, isNotEmpty);
     });
   });
 
@@ -184,19 +184,37 @@ void main() {
       expect(unprefixed, isEmpty, reason: unprefixed.join('\n'));
     });
 
-    test('the About badge keeps its {heart} marker in every language', () {
+    test('the About badge follows guideline.md §1.7 in every language', () {
+      // Heart emoji that must never appear; the heart is the {heart} marker.
+      const heartEmoji = ['❤', '♥', '❣', '💖', '💗'];
       for (final MapEntry(key: locale, value: arb) in {
         'en': enJson,
         'ml': mlJson,
         'sa': saJson,
       }.entries) {
         final text = arb['madeWithLove'] as String?;
+        final a11y = arb['madeWithLoveA11y'] as String?;
         expect(text, isNotNull, reason: 'app_$locale.arb has no madeWithLove');
         expect(
-          text!.contains('{heart}'),
-          isTrue,
-          reason: 'app_$locale.arb madeWithLove is missing {heart}',
+          a11y,
+          isNotNull,
+          reason: 'app_$locale.arb has no madeWithLoveA11y',
         );
+        expect(
+          '{heart}'.allMatches(text!).length,
+          1,
+          reason: 'app_$locale.arb madeWithLove needs exactly one {heart}',
+        );
+        for (final MapEntry(key: key, value: value) in {
+          'madeWithLove': text,
+          'madeWithLoveA11y': a11y!,
+        }.entries) {
+          expect(
+            heartEmoji.any(value.contains),
+            isFalse,
+            reason: 'app_$locale.arb $key uses a heart emoji; use {heart}',
+          );
+        }
       }
     });
 
@@ -222,8 +240,13 @@ void main() {
         );
         checkLanguages(field, json[field]);
       }
+      // Technical values are the same in every language (standard §8.7).
+      const technicalKeys = {'email', 'website', 'privacyPolicy'};
       final details = json['details'] as Map<String, dynamic>;
       for (final MapEntry(key: id, value: value) in details.entries) {
+        if (value is! Map<String, dynamic> && !technicalKeys.contains(id)) {
+          problems.add('details.$id is a plain string; give it per language');
+        }
         checkLanguages('details.$id', value);
         final labelKey = 'aboutDetail${id[0].toUpperCase()}${id.substring(1)}';
         if (!messageKeys.contains(labelKey)) {

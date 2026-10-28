@@ -30,6 +30,27 @@ filled in.
     keys in secure storage)
 - Platforms in scope: **Android only** (minSdk 24, targetSdk 36, compileSdk 37).
 
+### 1.1 Security Baseline (Every App)
+
+Each line is `verified` or `n/a` with a reason (engineering standard §15.1). Re-check this list
+before every production release.
+
+| Area | Rule | Status |
+|------|------|--------|
+| Secrets | No secrets in code, assets, `--dart-define` or native config. Online-check API keys are the user's own, typed in at run time and kept in secure storage (§4) | verified |
+| Network | HTTPS only; certificate checks never turned off (a rejected certificate stays rejected, §5); `usesCleartextTraffic="false"`; every request has a timeout | verified |
+| Tokens | No sign-in tokens. User API keys only in `flutter_secure_storage` (Android KeyStore); removed by the user or "Delete all data" | verified |
+| Sign-in | n/a — the app has no accounts or sign-in | n/a |
+| Outside input | Scanned codes, shared files, clipboard, backups and platform channels are checked (§3.1); parameterized SQL only; no file paths built from outside input | verified |
+| Deep links | n/a — the app declares no deep links or App Links. Actions from a scanned code (open link, pay, call, join Wi-Fi) always wait for the user's tap | n/a |
+| WebView | Not used. The sandboxed page preview downloads the page as text and parses it; no JavaScript runs | verified |
+| Platform hardening | Only the launcher activity and the two Quick Settings tiles are exported (§10.1); every `PendingIntent` uses `FLAG_IMMUTABLE`; the app has no `FileProvider` of its own; files stay in app-private folders | verified |
+| Randomness / crypto | `Random.secure()` for keys, salts, nonces, passphrase PINs and stream ids; AES-256-GCM and PBKDF2 from maintained libraries (§6) | verified |
+| Release build | No debug menus, test accounts or backdoors; `debuggable=false`; `--obfuscate` (§8) | verified |
+| Third-party SDKs | None that send data (§4) | verified |
+| Data minimization | Only what a feature needs; scan history is the user's choice and can be wiped (§13) | verified |
+| Web (if declared) | n/a — Web is not a declared platform | n/a |
+
 ---
 
 ## 2. Security Objectives
@@ -69,6 +90,22 @@ filled in.
 - Attacks that break the Android OS, KeyStore or BiometricPrompt hardware.
 - Nation-state adversaries.
 
+### 3.1 Entry Points And Attack Surface
+
+Every way data reaches the app from outside, and how it is checked (engineering standard §15.1).
+
+| Entry Point | Example | Validation | Sensitive Action Possible? |
+|-------------|---------|------------|----------------------------|
+| Scanned QR code / barcode (camera, AR CodeVision, GhostScan, Scan bubble) | A URL, Wi-Fi, UPI or `otpauth` payload | Native decoder bounds-checks every buffer (§10.3); payload parsers never crash on bad input (hard rule 4); URLs go through the 6-layer safety checks | No — every action needs the user's tap |
+| Android share target (`ACTION_SEND`, `ACTION_SEND_MULTIPLE`) | A shared image or PDF | MIME type limited to `image/*` and `application/pdf`; size limits checked before the file is read (images 50 MB, PDFs 100 MB); only the first 100 PDF pages are checked, each drawn at most 4096 px on its longest side; images scaled to at most 4096 px before decoding; at most 32 codes per image (§10.3) | No |
+| File import (gallery, file picker) | An image, PDF, or a `.sreerajqr` backup | Images and PDFs as above (same size and page limits); backups need the passphrase, have a versioned header and a GCM tag; nothing is written on failure (§14) | Restore writes history only after the passphrase is right |
+| Clipboard | A copied image or text | Same checks as a scanned code; a `data:image` text over about 70 MB (50 MB of image) is ignored; a copied image file has the 50 MB image limit | No |
+| AirQR frames (screen to camera) | Fountain-coded frames | Frame header, stream id, block counts and checksums checked; encrypted transfers need the passphrase | Sync import writes data only after the user confirms |
+| Quick Settings tiles | GhostScan, Scan bubble | Bound only by the system (`BIND_QUICK_SETTINGS_TILE`); a tap only opens the app or starts the user-visible capture flow | No |
+| Boot receiver | `BOOT_COMPLETED` | Not exported; restores the bubble only if the user turned on "Start after restart" | No |
+| Platform channels | `in.sreerajp.qr_studio/window` and others | Argument types checked on both sides; unknown methods return "not implemented" | No |
+| Network API responses | Safe Browsing, VirusTotal, URLhaus, PhishTank, OpenPhish JSON | Parsed defensively; any error gives a safe "check failed" result; timeouts set | n/a |
+
 ---
 
 ## 4. Sensitive Data Inventory
@@ -83,6 +120,15 @@ filled in.
 | Biometric data | Fingerprint / face | Android BiometricPrompt hardware | Never reaches the app; only success/failure |
 | Settings and counters | Theme, language, daily request counter | `SharedPreferences` | Not sensitive; plain local storage |
 | Screen capture frames | One GhostScan frame | App cache, then deleted | Taken only after the user's action and Android's consent; never saved to the gallery |
+
+### Third-Party SDKs
+
+No analytics, ads, crash-reporting or other SDK sends data off the device (§9). The only network
+calls are the optional, user-enabled link checks listed in §5 "In Transit".
+
+| SDK | What It Collects | Where It Sends It | Why It Is Needed |
+|-----|------------------|-------------------|------------------|
+| none | — | — | — |
 
 ---
 
@@ -108,9 +154,17 @@ filled in.
 ### In Transit
 - Network use: optional and opt-in only — Google Safe Browsing, VirusTotal, URLhaus, PhishTank
   and OpenPhish checks, redirect resolution ("active probing"), and the sandboxed page preview.
-- Transport protection: HTTPS/TLS only; cleartext HTTP is not allowed (no
-  `usesCleartextTraffic`, no network security config, targetSdk 36 default). No certificate
-  pinning.
+- Transport protections: TLS only.
+- Rules (engineering standard §15.1):
+  - HTTPS only; `android:usesCleartextTraffic="false"` is set in the manifest; there is no
+    network security config.
+  - Certificate checks are never turned off. The HTTPS check's `badCertificateCallback` always
+    returns `false`; it only records why the certificate was rejected (expired, not yet valid,
+    or not trusted), so the result can say it. No trust-all `HttpOverrides`.
+  - Timeouts: 5 seconds for the HTTPS and redirect probes, 10–15 seconds for the online
+    reputation services.
+- Certificate pinning: not used. The online checks are optional, and a wrong pin would break
+  them when a provider rotates its certificate (§17).
 - AirQR transfers data screen-to-camera only — no radio or network.
 
 ---
@@ -195,6 +249,28 @@ Only the design is written here, never key material.
   passphrase fallback; an unlocked secret is hidden again when the user leaves `ResultScreen`.
 - "Delete all data" turns the app lock off (its setting is a preference).
 
+### 7.1 Usability Balance
+
+Security must not make the app hard to use or slow (engineering standard §15.6).
+
+- Lock grace period after backgrounding: 30 seconds, fixed, so pickers, the share sheet and
+  permission screens keep working (§7).
+- Fallback when biometrics are not available: the phone's own screen lock (PIN, pattern or
+  password).
+- Response to rooted, jailbroken or emulator devices: none — the app is offline-first, and
+  blocking would only hurt honest users (§3, out of scope).
+- Heavy crypto off the main isolate: PBKDF2 for backups and AirQR sync runs in a background
+  isolate with a progress dialog (§6.3); barcode decoding runs in a background isolate.
+- Key-derivation cost: 600,000 PBKDF2 iterations, a few seconds on a phone. A timing on the
+  slowest supported device is still to be recorded (release check).
+
+| Control That Adds A Step For The User | Why It Is Needed |
+|---------------------------------------|------------------|
+| Plain-text export asks "Export anyway?" | The file is not encrypted (§14) |
+| Revealing a StegoQR secret can ask for biometrics | The secret was hidden on purpose |
+| App lock (off by default) | The user's choice, for a shared or lost phone |
+| GhostScan asks Android's consent every time | Android requires it for screen capture |
+
 ---
 
 ## 8. Binary Protections
@@ -204,6 +280,8 @@ Only the design is written here, never key material.
   `--obfuscate --split-debug-info=build/symbols/android-prod-<version>/`
   (`tool/build_release.sh`, [release_process.md](release_process.md) §6.1).
 - Obfuscation raises the cost of casual inspection; it is not a security boundary on its own.
+- Obfuscation does **not** hide string literals: they stay readable in every build. Never put a
+  secret in a string.
 - Debug symbols are archived securely for the life of each released version, never committed
   (`build/` is ignored), and used only for crash symbolication.
 
@@ -257,12 +335,18 @@ Only the design is written here, never key material.
 ### 10.1 Android manifest and window
 - `android:allowBackup="false"` — required under the Sensitive Data Extension; no
   `fullBackupContent` is needed because nothing is backed up.
-- Cleartext traffic: not allowed (no `usesCleartextTraffic`, no network security config).
+- Cleartext traffic: `android:usesCleartextTraffic="false"` is set in the manifest; there is
+  no network security config ([release_process.md](release_process.md) §6.5).
 - `android:debuggable`: `false` in release (§8.3).
 - Exported components: only `MainActivity` (launcher) and the two Quick Settings tile services
   (`GhostScanTileService`, `ScanBubbleTileService`, protected by
   `BIND_QUICK_SETTINGS_TILE`). All other services, activities and the boot receiver are
   `exported="false"`.
+- `PendingIntent`: every one uses `FLAG_IMMUTABLE` (`GhostScanTileService`,
+  `ScanBubbleTileService`, `ScanBubbleService`). No mutable `PendingIntent` is needed.
+- `FileProvider`: the app declares none of its own. Sharing exports uses the provider of the
+  `share_plus` plugin, which shares only the one file the user chose to share, from the app
+  cache.
 - **Screenshot protection (`FLAG_SECURE`) on sensitive screens:** History and its detail sheet,
   Result (scan content, StegoQR secrets, Wi-Fi passwords, TOTP codes), the API keys screen, both
   AirQR screens, the export/backup dialog and the batch review sheet. `SecureScreen`
@@ -353,7 +437,7 @@ A MUST sign-off before every production release (engineering standard §15.3). S
 |---|---|---|---|
 | M1 | Improper Credential Usage | No hard-coded secrets; user API keys and the history key only in Android KeyStore | verified |
 | M2 | Inadequate Supply Chain Security | `pubspec.lock` committed; Dependabot (`pub`, `github-actions`); open-source-only rule; vendored zxing-cpp with `UPSTREAM.md`; licences checked per release ([release_process.md](release_process.md) §8) | verified |
-| M3 | Insecure Authentication | No accounts; optional app lock (start + 30 s background) with biometrics or screen lock; biometrics gate StegoQR reveal (§7) | verified |
+| M3 | Insecure Authentication/Authorization | No accounts; optional app lock (start + 30 s background) with biometrics or screen lock; biometrics gate StegoQR reveal (§7) | verified |
 | M4 | Insufficient Input/Output Validation | Parsers never crash on bad input (hard rule 4); parameterized SQL only (`sqflite` query/insert/update); native decoder bounds-checks every buffer (§10.3) | verified |
 | M5 | Insecure Communication | HTTPS-only online checks; cleartext not allowed; online checks are opt-in | verified |
 | M6 | Inadequate Privacy Controls | Data inventory (§4); no content in logs (§9); no backups; `FLAG_SECURE` on sensitive screens (§10.1); "Delete all data" (§13) | verified |
@@ -472,6 +556,9 @@ by the exact old scheme; migrations are tested from the frozen v1 SQL.
 
 Complete before every production release.
 
+- [ ] Security Baseline (§1.1) re-verified — every line `verified` or `n/a` with a reason.
+- [ ] Entry points (§3.1) current and each one validated.
+- [ ] Usability balance (§7.1) reviewed — no new friction without a recorded reason.
 - [ ] Threat model reviewed and current (§3).
 - [ ] Sensitive data inventory updated (§4).
 - [ ] Logging reviewed — no new log statement prints user data (§9).

@@ -207,6 +207,17 @@ void main() {
       } catch (_) {}
     });
 
+    test('ignores a data URI over the size limit', () async {
+      const base64Png =
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+      await Clipboard.setData(const ClipboardData(text: base64Png));
+
+      final small = ClipboardScanService(maxDataUriChars: 50);
+      final result = await small.checkClipboard();
+
+      expect(result?.type, isNot(ClipboardContentType.image));
+    });
+
     test('detects existing local image file path', () async {
       final tempDir = Directory.systemTemp;
       final tempFile = File('${tempDir.path}/test_clipboard_image.jpg');

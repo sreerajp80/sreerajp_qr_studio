@@ -10,9 +10,6 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get titleApp => 'SreerajP QR Studio';
-
-  @override
   String get titleWifiCard => 'Wi-Fi Network';
 
   @override
@@ -1296,6 +1293,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bodySslNotYetValid => 'SSL certificate not yet valid';
 
   @override
+  String get bodySslUntrusted => 'SSL certificate is not trusted';
+
+  @override
   String get bodySslUnverifiable => 'Unable to verify certificate';
 
   @override
@@ -1628,6 +1628,21 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String errorMediaPdfPickFailed(String error) {
     return 'Failed to pick or parse PDF: $error';
+  }
+
+  @override
+  String errorMediaImageTooLarge(String maxMb) {
+    return 'This image is too large to scan (over $maxMb MB).';
+  }
+
+  @override
+  String errorMediaPdfTooLarge(String maxMb) {
+    return 'This PDF is too large to scan (over $maxMb MB).';
+  }
+
+  @override
+  String bodyPdfPagesSkipped(int count) {
+    return 'Only the first $count pages were checked.';
   }
 
   @override
@@ -2793,6 +2808,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get actionCodeForgeExportSvg => 'Share SVG';
+
+  @override
+  String get tooltipCodeForgeShare => 'Share';
 
   @override
   String get tooltipCodeForgeCopyPayload => 'Copy Content';

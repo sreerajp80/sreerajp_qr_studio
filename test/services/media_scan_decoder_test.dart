@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -69,6 +70,79 @@ class _FakeDecoder implements BarcodeDecoder {
 }
 
 void main() {
+  group('MediaScanService size limits', () {
+    late Directory tempDir;
+
+    setUp(() => tempDir = Directory.systemTemp.createTempSync('media_limit'));
+    tearDown(() => tempDir.deleteSync(recursive: true));
+
+    File writeFile(String name, int bytes) =>
+        File('${tempDir.path}/$name')..writeAsBytesSync(Uint8List(bytes));
+
+    test('an image over the limit is not read', () async {
+      final file = writeFile('big.jpg', 2 * 1024 * 1024);
+      final decoder = _FakeDecoder(const []);
+      final service = MediaScanService(
+        decoder: decoder,
+        maxImageBytes: 1024 * 1024,
+      );
+
+      final result = await service.scanImageFile(file.path);
+
+      expect(decoder.decodedPaths, isEmpty);
+      expect(result.errorMessage?.key, AppMessageKey.mediaImageTooLarge);
+      expect(result.errorMessage?.args['maxMb'], '1');
+    });
+
+    test('an image at the limit is still read', () async {
+      final file = writeFile('ok.jpg', 1024);
+      final decoder = _FakeDecoder(const []);
+      final service = MediaScanService(decoder: decoder, maxImageBytes: 1024);
+
+      await service.scanImageFile(file.path, enableDistanceEnhancement: false);
+
+      expect(decoder.decodedPaths, [file.path]);
+    });
+
+    test('a PDF over the limit is not opened', () async {
+      final file = writeFile('big.pdf', 2 * 1024 * 1024);
+      final service = MediaScanService(
+        decoder: _FakeDecoder(const []),
+        maxPdfBytes: 1024 * 1024,
+      );
+
+      final result = await service.scanPdfFile(file.path);
+
+      expect(result.isPdf, isTrue);
+      expect(result.errorMessage?.key, AppMessageKey.mediaPdfTooLarge);
+      expect(result.errorMessage?.args['maxMb'], '1');
+    });
+
+    test('default limits are the app limits', () {
+      final service = MediaScanService(decoder: _FakeDecoder(const []));
+      expect(service.maxImageBytes, 50 * 1024 * 1024);
+      expect(service.maxPdfBytes, 100 * 1024 * 1024);
+    });
+  });
+
+  group('MediaScanService.pdfRenderSize', () {
+    test('a normal A4 page is drawn at twice its size', () {
+      expect(MediaScanService.pdfRenderSize(595, 842), (1190.0, 1684.0));
+    });
+
+    test('a huge page is capped at 4096 px on its longest side', () {
+      final (w, h) = MediaScanService.pdfRenderSize(14400, 7200);
+      expect(w, 4096);
+      expect(h, 2048);
+    });
+
+    test('a tall page keeps its shape', () {
+      final (w, h) = MediaScanService.pdfRenderSize(1000, 10000);
+      expect(h, 4096);
+      expect(w, closeTo(409.6, 0.001));
+    });
+  });
+
   group('MediaScanService with the own decoder', () {
     test('returns codes found in an image file', () async {
       const code = ScannedCode(

@@ -39,6 +39,8 @@ import 'package:sreerajp_qr_studio/models/distance_enhanced_scan_result.dart';
 import 'package:sreerajp_qr_studio/models/scan_frame_result.dart';
 import 'package:sreerajp_qr_studio/services/scan_camera/scan_camera_controller.dart';
 import 'package:sreerajp_qr_studio/screens/widgets/scan_camera_view.dart';
+import 'package:sreerajp_qr_studio/widgets/app_display_name.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
 
 class ScannerScreen extends StatefulWidget {
   final bool isActive;
@@ -892,6 +894,18 @@ class _ScannerScreenState extends State<ScannerScreen>
   void _processMediaScanResult(MediaScanResult result, {String? source}) {
     if (!mounted) return;
 
+    if (result.pagesSkipped > 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            AppLocalizations.of(context)
+                .bodyPdfPagesSkipped(AppConstants.maxPdfPagesScanned),
+          ),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
     if (!result.hasBarcodes) {
       if (result.errorMessage != null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -997,7 +1011,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          l10n.titleApp,
+          context.appDisplayName,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),

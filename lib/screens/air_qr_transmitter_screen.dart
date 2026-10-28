@@ -66,7 +66,8 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
   }
 
   void _generateRandomPin() {
-    final pin = (Random().nextInt(899999) + 100000).toString();
+    // A passphrase is a security value: use the secure generator (§15.1).
+    final pin = (Random.secure().nextInt(899999) + 100000).toString();
     _passphraseController.text = pin;
   }
 
@@ -326,7 +327,8 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
                 if (_mode == AirQrTransmitMode.customText) ...[
                   TextField(
                     controller: _textController,
-                    maxLines: 3,
+                    minLines: 6,
+                    maxLines: 12,
                     decoration: InputDecoration(
                       labelText: l10n.labelAirQrPayload,
                       hintText: l10n.helpAirQrPayload,

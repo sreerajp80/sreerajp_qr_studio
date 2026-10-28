@@ -44,6 +44,10 @@ android/replay_pid*.log
 *.mobileprovision
 *.provisionprofile
 
+# Local secrets (engineering standard §20.4)
+.env
+.env.*
+
 # Logs
 *.log
 

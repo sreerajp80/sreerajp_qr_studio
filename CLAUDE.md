@@ -66,7 +66,7 @@ Read it before making any change. See the docs table below for full detail.
 
 ## Architecture rules
 
-- Tier 1 layer-first structure under `lib/`: `core/config/` (`app_config.dart`, `config_service.dart`), `core/constants/` (`app_constants.dart`), `models/`, `providers/`, `screens/`, `services/`, `widgets/`, `main.dart`. `assets/config/app_config.json` is the single source of truth for About metadata (`guideline.md` §1). The About screen ends with the signature badge, which `docs/PROJECT_PROFILE.md` turns on (`guideline.md` §1.7). Do not restructure without instruction.
+- Tier 1 layer-first structure under `lib/`: `core/config/` (`app_config.dart`, `config_service.dart`), `core/constants/` (`app_constants.dart`), `core/logging/` (`app_logger.dart`), `l10n/`, `models/`, `providers/`, `screens/`, `services/`, `widgets/`, `main.dart`. `assets/config/app_config.json` is the single source of truth for About metadata (`guideline.md` §1). The About screen ends with the signature badge, which `docs/PROJECT_PROFILE.md` turns on (`guideline.md` §1.7). Do not restructure without instruction.
 - Layer boundaries: Widgets must not make HTTP calls, access secure storage, or perform URL analysis directly. Services must not depend on `BuildContext`, UI strings, or navigation routes.
 - Dependency direction: `screens → providers → services → models`.
 - Models are immutable (`const` constructors). Never mutate domain objects in place.
@@ -106,7 +106,7 @@ flutter build appbundle --flavor prod --release \
 
 | Flavor | App ID                     | Display name        | Signing                                     |
 | ------ | -------------------------- | ------------------- | ------------------------------------------- |
-| `dev`  | `in.sreerajp.qr_studio.dev` | QR Studio Dev       | Debug keystore (automatic)                  |
+| `dev`  | `in.sreerajp.qr_studio.dev` | SreerajP QR Studio Dev | Debug keystore (automatic)                  |
 | `prod` | `in.sreerajp.qr_studio`     | SreerajP QR Studio | Release keystore (`android/key.properties`) |
 
 > Android: `--flavor <name>` only. Flutter sets `FLUTTER_APP_FLAVOR` itself; never pass it with
@@ -117,7 +117,7 @@ flutter build appbundle --flavor prod --release \
 
 ## Signing / keystore
 
-- Release signing uses `android/key.properties` pointing to `android/keystore.jks`. Keep at least one offline backup.
+- Release signing uses `android/key.properties` pointing to `android/keystore.jks`. Back it up as `docs/guidelines/guideline.md` §2.3 says: at least two separate secure backups, at least one of them offline.
 - `android/key.properties` and `*.jks` are gitignored — never commit them.
 - `.gitignore` must include `android/key.properties`, `*.jks`, `*.keystore`, and `build/` (which also holds the debug symbols).
 - Full keystore rules: `docs/guidelines/guideline.md` §2.
@@ -126,9 +126,12 @@ flutter build appbundle --flavor prod --release \
 
 ## Security rules
 
+- Follow the Security Baseline (`docs/guidelines/flutter_project_engineering_standard.md` §15.1, checklist in `docs/security.md` §1.1). Never weaken a security control to make something work; ask first.
+- HTTPS only; never disable certificate checks.
+- No secrets in code, assets, or `--dart-define` — anything shipped in the app is public.
 - Never log secrets, API keys, or decrypted data in debug or production builds.
 - Store sensitive keys in `flutter_secure_storage`; never in `SharedPreferences`.
-- Maintain `android:allowBackup="false"` in `AndroidManifest.xml`.
+- Maintain `android:allowBackup="false"` and `android:usesCleartextTraffic="false"` in `AndroidManifest.xml`. Backup and device-transfer rules stay as recorded in `docs/security.md` §10.
 - Request camera permission at point of use.
 
 ---
@@ -146,9 +149,10 @@ flutter build appbundle --flavor prod --release \
 - Menu, button, label, tab and tooltip strings stay short in every declared language — at most 20 characters in English and 22 in Malayalam and Sanskrit (§8.6, language pack §5). Only `desc…`/`help…`/`empty…`/`error…`/`body…`/`aboutDetail…` keys may be long.
 - Every icon-only control has a localized `tooltip:` (§7.8).
 - Material and Cupertino come from the `material_ui` / `cupertino_ui` packages (with a caret `^` constraint). New code imports `package:material_ui/material_ui.dart`, never `package:flutter/material.dart` (§6.1). Existing imports are being migrated (compliance roadmap Phase 4).
-- The About screen is data-driven and localized; it ends with the signature badge "Made with ❤️ from India" (on, per `docs/PROJECT_PROFILE.md`).
+- The About screen is data-driven and localized; it ends with the signature badge "Made with {heart} from India" (on, per `docs/PROJECT_PROFILE.md`). Write the heart as `{heart}`, never as an emoji.
 - Services must not hold user-visible text. They return an `AppMessage` (a key plus arguments); the screen turns it into text through `AppLocalizations`.
-- Literals are allowed only for logs, non-UI exception messages, asset paths, route names, map/JSON keys, barcode protocol tokens (`BEGIN:VCARD`, `WIFI:`), and the CSV/JSON export headers that the import path reads back.
+- Literals are allowed only for logs, non-UI exception messages, asset paths, route names, map/JSON keys, `Semantics` test tags, developer-only screens, barcode protocol tokens (`BEGIN:VCARD`, `WIFI:`), and the CSV/JSON export headers that the import path reads back.
+- The one other source of user-visible text is the About-screen values in `assets/config/app_config.json` (locale maps, `docs/guidelines/guideline.md` §1). The app name comes from `appName` there (plus the dev suffix, `AppFlavorConfig.nameSuffix`) and matches the Android `app_name` in every `values-<code>/strings.xml` (§1.8). There is no app-name key in the ARB files.
 
 ---
 
@@ -157,7 +161,7 @@ flutter build appbundle --flavor prod --release \
 - Files `snake_case.dart`; classes `PascalCase`; variables/methods `camelCase`; providers `camelCase` + `Provider` suffix.
 - Use `package:` imports (`package:sreerajp_qr_studio/...`), not relative imports.
 - Prefer `const` constructors, `final` locals, and single quotes.
-- Run `dart format .` and keep `flutter analyze` clean (0 warnings) before every commit.
+- Run `dart format .` before every commit; `flutter analyze` adds no new warnings (zero is the goal, and the code is at zero today).
 
 ---
 
@@ -200,7 +204,7 @@ tool/                # release & build scripts
 
 Every change follows plan-before-changing and log-after-changing:
 
-1. **Plan before changing.** Write a full plan to `plans/` named `yyyymmdd_hhMMss_<short-slug>.md` with a `**Status:**` line, the files to change, the issue, and the fix. Then **STOP and get explicit approval** before editing/creating/deleting any project file (other than the plan). A question or ambiguous reply is not approval.
+1. **Plan before changing.** Write a full plan to `plans/` named `yyyymmdd_hhMMss_<short-slug>.md` with a `**Status:**` line, the files to change, the issue, and the fix. A plan that touches network, storage, sign-in, permissions, deep links, WebViews, platform folders or dependencies has a short **"Security impact"** line (engineering standard §22.2). Then **STOP and get explicit approval** before editing/creating/deleting any project file (other than the plan). A question or ambiguous reply is not approval.
 2. **Log after changing.** After implementing, write a change log to `change_log/` named `yyyymmdd_hhMMss_<short-slug>.md` describing what changed and referencing its plan.
 3. **Relative paths & privacy only.** `plans/` and `change_log/` files are committed and may become public on the internet. They MUST use relative repository paths only (never absolute system paths with a drive letter, and never `file:///` links). They MUST NOT contain any **local system details** — OS user name, computer/host name, home or drive-letter paths, network share names, LAN/internal IP addresses, local server URLs with ports, device serial numbers, personal email addresses — or any secret (API keys, tokens, passwords, keystore passphrases, credentials, PII). Write them as if a stranger will read them; nothing should reveal the machine they came from.
 4. **The guidelines submodule is read-only.** `docs/guidelines/` is read-only. Never edit, pull, check out or commit the submodule or its version. If a guideline needs a change, write a note for the user instead (`docs/guidelines/DOCS_FOLDER_GUIDELINE.md` §1.1). If the folder is empty or missing, stop and ask the user.

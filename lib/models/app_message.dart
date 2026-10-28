@@ -20,6 +20,7 @@ enum AppMessageKey {
   sslValid,
   sslExpired,
   sslNotYetValid,
+  sslUntrusted,
   sslUnverifiable,
   sslCheckFailed,
 
@@ -150,9 +151,11 @@ enum AppMessageKey {
   mediaImagePickFailed,
   mediaNoCodeInImage,
   mediaImageAnalyzeFailed,
+  mediaImageTooLarge,
   mediaPdfPickFailed,
   mediaNoCodeInPdf,
   mediaPdfScanFailed,
+  mediaPdfTooLarge,
 
   // --- CodeForge file reading ---
   codeForgeFileEmpty,

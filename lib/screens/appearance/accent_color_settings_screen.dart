@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/providers/theme_provider.dart';
+import 'package:sreerajp_qr_studio/widgets/app_display_name.dart';
 
 /// Configuration screen for Material You Dynamic Colors and Accent Color preferences.
 class AccentColorSettingsScreen extends StatelessWidget {
@@ -50,7 +51,7 @@ class AccentColorSettingsScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      l10n.titleApp,
+                      context.appDisplayName,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w700,

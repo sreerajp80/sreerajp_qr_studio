@@ -267,7 +267,7 @@ class AirQrService {
   }) {
     final bytes = utf8.encode(payload);
     final totalBlocks = (bytes.length / blockSize).ceil();
-    final streamId = (Random().nextInt(899999) + 100000).toString();
+    final streamId = (Random.secure().nextInt(899999) + 100000).toString();
 
     final List<List<int>> sourceBlocks = [];
     for (int i = 0; i < totalBlocks; i++) {

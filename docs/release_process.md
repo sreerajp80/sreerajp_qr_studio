@@ -54,8 +54,9 @@ One person does every role in this project.
   `lib/core/constants/app_version.g.dart` and `build_date.g.dart` from `pubspec.yaml`
   (`tool/generate_app_version.dart`, `tool/generate_build_date.dart`).
 - Build number: +1 for every upload to any channel, never reused, even for a rejected build.
-- Git tag format (as used so far): **`Release_YYYYMMDD`** on the release commit — for example
-  `Release_20261012` for 4.1.0+34.
+- Git tag format: **`v<X.Y.Z>`** (no `+build`), once per release, on the release commit —
+  for example `v4.1.8`. Older releases were tagged `Release_YYYYMMDD`; those tags stay as they
+  are.
 
 ---
 
@@ -289,7 +290,7 @@ Complete before every release.
 9. Complete the Google Play gate (§8 "Store readiness"), upload the `.aab` to internal testing,
    check the pre-launch report, then start a staged rollout (for example 10% → 50% → 100%).
 10. Publish the split APKs for direct download (with SHA-256 checksums).
-11. Tag the release commit: `git tag Release_YYYYMMDD` and push the tag.
+11. Tag the release commit once: `git tag v<X.Y.Z>` (no `+build`) and push the tag.
 12. Stop the Gradle daemons (`android\gradlew --stop`) and end any leftover `GradleDaemon` /
     `KotlinCompileDaemon` process.
 
@@ -352,6 +353,6 @@ Record after each release (in the release's change log or next to the archived a
 
 - [ ] Android vitals (crash and ANR rate) reviewed at each rollout step.
 - [ ] User reports and store reviews triaged.
-- [ ] Release tag `Release_YYYYMMDD` created and pushed.
+- [ ] Release tag `v<X.Y.Z>` created and pushed.
 - [ ] Debug symbols confirmed in the secure archive.
 - [ ] Follow-up tasks recorded as plans.

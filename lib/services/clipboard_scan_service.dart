@@ -9,6 +9,7 @@ import 'package:sreerajp_qr_studio/models/parsed_payload.dart';
 import 'package:sreerajp_qr_studio/services/payload_parser_service.dart';
 import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
 import 'package:sreerajp_qr_studio/models/code_content_type.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
 
 /// Service responsible for inspecting the system clipboard and detecting scannable
 /// images, URLs, and structured barcode payloads.
@@ -25,10 +26,14 @@ class ClipboardScanService {
 
   static final RegExp _numericBarcodeRegex = RegExp(r'^\d{8}$|^\d{12,14}$');
 
+  /// Longest data URI text that is decoded; tests pass a small value.
+  final int maxDataUriChars;
+
   ClipboardScanService({
     MethodChannel? channel,
     PayloadParserService? payloadParserService,
     StegoQrService? stegoQrService,
+    this.maxDataUriChars = AppConstants.maxClipboardDataUriChars,
   }) : _channel = channel ?? const MethodChannel(_clipboardChannelName),
        _payloadParserService = payloadParserService ?? PayloadParserService(),
        _stegoQrService = stegoQrService ?? StegoQrService();
@@ -137,6 +142,8 @@ class ClipboardScanService {
         !text.contains(';base64,')) {
       return null;
     }
+    // Too large to be a sensible image (docs/security.md §3.1): not offered.
+    if (text.length > maxDataUriChars) return null;
 
     try {
       final parts = text.split(';base64,');
