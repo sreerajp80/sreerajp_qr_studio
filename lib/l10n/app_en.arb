@@ -567,6 +567,16 @@
   "@errorExportPassphraseRequired": {
     "description": "Message shown when the user tries to back up without a password"
   },
+  "errorPassphraseTooShort": "Use a password of at least {min} characters.",
+  "@errorPassphraseTooShort": {
+    "description": "Shown when the password for a new encrypted backup or AirQR sync package is too short",
+    "placeholders": {
+      "min": {
+        "type": "int",
+        "example": "8"
+      }
+    }
+  },
   "actionExportCreateBackup": "Create backup",
   "@actionExportCreateBackup": {
     "description": "Button that builds and shares the encrypted backup file"
@@ -1227,6 +1237,10 @@
   "bodyStegoLocked": "This QR code contains a hidden, encrypted secret layer. Authenticate to view the hidden payload.",
   "@bodyStegoLocked": {
     "description": "Shown when a code hides a secret that is still locked"
+  },
+  "bodyLegacyCryptoFormat": "Old encryption format. It is weaker, and changes to the content cannot be detected.",
+  "@bodyLegacyCryptoFormat": {
+    "description": "Warning shown after unlocking a payload that used an old, weak encryption scheme (no tamper check or unsalted key)"
   },
   "actionStegoBiometricUnlock": "Biometric Unlock",
   "@actionStegoBiometricUnlock": {

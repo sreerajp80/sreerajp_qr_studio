@@ -46,6 +46,18 @@ class UrlSafetyService {
   static http.Client _privacyClient() =>
       IOClient(HttpClient()..userAgent = null);
 
+  /// Sends one `HEAD` request that does **not** follow redirects, so a 3xx
+  /// reply and its `location` header reach the caller. `package:http` follows
+  /// redirects by default, which would hide them on a real device.
+  Future<http.StreamedResponse> _headNoRedirect(Uri uri) async {
+    final request = http.Request('HEAD', uri)..followRedirects = false;
+    final response = await _httpClient
+        .send(request)
+        .timeout(const Duration(seconds: 5));
+    await response.stream.drain<void>().timeout(const Duration(seconds: 5));
+    return response;
+  }
+
   Future<List<SafetyCheckResult>> runAllChecks(String url) async {
     final activeProbing = await isActiveProbingEnabled();
     return [
@@ -231,9 +243,7 @@ class UrlSafetyService {
 
         visitedUrls.add(currentUrl);
 
-        final response = await _httpClient
-            .head(Uri.parse(currentUrl))
-            .timeout(const Duration(seconds: 5));
+        final response = await _headNoRedirect(Uri.parse(currentUrl));
 
         final sc = response.statusCode;
         if (sc < 300 || sc >= 400) break;
@@ -242,15 +252,7 @@ class UrlSafetyService {
         final location = response.headers['location'];
         if (location == null) break;
 
-        if (location.startsWith('/')) {
-          final uri = Uri.parse(currentUrl);
-          currentUrl = '${uri.scheme}://${uri.host}$location';
-        } else if (!location.startsWith('http')) {
-          final uri = Uri.parse(currentUrl);
-          currentUrl = '${uri.scheme}://${uri.host}/$location';
-        } else {
-          currentUrl = location;
-        }
+        currentUrl = Uri.parse(currentUrl).resolve(location).toString();
       }
 
       if (redirectCount == 0) {
@@ -419,19 +421,15 @@ class UrlSafetyService {
       var networkCheckCompleted = false;
       if (activeProbing) {
         try {
-          final response = await _httpClient
-              .head(uri)
-              .timeout(const Duration(seconds: 5));
+          final response = await _headNoRedirect(uri);
           networkCheckCompleted = true;
 
-          if (response.isRedirect && domain.length <= 12) {
+          final isRedirect =
+              response.statusCode >= 300 && response.statusCode < 400;
+          if (isRedirect && domain.length <= 12) {
             final location = response.headers['location'];
             if (location != null) {
-              final redirectUri = Uri.parse(
-                location.startsWith('http')
-                    ? location
-                    : '${uri.scheme}://${uri.host}$location',
-              );
+              final redirectUri = uri.resolve(location);
               if (redirectUri.host != uri.host) {
                 return SafetyCheckResult(
                   checkName: const AppMessage(AppMessageKey.checkNameShortener),

@@ -332,7 +332,12 @@ class EncryptedPayloadService {
         iv: ivObj,
       );
 
-      return data.copyWith(isUnlocked: true, decryptedPayload: decryptedText);
+      // StegoQR v1 is a weak legacy format (CBC, no tamper check).
+      return data.copyWith(
+        isUnlocked: true,
+        decryptedPayload: decryptedText,
+        isLegacyFormat: true,
+      );
     } catch (_) {
       return data.copyWith(
         error: const AppMessage(AppMessageKey.stegoWrongPassphrase),
@@ -353,8 +358,9 @@ class EncryptedPayloadService {
     try {
       final ivBytes = _decodeFlexibleBase64(data.iv!);
       Uint8List keyBytes;
+      final hasSalt = data.salt != null && data.salt!.isNotEmpty;
 
-      if (data.salt != null && data.salt!.isNotEmpty) {
+      if (hasSalt) {
         final saltBytes = _decodeFlexibleBase64(data.salt!);
         keyBytes = deriveKeyPbkdf2(passphrase, saltBytes);
       } else {
@@ -375,7 +381,12 @@ class EncryptedPayloadService {
         iv: ivObj,
       );
 
-      return data.copyWith(isUnlocked: true, decryptedPayload: decrypted);
+      // Weak when the key is unsalted SHA-256 or the mode has no tamper check.
+      return data.copyWith(
+        isUnlocked: true,
+        decryptedPayload: decrypted,
+        isLegacyFormat: !hasSalt || mode == enc.AESMode.cbc,
+      );
     } catch (_) {
       return data.copyWith(
         error: const AppMessage(AppMessageKey.stegoWrongPassphrase),
@@ -393,7 +404,12 @@ class EncryptedPayloadService {
       passphrase: passphrase,
     );
     if (result != null) {
-      return data.copyWith(isUnlocked: true, decryptedPayload: result);
+      // decryptRaw always uses an unsalted SHA-256 key: a weak legacy scheme.
+      return data.copyWith(
+        isUnlocked: true,
+        decryptedPayload: result,
+        isLegacyFormat: true,
+      );
     }
     return data.copyWith(
       error: const AppMessage(AppMessageKey.stegoWrongPassphrase),

@@ -15,6 +15,14 @@ void main() {
     expect(locked.isUnlocked, isFalse);
     expect(locked.decryptedPayload, isNull);
     expect(locked.error, isNull);
+    expect(locked.isLegacyFormat, isFalse);
+  });
+
+  test('copyWith sets and keeps isLegacyFormat', () {
+    final legacy = locked.copyWith(isLegacyFormat: true);
+    expect(legacy.isLegacyFormat, isTrue);
+    expect(legacy.copyWith().isLegacyFormat, isTrue);
+    expect(legacy.copyWith(isLegacyFormat: false).isLegacyFormat, isFalse);
   });
 
   test('copyWith changes only the given fields', () {

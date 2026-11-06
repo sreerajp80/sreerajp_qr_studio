@@ -221,18 +221,93 @@ void main() {
       expect(capture.blocked, isTrue);
       await sub.cancel();
     });
+  });
 
-    test('deleteCapture removes the cached picture', () async {
-      final dir = await Directory.systemTemp.createTemp('ghost_scan_test');
-      final file = File('${dir.path}/capture.jpg');
+  group('own capture check (only our cache files are scanned or deleted)', () {
+    late Directory root;
+    late Directory cacheDir;
+    late Directory otherDir;
+    late GhostScanService cacheService;
+
+    Future<File> makeFile(Directory dir, String name) async {
+      final file = File('${dir.path}${Platform.pathSeparator}$name');
       await file.writeAsBytes([1, 2, 3]);
+      return file;
+    }
 
-      await service.deleteCapture(file.path);
+    setUp(() async {
+      root = await Directory.systemTemp.createTemp('ghost_scan_test');
+      cacheDir = await Directory('${root.path}${Platform.pathSeparator}cache')
+          .create();
+      otherDir = await Directory(
+        '${root.path}${Platform.pathSeparator}databases',
+      ).create();
+      cacheService = GhostScanService(
+        channel: channel,
+        cacheDirectory: () async => cacheDir,
+      );
+    });
+
+    tearDown(() async {
+      cacheService.dispose();
+      await root.delete(recursive: true);
+    });
+
+    test('accepts ghost_scan_<digits>.jpg inside the cache folder', () async {
+      final file = await makeFile(cacheDir, 'ghost_scan_123.jpg');
+      expect(await cacheService.isOwnCapture(file.path), isTrue);
+    });
+
+    test('rejects a capture-named file outside the cache folder', () async {
+      final file = await makeFile(otherDir, 'ghost_scan_1.jpg');
+      expect(await cacheService.isOwnCapture(file.path), isFalse);
+    });
+
+    test('rejects a path that climbs out of the cache with ..', () async {
+      await makeFile(otherDir, 'history.db');
+      final sep = Platform.pathSeparator;
+      final sneaky = '${cacheDir.path}$sep..${sep}databases${sep}history.db';
+      expect(await cacheService.isOwnCapture(sneaky), isFalse);
+    });
+
+    test('rejects other file names inside the cache folder', () async {
+      final clip = await makeFile(cacheDir, 'clipboard_image_1.png');
+      final db = await makeFile(cacheDir, 'history.db');
+      final noDigits = await makeFile(cacheDir, 'ghost_scan_.jpg');
+      expect(await cacheService.isOwnCapture(clip.path), isFalse);
+      expect(await cacheService.isOwnCapture(db.path), isFalse);
+      expect(await cacheService.isOwnCapture(noDigits.path), isFalse);
+    });
+
+    test('rejects a missing file', () async {
+      final sep = Platform.pathSeparator;
+      final missing = '${cacheDir.path}${sep}ghost_scan_9.jpg';
+      expect(await cacheService.isOwnCapture(missing), isFalse);
+    });
+
+    test('deleteCapture removes our own cached picture', () async {
+      final file = await makeFile(cacheDir, 'ghost_scan_42.jpg');
+
+      await cacheService.deleteCapture(file.path);
       expect(await file.exists(), isFalse);
 
       // A missing file is ignored.
-      await service.deleteCapture(file.path);
-      await dir.delete(recursive: true);
+      await cacheService.deleteCapture(file.path);
+    });
+
+    test('deleteCapture never deletes a file outside the cache', () async {
+      final db = await makeFile(otherDir, 'history.db');
+      final prefs = await makeFile(otherDir, 'ghost_scan_7.jpg');
+
+      await cacheService.deleteCapture(db.path);
+      await cacheService.deleteCapture(prefs.path);
+      final sep = Platform.pathSeparator;
+      await cacheService.deleteCapture(
+        '${cacheDir.path}$sep..${sep}databases${sep}history.db',
+      );
+
+      expect(await db.exists(), isTrue);
+      expect(await prefs.exists(), isTrue);
     });
   });
 }

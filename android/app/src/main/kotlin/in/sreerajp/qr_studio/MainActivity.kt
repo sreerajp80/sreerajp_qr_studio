@@ -28,6 +28,11 @@ import android.os.Looper
 import android.view.WindowManager
 
 class MainActivity: FlutterFragmentActivity() {
+    companion object {
+        /** Sent only by GhostScanCaptureService; carries no data. */
+        const val ACTION_GHOST_SCAN = "in.sreerajp.qr_studio.ACTION_GHOST_SCAN"
+    }
+
     private val lightChannel = "in.sreerajp.qr_studio/ambient_light"
     private val wifiChannel = "in.sreerajp.qr_studio/wifi"
     private val clipboardChannel = "in.sreerajp.qr_studio/clipboard"
@@ -266,14 +271,19 @@ class MainActivity: FlutterFragmentActivity() {
         handleGhostScanIntent(intent)
     }
 
+    /**
+     * This activity is exported, so any app can send this action. Nothing is
+     * read from the intent's extras: the capture comes only from the
+     * in-process [GhostScanCaptureStore], which only our capture service fills.
+     */
     private fun handleGhostScanIntent(intent: Intent?) {
-        if (intent?.action == "in.sreerajp.qr_studio.ACTION_GHOST_SCAN") {
-            val imagePath = intent.getStringExtra("image_path")
-            if (imagePath != null) {
+        if (intent?.action == ACTION_GHOST_SCAN) {
+            val stored = GhostScanCaptureStore.take()
+            if (stored != null) {
                 val capture = mapOf<String, Any>(
-                    "imagePath" to imagePath,
-                    "fromBubble" to intent.getBooleanExtra(GhostScanActivity.EXTRA_FROM_BUBBLE, false),
-                    "blocked" to intent.getBooleanExtra(GhostScanCaptureService.EXTRA_BLOCKED, false)
+                    "imagePath" to stored.imagePath,
+                    "fromBubble" to stored.fromBubble,
+                    "blocked" to stored.blocked
                 )
                 if (ghostScanMethodChannel != null) {
                     ghostScanMethodChannel?.invokeMethod("onGhostScanImage", capture)

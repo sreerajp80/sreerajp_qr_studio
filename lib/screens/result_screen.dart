@@ -297,6 +297,8 @@ class _ResultScreenState extends State<ResultScreen> {
     final decryptedPayload =
         encryptedData?.decryptedPayload ?? stegoData?.decryptedPayload ?? '';
     final error = encryptedData?.error ?? stegoData?.error;
+    final isLegacyFormat =
+        encryptedData?.isLegacyFormat ?? stegoData?.isLegacyFormat ?? false;
 
     String cardTitle;
     String cardSubtitle;
@@ -370,6 +372,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 color: isUnlocked ? Colors.purple[900] : Colors.deepPurple[900],
               ),
             ),
+            if (isUnlocked && isLegacyFormat) ...[
+              const SizedBox(height: 8),
+              _buildLegacyFormatNote(l10n),
+            ],
             if (encryptedData?.fileName != null) ...[
               const SizedBox(height: 8),
               Container(
@@ -666,6 +672,34 @@ class _ResultScreenState extends State<ResultScreen> {
         provider.unlockStegoWithPassphrase(passphrase);
       }
     }
+  }
+
+  /// Amber note shown when content was unlocked through an old, weak
+  /// encryption scheme (read-only compatibility).
+  Widget _buildLegacyFormatNote(AppLocalizations l10n) {
+    return Container(
+      key: const Key('legacyCryptoFormatNote'),
+      width: double.infinity,
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: Colors.amber[50],
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: Colors.amber[400]!),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Icon(Icons.warning_amber_rounded, color: Colors.amber[900], size: 16),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              l10n.bodyLegacyCryptoFormat,
+              style: TextStyle(fontSize: 12, color: Colors.amber[900]),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildContentCard(String content, {String? title}) {
@@ -1384,6 +1418,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
                   if (decryptedResult != null) ...[
                     const SizedBox(height: 12),
+                    // Manual decrypt always uses an unsalted SHA-256 key.
+                    _buildLegacyFormatNote(l10n),
+                    const SizedBox(height: 8),
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(12),

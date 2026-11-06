@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:encrypt/encrypt.dart';
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:pointycastle/digests/sha256.dart';
 import 'package:pointycastle/key_derivators/api.dart';
 import 'package:pointycastle/key_derivators/pbkdf2.dart';
@@ -111,7 +112,12 @@ class StegoQrService {
         iv: ivObj,
       );
 
-      return data.copyWith(isUnlocked: true, decryptedPayload: decryptedText);
+      // v1 is the only StegoQR version and it is weak, so flag it.
+      return data.copyWith(
+        isUnlocked: true,
+        decryptedPayload: decryptedText,
+        isLegacyFormat: true,
+      );
     } catch (e) {
       return data.copyWith(
         error: const AppMessage(AppMessageKey.stegoWrongPassphrase),
@@ -119,7 +125,12 @@ class StegoQrService {
     }
   }
 
-  /// Utility helper to generate a StegoQR payload string for testing or encoding.
+  /// Test helper: builds a StegoQR v1 payload string.
+  ///
+  /// v1 is a weak, read-only legacy format (AES-CBC, no tamper check,
+  /// 10,000 PBKDF2 rounds). App code must never write it; a future writer
+  /// must use the `PassphraseCipher` scheme under a new version header.
+  @visibleForTesting
   String createStegoPayload({
     required String secretPayload,
     required String passphrase,

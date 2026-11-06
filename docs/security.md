@@ -58,7 +58,8 @@ before every production release.
 - Protect users against malicious QR phishing ("quishing"), fraudulent redirects and homograph
   impersonation, with checks that work offline.
 - Let users inspect untrusted web pages in an isolated DOM sandbox before opening them.
-- Protect StegoQR secrets with AES-256-GCM and optional biometric verification (`local_auth`).
+- Protect StegoQR secrets with AES-256 and optional biometric verification (`local_auth`); warn
+  the user when a secret opens through an old, weak format (§6.1).
 - Protect stored scan history from casual extraction on a lost or stolen device (field
   encryption, key in Android KeyStore, no backups).
 - Keep user API keys only in the Android KeyStore (`flutter_secure_storage`).
@@ -102,6 +103,7 @@ Every way data reaches the app from outside, and how it is checked (engineering 
 | Clipboard | A copied image or text | Same checks as a scanned code; a `data:image` text over about 70 MB (50 MB of image) is ignored; a copied image file has the 50 MB image limit | No |
 | AirQR frames (screen to camera) | Fountain-coded frames | Frame header, stream id, block counts and checksums checked; encrypted transfers need the passphrase | Sync import writes data only after the user confirms |
 | Quick Settings tiles | GhostScan, Scan bubble | Bound only by the system (`BIND_QUICK_SETTINGS_TILE`); a tap only opens the app or starts the user-visible capture flow | No |
+| Intents to the exported `MainActivity` | `ACTION_GHOST_SCAN` sent by another app | No extras are read; the capture comes only from the in-process `GhostScanCaptureStore`; Dart also checks the path is our own cache capture before scanning or deleting (§10.1) | No |
 | Boot receiver | `BOOT_COMPLETED` | Not exported; restores the bubble only if the user turned on "Start after restart" | No |
 | Platform channels | `in.sreerajp.qr_studio/window` and others | Argument types checked on both sides; unknown methods return "not implemented" | No |
 | Network API responses | Safe Browsing, VirusTotal, URLhaus, PhishTank, OpenPhish JSON | Parsed defensively; any error gives a safe "check failed" result; timeouts set | n/a |
@@ -174,11 +176,17 @@ calls are the optional, user-enabled link checks listed in §5 "In Transit".
 Only the design is written here, never key material.
 
 ### 6.1 StegoQR payload protection
-- **Cipher:** AES-256-GCM via `encrypt` / `pointycastle`; the GCM tag checks that neither the
-  payload nor the secret was changed.
+- **Cipher:** AirQR uses AES-256-GCM via `encrypt` / `pointycastle`; the GCM tag checks that
+  the payload was not changed. StegoQR v1 uses AES-256-CBC, which has **no tamper check**.
 - **Key derivation:** PBKDF2-HMAC-SHA256 with a random salt stored in the payload header —
   10,000 iterations for the StegoQR payload format, 200,000 for AirQR encrypted transfers. The
   10,000 count is kept so existing StegoQR codes still open (see §17).
+- **Old, weak formats are read-only and labelled.** StegoQR v1, JSON envelopes with no salt or
+  with AES-CBC, and generic / manual ciphertext (key = plain SHA-256 of the passphrase) still
+  open, so users keep access to their data. After such an unlock the service sets
+  `isLegacyFormat`, and the result screen shows a warning that the format is weaker and changes
+  cannot be detected. The app never writes these formats: `StegoQrService.createStegoPayload`
+  is `@visibleForTesting` only.
 - **Fingerprinting:** SHA-256 (`crypto`) gives a checksum of a scanned code for history
   de-duplication; it is not used as a key.
 
@@ -225,7 +233,8 @@ Only the design is written here, never key material.
 - Keys, IVs, salts and passwords are never hard-coded (checked: no API key or secret literal in
   `lib/` or `android/`).
 - Randomness uses `Random.secure()`.
-- Encrypted formats are versioned (`h2:` for history; `SREERAJ_QR_BACKUP_V1` for backups).
+- Encrypted formats are versioned (`h2:` for history; `SREERAJ_QR_BACKUP_V2` and
+  `SREERAJ_AIRQR_SYNC_V2` for backups and sync packages; the `_V1` headers are read only).
 - Never use ECB mode or static IVs for new formats.
 - Plaintexts and passphrases never appear in logs (§9).
 
@@ -342,6 +351,15 @@ Security must not make the app hard to use or slow (engineering standard §15.6)
   (`GhostScanTileService`, `ScanBubbleTileService`, protected by
   `BIND_QUICK_SETTINGS_TILE`). All other services, activities and the boot receiver are
   `exported="false"`.
+- **GhostScan hand-off to the exported `MainActivity`:** any app can start `MainActivity`
+  with any action and extras, so the GhostScan capture never travels in the intent. The
+  capture service stores the capture (path and flags) in the in-process
+  `GhostScanCaptureStore`, and the `ACTION_GHOST_SCAN` intent carries no data. `MainActivity`
+  reads only the action and takes the capture from the store, or does nothing if it is empty.
+  As a backup check, Dart scans and deletes only files that pass
+  `GhostScanService.isOwnCapture`: an existing `ghost_scan_<digits>.jpg` directly in the app
+  cache folder after `..` and symbolic links are resolved. Before this fix, another app could
+  pass any path and the app would delete that file (for example its own history database).
 - `PendingIntent`: every one uses `FLAG_IMMUTABLE` (`GhostScanTileService`,
   `ScanBubbleTileService`, `ScanBubbleService`). No mutable `PendingIntent` is needed.
 - `FileProvider`: the app declares none of its own. Sharing exports uses the provider of the
@@ -542,7 +560,7 @@ by the exact old scheme; migrations are tested from the frozen v1 SQL.
 
 | Risk | Hardening option | Plan |
 |---|---|---|
-| StegoQR payload format uses 10,000 PBKDF2 iterations | A new payload version with a higher count; keep reading the old one | Future |
+| StegoQR v1 and other legacy formats are weak (CBC with no tamper check, 10,000 PBKDF2 iterations, or an unsalted SHA-256 key) | Read-only and shown with a warning (§6.1). If a StegoQR writer is added, use a new version with the `PassphraseCipher` scheme (PBKDF2 600,000 + AES-GCM) | Accepted (read-only) |
 | A legacy history value that is really plain text but looks like valid CBC ciphertext would be misread | Very unlikely; disappears once all rows are v2 | Accepted |
 | No certificate pinning for online checks | Pinning would break when providers rotate certificates; online checks are optional | Accepted |
 | App lock waits 30 s before locking after a trip to the background | Needed so pickers and the share sheet keep working; sensitive screens are already hidden from recents by `FLAG_SECURE` (unless the user turned the screenshot guard off) | Accepted |

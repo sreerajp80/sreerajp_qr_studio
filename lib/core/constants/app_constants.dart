@@ -9,6 +9,11 @@ class AppConstants {
   /// Maximum character length for plain text QR code to ensure reliable scanning.
   static const int maxCodeForgeTextLength = 500;
 
+  /// Shortest passphrase allowed when creating an encrypted backup or an
+  /// AirQR sync package. These can hold Wi-Fi passwords and TOTP seeds.
+  /// Restore and receive paths do not apply it, so older backups still open.
+  static const int minBackupPassphraseLength = 8;
+
   // --- Limits for images and PDFs from outside the app (docs/security.md §3.1) ---
 
   /// Largest image file (gallery, file picker, share, clipboard) that is read.

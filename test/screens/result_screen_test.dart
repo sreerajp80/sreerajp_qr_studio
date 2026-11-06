@@ -12,6 +12,7 @@ import 'package:sreerajp_qr_studio/models/safety_check_result.dart';
 import 'package:sreerajp_qr_studio/providers/scan_provider.dart';
 import 'package:sreerajp_qr_studio/screens/result_screen.dart';
 import 'package:sreerajp_qr_studio/services/dom_sandbox_service.dart';
+import 'package:sreerajp_qr_studio/services/stego_qr_service.dart';
 import 'package:sreerajp_qr_studio/services/url_safety_service.dart';
 
 import '../helpers/accessibility_checks.dart';
@@ -126,6 +127,66 @@ void main() {
     final size = tester.view.physicalSize / tester.view.devicePixelRatio;
     return rect.top >= 0 && rect.bottom <= size.height;
   }
+
+  group('ResultScreen legacy crypto note', () {
+    const passphrase = 'note-test-passphrase';
+    const noteKey = Key('legacyCryptoFormatNote');
+
+    Future<ScanProvider> pumpStego(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(1080, 2340);
+      tester.view.devicePixelRatio = 2.625;
+      addTearDown(tester.view.reset);
+
+      final payload = StegoQrService().createStegoPayload(
+        secretPayload: 'hidden text',
+        passphrase: passphrase,
+        decoyText: 'Plain decoy',
+      );
+      final provider = ScanProvider(
+        urlSafetyService: _FakeUrlSafetyService(),
+        domSandboxService: _FakeDomSandboxService(),
+      );
+      provider.setScanResult(payload, CodeContentType.text);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: provider,
+          child: const MaterialApp(
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              ...GlobalMaterialLocalizations.delegates,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: ResultScreen(),
+          ),
+        ),
+      );
+      await tester.pump();
+      return provider;
+    }
+
+    testWidgets('No note while the StegoQR layer is locked', (tester) async {
+      await pumpStego(tester);
+      expect(find.byKey(noteKey), findsNothing);
+    });
+
+    testWidgets('Note shows after unlocking a v1 StegoQR', (tester) async {
+      final provider = await pumpStego(tester);
+      await tester.runAsync(
+        () async => provider.unlockStegoWithPassphrase(passphrase),
+      );
+      await tester.pump();
+
+      expect(find.byKey(noteKey), findsOneWidget);
+      expect(
+        find.text(
+          'Old encryption format. It is weaker, and changes to the '
+          'content cannot be detected.',
+        ),
+        findsOneWidget,
+      );
+    });
+  });
 
   group('ResultScreen compact layout', () {
     testWidgets('Open, Copy, Share and More are visible without scrolling', (

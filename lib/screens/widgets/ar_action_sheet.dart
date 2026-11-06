@@ -118,12 +118,7 @@ class ArActionSheet extends StatelessWidget {
                   const SizedBox(width: 8),
                   if (target.isUrl)
                     FilledButton.icon(
-                      onPressed: () async {
-                        final uri = Uri.tryParse(target.rawValue);
-                        if (uri != null && await canLaunchUrl(uri)) {
-                          await launchUrl(uri);
-                        }
-                      },
+                      onPressed: () => _openUrl(context),
                       icon: const Icon(Icons.open_in_browser, size: 18),
                       label: Text(l10n.actionArOpenUrl),
                     )
@@ -150,6 +145,74 @@ class ArActionSheet extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  /// Opens the link. Unless the verdict is "safe", asks first, the same way
+  /// the result screen does ("Open anyway"), so AR mode is not a shortcut
+  /// around the safety warning.
+  Future<void> _openUrl(BuildContext context) async {
+    final uri = Uri.tryParse(target.rawValue);
+    if (uri == null) return;
+
+    final status = target.safetyStatus;
+    if (status != TargetSafetyStatus.safe) {
+      final confirmed = await _confirmOpen(context, status);
+      if (confirmed != true) return;
+    }
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  Future<bool?> _confirmOpen(BuildContext context, TargetSafetyStatus status) {
+    final l10n = AppLocalizations.of(context);
+    final isWarning = status == TargetSafetyStatus.warning;
+    return showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(
+              isWarning ? Icons.warning : Icons.info_outline,
+              color: isWarning ? Colors.red : Colors.orange,
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: Text(
+                isWarning ? l10n.titleWarningDialog : l10n.titleCautionDialog,
+              ),
+            ),
+          ],
+        ),
+        content: Text(
+          isWarning ? l10n.bodyWarningDialog : l10n.bodyCautionDialog,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.actionCancel),
+          ),
+          // For a warning, keep "Open anyway" plain so Cancel is the easy
+          // choice.
+          if (isWarning)
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              child: Text(l10n.actionOpenAnyway),
+            )
+          else
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context, true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange,
+                foregroundColor: Colors.white,
+              ),
+              child: Text(l10n.actionOpenAnyway),
+            ),
+        ],
       ),
     );
   }

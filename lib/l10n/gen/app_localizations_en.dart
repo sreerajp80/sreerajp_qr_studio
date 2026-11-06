@@ -406,6 +406,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please enter a password to encrypt your backup file.';
 
   @override
+  String errorPassphraseTooShort(int min) {
+    return 'Use a password of at least $min characters.';
+  }
+
+  @override
   String get actionExportCreateBackup => 'Create backup';
 
   @override
@@ -858,6 +863,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get bodyStegoLocked =>
       'This QR code contains a hidden, encrypted secret layer. Authenticate to view the hidden payload.';
+
+  @override
+  String get bodyLegacyCryptoFormat =>
+      'Old encryption format. It is weaker, and changes to the content cannot be detected.';
 
   @override
   String get actionStegoBiometricUnlock => 'Biometric Unlock';

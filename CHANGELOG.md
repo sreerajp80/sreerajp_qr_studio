@@ -72,6 +72,13 @@ change is in [`change_log/`](change_log/).
 - Text no longer runs off the screen in the camera adjustments panel or on the label under a
   detected code, in any language or with large text.
 
+### Security
+- Another app on the phone can no longer make SreerajP QR Studio delete its own files (such
+  as scan history or settings) through the screen-scan hand-off.
+- When a hidden message opens through an old, weaker encryption format (StegoQR v1 and
+  similar), the result now shows a short warning that changes to the content cannot be
+  detected. Old codes still open as before.
+
 ## [4.1.0+34] — 2026-10-12 (`Release_20261012`)
 
 ### Added

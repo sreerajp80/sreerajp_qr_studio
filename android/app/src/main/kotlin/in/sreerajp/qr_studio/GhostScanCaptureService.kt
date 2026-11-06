@@ -44,9 +44,6 @@ class GhostScanCaptureService : Service() {
         private const val CHANNEL_ID = "ghost_scan_channel"
         private const val CHANNEL_NAME = "GhostScan Screen Detector"
 
-        /** Set when the captured frame is almost all black (app blocks capture). */
-        const val EXTRA_BLOCKED = "blocked"
-
         /** Wait for the consent dialog to fade out before keeping a frame. */
         private const val SETTLE_DELAY_MS = 500L
     }
@@ -236,11 +233,17 @@ class GhostScanCaptureService : Service() {
                     finalBitmap.compress(Bitmap.CompressFormat.JPEG, 92, out)
                 }
 
+                // The capture goes into the in-process store, never into the
+                // intent: MainActivity is exported and must not trust extras.
+                GhostScanCaptureStore.put(
+                    GhostScanCaptureStore.Capture(
+                        imagePath = cacheFile.absolutePath,
+                        fromBubble = fromBubble,
+                        blocked = blocked
+                    )
+                )
                 val launchIntent = Intent(this@GhostScanCaptureService, MainActivity::class.java).apply {
-                    action = "in.sreerajp.qr_studio.ACTION_GHOST_SCAN"
-                    putExtra("image_path", cacheFile.absolutePath)
-                    putExtra(GhostScanActivity.EXTRA_FROM_BUBBLE, fromBubble)
-                    putExtra(EXTRA_BLOCKED, blocked)
+                    action = MainActivity.ACTION_GHOST_SCAN
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 }
                 startActivity(launchIntent)

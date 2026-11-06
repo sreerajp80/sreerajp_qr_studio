@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/air_qr_frame.dart';
 import 'package:sreerajp_qr_studio/models/device_sync_data.dart';
@@ -150,6 +151,18 @@ class _AirQrTransmitterScreenState extends State<AirQrTransmitterScreen>
     if (passphrase.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.errorExportPassphraseRequired)),
+      );
+      return;
+    }
+    if (passphrase.length < AppConstants.minBackupPassphraseLength) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.errorPassphraseTooShort(
+              AppConstants.minBackupPassphraseLength,
+            ),
+          ),
+        ),
       );
       return;
     }

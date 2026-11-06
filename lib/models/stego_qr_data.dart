@@ -8,6 +8,10 @@ class StegoQrData {
   final String ciphertext;
   final bool isUnlocked;
   final String? decryptedPayload;
+
+  /// True when the payload was unlocked through the old, weak v1 scheme
+  /// (AES-CBC, no tamper check, 10,000 PBKDF2 rounds).
+  final bool isLegacyFormat;
   final AppMessage? error;
 
   const StegoQrData({
@@ -18,6 +22,7 @@ class StegoQrData {
     required this.ciphertext,
     this.isUnlocked = false,
     this.decryptedPayload,
+    this.isLegacyFormat = false,
     this.error,
   });
 
@@ -29,6 +34,7 @@ class StegoQrData {
     String? ciphertext,
     bool? isUnlocked,
     String? decryptedPayload,
+    bool? isLegacyFormat,
     AppMessage? error,
   }) {
     return StegoQrData(
@@ -39,6 +45,7 @@ class StegoQrData {
       ciphertext: ciphertext ?? this.ciphertext,
       isUnlocked: isUnlocked ?? this.isUnlocked,
       decryptedPayload: decryptedPayload ?? this.decryptedPayload,
+      isLegacyFormat: isLegacyFormat ?? this.isLegacyFormat,
       error: error ?? this.error,
     );
   }

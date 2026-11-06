@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:sreerajp_qr_studio/core/constants/app_constants.dart';
 import 'package:sreerajp_qr_studio/l10n/gen/app_localizations.dart';
 import 'package:sreerajp_qr_studio/models/app_message.dart';
 import 'package:share_plus/share_plus.dart';
@@ -116,6 +117,18 @@ class _ExportImportDialogState extends State<ExportImportDialog> {
     if (passphrase.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(l10n.errorExportPassphraseRequired)),
+      );
+      return;
+    }
+    if (passphrase.length < AppConstants.minBackupPassphraseLength) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            l10n.errorPassphraseTooShort(
+              AppConstants.minBackupPassphraseLength,
+            ),
+          ),
+        ),
       );
       return;
     }

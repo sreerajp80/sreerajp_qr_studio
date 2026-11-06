@@ -36,6 +36,11 @@ class EncryptedPayloadData {
   final int frameIndex;
   final bool isUnlocked;
   final String? decryptedPayload;
+
+  /// True when the payload was unlocked through an old, weak scheme
+  /// (unsalted SHA-256 key, or AES-CBC with no tamper check). Read-only
+  /// compatibility; the app never writes these formats.
+  final bool isLegacyFormat;
   final AppMessage? error;
 
   const EncryptedPayloadData({
@@ -53,6 +58,7 @@ class EncryptedPayloadData {
     this.frameIndex = 0,
     this.isUnlocked = false,
     this.decryptedPayload,
+    this.isLegacyFormat = false,
     this.error,
   });
 
@@ -71,6 +77,7 @@ class EncryptedPayloadData {
     int? frameIndex,
     bool? isUnlocked,
     String? decryptedPayload,
+    bool? isLegacyFormat,
     AppMessage? error,
   }) {
     return EncryptedPayloadData(
@@ -88,6 +95,7 @@ class EncryptedPayloadData {
       frameIndex: frameIndex ?? this.frameIndex,
       isUnlocked: isUnlocked ?? this.isUnlocked,
       decryptedPayload: decryptedPayload ?? this.decryptedPayload,
+      isLegacyFormat: isLegacyFormat ?? this.isLegacyFormat,
       error: error ?? this.error,
     );
   }

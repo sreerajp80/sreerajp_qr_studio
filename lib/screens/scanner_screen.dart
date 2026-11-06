@@ -324,6 +324,12 @@ class _ScannerScreenState extends State<ScannerScreen>
   }
 
   Future<void> _handleGhostScanCapture(GhostScanCapture capture) async {
+    // Backup check (docs/security.md §10.1): only scan and delete a file the
+    // native capture service wrote. Anything else is ignored silently.
+    if (!await _ghostScanService.isOwnCapture(capture.imagePath)) {
+      AppLogger.warning('GhostScan: ignored a capture outside the app cache');
+      return;
+    }
     if (!mounted) {
       await _ghostScanService.deleteCapture(capture.imagePath);
       return;

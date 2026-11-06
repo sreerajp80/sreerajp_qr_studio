@@ -29,7 +29,7 @@ class BiometricService {
     try {
       return await _auth.authenticate(
         localizedReason: localizedReason,
-        options: const AuthenticationOptions(stickyAuth: true),
+        persistAcrossBackgrounding: true,
       );
     } on PlatformException {
       return false;

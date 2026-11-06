@@ -402,6 +402,11 @@ class AppLocalizationsSa extends AppLocalizations {
       'सञ्चय-रक्षणाय कूटवाक्यम् आवश्यकमस्ति।';
 
   @override
+  String errorPassphraseTooShort(int min) {
+    return 'न्यूनातिन्यूनं $min अक्षरात्मकं कूटवाक्यं प्रयुङ्क्ष्व।';
+  }
+
+  @override
   String get actionExportCreateBackup => 'सञ्चयः निर्मीयताम्';
 
   @override
@@ -849,6 +854,10 @@ class AppLocalizationsSa extends AppLocalizations {
   @override
   String get bodyStegoLocked =>
       'अस्मिन् सङ्केते गूढं विषयमस्ति। दर्शनाय प्रमाणीकरणं कुरुत।';
+
+  @override
+  String get bodyLegacyCryptoFormat =>
+      'पुरातनी गूढलेखनपद्धतिः। एषा दुर्बला अस्ति; विषये कृताः परिवर्तनाः ज्ञातुं न शक्यन्ते।';
 
   @override
   String get actionStegoBiometricUnlock => 'जैविक-प्रवेशः';

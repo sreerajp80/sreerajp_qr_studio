@@ -404,6 +404,11 @@ class AppLocalizationsMl extends AppLocalizations {
       'ബാക്കപ്പ് ഫയൽ എൻക്രിപ്റ്റ് ചെയ്യാൻ രഹസ്യവാക്ക് നൽകുക.';
 
   @override
+  String errorPassphraseTooShort(int min) {
+    return 'കുറഞ്ഞത് $min അക്ഷരങ്ങളുള്ള രഹസ്യവാക്ക് ഉപയോഗിക്കുക.';
+  }
+
+  @override
   String get actionExportCreateBackup => 'ബാക്കപ്പ് നിർമ്മിക്കുക';
 
   @override
@@ -860,6 +865,10 @@ class AppLocalizationsMl extends AppLocalizations {
   @override
   String get bodyStegoLocked =>
       'ഈ ക്യുആർ കോഡിൽ മറഞ്ഞിരിക്കുന്ന എൻക്രിപ്റ്റ് ചെയ്ത രഹസ്യമുണ്ട്. കാണാൻ ആധികാരികത ഉറപ്പാക്കുക.';
+
+  @override
+  String get bodyLegacyCryptoFormat =>
+      'പഴയ എൻക്രിപ്ഷൻ രീതി. ഇത് ദുർബലമാണ്; ഉള്ളടക്കത്തിൽ വരുത്തിയ മാറ്റങ്ങൾ കണ്ടെത്താൻ കഴിയില്ല.';
 
   @override
   String get actionStegoBiometricUnlock => 'ബയോമെട്രിക് അൺലോക്ക്';

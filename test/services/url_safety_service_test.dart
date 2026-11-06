@@ -238,6 +238,63 @@ void main() {
         expect(result.skipped, isTrue);
       },
     );
+
+    test('asks the client not to follow redirects', () async {
+      final seen = <bool>[];
+      final client = MockClient((request) async {
+        seen.add(request.followRedirects);
+        return http.Response('', 200);
+      });
+      final service = UrlSafetyService(httpClient: client);
+      await service.checkUrlRedirects(
+        'https://example.com',
+        activeProbing: true,
+      );
+      expect(seen, [false]);
+    });
+
+    test('resolves a relative location and keeps the port', () async {
+      final urls = <String>[];
+      final client = MockClient((request) async {
+        urls.add(request.url.toString());
+        if (urls.length == 1) {
+          return http.Response('', 302, headers: {'location': '../b'});
+        }
+        return http.Response('', 200);
+      });
+      final service = UrlSafetyService(httpClient: client);
+      await service.checkUrlRedirects(
+        'https://example.com:8443/x/y',
+        activeProbing: true,
+      );
+      expect(urls, [
+        'https://example.com:8443/x/y',
+        'https://example.com:8443/b',
+      ]);
+    });
+  });
+
+  group('UrlSafetyService.checkUrlShorteners network probe', () {
+    test('flags a short link that redirects to another host', () async {
+      final seen = <bool>[];
+      final client = MockClient((request) async {
+        seen.add(request.followRedirects);
+        return http.Response(
+          '',
+          301,
+          headers: {'location': 'https://other.example/landing'},
+        );
+      });
+      final service = UrlSafetyService(httpClient: client);
+      final result = await service.checkUrlShorteners(
+        'https://sh.rt/abc',
+        activeProbing: true,
+      );
+      expect(seen, [false]);
+      expect(result.passed, isFalse);
+      expect(result.message.key, AppMessageKey.shortenerRedirect);
+      expect(result.message.args['host'], 'other.example');
+    });
   });
 
   group('UrlSafetyService.certificateProblem', () {

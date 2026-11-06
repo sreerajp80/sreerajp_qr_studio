@@ -2,6 +2,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:sreerajp_qr_studio/core/logging/app_logger.dart';
 import 'package:sreerajp_qr_studio/models/ghost_scan_capture.dart';
 
 /// Service interfacing with the native Android GhostScan platform channel.
@@ -33,9 +36,38 @@ class GhostScanService {
   Stream<String> get onGhostScanImage =>
       onCapture.map((capture) => capture.imagePath);
 
-  GhostScanService({MethodChannel? channel})
-    : _channel = channel ?? _defaultChannel {
+  /// [cacheDirectory] returns the folder where the native side saves
+  /// captures (the app cache). Tests pass a temp folder.
+  GhostScanService({
+    MethodChannel? channel,
+    Future<Directory> Function()? cacheDirectory,
+  }) : _channel = channel ?? _defaultChannel,
+       _cacheDirectory = cacheDirectory ?? getTemporaryDirectory {
     _channel.setMethodCallHandler(_handleMethodCall);
+  }
+
+  final Future<Directory> Function() _cacheDirectory;
+
+  /// File name the native capture service uses: `ghost_scan_<millis>.jpg`.
+  static final RegExp _captureNamePattern = RegExp(r'^ghost_scan_\d+\.jpg$');
+
+  /// True only for a capture file the native capture service wrote: an
+  /// existing `ghost_scan_<digits>.jpg` directly inside the app cache folder,
+  /// after `..` and symbolic links are resolved.
+  ///
+  /// A backup check behind the native fix (docs/security.md §10.1): a path
+  /// that fails it is never scanned or deleted.
+  Future<bool> isOwnCapture(String imagePath) async {
+    try {
+      if (!_captureNamePattern.hasMatch(p.basename(imagePath))) return false;
+      final resolved = await File(imagePath).resolveSymbolicLinks();
+      if (!_captureNamePattern.hasMatch(p.basename(resolved))) return false;
+      final cacheDir = await (await _cacheDirectory()).resolveSymbolicLinks();
+      return p.equals(p.dirname(resolved), cacheDir);
+    } catch (_) {
+      // Missing file or unreadable folder: not ours to touch.
+      return false;
+    }
   }
 
   Future<dynamic> _handleMethodCall(MethodCall call) async {
@@ -109,8 +141,14 @@ class GhostScanService {
   }
 
   /// Deletes a captured screen picture from the app cache once it has been
-  /// decoded. Errors are ignored: the cache is cleared by Android anyway.
+  /// decoded. Only a file that passes [isOwnCapture] is deleted. Errors are
+  /// ignored: the cache is cleared by Android anyway.
   Future<void> deleteCapture(String imagePath) async {
+    if (!await File(imagePath).exists()) return;
+    if (!await isOwnCapture(imagePath)) {
+      AppLogger.warning('GhostScan: refused to delete a non-capture file');
+      return;
+    }
     try {
       final file = File(imagePath);
       if (await file.exists()) {

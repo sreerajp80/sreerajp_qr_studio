@@ -144,6 +144,8 @@ void main() {
       expect(decrypted.decryptedPayload, plainSecretText);
       expect(decrypted.fileName, 'note.txt');
       expect(decrypted.mimeType, 'text/plain');
+      // AirQR uses PBKDF2 + AES-GCM: not a legacy format.
+      expect(decrypted.isLegacyFormat, isFalse);
 
       // 6. Test with wrong session code
       final failed = service.decrypt(detected, 'WRONG-CODE');
@@ -166,9 +168,97 @@ void main() {
       final decrypted = service.decrypt(detected!, 'CorrectPassword!');
       expect(decrypted.isUnlocked, isTrue);
       expect(decrypted.decryptedPayload, 'Super Secret Payload 42');
+      expect(decrypted.isLegacyFormat, isTrue);
 
       final wrongKeyResult = service.decrypt(detected, 'WrongPassword');
       expect(wrongKeyResult.isUnlocked, isFalse);
+      expect(wrongKeyResult.isLegacyFormat, isFalse);
+    });
+  });
+
+  group('Legacy format flag', () {
+    const passphrase = 'legacy-test-passphrase';
+    const secret = 'Legacy secret text';
+
+    final salt = Uint8List.fromList(List.generate(16, (i) => i + 1));
+    final gcmIv = Uint8List.fromList(List.generate(12, (i) => i + 20));
+    final cbcIv = Uint8List.fromList(List.generate(16, (i) => i + 40));
+    final shaKey = Uint8List.fromList(
+      sha256.convert(utf8.encode(passphrase)).bytes,
+    );
+
+    /// Builds a JSON envelope model encrypted with the given key and IV.
+    EncryptedPayloadData envelope({
+      required Uint8List key,
+      required Uint8List iv,
+      required enc.AESMode mode,
+      Uint8List? saltBytes,
+    }) {
+      final encrypted = enc.Encrypter(enc.AES(enc.Key(key), mode: mode))
+          .encrypt(secret, iv: enc.IV(iv));
+      return EncryptedPayloadData(
+        containerType: EncryptedContainerType.jsonEnvelope,
+        rawContent: '{}',
+        publicDisplay: '',
+        salt: saltBytes == null ? null : base64.encode(saltBytes),
+        iv: base64.encode(iv),
+        ciphertext: encrypted.base64,
+      );
+    }
+
+    test('JSON envelope with salt and AES-GCM is not legacy', () {
+      final data = envelope(
+        key: service.deriveKeyPbkdf2(passphrase, salt),
+        iv: gcmIv,
+        mode: enc.AESMode.gcm,
+        saltBytes: salt,
+      );
+      final result = service.decrypt(data, passphrase);
+      expect(result.isUnlocked, isTrue);
+      expect(result.decryptedPayload, secret);
+      expect(result.isLegacyFormat, isFalse);
+    });
+
+    test('JSON envelope with no salt is legacy', () {
+      final data = envelope(key: shaKey, iv: gcmIv, mode: enc.AESMode.gcm);
+      final result = service.decrypt(data, passphrase);
+      expect(result.isUnlocked, isTrue);
+      expect(result.isLegacyFormat, isTrue);
+    });
+
+    test('JSON envelope with salt but AES-CBC is legacy', () {
+      final data = envelope(
+        key: service.deriveKeyPbkdf2(passphrase, salt),
+        iv: cbcIv,
+        mode: enc.AESMode.cbc,
+        saltBytes: salt,
+      );
+      final result = service.decrypt(data, passphrase);
+      expect(result.isUnlocked, isTrue);
+      expect(result.isLegacyFormat, isTrue);
+    });
+
+    test('Generic ciphertext unlock is legacy', () {
+      final encrypted = enc.Encrypter(
+        enc.AES(enc.Key(shaKey), mode: enc.AESMode.gcm),
+      ).encryptBytes(utf8.encode(secret), iv: enc.IV(gcmIv));
+      final combined = Uint8List.fromList([...gcmIv, ...encrypted.bytes]);
+      final data = EncryptedPayloadData(
+        containerType: EncryptedContainerType.custom,
+        rawContent: base64.encode(combined),
+        publicDisplay: '',
+      );
+      final result = service.decrypt(data, passphrase);
+      expect(result.isUnlocked, isTrue);
+      expect(result.decryptedPayload, secret);
+      expect(result.isLegacyFormat, isTrue);
+    });
+
+    test('Failed unlock is never flagged', () {
+      final data = envelope(key: shaKey, iv: gcmIv, mode: enc.AESMode.gcm);
+      final result = service.decrypt(data, 'wrong passphrase');
+      expect(result.isUnlocked, isFalse);
+      expect(result.isLegacyFormat, isFalse);
     });
   });
 

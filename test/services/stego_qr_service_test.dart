@@ -64,6 +64,8 @@ void main() {
       expect(decrypted.isUnlocked, isTrue);
       expect(decrypted.decryptedPayload, equals(secret));
       expect(decrypted.error, isNull);
+      // v1 is the weak legacy format, so the unlock is flagged.
+      expect(decrypted.isLegacyFormat, isTrue);
     });
 
     test('decryptPayload with incorrect passphrase fails gracefully', () {
@@ -82,6 +84,7 @@ void main() {
       expect(decrypted.isUnlocked, isFalse);
       expect(decrypted.decryptedPayload, isNull);
       expect(decrypted.error?.key, AppMessageKey.stegoWrongPassphrase);
+      expect(decrypted.isLegacyFormat, isFalse);
     });
   });
 }

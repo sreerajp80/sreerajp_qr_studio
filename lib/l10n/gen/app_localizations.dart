@@ -784,6 +784,12 @@ abstract class AppLocalizations {
   /// **'Please enter a password to encrypt your backup file.'**
   String get errorExportPassphraseRequired;
 
+  /// Shown when the password for a new encrypted backup or AirQR sync package is too short
+  ///
+  /// In en, this message translates to:
+  /// **'Use a password of at least {min} characters.'**
+  String errorPassphraseTooShort(int min);
+
   /// Button that builds and shares the encrypted backup file
   ///
   /// In en, this message translates to:
@@ -1581,6 +1587,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This QR code contains a hidden, encrypted secret layer. Authenticate to view the hidden payload.'**
   String get bodyStegoLocked;
+
+  /// Warning shown after unlocking a payload that used an old, weak encryption scheme (no tamper check or unsalted key)
+  ///
+  /// In en, this message translates to:
+  /// **'Old encryption format. It is weaker, and changes to the content cannot be detected.'**
+  String get bodyLegacyCryptoFormat;
 
   /// Button that unlocks the secret using fingerprint or face
   ///

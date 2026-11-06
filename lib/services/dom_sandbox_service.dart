@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui';
+
+import 'package:flutter/foundation.dart' show visibleForTesting;
 
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
@@ -22,6 +25,39 @@ class DomSandboxService {
     final client = HttpClient();
     client.userAgent = null; // Deny default Dart User-Agent fingerprinting
     return IOClient(client);
+  }
+
+  /// Largest page body (in bytes) the preview reads.
+  static const int maxBodyBytes = 512000;
+
+  /// A body chunk must arrive within this time, or the fetch fails.
+  static const Duration bodyStallTimeout = Duration(seconds: 5);
+
+  /// Total time allowed for reading the body; after it, what was read is used.
+  static const Duration bodyTotalTimeout = Duration(seconds: 10);
+
+  /// Reads [stream] as UTF-8 text, stopping after [maxBytes] bytes or
+  /// [totalTimeout]. Throws a `TimeoutException` if no chunk arrives within
+  /// [stallTimeout]. Leaving the loop early cancels the stream.
+  @visibleForTesting
+  static Future<String> readCappedBody(
+    Stream<List<int>> stream, {
+    int maxBytes = maxBodyBytes,
+    Duration stallTimeout = bodyStallTimeout,
+    Duration totalTimeout = bodyTotalTimeout,
+  }) async {
+    final bytes = BytesBuilder(copy: false);
+    final watch = Stopwatch()..start();
+    await for (final chunk in stream.timeout(stallTimeout)) {
+      final remaining = maxBytes - bytes.length;
+      if (chunk.length >= remaining) {
+        bytes.add(chunk.sublist(0, remaining));
+        break;
+      }
+      bytes.add(chunk);
+      if (watch.elapsed >= totalTimeout) break;
+    }
+    return utf8.decode(bytes.takeBytes(), allowMalformed: true);
   }
 
   /// Analyzes the target [url] in a Zero-Trust headless sandbox and returns [DomSandboxResult].
@@ -90,20 +126,29 @@ class DomSandboxService {
             .send(request)
             .timeout(const Duration(seconds: 5));
 
-        // Check HTTP 3xx redirect chain
+        // Check HTTP 3xx redirect chain. A client that does not follow
+        // redirects (or a test MockClient) hands back the 3xx itself.
         if (response.statusCode >= 300 && response.statusCode < 400) {
           final location = response.headers['location'];
           if (location != null && location.isNotEmpty) {
             hasOpenRedirect = true;
             redirectTarget = location;
           }
+        } else if (response case final http.BaseResponseWithUrl withUrl) {
+          // The real client follows redirects, so compare where the page
+          // finally came from with the URL that was asked for. Only a move
+          // to another host counts; same-host hops (http -> https, path
+          // changes) are normal.
+          final finalUrl = uri.resolveUri(withUrl.url);
+          if (finalUrl.host.toLowerCase() != uri.host.toLowerCase()) {
+            hasOpenRedirect = true;
+            redirectTarget = finalUrl.toString();
+          }
         }
 
-        final rawResponseBody = await response.stream.bytesToString();
-        // Limit max body size to 500KB to prevent memory exhaustion
-        final htmlContent = rawResponseBody.length > 512000
-            ? rawResponseBody.substring(0, 512000)
-            : rawResponseBody;
+        // Read at most [maxBodyBytes], with stall and total time limits, so
+        // a huge or slow page cannot exhaust memory or hang the preview.
+        final htmlContent = await readCappedBody(response.stream);
 
         // Sanitization and DOM hierarchy extraction
         final sanitizedData = _sanitizeHtmlAndExtractDom(htmlContent, uri);
