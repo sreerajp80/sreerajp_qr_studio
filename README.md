@@ -38,20 +38,17 @@ Beyond standard barcode decoding, QR Forge serves as a comprehensive **security 
 
 <div align="center">
 
-| Live Camera Scanner | CodeForge Studio | Encrypted History |
-| :---: | :---: | :---: |
-| <img src="docs/screenshots/01_live_scanner.png" width="260" alt="Live Scanner" /> | <img src="docs/screenshots/02_code_forge_generator.png" width="260" alt="CodeForge Studio" /> | <img src="docs/screenshots/03_encrypted_history.png" width="260" alt="Encrypted History" /> |
-| *Viewfinder with zoom, reticle & toolbar* | *QR & Barcode generator with live preview* | *Searchable, categorized scan logs* |
+<img src="docs/graphics/feature_graphic_1024x500.png" width="720" alt="QR Forge feature graphic" />
 
-| Scan Result & URL Safety | AirQR Optical Receiver | AirQR Optical Transmitter |
+| Link Safety Check | Payment QR Check | Live Scanner |
 | :---: | :---: | :---: |
-| <img src="docs/screenshots/08_scan_result_and_safety.png" width="260" alt="Scan Result & URL Safety" /> | <img src="docs/screenshots/07_air_qr_optical_transfer.png" width="260" alt="AirQR Receiver" /> | <img src="docs/screenshots/07_air_qr_transmitter.png" width="260" alt="AirQR Transmitter" /> |
-| *QuishingGuard™ & Zero-Trust Sandbox* | *Optical stream capture with error recovery* | *Air-gapped animated stream broadcast* |
+| <img src="docs/graphics/screenshots/01_link_check.png" width="260" alt="Link safety check" /> | <img src="docs/graphics/screenshots/02_payment_check.png" width="260" alt="Payment QR check" /> | <img src="docs/graphics/screenshots/03_scanner.png" width="260" alt="Live scanner" /> |
+| *Check every link before you open it* | *Quishing Guard for payment QR stickers* | *Scan QR codes and barcodes, offline* |
 
-| Settings & Security | Appearance & Themes | About & Verification |
+| CodeForge Studio | Wi-Fi Join | AirQR Transfer |
 | :---: | :---: | :---: |
-| <img src="docs/screenshots/04_settings_and_privacy.png" width="260" alt="Settings & Security" /> | <img src="docs/screenshots/05_appearance_and_themes.png" width="260" alt="Appearance & Themes" /> | <img src="docs/screenshots/06_about_and_credits.png" width="260" alt="About Screen" /> |
-| *Privacy controls & Safe Browsing API* | *Material You, OLED black & reticle styles* | *Version, build metadata & India badge* |
+| <img src="docs/graphics/screenshots/04_codeforge.png" width="260" alt="CodeForge generator" /> | <img src="docs/graphics/screenshots/05_wifi.png" width="260" alt="Wi-Fi join" /> | <img src="docs/graphics/screenshots/06_airqr.png" width="260" alt="AirQR transmitter" /> |
+| *Create your own QR codes and barcodes* | *Join Wi-Fi in one tap* | *Share without internet, phone to phone* |
 
 </div>
 

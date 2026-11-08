@@ -37,6 +37,7 @@ sreerajp_qr_studio/
 |   |-- guidelines/                  # Shared Flutter Guidelines (Git Submodule)
 |   |-- architecture.md              # Technical design and architecture
 |   |-- dependencies.md              # Approved baseline packages and constraints
+|   |-- graphics/                    # Store & README images: Play icon, feature graphic, screenshots/
 |   |-- implementation_plan.md       # Build roadmap + dated roadmap records (point-in-time)
 |   |-- implementation_progress.md   # Status checklist (point-in-time)
 |   |-- GUIDELINES_MANIFEST.md       # Shared guidelines manifest
@@ -173,3 +174,4 @@ sreerajp_qr_studio/
 | `assets/licenses/` | Licence texts that must ship with the vendored native code |
 | `docs/` | Comprehensive baseline and living documentation |
 | `docs/guidelines/` | Authoritative shared Flutter guidelines Git submodule |
+| `docs/graphics/` | The one home for images shown on GitHub and Google Play: `app_icon_512.png`, `feature_graphic_1024x500.png`, and the captioned phone screenshots in `screenshots/` (Play upload order) |

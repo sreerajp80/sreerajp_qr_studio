@@ -239,6 +239,9 @@ Complete before every release.
 - [ ] §2 Google Play gate: target API level re-checked against Play's current rule;
       `versionCode` increased; App Bundle with Play App Signing; listings and screenshots in
       `en-US` and `ml-IN`; internal testing and pre-launch report clean; staged rollout planned.
+- [ ] Store graphics (icon, feature graphic, phone screenshots) come from
+      [docs/graphics/](graphics/), the one home shared with the README. Update them there when
+      screens or the app name change. `play_store_private/` keeps only private text and the video.
 - [ ] Play Console → App content → Foreground service permissions: declare
       `FOREGROUND_SERVICE_SPECIAL_USE` for the Scan bubble ("Shows a floating button that the
       user turned on. Tapping it starts a one-time, user-approved screen capture to read a QR
