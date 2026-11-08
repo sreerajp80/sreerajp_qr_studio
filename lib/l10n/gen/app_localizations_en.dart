@@ -414,15 +414,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionExportCreateBackup => 'Create backup';
 
   @override
-  String get bodyExportShare => 'SreerajP QR Studio Scan History Export';
+  String get bodyExportShare => 'QR Forge Scan History Export';
 
   @override
-  String get bodyExportSharePdf =>
-      'SreerajP QR Studio Scan History Report (PDF)';
+  String get bodyExportSharePdf => 'QR Forge Scan History Report (PDF)';
 
   @override
-  String get bodyExportShareBackup =>
-      'SreerajP QR Studio Encrypted Backup File';
+  String get bodyExportShareBackup => 'QR Forge Encrypted Backup File';
 
   @override
   String get titleRestore => 'Restore from backup:';
@@ -1817,8 +1815,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get titleSettingsFeatures => 'Features';
 
   @override
-  String get descSettingsFeatures =>
-      'Explore all features of SreerajP QR Studio';
+  String get descSettingsFeatures => 'Explore all features of QR Forge';
 
   @override
   String get titleAppearanceHub => 'Appearance';
@@ -4167,7 +4164,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpGuideFaqFixBullet1 =>
-      'Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.';
+      'Camera does not open: if you said no to the camera, go to Android Settings > Apps > QR Forge > Permissions > Camera and choose Allow.';
 
   @override
   String get helpGuideFaqFixBullet2 =>
@@ -4604,7 +4601,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get actionUnlock => 'Unlock';
 
   @override
-  String get bodyAppLockReason => 'Unlock SreerajP QR Studio';
+  String get bodyAppLockReason => 'Unlock QR Forge';
 
   @override
   String get errorAppLockUnavailable =>

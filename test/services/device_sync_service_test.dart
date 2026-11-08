@@ -63,7 +63,7 @@ void main() {
       );
 
       final json = syncData.toJson();
-      expect(json['app'], 'SreerajP QR Studio');
+      expect(json['app'], 'QR Forge');
       expect(json['totalRecords'], 2);
       expect(json['records'], hasLength(2));
       expect(json['settings'], equals(sampleSettings));

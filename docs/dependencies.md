@@ -1,6 +1,6 @@
-# Dependencies — SreerajP QR Studio
+# Dependencies — QR Forge
 
-This document records approved packages, dependency categories, and prohibited packages for SreerajP QR Studio. Read this before adding or updating any dependency in `pubspec.yaml`.
+This document records approved packages, dependency categories, and prohibited packages for QR Forge. Read this before adding or updating any dependency in `pubspec.yaml`.
 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)

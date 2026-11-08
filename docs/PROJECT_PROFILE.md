@@ -1,4 +1,4 @@
-# Project Profile — SreerajP QR Studio
+# Project Profile — QR Forge
 
 This file records the choices the shared guidelines leave open for this app: identity,
 applicability profiles, platforms, stores, languages and About options. Every rule that depends
@@ -47,7 +47,7 @@ If you are not sure whether some data is sensitive, treat it as sensitive.
 
 | Item | Value |
 |---|---|
-| App display name | `SreerajP QR Studio` (dev flavor: `SreerajP QR Studio Dev`). Comes from `appName` in `assets/config/app_config.json`; the Android launcher names in each `values-<code>/strings.xml` match it (`guideline.md` §1.8) |
+| App display name | `QR Forge` (dev flavor: `QR Forge Dev`). Comes from `appName` in `assets/config/app_config.json`; the Android launcher names in each `values-<code>/strings.xml` match it (`guideline.md` §1.8) |
 | Short description (one line) | `A privacy-first QR/barcode scanner with link safety checks, fake-sticker reminders, StegoQR, AR CodeVision, and offline smart tools` |
 | Organization / publisher | `Sreeraj P` |
 | Reverse-DNS app id | `in.sreerajp.qr_studio` — permanent once published (dev flavor adds `.dev`) |

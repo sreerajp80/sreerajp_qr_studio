@@ -64,7 +64,7 @@ class AppConfig {
   /// Safe built-in value used when the config file is missing or malformed,
   /// so the app never crashes on a bad config.
   static const AppConfig fallback = AppConfig(
-    appName: LocalizedText.plain('SreerajP QR Studio'),
+    appName: LocalizedText.plain('QR Forge'),
     description: LocalizedText.plain(
       'A privacy-first QR and barcode scanner with 6-layer URL safety checks.',
     ),

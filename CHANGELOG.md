@@ -1,4 +1,4 @@
-# Changelog — SreerajP QR Studio
+# Changelog — QR Forge
 
 User-facing release history. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions come from `pubspec.yaml` and release tags use the `Release_YYYYMMDD` format
@@ -30,6 +30,8 @@ change is in [`change_log/`](change_log/).
   ID card scans are never saved to history.
 
 ### Changed
+- App renamed to **QR Forge** (Malayalam: ക്യുആർ ഫോർജ്, Sanskrit: क्यू-आर-फोर्ज्). The package
+  id `in.sreerajp.qr_studio` is unchanged, so updates and saved data carry over.
 - Scan history is now encrypted with AES-256-GCM and a fresh random nonce for every field.
   Existing history is upgraded automatically the first time the new version opens it.
 - The app now never saves history unencrypted, and never replaces a history key it could not

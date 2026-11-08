@@ -799,19 +799,19 @@ abstract class AppLocalizations {
   /// Message attached when sharing an exported history file
   ///
   /// In en, this message translates to:
-  /// **'SreerajP QR Studio Scan History Export'**
+  /// **'QR Forge Scan History Export'**
   String get bodyExportShare;
 
   /// Message attached when sharing the PDF history report
   ///
   /// In en, this message translates to:
-  /// **'SreerajP QR Studio Scan History Report (PDF)'**
+  /// **'QR Forge Scan History Report (PDF)'**
   String get bodyExportSharePdf;
 
   /// Message attached when sharing the encrypted backup file
   ///
   /// In en, this message translates to:
-  /// **'SreerajP QR Studio Encrypted Backup File'**
+  /// **'QR Forge Encrypted Backup File'**
   String get bodyExportShareBackup;
 
   /// Heading above the restore controls
@@ -3247,7 +3247,7 @@ abstract class AppLocalizations {
   /// Subtitle of the Features settings card
   ///
   /// In en, this message translates to:
-  /// **'Explore all features of SreerajP QR Studio'**
+  /// **'Explore all features of QR Forge'**
   String get descSettingsFeatures;
 
   /// Title of the Appearance preferences hub screen
@@ -7319,7 +7319,7 @@ abstract class AppLocalizations {
   /// FAQ: the camera does not open because permission was refused
   ///
   /// In en, this message translates to:
-  /// **'Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.'**
+  /// **'Camera does not open: if you said no to the camera, go to Android Settings > Apps > QR Forge > Permissions > Camera and choose Allow.'**
   String get helpGuideFaqFixBullet1;
 
   /// FAQ: Wi-Fi will not connect
@@ -8015,7 +8015,7 @@ abstract class AppLocalizations {
   /// Reason text shown inside the Android fingerprint / screen lock prompt for the app lock.
   ///
   /// In en, this message translates to:
-  /// **'Unlock SreerajP QR Studio'**
+  /// **'Unlock QR Forge'**
   String get bodyAppLockReason;
 
   /// Shown when the app lock cannot be turned on because the phone has no screen lock or biometrics.

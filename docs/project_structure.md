@@ -1,6 +1,6 @@
-# Project Structure — SreerajP QR Studio
+# Project Structure — QR Forge
 
-This document describes the directory tree layout and responsibility mapping of the SreerajP QR Studio repository. Read this for quick orientation on file locations.
+This document describes the directory tree layout and responsibility mapping of the QR Forge repository. Read this for quick orientation on file locations.
 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)

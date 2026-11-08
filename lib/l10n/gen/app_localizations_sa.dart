@@ -4137,7 +4137,7 @@ class AppLocalizationsSa extends AppLocalizations {
 
   @override
   String get helpGuideFaqFixBullet1 =>
-      'चित्रग्राही न उद्घाट्यते: यदि चित्रग्राहिणे अनुमतिः निषिद्धा, तर्हि Android-विन्यासाः > अनुप्रयोगाः > SreerajP QR Studio > अनुमतयः > चित्रग्राही इति गत्वा \"अनुमन्यताम्\" इति चिनोतु।';
+      'चित्रग्राही न उद्घाट्यते: यदि चित्रग्राहिणे अनुमतिः निषिद्धा, तर्हि Android-विन्यासाः > अनुप्रयोगाः > क्यू-आर-फोर्ज् > अनुमतयः > चित्रग्राही इति गत्वा \"अनुमन्यताम्\" इति चिनोतु।';
 
   @override
   String get helpGuideFaqFixBullet2 =>
@@ -4577,7 +4577,7 @@ class AppLocalizationsSa extends AppLocalizations {
   String get actionUnlock => 'उद्घाटयतु';
 
   @override
-  String get bodyAppLockReason => 'SreerajP QR Studio उद्घाटयतु';
+  String get bodyAppLockReason => 'क्यू-आर-फोर्ज् उद्घाटयतु';
 
   @override
   String get errorAppLockUnavailable =>

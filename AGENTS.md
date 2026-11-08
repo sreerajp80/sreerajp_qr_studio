@@ -1,4 +1,4 @@
-# AGENTS.md — SreerajP QR Studio
+# AGENTS.md — QR Forge
 
 This file is read by AI agents and LLM coding assistants (Gemini, Antigravity, Cursor, Windsurf, Codex, and others) at the start of every session in this repository.
 Read it before making any change. See the docs table below for full detail.
@@ -11,7 +11,7 @@ Read it before making any change. See the docs table below for full detail.
 
 | Field            | Value                                                                                                                                                                 |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| App name         | SreerajP QR Studio                                                                                                                                                    |
+| App name         | QR Forge                                                                                                                                                    |
 | Type             | Flutter Android application for scanning QR codes & barcodes with 6-layer URL safety, StegoQR encryption, AirQR optical transfer, AR CodeVision, and encrypted history |
 | Platforms        | Android only (minSdk 24, targetSdk 36, compileSdk 37) — declared in `docs/PROJECT_PROFILE.md`                                                                         |
 | Stores / channels | Google Play (`.aab`); direct download (split APKs)                                                                                                                   |
@@ -106,8 +106,8 @@ flutter build appbundle --flavor prod --release \
 
 | Flavor | App ID                     | Display name        | Signing                                     |
 | ------ | -------------------------- | ------------------- | ------------------------------------------- |
-| `dev`  | `in.sreerajp.qr_studio.dev` | SreerajP QR Studio Dev | Debug keystore (automatic)                  |
-| `prod` | `in.sreerajp.qr_studio`     | SreerajP QR Studio | Release keystore (`android/key.properties`) |
+| `dev`  | `in.sreerajp.qr_studio.dev` | QR Forge Dev | Debug keystore (automatic)                  |
+| `prod` | `in.sreerajp.qr_studio`     | QR Forge | Release keystore (`android/key.properties`) |
 
 > Android: `--flavor <name>` only. Flutter sets `FLUTTER_APP_FLAVOR` itself; never pass it with
 > `--dart-define`. Read it with `String.fromEnvironment('FLUTTER_APP_FLAVOR')` (engineering

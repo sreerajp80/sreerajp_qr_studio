@@ -1,8 +1,8 @@
-# SreerajP QR Studio
+# QR Forge
 
 <div align="center">
 
-![SreerajP QR Studio](assets/app_icon.png)
+![QR Forge](assets/app_icon.png)
 
 **Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Multi-Provider Threat Intelligence, Quishing Guard, StegoQR Encryption, AirQR Optical Sync, and Tri-Lingual Support.**
 
@@ -19,9 +19,9 @@
 
 ## 📖 Overview
 
-**SreerajP QR Studio** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
+**QR Forge** is a high-performance, privacy-focused Flutter Android application for scanning, analyzing, and creating QR codes and barcodes. Built with an offline-first architecture, it ensures that your data never leaves your device unless explicitly requested.
 
-Beyond standard barcode decoding, SreerajP QR Studio serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
+Beyond standard barcode decoding, QR Forge serves as a comprehensive **security and privacy toolkit** for the physical-to-digital world:
 - **6-Layer URL Safety & Threat Intelligence** protects against phishing, malicious redirects, and lookalike domains using local heuristics plus Google Safe Browsing, VirusTotal, URLhaus, PhishTank, and OpenPhish.
 - **QuishingGuard™** reminds you to check printed QR codes for fake stickers before you open a link or pay, with simple checks you do by hand.
 - **Zero-Trust Sandboxed Preview** renders web destinations in an isolated, script-disabled environment with domain age (WHOIS) insights before opening.
@@ -182,7 +182,7 @@ Everything the app does today, in plain words. (This section was `docs/features.
 
 ### What this app is
 
-SreerajP QR Studio is an Android-only, offline-first Flutter app for
+QR Forge is an Android-only, offline-first Flutter app for
 scanning QR codes and barcodes. It is primarily a privacy-first **reader** and
 barcode security analyzer. It can also make codes: the CodeForge tab builds
 QR codes and barcodes (text, links, Wi-Fi, contacts, UPI, SMS, email,
@@ -650,8 +650,8 @@ releases never collide.
 
 | Flavor | Application ID | Display Name | Signing |
 | :--- | :--- | :--- | :--- |
-| **`dev`** | `in.sreerajp.qr_studio.dev` | `SreerajP QR Studio Dev` | Automatic Debug Keystore |
-| **`prod`** | `in.sreerajp.qr_studio` | `SreerajP QR Studio` | Release Keystore (`android/key.properties`) |
+| **`dev`** | `in.sreerajp.qr_studio.dev` | `QR Forge Dev` | Automatic Debug Keystore |
+| **`prod`** | `in.sreerajp.qr_studio` | `QR Forge` | Release Keystore (`android/key.properties`) |
 
 ---
 

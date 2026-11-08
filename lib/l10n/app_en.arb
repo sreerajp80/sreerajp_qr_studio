@@ -581,15 +581,15 @@
   "@actionExportCreateBackup": {
     "description": "Button that builds and shares the encrypted backup file"
   },
-  "bodyExportShare": "SreerajP QR Studio Scan History Export",
+  "bodyExportShare": "QR Forge Scan History Export",
   "@bodyExportShare": {
     "description": "Message attached when sharing an exported history file"
   },
-  "bodyExportSharePdf": "SreerajP QR Studio Scan History Report (PDF)",
+  "bodyExportSharePdf": "QR Forge Scan History Report (PDF)",
   "@bodyExportSharePdf": {
     "description": "Message attached when sharing the PDF history report"
   },
-  "bodyExportShareBackup": "SreerajP QR Studio Encrypted Backup File",
+  "bodyExportShareBackup": "QR Forge Encrypted Backup File",
   "@bodyExportShareBackup": {
     "description": "Message attached when sharing the encrypted backup file"
   },
@@ -2533,7 +2533,7 @@
   "@titleSettingsFeatures": {
     "description": "Title of the Features settings card"
   },
-  "descSettingsFeatures": "Explore all features of SreerajP QR Studio",
+  "descSettingsFeatures": "Explore all features of QR Forge",
   "@descSettingsFeatures": {
     "description": "Subtitle of the Features settings card"
   },
@@ -5325,7 +5325,7 @@
   "@helpGuideFaqFixTitle": {
     "description": "FAQ section heading: other problems"
   },
-  "helpGuideFaqFixBullet1": "Camera does not open: if you said no to the camera, go to Android Settings > Apps > SreerajP QR Studio > Permissions > Camera and choose Allow.",
+  "helpGuideFaqFixBullet1": "Camera does not open: if you said no to the camera, go to Android Settings > Apps > QR Forge > Permissions > Camera and choose Allow.",
   "@helpGuideFaqFixBullet1": {
     "description": "FAQ: the camera does not open because permission was refused"
   },
@@ -5859,7 +5859,7 @@
   "@actionUnlock": {
     "description": "Lock screen button that opens the system unlock prompt. Keep short."
   },
-  "bodyAppLockReason": "Unlock SreerajP QR Studio",
+  "bodyAppLockReason": "Unlock QR Forge",
   "@bodyAppLockReason": {
     "description": "Reason text shown inside the Android fingerprint / screen lock prompt for the app lock."
   },

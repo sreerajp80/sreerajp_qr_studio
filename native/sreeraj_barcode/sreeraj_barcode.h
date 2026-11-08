@@ -1,4 +1,4 @@
-// SreerajP QR Studio — native barcode bridge.
+// QR Forge — native barcode bridge.
 //
 // A tiny, stable C interface over the vendored zxing-cpp reader, designed for
 // dart:ffi. All memory returned by srb_read() is owned by the caller and must be

@@ -4190,7 +4190,7 @@ class AppLocalizationsMl extends AppLocalizations {
 
   @override
   String get helpGuideFaqFixBullet1 =>
-      'ക്യാമറ തുറക്കുന്നില്ല: ക്യാമറയ്ക്ക് അനുമതി നിഷേധിച്ചിട്ടുണ്ടെങ്കിൽ, Android ക്രമീകരണങ്ങൾ > ആപ്പുകൾ > SreerajP QR Studio > അനുമതികൾ > ക്യാമറ എന്നതിൽ ചെന്ന് ‘അനുവദിക്കുക’ തിരഞ്ഞെടുക്കുക.';
+      'ക്യാമറ തുറക്കുന്നില്ല: ക്യാമറയ്ക്ക് അനുമതി നിഷേധിച്ചിട്ടുണ്ടെങ്കിൽ, Android ക്രമീകരണങ്ങൾ > ആപ്പുകൾ > ക്യുആർ ഫോർജ് > അനുമതികൾ > ക്യാമറ എന്നതിൽ ചെന്ന് ‘അനുവദിക്കുക’ തിരഞ്ഞെടുക്കുക.';
 
   @override
   String get helpGuideFaqFixBullet2 =>
@@ -4632,7 +4632,7 @@ class AppLocalizationsMl extends AppLocalizations {
   String get actionUnlock => 'അൺലോക്ക് ചെയ്യുക';
 
   @override
-  String get bodyAppLockReason => 'SreerajP QR Studio അൺലോക്ക് ചെയ്യുക';
+  String get bodyAppLockReason => 'ക്യുആർ ഫോർജ് അൺലോക്ക് ചെയ്യുക';
 
   @override
   String get errorAppLockUnavailable =>

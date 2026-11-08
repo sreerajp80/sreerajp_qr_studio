@@ -1,4 +1,4 @@
-# SreerajP QR Studio — native barcode decoder.
+# QR Forge — native barcode decoder.
 #
 # Builds libsreeraj_barcode.so: our C bridge (sreeraj_barcode/) statically linked
 # with the vendored zxing-cpp reader (zxing-cpp/, readers only, no writers).

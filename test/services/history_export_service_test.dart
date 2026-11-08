@@ -76,7 +76,7 @@ void main() {
       final jsonStr = service.exportToJson(records);
       final map = jsonDecode(jsonStr) as Map<String, dynamic>;
 
-      expect(map['app'], 'SreerajP QR Studio');
+      expect(map['app'], 'QR Forge');
       expect(map['totalRecords'], 2);
       expect((map['records'] as List).length, 2);
     });

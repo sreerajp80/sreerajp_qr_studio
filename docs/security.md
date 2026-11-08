@@ -1,6 +1,6 @@
-# Security — SreerajP QR Studio
+# Security — QR Forge
 
-This document holds the security design of SreerajP QR Studio: scope, threat model, data
+This document holds the security design of QR Forge: scope, threat model, data
 inventory, storage, cryptography, platform controls, permissions, the OWASP Mobile Top 10
 sign-off, data retention, and the open risks. Read it before touching permissions, logging,
 storage, cryptography, exports, or the Android manifest.
@@ -20,7 +20,7 @@ filled in.
 
 ## 1. Security Scope
 
-- App: SreerajP QR Studio (`in.sreerajp.qr_studio`)
+- App: QR Forge (`in.sreerajp.qr_studio`)
 - Data sensitivity level: **moderate** — scanned content can hold personal data, Wi-Fi
   passwords, payment links and one-time-password seeds; StegoQR secrets; user API keys.
 - Engineering standard profiles in force:

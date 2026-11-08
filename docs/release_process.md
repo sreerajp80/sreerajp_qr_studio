@@ -1,6 +1,6 @@
-# Release Process — SreerajP QR Studio
+# Release Process — QR Forge
 
-This is the release runbook for SreerajP QR Studio: scope, versioning, flavors, release-build
+This is the release runbook for QR Forge: scope, versioning, flavors, release-build
 hardening, signing, the release checklist, the Android release steps, distribution, rollback and
 post-release checks. Read it before building or distributing any release artifact.
 
@@ -20,7 +20,7 @@ post-release checks. Read it before building or distributing any release artifac
 
 ## 1. Release Scope
 
-- App: SreerajP QR Studio (`in.sreerajp.qr_studio`)
+- App: QR Forge (`in.sreerajp.qr_studio`)
 - Release profile: **public**
 - Release platforms: **Android** only (minSdk 24, targetSdk 36, compileSdk 37)
   - channels: **Google Play** (`.aab`) and **direct download** (split APKs)

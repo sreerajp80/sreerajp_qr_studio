@@ -31,7 +31,7 @@ class _FeatureCategory {
   });
 }
 
-/// Lists all features of SreerajP QR Studio, grouped by category with visual cards.
+/// Lists all features of QR Forge, grouped by category with visual cards.
 class FeaturesScreen extends StatelessWidget {
   const FeaturesScreen({super.key});
 

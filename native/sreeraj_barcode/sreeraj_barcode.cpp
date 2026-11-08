@@ -1,4 +1,4 @@
-// SreerajP QR Studio — native barcode bridge (see sreeraj_barcode.h).
+// QR Forge — native barcode bridge (see sreeraj_barcode.h).
 
 #include "sreeraj_barcode.h"
 

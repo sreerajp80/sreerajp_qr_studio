@@ -1,4 +1,4 @@
-# Implementation Progress — SreerajP QR Studio
+# Implementation Progress — QR Forge
 
 This document tracks the live implementation status of application features and standards compliance.
 

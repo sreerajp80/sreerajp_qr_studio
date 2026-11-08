@@ -1,8 +1,8 @@
-# Privacy Policy — SreerajP QR Studio
+# Privacy Policy — QR Forge
 
 **Effective date:** 10 October 2026
 
-This policy explains what the Android app **SreerajP QR Studio** (package
+This policy explains what the Android app **QR Forge** (package
 `in.sreerajp.qr_studio`) does with your data. The app is made by Sreeraj P,
 an individual developer.
 

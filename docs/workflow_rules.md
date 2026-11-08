@@ -1,6 +1,6 @@
-# Workflow Rules — SreerajP QR Studio
+# Workflow Rules — QR Forge
 
-This document defines the mandatory workflow rules for developing, modifying, and maintaining the SreerajP QR Studio application. Read this before making any code or configuration changes.
+This document defines the mandatory workflow rules for developing, modifying, and maintaining the QR Forge application. Read this before making any code or configuration changes.
 
 **Read first:**
 - [CLAUDE.md](../CLAUDE.md)

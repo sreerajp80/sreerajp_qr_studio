@@ -1,6 +1,6 @@
-# Architecture — SreerajP QR Studio
+# Architecture — QR Forge
 
-This document describes how SreerajP QR Studio is built today: layers, folders, start-up,
+This document describes how QR Forge is built today: layers, folders, start-up,
 lifecycle, state, data flow, errors, storage, the barcode engine, localization, build model,
 UI system, logging, testing, decisions and known risks. Read it before changing the app's
 structure, providers, services, models or screens.
@@ -17,7 +17,7 @@ structure, providers, services, models or screens.
 
 ## 1. Scope
 
-- Product: SreerajP QR Studio (`in.sreerajp.qr_studio`)
+- Product: QR Forge (`in.sreerajp.qr_studio`)
 - Repository type: application
 - Engineering standard profiles in force: `Core Baseline`, `Production App Extension`,
   `Sensitive Data Extension`
@@ -425,8 +425,8 @@ image files are written.
 
 ## 15. Environment And Build Model
 
-- Flavors: `dev` (`in.sreerajp.qr_studio.dev`, "SreerajP QR Studio Dev", debug key, "DEV" icon badge)
-  and `prod` (`in.sreerajp.qr_studio`, "SreerajP QR Studio", release key).
+- Flavors: `dev` (`in.sreerajp.qr_studio.dev`, "QR Forge Dev", debug key, "DEV" icon badge)
+  and `prod` (`in.sreerajp.qr_studio`, "QR Forge", release key).
 - Runtime config: `--flavor <name>`; Flutter sets `FLUTTER_APP_FLAVOR`, read by
   `AppFlavorConfig` (`APP_FLAVOR` first, for desktop compatibility; default `prod`). Verbose
   logging follows the flavor. `BUILD_DATE` is passed by `tool/build_release.sh`; version files

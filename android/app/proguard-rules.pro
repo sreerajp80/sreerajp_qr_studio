@@ -1,4 +1,4 @@
-# R8 / ProGuard rules for SreerajP QR Studio release builds
+# R8 / ProGuard rules for QR Forge release builds
 # (docs/release_process.md §6.2, docs/security.md §8.2).
 #
 # R8 full mode is on by default (AGP 9). Flutter's Gradle plugin adds the rules

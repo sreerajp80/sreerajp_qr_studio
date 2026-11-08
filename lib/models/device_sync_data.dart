@@ -21,7 +21,7 @@ class DeviceSyncData {
 
   Map<String, dynamic> toJson() {
     return {
-      'app': 'SreerajP QR Studio',
+      'app': 'QR Forge',
       'version': version,
       'exportedAt': exportedAt.toIso8601String(),
       'totalRecords': records.length,
