@@ -17,8 +17,8 @@ Read it before making any change. See the docs table below for full detail.
 | Stores / channels | Google Play (`.aab`); direct download (split APKs)                                                                                                                   |
 | Languages        | English (`en`, template), Malayalam (`ml`), Sanskrit (`sa`) — declared in `docs/PROJECT_PROFILE.md`                                                                   |
 | Package / org id | `in.sreerajp.qr_studio`                                                                                                                                                |
-| Flutter SDK      | 3.47.6 (stable) — from `flutter --version`                                                                                                                            |
-| Dart SDK         | 3.13.5 — from `flutter --version`                                                                                                                                     |
+| Flutter SDK      | 3.50.1 (stable) — from `flutter --version`                                                                                                                            |
+| Dart SDK         | 3.14.0 — from `flutter --version`                                                                                                                                     |
 | State management | Provider (`ChangeNotifier`)                                                                                                                                           |
 | Navigation       | Named routes (`Navigator 1.0`)                                                                                                                                        |
 | Database         | SQLite (`sqflite` for encrypted scan history), `shared_preferences` (settings/counters), `flutter_secure_storage` (API keys)                                          |
@@ -84,19 +84,22 @@ flutter test                           # run all unit tests
 flutter test integration_test --flavor dev -d <device>  # on-device native decoder tests
 dart format .                          # format code before committing
 
-# Production release APK (split per ABI) — direct download
-flutter build apk --flavor prod --release \
-  --obfuscate --split-debug-info=build/symbols/android-prod-<version>/ --split-per-abi
+# Release builds: the script builds, renames to <Name>-[<abi>-]v<x.y.z>_<n>-<flavor>-<mode>.*,
+# writes a .sha256 per file and stops Gradle (docs/release_process.md §6.10)
+pwsh tool/build_release.ps1 -Name QRForge -Target aab   # Play Store bundle
+pwsh tool/build_release.ps1 -Name QRForge -Target apk   # direct download, split per ABI
 
-# Production Play Store bundle
+# What the script runs with defaults (it also adds --dart-define=BUILD_DATE=<yyyy-MM-dd>)
+flutter build apk --flavor prod --release --split-per-abi \
+  --obfuscate --split-debug-info=build/symbols/android-prod-<version>-apk/
 flutter build appbundle --flavor prod --release \
   --obfuscate --split-debug-info=build/symbols/android-prod-<version>/
-./tool/build_release.sh appbundle      # same build, with BUILD_DATE injected
 ```
 
 > The app defines flavors, so a bare `flutter run` fails — always pass `--flavor`.
 > `<version>` is the full `pubspec.yaml` version (e.g. `4.1.0+34`), so symbols from different
-> releases never collide.
+> releases never collide. APK and AAB builds are separate compiles, so each keeps its own symbols
+> folder (the APK one ends in `-apk`); archive both.
 > Before any release, pass `docs/guidelines/platform_store_readiness.md` §1 and §2 (Google Play).
 > Release builds are done locally, never in CI.
 

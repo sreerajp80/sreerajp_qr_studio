@@ -141,7 +141,7 @@ sreerajp_qr_studio/
 |   |-- services/
 |   `-- widgets/
 |-- tool/                            # Build helper scripts
-|   |-- build_release.sh             # Hardened prod release build (obfuscate + symbols)
+|   |-- build_release.ps1            # Hardened release build: obfuscate + symbols, renamed files, .sha256
 |   |-- check_sanskrit_hindi_markers.sh # Language-pack Hindi-marker gate (CI)
 |   |-- generate_launcher_icons.py   # Adaptive icon layers + DEV badge from assets/app_icon.png
 |   |-- generate_app_version.dart

@@ -6,8 +6,8 @@
 
 **Privacy-First, Offline-First Android QR & Barcode Scanner with 6-Layer Link Safety, Multi-Provider Threat Intelligence, Quishing Guard, StegoQR Encryption, AirQR Optical Sync, and Tri-Lingual Support.**
 
-[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.47.6-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
-[![Dart](https://img.shields.io/badge/Dart-%3E%3D3.13.5-0175C2?logo=dart&logoColor=white)](https://dart.dev)
+[![Flutter](https://img.shields.io/badge/Flutter-%3E%3D3.50.1-02569B?logo=flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-%3E%3D3.14.0-0175C2?logo=dart&logoColor=white)](https://dart.dev)
 [![Platform](https://img.shields.io/badge/Platform-Android%20(SDK%2024%2B)-3DDC84?logo=android&logoColor=white)](https://android.com)
 [![Languages](https://img.shields.io/badge/Languages-EN%20%7C%20ML%20%7C%20SA-blue)](#-tri-lingual-localization)
 [![Security](https://img.shields.io/badge/Privacy-Offline--First-success)](#-security--privacy-architecture)
@@ -516,7 +516,7 @@ screen at the same time, instead of scanning one at a time.
 | Fact | Value |
 |------|-------|
 | Platform | Android only (no iOS, web, or desktop) |
-| Framework | Flutter (>=3.47.6), Dart (>=3.13.5 <4.0.0) |
+| Framework | Flutter (>=3.50.1), Dart (>=3.14.0 <4.0.0) |
 | App package | `in.sreerajp.qr_studio` |
 | Min SDK / Compile SDK / Target SDK | minSdk 24 / compileSdk 37 / targetSdk 36 |
 | State management | `provider` package (`ChangeNotifier`) — no Riverpod/Redux/BLoC |
@@ -582,8 +582,8 @@ lib/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Flutter SDK**: `>=3.47.6`
-- **Dart SDK**: `>=3.13.5 <4.0.0`
+- **Flutter SDK**: `>=3.50.1`
+- **Dart SDK**: `>=3.14.0 <4.0.0`
 - **Android SDK**: `minSdk 24`, `compileSdk 37`, `targetSdk 36`
 - Android Studio / VS Code with Flutter extension
 

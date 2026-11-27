@@ -77,10 +77,11 @@ One person does every role in this project.
 |---|---|---|---|---|
 | `dev` | `in.sreerajp.qr_studio.dev` | debug | Daily development (icon has a "DEV" badge) | `flutter run --flavor dev` |
 | `dev` | `in.sreerajp.qr_studio.dev` | release | Release-like test build | `flutter build apk --flavor dev --release` |
-| `prod` | `in.sreerajp.qr_studio` | release | Direct-download split APKs | `./tool/build_release.sh apk` |
-| `prod` | `in.sreerajp.qr_studio` | release | Google Play bundle | `./tool/build_release.sh appbundle` |
+| `prod` | `in.sreerajp.qr_studio` | release | Direct-download split APKs | `pwsh tool/build_release.ps1 -Name QRForge -Target apk` |
+| `prod` | `in.sreerajp.qr_studio` | release | Google Play bundle | `pwsh tool/build_release.ps1 -Name QRForge -Target aab` |
 
-`tool/build_release.sh` adds every required flag (§6.1) and `BUILD_DATE`. On Android,
+`tool/build_release.ps1` (§6.10) adds every required flag (§6.1) and `BUILD_DATE`, names the
+files, writes their SHA-256 checksums and stops the Gradle daemons. On Android,
 `--flavor <name>` is enough: Flutter sets `FLUTTER_APP_FLAVOR` itself (never pass it with
 `--dart-define`); `AppFlavorConfig` reads it.
 
@@ -89,12 +90,23 @@ One person does every role in this project.
 ## 6. Release Build Hardening
 
 ### 6.1 Obfuscation and debug symbols
-- Every production build uses `--release --obfuscate
-  --split-debug-info=build/symbols/android-prod-<version>/`, where `<version>` is the full
-  `pubspec.yaml` version (e.g. `4.1.0+34`), so symbols from different releases never collide.
-  `tool/build_release.sh` does this, and adds `--split-per-abi` for APKs (no universal APK).
-- After the build, copy `build/symbols/android-prod-<version>/` to the secure archive **outside
-  the repository**, next to the release artifacts, and keep it for the life of that version.
+- Every production build uses `--release --obfuscate --split-debug-info=<symbols folder>`:
+  - AAB: `build/symbols/android-prod-<version>/`
+  - APK: `build/symbols/android-prod-<version>-apk/`
+
+  `<version>` is the full `pubspec.yaml` version (e.g. `4.1.0+34`), so symbols from different
+  releases never collide. The APK and AAB builds of one version are separate compiles, and each
+  one's crash stack traces can be decoded only with its own symbols, so they get separate
+  folders. `tool/build_release.ps1` (§6.10) does all this, and adds `--split-per-abi` for APKs
+  (no universal APK).
+- All split APKs share the App Bundle's `versionCode`: the `pubspec.yaml` build number, with no
+  1000/2000/4000 per-ABI offset. `force-version-code-ignoring-abi=true` in
+  `android/gradle.properties` turns the offset off (reason: §12). Check each APK with
+  `aapt2 dump badging <apk>` (Android SDK build-tools); the first line shows `versionCode` and
+  `versionName`.
+- After the builds, copy **both** symbols folders (`android-prod-<version>/` and
+  `android-prod-<version>-apk/`) to the secure archive **outside the repository**, next to the
+  release artifacts, and keep them for the life of that version.
   Without it, crash stack traces from that version cannot be read. Never commit it (`build/` is
   git-ignored).
 - For Play, also upload the native debug symbols in Play Console.
@@ -121,14 +133,16 @@ under 20 MB (hard limit 40 MB). A growth of more than 10% without a reason is a 
 The merged release manifest must have no `debuggable` and must have `allowBackup` false
 (required under the Sensitive Data Extension, [security.md](security.md) §10).
 
+The APK names below are the script's names (§6.10); put in the real version.
+
 ```bash
-APK=build/app/outputs/flutter-apk/app-arm64-v8a-prod-release.apk
+APK=build/app/outputs/flutter-apk/QRForge-arm64-v<x.y.z>_<n>-prod-release.apk
 aapt2 dump badging "$APK" | grep -i debuggable          # expect: nothing
 aapt2 dump xmltree "$APK" --file AndroidManifest.xml | grep -i allowBackup   # expect: 0x0
 ```
 
 ```powershell
-$APK = "build\app\outputs\flutter-apk\app-arm64-v8a-prod-release.apk"
+$APK = "build\app\outputs\flutter-apk\QRForge-arm64-v<x.y.z>_<n>-prod-release.apk"
 aapt2 dump badging $APK | Select-String -Pattern "debuggable"
 aapt2 dump xmltree $APK --file AndroidManifest.xml | Select-String -Pattern "allowBackup"
 ```
@@ -142,11 +156,11 @@ List the APK assets and confirm only expected files are inside (`app_config.json
 texts, `app_icon.png`, fonts and Flutter assets) — no `.env`, keys, keystores or test data.
 
 ```bash
-unzip -l build/app/outputs/flutter-apk/app-arm64-v8a-prod-release.apk "assets/*"
+unzip -l build/app/outputs/flutter-apk/QRForge-arm64-v<x.y.z>_<n>-prod-release.apk "assets/*"
 ```
 
 ```powershell
-tar -tf build\app\outputs\flutter-apk\app-arm64-v8a-prod-release.apk | Select-String "assets/"
+tar -tf build\app\outputs\flutter-apk\QRForge-arm64-v<x.y.z>_<n>-prod-release.apk | Select-String "assets/"
 ```
 
 ### 6.7 Exported components
@@ -163,6 +177,112 @@ Android 15+ requires 16 KB page alignment. The app bundles its own `.so` (zxing-
 Android NDK through CMake) and plugin libraries. Before every Play submission, run
 `flutter build appbundle --analyze-size`, check the `.so` files, and test the release build on a
 16 KB emulator image.
+
+### 6.10 Release build script and SHA-256 checksums
+
+`tool/build_release.ps1` builds the release, gives the files proper names and writes a SHA-256
+checksum file for each one. Flutter writes its own `<apk>.sha1` **after** Gradle finishes and has
+no SHA-256 option, and `flutter build appbundle` writes no checksum at all, so this has to be a
+script that runs after `flutter build`, not a Gradle task.
+
+**How to run it.** From the project root:
+
+```powershell
+pwsh tool/build_release.ps1 -Name QRForge -Target aab
+```
+
+```powershell
+pwsh tool/build_release.ps1 -Name QRForge -Target apk
+```
+
+It also works in Windows PowerShell 5.1. There, scripts are often blocked by the execution
+policy, so start it like this:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File tool\build_release.ps1 -Name QRForge -Target apk
+```
+
+**Options**
+
+| Option | Values | Default |
+|---|---|---|
+| `-Name` | base file name, letters, digits, `.`, `_`, `-` only | **required**, no default |
+| `-Target` | `apk`, `aab` | **required** |
+| `-Flavor` | `dev`, `prod` | `prod` |
+| `-Mode` | `release`, `profile`, `debug` | `release` |
+| `-NoSplit` | switch: one universal APK instead of `--split-per-abi` | off |
+| `-NoObfuscate` | switch: leave out `--obfuscate` and `--split-debug-info` | off |
+| `-SymbolsDir` | folder for `--split-debug-info`, inside `build/` | aab: `build/symbols/android-<flavor>-<version>/`; apk: `build/symbols/android-<flavor>-<version>-apk/` |
+
+**Rules.** The script checks these **before** it runs Flutter, and stops with exit code 1:
+- `pubspec.yaml` must have `version: x.y.z+n` (the `+n` build number is required);
+- `-NoObfuscate` is refused for a `prod` release build (it must be obfuscated);
+- `-NoSplit` is refused for a `prod` release APK (direct downloads use split APKs only);
+- `-SymbolsDir` is refused when the build is not obfuscated, and must be inside `build/`.
+
+In `debug` mode it leaves out `--obfuscate` and `--split-debug-info` itself, with a message
+(Flutter supports them only in profile and release). `-NoSplit` with `aab` is ignored, with a
+message.
+
+**What it does, in order:** reads the version → checks the options → deletes old Flutter-named
+output (and its `.sha1`), so a stale file is never renamed as this build → runs `flutter build`
+(on failure it stops and renames or hashes nothing) → renames each output → deletes Flutter's
+`.sha1` → writes `<file>.sha256` → prints each file with its size and SHA-256, and the symbols
+folder to archive → runs `android\gradlew.bat --stop` (always, even after a failure). It writes
+only inside `build/` and never reads `android/key.properties` or the keystore: Gradle signs.
+
+**What it runs with the defaults** (both also get `--dart-define=BUILD_DATE=<yyyy-MM-dd>`):
+
+```bash
+flutter build apk --flavor prod --release --split-per-abi \
+  --obfuscate --split-debug-info=build/symbols/android-prod-<version>-apk/
+flutter build appbundle --flavor prod --release \
+  --obfuscate --split-debug-info=build/symbols/android-prod-<version>/
+```
+
+**File names.** `<Name>-[<abi>-]v<x.y.z>_<n>-<flavor>-<mode>.<apk|aab>`, with the short ABI
+names `armeabi` (armeabi-v7a), `arm64` (arm64-v8a) and `x86_64`. A file of the same name from an
+earlier build is replaced, with a message. The files stay in Flutter's output folders. For
+`4.1.12+46`:
+
+| Output | Where |
+|---|---|
+| `QRForge-v4.1.12_46-prod-release.aab` (+ `.sha256`) | `build/app/outputs/bundle/prodRelease/` |
+| `QRForge-arm64-v4.1.12_46-prod-release.apk` (+ `.sha256`) | `build/app/outputs/flutter-apk/` |
+| `QRForge-armeabi-v4.1.12_46-prod-release.apk` (+ `.sha256`) | `build/app/outputs/flutter-apk/` |
+| `QRForge-x86_64-v4.1.12_46-prod-release.apk` (+ `.sha256`) | `build/app/outputs/flutter-apk/` |
+
+**Checksum file.** One line in `sha256sum` format: `<lower-case hash>  <file name>` (two
+spaces), UTF-8 without BOM. Publish it next to each direct-download APK.
+
+**How to check a file.** In PowerShell, compare the hash with the one in the `.sha256` file:
+
+```powershell
+Get-FileHash QRForge-arm64-v4.1.12_46-prod-release.apk -Algorithm SHA256
+```
+
+With Git Bash, Linux or macOS, in the folder that holds both files:
+
+```bash
+sha256sum -c QRForge-arm64-v4.1.12_46-prod-release.apk.sha256
+```
+
+**More examples**
+
+```powershell
+# dev debug APKs, split per ABI (no obfuscation in debug)
+pwsh tool/build_release.ps1 -Name QRForge -Target apk -Flavor dev -Mode debug
+```
+
+```powershell
+# one universal dev release APK, not obfuscated (allowed for dev only)
+pwsh tool/build_release.ps1 -Name QRForge -Target apk -Flavor dev -NoSplit -NoObfuscate
+```
+
+```powershell
+# prod profile bundle with its own symbols folder
+pwsh tool/build_release.ps1 -Name QRForge -Target aab -Mode profile -SymbolsDir build/symbols/profile-test
+```
 
 ---
 
@@ -209,7 +329,11 @@ Complete before every release.
 - [ ] Cold start under 2 seconds on a mid-range phone.
 
 ### Security
-- [ ] `--obfuscate` and `--split-debug-info` used (§6.1); symbols archived.
+- [ ] `--obfuscate` and `--split-debug-info` used (§6.1); both symbols folders (AAB and `-apk`)
+      archived.
+- [ ] Every APK/AAB has a `.sha256` file that matches it, and no `.sha1` is left (§6.10).
+- [ ] Split APK `versionCode` equals the `pubspec.yaml` build number — no 1000/2000/4000 added
+      (§6.1, §12).
 - [ ] ProGuard / R8 rules verified (§6.2).
 - [ ] `debuggable` absent and `allowBackup` false in the merged release manifest (§6.4).
 - [ ] Cleartext traffic still blocked (§6.5).
@@ -281,21 +405,25 @@ Complete before every release.
 3. `flutter pub get`, then the checks in §8 "Code and quality".
 4. Build:
 
-   ```bash
-   ./tool/build_release.sh appbundle    # Google Play
-   ./tool/build_release.sh apk          # direct download (split per ABI)
+   ```powershell
+   pwsh tool/build_release.ps1 -Name QRForge -Target aab    # Google Play
+   pwsh tool/build_release.ps1 -Name QRForge -Target apk    # direct download (split per ABI)
    ```
 
+   Check that every `.aab`/`.apk` has its `.sha256` and that no `.sha1` is left (§6.10).
 5. Run the size analysis (§6.3) and the manifest, asset and component checks (§6.4–§6.8).
+   The size-analysis builds leave Flutter-named `app-*.apk`/`.aab` files; never ship those.
+   Ship only the script's renamed files.
 6. Verify the signature: `apksigner verify --print-certs <apk>` shows the release certificate.
 7. Install the arm64 APK on a physical phone and run the manual tests in §8.
-8. Archive `build/symbols/android-prod-<version>/` with the artifacts (§6.1).
+8. Archive both symbols folders, `build/symbols/android-prod-<version>/` (AAB) and
+   `build/symbols/android-prod-<version>-apk/` (APK), with the artifacts (§6.1).
 9. Complete the Google Play gate (§8 "Store readiness"), upload the `.aab` to internal testing,
    check the pre-launch report, then start a staged rollout (for example 10% → 50% → 100%).
-10. Publish the split APKs for direct download (with SHA-256 checksums).
+10. Publish the split APKs for direct download, each with its `.sha256` file.
 11. Tag the release commit once: `git tag v<X.Y.Z>` (no `+build`) and push the tag.
-12. Stop the Gradle daemons (`android\gradlew --stop`) and end any leftover `GradleDaemon` /
-    `KotlinCompileDaemon` process.
+12. The script already runs `android\gradlew --stop`. After any other build (e.g. §6.3), run it
+    yourself, and end any leftover `GradleDaemon` / `KotlinCompileDaemon` process.
 
 ---
 
@@ -322,7 +450,20 @@ Not a declared platform.
 | Channel | Artifact | Audience | Notes |
 |---|---|---|---|
 | Google Play | `.aab` | Public | Play App Signing; staged rollout; gate §2 |
-| Direct APK | split `.apk` (arm64-v8a, armeabi-v7a, x86_64) | Users who install outside Play | Signed with the release key; publish SHA-256 checksums |
+| Direct APK | split `.apk` (arm64-v8a, armeabi-v7a, x86_64) | Users who install outside Play | Signed with the release key; publish each APK's `.sha256` file (§6.10) |
+
+**One versionCode for both channels.** Android updates an app only to a higher `versionCode`,
+whichever channel the update comes from. By default `--split-per-abi` adds 1000 (armeabi-v7a),
+2000 (arm64-v8a) or 4000 (x86_64) to the build number, while the App Bundle adds nothing. A phone
+with a direct APK (e.g. 2046) would then see every later Play build (47, 48, ...) as older, and
+the only way out is to uninstall, which deletes the app's data. So
+`force-version-code-ignoring-abi=true` in `android/gradle.properties` keeps every split APK at the
+bundle's `versionCode`. Releases up to 4.1.12+46 still used the offset (1046/2046/4046); a phone
+with one of those needs a build number above 4046 before Play can update it.
+
+Play can update a sideloaded install only when both are signed with the same key. With Play App
+Signing, the app signing key in Play Console must be the release keystore's key (check the
+SHA-256 fingerprint in Play Console → App integrity against `apksigner verify --print-certs`).
 
 ---
 
@@ -344,8 +485,8 @@ Record after each release (in the release's change log or next to the archived a
 - CI run of the release commit.
 - `flutter test` result and integration test result.
 - Size analysis output (§6.3).
-- Debug symbols archive location (outside the repository).
-- Artifact location and SHA-256 checksums.
+- Debug symbols archive location (outside the repository), for both the AAB and APK folders.
+- Artifact location and SHA-256 checksums (the script's `.sha256` files).
 - Release notes ([CHANGELOG.md](../CHANGELOG.md) entry).
 - Play Console rollout record.
 - OWASP sign-off: [security.md](security.md) §12 reviewed — date and owner.

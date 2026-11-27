@@ -30,6 +30,8 @@ change is in [`change_log/`](change_log/).
   ID card scans are never saved to history.
 
 ### Changed
+- Toolchain: Flutter 3.50.1 (Dart 3.14.0) and Kotlin 2.4.20, with AGP 9.4.1 and Gradle 9.8.0.
+- Dependencies updated to their latest compatible versions (34 packages, minor and patch releases).
 - App renamed to **QR Forge** (Malayalam: ക്യുആർ ഫോർജ്, Sanskrit: क्यू-आर-फोर्ज्). The package
   id `in.sreerajp.qr_studio` is unchanged, so updates and saved data carry over.
 - Scan history is now encrypted with AES-256-GCM and a fresh random nonce for every field.

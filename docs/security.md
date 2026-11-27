@@ -286,8 +286,8 @@ Security must not make the app hard to use or slow (engineering standard §15.6)
 
 ### 8.1 Obfuscation
 - Every production release build uses
-  `--obfuscate --split-debug-info=build/symbols/android-prod-<version>/`
-  (`tool/build_release.sh`, [release_process.md](release_process.md) §6.1).
+  `--obfuscate --split-debug-info=build/symbols/android-prod-<version>[-apk]/`
+  (`tool/build_release.ps1`, [release_process.md](release_process.md) §6.1, §6.10).
 - Obfuscation raises the cost of casual inspection; it is not a security boundary on its own.
 - Obfuscation does **not** hide string literals: they stay readable in every build. Never put a
   secret in a string.

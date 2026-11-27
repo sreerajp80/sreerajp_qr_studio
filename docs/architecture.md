@@ -429,12 +429,13 @@ image files are written.
   and `prod` (`in.sreerajp.qr_studio`, "QR Forge", release key).
 - Runtime config: `--flavor <name>`; Flutter sets `FLUTTER_APP_FLAVOR`, read by
   `AppFlavorConfig` (`APP_FLAVOR` first, for desktop compatibility; default `prod`). Verbose
-  logging follows the flavor. `BUILD_DATE` is passed by `tool/build_release.sh`; version files
+  logging follows the flavor. `BUILD_DATE` is passed by `tool/build_release.ps1`; version files
   are generated from `pubspec.yaml` during the Android build.
 - Obfuscation: on for every prod release build; symbols in
-  `build/symbols/android-prod-<version>/`, archived outside the repository
+  `build/symbols/android-prod-<version>/` (AAB) and `build/symbols/android-prod-<version>-apk/`
+  (APK), both archived outside the repository
   ([release_process.md](release_process.md) §6.1).
-- Toolchain: Flutter 3.47.6 / Dart 3.13.5; AGP 9 with built-in Kotlin
+- Toolchain: Flutter 3.50.1 / Dart 3.14.0; AGP 9 with built-in Kotlin
   (`android.builtInKotlin=true`, `android.newDsl=false`); `kotlin { compilerOptions }`; Gradle
   tasks use `ExecOperations`.
 - Language splitting is off in the App Bundle (`bundle.language.enableSplit = false`), so the
